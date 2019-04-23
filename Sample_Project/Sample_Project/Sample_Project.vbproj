@@ -367,12 +367,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\flxCustomProcesses\flxCustomProcesses.vbproj">
-      <Project>{d252be48-3097-4162-8473-170fc8e0385d}</Project>
-      <Name>flxCustomProcesses</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
     <Import Include="System" />
     <Import Include="System.Collections" />
@@ -6090,7 +6084,12 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Sample_Project_Processes\Sample_Project_Processes.vbproj">
+      <Project>{52178239-14cc-47e9-828d-c3c3479be8b7}</Project>
+      <Name>Sample_Project_Processes</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="js\flexygo\ajax\ajax.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ajax\api.d.ts" />
