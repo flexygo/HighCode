@@ -1,0 +1,67 @@
+﻿.flx-easyline h5 {
+    font-weight: 400;
+    margin: 0 0 0 0;
+    padding: 0;
+    border: none;
+    text-transform: uppercase;
+    //margin-bottom:10px;
+    color: inherit;
+}
+
+.flx-easyline .hor-bar-bg {
+    background-color: lightgray;
+}
+
+.flx-easyline .hor-bar-fg {
+    width: 0%;
+    text-align: right;
+    opacity: 0;
+    transition: padding 0.2s
+}
+
+.rounded {
+    border-radius: 200px;
+}
+
+.flx-easyline .value {
+    color: white;
+    // font-family: sans-serif;
+    // text-align: center;
+    // padding-top: 0.5rem;
+    // border: 1px solid black;
+    padding: 0 0.5rem;
+    transition: padding-left 0.8s, color 0.8s;
+}
+
+.flx-easyline .no-value {
+    visibility: hidden;
+}
+
+.flx-easyline .label {
+    /*
+        color:blue;
+    font-family: sans-serif;
+    margin: 0 1rem;
+        */
+}
+
+.flx-easyline .no-label {
+    display: none;
+}
+
+.flx-easyline @keyframes fade-in-anim {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1.0;
+    }
+}
+
+.flx-easyline .fade-in {
+    animation-name: fade-in-anim;
+    animation-duration: 0.9s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}

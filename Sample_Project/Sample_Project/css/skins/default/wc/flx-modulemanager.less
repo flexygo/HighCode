@@ -1,0 +1,172 @@
+﻿//MODULE Manage
+
+#layoutList {
+    white-space: nowrap;
+    background-color: dbColor(bgColor);
+}
+
+#layoutList img {
+    height: 60px;
+    border: solid 1px silver;
+    margin: 10px 5px;
+    box-shadow: 8px 8px 10px -5px rgba(0 ,0, 0, .53);
+    padding: 2px;
+    background-color: white;
+}
+
+#layoutPanel {
+    padding: 10px;
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 5px;
+    height: 100%;
+    overflow: hidden;
+}
+
+#moduleList .buttonList {
+    display: none;
+}
+
+
+flx-modulemanager .layoutPanelOutside {
+    height: ~"calc(100% - 180px)";
+}
+
+#moduleList {
+    padding-top: 5px;
+}
+
+flx-modulemanager .module-placeholder {
+    padding: 5px;
+    padding-top: 0px;
+}
+
+flx-modulemanager .module-placeholder ul, #moduleList ul {
+    width: 100%;
+    min-height: 180px;
+    padding: 0px;
+}
+
+flx-modulemanager .box-primary, flx-modulemanager .box-warning {
+    border-radius: 5px;
+    border: none;
+}
+
+flx-modulemanager .module-placeholder ul {
+    background-color: lighten(dbColor(borderModuleColor),15);
+    border: dashed 1px darken(dbColor(borderModuleColor),10);
+}
+
+#layoutList .selected {
+    background-color: lighten(dbColor(OutstandingColor),10);
+    border: solid 1px dbColor(OutstandingColor);
+}
+
+flx-modulemanager .buttonList {
+    float: right;
+}
+
+flx-modulemanager .buttonList i {
+    margin-left: 3px;
+}
+
+flx-modulemanager .buttonList:hover {
+    font-weight: bold;
+}
+
+#layoutList img:hover {
+    background-color: lighten(dbColor(OutstandingColor),10);
+    border: solid 1px dbColor(OutstandingColor);
+}
+
+#moduleList strong {
+    display: none;
+}
+
+#moduleList li, #layoutPanel li {
+    box-shadow: 6px 6px 10px -5px rgba(0, 0, 0, .53);
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+#moduleList li .box-primary {
+    border-color: dbColor(OutstandingColor) !important;
+}
+
+#moduleList li .box-primary.new {
+    background-color: dbColor(SuccessColor);
+    color: dbColor(txtSuccessColor);
+}
+
+#moduleList li .box-primary:hover, #layoutPanel li .bg-primary:hover, #layoutPanel li .box-warning:hover {
+    background-color: dbColor(OutstandingColor);
+    color: dbColor(txtOutstandingColor);
+    border-color: dbColor(HeaderColor) !important;
+}
+
+#bottomToolbar {
+    border-top: solid 1px dbColor(borderModuleColor) !important;
+    clear: both;
+    padding-top: 3px;
+    text-align: center;
+}
+
+flx-modulemanager .moduleToolbar {
+    border-bottom: solid 1px dbColor(borderModuleColor);
+    padding: 5px;
+    background-color: dbColor(bgColor);
+}
+
+flx-modulemanager .moduleToolbar .btn {
+    padding: 2px 6px;
+}
+
+flx-modulemanager .relationwhere.selected, flx-modulemanager .events.selected {
+    color: dbColor(DangerColor);
+}
+
+flx-modulemanager .moduleToolbar .btn i {
+    font-size: 1.3em;
+}
+
+.moduleManager {
+    background-color: dbColor(HeaderColor);
+    height: 100%;
+}
+
+
+#modulePanel {
+    height: ~"calc(100% - 135px)";
+    overflow: hidden;
+    padding-top: 5px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#modulePanel .searchPanel {
+    padding-right: 15px;
+}
+
+#moduleList {
+    overflow: hidden;
+    height: ~"calc(100%)"
+}
+
+flx-modulemanager #layoutPanel .moduleTab > ul {
+    margin-top: 5px;
+    min-height: 50px;
+    border: dashed 1px lighten(dbColor(HeaderColor),40);
+    padding: 5px;
+}
+
+flx-modulemanager .tabButton {
+    color: dbColor(warningColor);
+}
+
+flx-modulemanager .moduleTab {
+    display: none;
+}
+
+.tabForm > div {
+    margin-bottom: 20px;
+}

@@ -1,0 +1,87 @@
+﻿
+flx-easypie:not([modulename]), .flx-easypie {
+    position: relative;
+    text-align: center;
+
+    canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+}
+
+flx-easypie[Size=m], .flx-easypie[Size=m] {
+    width: 150px;
+}
+
+flx-easypie[Size=l], .flx-easypie[Size=l] {
+    width: 200px;
+}
+
+flx-easypie[Size=s], .flx-easypie[Size=s] {
+    width: 100px;
+}
+flx-easypie[Size=xs], .flx-easypie[Size=xs] {
+    width: 50px;
+}
+
+flx-easypie[Size=m] .percentage, .flx-easypie[Size=m] .percentage {
+    margin: 40%;
+    font-size: 1.7em;
+}
+
+flx-easypie[Size=l] .percentage, .flx-easypie[Size=l] .percentage {
+    margin: 40%;
+    font-size: 2em;
+}
+
+flx-easypie[Size=s] .percentage, .flx-easypie[Size=s] .percentage {
+    margin: 38%;
+    font-size: 1.4em;
+}
+
+flx-easypie[Size=xs] .percentage, .flx-easypie[Size=xs] .percentage {
+    margin: 32%;
+    font-size: 1.0em;
+}
+
+flx-easypie:not([modulename]), .flx-easypie {
+    display: inline-block;
+    margin: 20px;
+}
+
+
+flx-easypie .percentage,
+flx-easypie .label {
+    margin-bottom: 2em;
+    text-align: center;
+    font-weight: 100;
+    color: inherit;
+}
+
+flx-easypie .label {
+    margin-top: .25em;
+    margin-bottom: .5em;
+    display: inline-block;
+}
+
+flx-easypie[Size=xs] .label, .flx-easypie[Size=xs] .label {
+    font-size: 0.9em;
+}
+
+flx-easypie[Size=s] .label, .flx-easypie[Size=s] .label {
+    font-size: 1.0em;
+}
+
+flx-easypie[Size=m] .label, .flx-easypie[Size=m] .label {
+    font-size: 1.2em;
+}
+
+flx-easypie[Size=l] .label, .flx-easypie[Size=l] .label {
+    font-size: 1.5em;
+}
+
+flx-easypie sup {
+    top: -.1em;
+    margin-left: 1px;
+}

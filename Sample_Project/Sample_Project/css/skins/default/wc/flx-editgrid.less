@@ -1,0 +1,180 @@
+﻿flx-editgrid table {
+    padding-right: 5px;
+    border-spacing: 0 8px;
+    min-width: 100%;
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 50px;
+    border-collapse: separate;
+}
+
+flx-editgrid th {
+    color: lighten(dbColor(txtColor),40);
+    text-align: left;
+    white-space: nowrap;
+    padding-right: 20px;
+    cursor: pointer;
+    user-select: none;
+}
+
+flx-editgrid td {
+    width: 1px;
+    padding: 3px;
+    white-space: nowrap;
+    box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, .3);
+}
+
+flx-editgrid .rowinsert td {
+    padding: 5px;
+}
+
+flx-editgrid td i {
+    font-size: 1.2em;
+    margin-left: .2em;
+    cursor: pointer;
+}
+
+flx-editgrid th i {
+    font-size: 1.2em;
+    color: darken(dbColor(txtColor),10);
+    margin-left: .5em;
+    cursor: pointer;
+}
+
+flx-editgrid th i:hover {
+    color: lighten(dbColor(OutstandingColor),20);
+}
+
+flx-editgrid tr td:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+flx-editgrid tr td:last-child {
+    width: auto;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+flx-editgrid .rowInsert td:first-child {
+    padding-left: 25px;
+}
+
+flx-editgrid .rowInsert {
+    background-color: lighten(dbColor(HeaderColor),10) !important;
+    color: white;
+}
+
+flx-editgrid i:hover {
+    color: darken(dbColor(txtOutstandingColor),10);
+}
+
+flx-editgrid .rowInsert input {
+    border: none;
+    padding-left: 5px;
+    border-radius: 5px;
+}
+
+flx-editgrid .rowInsert input:focus {
+    width: 100%;
+}
+
+flx-editgrid input, flx-editgrid select, flx-editgrid textarea {
+    color: dbColor(txtColor);
+    height: 1.5em;
+}
+
+flx-editgrid input[type='text']:focus, flx-editgrid select:focus, flx-editgrid textarea:focus {
+    width: 100%
+}
+
+flx-editgrid .rowInsert select {
+    border: none;
+    height: 1.5em;
+    padding-left: 5px;
+    border-radius: 5px;
+}
+
+flx-editgrid tr:not(.rowEdit):not(.rowInsert) .icon-save, flx-editgrid tr:not(.rowEdit):not(.rowInsert) .icon-remove {
+    display: none;
+}
+
+flx-editgrid tr:not(.rowEdit) .icon-edit, flx-editgrid tr:not(.rowEdit) .icon-trash {
+    display: normal;
+}
+
+flx-editgrid .rowEdit .icon-save, flx-editgrid .rowEdit .icon-remove {
+    display: normal;
+}
+
+flx-editgrid .rowEdit .icon-edit, flx-editgrid .rowEdit .icon-trash {
+    display: none;
+}
+
+
+flx-editgrid select > option:first-child {
+    color: dbColor(borderModuleColor);
+}
+
+
+flx-editgrid tr:not(.rowHeader) {
+    background-color: dbColor(ModuleColor)
+}
+
+flx-editgrid tr.selected:not(.rowHeader) {
+    background-color: lighten(dbColor(OutstandingColor),10);
+    color: dbColor(txtOutstandingColor);
+}
+
+
+flx-editgrid tr:not(.rowHeader):not(.rowInsert):hover {
+    background-color: dbColor(OutstandingColor);
+    color: dbColor(txtOutstandingColor);
+}
+
+flx-editgrid .sortAsc:after {
+    font-family: 'Linearicons-Free';
+    text-transform: none;
+    padding-left: 5px;
+    content: "\e873";
+    font-size: .7em;
+}
+
+flx-editgrid .sortDsc:after {
+    font-family: 'Linearicons-Free';
+    text-transform: none;
+    padding-left: 5px;
+    content: "\e874";
+    font-size: .7em;
+}
+
+flx-editgrid td > b {
+    display: none;
+}
+
+@media (max-width: dbSize(medium)) {
+
+    flx-editgrid td > b {
+        display: inline;
+    }
+
+    flx-editgrid td > b:after {
+        content: ": "
+    }
+
+    flx-editgrid table thead {
+        display: none
+    }
+
+    flx-editgrid table tr td {
+        display: block;
+        box-shadow: none;
+    }
+
+    flx-editgrid table tr {
+        display: block;
+        box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, .3);
+        margin-bottom: 5px;
+        border-radius: 5px;
+    }
+}

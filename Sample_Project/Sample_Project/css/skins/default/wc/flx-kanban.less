@@ -1,0 +1,149 @@
+﻿flx-kanban .board-header{
+    position: relative;
+}
+flx-kanban .board-title:not(:empty) {
+    font-size: 1.5em;
+    font-weight: bold;
+    padding-top: 15px;
+    padding-left: 15px;
+}
+flx-kanban .board-descrip:not(:empty) {
+    padding-left: 15px;
+}
+flx-kanban .board-endbox {
+    background-color: rgba(255, 0, 0, 0.2);
+    border-radius: 5px;
+    height:100%;
+    width: 50%;
+    margin: 0 auto;
+    border: dashed 2px red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 5px;
+    left: 10%;
+    right: 10%;
+}
+
+flx-kanban .board-endbox .board-endbox-text {
+    color: rgba(255, 0, 0, 0.5);
+    width: auto;
+    font-size: 2em;
+    position: absolute;
+}
+
+flx-kanban .kanban-panel {
+    overflow: auto;
+    min-width: 100%;
+    padding: 15px;
+}
+
+flx-kanban .kanban-card.locked {
+    opacity: .5;
+    filter: alpha(opacity=50);
+}
+
+flx-kanban .kanban-div {
+    float: left;
+    width: 275px;
+}
+
+flx-kanban .kanban-col {
+    font-weight: bold;
+    margin-left: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, .10);
+}
+
+flx-kanban ul.kanban-container {
+    margin: 0;
+    padding: 0;
+}
+
+flx-kanban li.kanban-card {
+    display: block;
+    font-weight: lighter;
+    background-color: white;
+    color: dbColor(txtColor);
+    border-radius: 3px;
+    font-size: .8em;
+    list-style: none;
+    margin: 5px;
+    padding: 10px;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, .10);
+}
+
+flx-kanban .kanban-col.default {
+    background-color: #e2e4e6;
+    color: dbColor(txtColor);
+}
+
+flx-kanban .kanban-descrip i {
+    margin-right:3px;
+}
+
+flx-kanban .kanban-container {
+    min-height: 100px;
+}
+
+flx-kanban .kanban-new-card {
+    font-weight: lighter;
+    padding: 5px;
+    cursor: pointer;
+}
+
+flx-kanban .kanban-new-card:hover {
+    background-color: rgba(255, 255, 255, .3)
+}
+
+.kanban-list-card {
+    float: left;
+    width: 250px;
+    height: 150px;
+    border-radius: 5px;
+}
+
+.kanban-list-card h4, .kanban-list-card smalll {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+}
+
+.kanban-list-card button {
+    border: none;
+    border-radius: 2px;
+}
+
+.kanban-list-card .btn-group {
+    margin-bottom: 5px;
+}
+
+
+.kanban-card-info:hover, .kanban-list-card button:hover {
+    background-color: rgba(255, 255, 255, .2)
+}
+
+.kanban-card-info {
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 2px;
+    height: 100px;
+}
+
+flx-kanban li.kanban-card {
+    cursor: pointer;
+}
+
+flx-kanban li.kanban-card:hover {
+    background-color: #edeff0;
+    cursor: pointer;
+}
+
+flx-kanban .kanban-container {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 65vh;
+}

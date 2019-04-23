@@ -1,0 +1,156 @@
+﻿
+/*flx-voicesearch .input-group-addon {
+    background-color: dbColor(OutstandingColor);
+    color: dbColor(txtOutstandingColor);
+}
+
+flx-voicesearch .input-group-addon {
+    padding: 2px 4px 2px 4px;
+    text-align: center;
+    border: 1px solid dbColor(OutstandingColor);
+    border-radius: 4px;
+}*/
+
+flx-nav li[class='wcsearch'] {
+    z-index:11 !important;
+}
+flx-voicesearch .main-search-btn {
+    display: table-cell;
+    margin: 0;
+    width: 1%;
+    white-space: nowrap;
+    vertical-align: middle;
+
+}
+
+flx-voicesearch .search .hidden {
+    display: table !important;
+    position: fixed !important;
+    top: 12px;
+    width: 1%;
+    transition: width 0.4s ease-in-out, visibility 0.4s;
+    visibility: hidden;
+    border-collapse: separate;
+    top: 12px;
+    margin-left: 6px;
+}
+flx-voicesearch .search:hover .hidden {
+    width: 80%;
+    visibility: visible;
+    transition: width 0.4s ease-in-out;
+}
+
+@media (max-width: dbSize(medium)) {
+    flx-voicesearch .search .hidden {
+        display: table !important;
+        position: relative !important;
+        top: 0px;
+        width: 95%;
+        transition: none;
+        visibility: visible;
+        border-collapse: separate;
+        margin-left: 6px;
+    }
+
+    flx-voicesearch .search:hover .hidden {
+        width: 95%;
+        visibility: visible;
+        transition: none;
+    }
+}
+
+flx-voicesearch .main-search-btn i {
+    background-color: dbColor(OutstandingColor);
+    color: dbColor(PrimaryColor);
+    padding: 2px;
+    border-radius: 50%;
+}
+
+flx-voicesearch .input-group-addon.cnf {
+    background-color: white;
+    border-color: #ccc;
+    color: silver;
+    border-left-color: white;
+    padding: 2px 1px 2px 1px
+}
+
+flx-voicesearch .input-group-addon.cnf i {
+    font-size: 10px;
+}
+
+flx-voicesearch .input-group-addon .icon-large {
+    overflow: hidden;
+}
+
+flx-voicesearch .input-group-addon i {
+    font-size: 18px
+}
+
+flx-voicesearch #main-search-voice-btn {
+    border-left: none;
+}
+
+flx-voicesearch input {
+    border-right: 0px !important;
+}
+
+//Fixed size for li
+li flx-voicesearch .input-group {
+    /*max-width: 180px;
+    max-height: 25px;*/
+}
+
+li flx-voicesearch .form-control {
+    height: 25px;
+    border-left:none;
+}
+
+
+@media (max-width: dbSize(medium)) {
+    flx-voicesearch .input-group {
+        width: 100%;
+        height: inherit;
+    }
+
+    li flx-voicesearch .input-group {
+        width: 100%;
+        height: inherit;
+    }
+
+    li flx-voicesearch .form-control {
+        height: inherit
+    }
+}
+@media (min-width: dbSize(medium)) {
+    flx-voicesearch {
+        > div.search {
+            position: absolute;
+        }
+    }
+    }
+    ul.search-options.sortable {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    ul.search-options.sortable li {
+        width: 250px;
+        cursor: move;
+    }
+
+
+    ul.search-options.sortable li:hover {
+    }
+
+    ul.search-options.sortable li.mjs-nestedSortable-collapsed.mjs-nestedSortable-hovering div {
+        border-color: #999;
+    }
+
+    ul.search-options.sortable .mjs-nestedSortable-leaf {
+    }
+
+    ul.search-options.sortable .placeholder {
+        border: 1px dashed silver;
+        background-color: #fcf0bf;
+    }

@@ -1,0 +1,82 @@
+﻿:root {
+    -webkit-print-color-adjust: exact !important;
+}
+
+body, main, html {
+    font-size: 10px;
+    line-height: 1;
+    background-color: white;
+}
+
+header {
+    display: none !important
+}
+
+h1 {
+    font-size: 14px !important;
+}
+
+h2, legend, .size-xl {
+    font-size: 13px !important;
+}
+
+h3, .size-l {
+    font-size: 12px !important;
+}
+
+h4, .size-m {
+    font-size: 11px !important;
+}
+
+.size-s {
+    font-size: 10px !important;
+}
+
+.size-xs {
+    font-size: 9px !important;
+}
+
+.row {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+button, .btn, .btn-group, .btn-group button, .btn-group button > i, flx-list td .btn-group button > i {
+    font-size: 8px;
+    padding: 0px;
+    height: auto;
+}
+
+flx-text {
+    height: 20px;
+    padding: 0px 0px;
+    font-size: 10px !important;
+}
+
+.hide-print, .cntBodyHeader, .cntButtons, .btn-group, .input-group-btn {
+    display: none !important;
+}
+
+.form-control, .bootstrap-tagsinput {
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.form-control {
+    height: 24px;
+}
+
+.flx-menu, .btn-toolbar {
+    display: none
+}
+
+label, flx-edit .item > label {
+    font-size: 0.9em
+}
+
+
+.nav > li > a {
+    padding: 4px 15px;
+}
+
+/*bootstrap @media print options have been comented out*/

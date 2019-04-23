@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Source\flexygo\Proyectos\FlexyGo\FlexyGo\js\flexygo\ui\wc\flx-propertymanager.js</title>
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+</head>
+<body class="yui3-skin-sam">
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <h1 class="brand" style="padding: 10px 16px 10px; height: 20px; line-height: 20px; margin-left: 0;">
+	    <img alt="" src="../assets/css/logo.png" style="max-height: 65%;" title="">
+            
+        </h1>
+	<div class="nav">
+            <li class="divider-vertical"></li>
+            <li>
+                <p class="navbar-text">
+                    API Docs for Version: <b></b>
+                </p>
+            </li>
+        </div>
+        <form class="navbar-form pull-right" style="line-height: 40px; height: 40px;">
+            <input style="margin-top: 0;" type="text" class="search-query" placeholder="Search for classes/modules..." data-obj='["classes/flexygo.ajax", "classes/flexygo.api.BasicProperty", "classes/flexygo.api.BasicPropertyCollection", "classes/flexygo.api.BasicPropertyLoweredKey", "classes/flexygo.api.chart.GetHTMLParameters", "classes/flexygo.api.chart.ObjectViewCollection", "classes/flexygo.api.easypie.GetHTMLResponse", "classes/flexygo.api.edit.addDetachedPropertyParams", "classes/flexygo.api.edit.addNewFieldParams", "classes/flexygo.api.edit.addNewPropertiesParams", "classes/flexygo.api.edit.DependencyAction", "classes/flexygo.api.edit.DependencyHelper", "classes/flexygo.api.edit.getComboDataParams", "classes/flexygo.api.edit.getComboDataViewParams", "classes/flexygo.api.edit.getComboTextParams", "classes/flexygo.api.edit.getEditConfigParams", "classes/flexygo.api.edit.getEditConfigResponse", "classes/flexygo.api.edit.getEditTemplateParams", "classes/flexygo.api.edit.getEditTemplateResponse", "classes/flexygo.api.edit.getNewPropertiesParams", "classes/flexygo.api.edit.getProcessParamsTemplateParams", "classes/flexygo.api.edit.getProcessParamsTemplateResponse", "classes/flexygo.api.edit.getReportParamsTemplateParams", "classes/flexygo.api.edit.getReportParamsTemplateResponse", "classes/flexygo.api.edit.InsertSeparatorParams", "classes/flexygo.api.edit.KeyValuePair", "classes/flexygo.api.edit.ObjectRowDependency", "classes/flexygo.api.edit.processAllDependenciesParams", "classes/flexygo.api.edit.processAllListDependenciesResponse", "classes/flexygo.api.edit.processDependenciesParams", "classes/flexygo.api.edit.saveDependenciesConfigParams", "classes/flexygo.api.edit.timelineEntityConfiguration", "classes/flexygo.api.entity.GetConfigParams", "classes/flexygo.api.entity.GetHTMLParams", "classes/flexygo.api.entity.GetProcessesResponse", "classes/flexygo.api.entity.InsertPlaceHolderParams", "classes/flexygo.api.entity.ObjBasicConfig", "classes/flexygo.api.GenericKeyValueObject", "classes/flexygo.api.kanban.getKanbanParams", "classes/flexygo.api.kanban.getKanbanResponse", "classes/flexygo.api.kanban.GetNodes", "classes/flexygo.api.list.GetHTMLResponse", "classes/flexygo.api.list.getListParams", "classes/flexygo.api.list.getListResponse", "classes/flexygo.api.list.getSearchParams", "classes/flexygo.api.list.getSearchResponse", "classes/flexygo.api.list.ModulePager", "classes/flexygo.api.list.PropertyOrder", "classes/flexygo.api.maps.getCountParams", "classes/flexygo.api.maps.GetHTMLParams", "classes/flexygo.api.mastertables.deleteParams", "classes/flexygo.api.mastertables.GetHTMLResponse", "classes/flexygo.api.mastertables.getSettingsParams", "classes/flexygo.api.mastertables.getSettingsResponse", "classes/flexygo.api.mastertables.insertParams", "classes/flexygo.api.mastertables.MasterTableFieldsCollection", "classes/flexygo.api.mastertables.updateParams", "classes/flexygo.api.navigation.MasterTableField", "classes/flexygo.api.navigation.NavigationNode", "classes/flexygo.api.Network.GetDataParams", "classes/flexygo.api.Network.savePageConfigParams", "classes/flexygo.api.Notify.GetDataResponse", "classes/flexygo.api.Notify.NotifyParams", "classes/flexygo.api.ObjectProperty", "classes/flexygo.api.ObjectPropertyCollection", "classes/flexygo.api.ObjectPropertyLoweredKey", "classes/flexygo.api.objectrelations.GetHTMLParams", "classes/flexygo.api.objectrelations.LoweredNavigationNode", "classes/flexygo.api.ObjectRelationsSettings", "classes/flexygo.api.ObjectSearchPropertyType", "classes/flexygo.api.ObjectSearchType", "classes/flexygo.api.ObjectView", "classes/flexygo.api.ObjectViewProperty", "classes/flexygo.api.ObjectViewPropertyCollection", "classes/flexygo.api.orgchart.GetHTMLParameters", "classes/flexygo.api.pages.getPageByNameParams", "classes/flexygo.api.pages.GetPageTabModulesParams", "classes/flexygo.api.pages.getViewTemplateResponse", "classes/flexygo.api.pages.ModuleEvent", "classes/flexygo.api.pages.Page", "classes/flexygo.api.pages.PageModule", "classes/flexygo.api.pages.PageModuleCollection", "classes/flexygo.api.pages.PageModuleConfig", "classes/flexygo.api.process.GetHTMLResponse", "classes/flexygo.api.process.getProcessInfoByNameParams", "classes/flexygo.api.process.ProcessParam", "classes/flexygo.api.PropertyResize", "classes/flexygo.api.rss.GetHTMLParams", "classes/flexygo.api.rss.ProcessConfig", "classes/flexygo.api.SavedSearch", "classes/flexygo.api.SearchProperty", "classes/flexygo.api.SearchSettings", "classes/flexygo.api.SearchSettingsCollection", "classes/flexygo.api.security.GetHTMLResponse", "classes/flexygo.api.security.SetSecurityParams", "classes/flexygo.api.sparkline.GetHTMLParams", "classes/flexygo.api.sparkline.getObjectKeyParams", "classes/flexygo.api.sqlfeed.GetHTMLParams", "classes/flexygo.api.sys.checkUpdateProgressResponse", "classes/flexygo.api.sys.GetFiltersParams", "classes/flexygo.api.sys.GetFiltersResponse", "classes/flexygo.api.sys.GetHTMLResponse", "classes/flexygo.api.sys.getInstalledVersionsResponse", "classes/flexygo.api.sys.GetRelatedObjetsAndPropsParams", "classes/flexygo.api.sys.GetRelatedObjetsAndPropsResponse", "classes/flexygo.api.sys.getUserSearchSettingsResponse", "classes/flexygo.api.sys.GetVersionParams", "classes/flexygo.api.sys.GetVersionResponse", "classes/flexygo.api.sys.getViewParams", "classes/flexygo.api.sys.SaveFilterParams", "classes/flexygo.api.sys.saveUserSearchSettingsCheckParams", "classes/flexygo.api.sys.saveViewParams", "classes/flexygo.api.sys.SearchCriteria", "classes/flexygo.api.sys.searchObjectsParams", "classes/flexygo.api.sys.searchObjectsResponse", "classes/flexygo.api.sys.setActiveVersionParams", "classes/flexygo.api.sys.setSkinCacheVarsParams", "classes/flexygo.api.sys.TestNewVersionParams", "classes/flexygo.api.sys.UpdateNewVersionParams", "classes/flexygo.api.sys.UserSearchSettings", "classes/flexygo.api.sys.validateViewParams", "classes/flexygo.api.sys.VersionInfo", "classes/flexygo.api.sys.VersionReviewChange", "classes/flexygo.api.Template", "classes/flexygo.api.TemplateGroup", "classes/flexygo.api.TemplateGroupCollection", "classes/flexygo.api.timeline.getTimelineParams", "classes/flexygo.api.timeline.getTimelineResponse", "classes/flexygo.api.timeline.kanbanSettings", "classes/flexygo.api.timeline.timelineRanges", "classes/flexygo.api.timeline.timelineSetting", "classes/flexygo.api.Toolbar", "classes/flexygo.api.ToolbarButton", "classes/flexygo.api.view.getViewTemplateParams", "classes/flexygo.api.view.updateObjectParams", "classes/flexygo.debug.flexygo.debug", "classes/flexygo.debug.test", "classes/flexygo.events.flexygo.exceptions", "classes/flexygo.events.flexygo.history", "classes/flexygo.events.flexygo.localization", "classes/flexygo.events.flexygo.msg", "classes/flexygo.events.flexygo.push", "classes/flexygo.events.flexygo.storage.local", "classes/flexygo.events.flexygo.storage.session", "classes/flexygo.events.FlexygoEvent", "classes/flexygo.events.GenericKeyValueObject", "classes/flexygo.obj.Entity", "classes/flexygo.security", "classes/flexygo.security.roles", "classes/flexygo.security.users", "classes/flexygo.ui.wc.FlxAccordionElement", "classes/flexygo.ui.wc.FlxAreaElement", "classes/flexygo.ui.wc.FlxChartElement", "classes/flexygo.ui.wc.FlxCheckElement", "classes/flexygo.ui.wc.FlxCodeElement", "classes/flexygo.ui.wc.FlxComboElement", "classes/flexygo.ui.wc.FlxContextMenu", "classes/flexygo.ui.wc.FlxDbComboElement", "classes/flexygo.ui.wc.FlxDependencyManagerElement", "classes/flexygo.ui.wc.FlxEasyInfoElement", "classes/flexygo.ui.wc.FlxEasyline", "classes/flexygo.ui.wc.FlxEasyPieElement", "classes/flexygo.ui.wc.FlxEditElement", "classes/flexygo.ui.wc.FlxEditGridElement", "classes/flexygo.ui.wc.FlxFileWcElement", "classes/flexygo.ui.wc.FlxFilterElement", "classes/flexygo.ui.wc.FlxFilterInfo", "classes/flexygo.ui.wc.FlxFilterManagerElement", "classes/flexygo.ui.wc.FlxFooterMenuElement", "classes/flexygo.ui.wc.FlxFunnel", "classes/flexygo.ui.wc.FlxGenericSearchElement", "classes/flexygo.ui.wc.FlxHtmlEditElement", "classes/flexygo.ui.wc.FlxHtmlElement", "classes/flexygo.ui.wc.FlxImageElement", "classes/flexygo.ui.wc.FlxImageManagerElement", "classes/flexygo.ui.wc.FlxInputViewElement", "classes/flexygo.ui.wc.FlxKanban", "classes/flexygo.ui.wc.FlxListElement", "classes/flexygo.ui.wc.FlxMapElement", "classes/flexygo.ui.wc.FlxModuleElement", "classes/flexygo.ui.wc.FlxModuleManagerElement", "classes/flexygo.ui.wc.FlxModuleTabElement", "classes/flexygo.ui.wc.FlxMultiComboElement", "classes/flexygo.ui.wc.FlxNavElement", "classes/flexygo.ui.wc.FlxNetworkElement", "classes/flexygo.ui.wc.FlxNodeManagerElement", "classes/flexygo.ui.wc.FlxNotificationElement", "classes/flexygo.ui.wc.FlxObjectManagerElement", "classes/flexygo.ui.wc.FlxObjectRelationsElement", "classes/flexygo.ui.wc.FlxOrgChartlement", "classes/flexygo.ui.wc.FlxPropertyManagerElement", "classes/flexygo.ui.wc.FlxRadioElement", "classes/flexygo.ui.wc.FlxRangeElement", "classes/flexygo.ui.wc.FlxRssElement", "classes/flexygo.ui.wc.FlxSampleWcElement", "classes/flexygo.ui.wc.FlxScheduler", "classes/flexygo.ui.wc.FlxSchedulerViewElement", "classes/flexygo.ui.wc.FlxSearchElement", "classes/flexygo.ui.wc.FlxSeparatorElement", "classes/flexygo.ui.wc.FlxSidePanelElement", "classes/flexygo.ui.wc.FlxSortManagerElement", "classes/flexygo.ui.wc.FlxSparkLineElement", "classes/flexygo.ui.wc.FlxSqlFeedElement", "classes/flexygo.ui.wc.FlxSwitchElement", "classes/flexygo.ui.wc.FlxTagElement", "classes/flexygo.ui.wc.FlxTextAreaElement", "classes/flexygo.ui.wc.FlxTextElement", "classes/flexygo.ui.wc.FlxTimelineElement", "classes/flexygo.ui.wc.FlxToolTipElement", "classes/flexygo.ui.wc.FlxUploadElement", "classes/flexygo.ui.wc.FlxUserElement", "classes/flexygo.ui.wc.FlxVersionInfoElement", "classes/flexygo.ui.wc.FlxViewElement", "classes/flexygo.ui.wc.FlxViewManagerElement", "classes/flexygo.ui.wc.FlxVoiceSearchElement", "classes/flexygo.ui.wc.FlxWhiteBoardElement"]'>
+        </form>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="span3">
+	    <div>
+	        <h3>APIs</h3>
+	        <div id="sidebar">
+	            <ul id="main-nav" class="nav nav-tabs" style="margin-bottom:0;">
+	                <li class="active"><a href="#classes" data-toggle="tab">Classes</a></li>
+	                <li><a href="#modules" data-toggle="tab">Modules</a></li>
+	            </ul>
+	    
+	            <div id="api-tabview-filter">
+	                <input type="search" placeholder="Type to filter APIs">
+	            </div>
+	    
+	            <div class="tab-content" style="border: 1px solid #DDD; border-top:0;">
+	                <div class="tab-pane active" id="classes">
+	                    <ul id="api-classes" class="nav nav-list">
+	                            <li><a href="../classes/flexygo.ajax.html">flexygo.ajax</a></li>
+	                            <li><a href="../classes/flexygo.api.BasicProperty.html">flexygo.api.BasicProperty</a></li>
+	                            <li><a href="../classes/flexygo.api.BasicPropertyCollection.html">flexygo.api.BasicPropertyCollection</a></li>
+	                            <li><a href="../classes/flexygo.api.BasicPropertyLoweredKey.html">flexygo.api.BasicPropertyLoweredKey</a></li>
+	                            <li><a href="../classes/flexygo.api.chart.GetHTMLParameters.html">flexygo.api.chart.GetHTMLParameters</a></li>
+	                            <li><a href="../classes/flexygo.api.chart.ObjectViewCollection.html">flexygo.api.chart.ObjectViewCollection</a></li>
+	                            <li><a href="../classes/flexygo.api.easypie.GetHTMLResponse.html">flexygo.api.easypie.GetHTMLResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.addDetachedPropertyParams.html">flexygo.api.edit.addDetachedPropertyParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.addNewFieldParams.html">flexygo.api.edit.addNewFieldParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.addNewPropertiesParams.html">flexygo.api.edit.addNewPropertiesParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.DependencyAction.html">flexygo.api.edit.DependencyAction</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.DependencyHelper.html">flexygo.api.edit.DependencyHelper</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.getComboDataParams.html">flexygo.api.edit.getComboDataParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.getComboDataViewParams.html">flexygo.api.edit.getComboDataViewParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.getComboTextParams.html">flexygo.api.edit.getComboTextParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.getEditConfigParams.html">flexygo.api.edit.getEditConfigParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.getEditConfigResponse.html">flexygo.api.edit.getEditConfigResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.getEditTemplateParams.html">flexygo.api.edit.getEditTemplateParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.getEditTemplateResponse.html">flexygo.api.edit.getEditTemplateResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.getNewPropertiesParams.html">flexygo.api.edit.getNewPropertiesParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.getProcessParamsTemplateParams.html">flexygo.api.edit.getProcessParamsTemplateParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.getProcessParamsTemplateResponse.html">flexygo.api.edit.getProcessParamsTemplateResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.getReportParamsTemplateParams.html">flexygo.api.edit.getReportParamsTemplateParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.getReportParamsTemplateResponse.html">flexygo.api.edit.getReportParamsTemplateResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.InsertSeparatorParams.html">flexygo.api.edit.InsertSeparatorParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.KeyValuePair.html">flexygo.api.edit.KeyValuePair</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.ObjectRowDependency.html">flexygo.api.edit.ObjectRowDependency</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.processAllDependenciesParams.html">flexygo.api.edit.processAllDependenciesParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.processAllListDependenciesResponse.html">flexygo.api.edit.processAllListDependenciesResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.processDependenciesParams.html">flexygo.api.edit.processDependenciesParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.saveDependenciesConfigParams.html">flexygo.api.edit.saveDependenciesConfigParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.timelineEntityConfiguration.html">flexygo.api.edit.timelineEntityConfiguration</a></li>
+	                            <li><a href="../classes/flexygo.api.entity.GetConfigParams.html">flexygo.api.entity.GetConfigParams</a></li>
+	                            <li><a href="../classes/flexygo.api.entity.GetHTMLParams.html">flexygo.api.entity.GetHTMLParams</a></li>
+	                            <li><a href="../classes/flexygo.api.entity.GetProcessesResponse.html">flexygo.api.entity.GetProcessesResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.entity.InsertPlaceHolderParams.html">flexygo.api.entity.InsertPlaceHolderParams</a></li>
+	                            <li><a href="../classes/flexygo.api.entity.ObjBasicConfig.html">flexygo.api.entity.ObjBasicConfig</a></li>
+	                            <li><a href="../classes/flexygo.api.GenericKeyValueObject.html">flexygo.api.GenericKeyValueObject</a></li>
+	                            <li><a href="../classes/flexygo.api.kanban.getKanbanParams.html">flexygo.api.kanban.getKanbanParams</a></li>
+	                            <li><a href="../classes/flexygo.api.kanban.getKanbanResponse.html">flexygo.api.kanban.getKanbanResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.kanban.GetNodes.html">flexygo.api.kanban.GetNodes</a></li>
+	                            <li><a href="../classes/flexygo.api.list.GetHTMLResponse.html">flexygo.api.list.GetHTMLResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.list.getListParams.html">flexygo.api.list.getListParams</a></li>
+	                            <li><a href="../classes/flexygo.api.list.getListResponse.html">flexygo.api.list.getListResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.list.getSearchParams.html">flexygo.api.list.getSearchParams</a></li>
+	                            <li><a href="../classes/flexygo.api.list.getSearchResponse.html">flexygo.api.list.getSearchResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.list.ModulePager.html">flexygo.api.list.ModulePager</a></li>
+	                            <li><a href="../classes/flexygo.api.list.PropertyOrder.html">flexygo.api.list.PropertyOrder</a></li>
+	                            <li><a href="../classes/flexygo.api.maps.getCountParams.html">flexygo.api.maps.getCountParams</a></li>
+	                            <li><a href="../classes/flexygo.api.maps.GetHTMLParams.html">flexygo.api.maps.GetHTMLParams</a></li>
+	                            <li><a href="../classes/flexygo.api.mastertables.deleteParams.html">flexygo.api.mastertables.deleteParams</a></li>
+	                            <li><a href="../classes/flexygo.api.mastertables.GetHTMLResponse.html">flexygo.api.mastertables.GetHTMLResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.mastertables.getSettingsParams.html">flexygo.api.mastertables.getSettingsParams</a></li>
+	                            <li><a href="../classes/flexygo.api.mastertables.getSettingsResponse.html">flexygo.api.mastertables.getSettingsResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.mastertables.insertParams.html">flexygo.api.mastertables.insertParams</a></li>
+	                            <li><a href="../classes/flexygo.api.mastertables.MasterTableFieldsCollection.html">flexygo.api.mastertables.MasterTableFieldsCollection</a></li>
+	                            <li><a href="../classes/flexygo.api.mastertables.updateParams.html">flexygo.api.mastertables.updateParams</a></li>
+	                            <li><a href="../classes/flexygo.api.navigation.MasterTableField.html">flexygo.api.navigation.MasterTableField</a></li>
+	                            <li><a href="../classes/flexygo.api.navigation.NavigationNode.html">flexygo.api.navigation.NavigationNode</a></li>
+	                            <li><a href="../classes/flexygo.api.Network.GetDataParams.html">flexygo.api.Network.GetDataParams</a></li>
+	                            <li><a href="../classes/flexygo.api.Network.savePageConfigParams.html">flexygo.api.Network.savePageConfigParams</a></li>
+	                            <li><a href="../classes/flexygo.api.Notify.GetDataResponse.html">flexygo.api.Notify.GetDataResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.Notify.NotifyParams.html">flexygo.api.Notify.NotifyParams</a></li>
+	                            <li><a href="../classes/flexygo.api.ObjectProperty.html">flexygo.api.ObjectProperty</a></li>
+	                            <li><a href="../classes/flexygo.api.ObjectPropertyCollection.html">flexygo.api.ObjectPropertyCollection</a></li>
+	                            <li><a href="../classes/flexygo.api.ObjectPropertyLoweredKey.html">flexygo.api.ObjectPropertyLoweredKey</a></li>
+	                            <li><a href="../classes/flexygo.api.objectrelations.GetHTMLParams.html">flexygo.api.objectrelations.GetHTMLParams</a></li>
+	                            <li><a href="../classes/flexygo.api.objectrelations.LoweredNavigationNode.html">flexygo.api.objectrelations.LoweredNavigationNode</a></li>
+	                            <li><a href="../classes/flexygo.api.ObjectRelationsSettings.html">flexygo.api.ObjectRelationsSettings</a></li>
+	                            <li><a href="../classes/flexygo.api.ObjectSearchPropertyType.html">flexygo.api.ObjectSearchPropertyType</a></li>
+	                            <li><a href="../classes/flexygo.api.ObjectSearchType.html">flexygo.api.ObjectSearchType</a></li>
+	                            <li><a href="../classes/flexygo.api.ObjectView.html">flexygo.api.ObjectView</a></li>
+	                            <li><a href="../classes/flexygo.api.ObjectViewProperty.html">flexygo.api.ObjectViewProperty</a></li>
+	                            <li><a href="../classes/flexygo.api.ObjectViewPropertyCollection.html">flexygo.api.ObjectViewPropertyCollection</a></li>
+	                            <li><a href="../classes/flexygo.api.orgchart.GetHTMLParameters.html">flexygo.api.orgchart.GetHTMLParameters</a></li>
+	                            <li><a href="../classes/flexygo.api.pages.getPageByNameParams.html">flexygo.api.pages.getPageByNameParams</a></li>
+	                            <li><a href="../classes/flexygo.api.pages.GetPageTabModulesParams.html">flexygo.api.pages.GetPageTabModulesParams</a></li>
+	                            <li><a href="../classes/flexygo.api.pages.getViewTemplateResponse.html">flexygo.api.pages.getViewTemplateResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.pages.ModuleEvent.html">flexygo.api.pages.ModuleEvent</a></li>
+	                            <li><a href="../classes/flexygo.api.pages.Page.html">flexygo.api.pages.Page</a></li>
+	                            <li><a href="../classes/flexygo.api.pages.PageModule.html">flexygo.api.pages.PageModule</a></li>
+	                            <li><a href="../classes/flexygo.api.pages.PageModuleCollection.html">flexygo.api.pages.PageModuleCollection</a></li>
+	                            <li><a href="../classes/flexygo.api.pages.PageModuleConfig.html">flexygo.api.pages.PageModuleConfig</a></li>
+	                            <li><a href="../classes/flexygo.api.process.GetHTMLResponse.html">flexygo.api.process.GetHTMLResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.process.getProcessInfoByNameParams.html">flexygo.api.process.getProcessInfoByNameParams</a></li>
+	                            <li><a href="../classes/flexygo.api.process.ProcessParam.html">flexygo.api.process.ProcessParam</a></li>
+	                            <li><a href="../classes/flexygo.api.PropertyResize.html">flexygo.api.PropertyResize</a></li>
+	                            <li><a href="../classes/flexygo.api.rss.GetHTMLParams.html">flexygo.api.rss.GetHTMLParams</a></li>
+	                            <li><a href="../classes/flexygo.api.rss.ProcessConfig.html">flexygo.api.rss.ProcessConfig</a></li>
+	                            <li><a href="../classes/flexygo.api.SavedSearch.html">flexygo.api.SavedSearch</a></li>
+	                            <li><a href="../classes/flexygo.api.SearchProperty.html">flexygo.api.SearchProperty</a></li>
+	                            <li><a href="../classes/flexygo.api.SearchSettings.html">flexygo.api.SearchSettings</a></li>
+	                            <li><a href="../classes/flexygo.api.SearchSettingsCollection.html">flexygo.api.SearchSettingsCollection</a></li>
+	                            <li><a href="../classes/flexygo.api.security.GetHTMLResponse.html">flexygo.api.security.GetHTMLResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.security.SetSecurityParams.html">flexygo.api.security.SetSecurityParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sparkline.GetHTMLParams.html">flexygo.api.sparkline.GetHTMLParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sparkline.getObjectKeyParams.html">flexygo.api.sparkline.getObjectKeyParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sqlfeed.GetHTMLParams.html">flexygo.api.sqlfeed.GetHTMLParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.checkUpdateProgressResponse.html">flexygo.api.sys.checkUpdateProgressResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.GetFiltersParams.html">flexygo.api.sys.GetFiltersParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.GetFiltersResponse.html">flexygo.api.sys.GetFiltersResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.GetHTMLResponse.html">flexygo.api.sys.GetHTMLResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.getInstalledVersionsResponse.html">flexygo.api.sys.getInstalledVersionsResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.GetRelatedObjetsAndPropsParams.html">flexygo.api.sys.GetRelatedObjetsAndPropsParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.GetRelatedObjetsAndPropsResponse.html">flexygo.api.sys.GetRelatedObjetsAndPropsResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.getUserSearchSettingsResponse.html">flexygo.api.sys.getUserSearchSettingsResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.GetVersionParams.html">flexygo.api.sys.GetVersionParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.GetVersionResponse.html">flexygo.api.sys.GetVersionResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.getViewParams.html">flexygo.api.sys.getViewParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.SaveFilterParams.html">flexygo.api.sys.SaveFilterParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.saveUserSearchSettingsCheckParams.html">flexygo.api.sys.saveUserSearchSettingsCheckParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.saveViewParams.html">flexygo.api.sys.saveViewParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.SearchCriteria.html">flexygo.api.sys.SearchCriteria</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.searchObjectsParams.html">flexygo.api.sys.searchObjectsParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.searchObjectsResponse.html">flexygo.api.sys.searchObjectsResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.setActiveVersionParams.html">flexygo.api.sys.setActiveVersionParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.setSkinCacheVarsParams.html">flexygo.api.sys.setSkinCacheVarsParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.TestNewVersionParams.html">flexygo.api.sys.TestNewVersionParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.UpdateNewVersionParams.html">flexygo.api.sys.UpdateNewVersionParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.UserSearchSettings.html">flexygo.api.sys.UserSearchSettings</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.validateViewParams.html">flexygo.api.sys.validateViewParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.VersionInfo.html">flexygo.api.sys.VersionInfo</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.VersionReviewChange.html">flexygo.api.sys.VersionReviewChange</a></li>
+	                            <li><a href="../classes/flexygo.api.Template.html">flexygo.api.Template</a></li>
+	                            <li><a href="../classes/flexygo.api.TemplateGroup.html">flexygo.api.TemplateGroup</a></li>
+	                            <li><a href="../classes/flexygo.api.TemplateGroupCollection.html">flexygo.api.TemplateGroupCollection</a></li>
+	                            <li><a href="../classes/flexygo.api.timeline.getTimelineParams.html">flexygo.api.timeline.getTimelineParams</a></li>
+	                            <li><a href="../classes/flexygo.api.timeline.getTimelineResponse.html">flexygo.api.timeline.getTimelineResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.timeline.kanbanSettings.html">flexygo.api.timeline.kanbanSettings</a></li>
+	                            <li><a href="../classes/flexygo.api.timeline.timelineRanges.html">flexygo.api.timeline.timelineRanges</a></li>
+	                            <li><a href="../classes/flexygo.api.timeline.timelineSetting.html">flexygo.api.timeline.timelineSetting</a></li>
+	                            <li><a href="../classes/flexygo.api.Toolbar.html">flexygo.api.Toolbar</a></li>
+	                            <li><a href="../classes/flexygo.api.ToolbarButton.html">flexygo.api.ToolbarButton</a></li>
+	                            <li><a href="../classes/flexygo.api.view.getViewTemplateParams.html">flexygo.api.view.getViewTemplateParams</a></li>
+	                            <li><a href="../classes/flexygo.api.view.updateObjectParams.html">flexygo.api.view.updateObjectParams</a></li>
+	                            <li><a href="../classes/flexygo.debug.flexygo.debug.html">flexygo.debug.flexygo.debug</a></li>
+	                            <li><a href="../classes/flexygo.debug.test.html">flexygo.debug.test</a></li>
+	                            <li><a href="../classes/flexygo.events.flexygo.exceptions.html">flexygo.events.flexygo.exceptions</a></li>
+	                            <li><a href="../classes/flexygo.events.flexygo.history.html">flexygo.events.flexygo.history</a></li>
+	                            <li><a href="../classes/flexygo.events.flexygo.localization.html">flexygo.events.flexygo.localization</a></li>
+	                            <li><a href="../classes/flexygo.events.flexygo.msg.html">flexygo.events.flexygo.msg</a></li>
+	                            <li><a href="../classes/flexygo.events.flexygo.push.html">flexygo.events.flexygo.push</a></li>
+	                            <li><a href="../classes/flexygo.events.flexygo.storage.local.html">flexygo.events.flexygo.storage.local</a></li>
+	                            <li><a href="../classes/flexygo.events.flexygo.storage.session.html">flexygo.events.flexygo.storage.session</a></li>
+	                            <li><a href="../classes/flexygo.events.FlexygoEvent.html">flexygo.events.FlexygoEvent</a></li>
+	                            <li><a href="../classes/flexygo.events.GenericKeyValueObject.html">flexygo.events.GenericKeyValueObject</a></li>
+	                            <li><a href="../classes/flexygo.obj.Entity.html">flexygo.obj.Entity</a></li>
+	                            <li><a href="../classes/flexygo.security.html">flexygo.security</a></li>
+	                            <li><a href="../classes/flexygo.security.roles.html">flexygo.security.roles</a></li>
+	                            <li><a href="../classes/flexygo.security.users.html">flexygo.security.users</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxAccordionElement.html">flexygo.ui.wc.FlxAccordionElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxAreaElement.html">flexygo.ui.wc.FlxAreaElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxChartElement.html">flexygo.ui.wc.FlxChartElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxCheckElement.html">flexygo.ui.wc.FlxCheckElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxCodeElement.html">flexygo.ui.wc.FlxCodeElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxComboElement.html">flexygo.ui.wc.FlxComboElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxContextMenu.html">flexygo.ui.wc.FlxContextMenu</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxDbComboElement.html">flexygo.ui.wc.FlxDbComboElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxDependencyManagerElement.html">flexygo.ui.wc.FlxDependencyManagerElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxEasyInfoElement.html">flexygo.ui.wc.FlxEasyInfoElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxEasyline.html">flexygo.ui.wc.FlxEasyline</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxEasyPieElement.html">flexygo.ui.wc.FlxEasyPieElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxEditElement.html">flexygo.ui.wc.FlxEditElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxEditGridElement.html">flexygo.ui.wc.FlxEditGridElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxFileWcElement.html">flexygo.ui.wc.FlxFileWcElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxFilterElement.html">flexygo.ui.wc.FlxFilterElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxFilterInfo.html">flexygo.ui.wc.FlxFilterInfo</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxFilterManagerElement.html">flexygo.ui.wc.FlxFilterManagerElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxFooterMenuElement.html">flexygo.ui.wc.FlxFooterMenuElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxFunnel.html">flexygo.ui.wc.FlxFunnel</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxGenericSearchElement.html">flexygo.ui.wc.FlxGenericSearchElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxHtmlEditElement.html">flexygo.ui.wc.FlxHtmlEditElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxHtmlElement.html">flexygo.ui.wc.FlxHtmlElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxImageElement.html">flexygo.ui.wc.FlxImageElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxImageManagerElement.html">flexygo.ui.wc.FlxImageManagerElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxInputViewElement.html">flexygo.ui.wc.FlxInputViewElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxKanban.html">flexygo.ui.wc.FlxKanban</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxListElement.html">flexygo.ui.wc.FlxListElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxMapElement.html">flexygo.ui.wc.FlxMapElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxModuleElement.html">flexygo.ui.wc.FlxModuleElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxModuleManagerElement.html">flexygo.ui.wc.FlxModuleManagerElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxModuleTabElement.html">flexygo.ui.wc.FlxModuleTabElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxMultiComboElement.html">flexygo.ui.wc.FlxMultiComboElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxNavElement.html">flexygo.ui.wc.FlxNavElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxNetworkElement.html">flexygo.ui.wc.FlxNetworkElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxNodeManagerElement.html">flexygo.ui.wc.FlxNodeManagerElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxNotificationElement.html">flexygo.ui.wc.FlxNotificationElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxObjectManagerElement.html">flexygo.ui.wc.FlxObjectManagerElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxObjectRelationsElement.html">flexygo.ui.wc.FlxObjectRelationsElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxOrgChartlement.html">flexygo.ui.wc.FlxOrgChartlement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxPropertyManagerElement.html">flexygo.ui.wc.FlxPropertyManagerElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxRadioElement.html">flexygo.ui.wc.FlxRadioElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxRangeElement.html">flexygo.ui.wc.FlxRangeElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxRssElement.html">flexygo.ui.wc.FlxRssElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxSampleWcElement.html">flexygo.ui.wc.FlxSampleWcElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxScheduler.html">flexygo.ui.wc.FlxScheduler</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxSchedulerViewElement.html">flexygo.ui.wc.FlxSchedulerViewElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxSearchElement.html">flexygo.ui.wc.FlxSearchElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxSeparatorElement.html">flexygo.ui.wc.FlxSeparatorElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxSidePanelElement.html">flexygo.ui.wc.FlxSidePanelElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxSortManagerElement.html">flexygo.ui.wc.FlxSortManagerElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxSparkLineElement.html">flexygo.ui.wc.FlxSparkLineElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxSqlFeedElement.html">flexygo.ui.wc.FlxSqlFeedElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxSwitchElement.html">flexygo.ui.wc.FlxSwitchElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxTagElement.html">flexygo.ui.wc.FlxTagElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxTextAreaElement.html">flexygo.ui.wc.FlxTextAreaElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxTextElement.html">flexygo.ui.wc.FlxTextElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxTimelineElement.html">flexygo.ui.wc.FlxTimelineElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxToolTipElement.html">flexygo.ui.wc.FlxToolTipElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxUploadElement.html">flexygo.ui.wc.FlxUploadElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxUserElement.html">flexygo.ui.wc.FlxUserElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxVersionInfoElement.html">flexygo.ui.wc.FlxVersionInfoElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxViewElement.html">flexygo.ui.wc.FlxViewElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxViewManagerElement.html">flexygo.ui.wc.FlxViewManagerElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxVoiceSearchElement.html">flexygo.ui.wc.FlxVoiceSearchElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxWhiteBoardElement.html">flexygo.ui.wc.FlxWhiteBoardElement</a></li>
+	                    </ul>
+	                </div>
+	    
+	                <div class="tab-pane" id="modules">
+	                    <ul id="api-modules" class="nav nav-list">
+	                    </ul>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+        </div>
+        <div class="span9">
+                <form id="options-form" class="form-inline pull-right">
+                    Show:
+                    <label for="api-show-inherited" class="checkbox">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected" class="checkbox">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private" class="checkbox">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated" class="checkbox">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </form>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<div class="page-header">
+    <h1>Source\flexygo\Proyectos\FlexyGo\FlexyGo\js\flexygo\ui\wc\flx-propertymanager.js <small>File</small></h1>
+</div>
+
+<div class="file">
+    <pre class="prettyprint linenums">
+/**
+ * @namespace flexygo.ui.wc
+ */
+var flexygo;
+(function (flexygo) {
+    var ui;
+    (function (ui) {
+        var wc;
+        (function (wc) {
+            /**
+            * Library for the FlxPropertyManagerElement web component.
+            *
+            * @class FlxPropertyManagerElement
+            * @constructor
+            * @return {FlxPropertyManagerElement}
+            */
+            class FlxPropertyManagerElement extends HTMLElement {
+                constructor() {
+                    super();
+                    /**
+                    * Set when component is attached to DOM
+                    * @property connected {boolean}
+                    */
+                    this.connected = false;
+                    this.objectname = null;
+                    this.reportName = null;
+                    this.processName = null;
+                    this.mode = null;
+                    this.data = null;
+                    this.tHeader = null;
+                    this.tBody = null;
+                    this.tFooter = null;
+                }
+                connectedCallback() {
+                    let element = $(this);
+                    this.connected = true;
+                    this.objectname = element.attr(&quot;objectname&quot;);
+                    this.reportName = element.attr(&quot;reportName&quot;);
+                    this.processName = element.attr(&quot;processName&quot;);
+                    let mode = &#x27;edit&#x27;;
+                    if (element.attr(&quot;mode&quot;) &amp;&amp; element.attr(&quot;mode&quot;) != &#x27;&#x27;) {
+                        mode = element.attr(&quot;mode&quot;);
+                    }
+                    else if (this.reportName) {
+                        mode = &#x27;report&#x27;;
+                    }
+                    else if (this.processName) {
+                        mode = &#x27;process&#x27;;
+                    }
+                    this.mode = mode;
+                    //Remove entity events
+                    flexygo.events.on(this, &quot;entity&quot;, &quot;all&quot;, this.onPropertyChanged);
+                    //Capture entity events
+                    flexygo.events.on(this, &quot;entity&quot;, &quot;all&quot;, this.onPropertyChanged);
+                    //Remove handler on DOM element remove
+                    $(this).on(&quot;destroy&quot;, () =&gt; {
+                        flexygo.events.off(this, &quot;entity&quot;, &quot;all&quot;, this.onPropertyChanged);
+                    });
+                    this.refresh();
+                }
+                static get observedAttributes() {
+                    return [&#x27;objectname&#x27;, &#x27;reportname&#x27;, &#x27;processname&#x27;];
+                }
+                attributeChangedCallback(attrName, oldVal, newVal) {
+                    if (!this.connected) {
+                        return;
+                    }
+                    if (attrName.toLowerCase() == &#x27;objectname&#x27; &amp;&amp; newVal &amp;&amp; newVal != &#x27;&#x27;) {
+                        this.objectname = newVal;
+                        this.refresh();
+                    }
+                    else if (attrName.toLowerCase() == &#x27;reportname&#x27; &amp;&amp; newVal &amp;&amp; newVal != &#x27;&#x27;) {
+                        this.reportName = newVal;
+                        this.refresh();
+                    }
+                    else if (attrName.toLowerCase() == &#x27;processname&#x27; &amp;&amp; newVal &amp;&amp; newVal != &#x27;&#x27;) {
+                        this.processName = newVal;
+                        this.refresh();
+                    }
+                }
+                refresh() {
+                    switch (this.mode) {
+                        case &#x27;process&#x27;:
+                            this.initProcessMode();
+                            break;
+                        case &#x27;report&#x27;:
+                            this.initReportMode();
+                            break;
+                        default:
+                            this.initEditMode();
+                    }
+                    //if (this.mode == &#x27;process&#x27; || this.mode == &#x27;report&#x27;) {
+                    //    flexygo.events.off(ctx, &quot;entity&quot;, &quot;all&quot;, onPropertyUpdate);
+                    //    flexygo.events.on(ctx, &quot;entity&quot;, &quot;all&quot;, onPropertyUpdate);
+                    //    $(document).off(&#x27;insert.property update.property&#x27;);
+                    //    $(document).on(&#x27;insert.property update.property&#x27;, function (evName, entity, form) {
+                    //        this.refresh();
+                    //    });
+                    //}
+                }
+                onPropertyChanged(e) {
+                    if (this.mode == &#x27;process&#x27; || this.mode == &#x27;report&#x27;) {
+                        if (e.type === &quot;inserted&quot; || e.type === &quot;updated&quot;) {
+                            this.refresh();
+                        }
+                    }
+                }
+                initEditMode() {
+                    let me = $(this);
+                    me.html(&#x27;&#x27;);
+                    let params = {
+                        ObjectName: me.attr(&#x27;ObjectName&#x27;)
+                        //ObjectWhere: null,
+                        //ModuleName: &#x27;sysmod-edit-generic&#x27;,
+                        //Defaults: null
+                    };
+                    flexygo.ajax.post(&#x27;~/api/Edit&#x27;, &#x27;getEditConfig&#x27;, params, (response) =&gt; {
+                        if (response) {
+                            let template = response.Template;
+                            this.tHeader = template.Header;
+                            this.tBody = template.Body;
+                            this.tFooter = template.Footer;
+                            this.properties = response.Properties;
+                            this.propArr = flexygo.utils.sortObject(this.properties, &#x27;PositionY&#x27;, &#x27;PositionX&#x27;);
+                            this.render();
+                            $(this).find(&#x27;.lblEdit&#x27;).on(&#x27;change&#x27;, (e) =&gt; {
+                                let inp = $(e.currentTarget);
+                                if (inp.val() &amp;&amp; inp.val() != &#x27;&#x27;) {
+                                    var obj = new flexygo.obj.Entity(&#x27;sysObjectProperty&#x27;, &quot;ObjectName=&#x27;&quot; + this.objectname + &quot;&#x27; and PropertyName=&#x27;&quot; + inp.closest(&#x27;[lblproperty]&#x27;).attr(&#x27;lblproperty&#x27;) + &quot;&#x27;&quot;);
+                                    obj.read();
+                                    obj.data.Label = inp.val();
+                                    obj.update();
+                                }
+                            });
+                        }
+                    });
+                }
+                initProcessMode() {
+                    let me = $(this);
+                    me.html(&#x27;&#x27;);
+                    let params = {
+                        ObjectName: null,
+                        ObjectWhere: null,
+                        ModuleName: &#x27;sysmod-edit-processparams&#x27;,
+                        ProcessName: me.attr(&#x27;ProcessName&#x27;),
+                        Defaults: null
+                    };
+                    flexygo.ajax.post(&#x27;~/api/Edit&#x27;, &#x27;getProcessParamsTemplate&#x27;, params, (response) =&gt; {
+                        if (response) {
+                            let template = response.Template;
+                            this.data = response.Properties;
+                            this.tHeader = template.Header;
+                            this.tBody = template.Body;
+                            this.tFooter = template.Footer;
+                            this.properties = response.Properties;
+                            for (let key in this.properties) {
+                                this.properties[key].ClientReadOnly = true;
+                            }
+                            this.propArr = flexygo.utils.sortObject(this.properties, &#x27;PositionY&#x27;, &#x27;PositionX&#x27;);
+                            this.render();
+                            $(this).find(&#x27;.lblEdit&#x27;).on(&#x27;change&#x27;, (e) =&gt; {
+                                let inp = $(e.currentTarget);
+                                if (inp.val() &amp;&amp; inp.val() != &#x27;&#x27;) {
+                                    var obj = new flexygo.obj.Entity(&#x27;sysProcessParam&#x27;, &quot;ProcessName=&#x27;&quot; + me.attr(&#x27;ProcessName&#x27;) + &quot;&#x27; and ParamName=&#x27;&quot; + inp.closest(&#x27;[lblproperty]&#x27;).attr(&#x27;lblproperty&#x27;) + &quot;&#x27;&quot;);
+                                    obj.read();
+                                    obj.data.Label = inp.val();
+                                    obj.update();
+                                }
+                            });
+                        }
+                    });
+                }
+                initReportMode() {
+                    let me = $(this);
+                    me.html(&#x27;&#x27;);
+                    let params = {
+                        ObjectName: null,
+                        ObjectWhere: null,
+                        ModuleName: &#x27;sysmod-edit-reportparams&#x27;,
+                        ReportName: me.attr(&#x27;ReportName&#x27;),
+                        Defaults: null
+                    };
+                    flexygo.ajax.post(&#x27;~/api/Edit&#x27;, &#x27;getReportParamsTemplate&#x27;, params, (response) =&gt; {
+                        if (response) {
+                            let template = response.Template;
+                            this.data = response.Properties;
+                            this.tHeader = template.Header;
+                            this.tBody = template.Body;
+                            this.tFooter = template.Footer;
+                            this.properties = response.Properties;
+                            this.propArr = flexygo.utils.sortObject(this.properties, &#x27;PositionY&#x27;, &#x27;PositionX&#x27;);
+                            this.render();
+                            $(this).find(&#x27;.lblEdit&#x27;).on(&#x27;change&#x27;, (e) =&gt; {
+                                let inp = $(e.currentTarget);
+                                if (inp.val() &amp;&amp; inp.val() != &#x27;&#x27;) {
+                                    var obj = new flexygo.obj.Entity(&#x27;sysReportParam&#x27;, &quot;ReportName=&#x27;&quot; + me.attr(&#x27;ReportName&#x27;) + &quot;&#x27; and ParamName=&#x27;&quot; + inp.closest(&#x27;[lblproperty]&#x27;).attr(&#x27;lblproperty&#x27;) + &quot;&#x27;&quot;);
+                                    obj.read();
+                                    obj.data.Label = inp.val();
+                                    obj.update();
+                                }
+                            });
+                        }
+                    });
+                }
+                render() {
+                    let me = $(this);
+                    let rendered = &#x27;&#x27;;
+                    if (this.mode == &#x27;list&#x27;) {
+                        rendered = &#x27;&lt;div class=&quot;propHeader bg-module&quot;&gt;&lt;div style=&quot;float:left&quot;&gt;&#x27; + flexygo.localization.translate(&#x27;flxpropertymanager.addfields&#x27;) + &#x27;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;cntBody nopadding flx-list&quot;&gt;&#x27;;
+                        rendered += flexygo.utils.parser.compile(this.properties, this.tHeader, this);
+                        rendered += flexygo.utils.parser.compile(this.properties, this.tBody, this);
+                        rendered += flexygo.utils.parser.compile(this.properties, this.tFooter, this);
+                        rendered += &#x27;&lt;/div&gt;&#x27;;
+                        me.empty();
+                        me.html(rendered);
+                        me.find(&#x27;table&#x27;).colResizable({
+                            resizeMode: &#x27;overflow&#x27;,
+                            liveDrag: 1,
+                            disabledColumns: [0],
+                            onResize: (ev) =&gt; {
+                                this._resizeGridProps();
+                            }
+                        });
+                        let btnOrder = $(&#x27; &lt;div class=&quot;btn-group sortProps&quot;&gt;&lt;button type=&quot;button&quot; class=&quot;btnResize btn btn-primary&quot;&gt;&lt;i class=&quot;fa fa-arrows-h&quot; /&gt;&lt;/button&gt;&lt;button type=&quot;button&quot; class=&quot;btnSort btn btn-default&quot;&gt;&lt;i class=&quot;fa fa-arrows&quot; /&gt;&lt;/button&gt;&lt;/div&gt; &#x27;);
+                        me.find(&#x27;.propHeader&#x27;).append(btnOrder);
+                        btnOrder.find(&#x27;button&#x27;).on(&#x27;click&#x27;, (e) =&gt; {
+                            this.toogleSortMode(btnOrder);
+                        });
+                    }
+                    else {
+                        rendered = flexygo.utils.parser.compile(this.properties, this.tBody, this);
+                        me.empty();
+                        me.html(rendered);
+                        me.append(&#x27;&lt;div style=&quot;clear:both&quot;&gt;&lt;/div&gt;&#x27;);
+                        let cellH = 70;
+                        let itm = me.closest(&#x27;.size-xs,.size-s,.size-m,.size-l&#x27;);
+                        if (itm.length &gt; 0) {
+                            if (itm.is(&#x27;.size-xs&#x27;)) {
+                                cellH = 54;
+                            }
+                            else if (itm.is(&#x27;.size-s&#x27;)) {
+                                cellH = 62;
+                            }
+                            else if (itm.is(&#x27;.size-l&#x27;)) {
+                                cellH = 86;
+                            }
+                        }
+                        let options = {
+                            cellHeight: cellH,
+                            verticalMargin: 0,
+                            float: false,
+                            disableDrag: true,
+                            disableResize: true
+                        };
+                        me.find(&#x27;.resizable-row&#x27;).gridstack(options);
+                    }
+                    this.refreshConfigMode();
+                    this.addConfigToolbar();
+                }
+                toogleSortMode(btns) {
+                    let me = $(this);
+                    let tbl = me.find(&#x27;table&#x27;);
+                    let btnResize = btns.find(&#x27;.btnResize&#x27;);
+                    let btnSort = btns.find(&#x27;.btnSort&#x27;);
+                    tbl.find(&#x27;th:not(:first)&#x27;).addClass(&#x27;accept&#x27;);
+                    tbl.css(&#x27;min-width&#x27;, &#x27;&#x27;);
+                    if (btnResize.is(&#x27;.btn-primary&#x27;)) {
+                        tbl.colResizable({ disable: true });
+                        tbl.dragtable({
+                            dragaccept: &#x27;.accept&#x27;, persistState: () =&gt; {
+                                this._resizeGridProps();
+                            }
+                        });
+                        btnResize.removeClass(&#x27;btn-primary&#x27;);
+                        btnResize.addClass(&#x27;btn-default&#x27;);
+                        btnSort.removeClass(&#x27;btn-default&#x27;);
+                        btnSort.addClass(&#x27;btn-primary&#x27;);
+                    }
+                    else {
+                        me.find(&#x27;table&#x27;).colResizable({
+                            resizeMode: &#x27;overflow&#x27;,
+                            liveDrag: 1,
+                            disabledColumns: [0],
+                            onResize: (ev) =&gt; {
+                                this._resizeGridProps();
+                            }
+                        });
+                        tbl.dragtable(&#x27;destroy&#x27;);
+                        btnSort.removeClass(&#x27;btn-primary&#x27;);
+                        btnSort.addClass(&#x27;btn-default&#x27;);
+                        btnResize.removeClass(&#x27;btn-default&#x27;);
+                        btnResize.addClass(&#x27;btn-primary&#x27;);
+                    }
+                }
+                _resizeGridProps() {
+                    let me = $(this);
+                    let items = me.find(&#x27;thead &gt; tr &gt; th[data-sort]&#x27;);
+                    let myProps = new Array();
+                    for (let i = 0; i &lt; items.length; i++) {
+                        let myProp = new flexygo.api.PropertyResize();
+                        myProp.PositionX = i;
+                        myProp.PositionY = 0;
+                        myProp.Width = $(items[i]).width();
+                        myProp.Height = 0;
+                        myProp.PropertyName = $(items[i]).attr(&#x27;data-sort&#x27;);
+                        myProp.Name = this.objectname;
+                        myProps.push(myProp);
+                    }
+                    flexygo.ajax.syncPost(&#x27;~/api/Edit&#x27;, &#x27;ResizeProperties&#x27;, { &quot;Mode&quot;: &#x27;edit&#x27;, &quot;Properties&quot;: myProps }, () =&gt; { });
+                }
+                addConfigToolbar() {
+                    let me = $(this);
+                    var ObjectName = me.attr(&#x27;ObjectName&#x27;);
+                    let btnProp = $(&#x27;&lt;button class=&quot;addProps btn btn-default txt-tools&quot;&gt;&lt;i class=&quot;flx-icon icon-add&quot;&gt;&lt;/i&gt; &#x27; + flexygo.localization.translate(&#x27;nodemanager.addfields&#x27;) + &#x27;&lt;/button&gt;&#x27;);
+                    if (this.mode == &#x27;process&#x27;) {
+                        btnProp.on(&#x27;click&#x27;, (e) =&gt; {
+                            flexygo.nav.openPage(&#x27;edit&#x27;, &#x27;sysProcessParam&#x27;, null, JSON.stringify({ ProcessName: this.processName }), &#x27;popup&#x27;, true, $(e.currentTarget));
+                        });
+                    }
+                    else if (this.mode == &#x27;report&#x27;) {
+                        btnProp.on(&#x27;click&#x27;, (e) =&gt; {
+                            flexygo.nav.openPage(&#x27;edit&#x27;, &#x27;sysReportParam&#x27;, null, JSON.stringify({ ReportName: this.reportName }), &#x27;popup&#x27;, true, $(e.currentTarget));
+                        });
+                    }
+                    else {
+                        let popover = btnProp.popover({
+                            html: true,
+                            placement: &#x27;bottom&#x27;,
+                            content: flexygo.utils.loadingMsg(),
+                            title: null,
+                        }).on(&#x27;show.bs.popover&#x27;, () =&gt; {
+                            let params = {
+                                ObjectName: me.attr(&#x27;ObjectName&#x27;)
+                            };
+                            flexygo.ajax.syncPost(&#x27;~/api/Edit&#x27;, &#x27;getNewProperties&#x27;, params, (ret) =&gt; {
+                                let contenAppend = &#x27;&lt;div style=&quot;float:right&quot;&gt;&lt;span class=&quot;size-xs clickable&quot; title=&quot;close&quot; onclick=&quot;$(this).closest(\&#x27;flx-module\&#x27;).find(\&#x27;.addProps\&#x27;).click();&quot;&gt;&lt;i class=&quot;flx-icon icon-remove&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/div&gt;&#x27;;
+                                if (ret.length &gt; 0) {
+                                    let botonera = &#x27;&lt;legend&gt;&#x27; + flexygo.localization.translate(&#x27;flxedit.addproperties&#x27;) + &#x27;&lt;/legend&gt;&lt;div class=&quot;pop-buttons&quot; &gt;&#x27;;
+                                    botonera += &#x27;&lt;div class=&quot;btn-group&quot;&gt;&#x27;;
+                                    botonera += &#x27;&lt;button class=&quot;btn btn-default&quot; title=&quot;&#x27; + flexygo.localization.translate(&#x27;flxedit.selectall&#x27;) + &#x27;&quot; onclick=&quot;$(this).closest(\&#x27;.popover-content\&#x27;).find(\&#x27;.chk\&#x27;).prop(\&#x27;checked\&#x27;,true);&quot;&gt;&lt;i class=&quot;flx-icon icon-check-2&quot; &gt;&lt;/i&gt;&lt;/button&gt;&#x27;;
+                                    botonera += &#x27;&lt;button class=&quot;btn btn-default&quot; title=&quot;&#x27; + flexygo.localization.translate(&#x27;flxedit.selectnone&#x27;) + &#x27;&quot; onclick=&quot;$(this).closest(\&#x27;.popover-content\&#x27;).find(\&#x27;.chk\&#x27;).prop(\&#x27;checked\&#x27;,false);&quot;&gt;&lt;i class=&quot;flx-icon icon-non-check-2&quot; &gt;&lt;/i&gt;&lt;/button&gt;&#x27;;
+                                    botonera += &#x27;&lt;/div&gt;&#x27;;
+                                    botonera += &#x27;&lt;div class=&quot;btn-group&quot; style=&quot;float:right&quot; &gt;&#x27;;
+                                    botonera += &#x27;&lt;button class=&quot;btn btn-default&quot; title=&quot;&#x27; + flexygo.localization.translate(&#x27;flxedit.addfields&#x27;) + &#x27;&quot; onclick=&quot;$(this).closest(\&#x27;flx-propertymanager\&#x27;)[0].addProperties($(this).closest(\&#x27;.popover-content\&#x27;).find(\&#x27;.chk:checked\&#x27;));$(this).closest(\&#x27;flx-module\&#x27;).find(\&#x27;.addProps\&#x27;).click();&quot;&gt;&lt;i class=&quot;flx-icon icon-plus&quot;&gt;&lt;/i&gt;&lt;/button&gt;&#x27;;
+                                    botonera += &#x27;&lt;/div&gt;&#x27;;
+                                    botonera += &#x27;&lt;/div&gt;&#x27;;
+                                    let textChk = &#x27;&#x27;;
+                                    textChk += &#x27;&lt;div class=&quot;propertyList&quot;&gt;&lt;ul class=&quot;list-unstyled row&quot;&gt;&#x27;;
+                                    let i = 0;
+                                    while (i &lt; ret.length) {
+                                        textChk += &#x27;&lt;li class=&quot;col-4&quot;&gt;&lt;label title=&quot;&#x27; + ret[i] + &#x27;&quot;&gt;&lt;input class=&quot;chk&quot; type=&quot;checkbox&quot; value=&quot;&#x27; + ret[i] + &#x27;&quot;&gt;&lt;div&gt;&#x27; + ret[i] + &#x27;&lt;/div&gt;&lt;/label&gt;&lt;/li&gt;&#x27;;
+                                        i++;
+                                    }
+                                    textChk += &#x27;&lt;/ul&gt;&lt;/div&gt;&#x27;;
+                                    contenAppend += botonera + textChk;
+                                }
+                                let contentDetached = &#x27;&lt;div class=&quot;size-s&quot;&gt;&lt;legend&gt;&#x27; + flexygo.localization.translate(&#x27;flxedit.adddetachedproperty&#x27;) + &#x27;&lt;/legend&gt;&#x27;;
+                                contentDetached += &#x27;&lt;div class=&quot;row size-s&quot;&gt;&#x27;;
+                                contentDetached += &#x27;&lt;div class=&quot;col-5&quot; &gt; &#x27;;
+                                contentDetached += &#x27;&lt;flx-text type=&quot;ident&quot; property=&quot;detachedPropertyName&quot; PlaceHolder=&quot;&#x27; + flexygo.localization.translate(&#x27;flxedit.propertyname&#x27;) + &#x27;&quot; &gt;&lt;/flx-text&gt;&#x27;;
+                                contentDetached += &#x27;&lt;/div&gt;&#x27;;
+                                contentDetached += &#x27;&lt;div class=&quot;col-5&quot;&gt;&#x27;;
+                                contentDetached += &#x27;&lt;flx-text type=&quot;ident&quot; property=&quot;detachedPropertyLabel&quot; PlaceHolder=&quot;&#x27; + flexygo.localization.translate(&#x27;flxedit.propertylabel&#x27;) + &#x27;&quot; &gt;&lt;/flx-text&gt;&#x27;;
+                                contentDetached += &#x27;&lt;/div&gt;&#x27;;
+                                contentDetached += &#x27;&lt;div class=&quot;col-2&quot;&gt;&#x27;;
+                                contentDetached += &#x27;&lt;button title=&quot;&#x27; + flexygo.localization.translate(&#x27;flxedit.createfields&#x27;) + &#x27;&quot; class=&quot;btn btn-default&quot; onclick=&quot;$(this).closest(\&#x27;flx-propertymanager\&#x27;)[0].addDetachedProperty($(this).closest(\&#x27;.popover-content\&#x27;).find(\&#x27;[property=detachedPropertyName]\&#x27;).val(),$(this).closest(\&#x27;.popover-content\&#x27;).find(\&#x27;[property=detachedPropertyLabel]\&#x27;).val());$(this).closest(\&#x27;flx-module\&#x27;).find(\&#x27;.addProps\&#x27;).click();&quot;&gt;&lt;i class=&quot;flx-icon icon-plus&quot; /&gt;&lt;/button&gt;&#x27;;
+                                contentDetached += &#x27;&lt;/div&gt;&#x27;;
+                                contentDetached += &#x27;&lt;/div&gt;&lt;/div&gt;&#x27;;
+                                let contentCreate = &#x27;&lt;div class=&quot;size-s&quot;&gt;&lt;legend&gt;&#x27; + flexygo.localization.translate(&#x27;flxedit.createfields&#x27;) + &#x27;&lt;/legend&gt;&#x27;;
+                                contentCreate += &#x27;&lt;div class=&quot;row size-s&quot;&gt;&#x27;;
+                                contentCreate += &#x27;&lt;div class=&quot;col-4&quot; &gt; &#x27;;
+                                contentCreate += &#x27;&lt;flx-text type=&quot;ident&quot; property=&quot;fieldName&quot; PlaceHolder=&quot;&#x27; + flexygo.localization.translate(&#x27;flxedit.enterfieldname&#x27;) + &#x27;&quot; &gt;&lt;/flx-text&gt;&#x27;;
+                                contentCreate += &#x27;&lt;/div&gt;&#x27;;
+                                contentCreate += &#x27;&lt;div class=&quot;col-3&quot;&gt;&#x27;;
+                                contentCreate += &#x27;&lt;flx-combo property=&quot;fieldType&quot;&gt;&#x27;;
+                                contentCreate += &#x27;&lt;option value=&quot;&quot;&gt;&#x27; + flexygo.localization.translate(&#x27;flxedit.selecttype&#x27;) + &#x27;&lt;/option&gt;&#x27;;
+                                contentCreate += &#x27;&lt;option value=&quot;1&quot;&gt;Text 50&lt;/option&gt;&#x27;;
+                                contentCreate += &#x27;&lt;option value=&quot;2&quot;&gt;Text 100&lt;/option&gt;&#x27;;
+                                contentCreate += &#x27;&lt;option value=&quot;3&quot;&gt;Text 250&lt;/option&gt;&#x27;;
+                                contentCreate += &#x27;&lt;option value=&quot;4&quot;&gt;Text 1000&lt;/option&gt;&#x27;;
+                                contentCreate += &#x27;&lt;option value=&quot;5&quot;&gt;Text Max&lt;/option&gt;&#x27;;
+                                contentCreate += &#x27;&lt;option value=&quot;6&quot;&gt;Integer&lt;/option&gt;&#x27;;
+                                contentCreate += &#x27;&lt;option value=&quot;7&quot;&gt;Decimal 2&lt;/option&gt;&#x27;;
+                                contentCreate += &#x27;&lt;option value=&quot;8&quot;&gt;Decimal 4&lt;/option&gt;&#x27;;
+                                contentCreate += &#x27;&lt;option value=&quot;9&quot;&gt;Boolean&lt;/option&gt;&#x27;;
+                                contentCreate += &#x27;&lt;option value=&quot;10&quot;&gt;Date&lt;/option&gt;&#x27;;
+                                contentCreate += &#x27;&lt;option value=&quot;11&quot;&gt;DateTime&lt;/option&gt;&#x27;;
+                                contentCreate += &#x27;&lt;/flx-combo&gt;&#x27;;
+                                contentCreate += &#x27;&lt;/div&gt;&#x27;;
+                                contentCreate += &#x27;&lt;div class=&quot;col-4&quot;&gt;&#x27;;
+                                contentCreate += &#x27; &lt;flx-dbcombo property=&quot;fieldTable&quot; additionalWhere=&quot;(objects.objectname=\&#x27;&#x27; + ObjectName + &#x27;\&#x27;)&quot; PlaceHolder=&quot;&#x27; + flexygo.localization.translate(&#x27;flxedit.selecttable&#x27;) + &#x27;&quot; ObjectName=&quot;sysObject&quot; ViewName=&quot;NetAdditionalTables&quot; SQLValueField=&quot;tablename&quot; SQLDisplayField=&quot;tablename&quot; required data-msg-required=&quot;&#x27; + flexygo.localization.translate(&#x27;objectmanager.validicon&#x27;) + &#x27;&quot;&gt; &lt;/flx-dbcombo&gt;&#x27;;
+                                contentCreate += &#x27;&lt;/div&gt;&#x27;;
+                                contentCreate += &#x27;&lt;div class=&quot;col-1&quot;&gt;&#x27;;
+                                contentCreate += &#x27;&lt;button title=&quot;&#x27; + flexygo.localization.translate(&#x27;flxedit.createfields&#x27;) + &#x27;&quot; class=&quot;btn btn-default&quot; onclick=&quot;$(this).closest(\&#x27;flx-propertymanager\&#x27;)[0].addFields($(this).closest(\&#x27;.popover-content\&#x27;).find(\&#x27;[property=fieldName]\&#x27;).val(),$(this).closest(\&#x27;.popover-content\&#x27;).find(\&#x27;[property=fieldType]\&#x27;).val(),$(this).closest(\&#x27;.popover-content\&#x27;).find(\&#x27;[property=fieldTable]\&#x27;).val());$(this).closest(\&#x27;flx-module\&#x27;).find(\&#x27;.addProps\&#x27;).click();&quot;&gt;&lt;i class=&quot;flx-icon icon-plus&quot; /&gt;&lt;/button&gt;&#x27;;
+                                contentCreate += &#x27;&lt;/div&gt;&#x27;;
+                                contentCreate += &#x27;&lt;/div&gt;&lt;/div&gt;&#x27;;
+                                popover.attr(&#x27;data-content&#x27;, contenAppend + contentDetached + contentCreate);
+                            });
+                        });
+                    }
+                    let dest = me.find(&#x27;.propHeader&#x27;);
+                    if (dest.length == 0) {
+                        me.find(&#x27;.addProps&#x27;).remove();
+                        me.prepend(btnProp);
+                    }
+                    else {
+                        dest.find(&#x27;.addProps&#x27;).remove();
+                        dest.append(btnProp);
+                    }
+                }
+                addFields(fieldName, fieldType, fieldTable) {
+                    let me = $(this);
+                    if (!fieldName || fieldName == &#x27;&#x27;) {
+                        flexygo.msg.warning(&#x27;flxedit.enterfieldname&#x27;);
+                        return;
+                    }
+                    else if (!fieldType || fieldType == &#x27;&#x27;) {
+                        flexygo.msg.warning(&#x27;flxedit.selecttype&#x27;);
+                        return;
+                    }
+                    else if (!fieldTable || fieldTable == &#x27;&#x27;) {
+                        flexygo.msg.warning(&#x27;flxedit.selecttable&#x27;);
+                        return;
+                    }
+                    let params = {
+                        ObjectName: me.attr(&#x27;ObjectName&#x27;),
+                        FieldName: fieldName,
+                        FieldType: fieldType,
+                        TableName: fieldTable
+                    };
+                    flexygo.ajax.syncPost(&#x27;~/api/Edit&#x27;, &#x27;addNewFields&#x27;, params, (ret) =&gt; {
+                        this.refresh();
+                    });
+                }
+                addDetachedProperty(propertyName, propertyLabel) {
+                    let me = $(this);
+                    if (!propertyName || propertyName == &#x27;&#x27;) {
+                        flexygo.msg.warning(&#x27;flxedit.propertyname&#x27;);
+                        return;
+                    }
+                    else if (!propertyLabel || propertyLabel == &#x27;&#x27;) {
+                        flexygo.msg.warning(&#x27;flxedit.propertylabel&#x27;);
+                        return;
+                    }
+                    let params = {
+                        ObjectName: me.attr(&#x27;ObjectName&#x27;),
+                        PropertyName: propertyName,
+                        PropertyLabel: propertyLabel
+                    };
+                    flexygo.ajax.syncPost(&#x27;~/api/Edit&#x27;, &#x27;addNewDetachedProperty&#x27;, params, (ret) =&gt; {
+                        this.refresh();
+                    });
+                }
+                addProperties(checks) {
+                    let me = $(this);
+                    if (checks.length == 0) {
+                        flexygo.msg.warning(&#x27;flxedit.createwarning&#x27;);
+                        return;
+                    }
+                    let props = new Array();
+                    checks.each((i, e) =&gt; {
+                        props.push($(e).val());
+                    });
+                    let params = {
+                        ObjectName: me.attr(&#x27;ObjectName&#x27;),
+                        Properties: props
+                    };
+                    flexygo.ajax.syncPost(&#x27;~/api/Edit&#x27;, &#x27;addNewProperties&#x27;, params, (ret) =&gt; {
+                        this.refresh();
+                    });
+                }
+                refreshConfigMode() {
+                    let me = $(this);
+                    if (this.mode != &#x27;list&#x27;) {
+                        let stack = me.find(&#x27;.grid-stack&#x27;).data(&#x27;gridstack&#x27;);
+                        stack.movable(&#x27;.&#x27; + stack.opts._class + &#x27; .grid-stack-item&#x27;, true);
+                        stack.resizable(&#x27;.&#x27; + stack.opts._class + &#x27; .grid-stack-item&#x27;, true);
+                        me.closest(&#x27;flx-module&#x27;).find(&#x27;.config-btn&#x27;).show();
+                        me.find(&#x27;.grid-stack&#x27;).on(&#x27;change.config&#x27;, (event, items) =&gt; {
+                            let myProps = new Array();
+                            for (let i = 0; i &lt; items.length; i++) {
+                                let myProp = new flexygo.api.PropertyResize();
+                                myProp.PositionX = items[i].x;
+                                myProp.PositionY = items[i].y;
+                                myProp.Width = items[i].width;
+                                myProp.Height = items[i].height;
+                                myProp.PropertyName = items[i].el.find(&#x27;[property]&#x27;).attr(&#x27;property&#x27;);
+                                if (this.mode == &#x27;edit&#x27;) {
+                                    myProp.Name = this.objectname;
+                                }
+                                else if (this.mode == &#x27;process&#x27;) {
+                                    myProp.Name = this.processName;
+                                }
+                                else if (this.mode == &#x27;report&#x27;) {
+                                    myProp.Name = this.reportName;
+                                }
+                                myProps.push(myProp);
+                            }
+                            let params = { &quot;Mode&quot;: this.mode, &quot;Properties&quot;: myProps };
+                            flexygo.ajax.syncPost(&#x27;~/api/Edit&#x27;, &#x27;ResizeProperties&#x27;, params, () =&gt; { });
+                        });
+                    }
+                    let props = me.find(&#x27;[data-tag=property-toolbar]&#x27;);
+                    for (let i = 0; i &lt; props.length; i++) {
+                        let prop = $(props[i]);
+                        prop.append(this.getExtendedTools(this.properties[prop.attr(&#x27;data-propertyName&#x27;)]));
+                    }
+                    props.show();
+                }
+                getValue(row, tag) {
+                    if (tag.toLowerCase() == &#x27;control&#x27;) {
+                        let prop = this.properties[row.name];
+                        return &#x27;&lt;&#x27; + prop.WebComponent + &#x27; disabled property=&quot;&#x27; + row.name + &#x27;&quot; /&gt;&#x27;;
+                    }
+                    else {
+                        let value = row[tag];
+                        let type = typeof value;
+                        type = type.toLowerCase();
+                        switch (type) {
+                            case &#x27;undefined&#x27;:
+                                return &#x27;&#x27;;
+                            case &#x27;boolean&#x27;:
+                                if (value) {
+                                    return &#x27;&lt;i class=&quot;flx-icon icon-checked-1&quot;&gt;&lt;/i&gt;&#x27;;
+                                }
+                                else {
+                                    return &#x27;&lt;i class=&quot;flx-icon icon-non-check-2&quot;&gt;&lt;/i&gt;&#x27;;
+                                }
+                            default:
+                                return value;
+                        }
+                    }
+                }
+                paintProperties(data, template) {
+                    let str = &#x27;&#x27;;
+                    let dataArray = $.map(data, (value, index) =&gt; {
+                        return [value];
+                    });
+                    dataArray.sort((a, b) =&gt; {
+                        if (a.PositionY &lt; b.PositionY)
+                            return -1;
+                        if (a.PositionY &gt; b.PositionY)
+                            return 1;
+                        if (a.PositionX &lt; b.PositionX)
+                            return -1;
+                        if (a.PositionX &gt; b.PositionX)
+                            return 1;
+                        return 0;
+                    });
+                    let configText = &#x27;&#x27;;
+                    if (dataArray.length == 0) {
+                        configText = &#x27;&lt;div style=&quot;float:left&quot;&gt;&#x27; + flexygo.localization.translate(&#x27;flxpropertymanager.click&#x27;) + &#x27;&lt;/div&gt;&#x27;;
+                    }
+                    str += &#x27;&lt;div class=&quot;propHeader bg-module&quot;&gt;&#x27; + configText + &#x27;&lt;/div&gt;&lt;div class=&quot;cntBody&quot;&gt;&lt;form&gt;&lt;div class=&quot;resizable-row grid-stack edit-form&quot;&gt;&#x27;;
+                    for (let i = 0; i &lt; dataArray.length; i++) {
+                        let row = flexygo.utils.lowerKeys(dataArray[i]);
+                        if (this.properties[row.name].HasDefinition) {
+                            let item = $(&#x27;&lt;div class=&quot;grid-stack-item-content&quot; /&gt;&#x27;).html(template);
+                            let container = $(&#x27;&lt;div class=&quot;grid-stack-item&quot; /&gt;&#x27;).append(item);
+                            let props = item.find(&#x27;[data-tag]&#x27;);
+                            /*manage labels */
+                            for (let j = 0; j &lt; props.length; j++) {
+                                let prop = $(props[j]);
+                                let tag = prop.data(&#x27;tag&#x27;).toLowerCase();
+                                if (tag.toLowerCase() == &#x27;label&#x27;) {
+                                    if (this.properties[row.name].ControlType != &#x27;separator&#x27; &amp;&amp; this.properties[row.name].ControlType != &#x27;placeholder&#x27;) {
+                                        var inp = $(&#x27;&lt;input type=&quot;text&quot; class=&quot;lblEdit&quot; autocomplete=&quot;off&quot; /&gt;&#x27;);
+                                        prop.html(inp);
+                                        inp.attr(&#x27;value&#x27;, this.getValue(row, tag));
+                                        if (this.properties[row.name].IsRequired) {
+                                            prop.addClass(&quot;required&quot;);
+                                        }
+                                        if (this.properties[row.name].LabelStyle != &#x27;&#x27;) {
+                                            prop.attr(&#x27;style&#x27;, this.properties[row.name].LabelStyle);
+                                        }
+                                        if (this.properties[row.name].LabelCssClass != &#x27;&#x27;) {
+                                            prop.addClass(this.properties[row.name].LabelCssClass);
+                                        }
+                                        prop.attr(&#x27;lblproperty&#x27;, row.name);
+                                    }
+                                    else {
+                                        prop.empty();
+                                    }
+                                }
+                                else if (tag.toLowerCase() == &#x27;property-toolbar&#x27;) {
+                                    prop.attr(&#x27;data-propertyName&#x27;, row.name);
+                                }
+                                else if (row[tag] || tag.toLowerCase() == &#x27;control&#x27;) {
+                                    prop.prepend(this.getValue(row, tag));
+                                    if (this.properties[row.name].ControlType.indexOf(&#x27;code&#x27;) != -1 || this.properties[row.name].ControlType == &#x27;multiline&#x27;) {
+                                        let lblHeight = 25;
+                                        prop.css(&#x27;height&#x27;, &#x27;calc(100% - &#x27; + lblHeight + &#x27;px)&#x27;);
+                                    }
+                                }
+                            }
+                            container.attr(&#x27;data-gs-x&#x27;, row.positionx);
+                            container.attr(&#x27;data-gs-y&#x27;, row.positiony);
+                            container.attr(&#x27;data-gs-width&#x27;, row.width);
+                            container.attr(&#x27;data-gs-height&#x27;, row.height);
+                            //container.attr(&#x27;data-gs-max-height&#x27;, 3);
+                            str += container[0].outerHTML;
+                        }
+                    }
+                    str += &#x27;&lt;/div&gt;&lt;/form&gt;&lt;/div&gt;&#x27;;
+                    return str;
+                }
+                paintHeader() {
+                    let thead = $(&#x27;&lt;thead /&gt;&#x27;);
+                    let tr = $(&#x27;&lt;tr class=&quot;rowHeader&quot;/&gt;&#x27;);
+                    let td = $(&#x27;&lt;th style=&quot;width:100px&quot;/&gt;&#x27;);
+                    tr.append(td);
+                    for (let i = 0; i &lt; this.propArr.length; i++) {
+                        if (this.propArr[i].WebComponent) {
+                            let key = this.propArr[i].Name.toLowerCase();
+                            td = $(&#x27;&lt;th /&gt;&#x27;).html(this.propArr[i].Label).attr(&#x27;data-sort&#x27;, key).css(&#x27;width&#x27;, this.propArr[i].Width + &#x27;px&#x27;);
+                            tr.append(td);
+                        }
+                    }
+                    thead.html(tr);
+                    return &#x27;&lt;table&gt;&lt;thead&gt;&#x27; + thead.html() + &#x27;&lt;/thead&gt;&lt;tbody&gt;&#x27;;
+                }
+                paintFooter() {
+                    let tfoot = $(&#x27;&lt;tfoot /&gt;&#x27;);
+                    let tr = $(&#x27;&lt;tr class=&quot;rowInsert&quot;/&gt;&#x27;);
+                    let td = $(&#x27;&lt;td/&gt;&#x27;);
+                    let btnSave = { ButtonId: &quot;-111&quot;, Disabled: false, HideText: true, IconClass: &quot;flx-icon icon-save-2&quot;, Order: 1, PositionId: &quot;Toolbar&quot;, Text: &quot;Save&quot;, ToolTip: &quot;Save&quot;, TypeId: &quot;SaveRow&quot; };
+                    let btnClear = { ButtonId: &quot;-112&quot;, Disabled: false, HideText: true, IconClass: &quot;flx-icon  icon-clean&quot;, Order: 2, PositionId: &quot;Toolbar&quot;, Text: &quot;Clear&quot;, ToolTip: &quot;Clear&quot;, TypeId: &quot;ClearRow&quot; };
+                    let btnGroup = $(&#x27;&lt;div class=&quot;btn-group&quot; /&gt;&#x27;);
+                    btnGroup.append(this._getButton(btnSave));
+                    btnGroup.append(this._getButton(btnClear));
+                    td.html(btnGroup);
+                    tr.append(td);
+                    for (let i = 0; i &lt; this.propArr.length; i++) {
+                        if (this.propArr[i].WebComponent) {
+                            td = $(&#x27;&lt;td/&gt;&#x27;);
+                            let input = &#x27;&lt;&#x27; + this.propArr[i].WebComponent + &#x27; property=&quot;&#x27; + this.propArr[i].Name + &#x27;&quot;  /&gt;&#x27;;
+                            td.html(input);
+                            tr.append(td);
+                        }
+                    }
+                    tfoot.html(tr);
+                    return &#x27;&lt;/tbody&gt;&lt;tfoot&gt;&#x27; + tfoot.html() + &#x27;&lt;/tfoot&gt;&lt;/table&gt;&#x27;;
+                }
+                paintBody() {
+                    let tbody = $(&#x27;&lt;tbody /&gt;&#x27;);
+                    let tr = $(&#x27;&lt;tr/&gt;&#x27;);
+                    let td = $(&#x27;&lt;td/&gt;&#x27;);
+                    tr.append(td);
+                    for (let i = 0; i &lt; this.propArr.length; i++) {
+                        if (this.propArr[i].WebComponent) {
+                            td = $(&#x27;&lt;td data-tag=&quot;property-toolbar&quot;/&gt;&#x27;).attr(&#x27;data-propertyName&#x27;, this.propArr[i].Name);
+                            tr.append(td);
+                        }
+                    }
+                    tbody.html(tr);
+                    return tbody.html();
+                }
+                _getButton(btn) {
+                    let htmlBTN = $(&#x27;&lt;button class=&quot;btn btn-default&quot; /&gt;&#x27;);
+                    if (!btn.HideText) {
+                        htmlBTN.html(&#x27;&lt;span&gt;&#x27; + btn.Text + &#x27;&lt;/span&gt;&#x27;);
+                    }
+                    if (btn.CssClass) {
+                        htmlBTN.addClass(btn.CssClass);
+                    }
+                    //IconClass ImagePath
+                    if (btn.IconClass &amp;&amp; btn.IconClass != &#x27;&#x27;) {
+                        htmlBTN.prepend(&#x27;&lt;i class=&quot;&#x27; + btn.IconClass + &#x27;&quot; flx-fw&gt;&lt;/i&gt; &#x27;);
+                    }
+                    else if (btn.IconPath &amp;&amp; btn.IconPath != &#x27;&#x27;) {
+                        htmlBTN.prepend(&#x27;&lt;img src=&quot;&#x27; + btn.IconPath + &#x27;&quot; alt=&quot;&quot; /&gt; &#x27;);
+                    }
+                    if (btn.Tooltip &amp;&amp; btn.Tooltip != &#x27;&#x27;) {
+                        htmlBTN.attr(&#x27;title&#x27;, btn.Tooltip);
+                    }
+                    return htmlBTN;
+                }
+                insertSeparator(PropertyName, Above) {
+                    let params = {
+                        Mode: this.mode,
+                        Name: (this.objectname || this.processName || this.reportName),
+                        PropertyName: PropertyName,
+                        Above: Above,
+                    };
+                    flexygo.ajax.post(&#x27;~/api/Edit&#x27;, &#x27;InsertSeparator&#x27;, params, (response) =&gt; { return response; });
+                }
+                insertPlaceHolder(PropertyName, Above) {
+                    let params = {
+                        Mode: this.mode,
+                        Name: (this.objectname || this.processName || this.reportName),
+                        PropertyName: PropertyName,
+                        Above: Above,
+                    };
+                    flexygo.ajax.post(&#x27;~/api/Edit&#x27;, &#x27;InsertPlaceHolder&#x27;, params, (response) =&gt; { return response; });
+                }
+                getExtendedTools(row) {
+                    let me = $(this);
+                    let helpId = &quot;&quot;;
+                    helpId = this.properties[row.Name].HelpId;
+                    let btnGroup = $(&#x27;&lt;div class=&quot;btn-group btn-group-xs&quot; /&gt;&#x27;);
+                    let btnHelp = $(&#x27;&lt;span class=&quot;btn btn-default&quot; /&gt; &#x27;);
+                    let helpIcon = $(&#x27;&lt;i class=&quot;flx-icon icon-information-2 &quot; /&gt;&#x27;);
+                    if (helpId) {
+                        helpIcon = $(&#x27;&lt;i class=&quot;flx-icon icon-information-2 txt-notify&quot; /&gt;&#x27;);
+                    }
+                    let btnEdit = $(&#x27;&lt;span class=&quot;btn btn-default&quot; /&gt; &#x27;);
+                    let editIcon = $(&#x27;&lt;i class=&quot;flx-icon icon-settings-2&quot; /&gt;&#x27;);
+                    let btnDelete = $(&#x27;&lt;span class=&quot;btn btn-default txt-danger&quot; /&gt; &#x27;);
+                    let deleteIcon = $(&#x27;&lt;i class=&quot;flx-icon icon-delete-2&quot; /&gt;&#x27;);
+                    let btnMenu = $(&#x27;&lt;span class=&quot;btn btn-default&quot; /&gt; &#x27;);
+                    let menuIcon = $(&#x27;&lt;i class=&quot;flx-icon icon-bullet-list-3&quot; /&gt;&#x27;);
+                    let menuCaret = $(&#x27;&lt;span class=&quot;caret&quot; /&gt;&#x27;);
+                    let objName;
+                    let objWhere;
+                    switch (this.mode) {
+                        case &#x27;process&#x27;:
+                            objName = &#x27;sysProcessParam&#x27;;
+                            objWhere = &#x27;ProcessName=\&#x27;&#x27; + this.processName + &#x27;\&#x27; and ParamName=\&#x27;&#x27; + row.Name + &#x27;\&#x27;&#x27;;
+                            break;
+                        case &#x27;report&#x27;:
+                            objName = &#x27;sysReportParam&#x27;;
+                            objWhere = &#x27;ReportName=\&#x27;&#x27; + this.reportName + &#x27;\&#x27; and ParamName=\&#x27;&#x27; + row.Name + &#x27;\&#x27;&#x27;;
+                            break;
+                        default:
+                            objName = &#x27;sysObjectProperty&#x27;;
+                            objWhere = &#x27;objectName=\&#x27;&#x27; + me.attr(&#x27;ObjectName&#x27;) + &#x27;\&#x27; and Propertyname=\&#x27;&#x27; + row.Name + &#x27;\&#x27;&#x27;;
+                    }
+                    btnHelp.on(&#x27;click&#x27;, (ev) =&gt; {
+                        if (helpId) {
+                            flexygo.nav.openHelpId(helpId, &#x27;popup&#x27;, false, $(this));
+                        }
+                        else {
+                            flexygo.nav.openPage(&#x27;edit&#x27;, &#x27;sysHelp&#x27;, &#x27;&#x27;, null, &#x27;modal&#x27;, false, $(this));
+                            flexygo.events.on(ev.currentTarget, &quot;entity&quot;, &quot;inserted&quot;, (e) =&gt; {
+                                flexygo.events.off(e.context, &quot;entity&quot;, &quot;inserted&quot;);
+                                let entity = e.sender;
+                                var obj = new flexygo.obj.Entity(objName, objWhere);
+                                obj.read();
+                                obj.data.HelpId.Value = entity.data.HelpId.Value;
+                                if (obj.update()) {
+                                    $(e.context).find(&#x27;.icon-information-2&#x27;).addClass(&quot;txt-notify&quot;);
+                                    helpId = entity.data.HelpId.Value;
+                                }
+                            });
+                        }
+                    });
+                    btnHelp.append(helpIcon);
+                    btnGroup.append(btnHelp);
+                    btnEdit.on(&#x27;click&#x27;, () =&gt; {
+                        flexygo.nav.openPage(&#x27;edit&#x27;, objName, objWhere, null, &#x27;popup&#x27;, false, $(this));
+                    });
+                    btnEdit.append(editIcon);
+                    btnGroup.append(btnEdit);
+                    btnGroup.append(btnDelete);
+                    btnDelete.on(&#x27;click&#x27;, (e) =&gt; {
+                        flexygo.ui.wc.FlxModuleElement.prototype.deleteModule(objName, objWhere, $(this), $(e.currentTarget), () =&gt; {
+                            this.refresh();
+                        });
+                    });
+                    btnDelete.append(deleteIcon);
+                    btnGroup.append(btnMenu);
+                    let btMenuId = flexygo.utils.uniqueId();
+                    let btnDiv = $(&#x27;&lt;div class=&quot;keepAlive propertyMenu size-s&quot; style=&quot;display:none&quot; /&gt;&#x27;);
+                    btnDiv.attr(&#x27;id&#x27;, btMenuId);
+                    btnGroup.append(btnDiv);
+                    btnMenu.on(&#x27;click&#x27;, (e) =&gt; {
+                        let menuContainer = $(e.currentTarget).parent().find(&#x27;.propertyMenu&#x27;);
+                        if (menuContainer.children().length == 0) {
+                            menuContainer.append(this.getExtendedToolsMenu(row));
+                        }
+                        this.loadExtendedMenu(row, btMenuId);
+                        if ($(&#x27;#&#x27; + btMenuId).is(&#x27;:visible&#x27;)) {
+                            $(&#x27;#&#x27; + btMenuId).slideUp(250);
+                        }
+                        else {
+                            let MenuTop;
+                            let MenuLeft;
+                            let MenuShadow;
+                            if (parseInt((btnGroup.offset().left).toFixed()) &gt; parseInt(($(window).width() / 2).toFixed())) {
+                                MenuLeft = parseInt((btnGroup.offset().left).toFixed()) - 196;
+                            }
+                            else {
+                                MenuLeft = parseInt((btnGroup.offset().left).toFixed());
+                            }
+                            if (parseInt((btnGroup.offset().top - btnGroup.outerHeight() / 2).toFixed()) &gt; parseInt(($(window).height() / 2).toFixed())) {
+                                MenuTop = btnGroup.offset().top - 460;
+                                MenuShadow = &#x27;0 -6px 20px 4px rgba(0, 0, 0, 0.15), 0 -2px 10px 0px rgba(0, 0, 0, 0.20)&#x27;;
+                            }
+                            else {
+                                MenuTop = parseInt((btnGroup.offset().top + btnGroup.outerHeight()).toFixed());
+                                MenuShadow = &#x27;0 6px 20px 4px rgba(0, 0, 0, 0.15), 0 2px 10px 0px rgba(0, 0, 0, 0.20)&#x27;;
+                            }
+                            btnDiv.css({ position: &quot;fixed&quot;, top: MenuTop, left: MenuLeft, &#x27;box-shadow&#x27;: MenuShadow });
+                            $(&#x27;#&#x27; + btMenuId).slideDown(250);
+                        }
+                    });
+                    btnMenu.append(menuIcon);
+                    btnMenu.append(menuCaret);
+                    return btnGroup;
+                }
+                loadExtendedMenu(row, btMenuId) {
+                    let me = $(this);
+                    let objName;
+                    let objWhere;
+                    switch (this.mode) {
+                        case &#x27;process&#x27;:
+                            objName = &#x27;sysProcessParam&#x27;;
+                            objWhere = &#x27;ProcessName=\&#x27;&#x27; + this.processName + &#x27;\&#x27; and ParamName=\&#x27;&#x27; + row.Name + &#x27;\&#x27;&#x27;;
+                            break;
+                        case &#x27;report&#x27;:
+                            objName = &#x27;sysReportParam&#x27;;
+                            objWhere = &#x27;ReportName=\&#x27;&#x27; + this.reportName + &#x27;\&#x27; and ParamName=\&#x27;&#x27; + row.Name + &#x27;\&#x27;&#x27;;
+                            break;
+                        default:
+                            objName = &#x27;sysObjectProperty&#x27;;
+                            objWhere = &#x27;objectName=\&#x27;&#x27; + me.attr(&#x27;ObjectName&#x27;) + &#x27;\&#x27; and Propertyname=\&#x27;&#x27; + row.Name + &#x27;\&#x27;&#x27;;
+                    }
+                    let obj = new flexygo.obj.Entity(objName, objWhere);
+                    obj.read();
+                    $(&#x27;#&#x27; + btMenuId + &#x27; [name=Label]&#x27;).val(obj.data.Label.Value);
+                    $(&#x27;#&#x27; + btMenuId + &#x27; [name=CSSClass]&#x27;).val(obj.data.CSSClass.Value);
+                    //$(&#x27;#&#x27; + btMenuId + &#x27; [name=Style]&#x27;).val(obj.data.Style.Value);
+                    $(&#x27;#&#x27; + btMenuId + &#x27; [name=IconName]&#x27;).val(obj.data.IconName.Value);
+                    $(&#x27;#&#x27; + btMenuId + &#x27; [name=TypeId]&#x27;).val(obj.data.TypeId.Value);
+                    $(&#x27;#&#x27; + btMenuId + &#x27; [name=Locked]&#x27;).val(obj.data.Locked.Value);
+                    $(&#x27;#&#x27; + btMenuId + &#x27; [name=IsRequired]&#x27;).val(obj.data.IsRequired.Value);
+                    $(&#x27;#&#x27; + btMenuId + &#x27; [name=Hide]&#x27;).val(obj.data.Hide.Value);
+                }
+                getExtendedToolsMenu(row, btMenuId) {
+                    let me = $(this);
+                    let btnUl = $(&#x27;&lt;ul style=&quot;display: block;&quot; /&gt;&#x27;);
+                    /* Insert editable controls */
+                    btnUl.append(&#x27;&lt;li&gt;&lt;flx-text type=&quot;text&quot; name=&quot;Label&quot; placeholder=&quot;&#x27; + flexygo.localization.translate(&#x27;flxpropertymanager.label&#x27;) + &#x27;&quot; iconclass=&quot;flx-icon icon-text&quot; &gt;&lt;/flx-text&gt;&lt;/li&gt;&#x27;);
+                    btnUl.append(&#x27;&lt;li&gt;&lt;flx-text type=&quot;text&quot; name=&quot;CSSClass&quot; placeholder=&quot;&#x27; + flexygo.localization.translate(&#x27;flxpropertymanager.classname&#x27;) + &#x27;&quot; iconclass=&quot;flx-icon icon-custom&quot; &gt;&lt;/flx-text&gt;&lt;/li&gt;&#x27;);
+                    //  btnUl.append(&#x27;&lt;li&gt;&lt;flx-text type=&quot;text&quot; name=&quot;Style&quot; placeholder=&quot;&#x27; + flexygo.localization.translate(&#x27;flxpropertymanager.style&#x27;) + &#x27;&quot; iconclass=&quot;flx-icon icon-brush&quot; &gt;&lt;/flx-text&gt;&lt;/li&gt;&#x27;);
+                    btnUl.append(&#x27;&lt;li&gt;&lt;flx-dbcombo name=&quot;IconName&quot; placeholder=&quot;&#x27; + flexygo.localization.translate(&#x27;flxpropertymanager.selecticon&#x27;) + &#x27;&quot; iconclass=&quot;flx-icon icon-image&quot; objectname=&quot;sysObject&quot; viewname=&quot;iconsView&quot; sqlvaluefield=&quot;IconName&quot; sqldisplayfield=&quot;IconName&quot; &gt; &lt;template&gt;&lt;span class=&quot;txt-outstanding&quot;&gt;&lt;i class=&quot;{{CSSClass}} icon-margin-right&quot;&gt;&lt;/i&gt;{{IconName}}&lt;/span&gt;&lt;/template&gt;&lt;/flx-dbcombo&gt;&lt;/li&gt;&#x27;);
+                    btnUl.append(&#x27;&lt;li&gt;&lt;flx-dbcombo name=&quot;TypeId&quot; placeholder=&quot;&#x27; + flexygo.localization.translate(&#x27;flxpropertymanager.selectcontroltype&#x27;) + &#x27;&quot; iconclass=&quot;fa fa-gear&quot; objectname=&quot;sysObject&quot; viewname=&quot;ControlTypes&quot; sqlvaluefield=&quot;TypeId&quot; sqldisplayfield=&quot;Descrip&quot; &gt;&lt;/flx-dbcombo&gt;&lt;/li&gt;&#x27;);
+                    btnUl.append(&#x27;&lt;li class=&quot;separator&quot;&gt;&lt;/li&gt;&#x27;);
+                    btnUl.append(&#x27;&lt;li&gt;&lt;span &gt;&lt;label &gt;&lt;i class=&quot;flx-icon icon-lock-1&quot; &gt;&lt;/i&gt; &#x27; + flexygo.localization.translate(&#x27;flxpropertymanager.locked&#x27;) + &#x27;&lt;/label&gt;&lt;flx-check name=&quot;Locked&quot; class=&quot;pull-right&quot;&gt;&lt;/flx-check&gt;&lt;/span&gt;&lt;/li&gt;&#x27;);
+                    btnUl.append(&#x27;&lt;li&gt;&lt;span &gt;&lt;label &gt;&lt;i class=&quot;flx-icon icon-key-2&quot; &gt;&lt;/i&gt; &#x27; + flexygo.localization.translate(&#x27;flxpropertymanager.required&#x27;) + &#x27;&lt;/label&gt;&lt;flx-check name=&quot;IsRequired&quot; class=&quot;pull-right&quot;&gt;&lt;/flx-check&gt;&lt;/span&gt;&lt;/li&gt;&#x27;);
+                    btnUl.append(&#x27;&lt;li&gt;&lt;span&gt;&lt;label&gt;&lt;i class=&quot;flx-icon icon-eye&quot; &gt;&lt;/i&gt; &#x27; + flexygo.localization.translate(&#x27;flxpropertymanager.hidden&#x27;) + &#x27;&lt;/label&gt;&lt;flx-check name=&quot;Hide&quot; class=&quot;pull-right&quot;&gt;&lt;/flx-check&gt;&lt;/span&gt;&lt;/li&gt;&#x27;);
+                    btnUl.append(&#x27;&lt;li class=&quot;separator&quot;&gt;&lt;/li&gt;&#x27;);
+                    /* Insert Separator buttons*/
+                    let ProccLi = $(&#x27;&lt;li class=&quot;&quot; /&gt;&#x27;);
+                    btnUl.append(ProccLi);
+                    let btnIsertSep = $(&#x27;&lt;span class=&quot;addsep&quot;&gt;&lt;i class=&quot;flx-icon icon-upload&quot; &gt;&lt;/i&gt; &lt;span&gt;&#x27; + flexygo.localization.translate(&#x27;flxpropertymanager.addseparatora&#x27;) + &#x27;&lt;/span&gt;&lt;/span&gt;&#x27;)
+                        .on(&#x27;click&#x27;, (e) =&gt; {
+                        this.insertSeparator(row.Name, 0);
+                        $(e.currentTarget).closest(&#x27;.propertyMenu&#x27;).slideUp(250);
+                        this.refresh();
+                    });
+                    ProccLi.append(btnIsertSep);
+                    let btnIsertSep2 = $(&#x27;&lt;span class=&quot;addsep&quot;&gt;&lt;i class=&quot;flx-icon icon-download&quot; &gt;&lt;/i&gt; &lt;span&gt;&#x27; + flexygo.localization.translate(&#x27;flxpropertymanager.addseparatorb&#x27;) + &#x27;&lt;/span&gt;&lt;/span&gt;&#x27;)
+                        .on(&#x27;click&#x27;, (e) =&gt; {
+                        this.insertSeparator(row.Name, 1);
+                        $(e.currentTarget).closest(&#x27;.propertyMenu&#x27;).slideUp(250);
+                        this.refresh();
+                    });
+                    ProccLi.append(btnIsertSep2);
+                    let btnIsertSep3 = $(&#x27;&lt;span class=&quot;addsep&quot;&gt;&lt;i class=&quot;flx-icon icon-non-check-2&quot; &gt;&lt;/i&gt; &lt;span&gt;&#x27; + flexygo.localization.translate(&#x27;flxpropertymanager.addplaceholder&#x27;) + &#x27;&lt;/span&gt;&lt;/span&gt;&#x27;)
+                        .on(&#x27;click&#x27;, (e) =&gt; {
+                        this.insertPlaceHolder(row.Name, 1);
+                        $(e.currentTarget).closest(&#x27;.propertyMenu&#x27;).slideUp(250);
+                        this.refresh();
+                    });
+                    ProccLi.append(btnIsertSep3);
+                    btnUl.append(&#x27;&lt;li class=&quot;separator&quot;&gt;&lt;/li&gt;&#x27;);
+                    let btnLi = $(&#x27;&lt;li class=&quot;menuPadding&quot; /&gt;&#x27;);
+                    btnUl.append(btnLi);
+                    let btnGrp = $(&#x27;&lt;div class=&quot;form-actions&quot; /&gt;&#x27;);
+                    btnLi.append(btnGrp);
+                    /* Insert save and Cancel Buttons */
+                    let btnSave = $(&#x27;&lt;span class=&quot;btn btn-default bg-info &quot;&gt;&lt;i class=&quot;flx-icon icon-save icon-margin&quot; &gt;&lt;/i&gt; &#x27; + flexygo.localization.translate(&#x27;flxedit.save&#x27;) + &#x27;&lt;/span&gt;&#x27;)
+                        .on(&#x27;click&#x27;, (e) =&gt; {
+                        let elem = $(e.currentTarget);
+                        let objName;
+                        let objWhere;
+                        switch (this.mode) {
+                            case &#x27;process&#x27;:
+                                objName = &#x27;sysProcessParam&#x27;;
+                                objWhere = &#x27;ProcessName=\&#x27;&#x27; + this.processName + &#x27;\&#x27; and ParamName=\&#x27;&#x27; + row.Name + &#x27;\&#x27;&#x27;;
+                                break;
+                            case &#x27;report&#x27;:
+                                objName = &#x27;sysReportParam&#x27;;
+                                objWhere = &#x27;ReportName=\&#x27;&#x27; + this.reportName + &#x27;\&#x27; and ParamName=\&#x27;&#x27; + row.Name + &#x27;\&#x27;&#x27;;
+                                break;
+                            default:
+                                objName = &#x27;sysObjectProperty&#x27;;
+                                objWhere = &#x27;objectName=\&#x27;&#x27; + me.attr(&#x27;ObjectName&#x27;) + &#x27;\&#x27; and Propertyname=\&#x27;&#x27; + row.Name + &#x27;\&#x27;&#x27;;
+                        }
+                        let obj = new flexygo.obj.Entity(objName, objWhere);
+                        obj.read();
+                        obj.data.Label.Value = elem.closest(&#x27;.propertyMenu&#x27;).find(&#x27;[name=Label]&#x27;).val();
+                        obj.data.CSSClass.Value = elem.closest(&#x27;.propertyMenu&#x27;).find(&#x27;[name=CSSClass]&#x27;).val();
+                        //obj.data.Style.Value = elem.closest(&#x27;.propertyMenu&#x27;).find(&#x27;[name=Style]&#x27;).val()
+                        obj.data.IconName.Value = elem.closest(&#x27;.propertyMenu&#x27;).find(&#x27;[name=IconName]&#x27;).val();
+                        obj.data.TypeId.Value = elem.closest(&#x27;.propertyMenu&#x27;).find(&#x27;[name=TypeId]&#x27;).val();
+                        obj.data.Locked.Value = elem.closest(&#x27;.propertyMenu&#x27;).find(&#x27;[name=Locked]&#x27;).val();
+                        obj.data.IsRequired.Value = elem.closest(&#x27;.propertyMenu&#x27;).find(&#x27;[name=IsRequired]&#x27;).val();
+                        obj.data.Hide.Value = elem.closest(&#x27;.propertyMenu&#x27;).find(&#x27;[name=Hide]&#x27;).val();
+                        if (obj.update()) {
+                            elem.closest(&#x27;.propertyMenu&#x27;).slideUp(250);
+                            this.refresh();
+                        }
+                    });
+                    let btnClose = $(&#x27;&lt;span class=&quot;btn btn-default&quot;&gt;&lt;i class=&quot;flx-icon icon-close icon-margin&quot; &gt;&lt;/i&gt; &#x27; + flexygo.localization.translate(&#x27;flxedit.close&#x27;) + &#x27;&lt;/span&gt;&#x27;)
+                        .on(&#x27;click&#x27;, (e) =&gt; {
+                        $(e.currentTarget).closest(&#x27;.propertyMenu&#x27;).slideUp(250);
+                    });
+                    btnGrp.append(btnSave);
+                    btnGrp.append(&quot;&amp;nbsp;&quot;);
+                    btnGrp.append(btnClose);
+                    return btnUl;
+                }
+                parseEditString(str) {
+                    let me = $(this);
+                    let props = me.find(&#x27;[property]&#x27;);
+                    let obj = new Object();
+                    for (let i = 0; i &lt; props.length; i++) {
+                        let prop = $(props[i])[0];
+                        obj[prop.property] = prop.getValue();
+                    }
+                    return flexygo.utils.parser.compile(obj, str, this);
+                }
+                translate(str) {
+                    return flexygo.localization.translate(str);
+                }
+            }
+            wc.FlxPropertyManagerElement = FlxPropertyManagerElement;
+        })(wc = ui.wc || (ui.wc = {}));
+    })(ui = flexygo.ui || (flexygo.ui = {}));
+})(flexygo || (flexygo = {}));
+window.customElements.define(&#x27;flx-propertymanager&#x27;, flexygo.ui.wc.FlxPropertyManagerElement);
+//# sourceMappingURL=flx-propertymanager.js.map
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script src="../assets/js/yuidoc-bootstrap.js"></script>
+<script>prettyPrint();</script>
+</body>
+</html>

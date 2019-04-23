@@ -1,0 +1,120 @@
+﻿
+flx-area ul li {
+    width: 250px;
+    height: 200px;
+    margin: 5px;
+    padding: 15px;
+    box-sizing: border-box;
+    display: inline-block;
+    background-color: #036C81;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 5px rgba(0,0,0,0.4);
+    cursor: pointer;
+}
+
+flx-area ul li .icon-cont {
+    border: 6px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    width: 75px;
+    height: 75px;
+    margin: 30px auto;
+    display: block;
+    text-align: center;
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+    z-index: 5;
+    box-shadow: 0 0 0 0px rgba(255,255,255,0.5), 0 0 0 0px rgba(3, 108, 129, 0.5);
+}
+
+flx-area ul li .icon-cont i {
+    color: #fff;
+    opacity: .6;
+    font-size: 2.5em;
+    line-height: 60px;
+}
+
+flx-area ul li:hover .icon-cont {
+    animation: shady 4s linear infinite;
+}
+
+flx-area ul li:hover .iconleft, flx-area ul li:hover .iconright, flx-area ul li:hover .iconback {
+    opacity: .5;
+    transition: all 1s;
+}
+
+
+flx-area ul li h3 {
+    font-weight: 400;
+    font-size: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0);
+    position: absolute;
+    top: 100px;
+    width: 80%;
+    left: 10%;
+    color: #eee;
+}
+
+flx-area ul li .iconleft, flx-area ul li .iconright, flx-area ul li .iconback {
+    width: 44%;
+    display: block;
+    height: 60px;
+    text-align: center;
+    background-color: #03424e;
+    position: absolute;
+    border-radius: 3%;
+    opacity: 0;
+    transition: all 1s;
+}
+
+flx-area ul li .iconleft.noshow, flx-area ul li .iconright.noshow, flx-area ul li .iconback.noshow {
+    display: none;
+}
+
+flx-area ul li .iconleft {
+    bottom: 10px;
+    left: 10px;
+}
+
+
+flx-area ul li .iconright {
+    bottom: 10px;
+    right: 10px;
+}
+
+flx-area ul li .iconback {
+    top: 10px;
+    right: 10px;
+    width: 22%;
+    background-color: transparent;
+}
+
+flx-area ul li .iconleft i, flx-area ul li .iconright i {
+    font-size: 24px;
+    color: #fff;
+    margin-top: 15px
+}
+
+flx-area ul li .iconback i {
+    color: #fff;
+}
+
+flx-area ol li {
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+flx-area ol li + li::before {
+    display: inline-block;
+    padding-right: .5rem;
+    padding-left: .5rem;
+    color: red;
+    content: "/";
+}
+/**/

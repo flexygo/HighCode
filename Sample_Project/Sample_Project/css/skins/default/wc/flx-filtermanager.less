@@ -1,0 +1,159 @@
+﻿flx-filtermanager li, flx-viewmanager li{
+    list-style: none;
+}
+
+flx-filtermanager span i, flx-viewmanager span i{
+    color:lighten(dbColor(PrimaryColor),10);
+}
+
+flx-filtermanager .comment, flx-viewmanager .comment{
+    color:lighten(dbColor(PrimaryColor),10);
+    font-size: .8em;
+    font-style: italic;
+    float: right;
+}
+
+flx-filtermanager ul, flx-viewmanager ul{
+    margin: 0;
+    padding: 0;
+    margin-left: 5px;
+}
+
+flx-filtermanager ul > li > ul.list-group, flx-viewmanager ul > li > ul.list-group {
+    margin-bottom: 0;
+}
+
+flx-filtermanager .box, flx-viewmanager .box, flx-sortmanager .box {
+  padding: 15px;
+  border: solid 1px #ddd;
+  border-radius: 4px;
+}
+
+flx-filtermanager .label, flx-viewmanager .label {
+    font-weight: bold;
+    color: #959595;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+flx-filtermanager .obj-filter span, flx-filtermanager label, flx-filtermanager .filterField {
+    cursor: pointer;
+}
+
+flx-viewmanager .obj-filter,flx-viewmanager label,flx-viewmanager .filterField {
+  cursor: pointer;
+}
+
+flx-filtermanager .filterField input.form-control, flx-filtermanager .filterField select.form-control, flx-viewmanager .filterField input.form-control, flx-viewmanager .filterField select.form-control{
+    display:inline;
+    width: auto;
+    height: 24px;
+    padding: 3px 3px;
+}
+flx-filtermanager .filterField select.form-control, flx-viewmanager .filterField select.form-control{
+    font-size:12px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+flx-filtermanager .filterField input.form-control, flx-viewmanager .filterField input.form-control{
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+flx-filtermanager .btnPnl, flx-viewmanager .btnPnl{
+    text-align:center;
+}
+
+flx-filtermanager .objtree, flx-filtermanager .fieldsFilter{font-size: .9em;}
+
+flx-sortmanager{
+    background-color:white;
+}
+
+flx-sortmanager .box {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: auto;
+}
+
+flx-sortmanager > div{
+    height:100%;
+    text-align:left;
+}
+
+flx-sortmanager .textLabel {
+    font-weight: bold;
+    color: #959595;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding-bottom:5px;
+}
+
+flx-sortmanager .sortContainer {
+    flex-grow: 1;
+    position: relative;
+}
+flx-sortmanager .sortContainer > ul {
+    min-height: 100%;
+    min-width: 100%;
+    overflow-y: auto;
+    position: absolute;
+    padding: 0;
+}
+
+.fieldSortItem {
+    list-style: none;
+    Border: solid 1px #999;
+    background-color: #e0e0e0;
+    margin-bottom: 5px;
+    padding: 5px;
+    cursor: move;
+}
+
+@media (max-width: dbSize(small)) {
+    flx-sortmanager .box{padding:8px;}
+    .fieldSortItem {
+        padding: 2px;
+        font-size: 8px;
+    }
+}
+
+    .fieldSortItem:hover {
+        Border: solid 1px #e0e0e0;
+        background-color: #999;
+    }
+
+flx-sortmanager .used .asc i:first-child:before {
+    content: "\eb01";
+    transform: rotate(270deg);
+    display: block;
+    float: left;
+}
+
+
+flx-sortmanager .used .dsc i:first-child:before {
+    content: "\eb01";
+    transform: rotate(90deg);
+    display: block;
+    float: left;
+}
+
+flx-sortmanager .used .asc i:first-child, flx-sortmanager .used .dsc i:first-child {
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    display: inline-block;
+    font: normal normal normal 14px/1 Flexygo-icons;
+    font-family: 'Flexygo-icons' !important;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+
+

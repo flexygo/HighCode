@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>flexygo.ui.wc.FlxNodeManagerElement</title>
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+</head>
+<body class="yui3-skin-sam">
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <h1 class="brand" style="padding: 10px 16px 10px; height: 20px; line-height: 20px; margin-left: 0;">
+	    <img alt="" src="../assets/css/logo.png" style="max-height: 65%;" title="">
+            
+        </h1>
+	<div class="nav">
+            <li class="divider-vertical"></li>
+            <li>
+                <p class="navbar-text">
+                    API Docs for Version: <b></b>
+                </p>
+            </li>
+        </div>
+        <form class="navbar-form pull-right" style="line-height: 40px; height: 40px;">
+            <input style="margin-top: 0;" type="text" class="search-query" placeholder="Search for classes/modules..." data-obj='["classes/flexygo.ajax", "classes/flexygo.api.BasicProperty", "classes/flexygo.api.BasicPropertyCollection", "classes/flexygo.api.BasicPropertyLoweredKey", "classes/flexygo.api.chart.GetHTMLParameters", "classes/flexygo.api.chart.ObjectViewCollection", "classes/flexygo.api.easypie.GetHTMLResponse", "classes/flexygo.api.edit.addDetachedPropertyParams", "classes/flexygo.api.edit.addNewFieldParams", "classes/flexygo.api.edit.addNewPropertiesParams", "classes/flexygo.api.edit.DependencyAction", "classes/flexygo.api.edit.DependencyHelper", "classes/flexygo.api.edit.getComboDataParams", "classes/flexygo.api.edit.getComboDataViewParams", "classes/flexygo.api.edit.getComboTextParams", "classes/flexygo.api.edit.getEditConfigParams", "classes/flexygo.api.edit.getEditConfigResponse", "classes/flexygo.api.edit.getEditTemplateParams", "classes/flexygo.api.edit.getEditTemplateResponse", "classes/flexygo.api.edit.getNewPropertiesParams", "classes/flexygo.api.edit.getProcessParamsTemplateParams", "classes/flexygo.api.edit.getProcessParamsTemplateResponse", "classes/flexygo.api.edit.getReportParamsTemplateParams", "classes/flexygo.api.edit.getReportParamsTemplateResponse", "classes/flexygo.api.edit.InsertSeparatorParams", "classes/flexygo.api.edit.KeyValuePair", "classes/flexygo.api.edit.ObjectRowDependency", "classes/flexygo.api.edit.processAllDependenciesParams", "classes/flexygo.api.edit.processAllListDependenciesResponse", "classes/flexygo.api.edit.processDependenciesParams", "classes/flexygo.api.edit.saveDependenciesConfigParams", "classes/flexygo.api.edit.timelineEntityConfiguration", "classes/flexygo.api.entity.GetConfigParams", "classes/flexygo.api.entity.GetHTMLParams", "classes/flexygo.api.entity.GetProcessesResponse", "classes/flexygo.api.entity.InsertPlaceHolderParams", "classes/flexygo.api.entity.ObjBasicConfig", "classes/flexygo.api.GenericKeyValueObject", "classes/flexygo.api.kanban.getKanbanParams", "classes/flexygo.api.kanban.getKanbanResponse", "classes/flexygo.api.kanban.GetNodes", "classes/flexygo.api.list.GetHTMLResponse", "classes/flexygo.api.list.getListParams", "classes/flexygo.api.list.getListResponse", "classes/flexygo.api.list.getSearchParams", "classes/flexygo.api.list.getSearchResponse", "classes/flexygo.api.list.ModulePager", "classes/flexygo.api.list.PropertyOrder", "classes/flexygo.api.maps.getCountParams", "classes/flexygo.api.maps.GetHTMLParams", "classes/flexygo.api.mastertables.deleteParams", "classes/flexygo.api.mastertables.GetHTMLResponse", "classes/flexygo.api.mastertables.getSettingsParams", "classes/flexygo.api.mastertables.getSettingsResponse", "classes/flexygo.api.mastertables.insertParams", "classes/flexygo.api.mastertables.MasterTableFieldsCollection", "classes/flexygo.api.mastertables.updateParams", "classes/flexygo.api.navigation.MasterTableField", "classes/flexygo.api.navigation.NavigationNode", "classes/flexygo.api.Network.GetDataParams", "classes/flexygo.api.Network.savePageConfigParams", "classes/flexygo.api.Notify.GetDataResponse", "classes/flexygo.api.Notify.NotifyParams", "classes/flexygo.api.ObjectProperty", "classes/flexygo.api.ObjectPropertyCollection", "classes/flexygo.api.ObjectPropertyLoweredKey", "classes/flexygo.api.objectrelations.GetHTMLParams", "classes/flexygo.api.objectrelations.LoweredNavigationNode", "classes/flexygo.api.ObjectRelationsSettings", "classes/flexygo.api.ObjectSearchPropertyType", "classes/flexygo.api.ObjectSearchType", "classes/flexygo.api.ObjectView", "classes/flexygo.api.ObjectViewProperty", "classes/flexygo.api.ObjectViewPropertyCollection", "classes/flexygo.api.orgchart.GetHTMLParameters", "classes/flexygo.api.pages.getPageByNameParams", "classes/flexygo.api.pages.GetPageTabModulesParams", "classes/flexygo.api.pages.getViewTemplateResponse", "classes/flexygo.api.pages.ModuleEvent", "classes/flexygo.api.pages.Page", "classes/flexygo.api.pages.PageModule", "classes/flexygo.api.pages.PageModuleCollection", "classes/flexygo.api.pages.PageModuleConfig", "classes/flexygo.api.process.GetHTMLResponse", "classes/flexygo.api.process.getProcessInfoByNameParams", "classes/flexygo.api.process.ProcessParam", "classes/flexygo.api.PropertyResize", "classes/flexygo.api.rss.GetHTMLParams", "classes/flexygo.api.rss.ProcessConfig", "classes/flexygo.api.SavedSearch", "classes/flexygo.api.SearchProperty", "classes/flexygo.api.SearchSettings", "classes/flexygo.api.SearchSettingsCollection", "classes/flexygo.api.security.GetHTMLResponse", "classes/flexygo.api.security.SetSecurityParams", "classes/flexygo.api.sparkline.GetHTMLParams", "classes/flexygo.api.sparkline.getObjectKeyParams", "classes/flexygo.api.sqlfeed.GetHTMLParams", "classes/flexygo.api.sys.checkUpdateProgressResponse", "classes/flexygo.api.sys.GetFiltersParams", "classes/flexygo.api.sys.GetFiltersResponse", "classes/flexygo.api.sys.GetHTMLResponse", "classes/flexygo.api.sys.getInstalledVersionsResponse", "classes/flexygo.api.sys.GetRelatedObjetsAndPropsParams", "classes/flexygo.api.sys.GetRelatedObjetsAndPropsResponse", "classes/flexygo.api.sys.getUserSearchSettingsResponse", "classes/flexygo.api.sys.GetVersionParams", "classes/flexygo.api.sys.GetVersionResponse", "classes/flexygo.api.sys.getViewParams", "classes/flexygo.api.sys.SaveFilterParams", "classes/flexygo.api.sys.saveUserSearchSettingsCheckParams", "classes/flexygo.api.sys.saveViewParams", "classes/flexygo.api.sys.SearchCriteria", "classes/flexygo.api.sys.searchObjectsParams", "classes/flexygo.api.sys.searchObjectsResponse", "classes/flexygo.api.sys.setActiveVersionParams", "classes/flexygo.api.sys.setSkinCacheVarsParams", "classes/flexygo.api.sys.TestNewVersionParams", "classes/flexygo.api.sys.UpdateNewVersionParams", "classes/flexygo.api.sys.UserSearchSettings", "classes/flexygo.api.sys.validateViewParams", "classes/flexygo.api.sys.VersionInfo", "classes/flexygo.api.sys.VersionReviewChange", "classes/flexygo.api.Template", "classes/flexygo.api.TemplateGroup", "classes/flexygo.api.TemplateGroupCollection", "classes/flexygo.api.timeline.getTimelineParams", "classes/flexygo.api.timeline.getTimelineResponse", "classes/flexygo.api.timeline.kanbanSettings", "classes/flexygo.api.timeline.timelineRanges", "classes/flexygo.api.timeline.timelineSetting", "classes/flexygo.api.Toolbar", "classes/flexygo.api.ToolbarButton", "classes/flexygo.api.view.getViewTemplateParams", "classes/flexygo.api.view.updateObjectParams", "classes/flexygo.debug.flexygo.debug", "classes/flexygo.debug.test", "classes/flexygo.events.flexygo.exceptions", "classes/flexygo.events.flexygo.history", "classes/flexygo.events.flexygo.localization", "classes/flexygo.events.flexygo.msg", "classes/flexygo.events.flexygo.push", "classes/flexygo.events.flexygo.storage.local", "classes/flexygo.events.flexygo.storage.session", "classes/flexygo.events.FlexygoEvent", "classes/flexygo.events.GenericKeyValueObject", "classes/flexygo.obj.Entity", "classes/flexygo.security", "classes/flexygo.security.roles", "classes/flexygo.security.users", "classes/flexygo.ui.wc.FlxAccordionElement", "classes/flexygo.ui.wc.FlxAreaElement", "classes/flexygo.ui.wc.FlxChartElement", "classes/flexygo.ui.wc.FlxCheckElement", "classes/flexygo.ui.wc.FlxCodeElement", "classes/flexygo.ui.wc.FlxComboElement", "classes/flexygo.ui.wc.FlxContextMenu", "classes/flexygo.ui.wc.FlxDbComboElement", "classes/flexygo.ui.wc.FlxDependencyManagerElement", "classes/flexygo.ui.wc.FlxEasyInfoElement", "classes/flexygo.ui.wc.FlxEasyline", "classes/flexygo.ui.wc.FlxEasyPieElement", "classes/flexygo.ui.wc.FlxEditElement", "classes/flexygo.ui.wc.FlxEditGridElement", "classes/flexygo.ui.wc.FlxFileWcElement", "classes/flexygo.ui.wc.FlxFilterElement", "classes/flexygo.ui.wc.FlxFilterInfo", "classes/flexygo.ui.wc.FlxFilterManagerElement", "classes/flexygo.ui.wc.FlxFooterMenuElement", "classes/flexygo.ui.wc.FlxFunnel", "classes/flexygo.ui.wc.FlxGenericSearchElement", "classes/flexygo.ui.wc.FlxHtmlEditElement", "classes/flexygo.ui.wc.FlxHtmlElement", "classes/flexygo.ui.wc.FlxImageElement", "classes/flexygo.ui.wc.FlxImageManagerElement", "classes/flexygo.ui.wc.FlxInputViewElement", "classes/flexygo.ui.wc.FlxKanban", "classes/flexygo.ui.wc.FlxListElement", "classes/flexygo.ui.wc.FlxMapElement", "classes/flexygo.ui.wc.FlxModuleElement", "classes/flexygo.ui.wc.FlxModuleManagerElement", "classes/flexygo.ui.wc.FlxModuleTabElement", "classes/flexygo.ui.wc.FlxMultiComboElement", "classes/flexygo.ui.wc.FlxNavElement", "classes/flexygo.ui.wc.FlxNetworkElement", "classes/flexygo.ui.wc.FlxNodeManagerElement", "classes/flexygo.ui.wc.FlxNotificationElement", "classes/flexygo.ui.wc.FlxObjectManagerElement", "classes/flexygo.ui.wc.FlxObjectRelationsElement", "classes/flexygo.ui.wc.FlxOrgChartlement", "classes/flexygo.ui.wc.FlxPropertyManagerElement", "classes/flexygo.ui.wc.FlxRadioElement", "classes/flexygo.ui.wc.FlxRangeElement", "classes/flexygo.ui.wc.FlxRssElement", "classes/flexygo.ui.wc.FlxSampleWcElement", "classes/flexygo.ui.wc.FlxScheduler", "classes/flexygo.ui.wc.FlxSchedulerViewElement", "classes/flexygo.ui.wc.FlxSearchElement", "classes/flexygo.ui.wc.FlxSeparatorElement", "classes/flexygo.ui.wc.FlxSidePanelElement", "classes/flexygo.ui.wc.FlxSortManagerElement", "classes/flexygo.ui.wc.FlxSparkLineElement", "classes/flexygo.ui.wc.FlxSqlFeedElement", "classes/flexygo.ui.wc.FlxSwitchElement", "classes/flexygo.ui.wc.FlxTagElement", "classes/flexygo.ui.wc.FlxTextAreaElement", "classes/flexygo.ui.wc.FlxTextElement", "classes/flexygo.ui.wc.FlxTimelineElement", "classes/flexygo.ui.wc.FlxToolTipElement", "classes/flexygo.ui.wc.FlxUploadElement", "classes/flexygo.ui.wc.FlxUserElement", "classes/flexygo.ui.wc.FlxVersionInfoElement", "classes/flexygo.ui.wc.FlxViewElement", "classes/flexygo.ui.wc.FlxViewManagerElement", "classes/flexygo.ui.wc.FlxVoiceSearchElement", "classes/flexygo.ui.wc.FlxWhiteBoardElement"]'>
+        </form>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="span3">
+	    <div>
+	        <h3>APIs</h3>
+	        <div id="sidebar">
+	            <ul id="main-nav" class="nav nav-tabs" style="margin-bottom:0;">
+	                <li class="active"><a href="#classes" data-toggle="tab">Classes</a></li>
+	                <li><a href="#modules" data-toggle="tab">Modules</a></li>
+	            </ul>
+	    
+	            <div id="api-tabview-filter">
+	                <input type="search" placeholder="Type to filter APIs">
+	            </div>
+	    
+	            <div class="tab-content" style="border: 1px solid #DDD; border-top:0;">
+	                <div class="tab-pane active" id="classes">
+	                    <ul id="api-classes" class="nav nav-list">
+	                            <li><a href="../classes/flexygo.ajax.html">flexygo.ajax</a></li>
+	                            <li><a href="../classes/flexygo.api.BasicProperty.html">flexygo.api.BasicProperty</a></li>
+	                            <li><a href="../classes/flexygo.api.BasicPropertyCollection.html">flexygo.api.BasicPropertyCollection</a></li>
+	                            <li><a href="../classes/flexygo.api.BasicPropertyLoweredKey.html">flexygo.api.BasicPropertyLoweredKey</a></li>
+	                            <li><a href="../classes/flexygo.api.chart.GetHTMLParameters.html">flexygo.api.chart.GetHTMLParameters</a></li>
+	                            <li><a href="../classes/flexygo.api.chart.ObjectViewCollection.html">flexygo.api.chart.ObjectViewCollection</a></li>
+	                            <li><a href="../classes/flexygo.api.easypie.GetHTMLResponse.html">flexygo.api.easypie.GetHTMLResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.addDetachedPropertyParams.html">flexygo.api.edit.addDetachedPropertyParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.addNewFieldParams.html">flexygo.api.edit.addNewFieldParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.addNewPropertiesParams.html">flexygo.api.edit.addNewPropertiesParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.DependencyAction.html">flexygo.api.edit.DependencyAction</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.DependencyHelper.html">flexygo.api.edit.DependencyHelper</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.getComboDataParams.html">flexygo.api.edit.getComboDataParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.getComboDataViewParams.html">flexygo.api.edit.getComboDataViewParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.getComboTextParams.html">flexygo.api.edit.getComboTextParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.getEditConfigParams.html">flexygo.api.edit.getEditConfigParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.getEditConfigResponse.html">flexygo.api.edit.getEditConfigResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.getEditTemplateParams.html">flexygo.api.edit.getEditTemplateParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.getEditTemplateResponse.html">flexygo.api.edit.getEditTemplateResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.getNewPropertiesParams.html">flexygo.api.edit.getNewPropertiesParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.getProcessParamsTemplateParams.html">flexygo.api.edit.getProcessParamsTemplateParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.getProcessParamsTemplateResponse.html">flexygo.api.edit.getProcessParamsTemplateResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.getReportParamsTemplateParams.html">flexygo.api.edit.getReportParamsTemplateParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.getReportParamsTemplateResponse.html">flexygo.api.edit.getReportParamsTemplateResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.InsertSeparatorParams.html">flexygo.api.edit.InsertSeparatorParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.KeyValuePair.html">flexygo.api.edit.KeyValuePair</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.ObjectRowDependency.html">flexygo.api.edit.ObjectRowDependency</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.processAllDependenciesParams.html">flexygo.api.edit.processAllDependenciesParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.processAllListDependenciesResponse.html">flexygo.api.edit.processAllListDependenciesResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.processDependenciesParams.html">flexygo.api.edit.processDependenciesParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.saveDependenciesConfigParams.html">flexygo.api.edit.saveDependenciesConfigParams</a></li>
+	                            <li><a href="../classes/flexygo.api.edit.timelineEntityConfiguration.html">flexygo.api.edit.timelineEntityConfiguration</a></li>
+	                            <li><a href="../classes/flexygo.api.entity.GetConfigParams.html">flexygo.api.entity.GetConfigParams</a></li>
+	                            <li><a href="../classes/flexygo.api.entity.GetHTMLParams.html">flexygo.api.entity.GetHTMLParams</a></li>
+	                            <li><a href="../classes/flexygo.api.entity.GetProcessesResponse.html">flexygo.api.entity.GetProcessesResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.entity.InsertPlaceHolderParams.html">flexygo.api.entity.InsertPlaceHolderParams</a></li>
+	                            <li><a href="../classes/flexygo.api.entity.ObjBasicConfig.html">flexygo.api.entity.ObjBasicConfig</a></li>
+	                            <li><a href="../classes/flexygo.api.GenericKeyValueObject.html">flexygo.api.GenericKeyValueObject</a></li>
+	                            <li><a href="../classes/flexygo.api.kanban.getKanbanParams.html">flexygo.api.kanban.getKanbanParams</a></li>
+	                            <li><a href="../classes/flexygo.api.kanban.getKanbanResponse.html">flexygo.api.kanban.getKanbanResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.kanban.GetNodes.html">flexygo.api.kanban.GetNodes</a></li>
+	                            <li><a href="../classes/flexygo.api.list.GetHTMLResponse.html">flexygo.api.list.GetHTMLResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.list.getListParams.html">flexygo.api.list.getListParams</a></li>
+	                            <li><a href="../classes/flexygo.api.list.getListResponse.html">flexygo.api.list.getListResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.list.getSearchParams.html">flexygo.api.list.getSearchParams</a></li>
+	                            <li><a href="../classes/flexygo.api.list.getSearchResponse.html">flexygo.api.list.getSearchResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.list.ModulePager.html">flexygo.api.list.ModulePager</a></li>
+	                            <li><a href="../classes/flexygo.api.list.PropertyOrder.html">flexygo.api.list.PropertyOrder</a></li>
+	                            <li><a href="../classes/flexygo.api.maps.getCountParams.html">flexygo.api.maps.getCountParams</a></li>
+	                            <li><a href="../classes/flexygo.api.maps.GetHTMLParams.html">flexygo.api.maps.GetHTMLParams</a></li>
+	                            <li><a href="../classes/flexygo.api.mastertables.deleteParams.html">flexygo.api.mastertables.deleteParams</a></li>
+	                            <li><a href="../classes/flexygo.api.mastertables.GetHTMLResponse.html">flexygo.api.mastertables.GetHTMLResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.mastertables.getSettingsParams.html">flexygo.api.mastertables.getSettingsParams</a></li>
+	                            <li><a href="../classes/flexygo.api.mastertables.getSettingsResponse.html">flexygo.api.mastertables.getSettingsResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.mastertables.insertParams.html">flexygo.api.mastertables.insertParams</a></li>
+	                            <li><a href="../classes/flexygo.api.mastertables.MasterTableFieldsCollection.html">flexygo.api.mastertables.MasterTableFieldsCollection</a></li>
+	                            <li><a href="../classes/flexygo.api.mastertables.updateParams.html">flexygo.api.mastertables.updateParams</a></li>
+	                            <li><a href="../classes/flexygo.api.navigation.MasterTableField.html">flexygo.api.navigation.MasterTableField</a></li>
+	                            <li><a href="../classes/flexygo.api.navigation.NavigationNode.html">flexygo.api.navigation.NavigationNode</a></li>
+	                            <li><a href="../classes/flexygo.api.Network.GetDataParams.html">flexygo.api.Network.GetDataParams</a></li>
+	                            <li><a href="../classes/flexygo.api.Network.savePageConfigParams.html">flexygo.api.Network.savePageConfigParams</a></li>
+	                            <li><a href="../classes/flexygo.api.Notify.GetDataResponse.html">flexygo.api.Notify.GetDataResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.Notify.NotifyParams.html">flexygo.api.Notify.NotifyParams</a></li>
+	                            <li><a href="../classes/flexygo.api.ObjectProperty.html">flexygo.api.ObjectProperty</a></li>
+	                            <li><a href="../classes/flexygo.api.ObjectPropertyCollection.html">flexygo.api.ObjectPropertyCollection</a></li>
+	                            <li><a href="../classes/flexygo.api.ObjectPropertyLoweredKey.html">flexygo.api.ObjectPropertyLoweredKey</a></li>
+	                            <li><a href="../classes/flexygo.api.objectrelations.GetHTMLParams.html">flexygo.api.objectrelations.GetHTMLParams</a></li>
+	                            <li><a href="../classes/flexygo.api.objectrelations.LoweredNavigationNode.html">flexygo.api.objectrelations.LoweredNavigationNode</a></li>
+	                            <li><a href="../classes/flexygo.api.ObjectRelationsSettings.html">flexygo.api.ObjectRelationsSettings</a></li>
+	                            <li><a href="../classes/flexygo.api.ObjectSearchPropertyType.html">flexygo.api.ObjectSearchPropertyType</a></li>
+	                            <li><a href="../classes/flexygo.api.ObjectSearchType.html">flexygo.api.ObjectSearchType</a></li>
+	                            <li><a href="../classes/flexygo.api.ObjectView.html">flexygo.api.ObjectView</a></li>
+	                            <li><a href="../classes/flexygo.api.ObjectViewProperty.html">flexygo.api.ObjectViewProperty</a></li>
+	                            <li><a href="../classes/flexygo.api.ObjectViewPropertyCollection.html">flexygo.api.ObjectViewPropertyCollection</a></li>
+	                            <li><a href="../classes/flexygo.api.orgchart.GetHTMLParameters.html">flexygo.api.orgchart.GetHTMLParameters</a></li>
+	                            <li><a href="../classes/flexygo.api.pages.getPageByNameParams.html">flexygo.api.pages.getPageByNameParams</a></li>
+	                            <li><a href="../classes/flexygo.api.pages.GetPageTabModulesParams.html">flexygo.api.pages.GetPageTabModulesParams</a></li>
+	                            <li><a href="../classes/flexygo.api.pages.getViewTemplateResponse.html">flexygo.api.pages.getViewTemplateResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.pages.ModuleEvent.html">flexygo.api.pages.ModuleEvent</a></li>
+	                            <li><a href="../classes/flexygo.api.pages.Page.html">flexygo.api.pages.Page</a></li>
+	                            <li><a href="../classes/flexygo.api.pages.PageModule.html">flexygo.api.pages.PageModule</a></li>
+	                            <li><a href="../classes/flexygo.api.pages.PageModuleCollection.html">flexygo.api.pages.PageModuleCollection</a></li>
+	                            <li><a href="../classes/flexygo.api.pages.PageModuleConfig.html">flexygo.api.pages.PageModuleConfig</a></li>
+	                            <li><a href="../classes/flexygo.api.process.GetHTMLResponse.html">flexygo.api.process.GetHTMLResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.process.getProcessInfoByNameParams.html">flexygo.api.process.getProcessInfoByNameParams</a></li>
+	                            <li><a href="../classes/flexygo.api.process.ProcessParam.html">flexygo.api.process.ProcessParam</a></li>
+	                            <li><a href="../classes/flexygo.api.PropertyResize.html">flexygo.api.PropertyResize</a></li>
+	                            <li><a href="../classes/flexygo.api.rss.GetHTMLParams.html">flexygo.api.rss.GetHTMLParams</a></li>
+	                            <li><a href="../classes/flexygo.api.rss.ProcessConfig.html">flexygo.api.rss.ProcessConfig</a></li>
+	                            <li><a href="../classes/flexygo.api.SavedSearch.html">flexygo.api.SavedSearch</a></li>
+	                            <li><a href="../classes/flexygo.api.SearchProperty.html">flexygo.api.SearchProperty</a></li>
+	                            <li><a href="../classes/flexygo.api.SearchSettings.html">flexygo.api.SearchSettings</a></li>
+	                            <li><a href="../classes/flexygo.api.SearchSettingsCollection.html">flexygo.api.SearchSettingsCollection</a></li>
+	                            <li><a href="../classes/flexygo.api.security.GetHTMLResponse.html">flexygo.api.security.GetHTMLResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.security.SetSecurityParams.html">flexygo.api.security.SetSecurityParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sparkline.GetHTMLParams.html">flexygo.api.sparkline.GetHTMLParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sparkline.getObjectKeyParams.html">flexygo.api.sparkline.getObjectKeyParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sqlfeed.GetHTMLParams.html">flexygo.api.sqlfeed.GetHTMLParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.checkUpdateProgressResponse.html">flexygo.api.sys.checkUpdateProgressResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.GetFiltersParams.html">flexygo.api.sys.GetFiltersParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.GetFiltersResponse.html">flexygo.api.sys.GetFiltersResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.GetHTMLResponse.html">flexygo.api.sys.GetHTMLResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.getInstalledVersionsResponse.html">flexygo.api.sys.getInstalledVersionsResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.GetRelatedObjetsAndPropsParams.html">flexygo.api.sys.GetRelatedObjetsAndPropsParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.GetRelatedObjetsAndPropsResponse.html">flexygo.api.sys.GetRelatedObjetsAndPropsResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.getUserSearchSettingsResponse.html">flexygo.api.sys.getUserSearchSettingsResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.GetVersionParams.html">flexygo.api.sys.GetVersionParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.GetVersionResponse.html">flexygo.api.sys.GetVersionResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.getViewParams.html">flexygo.api.sys.getViewParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.SaveFilterParams.html">flexygo.api.sys.SaveFilterParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.saveUserSearchSettingsCheckParams.html">flexygo.api.sys.saveUserSearchSettingsCheckParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.saveViewParams.html">flexygo.api.sys.saveViewParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.SearchCriteria.html">flexygo.api.sys.SearchCriteria</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.searchObjectsParams.html">flexygo.api.sys.searchObjectsParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.searchObjectsResponse.html">flexygo.api.sys.searchObjectsResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.setActiveVersionParams.html">flexygo.api.sys.setActiveVersionParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.setSkinCacheVarsParams.html">flexygo.api.sys.setSkinCacheVarsParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.TestNewVersionParams.html">flexygo.api.sys.TestNewVersionParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.UpdateNewVersionParams.html">flexygo.api.sys.UpdateNewVersionParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.UserSearchSettings.html">flexygo.api.sys.UserSearchSettings</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.validateViewParams.html">flexygo.api.sys.validateViewParams</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.VersionInfo.html">flexygo.api.sys.VersionInfo</a></li>
+	                            <li><a href="../classes/flexygo.api.sys.VersionReviewChange.html">flexygo.api.sys.VersionReviewChange</a></li>
+	                            <li><a href="../classes/flexygo.api.Template.html">flexygo.api.Template</a></li>
+	                            <li><a href="../classes/flexygo.api.TemplateGroup.html">flexygo.api.TemplateGroup</a></li>
+	                            <li><a href="../classes/flexygo.api.TemplateGroupCollection.html">flexygo.api.TemplateGroupCollection</a></li>
+	                            <li><a href="../classes/flexygo.api.timeline.getTimelineParams.html">flexygo.api.timeline.getTimelineParams</a></li>
+	                            <li><a href="../classes/flexygo.api.timeline.getTimelineResponse.html">flexygo.api.timeline.getTimelineResponse</a></li>
+	                            <li><a href="../classes/flexygo.api.timeline.kanbanSettings.html">flexygo.api.timeline.kanbanSettings</a></li>
+	                            <li><a href="../classes/flexygo.api.timeline.timelineRanges.html">flexygo.api.timeline.timelineRanges</a></li>
+	                            <li><a href="../classes/flexygo.api.timeline.timelineSetting.html">flexygo.api.timeline.timelineSetting</a></li>
+	                            <li><a href="../classes/flexygo.api.Toolbar.html">flexygo.api.Toolbar</a></li>
+	                            <li><a href="../classes/flexygo.api.ToolbarButton.html">flexygo.api.ToolbarButton</a></li>
+	                            <li><a href="../classes/flexygo.api.view.getViewTemplateParams.html">flexygo.api.view.getViewTemplateParams</a></li>
+	                            <li><a href="../classes/flexygo.api.view.updateObjectParams.html">flexygo.api.view.updateObjectParams</a></li>
+	                            <li><a href="../classes/flexygo.debug.flexygo.debug.html">flexygo.debug.flexygo.debug</a></li>
+	                            <li><a href="../classes/flexygo.debug.test.html">flexygo.debug.test</a></li>
+	                            <li><a href="../classes/flexygo.events.flexygo.exceptions.html">flexygo.events.flexygo.exceptions</a></li>
+	                            <li><a href="../classes/flexygo.events.flexygo.history.html">flexygo.events.flexygo.history</a></li>
+	                            <li><a href="../classes/flexygo.events.flexygo.localization.html">flexygo.events.flexygo.localization</a></li>
+	                            <li><a href="../classes/flexygo.events.flexygo.msg.html">flexygo.events.flexygo.msg</a></li>
+	                            <li><a href="../classes/flexygo.events.flexygo.push.html">flexygo.events.flexygo.push</a></li>
+	                            <li><a href="../classes/flexygo.events.flexygo.storage.local.html">flexygo.events.flexygo.storage.local</a></li>
+	                            <li><a href="../classes/flexygo.events.flexygo.storage.session.html">flexygo.events.flexygo.storage.session</a></li>
+	                            <li><a href="../classes/flexygo.events.FlexygoEvent.html">flexygo.events.FlexygoEvent</a></li>
+	                            <li><a href="../classes/flexygo.events.GenericKeyValueObject.html">flexygo.events.GenericKeyValueObject</a></li>
+	                            <li><a href="../classes/flexygo.obj.Entity.html">flexygo.obj.Entity</a></li>
+	                            <li><a href="../classes/flexygo.security.html">flexygo.security</a></li>
+	                            <li><a href="../classes/flexygo.security.roles.html">flexygo.security.roles</a></li>
+	                            <li><a href="../classes/flexygo.security.users.html">flexygo.security.users</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxAccordionElement.html">flexygo.ui.wc.FlxAccordionElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxAreaElement.html">flexygo.ui.wc.FlxAreaElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxChartElement.html">flexygo.ui.wc.FlxChartElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxCheckElement.html">flexygo.ui.wc.FlxCheckElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxCodeElement.html">flexygo.ui.wc.FlxCodeElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxComboElement.html">flexygo.ui.wc.FlxComboElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxContextMenu.html">flexygo.ui.wc.FlxContextMenu</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxDbComboElement.html">flexygo.ui.wc.FlxDbComboElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxDependencyManagerElement.html">flexygo.ui.wc.FlxDependencyManagerElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxEasyInfoElement.html">flexygo.ui.wc.FlxEasyInfoElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxEasyline.html">flexygo.ui.wc.FlxEasyline</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxEasyPieElement.html">flexygo.ui.wc.FlxEasyPieElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxEditElement.html">flexygo.ui.wc.FlxEditElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxEditGridElement.html">flexygo.ui.wc.FlxEditGridElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxFileWcElement.html">flexygo.ui.wc.FlxFileWcElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxFilterElement.html">flexygo.ui.wc.FlxFilterElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxFilterInfo.html">flexygo.ui.wc.FlxFilterInfo</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxFilterManagerElement.html">flexygo.ui.wc.FlxFilterManagerElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxFooterMenuElement.html">flexygo.ui.wc.FlxFooterMenuElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxFunnel.html">flexygo.ui.wc.FlxFunnel</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxGenericSearchElement.html">flexygo.ui.wc.FlxGenericSearchElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxHtmlEditElement.html">flexygo.ui.wc.FlxHtmlEditElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxHtmlElement.html">flexygo.ui.wc.FlxHtmlElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxImageElement.html">flexygo.ui.wc.FlxImageElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxImageManagerElement.html">flexygo.ui.wc.FlxImageManagerElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxInputViewElement.html">flexygo.ui.wc.FlxInputViewElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxKanban.html">flexygo.ui.wc.FlxKanban</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxListElement.html">flexygo.ui.wc.FlxListElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxMapElement.html">flexygo.ui.wc.FlxMapElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxModuleElement.html">flexygo.ui.wc.FlxModuleElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxModuleManagerElement.html">flexygo.ui.wc.FlxModuleManagerElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxModuleTabElement.html">flexygo.ui.wc.FlxModuleTabElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxMultiComboElement.html">flexygo.ui.wc.FlxMultiComboElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxNavElement.html">flexygo.ui.wc.FlxNavElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxNetworkElement.html">flexygo.ui.wc.FlxNetworkElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxNodeManagerElement.html">flexygo.ui.wc.FlxNodeManagerElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxNotificationElement.html">flexygo.ui.wc.FlxNotificationElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxObjectManagerElement.html">flexygo.ui.wc.FlxObjectManagerElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxObjectRelationsElement.html">flexygo.ui.wc.FlxObjectRelationsElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxOrgChartlement.html">flexygo.ui.wc.FlxOrgChartlement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxPropertyManagerElement.html">flexygo.ui.wc.FlxPropertyManagerElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxRadioElement.html">flexygo.ui.wc.FlxRadioElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxRangeElement.html">flexygo.ui.wc.FlxRangeElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxRssElement.html">flexygo.ui.wc.FlxRssElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxSampleWcElement.html">flexygo.ui.wc.FlxSampleWcElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxScheduler.html">flexygo.ui.wc.FlxScheduler</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxSchedulerViewElement.html">flexygo.ui.wc.FlxSchedulerViewElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxSearchElement.html">flexygo.ui.wc.FlxSearchElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxSeparatorElement.html">flexygo.ui.wc.FlxSeparatorElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxSidePanelElement.html">flexygo.ui.wc.FlxSidePanelElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxSortManagerElement.html">flexygo.ui.wc.FlxSortManagerElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxSparkLineElement.html">flexygo.ui.wc.FlxSparkLineElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxSqlFeedElement.html">flexygo.ui.wc.FlxSqlFeedElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxSwitchElement.html">flexygo.ui.wc.FlxSwitchElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxTagElement.html">flexygo.ui.wc.FlxTagElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxTextAreaElement.html">flexygo.ui.wc.FlxTextAreaElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxTextElement.html">flexygo.ui.wc.FlxTextElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxTimelineElement.html">flexygo.ui.wc.FlxTimelineElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxToolTipElement.html">flexygo.ui.wc.FlxToolTipElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxUploadElement.html">flexygo.ui.wc.FlxUploadElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxUserElement.html">flexygo.ui.wc.FlxUserElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxVersionInfoElement.html">flexygo.ui.wc.FlxVersionInfoElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxViewElement.html">flexygo.ui.wc.FlxViewElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxViewManagerElement.html">flexygo.ui.wc.FlxViewManagerElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxVoiceSearchElement.html">flexygo.ui.wc.FlxVoiceSearchElement</a></li>
+	                            <li><a href="../classes/flexygo.ui.wc.FlxWhiteBoardElement.html">flexygo.ui.wc.FlxWhiteBoardElement</a></li>
+	                    </ul>
+	                </div>
+	    
+	                <div class="tab-pane" id="modules">
+	                    <ul id="api-modules" class="nav nav-list">
+	                    </ul>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+        </div>
+        <div class="span9">
+                <form id="options-form" class="form-inline pull-right">
+                    Show:
+                    <label for="api-show-inherited" class="checkbox">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected" class="checkbox">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private" class="checkbox">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated" class="checkbox">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </form>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<div class="page-header">
+    <h1>flexygo.ui.wc.FlxNodeManagerElement <small>Class</small></h1>
+</div>
+
+<div class="well well-small">
+
+
+        <div class="foundat">
+            Defined in: <a href="../files/Source_flexygo_Proyectos_FlexyGo_FlexyGo_js_flexygo_ui_wc_flx-nodemanager.js.html#l20"><code>Source\flexygo\Proyectos\FlexyGo\FlexyGo\js\flexygo\ui\wc\flx-nodemanager.js:20</code></a>
+        </div>
+
+
+</div>
+
+
+<div class="well well-small">
+    <p>Library for the FlxNodeManagerElement web component.</p>
+
+</div>
+
+    <div class="constructor">
+        <h2>Constructor</h2>
+        <div id="method_flexygo.ui.wc.FlxNodeManagerElement" class="method item">
+            <h3 class="name"><code>flexygo.ui.wc.FlxNodeManagerElement</code></h3>
+        
+                <span class="paren">()</span>
+        
+                <span class="returns-inline">
+                    <span class="type">FlxNodeManagerElement</span>
+                </span>
+        
+        
+        
+        
+        
+        
+        
+            <div class="meta">
+                        <p>
+                        Defined in
+                <a href="../files/Source_flexygo_Proyectos_FlexyGo_FlexyGo_js_flexygo_ui_wc_flx-nodemanager.js.html#l20"><code>Source\flexygo\Proyectos\FlexyGo\FlexyGo\js\flexygo\ui\wc\flx-nodemanager.js:20</code></a>
+                </p>
+        
+        
+        
+            </div>
+        
+            <div class="description">
+                
+            </div>
+        
+        
+                <div class="returns">
+                    <h4>Returns:</h4>
+        
+                    <div class="returns-description">
+                                <span class="type">FlxNodeManagerElement</span>:
+                    </div>
+                </div>
+        
+        </div>
+    </div>
+
+<div>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#index">Index</a></li>
+
+            <li><a data-toggle="tab" href="#methods">Methods</a></li>
+            <li><a data-toggle="tab" href="#properties">Properties</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="index" class="tab-pane active">
+            <h2 class="off-left">Item Index</h2>
+
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_connectedCallback" data-tablink="connectedCallback">connectedCallback</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_connected" data-tablink="connected">connected</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+
+        </div>
+
+            <div id="methods" class="tab-pane">
+                <h2 class="off-left">Methods</h2>
+
+                    <div id="method_connectedCallback" class="method item">
+                        <h3 class="name"><code>connectedCallback</code></h3>
+                    
+                            <span class="paren">()</span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/Source_flexygo_Proyectos_FlexyGo_FlexyGo_js_flexygo_ui_wc_flx-nodemanager.js.html#l64"><code>Source\flexygo\Proyectos\FlexyGo\FlexyGo\js\flexygo\ui\wc\flx-nodemanager.js:64</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Fires when element is attached to DOM</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+            </div>
+
+            <div id="properties" class="tab-pane">
+                <h2 class="off-left">Properties</h2>
+
+                    <div id="property_connected" class="property item">
+                        <h3 class="name"><code>connected</code></h3>
+                        <span class="type">Boolean</span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/Source_flexygo_Proyectos_FlexyGo_FlexyGo_js_flexygo_ui_wc_flx-nodemanager.js.html#l30"><code>Source\flexygo\Proyectos\FlexyGo\FlexyGo\js\flexygo\ui\wc\flx-nodemanager.js:30</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Set when component is attached to DOM</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+            </div>
+
+
+    </div>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script src="../assets/js/yuidoc-bootstrap.js"></script>
+<script>prettyPrint();</script>
+</body>
+</html>

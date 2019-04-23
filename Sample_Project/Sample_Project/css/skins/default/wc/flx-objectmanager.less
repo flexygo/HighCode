@@ -1,0 +1,241 @@
+﻿.wizardnodes {
+    display: block;
+    list-style: none;
+    padding: 0;
+    position: relative;
+    width: 100%;
+    height:85px;
+}
+
+.wizardnodes a:active,
+.wizardnodes a:focus,
+.wizardnodes a:hover {
+    text-decoration: none
+}
+
+.wizardnodes li {
+    display: block;
+    float: left;
+    width: 16%;
+    text-align: center;
+    padding-left: 0
+}
+
+flx-objectmanager ul.option-icons{
+  list-style-type: none;
+margin:0 auto;
+width:40%;
+}
+
+flx-objectmanager ul.option-icons li{
+  text-align:center;
+  float:left;
+  padding:2em;
+}
+
+flx-objectmanager ul li a:hover{
+    text-decoration:none;
+}
+
+
+
+.wizardnodes li:before {
+    border-top: 3px solid #55606E;
+    content: "";
+    display: block;
+    font-size: 0;
+    overflow: hidden;
+    position: relative;
+    top: 11px;
+    right: 1px;
+    width: 100%;
+    z-index: 1
+}
+
+.wizardnodes li:first-child:before {
+    left: 50%;
+    max-width: 50%
+}
+
+.wizardnodes li:last-child:before {
+    max-width: 50%;
+    width: 50%
+}
+
+.wizardnodes li.complete .step {
+    background: #0aa66e;
+    padding: 1px 6px;
+    border: 3px solid #55606E
+}
+
+.wizardnodes li .step i {
+    font-size: 10px;
+    font-weight: 400;
+    position: relative;
+    top: -1.5px
+}
+
+.wizardnodes li .step {
+    background: #B2B5B9;
+    color: #fff;
+    display: inline;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 7px 13px;
+    border: 3px solid transparent;
+    border-radius: 50%;
+    line-height: normal;
+    position: relative;
+    text-align: center;
+    z-index: 2;
+    transition: all .1s linear 0s
+}
+
+.wizardnodes li.active .step,
+.wizardnodes li.active.complete .step {
+    background: #0091d9;
+    color: #fff;
+    font-weight: 700;
+    padding: 7px 13px;
+    font-size: 15px;
+    border-radius: 50%;
+    border: 3px solid #55606E
+}
+
+.wizardnodes li.active .title,
+.wizardnodes li.complete .title {
+    color: #2B3D53
+}
+
+.wizardnodes li .title {
+    color: #bfbfbf;
+    display: block;
+    font-size: 13px;
+    line-height: 15px;
+    max-width: 100%;
+    position: relative;
+    table-layout: fixed;
+    text-align: center;
+    top: 20px;
+    word-wrap: break-word;
+    z-index: 2
+}
+
+flx-objectmanager [name="origin"] label, flx-objectmanager [name="listorigin"] label{
+    display:inline-block;
+    margin-left: 10px;
+}
+
+flx-objectmanager .btnForm {
+    text-align:right;
+    margin-top:25px;
+}
+
+flx-objectmanager .config-btn{
+    display:none;
+}
+
+flx-propertymanager .addProps, flx-propertymanager .createProps{
+    display: inline-block;
+    font-size: .8em;
+}
+flx-propertymanager .createProps{
+    margin-left:10px;
+}
+
+flx-propertymanager .sortProps button{
+    font-size: .8em;
+}
+
+flx-propertymanager .sortProps{
+    margin-right: 5px;
+}
+
+flx-propertymanager td{
+    min-width: 100px;
+}
+
+flx-propertymanager label > input[type=text]{
+    border-radius:5px;
+    font-size: 12px;
+    border: solid 1px rgb(231, 231, 231);
+    margin-top:2px;
+    margin-left: 2px;
+}
+
+flx-propertymanager .propertyList {
+    overflow-y: auto;
+    max-height: 180px;
+}
+
+flx-propertymanager .propertyList label > div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    float: right;
+    max-width: 105px;
+}
+
+flx-propertymanager .propHeader{
+    text-align: right;
+}
+
+flx-propertymanager .cntBody {color:dbColor(txtModuleColor);background-color:dbColor(ModuleColor);border: solid 1px dbColor(borderModuleColor);padding:10px;margin-bottom:50px;}
+
+flx-propertymanager .grid-stack-item:not(.ui-draggable-disabled):not(.ui-resizable-disabled) .grid-stack-item-content{
+    border: dashed 1px dbColor(borderModuleColor);
+    margin-bottom:2px;
+    margin-top:5px;
+}
+
+flx-propertymanager .grid-stack-item.ui-draggable-disabled.ui-resizable-disabled .grid-stack-item-content {
+ height:100%
+
+}
+flx-propertymanager .grid-stack-item:not(.ui-draggable-disabled):not(.ui-resizable-disabled) .grid-stack-item-content .property-toolbar > div.btn-group > span.btn{
+    z-index: 1;
+}
+
+
+flx-propertymanager .grid-stack-item:not(.ui-draggable-disabled):not(.ui-resizable-disabled) .grid-stack-item-content .item:after{
+    content: ' ';
+    display:block;
+    position: absolute;
+    z-index: 10;
+    top: 15px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+flx-propertymanager .grid-stack-item:not(.ui-draggable-disabled):not(.ui-resizable-disabled) .grid-stack-item-content .property-toolbar{
+    display:inline-block;
+    position:absolute;
+    top:0;
+    right:0;
+}
+
+flx-propertymanager .grid-stack-item:not(.ui-draggable-disabled):not(.ui-resizable-disabled) .grid-stack-item-content .property-toolbar > div.btn-group > span.btn{
+    z-index: 1;
+}
+
+flx-propertymanager .grid-stack .grid-stack-placeholder > .placeholder-content{
+    background-color: #ffffde;
+}
+
+flx-viewmanager .label{
+    color:dbColor(txtModuleColor);
+}
+
+flx-propertymanager .propHeader .popover-content{
+    color:dbColor(txtModuleColor);
+}
+
+flx-objectmanager .pnlSQL textarea{
+    width:100%;
+    height: 300px;
+}
+
+flx-viewmanager .CodeMirror-scroll{
+    min-height: 300px;
+}

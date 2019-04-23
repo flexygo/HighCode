@@ -1,0 +1,512 @@
+﻿flx-schedulerview *, flx-schedulerview *:before, flx-schedulerview *:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+
+flx-schedulerview .schedulerView {
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    width: auto;
+    margin: 0 auto;
+    height: auto;
+    overflow: hidden;
+    background: #4a4a4a;
+    padding-bottom: 0;
+}
+
+
+flx-schedulerview .header {
+    height: 50px;
+    width: auto;
+    background: rgba(66, 66, 66, 1);
+    text-align: center;
+    position: relative;
+    z-index: 100;
+}
+
+flx-schedulerview .header h1 {
+    margin: 0;
+    padding: 0;
+    font-size: 2em;
+    line-height: 50px;
+    font-weight: 100;
+    letter-spacing: 1px;
+    color: white;
+}
+
+flx-schedulerview .left, flx-schedulerview .right {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    top: 50%;
+    margin-top: -7.5px;
+    cursor: pointer;
+}
+
+flx-schedulerview .left {
+    border-width: 7.5px 10px 7.5px 0;
+    border-color: transparent rgba(160, 159, 160, 1) transparent transparent;
+    left: 20px;
+}
+
+flx-schedulerview .right {
+    border-width: 7.5px 0 7.5px 10px;
+    border-color: transparent transparent transparent rgba(160, 159, 160, 1);
+    right: 20px;
+}
+
+flx-schedulerview .colorLegend {
+    height: 5px;
+    width: 5px;
+    display: inline-block;
+    margin: 12px 5px 0;
+    vertical-align: top;
+}
+
+flx-schedulerview .month {
+    opacity: 0;
+    padding-top: 4px;
+}
+
+flx-schedulerview .month.new {
+    -webkit-animation: schedulerFadeIn 1s ease-out;
+    opacity: 1;
+}
+
+flx-schedulerview .month.in.next {
+    -webkit-animation: schedulerMoveFromTopFadeMonth .4s ease-out;
+    -moz-animation: schedulerMoveFromTopFadeMonth .4s ease-out;
+    animation: schedulerMoveFromTopFadeMonth .4s ease-out;
+    opacity: 1;
+}
+
+flx-schedulerview .month.out.next {
+    -webkit-animation: schedulerMoveToTopFadeMonth .4s ease-in;
+    -moz-animation: schedulerMoveToTopFadeMonth .4s ease-in;
+    animation: schedulerMoveToTopFadeMonth .4s ease-in;
+    opacity: 1;
+}
+
+flx-schedulerview .month.in.prev {
+    -webkit-animation: schedulerMoveFromBottomFadeMonth .4s ease-out;
+    -moz-animation: schedulerMoveFromBottomFadeMonth .4s ease-out;
+    animation: schedulerMoveFromBottomFadeMonth .4s ease-out;
+    opacity: 1;
+}
+
+flx-schedulerview .month.out.prev {
+    -webkit-animation: schedulerMoveToBottomFadeMonth .4s ease-in;
+    -moz-animation: schedulerMoveToBottomFadeMonth .4s ease-in;
+    animation: schedulerMoveToBottomFadeMonth .4s ease-in;
+    opacity: 1;
+}
+
+flx-schedulerview .week {
+    background: transparent;
+}
+
+flx-schedulerview .day {
+    display: inline-block;
+    width: 14%;
+    padding: 10px;
+    text-align: center;
+    vertical-align: top;
+    cursor: pointer;
+    background: transparent;
+    position: relative;
+    z-index: 1;
+    color: white;
+}
+
+flx-schedulerview .day.other {
+    color: rgba(255, 255, 255, .3);
+}
+
+flx-schedulerview .day.today {
+    color: rgba(156, 202, 235, 1);
+}
+
+flx-schedulerview .day-name {
+    font-size: .8em;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    color: rgba(255, 255, 255, .5);
+    letter-spacing: .7px;
+}
+
+flx-schedulerview .day-number {
+    font-size: 2em;
+    letter-spacing: 1.5px;
+}
+
+
+flx-schedulerview .day .day-events {
+    list-style: none;
+    margin-top: 3px;
+    text-align: center;
+    height: 12px;
+    line-height: 6px;
+    overflow: hidden;
+}
+
+flx-schedulerview .day .day-events span {
+    vertical-align: top;
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    width: 5px;
+    height: 5px;
+    line-height: 5px;
+    margin: 0 1px;
+}
+
+flx-schedulerview .blue {
+    background: rgba(156, 202, 235, 1);
+}
+
+flx-schedulerview .orange {
+    background: rgba(247, 167, 0, 1);
+}
+
+flx-schedulerview .green {
+    background: rgba(153, 198, 109, 1);
+}
+
+flx-schedulerview .yellow {
+    background: rgba(249, 233, 0, 1);
+}
+
+flx-schedulerview .details {
+    position: relative;
+    width: auto;
+    height: 75px;
+    background: rgba(164, 164, 164, 1);
+    margin-top: 5px;
+    border-radius: 4px;
+}
+
+
+flx-schedulerview .details.in {
+    -webkit-animation: schedulerMoveFromTopFade .5s ease both;
+    -moz-animation: schedulerMoveFromTopFade .5s ease both;
+    animation: schedulerMoveFromTopFade .5s ease both;
+    margin:0 6px;
+}
+
+flx-schedulerview .details.out {
+    -webkit-animation: schedulerMoveToTopFade .5s ease both;
+    -moz-animation: schedulerMoveToTopFade .5s ease both;
+    animation: schedulerMoveToTopFade .5s ease both;
+}
+
+flx-schedulerview .arrow {
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    margin-left: -2px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 5px 5px 5px;
+    border-color: transparent transparent rgba(164, 164, 164, 1) transparent;
+    transition: all .7s ease;
+}
+
+flx-schedulerview .events {
+    height: 75px;
+    padding: 7px 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+flx-schedulerview .events.in {
+    -webkit-animation: schedulerFadeIn .3s ease both;
+    -moz-animation: schedulerFadeIn .3s ease both;
+    animation: schedulerFadeIn .3s ease both;
+}
+
+flx-schedulerview .events.in {
+    -webkit-animation-delay: .3s;
+    -moz-animation-delay: .3s;
+    animation-delay: .3s;
+}
+
+flx-schedulerview .details.out .events {
+    -webkit-animation: schedulerFadeOutShink .4s ease both;
+    -moz-animation: schedulerFadeOutShink .4s ease both;
+    animation: schedulerFadeOutShink .4s ease both;
+}
+
+flx-schedulerview .events.out {
+    -webkit-animation: schedulerFadeOut .3s ease both;
+    -moz-animation: schedulerFadeOut .3s ease both;
+    animation: schedulerFadeOut .3s ease both;
+}
+
+flx-schedulerview .event {
+    font-size: 1.2em;
+    line-height: 22px;
+    letter-spacing: .5px;
+    padding: 2px 16px;
+    vertical-align: top;
+    cursor: pointer;
+}
+
+flx-schedulerview .event.empty {
+    color: #eee;
+}
+
+flx-schedulerview .event-category {
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    margin: 6px 0 0;
+    vertical-align: top;
+}
+
+flx-schedulerview .event span {
+    //display: inline-block;
+    padding: 0 0 0 7px;
+}
+
+flx-schedulerview .legend {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 30px;
+    background: rgba(60, 60, 60, 1);
+    line-height: 30px;
+}
+
+flx-schedulerview .entry {
+    position: relative;
+    padding: 0 0 0 10px;
+    font-size: 1em;
+    display: inline-block;
+    line-height: 30px;
+    background: transparent;
+}
+
+
+flx-schedulerview .entry.blue:after {
+    background: rgba(156, 202, 235, 1);
+}
+
+flx-schedulerview .entry.orange:after {
+    background: rgba(247, 167, 0, 1);
+}
+
+flx-schedulerview .entry.green:after {
+    background: rgba(153, 198, 109, 1);
+}
+
+flx-schedulerview .entry.yellow:after {
+    background: rgba(249, 233, 0, 1);
+}
+
+flx-schedulerview .h1-datepicker {
+    display: inline-block;
+}
+
+flx-schedulerview .week:nth-child(n+1) ~ div .day-name {
+    display: none;
+} 
+
+
+// Animations are cool!
+@-webkit-keyframes schedulerMoveFromTopFade {
+    from {
+        opacity: .3;
+        height: 0px;
+        margin-top: 0px;
+        -webkit-transform: translateY(-100%);
+    }
+}
+
+@-moz-keyframes schedulerMoveFromTopFade {
+    from {
+        height: 0px;
+        margin-top: 0px;
+        -moz-transform: translateY(-100%);
+    }
+}
+
+@keyframes schedulerMoveFromTopFade {
+    from {
+        height: 0px;
+        margin-top: 0px;
+        transform: translateY(-100%);
+    }
+}
+
+@-webkit-keyframes schedulerMoveToTopFade {
+    to {
+        opacity: .3;
+        height: 0px;
+        margin-top: 0px;
+        opacity: .3;
+        -webkit-transform: translateY(-100%);
+    }
+}
+
+@-moz-keyframes schedulerMoveToTopFade {
+    to {
+        height: 0px;
+        -moz-transform: translateY(-100%);
+    }
+}
+
+@keyframes schedulerMoveToTopFade {
+    to {
+        height: 0px;
+        transform: translateY(-100%);
+    }
+}
+
+@-webkit-keyframes schedulerMoveToTopFadeMonth {
+    to {
+        opacity: 0;
+        -webkit-transform: translateY(-30%) scale(.95);
+    }
+}
+
+@-moz-keyframes schedulerMoveToTopFadeMonth {
+    to {
+        opacity: 0;
+        -moz-transform: translateY(-30%);
+    }
+}
+
+@keyframes schedulerMoveToTopFadeMonth {
+    to {
+        opacity: 0;
+        -moz-transform: translateY(-30%);
+    }
+}
+
+@-webkit-keyframes schedulerMoveFromTopFadeMonth {
+    from {
+        opacity: 0;
+        -webkit-transform: translateY(30%) scale(.95);
+    }
+}
+
+@-moz-keyframes schedulerMoveFromTopFadeMonth {
+    from {
+        opacity: 0;
+        -moz-transform: translateY(30%);
+    }
+}
+
+@keyframes schedulerMoveFromTopFadeMonth {
+    from {
+        opacity: 0;
+        -moz-transform: translateY(30%);
+    }
+}
+
+@-webkit-keyframes schedulerMoveToBottomFadeMonth {
+    to {
+        opacity: 0;
+        -webkit-transform: translateY(30%) scale(.95);
+    }
+}
+
+@-moz-keyframes schedulerMoveToBottomFadeMonth {
+    to {
+        opacity: 0;
+        -webkit-transform: translateY(30%);
+    }
+}
+
+@keyframes schedulerMoveToBottomFadeMonth {
+    to {
+        opacity: 0;
+        -webkit-transform: translateY(30%);
+    }
+}
+
+@-webkit-keyframes schedulerMoveFromBottomFadeMonth {
+    from {
+        opacity: 0;
+        -webkit-transform: translateY(-30%) scale(.95);
+    }
+}
+
+@-moz-keyframes schedulerMoveFromBottomFadeMonth {
+    from {
+        opacity: 0;
+        -webkit-transform: translateY(-30%);
+    }
+}
+
+@keyframes schedulerMoveFromBottomFadeMonth {
+    from {
+        opacity: 0;
+        -webkit-transform: translateY(-30%);
+    }
+}
+
+@-webkit-keyframes schedulerFadeIn {
+    from {
+        opacity: 0;
+    }
+}
+
+@-moz-keyframes schedulerFadeIn {
+    from {
+        opacity: 0;
+    }
+}
+
+@keyframes schedulerFadeIn {
+    from {
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes schedulerFadeOut {
+    to {
+        opacity: 0;
+    }
+}
+
+@-moz-keyframes schedulerFadeOut {
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes schedulerFadeOut {
+    to {
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes schedulerFadeOutShink {
+    to {
+        opacity: 0;
+        padding: 0;
+        height: 0;
+    }
+}
+
+@-moz-keyframes schedulerFadeOutShink {
+    to {
+        opacity: 0;
+        padding: 0;
+        height: 0;
+    }
+}
+
+@keyframes schedulerFadeOutShink {
+    to {
+        opacity: 0;
+        padding: 0;
+        height: 0;
+    }
+}

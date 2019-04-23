@@ -1,0 +1,482 @@
+﻿
+//Default module
+flx-module {
+    display: block;
+    clear: both;
+    margin-bottom: 1em;
+}
+
+flx-module {
+    color: dbColor(txtModuleColor);
+    background-color: dbColor(ModuleColor);
+    border: solid 1px dbColor(borderModuleColor);
+}
+
+flx-module .cntBody {
+    box-sizing: border-box;
+    z-index: 2;
+    display: flow-root;
+    height: 100%;
+    display: inline-block;
+    width: 100%
+}
+
+flx-module .cntHeader {
+    color: dbColor(txtModuleHeaderColor);
+    font-family: 'latolight';
+    text-transform: uppercase;
+    line-height: 1.2em;
+    box-sizing: border-box;
+    padding: 5px;
+}
+
+flx-module .cntBodyHeader, flx-module .cntBodyFooter {
+    display: flow-root;
+}
+
+flx-module [fullscreen] {
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    position: fixed !important;
+    z-index: 10;
+}
+
+flx-module .cntHeader i {
+    float: left;
+    margin-right: 5px;
+}
+
+flx-module .cntHeader b {
+    float: right;
+    cursor: pointer;
+    margin-right: 4px;
+    margin-left: 4px;
+}
+
+flx-module .cntHeader b:hover {
+    color: darken(dbColor(txtModuleHeaderColor),20);
+}
+
+//default module
+flx-module.default .cntBody, flx-module.fullscreen {
+    display: flow-root;
+}
+
+flx-module.default .cntBodyHeader {
+    border-bottom: solid 1px dbColor(borderModuleColor);
+    background-color: dbColor(bgColor);
+}
+
+
+//No Header module
+flx-module.noheader:not(.config):not(.fullscreen) .cntHeader {
+    display: none
+}
+
+flx-module.noheader .cntBodyHeader {
+    background-color: dbColor(bgColor);
+}
+
+flx-module.noheader flx-chart {
+    padding: 10px;
+}
+
+
+//Empty Module
+flx-module.empty:not(.config):not(.fullscreen) .cntHeader {
+    height: 46px;
+    float: right;
+    margin-left: -100px;
+    z-index: 2;
+    position: relative;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    color: lighten(dbColor(PrimaryColor),63%);
+    transition: all .4s cubic-bezier(.25, .8, .25, 1);
+    bottom: 0px;
+}
+
+flx-module.empty:not(.config):not(.fullscreen) .cntHeader .cntIcon, flx-module.empty:not(.config):not(.fullscreen) .cntHeader .cntTitle {
+    display: none;
+}
+
+flx-module.empty:not(.config):not(.fullscreen) {
+    background-color: transparent;
+    border: none;
+}
+
+flx-module.empty:not(.config):not(.fullscreen) .cntBodyHeader .moduleToolbar {
+    background-color: transparent;
+    padding-top: 9px;
+    position: absolute;
+}
+
+flx-module.empty:not(.config):not(.fullscreen) .cntBodyHeader .pager {
+    padding: 13px 10px 0 10px;
+    margin-right: 91px;
+}
+
+flx-module.empty:not(.config):not(.fullscreen) .cntBodyHeader {
+    opacity: 0;
+    margin-bottom: -46px;
+    position: relative;
+    background-color: rgba(255, 255, 255, .8);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+    transition: all 0.4s cubic-bezier(.25, .8, .25, 1);
+    z-index: 1;
+    bottom: 0px;
+    min-height: 46px;
+}
+
+flx-module.empty:not(.config):not(.fullscreen) .cntBodyHeader .ctnArrowHeader {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -13px;
+    background-color: white;
+    height: 15px;
+    width: 50px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .16), 0 2px 4px rgba(0, 0, 0, .23);
+    text-align: center;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    padding-bottom: 19px;
+    cursor: pointer;
+}
+
+flx-module.empty:not(.config):not(.fullscreen) .cntBodyHeader .ctnArrowHeader:hover i {
+    color: dbColor(OutstandingColor);
+}
+
+flx-module.empty:not(.config):not(.fullscreen) .cntBodyHeader .ctnArrowHeader i {
+    transition: all .3s cubic-bezier(.25, .8, .25, 1);
+}
+
+flx-module.empty:not(.config):not(.fullscreen) .cntHeader:hover + .cntBodyHeader {
+    opacity: 1 !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .16), 0 1px 4px rgba(0, 0, 0, .23);
+}
+
+flx-module.empty:not(.config):not(.fullscreen) .cntBodyHeader:hover {
+    opacity: 1 !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .16), 0 1px 4px rgba(0, 0, 0, .23);
+}
+
+flx-module.empty:not(.config):not(.fullscreen):hover .cntBodyHeader {
+    opacity: .6;
+}
+
+flx-module.empty:not(.config):not(.fullscreen):hover .cntHeader {
+    color: lighten(dbColor(PrimaryColor),55%);
+}
+
+flx-module .bagButton.active i:before {
+    content: "\eaff";
+}
+
+//GENERIC Module PAGER
+
+flx-module .cntButtons .pager {
+    display: inline;
+    float: right;
+    padding-right: 25px;
+    margin: 0px;
+}
+
+
+flx-module .cntButtons .pager .pageInfo {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+flx-module .cntButtons .pager .nextPage, flx-module .cntButtons .pager .prevPage, flx-module .cntButtons .pager .firstPage, flx-module .cntButtons .pager .lastPage {
+    border: solid 1px dbColor(borderModuleColor);
+    margin-left: 0px;
+    padding: 1px 1px;
+    background-color: dbColor(ModuleColor);
+    color: dbColor(OutstandingColor);
+    cursor: pointer;
+}
+
+flx-module .cntButtons .pager .nextPage:hover, flx-module .cntButtons .pager .prevPage:hover, flx-module .cntButtons .pager .firstPage:hover, flx-module .cntButtons .pager .lastPage:hover, flx-module .cntButtons .pager .pBtn:hover {
+    background-color: darken(dbColor(txtModuleHeaderColor),20);
+}
+
+flx-module .cntButtons .pager .prevPage:before {
+    font-family: 'flexygo-icons' !important;
+    content: "\e92c";
+}
+
+flx-module .cntButtons .pager .nextPage:before {
+    font-family: 'flexygo-icons' !important;
+    content: "\e92d";
+}
+
+flx-module .cntButtons .pager .firstPage:before {
+    font-family: 'flexygo-icons' !important;
+    content: "\e91d";
+}
+
+flx-module .cntButtons .pager .lastPage:before {
+    font-family: 'flexygo-icons' !important;
+    content: "\e91c";
+}
+
+flx-module .cntButtons .pager .activePage:before {
+    content: "Pag. ";
+}
+
+flx-module .cntButtons .pager .pageButtons {
+}
+
+flx-module .cntButtons .pager .pBtn {
+    border: solid 1px dbColor(borderModuleColor);
+    margin-left: 0px;
+    padding: 1px 4px;
+    background-color: dbColor(ModuleColor);
+    color: dbColor(txtModuleColor);
+    cursor: pointer;
+}
+
+flx-module .cntButtons .pager .pBtn.active {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+//HEADER And FOOTER PAGER
+
+flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .prevPage:before, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .prevPage:before {
+    font-family: 'flexygo-icons' !important;
+    content: "\e92c";
+}
+
+flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .nextPage:before, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .nextPage:before {
+    font-family: 'flexygo-icons' !important;
+    content: "\e92d";
+}
+
+flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .firstPage:before, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .firstPage:before {
+    font-family: 'flexygo-icons' !important;
+    content: "\e91d";
+}
+
+flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .lastPage:before, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .lastPage:before {
+    font-family: 'flexygo-icons' !important;
+    content: "\e91c";
+}
+
+
+flx-module .cntBodyHeader .pager:not(.onlyPageInfo), flx-module .cntBodyFooter .pager:not(.onlyPageInfo) {
+    padding: 10px 10px 0 10px;
+    margin: 0;
+    text-align: right;
+}
+
+flx-module .cntBodyHeader .pager:not(.onlyPageInfo):not(:empty), flx-module .cntBodyFooter .pager:not(.onlyPageInfo):not(:empty) {
+    min-height: 44px;
+}
+
+flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .pageInfo, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .pageInfo {
+    display: none;
+}
+
+
+flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .pBtn, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .pBtn, flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .prevPage, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .prevPage, flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .nextPage, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .nextPage, flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .firstPage, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .firstPage, flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .lastPage, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .lastPage {
+    border: solid 1px dbColor(borderModuleColor);
+    padding: 5px 10px;
+    background-color: dbColor(ModuleColor);
+    color: dbColor(txtModuleColor);
+    cursor: pointer;
+    border-left: 0px;
+}
+
+flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .prevPage, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .prevPage {
+    border-left: solid 1px dbColor(borderModuleColor);
+    border-right: 0px;
+}
+
+flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .firstPage, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .firstPage {
+    border-left: solid 1px dbColor(borderModuleColor);
+    border-right: 0px;
+}
+
+flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .pBtn:first-child, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .pBtn:first-child {
+    border-left: solid 1px dbColor(borderModuleColor);
+}
+
+flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .pBtn.active, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .pBtn.active {
+    background-color: dbColor(OutstandingColor);
+    color: dbColor(txtOutstandingColor);
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .pBtn:hover, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .pBtn:hover, flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .prevPage:hover, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .prevPage:hover, flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .nextPage:hover, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .nextPage:hover {
+    background-color: dbColor(bgColor);
+    color: dbColor(txtModuleColor);
+}
+
+flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .pBtn.active:hover, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .pBtn.active:hover {
+    background-color: lighten(dbColor(OutstandingColor),10);
+    color: dbColor(txtOutstandingColor);
+}
+
+flx-module .cntBodyFooter .pager.onlyPageInfo .pageButtons {
+    margin-right: 15px;
+}
+
+flx-module .cntBodyFooter .pager.onlyPageInfo .pageButtons span.pBtn {
+    margin: 0 4px;
+    cursor: pointer;
+}
+
+flx-module .cntBodyFooter .pager.onlyPageInfo .pageButtons span.pBtn.active {
+    color: dbColor(OutstandingColor);
+}
+
+flx-module .cntBodyHeader .moduleToolbar:empty, flx-module .cntBodyFooter .moduleToolbar:empty, flx-module .moduleButtons:empty, flx-module .cntBodyHeader .moduleToolbar:empty, flx-module .cntBodyFooter .moduleToolbar:empty, flx-module .moduleButtons:empty {
+    display: none;
+}
+
+flx-module .cntBodyHeader .moduleToolbar, flx-module .cntBodyFooter .moduleToolbar {
+    background-color: dbColor(bgColor);
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 5px;
+    float: left;
+}
+
+flx-module .cntBodyHeader .moduleToolbar .btn, flx-module .cntBodyFooter .moduleToolbar .btn {
+    padding: 2px 6px 4px 6px;
+}
+
+flx-module .cntBodyHeader .moduleToolbar .btn i, flx-module .cntBodyFooter .moduleToolbar .btn i {
+    font-size: 1.3em;
+    vertical-align: middle;
+}
+
+flx-module .cntBodyHeader .moduleToolbar .btn-group, flx-module .cntBodyFooter .moduleToolbar .btn-group {
+    float: left;
+    margin-bottom: 2px;
+}
+
+flx-module .cntBodyHeader .btn-toolbar, flx-module .cntBodyFooter .btn-toolbar {
+    margin-left: 0px;
+}
+
+flx-module .cntBodyHeader .btn-toolbar:not(:empty), flx-module .cntBodyFooter .btn-toolbar:not(:empty) {
+    min-height: 44px;
+}
+
+flx-module .moduleButtons {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 1em;
+}
+
+flx-module .popover {
+    width: 500px;
+}
+
+
+// ADD EmpryModule class
+flx-module.emptyModule {
+    border: none;
+    background-color: transparent;
+}
+
+flx-module.emptyModule .cntBodyHeader {
+    border: none;
+}
+
+
+flx-module.emptyModule .cntHeader {
+    background-color: transparent;
+    color: dbColor(textColor);
+}
+
+flx-module .cntBody.tabPadding {
+    padding: 0px;
+}
+
+flx-moduletab .modulediv {
+    display: flow-root;
+}
+
+flx-moduletab .nav-tabs {
+    padding-left: 0;
+    margin-left: -1px;
+    width: 100%;
+    padding-top: 10px;
+    //margin-bottom:10px;
+}
+
+flx-moduletab .empty-tab {
+    background-color: white;
+    color: dbColor(PrimaryColor);
+    padding: .5em
+}
+
+flx-moduletab .empty-tab .main-icon i {
+    color: darken(dbColor(PrimaryColor),10)
+}
+
+
+
+
+flx-moduletab .nav-pills {
+    width: 100%;
+    padding: 10px;
+}
+
+@keyframes loading-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+flx-module[type='flx-orgchart'].loading:after {
+    animation: loading-spin 5000ms linear infinite;
+    content: "";
+    font-size: 40px;
+    width: 50px;
+    height: 50px;
+    display: block;
+    margin: 0 50%;
+    border: 2px dashed lighten(dbColor(ModuleHeaderColor),40%);
+    background-color: lighten(dbColor(ModuleHeaderColor),70%);
+}
+
+//END EMPTY CLass
+
+.pop-buttons {
+    height: 30px;
+}
+
+@media (max-width: dbSize(medium)) {
+}
+
+
+@media (max-width: dbSize(medium)) {
+    flx-module .cntBodyHeader .pager:not(.onlyPageInfo), flx-module .cntBodyFooter .pager:not(.onlyPageInfo) {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+}
+
+//SENTINEL
+.sentinel button[data-type=delete]{
+        font-size:10px;
+        background:transparent;
+        border:none;
+}
+.sentinel button[data-type=delete]:hover {
+    color: red !important;
+    }

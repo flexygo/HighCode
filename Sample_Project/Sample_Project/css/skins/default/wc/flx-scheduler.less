@@ -1,0 +1,94 @@
+﻿flx-scheduler .collapsing {
+    -webkit-transition: none;
+    transition: none;
+    //display: none;
+}
+
+flx-scheduler .objects {    
+     //Al abrir collapse añadir position , al cerrar borrarlo
+     //position: absolute !important;
+     z-index: 20;
+     width: auto;
+     overflow: visible;
+     background-color: #fff;
+     border: 1px solid #ddd;
+     border-bottom-left-radius: 5px;
+     border-bottom-right-radius: 5px;
+
+}
+
+
+flx-scheduler .modalButton {
+     
+}
+
+flx-scheduler .filter {
+      
+}
+
+flx-scheduler .combo {
+      max-width:250px;
+      text-align:left;
+}
+
+flx-scheduler .margin-filter{
+    margin-left:170px;
+}
+
+@media (max-width: dbSize(small)) {
+    flx-scheduler .filter:after {
+     content:"\a";
+     white-space: pre;
+}
+
+    flx-scheduler .combo {
+      max-width:200px;
+      text-align:left;
+}
+
+    flx-scheduler .margin-filter{
+        margin-left:0px;
+    }
+
+}
+
+
+@media (max-width: dbSize(medium)) {
+    flx-scheduler .filter:after {
+        content:"\a";
+         white-space: pre;
+    }
+
+    flx-scheduler .margin-filter{
+        margin-left:0px;
+    }
+
+}
+
+.fc-time-grid-event{
+    overflow:visible;
+}
+
+.fc-time-grid .fc-event-container{
+	z-index:auto;
+}
+
+.fc-time-grid .fc-event{
+	z-index:auto !important;
+}
+
+.fc-event .fc-content {
+	z-index: auto;
+}
+
+.fc-event .fc-bg{
+    opacity: .15;
+}
+
+ flx-scheduler .fc-day-size{
+    font-size: 1.1em;
+}
+
+ flx-scheduler .fc-basic-view .fc-body .fc-row {
+    min-height: 8em;
+}

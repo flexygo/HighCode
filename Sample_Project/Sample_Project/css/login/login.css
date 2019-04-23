@@ -1,0 +1,131 @@
+﻿body, form {
+    background: #333333;
+    color: #dddddd;
+    height: 100%;
+    font-family: 'latolight','Helvetica, Arial','sans-serif';
+}
+
+a {
+    background: #333333;
+    color: #dddddd;
+    text-decoration: none;
+}
+
+
+
+.trademark {
+    font-family: 'raleway', 'Helvetica', 'Arial,sans-serif';
+    text-align: center;
+    font-size: 4em;
+}
+
+    .trademark .char1, .trademark .char2, .trademark .char3, .trademark .char4,
+    .trademark .char5, .trademark .outstanding {
+        color: #2DB7B0;
+    }
+
+.error {
+    color: red;
+}
+
+.login {
+    margin: 0 auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 70%;
+    width: 100%;
+    box-sizing: border-box;
+    border-collapse: collapse;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .login td {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+.divlogin {
+    margin: 0 auto;
+    width: 400px;
+    padding: 10px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    border-radius: 10px;
+}
+
+.logo {
+    background-image: url('../../img/logo.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center top;
+    height: 75px;
+    width: 300px;
+    margin-bottom: 30px;
+    margin: 0 auto;
+}
+
+.login .cell {
+    box-sizing: border-box;
+    margin: 50px auto;
+    width: 300px;
+    text-align: center;
+}
+
+.login .others {
+    margin: 20px auto;
+    width: 300px;
+    text-align: center;
+}
+
+.login i {
+    display: block;
+    float: left;
+    margin-right: 10px;
+    line-height: 1.6em;
+    font-size: 1.6em;
+}
+
+.login h2 i {
+    float: none;
+}
+
+.login input[type='text'], .login input[type='password'] {
+    font-size: 1.5em;
+    background: transparent;
+    color: #dddddd;
+    border: none;
+    border-bottom: solid 1px #dddddd;
+    width: 255px;
+}
+
+    .login input[type='text']:focus, .login input[type='password']:focus {
+        outline: none;
+    }
+
+
+ .mainbutton {
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+    font-size: 2em;
+    padding: 5px;
+    text-align: center;
+    background: #333333;
+    color: #ffffff;
+    text-decoration: none;
+    width: 75%;
+    background-color: #2db7b0;
+    border-radius: 10px;
+}
+
+ .mainbutton:hover {
+        background-color: silver;
+    }
+
+
+.confirm, .confirm h1, .confirm h2 {
+    text-align: center;
+}

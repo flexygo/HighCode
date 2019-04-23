@@ -1,0 +1,38 @@
+﻿//Notify
+.notifypopover {
+    min-width: 600px;
+}
+
+.notifypopover .notify {
+    border: solid 1px silver;
+    border-bottom: none 0;
+    display: grid;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.notify .active {
+    background-color: lighten(dbColor(NotifyColor), 60);
+    color: dbColor(NotifyColor);
+}
+
+.notifypopover .notify .active {
+    border-left: solid 5px dbColor(NotifyColor);
+    padding: .5em;
+}
+
+.notify div.row.row-line:not(.active) {
+    background-color: darken(white,5);
+    color: dbColor(PrimaryColor);
+    opacity: .60;
+}
+
+.notifypopover .notify div.row.row-line:not(.active) {
+    border-left: solid 5px darken(white,30);
+    padding: .5em;
+}
+
+
+.notify div.row.row-line:not(.active) button {
+    display: none;
+}

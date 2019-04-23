@@ -1,0 +1,282 @@
+﻿//GIPE Editor
+
+.gipecp {
+}
+
+
+.gipetoolbar {
+    background-color: ButtonFace;
+}
+
+div.gipecep {
+    position: absolute;
+    overflow: hidden;
+    font-family: Arial;
+    font-size: 8pt;
+}
+
+div.gipecp.graph {
+    border-style: solid;
+    border-color: #F2F2F2;
+    border-width: 1px;
+    margin: 10px;
+    background: url('../../../../js/plugins/mxgraph/images/grid.gif');
+}
+
+#GipeTemplateList {
+    padding-top: 5px;
+}
+
+
+flx-gipedesigner ul, #GipeTemplateList ul {
+    width: 100%;
+    min-height: 180px;
+    padding: 0;
+}
+
+
+
+#GipeTemplateList li, #layoutPanel li {
+    box-shadow: 6px 6px 10px -5px rgba(0, 0, 0, .53);
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+#GipeTemplateList li .box-primary {
+    border-color: dbColor(OutstandingColor) !important;
+}
+
+#GipeTemplateList li .box-primary.new {
+    background-color: dbColor(SuccessColor);
+    color: dbColor(txtSuccessColor);
+}
+
+#GipeTemplateList li .box-primary:hover {
+    background-color: dbColor(OutstandingColor);
+    color: dbColor(txtOutstandingColor);
+    border-color: dbColor(HeaderColor) !important;
+}
+
+
+flx-gipedesigner img.mxToolbarItem {
+    margin: 8px;
+    border-width: 1px;
+}
+
+flx-gipedesigner button.mxToolbarItem {
+    border-width: 0;
+    margin: 2px;
+}
+
+flx-gipedesigner select.mxToolbarCombo {
+    border-style: inherit;
+    vertical-align: middle;
+    border-width: 1px;
+}
+
+
+flx-gipedesigner img.mxToolbarMode {
+    margin: 8px;
+    border-width: 0;
+}
+
+flx-gipedesigner img.mxToolbarItemSelected {
+    margin: 6px;
+    border-width: 2px;
+    border-style: inset;
+}
+
+flx-gipedesigner img.mxToolbarModeSelected {
+    margin: 6px;
+    border-width: 2px;
+    border-style: inset;
+}
+
+div.fgWindowPane hr {
+    margin-right: 6px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-bottom: 0;
+    border-top: 1px;
+}
+
+div.fgWindow {
+    -webkit-box-shadow: 3px 3px 12px #C0C0C0;
+    -moz-box-shadow: 3px 3px 12px #C0C0C0;
+    box-shadow: 3px 3px 12px #C0C0C0;
+    background: url('../../../../js/plugins/mxgraph/images/window.gif');
+    border: 1px solid #c3c3c3;
+    position: absolute;
+    overflow: hidden;
+    z-index: 101;
+}
+
+table.fgWindow {
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-family: Arial;
+    font-size: 9pt;
+}
+
+td.fgWindowTitle {
+    background: url('../../../../js/plugins/mxgraph/images/window-title.gif') repeat-x;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+    font-weight: bold;
+    overflow: hidden;
+    height: 13px;
+    padding: 2px;
+    padding-top: 4px;
+    padding-bottom: 6px;
+    color: black;
+}
+
+td.fgWindowPane {
+    vertical-align: top;
+    padding: 0;
+}
+
+div.fgWindowPane {
+    overflow: hidden;
+    position: relative;
+}
+
+td.fgWindowPane td {
+    font-family: Arial;
+    font-size: 9pt;
+}
+
+div.fgWindowToolbar {
+    position: absolute;
+    bottom: 0;
+}
+
+label.fgWindowLabel {
+    padding-top: 5px;
+}
+
+//Popup menu style
+body div.mxPopupMenu {
+    -webkit-box-shadow: 3px 3px 6px #C0C0C0;
+    -moz-box-shadow: 3px 3px 6px #C0C0C0;
+    box-shadow: 3px 3px 6px #C0C0C0;
+    background: white;
+    position: absolute;
+    border: 3px solid #e7e7e7;
+    padding: 3px;
+}
+
+body table.mxPopupMenu {
+    border-collapse: collapse;
+    margin: 0;
+}
+
+body table.mxPopupMenu hr {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+body tr.mxPopupMenuItem {
+    //color: black;
+    cursor: default;
+}
+
+body td.mxPopupMenuItem {
+    padding: 4px 30px 4px 10px;
+    //font-family: Arial;
+    //font-size: 10pt;
+}
+
+body td.mxPopupMenuIcon {
+    background-color: white;
+    padding: 0;
+}
+
+body tr.mxPopupMenuItemHover {
+    background-color: #eeeeee;
+    color: black;
+}
+
+table.mxPopupMenu hr {
+    border-top: solid 1px #cccccc;
+}
+
+table.mxPopupMenu tr {
+    //font-size: 4pt;
+}
+
+
+
+//Breadcrumb style
+flx-gipedesigner .breadcrumb {
+    margin-bottom: 5px;
+}
+
+flx-gipedesigner .breadcrumb-item {
+    cursor: pointer
+}
+
+flx-gipedesigner .breadcrumb-item .active {
+    color: #ccc;
+}
+
+flx-gipedesigner .breadcrumb > li + li:before {
+    left: inherit;
+    position: inherit;
+}
+
+.flow {
+    stroke-dasharray: 8;
+    animation: dash .5s linear;
+    animation-iteration-count: infinite;
+}
+
+@keyframes dash {
+    to {
+        stroke-dashoffset: -16;
+    }
+}
+
+#gipe-debug-tree {
+    background-color: white;
+    margin-top: 10px;
+}
+
+#gipedebugtoolbar > button {
+    border: 0;
+}
+
+
+#gipedebugtoolbar > button > i {
+    font-size: 1.2em;
+    margin: .4em;
+}
+
+.fgWindowPane select {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.templateFilterPanelButtons button, [role="button"] {
+    margin: 3px;
+    background-color: dbColor(bgColor);
+}
+
+.templateFilterPanelButtons button[aria-pressed="true"], [role="button"][aria-pressed="true"] {
+    margin: 3px;
+    background-color: dbColor(OutstandingColor);
+}
+
+.templateFilterPanel {
+
+    input, select, button {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    span.input-group-addon {
+        position: relative;
+        top: 5px;
+    }
+}

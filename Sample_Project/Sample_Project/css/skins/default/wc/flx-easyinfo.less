@@ -1,0 +1,103 @@
+﻿.easy-list {
+    display: block;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: right;
+}
+
+.easy-left {
+    text-align: left;
+}
+
+.easy-right {
+    text-align: right;
+}
+
+.easy-list li:first-child {
+    border-left: none;
+    padding-left: 0;
+}
+
+.easy-list li {
+    border-left: 1px dotted #c7c7c7;
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+    text-align: left;
+    box-sizing: content-box;
+    margin-bottom: 1em
+}
+
+.easy-info {
+    min-width: 70px;
+    border-radius: 4px 4px 4px 4px;
+    border: solid 1px Transparent;
+}
+
+flx-easyinfo:not([modulename]), .flx-easyinfo {
+    padding: 10px;
+    display: inline-block;
+    border: 1px solid transparent;
+}
+
+flx-easyinfo[Size=s] h5, .flx-easyinfo[Size=s] h5 {
+    font-size: 12px
+}
+
+flx-easyinfo[Size=s] h5 span, .flx-easyinfo[Size=s] h5 span {
+    font-size: 18px;
+    margin-top: 2px;
+}
+
+flx-easyinfo[Size=m] h5, .flx-easyinfo[Size=m] h5 {
+    font-size: 16px
+}
+
+flx-easyinfo[Size=m] h5 span, .flx-easyinfo[Size=m] h5 span {
+    font-size: 22px;
+    margin-top: 4px;
+}
+
+flx-easyinfo[Size=l] h5, .flx-easyinfo[Size=l] h5 {
+    font-size: 20px
+}
+
+flx-easyinfo[Size=l] h5 span, .flx-easyinfo[Size=l] h5 span {
+    font-size: 24px;
+    margin-top: 8px;
+}
+
+a flx-easyinfo {
+    color: initial
+}
+
+.easy-info:hover {
+    box-sizing: border-box;
+    background-color: lighten(dbColor(WarningColor),30);
+    border: solid 1px darken(dbColor(WarningColor),5);
+    cursor: pointer;
+}
+
+flx-easyinfo h5 {
+    font-weight: 400;
+    margin: 0 0 0 0;
+    padding: 0;
+    border: none;
+    text-transform: uppercase;
+    //margin-bottom:10px;
+    color: inherit;
+}
+
+flx-easyinfo h5 span {
+    display: block;
+    line-height: 20px;
+    margin: 0;
+    text-transform: none;
+    color: dbColor(OutstandingColor);
+    text-align: center;
+}
+
+flx-easyinfo h5 span i {
+    margin-right: 4px;
+}
