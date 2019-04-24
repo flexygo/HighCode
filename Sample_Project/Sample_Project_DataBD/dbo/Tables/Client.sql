@@ -1,0 +1,26 @@
+﻿CREATE TABLE [dbo].[Client] (
+    [IdClient]    INT            IDENTITY (1, 1) NOT NULL,
+    [Name]        VARCHAR (50)   NOT NULL,
+    [NIF]         VARCHAR (50)   NULL,
+    [Phone]       VARCHAR (20)   NULL,
+    [Mail]        VARCHAR (1000) NULL,
+    [Address]     VARCHAR (MAX)  NULL,
+    [City]        VARCHAR (50)   NULL,
+    [Province]    VARCHAR (50)   NULL,
+    [Postcode]    VARCHAR (50)   NULL,
+    [IdCountry]   NVARCHAR (2)   NULL,
+    [IdType]      INT            NULL,
+    [IdState]     INT            NULL,
+    [Image]       VARCHAR (1000) NULL,
+    [BlockReason] VARCHAR (250)  NULL,
+    [BlockDate]   SMALLDATETIME  NULL,
+    [IdEmployee]  INT            NULL,
+    [Mailing]     BIT            NULL,
+    [LastModif]   SMALLDATETIME  NULL,
+    CONSTRAINT [PK_Client] PRIMARY KEY CLUSTERED ([IdClient] ASC),
+    CONSTRAINT [FK_Client_Client_State] FOREIGN KEY ([IdState]) REFERENCES [dbo].[Client_State] ([IdState]),
+    CONSTRAINT [FK_Client_Client_Type] FOREIGN KEY ([IdType]) REFERENCES [dbo].[Client_Type] ([IdType]),
+    CONSTRAINT [FK_Client_Countries] FOREIGN KEY ([IdCountry]) REFERENCES [dbo].[Countries] ([IsoCode]),
+    CONSTRAINT [FK_Client_Employee] FOREIGN KEY ([IdEmployee]) REFERENCES [dbo].[Employee] ([IdEmployee])
+);
+

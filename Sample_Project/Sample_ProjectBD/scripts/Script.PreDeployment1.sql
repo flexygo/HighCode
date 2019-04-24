@@ -1,0 +1,1 @@
+﻿:setvar IsProduct 1
