@@ -99,5 +99,11 @@
     <None Include="scripts\data\sale.sql" />
     <None Include="scripts\data\sale_product.sql" />
     <None Include="scripts\data\team.sql" />
+    <Build Include="dbo\Stored Procedures\P_Action_I.sql" />
+    <Build Include="dbo\Stored Procedures\P_Action_U.sql" />
+    <Build Include="dbo\Stored Procedures\P_Action_D.sql" />
+    <Build Include="dbo\Stored Procedures\sp_generate_merge.sql" />
+    <Build Include="dbo\Stored Procedures\zMerge.sql" />
+    <Build Include="dbo\Stored Procedures\zScript.sql" />
   </ItemGroup>
 </Project>
