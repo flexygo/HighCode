@@ -42,7 +42,76 @@ USING (VALUES
    </flx-navbutton> 
   </div>
 </div>',N'current',N'object',NULL,0,N'Other',NULL,1)
- ,(N'highcode_dllcrud',N'CRUD DLL Process',N'<legend>sdaasd</legend>',N'current',N'code-1',NULL,0,N'Other',NULL,1)
+ ,(N'highcode_dllcrud',N'CRUD DLL Process',N'<style>
+  .myhelp li{margin-bottom:10px;}
+</style>
+<div class="container text-justify myhelp padding-xl bg-white" style="box-shadow: 3px 3px 10px -5px rgba(0,0,0,0.75);">
+  <legend style="font-size:2em"><i class="flx-icon icon-sql" /> CRUD DLL Process</legend>
+  <div style="margin-top:10px;margin-bottom: 15px">
+      <h3><i class="flx-icon icon-plus" /> Insert object using DLL Process</h3>
+      <ol>
+        <li>Code vb.net function in dll.
+          <a target="_blank" href="https://github.com/flexygo/HighCode/blob/master/Sample_Project/Sample_Project_Processes/ClientProcesses.vb">
+            <i><i class="flx-icon icon-eye"/> view sample</i>
+          </a></li>
+        <li>Add it to flexygo server dll repository at <b>Admin Work Area</b> > <b>Logic and Rules</b> > <b>Server DLL</b>. 
+          <flx-navbutton type="openpage" pagetypeid="edit" objectname="sysProcess" objectwhere="(ProcessName=''InsertClient'')" defaults="{''TypeId'':1}" targetid="modal" excludehist="true">
+            <a class="clickable"><i><i class="flx-icon icon-eye"/> view sample</i></a>
+          </flx-navbutton>
+        </li>
+        <li>Set <b>Insert Type</b> field in Object settings to <b>Dll Process</b> and select correct process.
+          <flx-navbutton type="openpage" pagetypeid="edit" objectname="sysObject" objectwhere="Objects.ObjectName=''Cliente''" targetid="modal" excludehist="true">
+            <a class="clickable"><i><i class="flx-icon icon-eye"/> view sample</i></a>
+          </flx-navbutton>
+        </li>
+      </ol>
+  </div>
+  <div style="margin-bottom: 25px">
+      <h3><i class="flx-icon icon-update" /> Update object by using Dll Process</h3>
+      <ol>
+        <li>Code vb.net function in dll.
+          <a target="_blank" href="https://github.com/flexygo/HighCode/blob/master/Sample_Project/Sample_Project_Processes/ClientProcesses.vb">
+            <i><i class="flx-icon icon-eye"/> view sample</i>
+          </a>
+          </li>
+      <li>Add it to flexygo server dll repository at <b>Admin Work Area</b> > <b>Logic and Rules</b> > <b>Server DLL</b>. 
+          <flx-navbutton type="openpage" pagetypeid="edit" objectname="sysProcess" objectwhere="(ProcessName=''UpdateClient'')" defaults="{''TypeId'':1}" targetid="modal" excludehist="true">
+            <a class="clickable"><i><i class="flx-icon icon-eye"/> view sample</i></a>
+          </flx-navbutton>
+        </li>
+        <li>Set <b>Update Type</b> field in Object settings to <b>Dll Process</b> and select correct process.
+          <flx-navbutton type="openpage" pagetypeid="edit" objectname="sysObject" objectwhere="Objects.ObjectName=''Cliente''" targetid="modal" excludehist="true">
+            <a class="clickable"><i><i class="flx-icon icon-eye"/> view sample</i></a>
+          </flx-navbutton>     
+        </li>
+      </ol>
+  </div>
+  <div style="margin-bottom: 25px">
+      <h3><i class="fa fa-close" /> Delete object by using Dll Process</h3>
+      <ol>
+        <li>Code vb.net function in dll.
+          <a target="_blank" href="https://github.com/flexygo/HighCode/blob/master/Sample_Project/Sample_Project_Processes/ClientProcesses.vb">
+            <i><i class="flx-icon icon-eye"/> view sample</i>
+          </a>
+          </li>
+        <li>Add it to flexygo server dll repository at <b>Admin Work Area</b> > <b>Logic and Rules</b> > <b>Server DLL</b>. 
+          <flx-navbutton type="openpage" pagetypeid="edit" objectname="sysProcess" objectwhere="(ProcessName=''DeleteClient'')" defaults="{''TypeId'':1}" targetid="modal" excludehist="true">
+            <a class="clickable"><i><i class="flx-icon icon-eye"/> view sample</i></a>
+          </flx-navbutton>        
+        </li>
+        <li>Set <b>Delete Type</b> field in Object settings to <b>Dll Process</b> and select correct process.
+          <flx-navbutton type="openpage" pagetypeid="edit" objectname="sysObject" objectwhere="Objects.ObjectName=''Cliente''" targetid="modal" excludehist="true">
+            <a class="clickable"><i><i class="flx-icon icon-eye"/> view sample</i></a>
+          </flx-navbutton>     
+        </li>
+      </ol>
+  </div>
+  <div style="text-align:center">
+  <flx-navbutton type="openpage" pagetypeid="list" objectname="Clientes" targetid="modal" excludehist="true">
+    <button style="width:150px" class="btn bg-outstanding"><i class="fa fa-play-circle"/> Test</button>
+   </flx-navbutton> 
+  </div>
+</div>',N'current',N'code-1',NULL,0,N'Other',NULL,1)
  ,(N'highcode_dllobjectprocess',N'Dll Process in Object Menu',N'<legend>sdaasd</legend>',N'current',N'object',NULL,0,N'Other',NULL,1)
  ,(N'highcode_spcollectionprocess',N'Stored Procedures in Collection Menu',N'<style>
   .myhelp li{margin-bottom:10px;}
