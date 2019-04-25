@@ -181,35 +181,7 @@ USING (VALUES
       </div>
     </div>
   </flx-navbutton>
-</div>',N'VentaDefaultList',NULL,N'<script>
-function Capture_moduleReady(){
-  debugger;
-  
-  let modList=' + convert(nvarchar(max),NCHAR(36)) + N'(''flx-module[modulename="sysmod-list-generic"]'');
-  
-  flexygo.events.off(modList,''module'',''filtered'');
-  flexygo.events.on(modList,''module'',''filtered'',function(e){ 
-    
-    debugger;
-    
-    let listItm=' + convert(nvarchar(max),NCHAR(36)) + N'(e.sender).closest(''main'').find(''flx-module[modulename="Ventas_Totales"] flx-list'');
-    let filItem=' + convert(nvarchar(max),NCHAR(36)) + N'(e.sender).find(''flx-list'');
-    
-    if(filItem.length>0 &amp;&amp; listItm.length>0){
-       
-       filItem=filItem[0];
-       listItm=listItm[0];
-      
-        listItm.activeFilter = filItem.activeFilter;
-        listItm.filterValues = filItem.filterValues;
-        listItm.refresh();
-      
-    }
-    
-  });
-}
-  
-</script>',NULL,NULL,NULL,0,1)
+</div>',N'VentaDefaultList',NULL,NULL,NULL,NULL,NULL,0,1)
 ) AS Source ([TemplateId],[ObjectName],[TypeId],[Descrip],[Body],[ViewName],[WhereSentence],[Header],[Footer],[Empty],[ModuleClass],[IsDefault],[OriginId])
 ON (Target.[TemplateId] = Source.[TemplateId])
 WHEN MATCHED AND (

@@ -6,7 +6,7 @@ MERGE INTO [Pages] AS Target
 USING (VALUES
   (N'4DC8710D-D519-4300-953C-B6881728A3C1',N'view',N'Employee',NULL,N'default',N'view Employee',N'noicon',N'{{ObjectDescrip}}',NULL,NULL,0,NULL,0,1,0,NULL,1)
  ,(N'55A3902E-271D-417B-8A6A-3048355CE117',N'list',N'Cliente',NULL,N'default',N'list Cliente',N'noicon',N'{{ObjectDescrip}}',NULL,NULL,0,NULL,0,1,0,NULL,1)
- ,(N'9BEA6F0E-4DF9-4667-9E36-D755BF3A84EB',N'list',N'Venta',NULL,N'syslayout-14',N'list Venta',N'noicon',N'{{ObjectDescrip}}',NULL,N'function Capture_moduleReady(){
+ ,(N'9BEA6F0E-4DF9-4667-9E36-D755BF3A84EB',N'list',N'Venta',NULL,N'syslayout-1',N'list Venta',N'noicon',N'{{ObjectDescrip}}',NULL,N'function Capture_moduleReady(){
   
   let modList=' + convert(nvarchar(max),NCHAR(36)) + N'(''flx-module[modulename="ventas_list_filtrada"]'');
    flexygo.events.off(modList,''list'',''refresh'');

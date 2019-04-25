@@ -143,6 +143,64 @@ USING (VALUES
    </flx-navbutton> 
   </div>
 </div>',N'current',N'object',NULL,0,N'Other',NULL,1)
+ ,(N'highcode_jshtmltools',N'HTML Tools',N'<style>
+  .myhelp li{margin-bottom:10px;}
+</style>
+<div class="container text-justify myhelp padding-xl bg-white" style="box-shadow: 3px 3px 10px -5px rgba(0,0,0,0.75);">
+  <div style="margin-top:10px;margin-bottom: 15px">
+  <legend style="font-size:2em"><i class="fa fa-html5" /> HTML Editor</legend>
+  <h3><i class="flx-icon icon-help-2" /> How to access to HTML editor and load JS examples</h3>
+      <ol>
+        <li>Go to <b>Admin Work Area</b> > <b>Other tools</b> > <flx-navbutton type="openpagename" pagename="syspage-generic-htmleditor" targetid="current" excludehist="false"><a class="clickable"><b>HTML Editor</b></a></flx-navbutton> .</li>
+        <li>Select desired example in top right combo.</li>
+        <li>Click on folder icon to load code.</li>
+      </ol>
+  </div>
+  <legend style="font-size:2em"><i class="flx-icon icon-sql" /> Examples: </legend>
+  <div style="margin-top:10px;margin-bottom: 15px">
+      <h3><i class="flx-icon icon-add-objects-2" /> JS CRUD (Entity Insert, Update, Delete)</h3>
+      <span>In this example you can see how to insert, update or delete a flexygo entity object using javascript methods.</span>
+  </div>
+  <div style="margin-top:10px;margin-bottom: 15px">
+      <h3><i class="flx-icon icon-bullet-list-3" /> View data and paint rows.</h3>
+      <span>In this example you can see how to get data from flexygo''s dataviews using javascript methods.</span>
+  </div>
+  <div style="margin-top:10px;margin-bottom: 15px">
+      <h3><i class="flx-icon icon-report-filters" /> Filtering list module</h3>
+      <span>In this example you can see how apply SQL filters to flexygo''s list module using javascript methods.</span>
+  </div>
+</div>',N'current',N'noicon',NULL,0,N'Other',NULL,1)
+ ,(N'highcode_jsnestedmodules',N'JS Nested Filter',N'<style>
+  .myhelp li{margin-bottom:10px;}
+</style>
+<div class="container text-justify myhelp padding-xl bg-white" style="box-shadow: 3px 3px 10px -5px rgba(0,0,0,0.75);">
+  <legend style="font-size:2em"><i class="flx-icon icon-javascript" /> Collection Stored Procedure</legend>
+  <div style="margin-top:10px;margin-bottom: 15px">
+      <h3><i class="flx-icon icon-javascript-2" /> Interacting with modules using typescript file.</h3>
+      <ol>
+        <li>Code your typescript file and include into your project.
+          <a target="_blank" href="">
+            <i><i class="flx-icon icon-eye"/> view sample</i>
+          </a>
+        </li>
+        <li>Add it to flexygo plugin repository at <b>Admin Work Area</b> > <b>Environmnet</b> > <b>Plugins</b>. 
+          <flx-navbutton type="openpage" pagetypeid="edit" objectname="sysPlugin" objectwhere="(PluginId=''E3B3EF34-9104-4287-ACF4-AC6DE6F6721E'')" defaults="{''TypeId'':0}" targetid="modal" excludehist="true">
+            <a class="clickable"><i><i class="flx-icon icon-eye"/> view sample</i></a>
+          </flx-navbutton>
+        </li>
+        <li>Configure your module to invoke your js funcion in <b>JS AfterLoad</b> field
+        <flx-navbutton type="openpage" pagetypeid="edit" objectname="sysModule" objectwhere="(ModuleName=''ventas_list_filtrada'')" targetid="modal" excludehist="true">
+            <a class="clickable"><i><i class="flx-icon icon-eye"/> view sample</i></a>
+          </flx-navbutton>
+        </li>
+      </ol>
+  </div>
+  <div style="text-align:center">
+  <flx-navbutton type="openpage" pagetypeid="list" objectname="Ventas" targetid="modal" excludehist="true">
+    <button style="width:150px" class="btn bg-outstanding"><i class="fa fa-play-circle"/> Test</button>
+   </flx-navbutton> 
+  </div>
+</div>',N'current',N'add-user-2',NULL,0,N'Other',NULL,1)
  ,(N'highcode_spcollectionprocess',N'Stored Procedures in Collection Menu',N'<style>
   .myhelp li{margin-bottom:10px;}
 </style>
