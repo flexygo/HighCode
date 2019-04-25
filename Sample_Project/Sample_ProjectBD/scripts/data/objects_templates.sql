@@ -46,16 +46,21 @@ USING (VALUES
                 	<span class="{{IdState|switch:[2:txt-danger,else:txt-outstanding]}}">{{Name}}</span> 
               	</a>
             	<small>( <i class="flx-icon icon-phone icon-margin-right" title="phone"></i>{{phone}})</small>
+                 <small class="{{IdType|switch:[4:txt-warning,else:ahoraBlue]}}">{{IdType|switch:[4:Potencial,1:Nacional,2:Comunidario,3:Extranjero]}}</small>
            	</h4>
       		<small class="">{{Address}}</small>
- 			<small><b><i class="">{{City}} - {{Province}}</i></b></small>
+ 			<small><b><i class="">{{City}} - {{Province}}</i></b></small>       
     	</div>
   
     	<div class="col-1 col-l-1 col-m-1 col-s-1">
           <div class="btn-group">{{objectmenu}}</div>
       	</div>
  
-</div>',NULL,NULL,NULL,NULL,NULL,NULL,1,1)
+</div>',NULL,NULL,N'<style>
+  .ahoraBlue{
+  color: #3fbedf;
+  }
+</style>',NULL,NULL,NULL,1,1)
  ,(N'Client-map',N'Cliente',N'list',N'Mapa de cliente',N'<marker address="{{address}},{{postcode}} {{city}}, {{province}}" title="{{Name}}"><small class="btn-group">{{editButton}}{{viewButton}}</small></marker>
 ',NULL,NULL,N'<flx-map width="auto" height="600" cluster="true" color="retro"> ',N'</flx-map>',NULL,NULL,0,1)
  ,(N'ContactoDefaultList',N'Contacto',N'list',N'Contacto Default List',N'<div class="col-4 col-l-4 col-m-12 mod-expand">
