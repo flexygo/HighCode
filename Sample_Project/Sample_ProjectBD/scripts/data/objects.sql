@@ -6,7 +6,7 @@ MERGE INTO [Objects] AS Target
 USING (VALUES
   (N'Accion',0,NULL,N'Actions',NULL,0,NULL,N'Acciones',N'accounting-operations',NULL,0,200,N'Acción',0,1,1,1,1,1,1,N'stored',N'stored',N'stored',N'P_Action_I',N'P_Action_U',N'P_Action_D',NULL,NULL,NULL,NULL,NULL,1,NULL,0,N'DataConnectionString',1,NULL,NULL,NULL,1)
  ,(N'Acciones',1,N'Accion',N'Actions',NULL,0,NULL,N'Acciones',N'accounting-operations',NULL,0,200,N'Acciones',0,1,1,1,1,1,1,N'standard',N'standard',N'standard',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,0,N'DataConnectionString',1,NULL,NULL,NULL,1)
- ,(N'Cliente',0,NULL,N'Client',NULL,0,NULL,N'Clientes',N'client',NULL,0,200,N'Cliente',0,1,1,1,1,1,1,N'standard',N'standard',N'standard',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,0,N'DataConnectionString',1,NULL,NULL,NULL,1)
+ ,(N'Cliente',0,NULL,N'Client',NULL,0,NULL,N'Clientes',N'client',N'IdClient',0,200,N'Cliente',0,1,1,1,1,1,1,N'standard',N'standard',N'standard',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,0,N'DataConnectionString',1,NULL,NULL,NULL,1)
  ,(N'Clientes',1,N'Cliente',N'Client',NULL,0,NULL,N'Clientes',N'client',NULL,0,200,N'Clientes',0,1,1,1,1,1,1,N'standard',N'standard',N'standard',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,0,N'DataConnectionString',1,NULL,NULL,NULL,1)
  ,(N'Contacto',0,NULL,N'Contact',NULL,0,NULL,N'Contactos',N'contacts2',NULL,0,200,N'Contacto',0,1,1,1,1,1,1,N'standard',N'standard',N'standard',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,0,N'DataConnectionString',1,NULL,NULL,NULL,1)
  ,(N'Contactos',1,N'Contacto',N'Contact',NULL,0,NULL,N'Contactos',N'contacts2',NULL,0,200,N'Contactos',0,1,1,1,1,1,1,N'standard',N'standard',N'standard',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,0,N'DataConnectionString',1,NULL,NULL,NULL,1)

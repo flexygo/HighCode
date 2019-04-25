@@ -83,7 +83,6 @@
     <Build Include="dbo\Tables\Client_State.sql" />
     <Build Include="dbo\Tables\Product.sql" />
     <Build Include="dbo\Tables\Sale_Product.sql" />
-    <Build Include="dbo\Stored Procedures\pPers_BlockClient.sql" />
     <Build Include="dbo\Stored Procedures\pPers_LockClient.sql" />
     <Build Include="dbo\Stored Procedures\pPers_ActionKanbanChangeColumn.sql" />
     <None Include="scripts\data\action_states.sql" />

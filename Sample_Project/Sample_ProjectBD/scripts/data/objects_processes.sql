@@ -4,10 +4,11 @@ BEGIN TRY
 
 MERGE INTO [Objects_Processes] AS Target
 USING (VALUES
-  (N'Cliente',N'Cliente_lock',N'de5a2347-abb8-441f-8fca-4f26a5189360',0,1,NULL,N'Solo aparecerá si el cliente tiene estado = 1',N'IdState',N'1',N'2',0,1)
+  (N'Cliente',N'Cliente_lock',N'de5a2347-abb8-441f-8fca-4f26a5189360',0,1,NULL,N'Solo aparecerá si el cliente tiene estado = 1',N'IdState',N'1',NULL,0,1)
  ,(N'Cliente',N'Cliente_nuevo_contacto',N'3d766532-4458-4376-a9c9-fb1497fb8345',0,1,NULL,NULL,NULL,NULL,NULL,0,1)
  ,(N'Cliente',N'cliente_unlock',N'06538bbd-995b-46f7-8cd8-aed3cdf27f22',0,1,NULL,N'Solo si está bloqueado',N'IdState',N'2',N'1',0,1)
  ,(N'Cliente',N'nueva_venta',N'6ba6af55-ec08-466c-92c5-b532df341eba',0,1,NULL,NULL,NULL,NULL,NULL,0,1)
+ ,(N'Clientes',N'pPers_LockClientBatch',N'de5a2347-abb8-441f-8fca-4f26a5189360',0,1,NULL,NULL,NULL,NULL,NULL,1,1)
 ) AS Source ([ObjectName],[ProcessName],[MenuId],[Order],[Active],[SQLEnabled],[SQLEnabledDescrip],[EnabledProperty],[EnabledValues],[DisabledValues],[BagOnly],[OriginId])
 ON (Target.[ObjectName] = Source.[ObjectName] AND Target.[ProcessName] = Source.[ProcessName])
 WHEN MATCHED AND (
