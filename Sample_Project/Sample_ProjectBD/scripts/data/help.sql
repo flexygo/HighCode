@@ -11,26 +11,26 @@ USING (VALUES
 <div class="container text-justify myhelp padding-xl bg-white" style="box-shadow: 3px 3px 10px -5px rgba(0,0,0,0.75);">
   <legend style="font-size:2em"><i class="flx-icon icon-sql" /> Collection DLL Process</legend>
   <div style="margin-top:10px;margin-bottom: 15px">
-      <h3><i class="flx-icon icon-plus" /> Add stored procedure process into list menu..</h3>
+      <h3><i class="flx-icon icon-plus" /> Add dll process into list menu..</h3>
       <ol>
         <li>Set <b>Unique Identifier Field</b> in object configuration to allow collection process. 
           <flx-navbutton type="openpage" pagetypeid="edit" objectname="sysObject" objectwhere="(ObjectName=''Cliente'')" targetid="modal" excludehist="true">
             <a class="clickable"><i><i class="flx-icon icon-eye"/> view sample</i></a>
           </flx-navbutton>
         </li>
-        <li>Code stored procedure in database.
-          <a target="_blank" href="https://github.com/flexygo/HighCode/blob/master/Sample_Project/Sample_Project_DataBD/dbo/Stored%20Procedures/pPers_LockClientBatch.sql">
+        <li>Code vb.net function in dll.
+          <a target="_blank" href="https://github.com/flexygo/HighCode/blob/master/Sample_Project/Sample_Project_Processes/ClientCollectionProcess.vb">
             <i><i class="flx-icon icon-eye"/> view sample</i>
           </a>
         </li>
-        <li>Add it to flexygo stored procedure repository at <b>Admin Work Area</b> > <b>Logic and Rules</b> > <b>DB Stored Procedures</b>. 
-          <flx-navbutton type="openpage" pagetypeid="edit" objectname="sysProcess" objectwhere="(ProcessName=''pPers_LockClientBatch'')" defaults="{''TypeId'':0}" targetid="modal" excludehist="true">
+        <li>Add it to flexygo stored procedure repository at <b>Admin Work Area</b> > <b>Logic and Rules</b> > <b>Sever Dll</b>. 
+          <flx-navbutton type="openpage" pagetypeid="edit" objectname="sysProcess" objectwhere="(ProcessName=''ConvertToNationalColl'')" defaults="{''TypeId'':1}" targetid="modal" excludehist="true">
             <a class="clickable"><i><i class="flx-icon icon-eye"/> view sample</i></a>
           </flx-navbutton>
         </li>
         <li>If stored has parameters insert it automatically using <b>Generate parameters</b> menu.</li>
         <li>Add relation to object in <b>Admin Work Area</b> &gt; <b>Object management</b> &gt; <b>Logic</b>.
-          <flx-navbutton type="openpage" pagetypeid="edit" objectname="sysObjectProcess" objectwhere="Objects_Processes.ObjectName=''Clientes'' and Objects_Processes.ProcessName=''pPers_LockClientBatch''" targetid="modal" excludehist="true">
+          <flx-navbutton type="openpage" pagetypeid="edit" objectname="sysObjectProcess" objectwhere="Objects_Processes.ObjectName=''Clientes'' and Objects_Processes.ProcessName=''ConvertToNationalColl''" targetid="modal" excludehist="true">
             <a class="clickable"><i><i class="flx-icon icon-eye"></i> view sample</i></a>
           </flx-navbutton>
         </li>
@@ -112,7 +112,37 @@ USING (VALUES
    </flx-navbutton> 
   </div>
 </div>',N'current',N'code-1',NULL,0,N'Other',NULL,1)
- ,(N'highcode_dllobjectprocess',N'Dll Process in Object Menu',N'<legend>sdaasd</legend>',N'current',N'object',NULL,0,N'Other',NULL,1)
+ ,(N'highcode_dllobjectprocess',N'Dll Process in Object Menu',N'<style>
+  .myhelp li{margin-bottom:10px;}
+</style>
+<div class="container text-justify myhelp padding-xl bg-white" style="box-shadow: 3px 3px 10px -5px rgba(0,0,0,0.75);">
+  <legend style="font-size:2em"><i class="flx-icon icon-sql" /> Object Dll Process</legend>
+  <div style="margin-top:10px;margin-bottom: 15px">
+      <h3><i class="flx-icon icon-plus" /> Add dll process into object menu..</h3>
+      <ol>
+        <li>Code vb.net function in dll.
+          <a target="_blank" href="https://github.com/flexygo/HighCode/blob/master/Sample_Project/Sample_Project_Processes/ClientObjectProcess.vb">
+            <i><i class="flx-icon icon-eye"/> view sample</i>
+          </a></li>
+        <li>Add it to flexygo dll processes repository at <b>Admin Work Area</b> > <b>Logic and Rules</b> > <b>Server Dll</b>. 
+          <flx-navbutton type="openpage" pagetypeid="edit" objectname="sysProcess" objectwhere="(ProcessName=''ConvertToNational'')" defaults="{''TypeId'':1}" targetid="modal" excludehist="true">
+            <a class="clickable"><i><i class="flx-icon icon-eye"/> view sample</i></a>
+          </flx-navbutton>
+        </li>
+        <li>If function has parameters insert it automatically using <b>Generate parameters</b> menu.</li>
+        <li>Add relation to object in <b>Admin Work Area</b> &gt; <b>Object management</b> &gt; <b>Logic</b>.
+          <flx-navbutton type="openpage" pagetypeid="edit" objectname="sysObjectProcess" objectwhere="Objects_Processes.ObjectName=''Cliente'' and Objects_Processes.ProcessName=''ConvertToNational''" targetid="modal" excludehist="true">
+            <a class="clickable"><i><i class="flx-icon icon-eye"></i> view sample</i></a>
+          </flx-navbutton>
+        </li>
+      </ol>
+  </div>
+  <div style="text-align:center">
+  <flx-navbutton type="openpage" pagetypeid="list" objectname="Clientes" targetid="modal" excludehist="true">
+    <button style="width:150px" class="btn bg-outstanding"><i class="fa fa-play-circle"/> Test</button>
+   </flx-navbutton> 
+  </div>
+</div>',N'current',N'object',NULL,0,N'Other',NULL,1)
  ,(N'highcode_spcollectionprocess',N'Stored Procedures in Collection Menu',N'<style>
   .myhelp li{margin-bottom:10px;}
 </style>

@@ -7,6 +7,7 @@ USING (VALUES
   (N'06538bbd-995b-46f7-8cd8-aed3cdf27f22',N'Desbloquear cliente',NULL,N'unlock-1',1)
  ,(N'3d766532-4458-4376-a9c9-fb1497fb8345',N'Nuevo contacto',NULL,N'contactos',1)
  ,(N'6ba6af55-ec08-466c-92c5-b532df341eba',N'Nueva venta',NULL,N'cart',1)
+ ,(N'714e690b-22ef-4132-8d3f-5689f6298cfd',N'Convertir a Nacional',NULL,N'client-1',1)
  ,(N'de5a2347-abb8-441f-8fca-4f26a5189360',N'Bloquear cliente',NULL,N'blocked',1)
 ) AS Source ([MenuId],[Descrip],[ParentId],[IconName],[OriginId])
 ON (Target.[MenuId] = Source.[MenuId])

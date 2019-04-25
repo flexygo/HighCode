@@ -103,6 +103,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientCollectionProcess.vb" />
+    <Compile Include="ClientObjectProcess.vb" />
     <Compile Include="ClientProcesses.vb" />
     <Compile Include="SampleDataProcesses.vb" />
     <Compile Include="SampleUserProcesses.vb" />

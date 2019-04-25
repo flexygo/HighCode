@@ -9,6 +9,7 @@ USING (VALUES
   (1,N'Nacional')
  ,(2,N'Comunitario')
  ,(3,N'Extranjero')
+ ,(4,N'Potencial')
 ) AS Source ([IdType],[Descrip])
 ON (Target.[IdType] = Source.[IdType])
 WHEN MATCHED AND (
