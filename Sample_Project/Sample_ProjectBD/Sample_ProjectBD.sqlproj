@@ -88,32 +88,32 @@
     <PreDeploy Include="scripts\Script.PreDeployment1.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="scripts\data\documents_objects_config.sql" />
-    <Build Include="scripts\data\help.sql" />
-    <Build Include="scripts\data\kanban_settings.sql" />
-    <Build Include="scripts\data\menus.sql" />
-    <Build Include="scripts\data\modules.sql" />
-    <Build Include="scripts\data\modules_events.sql" />
-    <Build Include="scripts\data\navigation_nodes.sql" />
-    <Build Include="scripts\data\objects.sql" />
-    <Build Include="scripts\data\objects_images_settings.sql" />
-    <Build Include="scripts\data\objects_objects.sql" />
-    <Build Include="scripts\data\objects_presets.sql" />
-    <Build Include="scripts\data\objects_processes.sql" />
-    <Build Include="scripts\data\objects_properties.sql" />
-    <Build Include="scripts\data\objects_properties_dependencies.sql" />
-    <Build Include="scripts\data\objects_properties_templates.sql" />
-    <Build Include="scripts\data\objects_search.sql" />
-    <Build Include="scripts\data\objects_search_properties.sql" />
-    <Build Include="scripts\data\objects_templates.sql" />
-    <Build Include="scripts\data\objects_views.sql" />
-    <Build Include="scripts\data\objects_views_properties.sql" />
-    <Build Include="scripts\data\pages.sql" />
-    <Build Include="scripts\data\pages_modules.sql" />
-    <Build Include="scripts\data\processes.sql" />
-    <Build Include="scripts\data\processes_params.sql" />
-    <Build Include="scripts\data\scheduler.sql" />
-    <Build Include="scripts\data\scheduler_objects.sql" />
+    <None Include="scripts\data\documents_objects_config.sql" />
+    <None Include="scripts\data\help.sql" />
+    <None Include="scripts\data\kanban_settings.sql" />
+    <None Include="scripts\data\menus.sql" />
+    <None Include="scripts\data\modules.sql" />
+    <None Include="scripts\data\modules_events.sql" />
+    <None Include="scripts\data\navigation_nodes.sql" />
+    <None Include="scripts\data\objects.sql" />
+    <None Include="scripts\data\objects_images_settings.sql" />
+    <None Include="scripts\data\objects_objects.sql" />
+    <None Include="scripts\data\objects_presets.sql" />
+    <None Include="scripts\data\objects_processes.sql" />
+    <None Include="scripts\data\objects_properties.sql" />
+    <None Include="scripts\data\objects_properties_dependencies.sql" />
+    <None Include="scripts\data\objects_properties_templates.sql" />
+    <None Include="scripts\data\objects_search.sql" />
+    <None Include="scripts\data\objects_search_properties.sql" />
+    <None Include="scripts\data\objects_templates.sql" />
+    <None Include="scripts\data\objects_views.sql" />
+    <None Include="scripts\data\objects_views_properties.sql" />
+    <None Include="scripts\data\pages.sql" />
+    <None Include="scripts\data\pages_modules.sql" />
+    <None Include="scripts\data\processes.sql" />
+    <None Include="scripts\data\processes_params.sql" />
+    <None Include="scripts\data\scheduler.sql" />
+    <None Include="scripts\data\scheduler_objects.sql" />
   </ItemGroup>
   <PropertyGroup>
     <PostBuildEvent>powershell -ExecutionPolicy Unrestricted -Command "&amp; '$(SolutionDir)Sample_Project\db\mergeSSDTScripts.ps1' '$(SolutionDir)' '$(ProjectName)' '$(OutputPath)' '$(TargetPath)'"</PostBuildEvent>

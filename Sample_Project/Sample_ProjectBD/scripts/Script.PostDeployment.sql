@@ -8,6 +8,7 @@ EXEC sp_MSforeachtable 'ALTER TABLE ? DISABLE TRIGGER all'
  
 --Application data
 :r .\data\documents_objects_config.sql
+:r .\data\help.sql
 :r .\data\kanban_settings.sql
 :r .\data\menus.sql
 :r .\data\modules.sql
