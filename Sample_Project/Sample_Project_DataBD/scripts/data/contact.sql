@@ -6,14 +6,14 @@ SET IDENTITY_INSERT [Contact] ON
 
 MERGE INTO [Contact] AS Target
 USING (VALUES
-  (1,1,N'Paula',N'+34 600 00 13',N'paula@flexygo.es',N'C/ Calle inventada',N'Valencia',N'Valencia',N'46000',N'ES',N'~/custom/images/paula_1.png')
- ,(1,2,N'Cristina',N'+34 600 00 15',N'cristina@flexygo.es',N'C/ Calle inventada ',N'Valencia',N'Valencia',N'46000',N'ES',N'~\custom\images\cris.png')
- ,(1,3,N'Sergio',N'+34 600 00 14',N'sergio@flexygo.es',N'C/ Calle inventada ',N'Valencia',N'Valencia',N'46000',N'ES',N'~/custom/images/sergio_1.png')
- ,(2,4,N'Beatriz',N'+34 600 00 10',N'beaM@imagination.es',N'Una calle de la tierra',N'Una ciudad del mundo',N'Una provincia de Francia',N'50500',N'FR',N'~\custom\images\beaM.png')
- ,(1,27,N'Alberto',N'620 620 620',N'alberto@flexygo.es',N'c/Calle del freeware, 13',N'Madrid',N'Madrid',N'41001',N'ES',N'~\custom\images\alberto.png')
- ,(4,28,N'Patricia',N'610 610 610',N'patricia@free.es',N'c/Calle del freeware 13',N'Madrid',N'Madrid',N'41001',N'ES',N'~\custom\images\patri.png')
- ,(4,29,N'Erika',N'610 000 001',N'erika@free.es',N'c/Calle del freeware 13',N'Madrid',N'Madrid',N'41001',N'ES',N'~\custom\images\erika.png')
- ,(1,32,N'Dani',N'696665544',N'dlutz@flexygo.es',N'C/ Primero de mayo 12',N'Valencia',N'Valencia',N'46017',N'ES',N'~/custom/images/DanielLutz2017 recorte.png')
+  (1,1,N'Fabiola',N'+34 600 00 13',N'fabiola@flexygo.es',N'C/ En Proyecto',N'Valencia',N'Valencia',N'46000',N'ES',N'~/custom/images/fabiola.png')
+ ,(1,2,N'Cristina',N'+34 600 00 15',N'cristina@flexygo.es',N'C/ En Proyecto ',N'Valencia',N'Valencia',N'46000',N'ES',N'~/custom/images/cristina.png')
+ ,(1,3,N'Sergio',N'+34 600 00 14',N'sergio@flexygo.es',N'C/ En Proyectoa ',N'Valencia',N'Valencia',N'46000',N'ES',N'~/custom/images/sergio.png')
+ ,(2,4,N'Carmen',N'+34 600 00 10',N'carmen@imagination.es',N'Plaza de la Mancha',N'Chinchilla',N'Una provincia de Francia',N'50500',N'FR',N'~/custom/images/carmen.png')
+ ,(1,27,N'Alberto',N'620 620 620',N'alberto@flexygo.es',N'c/Calle del freeware, 13',N'Madrid',N'Madrid',N'41001',N'ES',N'~/custom/images/alberto.png')
+ ,(4,28,N'Patricia',N'610 610 610',N'patricia@free.es',N'c/Calle del freeware 13',N'Madrid',N'Madrid',N'41001',N'ES',N'~/custom/images/patricia.png')
+ ,(4,29,N'Paula',N'610 000 001',N'paula@free.es',N'c/Calle del freeware 13',N'Madrid',N'Madrid',N'41001',N'ES',N'~/custom/images/paula.png')
+ ,(1,32,N'Dani',N'696665544',N'dlutz@flexygo.es',N'C/ Primero de mayo 12',N'Valencia',N'Valencia',N'46017',N'ES',N'~/custom/images/dani.png')
 ) AS Source ([IdClient],[IdContact],[Name],[Phone],[Mail],[Address],[City],[Province],[Postcode],[IdCountry],[Image])
 ON (Target.[IdContact] = Source.[IdContact])
 WHEN MATCHED AND (
