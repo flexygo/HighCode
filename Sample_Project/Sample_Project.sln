@@ -11,6 +11,10 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Sample_ProjectBD", "Sample_
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Sample_Project_DataBD", "Sample_Project_DataBD\Sample_Project_DataBD.sqlproj", "{1E2A2BB6-9FCC-44AB-8136-089EC0FCB277}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Sample_Project_UnitTest", "Sample_Project_UnitTest\Sample_Project_UnitTest.vbproj", "{6FB001F6-2152-4E46-AAF6-C57B357FDD11}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Sample_Project_InterfaceTest", "Sample_Project_InterfaceTest\Sample_Project_InterfaceTest.vbproj", "{07C37035-D330-4CA7-BA04-27DA6649AA63}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +41,14 @@ Global
 		{1E2A2BB6-9FCC-44AB-8136-089EC0FCB277}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E2A2BB6-9FCC-44AB-8136-089EC0FCB277}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1E2A2BB6-9FCC-44AB-8136-089EC0FCB277}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{6FB001F6-2152-4E46-AAF6-C57B357FDD11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FB001F6-2152-4E46-AAF6-C57B357FDD11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FB001F6-2152-4E46-AAF6-C57B357FDD11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FB001F6-2152-4E46-AAF6-C57B357FDD11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07C37035-D330-4CA7-BA04-27DA6649AA63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07C37035-D330-4CA7-BA04-27DA6649AA63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07C37035-D330-4CA7-BA04-27DA6649AA63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07C37035-D330-4CA7-BA04-27DA6649AA63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

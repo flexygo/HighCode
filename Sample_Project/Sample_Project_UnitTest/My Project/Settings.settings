@@ -1,0 +1,29 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
+  <Profiles />
+  <Settings>
+    <Setting Name="UserName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">admin</Value>
+    </Setting>
+    <Setting Name="UserGroup" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Administradores</Value>
+    </Setting>
+    <Setting Name="ConfConnectionString" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Data Source=(local);Initial Catalog=Sample_Project_IC;Persist Security Info=True;User ID=sa;Password=-a123456&lt;/ConnectionString&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Data Source=(local);Initial Catalog=Sample_Project_IC;Persist Security Info=True;User ID=sa;Password=-a123456</Value>
+    </Setting>
+    <Setting Name="DataConnectionString" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Data Source=(local);Initial Catalog=Sample_Project;Persist Security Info=True;User ID=sa;Password=-a123456&lt;/ConnectionString&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Data Source=(local);Initial Catalog=Sample_Project;Persist Security Info=True;User ID=sa;Password=-a123456</Value>
+    </Setting>
+    <Setting Name="Path" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\Codigo GIT\Flexygo\flexygo\HighCode</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -114,10 +114,9 @@
     <None Include="scripts\data\processes_params.sql" />
     <None Include="scripts\data\scheduler.sql" />
     <None Include="scripts\data\scheduler_objects.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="scripts\data\plugins.sql" />
-  </ItemGroup>
+	<None Include="scripts\data\plugins.sql" />
+	<None Include="scripts\data\tests.sql" />
+  </ItemGroup> 
   <PropertyGroup>
     <PostBuildEvent>powershell -ExecutionPolicy Unrestricted -Command "&amp; '$(SolutionDir)Sample_Project\db\mergeSSDTScripts.ps1' '$(SolutionDir)' '$(ProjectName)' '$(OutputPath)' '$(TargetPath)'"</PostBuildEvent>
   </PropertyGroup>
