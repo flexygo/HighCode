@@ -179,7 +179,7 @@ USING (VALUES
       <h3><i class="flx-icon icon-javascript-2" /> Interacting with modules using typescript file.</h3>
       <ol>
         <li>Code your typescript file and include into your project.
-          <a target="_blank" href="">
+          <a target="_blank" href="https://github.com/flexygo/HighCode/blob/master/Sample_Project/Sample_Project/sample_project/js/nested_modules.ts">
             <i><i class="flx-icon icon-eye"/> view sample</i>
           </a>
         </li>

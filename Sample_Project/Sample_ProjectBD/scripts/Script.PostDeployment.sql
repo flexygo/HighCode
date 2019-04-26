@@ -29,6 +29,7 @@ EXEC sp_MSforeachtable 'ALTER TABLE ? DISABLE TRIGGER all'
 :r .\data\objects_views_properties.sql
 :r .\data\pages.sql
 :r .\data\pages_modules.sql
+:r .\data\plugins.sql
 :r .\data\processes.sql
 :r .\data\processes_params.sql
 :r .\data\scheduler.sql
