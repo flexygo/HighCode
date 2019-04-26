@@ -19,6 +19,7 @@ USING (VALUES
  ,(N'DC383501-83BE-4821-BB15-7868697E71A6',N'sysmod-relatedprocesses-default',N'CenterRightPosition',NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
  ,(N'DC383501-83BE-4821-BB15-7868697E71A6',N'sysmod-view-generic',N'TopPosition',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
  ,(N'E59F61C0-3F30-4AA3-9744-4ACE436A04C1',N'mimodulodeventas',N'TopPosition',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
+ ,(N'highcode_wc_carousel',N'highcode_carousel',N'TopPosition',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
  ,(N'Ventas_calendario',N'calendario_ventas',N'TopPosition',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
 ) AS Source ([PageName],[ModuleName],[LayoutPositionId],[RelationWhere],[Order],[SQlEnabled],[SQLEnabledDescrip],[Title],[IconName],[HeaderClass],[ModuleClass],[ConnStringID],[OriginId])
 ON (Target.[PageName] = Source.[PageName] AND Target.[ModuleName] = Source.[ModuleName])

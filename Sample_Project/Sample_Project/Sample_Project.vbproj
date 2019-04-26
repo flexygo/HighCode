@@ -5914,6 +5914,7 @@
     <Content Include="js\plugins\visjs\vis.min.js" />
     <Content Include="js\plugins\wc-polyfills\custom-elements.min.js" />
     <Content Include="js\tests\utils.tests.js" />
+    <Content Include="sample_project\js\plugins\jR3DCarousel.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -5944,6 +5945,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="sample_project\controllers\CarouselController.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -6213,6 +6215,7 @@
     <TypeScriptCompile Include="js\flexygo\utils\string.d.ts" />
     <TypeScriptCompile Include="js\flexygo\utils\util.d.ts" />
     <TypeScriptCompile Include="sample_project\js\nested_modules.ts" />
+    <TypeScriptCompile Include="sample_project\js\wc\afl-carousel.ts" />
     <TypeScriptCompile Include="Scripts\typings\bootstrap\index.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\chartjs\chart.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\html2canvas\html2canvas.d.ts" />
@@ -6225,7 +6228,9 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="custom\carousel\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

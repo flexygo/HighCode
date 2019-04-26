@@ -374,6 +374,44 @@ USING (VALUES
    </flx-navbutton> 
   </div>
 </div>',N'current',N'add-user-2',NULL,0,N'Other',NULL,1)
+ ,(N'highcode_webcomponent',N'Web Component',N'<style>
+  .myhelp li{margin-bottom:10px;}
+</style>
+<div class="container text-justify myhelp padding-xl bg-white" style="box-shadow: 3px 3px 10px -5px rgba(0,0,0,0.75);">
+  <div style="margin-top:10px;margin-bottom: 15px">
+  <legend style="font-size:2em"><i class="fa fa-gg" /> How to create a module with custom webcomponent in flexygo</legend>
+      <ol>
+        <li>Code your typescript file.
+          <a target="_blank" href="">
+            <i><i class="flx-icon icon-eye"/> view sample</i>
+          </a>
+        </li>
+        <li>Code your server controller file.
+          <a target="_blank" href="">
+            <i><i class="flx-icon icon-eye"/> view sample</i>
+          </a>
+        </li>
+        <li>Add typescript file to flexygo plugin repository.<b>Reference must be to JS file.</b>
+          <flx-navbutton type="openpage" pagetypeid="edit" objectname="sysPlugin" objectwhere="(PluginId=''e34924d8-6faf-4443-b05f-47e8c61fe6d3'')" targetid="modal" excludehist="true">
+            <a class="clickable"><i><i class="flx-icon icon-eye"/> view sample</i></a>
+          </flx-navbutton>
+        </li>
+        <li>If you need external plugin, add it to flexygo plugin repository.
+          <flx-navbutton type="openpage" pagetypeid="edit" objectname="sysPlugin" objectwhere="(PluginId=''275E3863-8312-46EE-9106-90EACB012673'')" targetid="modal" excludehist="true">
+            <a class="clickable"><i><i class="flx-icon icon-eye"/> view sample</i></a>
+          </flx-navbutton>
+        </li>
+        <li>Add new module definition to flexygo module types repository.
+            <a class="clickable" onclick="flexygo.nav.openEditTable(''Modules_Types'',''modal'',''Modules Types'',true,' + convert(nvarchar(max),NCHAR(36)) + N'(this))"><i><i class="flx-icon icon-eye"/> view sample</i></a>
+        </li>
+      </ol>
+  </div>
+  <div style="text-align:center">
+  <flx-navbutton type="openpagename" pagename="highcode_wc_carousel" targetid="modal" excludehist="true">
+    <button style="width:150px" class="btn bg-outstanding"><i class="fa fa-play-circle"/> Test</button>
+   </flx-navbutton> 
+  </div>
+</div>',N'current',N'noicon',NULL,0,N'Other',NULL,1)
 ) AS Source ([HelpId],[Title],[HTMLText],[TargetId],[IconName],[ExternalUrl],[Order],[Category],[Tag],[OriginId])
 ON (Target.[HelpId] = Source.[HelpId])
 WHEN MATCHED AND (

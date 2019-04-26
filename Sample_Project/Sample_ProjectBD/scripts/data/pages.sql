@@ -36,6 +36,7 @@ USING (VALUES
  ,(N'acciones_kanban',N'generic',NULL,NULL,N'default',N'Acciones kanban',N'flag Uruguay',N'Kanban de acciones',NULL,NULL,0,NULL,0,0,0,NULL,1)
  ,(N'DC383501-83BE-4821-BB15-7868697E71A6',N'view',N'Cliente',NULL,N'syslayout-19',N'view Cliente',N'noicon',N'{{ObjectDescrip}}',NULL,NULL,0,NULL,0,1,0,NULL,1)
  ,(N'E59F61C0-3F30-4AA3-9744-4ACE436A04C1',N'list',N'Accion',NULL,N'default',N'list Accion',N'noicon',N'{{ObjectDescrip}}',NULL,NULL,0,NULL,0,1,0,NULL,1)
+ ,(N'highcode_wc_carousel',N'generic',NULL,NULL,N'default',N'Carousel Sample',N'noicon',N'Carousel Sample',NULL,NULL,0,NULL,0,0,0,NULL,1)
  ,(N'Ventas_calendario',N'generic',NULL,NULL,N'default',N'Ventas calendario',N'calendar-month',N'Calendario de ventas',NULL,NULL,0,NULL,0,0,0,NULL,1)
 ) AS Source ([PageName],[TypeId],[ObjectName],[InterfaceName],[LayoutName],[Name],[IconName],[Descrip],[UrlRewrite],[Script],[ScriptActive],[Style],[RefreshInterval],[Sytem],[Generic],[BodyCssClass],[OriginId])
 ON (Target.[PageName] = Source.[PageName])

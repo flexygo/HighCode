@@ -4,7 +4,9 @@ BEGIN TRY
 
 MERGE INTO [Plugins] AS Target
 USING (VALUES
-  (N'E3B3EF34-9104-4287-ACF4-AC6DE6F6721E',N'~/sample_project/js/nested_modules.js',N'Sample Project Typescript',100,0,0,1,1)
+  (N'E34924D8-6FAF-4443-B05F-47E8C61FE6D3',N'~/sample_project/js/wc/afl-carousel.js',N'Carousel',999,0,1,1,1)
+ ,(N'275E3863-8312-46EE-9106-90EACB012673',N'~/sample_project/js/plugins/jR3DCarousel.min.js',N'jR3DCarousel JS',999,0,1,1,1)
+ ,(N'E3B3EF34-9104-4287-ACF4-AC6DE6F6721E',N'~/sample_project/js/nested_modules.js',N'Sample Project Typescript',999,0,0,1,1)
 ) AS Source ([PluginId],[Path],[Descrip],[Order],[typeId],[Bundle],[Enabled],[OriginId])
 ON (Target.[PluginId] = Source.[PluginId])
 WHEN MATCHED AND (

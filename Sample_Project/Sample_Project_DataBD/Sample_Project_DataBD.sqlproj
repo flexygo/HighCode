@@ -105,5 +105,7 @@
     <Build Include="dbo\Stored Procedures\zMerge.sql" />
     <Build Include="dbo\Stored Procedures\zScript.sql" />
     <Build Include="dbo\Stored Procedures\pPers_LockClientBatch.sql" />
+    <Build Include="dbo\Tables\Carousel.sql" />
+    <None Include="scripts\data\carousel.sql" />
   </ItemGroup>
 </Project>
