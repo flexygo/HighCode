@@ -104,6 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientCollectionProcess.vb" />
+    <Compile Include="SaleOnChangeProcess.vb" />
     <Compile Include="ClientObjectProcess.vb" />
     <Compile Include="ClientProcesses.vb" />
     <Compile Include="SampleDataProcesses.vb" />

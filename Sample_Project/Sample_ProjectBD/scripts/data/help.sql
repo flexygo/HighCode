@@ -4,14 +4,48 @@ BEGIN TRY
 
 MERGE INTO [Help] AS Target
 USING (VALUES
-  (N'highcode_dllchange',N'On Change Dll Process',N'<legend>sdaasd</legend>',N'current',N'sql-1',NULL,0,N'Other',NULL,1)
+  (N'highcode_dllchange',N'On Change Dll Process',N'<style>
+  .myhelp li{margin-bottom:10px;}
+</style>
+<div class="container text-justify myhelp padding-xl bg-white" style="box-shadow: 3px 3px 10px -5px rgba(0,0,0,0.75);">
+  <legend style="font-size:2em"><i class="fa fa-exchange" /> On Change Dll Process</legend>
+  <div style="margin-top:10px;margin-bottom: 15px">
+      <h3><i class="flx-icon icon-plus" /> Add dll process into a object property.</h3>
+      <ol>
+        <li>Code vb.net function in dll.
+          <a target="_blank" href="https://github.com/flexygo/HighCode/blob/master/Sample_Project/Sample_Project_Processes/SaleOnChangeProcess.vb">
+            <i><i class="flx-icon icon-eye"/> view sample</i>
+          </a></li>
+        <li>Add it to flexygo dll processes repository at <b>Admin Work Area</b> > <b>Logic and Rules</b> > <b>Server Dll</b>. 
+          <flx-navbutton type="openpage" pagetypeid="edit" objectname="sysProcess" objectwhere="(ProcessName=''LoadProcess'')" defaults="{''TypeId'':1}" targetid="modal" excludehist="true">
+            <a class="clickable"><i><i class="flx-icon icon-eye"/> view sample</i></a>
+          </flx-navbutton>
+        </li>      
+        <li>Set <b>On Change Process</b> field in property settings and select correct process.
+          <flx-navbutton type="openpage" pagetypeid="edit" objectname="sysObjectProperty" objectwhere="Objects_Properties.ObjectName=''Venta'' and Objects_Properties.PropertyName=''DateEnd''" targetid="modal" excludehist="true">
+            <a class="clickable"><i><i class="flx-icon icon-eye"></i> view sample</i></a>
+          </flx-navbutton>
+        </li>
+          <li>You can also set <b>Load Process</b> field in object settings and select correct process.
+          <flx-navbutton type="openpage" pagetypeid="edit" objectname="sysObject" objectwhere="Objects.ObjectName=''Venta''" targetid="modal" excludehist="true">
+            <a class="clickable"><i><i class="flx-icon icon-eye"></i> view sample</i></a>
+          </flx-navbutton>
+        </li>
+      </ol>
+  </div>
+  <div style="text-align:center">
+  <flx-navbutton type="openpage" pagetypeid="edit" objectname="Venta" targetid="modal" excludehist="true">
+    <button style="width:150px" class="btn bg-outstanding"><i class="fa fa-play-circle"/> Test</button>
+   </flx-navbutton> 
+  </div>
+</div>',N'current',N'sql-1',NULL,0,N'Other',NULL,1)
  ,(N'highcode_dllcollectionprocess',N'Dll Process in Collection Menu',N'<style>
   .myhelp li{margin-bottom:10px;}
 </style>
 <div class="container text-justify myhelp padding-xl bg-white" style="box-shadow: 3px 3px 10px -5px rgba(0,0,0,0.75);">
-  <legend style="font-size:2em"><i class="flx-icon icon-sql" /> Collection DLL Process</legend>
+  <legend style="font-size:2em"><i class="flx-icon icon-object-relations" /> Collection DLL Process</legend>
   <div style="margin-top:10px;margin-bottom: 15px">
-      <h3><i class="flx-icon icon-plus" /> Add dll process into list menu..</h3>
+      <h3><i class="flx-icon icon-plus" /> Add dll process into list menu.</h3>
       <ol>
         <li>Set <b>Unique Identifier Field</b> in object configuration to allow collection process. 
           <flx-navbutton type="openpage" pagetypeid="edit" objectname="sysObject" objectwhere="(ObjectName=''Cliente'')" targetid="modal" excludehist="true">
@@ -46,9 +80,9 @@ USING (VALUES
   .myhelp li{margin-bottom:10px;}
 </style>
 <div class="container text-justify myhelp padding-xl bg-white" style="box-shadow: 3px 3px 10px -5px rgba(0,0,0,0.75);">
-  <legend style="font-size:2em"><i class="flx-icon icon-sql" /> CRUD DLL Process</legend>
+  <legend style="font-size:2em"><i class="fa fa-code" /> CRUD DLL Process</legend>
   <div style="margin-top:10px;margin-bottom: 15px">
-      <h3><i class="flx-icon icon-plus" /> Insert object using DLL Process</h3>
+      <h3><i class="flx-icon icon-plus" /> Insert object using DLL Process.</h3>
       <ol>
         <li>Code vb.net function in dll.
           <a target="_blank" href="https://github.com/flexygo/HighCode/blob/master/Sample_Project/Sample_Project_Processes/ClientProcesses.vb">
@@ -116,9 +150,9 @@ USING (VALUES
   .myhelp li{margin-bottom:10px;}
 </style>
 <div class="container text-justify myhelp padding-xl bg-white" style="box-shadow: 3px 3px 10px -5px rgba(0,0,0,0.75);">
-  <legend style="font-size:2em"><i class="flx-icon icon-sql" /> Object Dll Process</legend>
+  <legend style="font-size:2em"><i class="flx-icon icon-object" /> Object Dll Process</legend>
   <div style="margin-top:10px;margin-bottom: 15px">
-      <h3><i class="flx-icon icon-plus" /> Add dll process into object menu..</h3>
+      <h3><i class="flx-icon icon-plus" /> Add dll process into object menu.</h3>
       <ol>
         <li>Code vb.net function in dll.
           <a target="_blank" href="https://github.com/flexygo/HighCode/blob/master/Sample_Project/Sample_Project_Processes/ClientObjectProcess.vb">
@@ -245,7 +279,7 @@ USING (VALUES
 <div class="container text-justify myhelp padding-xl bg-white" style="box-shadow: 3px 3px 10px -5px rgba(0,0,0,0.75);">
   <legend style="font-size:2em"><i class="flx-icon icon-sql" /> XML Stored Procedure</legend>
   <div style="margin-top:10px;margin-bottom: 15px">
-      <h3><i class="flx-icon icon-plus" /> Insert object using XML Stored Procedure</h3>
+      <h3><i class="flx-icon icon-plus" /> Insert object using XML Stored Procedure.</h3>
       <ol>
         <li>Code stored procedure in database.
           <a target="_blank" href="https://github.com/flexygo/HighCode/blob/master/Sample_Project/Sample_Project_DataBD/dbo/Stored%20Procedures/P_Action_I.sql">
@@ -315,7 +349,7 @@ USING (VALUES
 <div class="container text-justify myhelp padding-xl bg-white" style="box-shadow: 3px 3px 10px -5px rgba(0,0,0,0.75);">
   <legend style="font-size:2em"><i class="flx-icon icon-sql" /> Object Stored Procedure</legend>
   <div style="margin-top:10px;margin-bottom: 15px">
-      <h3><i class="flx-icon icon-plus" /> Add stored procedure process into object menu..</h3>
+      <h3><i class="flx-icon icon-plus" /> Add stored procedure process into object menu.</h3>
       <ol>
         <li>Code stored procedure in database.
           <a target="_blank" href="https://github.com/flexygo/HighCode/blob/master/Sample_Project/Sample_Project_DataBD/dbo/Stored%20Procedures/pPers_LockClient.sql">
