@@ -382,12 +382,12 @@ USING (VALUES
   <legend style="font-size:2em"><i class="fa fa-gg" /> How to create a module with custom webcomponent in flexygo</legend>
       <ol>
         <li>Code your typescript file.
-          <a target="_blank" href="">
+          <a target="_blank" href="https://github.com/flexygo/HighCode/blob/master/Sample_Project/Sample_Project/sample_project/js/wc/afl-carousel.ts">
             <i><i class="flx-icon icon-eye"/> view sample</i>
           </a>
         </li>
         <li>Code your server controller file.
-          <a target="_blank" href="">
+          <a target="_blank" href="https://github.com/flexygo/HighCode/blob/master/Sample_Project/Sample_Project/sample_project/controllers/CarouselController.vb">
             <i><i class="flx-icon icon-eye"/> view sample</i>
           </a>
         </li>
