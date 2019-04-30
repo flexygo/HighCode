@@ -374,6 +374,41 @@ USING (VALUES
    </flx-navbutton> 
   </div>
 </div>',N'current',N'add-user-2',NULL,0,N'Other',NULL,1)
+ ,(N'highcode_Testing',N'Testing',N'<style>
+  .myhelp li{margin-bottom:10px;}
+</style>
+<div class="container text-justify myhelp padding-xl bg-white" style="box-shadow: 3px 3px 10px -5px rgba(0,0,0,0.75);">
+  <div style="margin-top:10px;margin-bottom: 15px">
+  <legend style="font-size:2em"><i class="flx-icon icon-task-manager-2" /> How to create a test in flexygo</legend>
+      <ol>
+        <li>Code your vb.net <b>UnitTest</b>.
+            <a target="_blank" href="https://github.com/flexygo/HighCode/blob/master/Sample_Project/Sample_Project_UnitTest/UnitTest.vb">
+            <i><i class="flx-icon icon-eye"/> view sample</i>
+          </a>
+        </li>
+        <li>Code your vb.net <b>InterfaceTest</b>.
+          <a target="_blank" href="https://github.com/flexygo/HighCode/blob/master/Sample_Project/Sample_Project_InterfaceTest/InterfaceTest.vb">
+            <i><i class="flx-icon icon-eye"/> view sample</i>
+          </a>
+        </li>
+        <li>Add <b>Unit Test dll</b> to flexygo tests repository.
+          <flx-navbutton type="openpage" pagetypeid="edit" objectname="sysTest" objectwhere="(TestId=''9bb83c6e-d508-4b08-b818-b555e90afb26'')" targetid="modal" excludehist="true">
+            <a class="clickable"><i><i class="flx-icon icon-eye"/> view sample</i></a>
+          </flx-navbutton>
+        </li>
+        <li>Add <b>Interface Test dll</b> to flexygo tests repository.
+          <flx-navbutton type="openpage" pagetypeid="edit" objectname="sysTest" objectwhere="(TestId=''c7a077c8-23a3-4d4d-a033-98807b75f2f3'')" targetid="modal" excludehist="true">
+            <a class="clickable"><i><i class="flx-icon icon-eye"/> view sample</i></a>
+          </flx-navbutton>
+        </li>       
+      </ol>
+  </div>
+  <div style="text-align:center">
+    <a class="clickable" onclick="flexygo.nav.execProcess(''sys-showtest'','''','''',null,null,''current'',false,' + convert(nvarchar(max),NCHAR(36)) + N'(this))">
+    <button style="width:150px" class="btn bg-outstanding"><i class="fa fa-play-circle"/> Test</button>
+   </a>
+  </div>
+</div>',N'current',N'noicon',NULL,0,N'Other',NULL,1)
  ,(N'highcode_webcomponent',N'Web Component',N'<style>
   .myhelp li{margin-bottom:10px;}
 </style>
