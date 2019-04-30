@@ -120,6 +120,9 @@
   <ItemGroup>
     <None Include="scripts\data\modules_types.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="scripts\config.sql" />
+  </ItemGroup>
   <PropertyGroup>
     <PostBuildEvent>powershell -ExecutionPolicy Unrestricted -Command "&amp; '$(SolutionDir)Sample_Project\db\mergeSSDTScripts.ps1' '$(SolutionDir)' '$(ProjectName)' '$(OutputPath)' '$(TargetPath)'"</PostBuildEvent>
   </PropertyGroup>

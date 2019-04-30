@@ -37,7 +37,7 @@ EXEC sp_MSforeachtable 'ALTER TABLE ? DISABLE TRIGGER all'
 :r .\data\scheduler_objects.sql
 :r .\data\tests.sql
 
---:r .\config.sql
+:r .\config.sql
 
 IF (N'$(IsProduct)' = '1') BEGIN
        EXEC pNet_CreateOrUpdateDatabase $(OriginDatabaseName), N'$(CurrentDacVersion)'
