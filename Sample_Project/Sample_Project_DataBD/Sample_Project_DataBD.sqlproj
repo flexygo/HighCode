@@ -107,5 +107,11 @@
     <Build Include="dbo\Stored Procedures\pPers_LockClientBatch.sql" />
     <Build Include="dbo\Tables\Carousel.sql" />
     <None Include="scripts\data\carousel.sql" />
+    <Build Include="dbo\Tables\Projects.sql" />
+    <Build Include="dbo\Tables\Tasks.sql" />
+    <Build Include="dbo\Tables\EmployeesHolidays.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="Sample_Project_DataBD.refactorlog" />
   </ItemGroup>
 </Project>

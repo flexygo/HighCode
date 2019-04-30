@@ -10,7 +10,10 @@ USING (VALUES
 	<small>({{IdClient}})</small> 
 	<i class="{{IdState|switch:[2:fa fa-lock txt-danger,else:fa fa-unlock text-muted]}}"></i>
 </span>',NULL,NULL,N'DataConnectionString',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,N'|',NULL,1)
- ,(N'ComboIdEmployee',N'Combo Employees',N'dbcombo',NULL,N'Select Name, IdEmployee, Image from Employee order by Name',NULL,NULL,N'IdEmployee',N'Name',NULL,N'Employee',1,1,NULL,0,0,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,N'Employee',N'IdEmployee={{IdEmployee}}',N'popup',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,N'DataConnectionString',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,N'|',NULL,1)
+ ,(N'ComboIdEmployee',N'Combo Employees',N'dbcombo',NULL,N'Select Name, IdEmployee, Image from Employee order by Name',NULL,NULL,N'IdEmployee',N'Name',NULL,N'Employee',1,1,NULL,0,0,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,N'Employee',N'IdEmployee={{IdEmployee}}',N'popup',NULL,NULL,NULL,NULL,NULL,NULL,NULL,N'<div class="row" style="display: flex;align-items: center;">
+  <img class="img-responsive" style="width: 40px;margin-right: 10px;" src="{{Image|url}}" />
+  <span>{{Name}}</span>
+</div>',NULL,NULL,N'DataConnectionString',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,N'|',NULL,1)
 ) AS Source ([CustomPropName],[Descrip],[TypeId],[Mask],[SQlSentence],[SQLEditSentence],[SQLFilter],[SQLValueField],[SQLDisplayField],[WhereSentence],[Label],[Width],[Height],[DefaultValue],[PersistDefaultValue],[IgnoreDBDefaultValue],[DetachedFromDB],[SearchFunction],[SearchCollection],[SearchWhere],[SearchReturnFields],[SecurityObject],[AllowNew],[AllowNewFunction],[AllowNewReturnFields],[ObjNameLink],[ObjWhereLink],[TargetIdLink],[Style],[CSSClass],[LabelStyle],[LabelCSSClass],[DecimalPlaces],[RootPath],[FormatString],[DirectTemplate],[Tag],[HelpId],[ConnStringId],[IsRequired],[IsRequiredMessage],[minValue],[minValueMessage],[maxValue],[maxValueMessage],[RegExp],[RegExpText],[OnChangeJsFunction],[OnChangeProcessName],[PlaceHolder],[Separator],[PageSize],[OriginId])
 ON (Target.[CustomPropName] = Source.[CustomPropName])
 WHEN MATCHED AND (

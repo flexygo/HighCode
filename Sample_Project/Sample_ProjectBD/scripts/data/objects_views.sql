@@ -54,8 +54,21 @@ left join Countries on Countries.IsoName = Contact.IdCountry',0,0,1,0,0,N'Contac
 
 ',0,1,1,0,1,NULL,1)
  ,(N'Employee',N'Vista_calendario',N'Vista calendario de empleado',N'DataConnectionString',N'select IdEmployee, Name, Image from Employee',0,0,1,0,0,NULL,1)
+ ,(N'Employee_Holiday',N'Employee_HolidayDefaultList',N'Employee_HolidayDefaultList',N'DataConnectionString',N' SELECT [EmployeesHolidays].[IdHoliday], [EmployeesHolidays].[IdHoliday] as [IdHoliday_1], [FlxCmb1].[Name] as [Employee], [EmployeesHolidays].[Name] as [Name], [EmployeesHolidays].[Note] as [Note], [EmployeesHolidays].[StartDate] as [Start Date], [EmployeesHolidays].[EndDate] as [End Date], [EmployeesHolidays].[Validated] as [Validated] FROM [EmployeesHolidays] 
+  LEFT JOIN (Select Name, IdEmployee, Image from Employee ) [FlxCmb1] ON [FlxCmb1].[IdEmployee]=[EmployeesHolidays].[IdEmployee] 
+
+',0,1,1,0,1,NULL,1)
  ,(N'Equipo',N'acciones_kanban',N'Acciones kanban',N'DataConnectionString',N'select state as ActionState, Descrip,CssClass from Action_States where state <4',1,0,1,0,0,NULL,1)
  ,(N'Equipo',N'EquipoDefaultList',N'EquipoDefaultList',N'DataConnectionString',N' SELECT [Team].[IdTeam], [Team].[IdTeam] as [#], [Team].[Descrip] as [Nombre del equipo] FROM [Team] 
+
+',0,1,1,0,1,NULL,1)
+ ,(N'Project',N'ProjectDefaultList',N'ProjectDefaultList',N'DataConnectionString',N' SELECT [Projects].[IdProject], [Projects].[IdProject] as [IdProject_1], [FlxCmb1].[Descrip] as [Team], [Projects].[Name] as [Name], [Projects].[Logo] as [Logo] FROM [Projects] 
+  LEFT JOIN (SELECT [IdTeam], [Descrip] FROM [Team]) [FlxCmb1] ON [FlxCmb1].[IdTeam]=[Projects].[IdTeam] 
+
+',0,1,1,0,1,NULL,1)
+ ,(N'Task',N'TaskDefaultList',N'TaskDefaultList',N'DataConnectionString',N' SELECT [Tasks].[IdTask], [Tasks].[IdTask] as [IdTask_1], [FlxCmb1].[Name] as [Project], [FlxCmb2].[Name] as [Employee], [Tasks].[Name] as [Name], [Tasks].[Description] as [Description], [Tasks].[StartDate] as [Start Date], [Tasks].[EndDate] as [End Date], [Tasks].[EstimatedHours] as [Estimated Hours], [Tasks].[CompletedHours] as [Completed Hours] FROM [Tasks] 
+  LEFT JOIN (SELECT [IdProject], [Name] FROM [Projects]) [FlxCmb1] ON [FlxCmb1].[IdProject]=[Tasks].[IdProject] 
+  LEFT JOIN (Select Name, IdEmployee, Image from Employee ) [FlxCmb2] ON [FlxCmb2].[IdEmployee]=[Tasks].[IdEmployee] 
 
 ',0,1,1,0,1,NULL,1)
  ,(N'Venta',N'Calendario_ventas',N'Calendario de ventas',N'DataConnectionString',N'SELECT IdSale

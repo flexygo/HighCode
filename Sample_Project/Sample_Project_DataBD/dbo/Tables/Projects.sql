@@ -1,0 +1,11 @@
+﻿CREATE TABLE [dbo].[Projects]
+(
+	[IdProject] UNIQUEIDENTIFIER NOT NULL CONSTRAINT [DF_Projects_IdProject] DEFAULT NEWID(),
+	[IdTeam] INT NOT NULL, 
+    [Name] NVARCHAR(100) NOT NULL, 
+    [Logo] NVARCHAR(250) NOT NULL,
+
+    CONSTRAINT [PK_Projects] PRIMARY KEY CLUSTERED ([IdProject] ASC),
+	CONSTRAINT [FK_Projects_IdTeam_IdTeam] FOREIGN KEY([IdTeam]) REFERENCES [dbo].[Team] ([IdTeam]) ON UPDATE CASCADE ON DELETE NO ACTION,
+
+)

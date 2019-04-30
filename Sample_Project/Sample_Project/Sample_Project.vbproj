@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
@@ -431,7 +431,9 @@
     <Content Include="custom\images\ahora.jpg" />
     <Content Include="custom\images\Ahora.png" />
     <Content Include="custom\images\alberto.png" />
+    <Content Include="custom\images\Employees\alberto.png" />
     <Content Include="custom\images\carmen.png" />
+    <Content Include="custom\images\Employees\carmen.png" />
     <Content Include="custom\images\Client\ahora.png" />
     <Content Include="custom\images\Client\flexygo.png" />
     <Content Include="custom\images\Client\flexygocampus.png" />
@@ -444,7 +446,10 @@
     <Content Include="custom\images\Client\logo_wfs.png" />
     <Content Include="custom\images\Client\logo_wfs_1.png" />
     <Content Include="custom\images\cristina.png" />
+    <Content Include="custom\images\Employees\cristina.png" />
     <Content Include="custom\images\dani.png" />
+    <Content Include="custom\images\Employees\dani.png" />
+    <Content Include="custom\images\Employees\david.png" />
     <Content Include="custom\images\fabiola.png" />
     <Content Include="custom\images\flexygo-campus.jpg" />
     <Content Include="custom\images\flexygo.jpg" />
@@ -456,6 +461,12 @@
     <Content Include="custom\images\patricia.png" />
     <Content Include="custom\images\paula.png" />
     <Content Include="custom\images\sergio.png" />
+    <Content Include="custom\images\Employees\sergio.png" />
+    <Content Include="custom\Projects\EPSA.png" />
+    <Content Include="custom\Projects\Flexygo.png" />
+    <Content Include="custom\Projects\Freshtrategy.png" />
+    <Content Include="custom\Projects\Garrigues.png" />
+    <Content Include="custom\Projects\Resuinsa.png" />
     <Content Include="docs\js\api.js" />
     <Content Include="docs\js\assets\css\custom.css" />
     <Content Include="docs\js\assets\css\external-small.png" />
