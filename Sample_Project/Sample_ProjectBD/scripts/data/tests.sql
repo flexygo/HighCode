@@ -5,7 +5,6 @@ BEGIN TRY
 MERGE INTO [Tests] AS Target
 USING (VALUES
   (N'9bb83c6e-d508-4b08-b818-b555e90afb26',N'Unit Test',N'~/custom/dll/Sample_Project_UnitTest.dll',N'ExcludeClient',1)
- ,(N'c7a077c8-23a3-4d4d-a033-98807b75f2f3',N'Interface Test',N'~/custom/dll/Sample_Project_InterfaceTest.dll',N'ExcludeClient',1)
 ) AS Source ([TestId],[Title],[Path],[ExcludeCategories],[OriginId])
 ON (Target.[TestId] = Source.[TestId])
 WHEN MATCHED AND (

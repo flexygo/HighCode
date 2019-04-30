@@ -5,6 +5,7 @@ Imports FLEXYGO.Security
 Imports FLEXYGO.Data
 Imports FLEXYGO.Web
 Imports FLEXYGO.Mocks
+Imports Sample_Project
 
 <TestClass()> Public Class UnitTest
 
@@ -75,19 +76,19 @@ Imports FLEXYGO.Mocks
         End If
         Try
 
-            'Dim ctl As New Sample_Project.Controllers.CarouselController
+            Dim ctl As New ahoraflexy.controllers.CarouselController
 
-            'Dim res As List(Of FLEXYGO.Utilities.General.BaseCollection) = ctl.ReadImages()
+            Dim res As List(Of FLEXYGO.Utilities.General.BaseCollection) = ctl.ReadImages()
 
-            'For Each itm As FLEXYGO.Utilities.General.BaseCollection In res
+            For Each itm As FLEXYGO.Utilities.General.BaseCollection In res
 
-            '    Dim File As String = itm("File").ToString.Replace("~", My.Settings.Path).Replace("/", "\")
+                Dim File As String = itm("File").ToString.Replace("~", My.Settings.Path).Replace("/", "\")
 
-            '    If Not System.IO.File.Exists(File) Then
-            '        Assert.Fail(String.Format("File {0} not found", File))
-            '    End If
+                If Not System.IO.File.Exists(File) Then
+                    Assert.Fail(String.Format("File {0} not found", File))
+                End If
 
-            ' Next
+            Next
 
 
         Catch ex As Exception

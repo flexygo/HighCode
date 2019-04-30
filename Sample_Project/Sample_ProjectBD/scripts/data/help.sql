@@ -380,26 +380,30 @@ USING (VALUES
 <div class="container text-justify myhelp padding-xl bg-white" style="box-shadow: 3px 3px 10px -5px rgba(0,0,0,0.75);">
   <div style="margin-top:10px;margin-bottom: 15px">
   <legend style="font-size:2em"><i class="flx-icon icon-task-manager-2" /> How to create a test in flexygo</legend>
+    <h2> Unit Test</h2>
       <ol>
         <li>Code your vb.net <b>UnitTest</b>.
             <a target="_blank" href="https://github.com/flexygo/HighCode/blob/master/Sample_Project/Sample_Project_UnitTest/UnitTest.vb">
             <i><i class="flx-icon icon-eye"/> view sample</i>
           </a>
-        </li>
-        <li>Code your vb.net <b>InterfaceTest</b>.
-          <a target="_blank" href="https://github.com/flexygo/HighCode/blob/master/Sample_Project/Sample_Project_InterfaceTest/InterfaceTest.vb">
-            <i><i class="flx-icon icon-eye"/> view sample</i>
-          </a>
-        </li>
-        <li>Add <b>Unit Test dll</b> to flexygo tests repository.
+        </li>      
+        <li>Add <b>Unit Test dll</b> to flexygo tests repository at <b>Admin Work Area</b> > <b>Logic and Rules</b> > <b>Tests</b>.
           <flx-navbutton type="openpage" pagetypeid="edit" objectname="sysTest" objectwhere="(TestId=''9bb83c6e-d508-4b08-b818-b555e90afb26'')" targetid="modal" excludehist="true">
             <a class="clickable"><i><i class="flx-icon icon-eye"/> view sample</i></a>
           </flx-navbutton>
         </li>
-        <li>Add <b>Interface Test dll</b> to flexygo tests repository.
-          <flx-navbutton type="openpage" pagetypeid="edit" objectname="sysTest" objectwhere="(TestId=''c7a077c8-23a3-4d4d-a033-98807b75f2f3'')" targetid="modal" excludehist="true">
-            <a class="clickable"><i><i class="flx-icon icon-eye"/> view sample</i></a>
-          </flx-navbutton>
+     </ol>
+     <h2> Interface Test</h2>
+     <ol>
+          <li>Code your vb.net <b>InterfaceTest</b>.
+          <a target="_blank" href="https://github.com/flexygo/HighCode/blob/master/Sample_Project/Sample_Project_InterfaceTest/InterfaceTest.vb">
+            <i><i class="flx-icon icon-eye"/> view sample</i>
+          </a>
+        </li>
+        <li>Execute <b>Interface Test </b> in Visual Studio.
+          <div  class="col-xl-12 col-l-12 col-m-12 col-s-12 padding-top-m padding-bottom-l">
+          			<img class="img-responsive" src="./custom/help/InterfaceTest.PNG" />                
+      	  	</div>
         </li>       
       </ol>
   </div>

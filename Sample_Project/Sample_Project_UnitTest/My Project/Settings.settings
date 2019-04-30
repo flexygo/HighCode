@@ -23,7 +23,7 @@
       <Value Profile="(Default)">Data Source=(local);Initial Catalog=Sample_Project;Persist Security Info=True;User ID=sa;Password=-a123456</Value>
     </Setting>
     <Setting Name="Path" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">C:\Codigo GIT\Flexygo\flexygo\HighCode</Value>
+      <Value Profile="(Default)">C:\Codigo GIT\Flexygo\flexygo\HighCode\Sample_Project\Sample_Project\</Value>
     </Setting>
   </Settings>
 </SettingsFile>
