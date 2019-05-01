@@ -22,6 +22,7 @@ EXEC sp_MSforeachtable 'ALTER TABLE ? DISABLE TRIGGER all'
 :r .\data\countries.sql
 :r .\data\employee.sql
 :r .\data\product.sql
+:r .\data\projects.sql
 :r .\data\sale.sql
 :r .\data\sale_product.sql
 :r .\data\team.sql

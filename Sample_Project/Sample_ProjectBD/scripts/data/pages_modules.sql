@@ -4,9 +4,12 @@ BEGIN TRY
 
 MERGE INTO [Pages_Modules] AS Target
 USING (VALUES
-  (N'4DC8710D-D519-4300-953C-B6881728A3C1',N'ClientesdeEmpleado',N'TopPosition',NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
+  (N'29f7cdb0-2a09-45aa-9b47-2d38c7c9adde',N'Timeline_Basic',N'TopPosition',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
+ ,(N'4DC8710D-D519-4300-953C-B6881728A3C1',N'ClientesdeEmpleado',N'TopPosition',NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
  ,(N'4DC8710D-D519-4300-953C-B6881728A3C1',N'sysmod-view-generic',N'TopPosition',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
+ ,(N'5194a99b-7ff4-47de-8e55-905df895e99b',N'Timeline_BasicWithGroups',N'TopPosition',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
  ,(N'55A3902E-271D-417B-8A6A-3048355CE117',N'sysmod-list-generic',N'TopPosition',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
+ ,(N'6e53f498-7c99-4090-b365-3c26898c4391',N'Timeline_AdvancedWithGroups',N'TopPosition',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
  ,(N'9BEA6F0E-4DF9-4667-9E36-D755BF3A84EB',N'ventas_list_filtrada',N'TopPosition',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
  ,(N'9BEA6F0E-4DF9-4667-9E36-D755BF3A84EB',N'Ventas_Totales',N'RightPosition',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
  ,(N'Acciones_calendario',N'calendario_acciones',N'TopPosition',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
@@ -19,6 +22,7 @@ USING (VALUES
  ,(N'DC383501-83BE-4821-BB15-7868697E71A6',N'sysmod-relatedprocesses-default',N'CenterRightPosition',NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
  ,(N'DC383501-83BE-4821-BB15-7868697E71A6',N'sysmod-view-generic',N'TopPosition',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
  ,(N'E59F61C0-3F30-4AA3-9744-4ACE436A04C1',N'mimodulodeventas',N'TopPosition',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
+ ,(N'fa6aadad-f081-488a-afad-fa0ebb9df91d',N'Timeline_Advanced',N'TopPosition',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
  ,(N'highcode_wc_carousel',N'highcode_carousel',N'TopPosition',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
  ,(N'Ventas_calendario',N'calendario_ventas',N'TopPosition',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
 ) AS Source ([PageName],[ModuleName],[LayoutPositionId],[RelationWhere],[Order],[SQlEnabled],[SQLEnabledDescrip],[Title],[IconName],[HeaderClass],[ModuleClass],[ConnStringID],[OriginId])

@@ -4,8 +4,11 @@ BEGIN TRY
 
 MERGE INTO [Pages] AS Target
 USING (VALUES
-  (N'4DC8710D-D519-4300-953C-B6881728A3C1',N'view',N'Employee',NULL,N'default',N'view Employee',N'noicon',N'{{ObjectDescrip}}',NULL,NULL,0,NULL,0,1,0,NULL,1)
+  (N'29f7cdb0-2a09-45aa-9b47-2d38c7c9adde',N'generic',NULL,NULL,N'default',N'Timeline_Basic',N'noicon',N'Timeline (Basic)',NULL,NULL,0,NULL,0,0,0,NULL,1)
+ ,(N'4DC8710D-D519-4300-953C-B6881728A3C1',N'view',N'Employee',NULL,N'default',N'view Employee',N'noicon',N'{{ObjectDescrip}}',NULL,NULL,0,NULL,0,1,0,NULL,1)
+ ,(N'5194a99b-7ff4-47de-8e55-905df895e99b',N'generic',NULL,NULL,N'default',N'Timeline_BasicWithGroups',N'noicon',N'Timeline (Basic With Groups)',NULL,NULL,0,NULL,0,0,0,NULL,1)
  ,(N'55A3902E-271D-417B-8A6A-3048355CE117',N'list',N'Cliente',NULL,N'default',N'list Cliente',N'noicon',N'{{ObjectDescrip}}',NULL,NULL,0,NULL,0,1,0,NULL,1)
+ ,(N'6e53f498-7c99-4090-b365-3c26898c4391',N'generic',NULL,NULL,N'default',N'Timeline_AdvancedBasicWithGroups',N'noicon',N'Timeline (Advanced Basic With Groups)',NULL,NULL,0,NULL,0,0,0,NULL,1)
  ,(N'9BEA6F0E-4DF9-4667-9E36-D755BF3A84EB',N'list',N'Venta',NULL,N'syslayout-1',N'list Venta',N'noicon',N'{{ObjectDescrip}}',NULL,N'function Capture_moduleReady(){
   
   let modList=' + convert(nvarchar(max),NCHAR(36)) + N'(''flx-module[modulename="ventas_list_filtrada"]'');
@@ -36,6 +39,7 @@ USING (VALUES
  ,(N'acciones_kanban',N'generic',NULL,NULL,N'default',N'Acciones kanban',N'flag Uruguay',N'Kanban de acciones',NULL,NULL,0,NULL,0,0,0,NULL,1)
  ,(N'DC383501-83BE-4821-BB15-7868697E71A6',N'view',N'Cliente',NULL,N'syslayout-19',N'view Cliente',N'noicon',N'{{ObjectDescrip}}',NULL,NULL,0,NULL,0,1,0,NULL,1)
  ,(N'E59F61C0-3F30-4AA3-9744-4ACE436A04C1',N'list',N'Accion',NULL,N'default',N'list Accion',N'noicon',N'{{ObjectDescrip}}',NULL,NULL,0,NULL,0,1,0,NULL,1)
+ ,(N'fa6aadad-f081-488a-afad-fa0ebb9df91d',N'generic',NULL,NULL,N'default',N'Timeline_Advanced',N'noicon',N'Timeline (Advanced)',NULL,NULL,0,NULL,0,0,0,NULL,1)
  ,(N'highcode_wc_carousel',N'generic',NULL,NULL,N'default',N'Carousel Sample',N'noicon',N'Carousel Sample',NULL,NULL,0,NULL,0,0,0,NULL,1)
  ,(N'Ventas_calendario',N'generic',NULL,NULL,N'default',N'Ventas calendario',N'calendar-month',N'Calendario de ventas',NULL,NULL,0,NULL,0,0,0,NULL,1)
 ) AS Source ([PageName],[TypeId],[ObjectName],[InterfaceName],[LayoutName],[Name],[IconName],[Descrip],[UrlRewrite],[Script],[ScriptActive],[Style],[RefreshInterval],[Sytem],[Generic],[BodyCssClass],[OriginId])

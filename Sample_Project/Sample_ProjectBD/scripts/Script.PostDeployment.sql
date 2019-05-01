@@ -36,6 +36,7 @@ EXEC sp_MSforeachtable 'ALTER TABLE ? DISABLE TRIGGER all'
 :r .\data\scheduler.sql
 :r .\data\scheduler_objects.sql
 :r .\data\tests.sql
+:r .\data\timelines_settings.sql
 
 :r .\config.sql
 
