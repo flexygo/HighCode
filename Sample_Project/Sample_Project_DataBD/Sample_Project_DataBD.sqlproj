@@ -112,6 +112,9 @@
     <Build Include="dbo\Tables\EmployeesHolidays.sql" />
     <None Include="scripts\data\__refactorlog.sql" />
     <None Include="scripts\data\projects.sql" />
+    <None Include="scripts\data\tasks.sql" />
+    <Build Include="dbo\Tables\Tasks_States.sql" />
+    <None Include="scripts\data\tasks_states.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Sample_Project_DataBD.refactorlog" />

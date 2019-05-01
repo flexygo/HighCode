@@ -4,11 +4,11 @@ BEGIN TRY
 
 MERGE INTO [Projects] AS Target
 USING (VALUES
-  (N'C79F0707-02EB-4D4E-8ECF-0A60914E4430',1,N'EPSA',N'~/Custom/Projects/EPSA.png')
- ,(N'391001A1-9893-478A-B19D-9F6F120F9640',1,N'Garrigues',N'~/Custom/Projects/Garrigues.png')
- ,(N'2A409EC1-43CF-4983-A915-AA6CA3E570C0',1,N'FlexyGO',N'~/Custom/Projects/Flexygo.png')
- ,(N'A4865DD2-5D2C-4FCB-82FC-CE221EF3ACC7',1,N'Resuinsa',N'~/Custom/Projects/Resuinsa.png')
- ,(N'68F62E5E-9E3F-4A1F-9F5B-E7C07424C5EE',1,N'Freshtrategy',N'~/Custom/Projects/Freshtrategy.png')
+  (N'C79F0707-02EB-4D4E-8ECF-0A60914E4430',1,N'EPSA',N'~/Custom/images/Projects/EPSA.png')
+ ,(N'391001A1-9893-478A-B19D-9F6F120F9640',1,N'Garrigues',N'~/Custom/images/Projects/Garrigues.png')
+ ,(N'2A409EC1-43CF-4983-A915-AA6CA3E570C0',1,N'FlexyGO',N'~/Custom/images/Projects/Flexygo.png')
+ ,(N'A4865DD2-5D2C-4FCB-82FC-CE221EF3ACC7',1,N'Resuinsa',N'~/Custom/images/Projects/Resuinsa.png')
+ ,(N'68F62E5E-9E3F-4A1F-9F5B-E7C07424C5EE',1,N'Freshtrategy',N'~/Custom/images/Projects/Freshtrategy.png')
 ) AS Source ([IdProject],[IdTeam],[Name],[Logo])
 ON (Target.[IdProject] = Source.[IdProject])
 WHEN MATCHED AND (

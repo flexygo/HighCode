@@ -4,9 +4,46 @@ BEGIN TRY
 
 MERGE INTO [Timelines_Settings] AS Target
 USING (VALUES
-  (N'Timeline_Advanced',N'Timeline (Advanced)',N'Task',0,1,0,0,NULL,N'Left',N'Week',1,0,N'Name',N'StartDate',N'EndDate',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
- ,(N'Timeline_Basic',N'Timeline (Basic)',N'Task',0,1,0,0,NULL,N'Left',N'Week',1,0,N'Name',N'StartDate',N'EndDate',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
- ,(N'Timeline_BasicWithGroups',N'Timeline (Basic With Groups)',N'Task',0,1,1,1,N'Unassigned Tasks',N'Left',N'Week',1,1,N'Name',N'StartDate',N'EndDate',N'IdEmployee',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
+  (N'Timeline_Advanced',N'Advanced',N'Task',0,1,0,0,NULL,N'Left',N'Week',1,0,N'Name',N'StartDate',N'EndDate',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
+ ,(N'Timeline_AdvancedWithGroups',N'Advanced With Groups',N'Task',0,1,1,1,N'Unassigned Tasks',N'Left',N'Week',1,1,N'Name',N'StartDate',N'EndDate',N'IdEmployee',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
+ ,(N'Timeline_Basic',N'Basic',N'Task',0,1,0,0,NULL,N'Left',N'Week',1,0,N'Name',N'StartDate',N'EndDate',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,N'<div class="ep-parent-container-start">
+	<div class="ep-container-start">
+      <span title="{{IdState_flxtext}}" class="ep-flag ep-flag-{{IdState|switch:[1:red,2:yellow,3:green,4:blue,else:grey]}}"></span>
+  		<span>
+          <i class="fa fa-tasks"></i> {{Name}}
+      	</span>
+    </div>
+  	<div class="ep-container-start">
+      <span>
+        <i class="fa fa-clock-o"></i> {{CompletedHours|isnull:0}} / {{EstimatedHours|isnull:0}} h
+      </span>
+      <span>
+        <i class="flx-icon icon-ppt-2" style="font-size: 12px;margin-left: 20px;"></i> {{IdProject_flxtext}}
+      </span>
+      <span>
+        <i class="flx-icon icon-man" style="font-size: 12px;margin-left: 20px;"></i> {{IdEmployee_flxtext|isnull: Not Assigned}}
+      </span>
+  </div>
+</div>',NULL,NULL,NULL,NULL,1)
+ ,(N'Timeline_BasicWithGroups',N'Basic With Groups',N'Task',0,1,1,1,N'Unassigned Tasks',N'Left',N'Week',1,1,N'Name',N'StartDate',N'EndDate',N'IdEmployee',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,N'<div class="ep-parent-container-start">
+	<div class="ep-container-start">
+      <span title="{{IdState_flxtext}}"  class="ep-flag ep-flag-{{IdState|switch:[1:red,2:yellow,3:green,4:blue,else:grey]}}"></span>
+  		<span>
+          <i class="fa fa-tasks"></i> {{Name}}
+      	</span>
+    </div>
+  	<div class="ep-container-start">
+      <span>
+        <i class="fa fa-clock-o"></i> {{CompletedHours|isnull:0}} / {{EstimatedHours|isnull:0}} h
+      </span>
+      <span>
+        <i class="flx-icon icon-ppt-2" style="font-size: 12px;margin-left: 20px;"></i> {{IdProject_flxtext}}
+      </span>
+      <!--<span>
+        <i class="flx-icon icon-man" style="font-size: 12px;margin-left: 20px;"></i> {{IdEmployee_flxtext|isnull: Not Assigned}}
+      </span>-->
+  </div>
+</div>',NULL,NULL,NULL,NULL,1)
 ) AS Source ([TimelineSettingName],[TimelineSettingDescrip],[ObjectName],[Advanced],[Editable],[WithGroups],[ShowItemsWithoutGroup],[TitleItemsWithoutGroup],[LayoutName],[DefaultRangeName],[ShowControls],[OnInsertOpenNewWithDefaults],[PropertyDescrip],[PropertyStartDate],[PropertyEndDate],[PropertyGroup],[GroupViewName],[GroupIdField],[GroupDescripField],[GroupClassNameField],[GroupStyleField],[GroupContentTemplate],[ItemViewName],[ItemDescripField],[ItemStartDateField],[ItemEndDateField],[ItemGroupField],[ItemEditableField],[ItemClassNameField],[ItemStyleField],[ItemTypeField],[ItemContentTemplate],[ItemVisibleFrameTemplate],[OnMovingFunction],[OnDropObjectOnItemFunction],[CustomOptions],[OriginId])
 ON (Target.[TimelineSettingName] = Source.[TimelineSettingName])
 WHEN MATCHED AND (

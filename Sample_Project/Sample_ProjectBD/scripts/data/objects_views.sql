@@ -66,9 +66,10 @@ left join Countries on Countries.IsoName = Contact.IdCountry',0,0,1,0,0,N'Contac
   LEFT JOIN (SELECT [IdTeam], [Descrip] FROM [Team]) [FlxCmb1] ON [FlxCmb1].[IdTeam]=[Projects].[IdTeam] 
 
 ',0,1,1,0,1,NULL,1)
- ,(N'Task',N'TaskDefaultList',N'TaskDefaultList',N'DataConnectionString',N' SELECT [Tasks].[IdTask], [Tasks].[IdTask] as [IdTask_1], [FlxCmb1].[Name] as [Project], [FlxCmb2].[Name] as [Employee], [Tasks].[Name] as [Name], [Tasks].[Description] as [Description], [Tasks].[StartDate] as [Start Date], [Tasks].[EndDate] as [End Date], [Tasks].[EstimatedHours] as [Estimated Hours], [Tasks].[CompletedHours] as [Completed Hours] FROM [Tasks] 
+ ,(N'Task',N'TaskDefaultList',N'TaskDefaultList',N'DataConnectionString',N' SELECT [Tasks].[IdTask], [Tasks].[IdTask] as [IdTask_1], [FlxCmb1].[Name] as [Project], [FlxCmb2].[Description] as [State], [FlxCmb3].[Name] as [Employee], [Tasks].[Name] as [Name], [Tasks].[Description] as [Description], [Tasks].[StartDate] as [Start Date], [Tasks].[EndDate] as [End Date], [Tasks].[EstimatedHours] as [Estimated Hours], [Tasks].[CompletedHours] as [Completed Hours] FROM [Tasks] 
   LEFT JOIN (SELECT [IdProject], [Name] FROM [Projects]) [FlxCmb1] ON [FlxCmb1].[IdProject]=[Tasks].[IdProject] 
-  LEFT JOIN (Select Name, IdEmployee, Image from Employee ) [FlxCmb2] ON [FlxCmb2].[IdEmployee]=[Tasks].[IdEmployee] 
+  LEFT JOIN (SELECT [IdState], [Description] FROM [Tasks_States]) [FlxCmb2] ON [FlxCmb2].[IdState]=[Tasks].[IdState] 
+  LEFT JOIN (Select Name, IdEmployee, Image from Employee ) [FlxCmb3] ON [FlxCmb3].[IdEmployee]=[Tasks].[IdEmployee] 
 
 ',0,1,1,0,1,NULL,1)
  ,(N'Venta',N'Calendario_ventas',N'Calendario de ventas',N'DataConnectionString',N'SELECT IdSale
