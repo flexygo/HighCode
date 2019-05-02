@@ -209,6 +209,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "flexygo.ui.wc.FlxTextAreaElement",
         "flexygo.ui.wc.FlxTextElement",
         "flexygo.ui.wc.FlxTimelineElement",
+        "flexygo.ui.wc.FlxTimelineProgressBar",
         "flexygo.ui.wc.FlxToolTipElement",
         "flexygo.ui.wc.FlxUploadElement",
         "flexygo.ui.wc.FlxUserElement",

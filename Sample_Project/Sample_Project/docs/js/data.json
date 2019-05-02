@@ -959,7 +959,8 @@
             "name": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
             "modules": {},
             "classes": {
-                "flexygo.ui.wc.FlxTimelineElement": 1
+                "flexygo.ui.wc.FlxTimelineElement": 1,
+                "flexygo.ui.wc.FlxTimelineProgressBar": 1
             },
             "fors": {},
             "namespaces": {
@@ -4813,6 +4814,24 @@
                 "type": "FlxTimelineElement"
             }
         },
+        "flexygo.ui.wc.FlxTimelineProgressBar": {
+            "name": "flexygo.ui.wc.FlxTimelineProgressBar",
+            "shortname": "FlxTimelineProgressBar",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "flexygo.ui.wc",
+            "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
+            "line": 937,
+            "description": "Library for the FlxTimelineProgressBar",
+            "is_constructor": 1,
+            "return": {
+                "description": ".",
+                "type": "FlxTimelineProgressBar"
+            }
+        },
         "flexygo.ui.wc.FlxToolTipElement": {
             "name": "flexygo.ui.wc.FlxToolTipElement",
             "shortname": "FlxToolTipElement",
@@ -5598,7 +5617,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\entities\\Entity.js",
-            "line": 193,
+            "line": 194,
             "description": "Get number of rows.",
             "itemtype": "method",
             "name": "getViewCount",
@@ -5636,7 +5655,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\entities\\Entity.js",
-            "line": 222,
+            "line": 223,
             "description": "Get view columns names.",
             "itemtype": "method",
             "name": "getViewColumnsNames",
@@ -5662,7 +5681,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\entities\\Entity.js",
-            "line": 247,
+            "line": 248,
             "description": "Get object template by type",
             "itemtype": "method",
             "name": "getTemplateByType",
@@ -5688,7 +5707,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\entities\\Entity.js",
-            "line": 273,
+            "line": 274,
             "description": "Get object template by id",
             "itemtype": "method",
             "name": "getTemplateByType",
@@ -5720,7 +5739,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\entities\\Entity.js",
-            "line": 300,
+            "line": 301,
             "description": "Converts Data properties in KeyValuePair array.",
             "itemtype": "method",
             "name": "toValuesArray",
@@ -12733,7 +12752,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-scheduler.js",
-            "line": 554,
+            "line": 555,
             "description": "Change Events.",
             "itemtype": "method",
             "name": "changeEvents",
@@ -12742,7 +12761,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-scheduler.js",
-            "line": 595,
+            "line": 596,
             "description": "Results.",
             "itemtype": "method",
             "name": "schedulerResult",
@@ -12751,7 +12770,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-scheduler.js",
-            "line": 697,
+            "line": 696,
             "description": "Fires when element is detached to DOM",
             "itemtype": "method",
             "name": "disconnectedCallback",
@@ -12760,7 +12779,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-scheduler.js",
-            "line": 708,
+            "line": 707,
             "description": "Fires when element is attached to DOM",
             "itemtype": "method",
             "name": "attachedCallback",
@@ -12769,7 +12788,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-scheduler.js",
-            "line": 723,
+            "line": 722,
             "description": "Fires when the attribute value of the element is changed.",
             "itemtype": "method",
             "name": "attributeChangedCallback",
@@ -13127,7 +13146,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 129,
+            "line": 138,
             "description": "Set Structure Events.",
             "itemtype": "method",
             "name": "setStructureEvents",
@@ -13136,7 +13155,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 190,
+            "line": 440,
             "description": "Init Vis Timeline.",
             "itemtype": "method",
             "name": "initVisTimeline",
@@ -13162,7 +13181,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 200,
+            "line": 456,
             "description": "Init Vis Timeline.",
             "itemtype": "method",
             "name": "setItemsWithoutGroups",
@@ -13188,7 +13207,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 224,
+            "line": 480,
             "description": "Get Timeline.",
             "itemtype": "method",
             "name": "getTimeline",
@@ -13197,7 +13216,23 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 360,
+            "line": 526,
+            "description": "Build Vis Options.",
+            "itemtype": "method",
+            "name": "buildVisOptions",
+            "params": [
+                {
+                    "name": "visTimelineOptions.",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "flexygo.ui.wc.FlxTimelineElement",
+            "namespace": "flexygo.ui.wc"
+        },
+        {
+            "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
+            "line": 664,
             "description": "Build Vis Item.",
             "itemtype": "method",
             "name": "buildVisItem",
@@ -13213,7 +13248,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 388,
+            "line": 692,
             "description": "Build Vis Group.",
             "itemtype": "method",
             "name": "buildVisGroup",
@@ -13229,7 +13264,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 403,
+            "line": 707,
             "description": "Object Actions.",
             "itemtype": "method",
             "name": "objectActions",
@@ -13250,7 +13285,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 443,
+            "line": 753,
             "description": "Open Object Edit.",
             "itemtype": "method",
             "name": "openObjectEdit",
@@ -13271,7 +13306,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 480,
+            "line": 791,
             "description": "Get Object Where.",
             "itemtype": "method",
             "name": "getObjectWhere",
@@ -13287,7 +13322,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 492,
+            "line": 803,
             "description": "Has id structure.",
             "itemtype": "method",
             "name": "hasIdStructure",
@@ -13303,7 +13338,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 510,
+            "line": 821,
             "description": "Has id structure.",
             "itemtype": "method",
             "name": "hasIdStructure",
@@ -13319,7 +13354,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 524,
+            "line": 835,
             "description": "Check Editable Property.",
             "itemtype": "method",
             "name": "checkEditableProperty",
@@ -13335,7 +13370,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 550,
+            "line": 861,
             "description": "Load filters",
             "itemtype": "method",
             "name": "loadFilters",
@@ -13344,7 +13379,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 572,
+            "line": 883,
             "description": "Establish webcomponent settings",
             "itemtype": "method",
             "name": "configure",
@@ -13353,7 +13388,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 579,
+            "line": 890,
             "description": "Fires when element is attached to DOM",
             "itemtype": "method",
             "name": "connectedCallback",
@@ -13362,7 +13397,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 591,
+            "line": 904,
             "description": "Fires when element is detached to DOM",
             "itemtype": "method",
             "name": "disconnectedCallback",
@@ -13371,11 +13406,76 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 600,
+            "line": 913,
             "description": "Fires when the attribute value of the element is changed.",
             "itemtype": "method",
             "name": "attributeChangedCallback",
             "class": "flexygo.ui.wc.FlxTimelineElement",
+            "namespace": "flexygo.ui.wc"
+        },
+        {
+            "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
+            "line": 948,
+            "description": "Set if element has been connected to DOM",
+            "itemtype": "property",
+            "name": "connected",
+            "type": "Boolean",
+            "class": "flexygo.ui.wc.FlxTimelineProgressBar",
+            "namespace": "flexygo.ui.wc"
+        },
+        {
+            "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
+            "line": 954,
+            "description": "Array of observed attributes. REQUIRED",
+            "itemtype": "property",
+            "name": "observedAttributes",
+            "type": "Array",
+            "class": "flexygo.ui.wc.FlxTimelineProgressBar",
+            "namespace": "flexygo.ui.wc"
+        },
+        {
+            "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
+            "line": 961,
+            "description": "Init the webcomponent. REQUIRED.",
+            "itemtype": "method",
+            "name": "init",
+            "class": "flexygo.ui.wc.FlxTimelineProgressBar",
+            "namespace": "flexygo.ui.wc"
+        },
+        {
+            "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
+            "line": 968,
+            "description": "Refresh de webcomponent. REQUIRED.",
+            "itemtype": "method",
+            "name": "refresh",
+            "class": "flexygo.ui.wc.FlxTimelineProgressBar",
+            "namespace": "flexygo.ui.wc"
+        },
+        {
+            "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
+            "line": 975,
+            "description": "Render HTML data.",
+            "itemtype": "method",
+            "name": "render",
+            "class": "flexygo.ui.wc.FlxTimelineProgressBar",
+            "namespace": "flexygo.ui.wc"
+        },
+        {
+            "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
+            "line": 986,
+            "description": "Fires when element is attached to DOM",
+            "itemtype": "method",
+            "name": "connectedCallback",
+            "class": "flexygo.ui.wc.FlxTimelineProgressBar",
+            "namespace": "flexygo.ui.wc"
+        },
+        {
+            "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
+            "line": 1000,
+            "description": "Fires when the attribute value of the element is changed.",
+            "itemtype": "method",
+            "name": "attributeChangedCallback",
+            "class": "flexygo.ui.wc.FlxTimelineProgressBar",
             "namespace": "flexygo.ui.wc"
         },
         {

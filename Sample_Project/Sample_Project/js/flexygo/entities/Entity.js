@@ -166,9 +166,9 @@ var flexygo;
             * @param {function} [cllback] - function to get the results, if null, get view will be syncronous and results will be returned on return param.
             * @return {object[]} - if no cllback param, results object
             */
-            getView(viewName, page, pageSize, filter, orderBy, cllback) {
+            getView(viewName, page, pageSize, filter, orderBy, cllback, withDescrips) {
                 var ctx = this;
-                var params = { ObjectName: null, ObjectWhere: null, ViewName: null, Page: null, PageSize: null, Filter: null, OrderBy: null };
+                var params = { ObjectName: null, ObjectWhere: null, ViewName: null, Page: null, PageSize: null, Filter: null, OrderBy: null, WithDescrips: false };
                 params.ObjectName = ctx.objectName;
                 params.ObjectWhere = ctx.objectWhere || null;
                 params.ViewName = viewName || null;
@@ -176,6 +176,7 @@ var flexygo;
                 params.PageSize = pageSize || null;
                 params.Filter = filter || null;
                 params.OrderBy = orderBy || null;
+                params.WithDescrips = withDescrips || false;
                 if (cllback) {
                     flexygo.ajax.post('~/api/Entity', 'GetView', params, function (response) {
                         cllback(response);

@@ -64,7 +64,7 @@ declare namespace flexygo.obj {
         * @param {function} [cllback] - function to get the results, if null, get view will be syncronous and results will be returned on return param.
         * @return {object[]} - if no cllback param, results object
         */
-        getView(viewName?: string, page?: number, pageSize?: number, filter?: string, orderBy?: string, cllback?: any): object[];
+        getView(viewName?: string, page?: number, pageSize?: number, filter?: string, orderBy?: string, cllback?: any, withDescrips?: boolean): object[];
         /**
         * Get number of rows.
         * @method getViewCount

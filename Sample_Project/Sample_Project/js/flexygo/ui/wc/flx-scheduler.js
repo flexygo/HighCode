@@ -444,14 +444,14 @@ var flexygo;
                                         });
                                         $(".modalButton").click(function () {
                                             let object = myButtons[this.text];
-                                            ctx.openEvent(object.ObjectName, object.StartDateField, object.EndDateField, object.StartTimeField, object.EndTimeField, object.DurationField, date.utc(), date.format("HH:mm"));
+                                            ctx.openEvent(object.ObjectName, object.StartDateField, object.EndDateField, object.StartTimeField, object.EndTimeField, object.DurationField, date.format("MM/DD/YYYY"), date.format("HH:mm"));
                                             $('.sweet-modal-overlay').remove();
                                         });
                                     }
                                 }
                                 else {
                                     if (ctx.objects[0].CanInsert) {
-                                        ctx.openEvent(ctx.objects[0].ObjectName, ctx.objects[0].StartDateField, ctx.objects[0].EndDateField, ctx.objects[0].StartTimeField, ctx.objects[0].EndTimeField, ctx.objects[0].DurationField, date.utc(), date.format("HH:mm"));
+                                        ctx.openEvent(ctx.objects[0].ObjectName, ctx.objects[0].StartDateField, ctx.objects[0].EndDateField, ctx.objects[0].StartTimeField, ctx.objects[0].EndTimeField, ctx.objects[0].DurationField, date.format("MM/DD/YYYY"), date.format("HH:mm"));
                                     }
                                 }
                             }
@@ -530,17 +530,18 @@ var flexygo;
                     let displayTimeEnd = new Date();
                     let hour = time.slice(0, 2);
                     let minutes = time.slice(3, 5);
+                    let localDate = moment(date).utc();
                     displayTimeEnd.setHours(parseInt(hour));
                     displayTimeEnd.setMinutes(parseInt(minutes));
                     displayTimeEnd.setMinutes(displayTimeEnd.getMinutes() + 15);
                     let timeEnd = displayTimeEnd.toTimeString();
                     let defaults = {};
-                    defaults[startDate] = date;
+                    defaults[startDate] = localDate;
                     if (startTime) {
                         defaults[startTime] = time;
                     }
                     if (endDate) {
-                        defaults[endDate] = date;
+                        defaults[endDate] = localDate;
                     }
                     if (endTime) {
                         defaults[endTime] = timeEnd.slice(0, 5);
@@ -662,9 +663,7 @@ var flexygo;
                             }
                         }
                         if (ctx.n == ctx.checkObjects.length) {
-                            for (var event in ctx.events) {
-                                myCalendar.fullCalendar('renderEvent', ctx.events[event], 'stick');
-                            }
+                            myCalendar.fullCalendar('addEventSource', ctx.events);
                             me.find('.fc-view-container').css('display', '');
                             me.find('#loading').css('display', 'none');
                             ctx.n = 0;

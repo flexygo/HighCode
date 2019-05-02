@@ -701,7 +701,10 @@ declare namespace flexygo.api.timeline {
     * @return {getTimelineParams} .
     */
     class getTimelineParams {
+        PageName: string;
         ModuleName: string;
+        ObjectName: string;
+        ObjectWhere: string;
         searchId: string;
         filterValues: flexygo.ui.wc.FlxFilterInfo[];
     }
@@ -717,7 +720,8 @@ declare namespace flexygo.api.timeline {
         Items: {}[];
         Defaults: {};
         Toolbar: flexygo.api.Toolbar;
-        FilterObjectWhere: string;
+        ObjectWhere: string;
+        FilterWhere: string;
         SearchSettings: SearchSettingsCollection;
         SavedSearches: SavedSearchesCollection;
     }
