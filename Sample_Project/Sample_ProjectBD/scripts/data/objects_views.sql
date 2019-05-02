@@ -58,6 +58,19 @@ left join Countries on Countries.IsoName = Contact.IdCountry',0,0,1,0,0,N'Contac
   LEFT JOIN (Select Name, IdEmployee, Image from Employee ) [FlxCmb1] ON [FlxCmb1].[IdEmployee]=[EmployeesHolidays].[IdEmployee] 
 
 ',0,1,1,0,1,NULL,1)
+ ,(N'Employee_Holiday',N'Scheduler_Calendar',N'Scheduler_Calendar',N'DataConnectionString',N'SELECT 
+EmployeesHolidays.IdHoliday,
+EmployeesHolidays.Name as HolidayName,
+EmployeesHolidays.StartDate,
+EmployeesHolidays.EndDate,
+EmployeesHolidays.Validated,
+Employee.IdEmployee,
+Employee.Name AS EmployeeName,
+Employee.Image AS EmployeeImage,
+CHOOSE(EmployeesHolidays.Validated + 1, ''rgba(240, 128, 128, 0.7)'', ''rgba(144, 238, 144, 0.7)'') AS Color,
+''#3c3c46'' AS TextColor
+ FROM EmployeesHolidays 
+ LEFT JOIN Employee ON EmployeesHolidays.IdEmployee = Employee.IdEmployee',0,0,1,0,0,NULL,1)
  ,(N'Equipo',N'acciones_kanban',N'Acciones kanban',N'DataConnectionString',N'select state as ActionState, Descrip,CssClass from Action_States where state <4',1,0,1,0,0,NULL,1)
  ,(N'Equipo',N'EquipoDefaultList',N'EquipoDefaultList',N'DataConnectionString',N' SELECT [Team].[IdTeam], [Team].[IdTeam] as [#], [Team].[Descrip] as [Nombre del equipo] FROM [Team] 
 

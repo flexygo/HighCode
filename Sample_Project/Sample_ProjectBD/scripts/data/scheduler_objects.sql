@@ -15,6 +15,16 @@ USING (VALUES
     {{Name}} 
 </p>
 <span>{{Descrip|isnull:No Descrip}}</span>',N'IdClient',N'txtColor',NULL,1)
+ ,(N'Scheduler',N'Employee_Holiday',N'Scheduler_Calendar',N'StartDate',N'EndDate',NULL,NULL,NULL,N'Color',N'<div class="ep-parent-container-start" style="margin:10px;">
+	<div class="ep-container-start">
+  		<span>
+          <i class="fa fa-calendar-minus-o"></i> {{HolidayName}}
+      	</span>
+    </div>
+ 	<div class="ep-container-start">
+        {{Validated|switch:[0:Not Validated,1:Validated]}}
+  	</div>
+</div>',NULL,N'TextColor',NULL,1)
 ) AS Source ([SchedulerName],[ObjectName],[ViewName],[StartDateField],[EndDateField],[StartTimeField],[EndTimeField],[DurationField],[ColorField],[DescripTemplate],[UserIdField],[TextColorField],[AllDayField],[OriginId])
 ON (Target.[SchedulerName] = Source.[SchedulerName] AND Target.[ObjectName] = Source.[ObjectName])
 WHEN MATCHED AND (

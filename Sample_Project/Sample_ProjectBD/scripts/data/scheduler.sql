@@ -16,6 +16,7 @@ USING (VALUES
 </p>
 
 ',N'Cliente',N'Cliente_calendar',N'08:00',N'18:00',1,0,N'00:15',NULL,N'edit',N'modal640x480',NULL,NULL,NULL,1)
+ ,(N'Scheduler',N'agendaWeek',0,0,0,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,0,NULL,N'currentUserId',N'edit',N'modal1024x768',NULL,NULL,NULL,1)
 ) AS Source ([SchedulerName],[ActiveMode],[MonthView],[AgendaWeekView],[AgendaDayView],[ListWeekView],[SQLValueField],[SQLDisplayField],[SQLFilterField],[DirectTemplate],[ObjectName],[ViewName],[MinTime],[MaxTime],[OnClickEvent],[AllDaySlot],[SlotDuration],[TokenDefault],[EventPageTypeId],[EventTargetId],[HolidaysObjectName],[HolidaysViewName],[DateHolidayField],[OriginId])
 ON (Target.[SchedulerName] = Source.[SchedulerName])
 WHEN MATCHED AND (

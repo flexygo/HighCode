@@ -8,7 +8,10 @@ USING (VALUES
  ,(N'4DC8710D-D519-4300-953C-B6881728A3C1',N'view',N'Employee',NULL,N'default',N'view Employee',N'noicon',N'{{ObjectDescrip}}',NULL,NULL,0,NULL,0,1,0,NULL,1)
  ,(N'5194a99b-7ff4-47de-8e55-905df895e99b',N'generic',NULL,NULL,N'default',N'Timeline_BasicWithGroups',N'noicon',N'Timeline (Basic With Groups)',NULL,NULL,0,NULL,0,0,0,NULL,1)
  ,(N'55A3902E-271D-417B-8A6A-3048355CE117',N'list',N'Cliente',NULL,N'default',N'list Cliente',N'noicon',N'{{ObjectDescrip}}',NULL,NULL,0,NULL,0,1,0,NULL,1)
+ ,(N'61fe2a52-797e-4a42-80b4-b363fbdb023e',N'generic',NULL,NULL,N'default',N'Scheduler_Month',N'calendar-month',N'Scheduler (Month)',NULL,NULL,0,NULL,0,0,0,NULL,1)
+ ,(N'62bf2c6e-16e2-4249-8920-d1774945488c',N'generic',NULL,NULL,N'default',N'Scheduler_Calendar',N'calendar-month',N'Scheduler (Calendar)',NULL,NULL,0,NULL,0,0,0,NULL,1)
  ,(N'6e53f498-7c99-4090-b365-3c26898c4391',N'generic',NULL,NULL,N'default',N'Timeline_AdvancedBasicWithGroups',N'noicon',N'Timeline (Advanced Basic With Groups)',NULL,NULL,0,NULL,0,0,0,NULL,1)
+ ,(N'7b4f1ea4-510c-4330-a5cd-859b97ba2149',N'generic',NULL,NULL,N'default',N'Scheduler_Year',N'calendar-month',N'Scheduler (Year)',NULL,NULL,0,NULL,0,0,0,NULL,1)
  ,(N'9BEA6F0E-4DF9-4667-9E36-D755BF3A84EB',N'list',N'Venta',NULL,N'syslayout-1',N'list Venta',N'noicon',N'{{ObjectDescrip}}',NULL,N'function Capture_moduleReady(){
   
   let modList=' + convert(nvarchar(max),NCHAR(36)) + N'(''flx-module[modulename="ventas_list_filtrada"]'');
