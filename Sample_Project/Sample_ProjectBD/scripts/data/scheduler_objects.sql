@@ -15,14 +15,19 @@ USING (VALUES
     {{Name}} 
 </p>
 <span>{{Descrip|isnull:No Descrip}}</span>',N'IdClient',N'txtColor',NULL,1)
- ,(N'Scheduler',N'Employee_Holiday',N'Scheduler_Calendar',N'StartDate',N'EndDate',NULL,NULL,NULL,N'Color',N'<div class="ep-parent-container-start" style="margin:10px;">
-	<div class="ep-container-start">
-  		<span>
+ ,(N'Scheduler',N'Employee_Holiday',N'Scheduler_Calendar',N'StartDate',N'EndDate',NULL,NULL,NULL,N'Color',N'<div class="ep-parent-container-start" style="margin:5px;">
+  <div class="ep-container-start">
+     <h3>
           <i class="fa fa-calendar-minus-o"></i> {{HolidayName}}
-      	</span>
-    </div>
+     </h3>
+  </div>
+	<div class="ep-container-start">
+      <span style="display: flex;align-items: center;">
+         <img src="{{EmployeeImage|url}}" class="img-responsive {{EmployeeImage|isnull:hide}}" style="width: 40px;margin: 2px 10px 2px 0;"/> {{EmployeeName|isnull: Not Assigned}}
+      </span>
+  </div>
  	<div class="ep-container-start">
-        {{Validated|switch:[0:Not Validated,1:Validated]}}
+        {{ValidatedText}}
   	</div>
 </div>',NULL,N'TextColor',NULL,1)
 ) AS Source ([SchedulerName],[ObjectName],[ViewName],[StartDateField],[EndDateField],[StartTimeField],[EndTimeField],[DurationField],[ColorField],[DescripTemplate],[UserIdField],[TextColorField],[AllDayField],[OriginId])

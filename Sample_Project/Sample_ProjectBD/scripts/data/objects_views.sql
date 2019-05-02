@@ -64,10 +64,11 @@ EmployeesHolidays.Name as HolidayName,
 EmployeesHolidays.StartDate,
 EmployeesHolidays.EndDate,
 EmployeesHolidays.Validated,
+CHOOSE(EmployeesHolidays.Validated + 1, ''rgba(240, 128, 128, 0.7)'', ''rgba(144, 238, 144, 0.7)'') AS Color,
 Employee.IdEmployee,
 Employee.Name AS EmployeeName,
 Employee.Image AS EmployeeImage,
-CHOOSE(EmployeesHolidays.Validated + 1, ''rgba(240, 128, 128, 0.7)'', ''rgba(144, 238, 144, 0.7)'') AS Color,
+CHOOSE(EmployeesHolidays.Validated + 1, ''Not Validated'', ''Validated'') AS ValidatedText,
 ''#3c3c46'' AS TextColor
  FROM EmployeesHolidays 
  LEFT JOIN Employee ON EmployeesHolidays.IdEmployee = Employee.IdEmployee',0,0,1,0,0,NULL,1)
