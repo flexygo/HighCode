@@ -4,8 +4,57 @@ BEGIN TRY
 
 MERGE INTO [Timelines_Settings] AS Target
 USING (VALUES
-  (N'Timeline_Advanced',N'Advanced',N'Task',0,1,0,0,NULL,N'Left',N'Week',1,0,N'Name',N'StartDate',N'EndDate',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
- ,(N'Timeline_AdvancedWithGroups',N'Advanced With Groups',N'Task',0,1,1,1,N'Unassigned Tasks',N'Left',N'Week',1,1,N'Name',N'StartDate',N'EndDate',N'IdEmployee',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
+  (N'Timeline_Advanced',N'Advanced',N'Task',1,1,0,0,NULL,N'Left',N'Week',1,1,N'Name',N'StartDate',N'EndDate',NULL,NULL,NULL,NULL,NULL,NULL,NULL,N'Advanced_Timeline',N'Name',N'StartDate',N'EndDate',NULL,N'Editable',NULL,N'Style',N'Type',N'<div class="ep-parent-container-start">
+	<div class="ep-container-start">
+      <span title="{{StateDescription}}" class="ep-flag ep-flag-{{IdState|switch:[1:red,2:yellow,3:green,4:blue,else:grey]}}"></span>
+  		<span>
+          <i class="fa fa-tasks"></i> {{Name}}
+      	</span>
+    </div>
+  	<div class="ep-container-start">
+      <span style="display: flex;align-items: center;">
+         <img src="{{EmployeeImage|url}}" class="img-responsive {{EmployeeImage|isnull:hide}}" style="width: 40px;margin: 2px 10px 2px 0;"/> {{EmployeeName|isnull: Not Assigned}}
+      </span>
+      <span>
+        <i class="flx-icon icon-ppt-2" style="font-size: 12px;margin-left: 20px;"></i> {{ProjectName}}
+      </span>
+  </div>
+</div>',N'<flx-timeline-progressbar color="{{PercentageColor}}" percentage="{{Percentage}}"> 
+   <i class="fa fa-clock-o"></i> {{CompletedHours}} / {{EstimatedHours}} h
+</flx-timeline-progressbar>',NULL,NULL,NULL,1)
+ ,(N'Timeline_AdvancedWithGroups',N'Advanced With Groups',N'Task',1,1,1,1,N'Unassigned Tasks',N'Left',N'Week',1,1,N'Name',N'StartDate',N'EndDate',N'IdEmployee',N'AdvancedGroups_Timeline',N'IdEmployee',N'Name',NULL,N'Style',N'<div class="row" style="display: flex;align-items: center; margin: 5px 15px;">
+  <img class="img-responsive" style="width: 60px;margin-right: 10px;" src="{{Image|url}}" />
+  <div class="ep-parent-container-start">
+    <b style="font-size: 16px;">{{Name}}</b>
+    <span>
+          <i class="fa fa-group"></i> {{Team}}
+    </span>
+  </div>
+</div>',N'AdvancedWithGroups_Timeline',N'Name',N'StartDate',N'EndDate',N'IdEmployee',N'Editable',NULL,N'Style',N'Type',N'<!--Task Template -->
+<div class="ep-parent-container-start {{type|switch:[background:hide,NULL:]}}">
+	<div class="ep-container-start">
+      <span title="{{StateDescription}}" class="ep-flag ep-flag-{{IdState|switch:[1:red,2:yellow,3:green,4:blue,else:grey]}}"></span>
+  		<span>
+          <i class="fa fa-tasks"></i> {{Name}}
+      	</span>
+       <span>
+        <i class="flx-icon icon-ppt-2" style="font-size: 12px;margin-left: 20px;"></i> {{ProjectName}}
+      </span>
+    </div>
+</div>
+<!--Holiday Template -->
+<div class="ep-parent-container-start {{type|switch:[background:,NULL:hide]}}">
+	<div class="ep-container-start">
+  		<span>
+          <i class="fa fa-calendar-minus-o"></i> {{Name}}
+      	</span>
+    </div>
+ 	<div class="ep-container-start">
+        <small>{{IdState|switch:[0:Not Validated,1:Validated]}}</small>
+  	</div>
+</div>',N'<flx-timeline-progressbar color="{{PercentageColor}}" percentage="{{Percentage}}"> 
+   <i class="fa fa-clock-o"></i> {{CompletedHours}} / {{EstimatedHours}} h
+</flx-timeline-progressbar>',NULL,NULL,NULL,1)
  ,(N'Timeline_Basic',N'Basic',N'Task',0,1,0,0,NULL,N'Left',N'Week',1,0,N'Name',N'StartDate',N'EndDate',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,N'<div class="ep-parent-container-start">
 	<div class="ep-container-start">
       <span title="{{IdState_flxtext}}" class="ep-flag ep-flag-{{IdState|switch:[1:red,2:yellow,3:green,4:blue,else:grey]}}"></span>

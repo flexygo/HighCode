@@ -115,6 +115,7 @@
     <None Include="scripts\data\tasks.sql" />
     <Build Include="dbo\Tables\Tasks_States.sql" />
     <None Include="scripts\data\tasks_states.sql" />
+    <None Include="scripts\data\employeesholidays.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Sample_Project_DataBD.refactorlog" />

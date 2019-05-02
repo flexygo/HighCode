@@ -66,6 +66,84 @@ left join Countries on Countries.IsoName = Contact.IdCountry',0,0,1,0,0,N'Contac
   LEFT JOIN (SELECT [IdTeam], [Descrip] FROM [Team]) [FlxCmb1] ON [FlxCmb1].[IdTeam]=[Projects].[IdTeam] 
 
 ',0,1,1,0,1,NULL,1)
+ ,(N'Task',N'Advanced_Timeline',N'Advanced (Timeline)',N'DataConnectionString',N'SELECT 
+	Tasks.IdTask,
+	Tasks.Name,
+	Tasks.StartDate,
+	Tasks.EndDate,
+	Tasks.CompletedHours,
+	Tasks.EstimatedHours,
+	CASE WHEN ISNULL(Tasks.EstimatedHours, 0) <> 0 THEN CAST(ROUND(ISNULL(Tasks.CompletedHours, 0) * 100.0 / ISNULL(Tasks.EstimatedHours, 0), 1) AS INT) ELSE 0 END AS Percentage,
+	IIF(CASE WHEN ISNULL(Tasks.EstimatedHours, 0) <> 0 THEN CAST(ROUND(ISNULL(Tasks.CompletedHours, 0) * 100.0 / ISNULL(Tasks.EstimatedHours, 0), 1) AS INT) ELSE 0 END > 100, ''lightcoral'', '''') AS PercentageColor,
+	Projects.Name AS ProjectName,
+	Projects.Logo AS ProjectLogo,
+	Tasks_States.IdState,
+	Tasks_States.Description AS StateDescription,
+	Employee.IdEmployee,
+	Employee.Name AS EmployeeName,
+	Employee.Image AS EmployeeImage,
+	NULL AS Type,
+	IIF(Tasks_States.IdState in (3, 4), ''false'', ''true'') AS Editable,
+	IIF(Employee.IdEmployee = {{currentReference}}, ''background-color: lightslategray;border-color: lightslategray;'', '''') AS Style
+FROM Tasks
+LEFT JOIN Projects ON Tasks.IdProject = Projects.IdProject
+LEFT JOIN Tasks_States ON Tasks.IdState = Tasks_States.IdState
+LEFT JOIN  Employee ON Tasks.IdEmployee = Employee.IdEmployee',0,0,1,0,0,NULL,1)
+ ,(N'Task',N'AdvancedGroups_Timeline',N'Advanced Groups (Timeline)',N'DataConnectionString',N'SELECT 
+Employee.IdEmployee,
+Employee.Name,
+Employee.Image,
+Team.Descrip AS Team,
+IIF(Employee.IdEmployee = {{currentReference}}, ''background: linear-gradient(315deg,lightslategray 15px,transparent 0%);'', '''') AS Style
+FROM Employee
+LEFT JOIN Team ON Employee.IdTeam = Team.IdTeam',0,0,1,0,0,NULL,1)
+ ,(N'Task',N'AdvancedWithGroups_Timeline',N'Advanced With Groups (Timeline)',N'DataConnectionString',N'SELECT * 
+FROM (
+  SELECT 
+      Tasks.IdTask,
+      Tasks.Name,
+      Tasks.StartDate,
+      Tasks.EndDate,
+      Tasks.CompletedHours,
+      Tasks.EstimatedHours,
+      CASE WHEN ISNULL(Tasks.EstimatedHours, 0) <> 0 THEN CAST(ROUND(ISNULL(Tasks.CompletedHours, 0) * 100.0 / ISNULL(Tasks.EstimatedHours, 0), 1) AS INT) ELSE 0 END AS Percentage,
+      IIF(CASE WHEN ISNULL(Tasks.EstimatedHours, 0) <> 0 THEN CAST(ROUND(ISNULL(Tasks.CompletedHours, 0) * 100.0 / ISNULL(Tasks.EstimatedHours, 0), 1) AS INT) ELSE 0 END > 100, ''lightcoral'', '''') AS PercentageColor,
+      Projects.Name AS ProjectName,
+      Projects.Logo AS ProjectLogo,
+      Tasks_States.IdState,
+      Tasks_States.Description AS StateDescription,
+      Employee.IdEmployee,
+      Employee.Name AS EmployeeName,
+      Employee.Image AS EmployeeImage,
+      NULL AS Type,
+      IIF(Tasks_States.IdState in (3, 4), ''false'', ''true'') AS Editable,
+      IIF(Employee.IdEmployee = {{currentReference}}, ''background-color: lightslategray;border-color: lightslategray;'', '''') AS Style
+  FROM Tasks
+  LEFT JOIN Projects ON Tasks.IdProject = Projects.IdProject
+  LEFT JOIN Tasks_States ON Tasks.IdState = Tasks_States.IdState
+  LEFT JOIN  Employee ON Tasks.IdEmployee = Employee.IdEmployee
+  UNION
+  SELECT 
+      EmployeesHolidays.IdHoliday,
+      EmployeesHolidays.Name,
+      EmployeesHolidays.StartDate,
+      EmployeesHolidays.EndDate,
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      EmployeesHolidays.Validated,
+      NULL,
+      EmployeesHolidays.IdEmployee,
+      NULL,
+      NULL,
+      ''background'' AS Type,
+      NULL,
+      CHOOSE(EmployeesHolidays.Validated + 1, ''background-color: rgba(240, 128, 128, 0.3);border-color: rgba(240, 128, 128, 0.3);'', ''background-color: rgba(144, 238, 144, 0.3);border-color: rgba(144, 238, 144, 0.3);'') AS Style
+   FROM EmployeesHolidays
+) AS Tasks ',0,0,1,0,0,NULL,1)
  ,(N'Task',N'TaskDefaultList',N'TaskDefaultList',N'DataConnectionString',N' SELECT [Tasks].[IdTask], [Tasks].[IdTask] as [IdTask_1], [FlxCmb1].[Name] as [Project], [FlxCmb2].[Description] as [State], [FlxCmb3].[Name] as [Employee], [Tasks].[Name] as [Name], [Tasks].[Description] as [Description], [Tasks].[StartDate] as [Start Date], [Tasks].[EndDate] as [End Date], [Tasks].[EstimatedHours] as [Estimated Hours], [Tasks].[CompletedHours] as [Completed Hours] FROM [Tasks] 
   LEFT JOIN (SELECT [IdProject], [Name] FROM [Projects]) [FlxCmb1] ON [FlxCmb1].[IdProject]=[Tasks].[IdProject] 
   LEFT JOIN (SELECT [IdState], [Description] FROM [Tasks_States]) [FlxCmb2] ON [FlxCmb2].[IdState]=[Tasks].[IdState] 
