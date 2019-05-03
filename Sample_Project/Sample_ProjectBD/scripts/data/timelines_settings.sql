@@ -55,7 +55,7 @@ USING (VALUES
 </div>',N'<flx-timeline-progressbar color="{{PercentageColor}}" percentage="{{Percentage}}"> 
    <i class="fa fa-clock-o"></i> {{CompletedHours}} / {{EstimatedHours}} h
 </flx-timeline-progressbar>',NULL,NULL,NULL,1)
- ,(N'Timeline_Basic',N'Basic',N'Task',0,1,0,0,NULL,N'Left',N'Week',1,0,N'Name',N'StartDate',N'EndDate',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,N'<div class="ep-parent-container-start">
+ ,(N'Timeline_Basic',N'Basic',N'Task',0,1,0,0,NULL,N'Left',N'Week',1,1,N'Name',N'StartDate',N'EndDate',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,N'<div class="ep-parent-container-start">
 	<div class="ep-container-start">
       <span title="{{IdState_flxtext}}" class="ep-flag ep-flag-{{IdState|switch:[1:red,2:yellow,3:green,4:blue,else:grey]}}"></span>
   		<h6>
