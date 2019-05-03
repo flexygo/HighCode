@@ -12,6 +12,7 @@ USING (VALUES
  ,(N'Cliente',N'IdState',N'BlockReason',2,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,N'2',NULL,NULL,NULL,N'2',NULL,NULL,1)
  ,(N'Cliente',N'IdState',N'separator3',1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,N'2',NULL,NULL,NULL,NULL,NULL,NULL,1)
  ,(N'Cliente',N'Mailing',N'Mail',1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,N'1',NULL,NULL,1)
+ ,(N'Task',N'IdProject',N'IdTeam',1,1,NULL,N'SELECT TOP 1 IdTeam FROM Projects WHERE IdProject = ''{{IdProject}}''',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
 ) AS Source ([ObjectName],[PropertyName],[DependingPropertyName],[Order],[Active],[Descrip],[SQLValue],[SQLComboSentence],[SQLComboFilter],[SQLEnabled],[EnabledValues],[DisabledValues],[SQLVisible],[VisibleValues],[HiddenValues],[SQLClass],[SQLRequired],[RequiredValues],[NotRequiredValues],[ConnStringId],[OriginId])
 ON (Target.[ObjectName] = Source.[ObjectName] AND Target.[PropertyName] = Source.[PropertyName] AND Target.[DependingPropertyName] = Source.[DependingPropertyName])
 WHEN MATCHED AND (

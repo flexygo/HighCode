@@ -27,6 +27,7 @@ USING (VALUES
  ,(N'E59F61C0-3F30-4AA3-9744-4ACE436A04C1',N'mimodulodeventas',N'TopPosition',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
  ,(N'fa6aadad-f081-488a-afad-fa0ebb9df91d',N'Timeline_Advanced',N'TopPosition',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
  ,(N'highcode_wc_carousel',N'highcode_carousel',N'TopPosition',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
+ ,(N'Kanban_Board',N'Kanban_Board',N'TopPosition',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
  ,(N'Ventas_calendario',N'calendario_ventas',N'TopPosition',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1)
 ) AS Source ([PageName],[ModuleName],[LayoutPositionId],[RelationWhere],[Order],[SQlEnabled],[SQLEnabledDescrip],[Title],[IconName],[HeaderClass],[ModuleClass],[ConnStringID],[OriginId])
 ON (Target.[PageName] = Source.[PageName] AND Target.[ModuleName] = Source.[ModuleName])

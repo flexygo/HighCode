@@ -14,6 +14,7 @@ EXEC sp_MSforeachtable 'ALTER TABLE ? DISABLE TRIGGER all'
 :r .\data\actions.sql
 :r .\data\action_states.sql
 :r .\data\action_types.sql
+:r .\data\bank_holidays.sql
 :r .\data\client.sql
 :r .\data\client_state.sql
 :r .\data\client_type.sql

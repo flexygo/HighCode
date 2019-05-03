@@ -444,14 +444,14 @@ var flexygo;
                                         });
                                         $(".modalButton").click(function () {
                                             let object = myButtons[this.text];
-                                            ctx.openEvent(object.ObjectName, object.StartDateField, object.EndDateField, object.StartTimeField, object.EndTimeField, object.DurationField, date.format("MM/DD/YYYY"), date.format("HH:mm"));
+                                            ctx.openEvent(object.ObjectName, object.StartDateField, object.EndDateField, object.StartTimeField, object.EndTimeField, object.DurationField, date.format("YYYY-MM-DD"), date.format("HH:mm"));
                                             $('.sweet-modal-overlay').remove();
                                         });
                                     }
                                 }
                                 else {
                                     if (ctx.objects[0].CanInsert) {
-                                        ctx.openEvent(ctx.objects[0].ObjectName, ctx.objects[0].StartDateField, ctx.objects[0].EndDateField, ctx.objects[0].StartTimeField, ctx.objects[0].EndTimeField, ctx.objects[0].DurationField, date.format("MM/DD/YYYY"), date.format("HH:mm"));
+                                        ctx.openEvent(ctx.objects[0].ObjectName, ctx.objects[0].StartDateField, ctx.objects[0].EndDateField, ctx.objects[0].StartTimeField, ctx.objects[0].EndTimeField, ctx.objects[0].DurationField, date.format("YYYY-MM-DD"), date.format("HH:mm"));
                                     }
                                 }
                             }
@@ -530,7 +530,7 @@ var flexygo;
                     let displayTimeEnd = new Date();
                     let hour = time.slice(0, 2);
                     let minutes = time.slice(3, 5);
-                    let localDate = moment(date).utc();
+                    let localDate = date + " " + time;
                     displayTimeEnd.setHours(parseInt(hour));
                     displayTimeEnd.setMinutes(parseInt(minutes));
                     displayTimeEnd.setMinutes(displayTimeEnd.getMinutes() + 15);

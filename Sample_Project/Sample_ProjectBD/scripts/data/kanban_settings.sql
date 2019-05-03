@@ -12,6 +12,27 @@ USING (VALUES
     <div class="clickable ellipsis size-m"><i class="flx-icon icon-man icon-margin-right"></i><a href="#">{{NameCli}}</a></div>
   </flx-navbutton>
 </div>',N'pPers_ActionKanbanChangeColumn',NULL,N'4',NULL,N'Archive',N'archive',NULL,1)
+ ,(N'Kanban',N'<i class="fa fa-tasks"></i> Tasks Kanban',NULL,N'Equipo',N'Kanban_States',N'Description',N'IdState',NULL,NULL,N'Task',N'Kanban',N'IdTask',N'IdState',N'Name',N'<div class="ep-parent-container-start" style="width: 100%;">
+	<div class="ep-container-start">
+      <span title="{{StateDescription}}" class="ep-flag ep-flag-{{IdState|switch:[1:red,2:yellow,3:green,4:blue,else:grey]}}" style="margin-bottom: 2px;"></span>
+  		<h6>
+          <i class="fa fa-tasks"></i> {{Name}}
+      	</h6>
+    </div>
+  	<div class="ep-container-start">
+      <span style="display: flex;align-items: center;height: 60px;">
+         <img src="{{EmployeeImage|url}}" class="img-responsive {{EmployeeImage|isnull:hide}}" style="width: 40px;margin: 2px 10px 2px 0;"/> {{EmployeeName|isnull: Not Assigned}}
+      </span>
+      <span>
+        <i class="flx-icon icon-ppt-2" style="font-size: 12px;margin-left: 20px;"></i> {{ProjectName}}
+      </span>
+  </div>
+  <div style="width: 100%;background: #8080801f;border-radius: 2px;padding: 1px;">
+  	<flx-timeline-progressbar color="{{PercentageColor}}" percentage="{{Percentage}}"> 
+  	 	<i class="fa fa-clock-o"></i> {{CompletedHours}} / {{EstimatedHours}} h
+  	</flx-timeline-progressbar>
+  </div>
+</div>',NULL,N'edit',N'4',NULL,N'Archive',N'archive',NULL,1)
 ) AS Source ([KanbanSettingsName],[BoardTitleTemplate],[BoardDescripTemplate],[BoardObjectName],[ColumnViewName],[ColumnDescripField],[ColumnIdField],[ColumnCssClassField],[ColumnIconIdField],[CardObjectName],[CardViewName],[CardIdField],[CardColumnIdField],[CardDescripField],[CardContentTemplate],[onChangeColumnProcess],[onCardClick],[EndBoxLastState],[EndBoxProcess],[EndBoxText],[EndBoxIconName],[EndBoxCssClass],[OriginId])
 ON (Target.[KanbanSettingsName] = Source.[KanbanSettingsName])
 WHEN MATCHED AND (

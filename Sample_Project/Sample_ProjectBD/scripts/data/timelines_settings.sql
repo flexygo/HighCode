@@ -7,9 +7,9 @@ USING (VALUES
   (N'Timeline_Advanced',N'Advanced',N'Task',1,1,0,0,NULL,N'Left',N'Week',1,1,N'Name',N'StartDate',N'EndDate',NULL,NULL,NULL,NULL,NULL,NULL,NULL,N'Advanced_Timeline',N'Name',N'StartDate',N'EndDate',NULL,N'Editable',NULL,N'Style',N'Type',N'<div class="ep-parent-container-start">
 	<div class="ep-container-start">
       <span title="{{StateDescription}}" class="ep-flag ep-flag-{{IdState|switch:[1:red,2:yellow,3:green,4:blue,else:grey]}}"></span>
-  		<span>
+  		<h6>
           <i class="fa fa-tasks"></i> {{Name}}
-      	</span>
+      	</h6>
     </div>
   	<div class="ep-container-start">
       <span style="display: flex;align-items: center;">
@@ -34,9 +34,9 @@ USING (VALUES
 <div class="ep-parent-container-start {{type|switch:[background:hide,NULL:]}}">
 	<div class="ep-container-start">
       <span title="{{StateDescription}}" class="ep-flag ep-flag-{{IdState|switch:[1:red,2:yellow,3:green,4:blue,else:grey]}}"></span>
-  		<span>
+  		<h6>
           <i class="fa fa-tasks"></i> {{Name}}
-      	</span>
+      	</h6>
        <span>
         <i class="flx-icon icon-ppt-2" style="font-size: 12px;margin-left: 20px;"></i> {{ProjectName}}
       </span>
@@ -45,9 +45,9 @@ USING (VALUES
 <!--Holiday Template -->
 <div class="ep-parent-container-start {{type|switch:[background:,NULL:hide]}}">
 	<div class="ep-container-start">
-  		<span>
+  		<h6>
           <i class="fa fa-calendar-minus-o"></i> {{Name}}
-      	</span>
+      	</h6>
     </div>
  	<div class="ep-container-start">
         <small>{{IdState|switch:[0:Not Validated,1:Validated]}}</small>
@@ -58,9 +58,9 @@ USING (VALUES
  ,(N'Timeline_Basic',N'Basic',N'Task',0,1,0,0,NULL,N'Left',N'Week',1,0,N'Name',N'StartDate',N'EndDate',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,N'<div class="ep-parent-container-start">
 	<div class="ep-container-start">
       <span title="{{IdState_flxtext}}" class="ep-flag ep-flag-{{IdState|switch:[1:red,2:yellow,3:green,4:blue,else:grey]}}"></span>
-  		<span>
+  		<h6>
           <i class="fa fa-tasks"></i> {{Name}}
-      	</span>
+      	</h6>
     </div>
   	<div class="ep-container-start">
       <span>
@@ -77,9 +77,9 @@ USING (VALUES
  ,(N'Timeline_BasicWithGroups',N'Basic With Groups',N'Task',0,1,1,1,N'Unassigned Tasks',N'Left',N'Week',1,1,N'Name',N'StartDate',N'EndDate',N'IdEmployee',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,N'<div class="ep-parent-container-start">
 	<div class="ep-container-start">
       <span title="{{IdState_flxtext}}"  class="ep-flag ep-flag-{{IdState|switch:[1:red,2:yellow,3:green,4:blue,else:grey]}}"></span>
-  		<span>
+  		<h6>
           <i class="fa fa-tasks"></i> {{Name}}
-      	</span>
+      	</h6>
     </div>
   	<div class="ep-container-start">
       <span>
@@ -88,9 +88,6 @@ USING (VALUES
       <span>
         <i class="flx-icon icon-ppt-2" style="font-size: 12px;margin-left: 20px;"></i> {{IdProject_flxtext}}
       </span>
-      <!--<span>
-        <i class="flx-icon icon-man" style="font-size: 12px;margin-left: 20px;"></i> {{IdEmployee_flxtext|isnull: Not Assigned}}
-      </span>-->
   </div>
 </div>',NULL,NULL,NULL,NULL,1)
 ) AS Source ([TimelineSettingName],[TimelineSettingDescrip],[ObjectName],[Advanced],[Editable],[WithGroups],[ShowItemsWithoutGroup],[TitleItemsWithoutGroup],[LayoutName],[DefaultRangeName],[ShowControls],[OnInsertOpenNewWithDefaults],[PropertyDescrip],[PropertyStartDate],[PropertyEndDate],[PropertyGroup],[GroupViewName],[GroupIdField],[GroupDescripField],[GroupClassNameField],[GroupStyleField],[GroupContentTemplate],[ItemViewName],[ItemDescripField],[ItemStartDateField],[ItemEndDateField],[ItemGroupField],[ItemEditableField],[ItemClassNameField],[ItemStyleField],[ItemTypeField],[ItemContentTemplate],[ItemVisibleFrameTemplate],[OnMovingFunction],[OnDropObjectOnItemFunction],[CustomOptions],[OriginId])

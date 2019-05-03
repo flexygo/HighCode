@@ -20,6 +20,11 @@ left join Action_States s on s.State=actions.ActionState
 left join Action_Types t on t.ActionType=actions.ActionType
 outer apply (select name as NameEmp, image as ImageEmp, IdTeam from Employee where IdEmployee=actions.IdEmployee) emp
 outer apply (select name as NameCli, image as ImageCli from Client where IdClient=actions.IdClient) Cli',0,0,1,0,0,NULL,1)
+ ,(N'Bank_holiday',N'Bank_holiday',N'Bank holiday',N'DataConnectionString',N' SELECT IdHoliday, Name, Date FROM Bank_Holidays
+',0,0,1,0,0,NULL,1)
+ ,(N'Bank_holiday',N'Bank_holidayDefaultList',N'Bank_holidayDefaultList',N'DataConnectionString',N' SELECT [Bank_Holidays].[IdHoliday], [Bank_Holidays].[IdHoliday] as [IdHoliday_1], [Bank_Holidays].[Name] as [Name], [Bank_Holidays].[Date] as [Date] FROM [Bank_Holidays] 
+
+',0,1,1,0,1,NULL,1)
  ,(N'Cliente',N'Cliente_calendar',N'Cliente calendario',N'DataConnectionString',N'Select IdClient, Name, image from client',0,0,1,0,0,NULL,1)
  ,(N'Cliente',N'cliente_resumen_ventas',N'Resumen de ventas de clientes',N'DataConnectionString',N'SELECT  Client.Name, COUNT(sale_product.idsale) as NºProducts, Sale.Descrip as Descrip,
         Concat(Sale.EconomicAmount, '' '', CONVERT(VARCHAR, Sale.Badge))  as Amount, Sale.Date
@@ -53,6 +58,11 @@ left join Countries on Countries.IsoName = Contact.IdCountry',0,0,1,0,0,N'Contac
  ,(N'Employee',N'EmployeeDefaultList',N'EmployeeDefaultList',N'DataConnectionString',N' SELECT [Employee].[IdEmployee], [Employee].[IdEmployee] as [Id. Employee], [Employee].[Name] as [Name], [Employee].[Tel] as [Tel], [Employee].[Image] as [Image] FROM [Employee] 
 
 ',0,1,1,0,1,NULL,1)
+ ,(N'Employee',N'Scheduler_Filter',N'Scheduler Filter',N'DataConnectionString',N'SELECT
+IdEmployee,
+Name,
+Image
+FROM Employee',0,0,1,0,0,NULL,1)
  ,(N'Employee',N'Vista_calendario',N'Vista calendario de empleado',N'DataConnectionString',N'select IdEmployee, Name, Image from Employee',0,0,1,0,0,NULL,1)
  ,(N'Employee_Holiday',N'Employee_HolidayDefaultList',N'Employee_HolidayDefaultList',N'DataConnectionString',N' SELECT [EmployeesHolidays].[IdHoliday], [EmployeesHolidays].[IdHoliday] as [IdHoliday_1], [FlxCmb1].[Name] as [Employee], [EmployeesHolidays].[Name] as [Name], [EmployeesHolidays].[Note] as [Note], [EmployeesHolidays].[StartDate] as [Start Date], [EmployeesHolidays].[EndDate] as [End Date], [EmployeesHolidays].[Validated] as [Validated] FROM [EmployeesHolidays] 
   LEFT JOIN (Select Name, IdEmployee, Image from Employee ) [FlxCmb1] ON [FlxCmb1].[IdEmployee]=[EmployeesHolidays].[IdEmployee] 
@@ -64,18 +74,20 @@ EmployeesHolidays.Name as HolidayName,
 EmployeesHolidays.StartDate,
 EmployeesHolidays.EndDate,
 EmployeesHolidays.Validated,
-CHOOSE(EmployeesHolidays.Validated + 1, ''rgba(240, 128, 128, 0.7)'', ''rgba(144, 238, 144, 0.7)'') AS Color,
+CHOOSE(EmployeesHolidays.Validated + 1, ''rgba(240, 128, 128, 0.9)'', ''rgba(144, 238, 144, 0.9)'') AS Color,
 Employee.IdEmployee,
 Employee.Name AS EmployeeName,
 Employee.Image AS EmployeeImage,
 CHOOSE(EmployeesHolidays.Validated + 1, ''Not Validated'', ''Validated'') AS ValidatedText,
-''#3c3c46'' AS TextColor
+''#3c3c46'' AS TextColor,
+CASE WHEN CONVERT(VARCHAR(8),EmployeesHolidays.EndDate,105) > CONVERT(VARCHAR(8),EmployeesHolidays.StartDate,105) THEN ''true'' ELSE ''false'' END AS AllDay
  FROM EmployeesHolidays 
  LEFT JOIN Employee ON EmployeesHolidays.IdEmployee = Employee.IdEmployee',0,0,1,0,0,NULL,1)
  ,(N'Equipo',N'acciones_kanban',N'Acciones kanban',N'DataConnectionString',N'select state as ActionState, Descrip,CssClass from Action_States where state <4',1,0,1,0,0,NULL,1)
  ,(N'Equipo',N'EquipoDefaultList',N'EquipoDefaultList',N'DataConnectionString',N' SELECT [Team].[IdTeam], [Team].[IdTeam] as [#], [Team].[Descrip] as [Nombre del equipo] FROM [Team] 
 
 ',0,1,1,0,1,NULL,1)
+ ,(N'Equipo',N'Kanban_States',N'Kanban States',N'DataConnectionString',N' Select IdState, Description from Tasks_States WHERE IdState <> 4',1,0,1,0,0,NULL,1)
  ,(N'Project',N'ProjectDefaultList',N'ProjectDefaultList',N'DataConnectionString',N' SELECT [Projects].[IdProject], [Projects].[IdProject] as [IdProject_1], [FlxCmb1].[Descrip] as [Team], [Projects].[Name] as [Name], [Projects].[Logo] as [Logo] FROM [Projects] 
   LEFT JOIN (SELECT [IdTeam], [Descrip] FROM [Team]) [FlxCmb1] ON [FlxCmb1].[IdTeam]=[Projects].[IdTeam] 
 
@@ -98,7 +110,7 @@ CHOOSE(EmployeesHolidays.Validated + 1, ''Not Validated'', ''Validated'') AS Val
 	Employee.Image AS EmployeeImage,
 	NULL AS Type,
 	IIF(Tasks_States.IdState in (3, 4), ''false'', ''true'') AS Editable,
-	IIF(Employee.IdEmployee = {{currentReference}}, ''background-color: lightslategray;border-color: lightslategray;'', '''') AS Style
+	IIF(Employee.IdEmployee = {{currentReference}}, ''background-color: rgba(119, 136, 153, 0.9);;border-color: rgba(119, 136, 153, 0.9);;'', '''') AS Style
 FROM Tasks
 LEFT JOIN Projects ON Tasks.IdProject = Projects.IdProject
 LEFT JOIN Tasks_States ON Tasks.IdState = Tasks_States.IdState
@@ -131,7 +143,7 @@ FROM (
       Employee.Image AS EmployeeImage,
       NULL AS Type,
       IIF(Tasks_States.IdState in (3, 4), ''false'', ''true'') AS Editable,
-      IIF(Employee.IdEmployee = {{currentReference}}, ''background-color: lightslategray;border-color: lightslategray;'', '''') AS Style
+      IIF(Employee.IdEmployee = {{currentReference}}, ''background-color: rgba(119, 136, 153, 0.9);;border-color: rgba(119, 136, 153, 0.9);;'', '''') AS Style
   FROM Tasks
   LEFT JOIN Projects ON Tasks.IdProject = Projects.IdProject
   LEFT JOIN Tasks_States ON Tasks.IdState = Tasks_States.IdState
@@ -158,6 +170,26 @@ FROM (
       CHOOSE(EmployeesHolidays.Validated + 1, ''background-color: rgba(240, 128, 128, 0.3);border-color: rgba(240, 128, 128, 0.3);'', ''background-color: rgba(144, 238, 144, 0.3);border-color: rgba(144, 238, 144, 0.3);'') AS Style
    FROM EmployeesHolidays
 ) AS Tasks ',0,0,1,0,0,NULL,1)
+ ,(N'Task',N'Kanban',N'Kanban',N'DataConnectionString',N'SELECT 
+	Tasks.IdTask,
+	Tasks.Name,
+	Tasks.StartDate,
+	Tasks.EndDate,
+	Tasks.CompletedHours,
+	Tasks.EstimatedHours,
+	CASE WHEN ISNULL(Tasks.EstimatedHours, 0) <> 0 THEN CAST(ROUND(ISNULL(Tasks.CompletedHours, 0) * 100.0 / ISNULL(Tasks.EstimatedHours, 0), 1) AS INT) ELSE 0 END AS Percentage,
+	IIF(CASE WHEN ISNULL(Tasks.EstimatedHours, 0) <> 0 THEN CAST(ROUND(ISNULL(Tasks.CompletedHours, 0) * 100.0 / ISNULL(Tasks.EstimatedHours, 0), 1) AS INT) ELSE 0 END > 100, ''lightcoral'', '''') AS PercentageColor,
+	Projects.Name AS ProjectName,
+	Projects.Logo AS ProjectLogo,
+	Tasks_States.IdState,
+	Tasks_States.Description AS StateDescription,
+	Employee.IdEmployee,
+	Employee.Name AS EmployeeName,
+	Employee.Image AS EmployeeImage
+FROM Tasks
+LEFT JOIN Projects ON Tasks.IdProject = Projects.IdProject
+LEFT JOIN Tasks_States ON Tasks.IdState = Tasks_States.IdState
+LEFT JOIN  Employee ON Tasks.IdEmployee = Employee.IdEmployee',0,0,1,0,0,NULL,1)
  ,(N'Task',N'TaskDefaultList',N'TaskDefaultList',N'DataConnectionString',N' SELECT [Tasks].[IdTask], [Tasks].[IdTask] as [IdTask_1], [FlxCmb1].[Name] as [Project], [FlxCmb2].[Description] as [State], [FlxCmb3].[Name] as [Employee], [Tasks].[Name] as [Name], [Tasks].[Description] as [Description], [Tasks].[StartDate] as [Start Date], [Tasks].[EndDate] as [End Date], [Tasks].[EstimatedHours] as [Estimated Hours], [Tasks].[CompletedHours] as [Completed Hours] FROM [Tasks] 
   LEFT JOIN (SELECT [IdProject], [Name] FROM [Projects]) [FlxCmb1] ON [FlxCmb1].[IdProject]=[Tasks].[IdProject] 
   LEFT JOIN (SELECT [IdState], [Description] FROM [Tasks_States]) [FlxCmb2] ON [FlxCmb2].[IdState]=[Tasks].[IdState] 
