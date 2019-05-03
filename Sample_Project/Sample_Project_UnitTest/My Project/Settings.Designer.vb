@@ -96,7 +96,7 @@ Namespace My
         
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("C:\Codigo GIT\Flexygo\flexygo\HighCode\Sample_Project\Sample_Project\")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("C:\Users\rpardo\Desktop\Campus\Highcoding\Samples\Sample_Project\Sample_Project")>  _
         Public ReadOnly Property Path() As String
             Get
                 Return CType(Me("Path"),String)
