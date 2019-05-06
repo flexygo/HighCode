@@ -107,6 +107,7 @@
     <Compile Include="SaleOnChangeProcess.vb" />
     <Compile Include="ClientObjectProcess.vb" />
     <Compile Include="ClientProcesses.vb" />
+    <Compile Include="SampleCreateUser.vb" />
     <Compile Include="SampleDataProcesses.vb" />
     <Compile Include="SampleUserProcesses.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

@@ -11,6 +11,7 @@ USING (VALUES
  ,(N'Cliente',N'nueva_venta',N'6ba6af55-ec08-466c-92c5-b532df341eba',0,1,NULL,NULL,NULL,NULL,NULL,0,1)
  ,(N'Clientes',N'ConvertToNationalColl',N'714e690b-22ef-4132-8d3f-5689f6298cfd',0,1,NULL,N'Solo aparecerá si el cliente tiene estado = 4',NULL,N'4',NULL,1,1)
  ,(N'Clientes',N'pPers_LockClientBatch',N'de5a2347-abb8-441f-8fca-4f26a5189360',0,1,NULL,NULL,NULL,NULL,NULL,1,1)
+ ,(N'Employee',N'CreateUser',N'98c4529d-9920-4fd7-9c10-9a43ff47635f',0,1,NULL,NULL,NULL,NULL,NULL,0,1)
 ) AS Source ([ObjectName],[ProcessName],[MenuId],[Order],[Active],[SQLEnabled],[SQLEnabledDescrip],[EnabledProperty],[EnabledValues],[DisabledValues],[BagOnly],[OriginId])
 ON (Target.[ObjectName] = Source.[ObjectName] AND Target.[ProcessName] = Source.[ProcessName])
 WHEN MATCHED AND (
