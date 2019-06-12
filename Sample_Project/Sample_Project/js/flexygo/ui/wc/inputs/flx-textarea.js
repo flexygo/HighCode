@@ -541,7 +541,7 @@ var flexygo;
                     if (input.val() === '') {
                         return null;
                     }
-                    return input.val();
+                    return flexygo.utils.parser.replaceAll(flexygo.utils.parser.replaceAll(input.val(), '\r', ''), '\n', '\r\n');
                 }
                 /**
                 * Trigger Dependencies.

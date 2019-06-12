@@ -68,7 +68,6 @@ var flexygo;
                 */
                 refresh() {
                     if ($(this).attr('manualInit') != 'true') {
-                        //TODO: Modificar
                         this.init();
                     }
                 }
@@ -78,7 +77,7 @@ var flexygo;
                 */
                 setFilter() {
                     if ($(this).attr('manualInit') != 'true') {
-                        //TODO: Modificar pedir los items a el controller
+                        //TODO: Modificar pedir solo los items a el controller
                         this.getTimeline();
                     }
                 }
@@ -456,9 +455,9 @@ var flexygo;
                 /**
                 * Init Vis Timeline.
                 * @method setItemsWithoutGroups
-                * @param {vis.DataItemCollectionType } visItems Items Data.
-                * @param {vis.DataGroupCollectionType } visGroups Groups Data.
-                * @param {vis.TimelineOptions } visOptions Options Data.
+                * @param {vis.DataItemCollectionType} visItems Items Data.
+                * @param {vis.DataGroupCollectionType} visGroups Groups Data.
+                * @param {vis.TimelineOptions} visOptions Options Data.
                 */
                 setItemsWithoutGroups(visItems) {
                     if (visItems.length === 0) {
@@ -485,8 +484,8 @@ var flexygo;
                     let params = {
                         PageName: flexygo.history.getPageName($(this)),
                         ModuleName: this.moduleName,
-                        ObjectName: this.objectName,
-                        ObjectWhere: this.objectWhere,
+                        ObjectName: $(this).attr('ObjectName'),
+                        ObjectWhere: $(this).attr('ObjectWhere'),
                         searchId: this.activeFilter,
                         filterValues: this.filterValues
                     };
@@ -659,7 +658,7 @@ var flexygo;
                             return (item && item.data) ? flexygo.utils.parser.recursiveCompile(item.data, this.timelineSetting.ItemVisibleFrameTemplate) : '';
                         };
                     }
-                    return $.extend(true, visOptions, this.isJson(this.timelineSetting.CustomOptions) ? JSON.parse(this.timelineSetting.CustomOptions) : null);
+                    return $.extend(true, visOptions, this.isJson(this.timelineSetting.CustomOptions) ? JSON.parse(this.timelineSetting.CustomOptions, (key, value) => (value && (typeof value === 'string') && value.indexOf('function') === 0) ? new Function('return ' + value)() : value) : null);
                 }
                 /**
                 * Build Vis Item.

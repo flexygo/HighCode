@@ -19,6 +19,7 @@ declare namespace flexygo.ui.wc {
         mode: string;
         objectname: string;
         childname: string;
+        collectionname: string;
         objectwhere: string;
         processwhere: string;
         data: any;
@@ -56,6 +57,9 @@ declare namespace flexygo.ui.wc {
         viewList: {
             [name: string]: string;
         };
+        canDelete: boolean;
+        canInsert: boolean;
+        canUpdate: boolean;
         filter: string;
         filters: string;
         filterValues: FlxFilterInfo[];

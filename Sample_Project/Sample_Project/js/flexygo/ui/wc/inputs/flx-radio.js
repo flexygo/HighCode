@@ -388,7 +388,7 @@ var flexygo;
                         if (text === '' || text === null) {
                             text = value;
                         }
-                        if (me.find('input[value="' + value + '"]').length === 0) {
+                        if (me.find('input[value="' + value + '"]').length === 0 && !flexygo.utils.isBlank(value)) {
                             label = $('<label />');
                             input = $('<input type="radio">');
                             input.attr('value', value).attr('name', this.name);

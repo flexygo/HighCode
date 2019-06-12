@@ -1580,3 +1580,10 @@
 .flag-icon-un.flag-icon-squared {
   background-image: url(./flags1.svg#un);
 }
+.flag-icon-cat {
+    background-image: url(./flags43.svg#cat);
+}
+ .flag-icon-cat.flag-icon-squared {
+        background-image: url(./flags1.svg#cat);
+
+ }

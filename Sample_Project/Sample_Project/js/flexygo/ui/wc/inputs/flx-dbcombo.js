@@ -572,7 +572,7 @@ var flexygo;
                             e.stopPropagation();
                             e.preventDefault();
                         });
-                        $('#mainContent, main.pageContainer').on('scroll.dbcombo', () => {
+                        $('#mainContent, main.pageContainer').on('scroll.dbcombo', (e) => {
                             this.hideOptions();
                         });
                         $(window, me.closest('div.ui-dialog')).resize(() => {

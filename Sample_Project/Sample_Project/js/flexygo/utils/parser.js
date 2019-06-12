@@ -146,7 +146,7 @@ var flexygo;
                                 else if (typeF == 'decimal') {
                                     if (rValue && rValue != '' && $.isNumeric(rValue)) {
                                         if (strFormat && strFormat != '') {
-                                            rValue = parseFloat(parseFloat(rValue).toFixed(strFormat)).toLocaleString();
+                                            rValue = parseFloat(parseFloat(rValue).toFixed(strFormat)).toLocaleString(flexygo.profiles.culture, { minimumFractionDigits: strFormat });
                                         }
                                         else {
                                             rValue = parseFloat(rValue).toLocaleString();

@@ -46,14 +46,14 @@ declare namespace flexygo.ui.wc {
         init(): void;
         showOptions(): void;
         hideOptions(): void;
-        loadValues(page: number): void;
+        loadValues(page: number, fromvalue?: boolean, value?: string): void;
         private addComboItems(data);
         private getListItem(value, text, template);
         addValue(value: any, text?: string): void;
         getIconButtons(): JQuery;
         setOptions(): void;
         changeSQLData(newSQL: string, newOptions: string): void;
-        setValue(value: any, text: any): void;
+        setValue(value: any, text?: any): void;
         getValue(): any;
         /**
         * Trigger Dependencies.

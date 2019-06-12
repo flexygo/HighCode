@@ -27,6 +27,7 @@ var flexygo;
                     this.reportname = null;
                     this.processname = null;
                     this.propertyname = null;
+                    this.constringItems = null;
                     this.mode = null;
                 }
                 /**
@@ -36,6 +37,7 @@ var flexygo;
                 connectedCallback() {
                     let element = $(this);
                     this.connected = true;
+                    this.loadConnStrings();
                     this.template = this.getTemplate();
                     this.objectname = element.attr('ObjectName');
                     this.reportname = element.attr("ReportName");
@@ -103,6 +105,14 @@ var flexygo;
                     me.find(".pnlProperties").sortable();
                 }
                 /**
+              * RefrLoads connstrings for combo.
+              * @method loadConnStrings
+              */
+                loadConnStrings() {
+                    let obj = new flexygo.obj.Entity('sysObject');
+                    this.constringItems = obj.getView('CnnStrings');
+                }
+                /**
                 * RefrLoads tabs.
                 * @method loadTabs
                 */
@@ -116,6 +126,7 @@ var flexygo;
                     me.find('.pnlNavigate').append('<li data-link="enabled-controls"><a href="#"><i class="flx-icon icon-lock-1"></i> ' + flexygo.localization.translate('dependecymanager.enabledep') + '</a></li>');
                     me.find('.pnlNavigate').append('<li data-link="visible-controls"><a href="#"><i class="flx-icon icon-eye"></i> ' + flexygo.localization.translate('dependecymanager.visibledep') + '</a></li>');
                     me.find('.pnlNavigate').append('<li data-link="required-controls"><a href="#"><i class="flx-icon icon-checked"></i> ' + flexygo.localization.translate('dependecymanager.requireddep') + '</a></li>');
+                    me.find('.pnlNavigate').append('<li data-link="cnnstrings-controls"><a href="#"><i class="flx-icon icon-checked"></i> ' + flexygo.localization.translate('dependecymanager.connectionstrings') + '</a></li>');
                     me.find('.pnlNavigate').append('<li data-link="save-Module" class="pull-right"><button class="btn btn-default bg-info"><i class="flx-icon icon-save"></i> ' + flexygo.localization.translate('dependecymanager.save') + '</button></a></li>');
                     me.find('.pnlNavigate>li>a').on('click', (ev) => {
                         ev.stopPropagation();
@@ -311,6 +322,7 @@ var flexygo;
                     template += '<div class="row">';
                     template += '<div class="col-2 propName {{Active|Bool:,strike}}">';
                     template += '{{DependingPropertyName}}';
+                    template += '  <i title="Connection string for dependencies" class="flx-icon icon-tag HasConnstringDep" style="{{HasConnstringDep|Bool:,display:none}}"></i>';
                     template += '  <i title="Has value dependency" class="flx-icon icon-tag HasValueDep" style="{{HasValueDep|Bool:,display:none}}"></i>';
                     template += '  <i title="Has Class dependency" class="flx-icon icon-custom HasClassDep" style="{{HasClassDep|Bool:,display:none}}"></i>';
                     template += '  <i title="Has Combo dependency" class="flx-icon icon-listbox-2 HasComboDep" style="{{HasComboDep|Bool:,display:none}}"></i>';
@@ -319,6 +331,9 @@ var flexygo;
                     template += '  <i title="Has Required dependency" class="flx-icon icon-checked HasRequiredDep" style="{{HasRequiredDep|Bool:,display:none}}"></i>';
                     template += '</div>';
                     template += '<div class="col-10">';
+                    template += '<div class="cnnstrings-controls ctl-panel" style="display:none">';
+                    template += '  <flx-combo type="text" property="ConnStringId" placeholder="' + flexygo.localization.translate('dependecymanager.connStringvalues') + '" value="{{ConnStringId}}">' + this.getConnStringItems() + '</flx-combo>';
+                    template += '</div>';
                     template += '<div class="value-controls ctl-panel" style="display:none">';
                     template += '  <flx-text type="text" property="SQLValue" placeholder="' + flexygo.localization.translate('dependecymanager.sqlvalue') + '" value="{{SQLValue}}"></flx-text>';
                     template += '</div>';
@@ -352,6 +367,18 @@ var flexygo;
                     template += '</div>';
                     template += ' </li>';
                     return template;
+                }
+                /**
+              * Gets connection string items as string.
+              * @method getConnStringItems
+              * @returns string
+              */
+                getConnStringItems() {
+                    let str = '<option value=""></option>';
+                    for (let i = 0; i < this.constringItems.length; i++) {
+                        str += '<option value="' + this.constringItems[i].ConnStringid + '">' + this.constringItems[i].ConnStringid + '</option >';
+                    }
+                    return str;
                 }
             }
             wc.FlxDependencyManagerElement = FlxDependencyManagerElement;

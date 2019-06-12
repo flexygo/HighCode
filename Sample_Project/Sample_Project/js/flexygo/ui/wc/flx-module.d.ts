@@ -33,6 +33,7 @@ declare namespace flexygo.ui.wc {
         JSAfterLoad: string;
         mode: string;
         reportname: string;
+        reportwhere: string;
         processname: string;
         emptyTop: boolean;
         emptyTimer: number;
@@ -58,7 +59,7 @@ declare namespace flexygo.ui.wc {
         refresh(): void;
         moduleLoaded(wc: any): void;
         toggle(): void;
-        setButtons(buttons: flexygo.api.Toolbar, objectname: string, objectwhere: string, reportname?: string, processname?: string): void;
+        setButtons(buttons: flexygo.api.Toolbar, objectname: string, objectwhere: string, reportname?: string, processname?: string, reportwhere?: string): void;
         refreshButtons(buttons: flexygo.api.Toolbar, objectname: string, objectwhere: string, reportname?: string, processname?: string): void;
         private addGroup(position, btnGroup);
         refreshButton(htmlBtn: JQuery, btn: flexygo.api.ToolbarButton, objectname: string, objectwhere: string, objectdefaults: string, reportname?: string, reportwhere?: string, processname?: string): void;

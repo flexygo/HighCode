@@ -25,6 +25,7 @@ var flexygo;
                     */
                     this.connected = false;
                     this.managerMode = 'flexygo';
+                    this.type = 'edit';
                 }
                 /**
                 * Fires when element is attached to DOM
@@ -38,6 +39,9 @@ var flexygo;
                     this.objectId = element.attr('ObjectId');
                     this.moduleName = element.attr('ModuleName');
                     this.managerMode = element.attr('mode');
+                    if (element.attr('type')) {
+                        this.type = element.attr('type');
+                    }
                     if (element.attr('manualInit') != 'true') {
                         this.init();
                     }
@@ -55,7 +59,7 @@ var flexygo;
                 * @property observedAttributes
                 */
                 static get observedAttributes() {
-                    return ['modulename', 'objectname', 'objectwhere', 'objectid'];
+                    return ['modulename', 'objectname', 'objectwhere', 'objectid', 'mode'];
                 }
                 /**
                 * Fires when the attribute value of the element is changed.
@@ -143,7 +147,7 @@ var flexygo;
                     try {
                         let me = $(this);
                         var rendered;
-                        rendered = `<div class="dtc-main"><div class="dtc-btn-container">
+                        rendered = `<div class="dtc-main"><div class="dtc-btn-container ${this.type.toLowerCase() == "view" ? 'hidden' : ''}">
                                  <button type="button" method="opendialog" value="upload" class="btn btn-default bg-outstanding dtc-btn" data-original-title="" title="">
                                     <i class="flx-icon icon-upload" flx-fw="" ></i><span class="hidden-xs">  ` + flexygo.localization.translate('documentmanager.upload') + `</span>
                                 </button>
@@ -192,7 +196,9 @@ var flexygo;
                         }
                         me.find('div.dtc-filter').tooltip({ title: flexygo.localization.translate('documentmanager.filter'), placement: 'bottom', trigger: 'hover' });
                         me.find('button[method="opensettings"][value="settings"]').tooltip({ title: flexygo.localization.translate('documentmanager.settings'), placement: 'bottom', trigger: 'hover' });
-                        this.mainEvents();
+                        if (!(this.type.toLocaleLowerCase() === 'view')) {
+                            this.mainEvents();
+                        }
                         this.getDocument();
                     }
                     catch (ex) {
@@ -215,7 +221,7 @@ var flexygo;
                 * @param {string} Document type.
                 * @param {string} Document extension.
                 */
-                renderDocument(docGuid, path, downloadLink, name, origin, iconClass, creationDate, category, categoryId, description, documentType, extension) {
+                renderDocument(docGuid, path, downloadLink, name, origin, iconClass, creationDate, category, categoryId, description, documentType, extension, inProgress) {
                     try {
                         let me = $(this);
                         var date;
@@ -231,6 +237,20 @@ var flexygo;
                             if (cats.length > 0) {
                                 category = cats[0].category;
                             }
+                        }
+                        // All Subcontainer buttons are rendered if managerMode is different to view
+                        let subcontainerbuttons = `<div class="dtc-subcontainerbuttons">
+                            <i method="edit" value="" class="flx-icon icon-pencil txt-primary dtc-hover dtc-transition dtc-i-btn" flx-fw=""></i>
+                            <a class="dtc-a" href="` + flexygo.utils.resolveUrl(downloadLink) + `" download="` + name + extension + `">
+                                <i method="download" value= "" class="flx-icon icon-download txt-primary dtc-hover dtc-transition dtc-i-btn" flx- fw="" > </i>
+                            </a>
+                            <i method="remove" value="` + docGuid + `" class="flx-icon icon-delete-2 txt-danger dtc-hover dtc-transition dtc-i-btn" flx- fw="" > </i>
+                            <i method="link" value="` + docGuid + `" class="flx-icon icon-link txt-primary dtc-hover dtc-transition dtc-i-btn" flx- fw="" > </i>
+                          </div>`;
+                        if (this.type.toLowerCase() == "view") {
+                            subcontainerbuttons = `<a class="dtc-a" href="` + flexygo.utils.resolveUrl(downloadLink) + `" download="` + name + extension + `">
+                                <i method="download" value= "" class="flx-icon icon-download txt-primary dtc-hover dtc-transition dtc-i-btn" flx- fw="" > </i>
+                            </a>`;
                         }
                         date = new Date(parseInt(creationDate.substr(6)));
                         rendered = `<div id="` + docGuid + `" documenttype="` + documentType + `" class="dtc-container dtc-transition">
@@ -248,22 +268,15 @@ var flexygo;
                                     <div class="dtc-containertext">
                                        <!-- <span class="size-m">` + docGuid + `<i method="copy" class="fa fa-copy dtc-iconcopy dtc-hover dtc-transition" flx-fw=""></i></span>-->
                                        <!-- <div class="dtc-subcontainer dtc-margin">-->
-                                            <span class="dtc-category size-m" value="` + categoryId + `">` + category + `</span>
+                                            <span class="dtc-category size-m" value="` + categoryId + `">` + category + `</span>` + (inProgress ? ' <strong class="uploadIncomplete txt-danger size-l">Upload Incomplete</strong>' : '') + `
                                             <span class="size-m">` + date.toLocaleString().slice(0, -3) + `</span>
                                        <!-- </div>-->
                                     </div>
                                 </div>
                                 <div class="dtc-subcontainer hidden-xs hidden-sm hidden-md">
                                      <span class="dtc-description size-m">` + description + `</span>
-                                </div>
-                                <div class="dtc-subcontainerbuttons">
-                                        <i method="edit" value="" class="flx-icon icon-pencil txt-primary dtc-hover dtc-transition dtc-i-btn" flx-fw=""></i>
-                                        <a class="dtc-a" href="` + flexygo.utils.resolveUrl(downloadLink) + `" download="` + name + extension + `">
-                                            <i method="download" value= "" class="flx-icon icon-download txt-primary dtc-hover dtc-transition dtc-i-btn" flx- fw="" > </i>
-                                        </a>
-                                        <i method="remove" value="` + docGuid + `" class="flx-icon icon-delete-2 txt-danger dtc-hover dtc-transition dtc-i-btn" flx- fw="" > </i>
-                                        <i method="link" value="` + docGuid + `" class="flx-icon icon-link txt-primary dtc-hover dtc-transition dtc-i-btn" flx- fw="" > </i>
-                                 </div>
+                                </div>` +
+                            subcontainerbuttons + `
                             </div>`;
                         me.find('div.dtc-pry-container').prepend(rendered);
                         switch (documentType) {
@@ -478,7 +491,8 @@ var flexygo;
                                 this.filesPending = dEvent.dataTransfer.files.length;
                                 this.filesTotal = this.filesPending;
                                 for (var i = 0; i < dEvent.dataTransfer.files.length; i++) {
-                                    this.documentReader(dEvent.dataTransfer.files[i], 'diskfile', 'upload', (dEvent.dataTransfer.files.length > 1));
+                                    let file = new flexygo.io.DocumentUpload(dEvent.dataTransfer.files[i], this.rObjectName, this.rObjectId, 'diskfile', 'upload', this);
+                                    file.startUpload();
                                 }
                             });
                         }
@@ -619,8 +633,10 @@ var flexygo;
                                         if (element[0].files) {
                                             this.filesPending = element[0].files.length;
                                             this.filesTotal = this.filesPending;
-                                            for (var fl in element[0].files) {
-                                                this.documentReader(element[0].files[fl], doctype, method, (element[0].files.length > 1));
+                                            for (let i = 0; i < element[0].files.length; i++) {
+                                                let fl = element[0].files[i];
+                                                let file = new flexygo.io.DocumentUpload(fl, this.rObjectName, this.rObjectId, doctype, method, this);
+                                                file.startUpload();
                                             }
                                         }
                                     }
@@ -732,7 +748,7 @@ var flexygo;
                                         else {
                                             downloadLink = files[fl].link.replace('?dl=0', '?dl=1');
                                         }
-                                        this.setDocument(null, name, doctype, files[fl].id, files[fl].link, downloadLink, method, false);
+                                        this.setCloudDocument(null, name, doctype, files[fl].id, files[fl].link, downloadLink, method, false);
                                     }
                                 },
                                 cancel: function () { },
@@ -854,27 +870,6 @@ var flexygo;
                     }
                 }
                 /**
-                * Document reader.
-                * @method documentReader
-                * @param {File} File.
-                * @param {string} Document type.
-                * @param {string} Action.
-                */
-                documentReader(file, documentType, action, multi) {
-                    try {
-                        let me = $(this);
-                        var reader;
-                        reader = new FileReader();
-                        reader.onload = (e) => {
-                            this.setDocument(reader.result, file.name, documentType, null, null, null, action, multi);
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                    catch (ex) {
-                        console.log(ex);
-                    }
-                }
-                /**
                 * Remove document.
                 * @method removeDocument
                 * @param {string} Document ID.
@@ -920,7 +915,7 @@ var flexygo;
                 * @param {string} Cloud link.
                 * @param {string}  action
                 */
-                setDocument(base64, documentName, documentType, cloudId, cloudLink, downloadLink, action, multi) {
+                setCloudDocument(base64, documentName, documentType, cloudId, cloudLink, downloadLink, action, multi) {
                     try {
                         if ((this.rObjectId || this.rObjectId == 0) && this.rObjectName) {
                             let me = $(this);
@@ -948,7 +943,7 @@ var flexygo;
                             };
                             flexygo.ajax.post('~/api/DocumentManager', 'SetDocument', params, (response) => {
                                 if (response && !response.documentError) {
-                                    this.renderDocument(response.docGuid, response.path, response.downloadLink, response.name, response.origin, response.iconClass, response.creationDate, response.category, response.categoryId, response.description, response.documentType, response.extension);
+                                    this.renderDocument(response.docGuid, response.path, response.downloadLink, response.name, response.origin, response.iconClass, response.creationDate, response.category, response.categoryId, response.description, response.documentType, response.extension, false);
                                     this.documentEvents();
                                     flexygo.msg.success('documentmanager.saved');
                                 }
@@ -1100,13 +1095,16 @@ var flexygo;
                             flexygo.ajax.post('~/api/DocumentManager', 'GetDocument', params, (response) => {
                                 if (response[0] && !response[0].documentError) {
                                     for (var doc in response) {
-                                        this.renderDocument(response[doc].docGuid, response[doc].path, response[doc].downloadLink, response[doc].name, response[doc].origin, response[doc].iconClass, response[doc].creationDate, response[doc].category, response[doc].categoryId, response[doc].description, response[doc].documentType, response[doc].extension);
+                                        this.renderDocument(response[doc].docGuid, response[doc].path, response[doc].downloadLink, response[doc].name, response[doc].origin, response[doc].iconClass, response[doc].creationDate, response[doc].category, response[doc].categoryId, response[doc].description, response[doc].documentType, response[doc].extension, response[doc].inProgress);
                                     }
                                     this.documentEvents();
                                 }
                                 else {
                                     if (response[0] && response[0].permissionError) {
                                         flexygo.msg.warning('documentmanager.permissionerror');
+                                    }
+                                    else if (response.length == 0 && this.type == 'view') {
+                                        me.html('<div class="box-info"><i class="flx-icon icon-information-2 icon-lg icon-margin-right"></i><span><strong>Info!</strong> ' + flexygo.localization.translate('flxlist.noentriesfound') + '</span></div>');
                                     }
                                 }
                             });
@@ -1279,7 +1277,7 @@ var flexygo;
                                     previewLink = data.docs[doc].embedUrl;
                                 }
                             }
-                            this.setDocument(null, name, doctype, data.docs[doc].id, previewLink, downloadLink, method, false);
+                            this.setCloudDocument(null, name, doctype, data.docs[doc].id, previewLink, downloadLink, method, false);
                         }
                     }
                 }
@@ -1346,6 +1344,183 @@ var flexygo;
             wc.FlxDocumentManagerElement = FlxDocumentManagerElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));
+})(flexygo || (flexygo = {}));
+(function (flexygo) {
+    var io;
+    (function (io) {
+        class DocumentUpload {
+            constructor(file, objectname, objectid, type, action, manager) {
+                this.bufferSize = 2 * 1024 * 1024;
+                this.currentPosition = 0;
+                this.file = file;
+                this.objectname = objectname;
+                this.objectid = objectid;
+                this.manager = manager;
+                this.documentType = type;
+                this.action = action;
+            }
+            startUpload() {
+                this.reader = new FileReader();
+                this.reader.onloadend = (event) => {
+                    if (event.target.readyState !== 2) {
+                        return;
+                    }
+                    if (this.file.size == 0) {
+                        if (this.documentId != '') {
+                            this.removeDocument();
+                        }
+                        this.documentContainer.find('.dtc-progresstext').html('Error uploading document.');
+                        return;
+                    }
+                    if (this.file.size > this.bufferSize) {
+                        //El envio es multipart
+                        if (this.currentPosition == 0) {
+                            this.setDocument(event.target.result, this.file.name, true);
+                        }
+                        else {
+                            if (this.currentPosition < this.file.size) {
+                                // Update upload progress
+                                let lastAppend = !(this.currentPosition + this.bufferSize < this.file.size);
+                                this.appendToDocument(event.target.result, lastAppend);
+                            }
+                            else {
+                                // Update upload progress
+                                this.documentContainer.find('.dtc-inprogress').remove();
+                            }
+                        }
+                    }
+                    else {
+                        //El envio es completo
+                        this.setDocument(event.target.result, this.file.name, false);
+                    }
+                };
+                this.upload_file();
+            }
+            percentDone() {
+                return Math.floor((this.currentPosition / this.file.size) * 100);
+            }
+            upload_file() {
+                var blob = this.file.slice(this.currentPosition, this.currentPosition + this.bufferSize);
+                this.reader.readAsDataURL(blob);
+            }
+            appendToDocument(base64, lastAppend) {
+                try {
+                    let me = $(this);
+                    var params;
+                    if (base64) {
+                        base64 = base64.split(',')[1];
+                    }
+                    else {
+                        base64 = null;
+                    }
+                    params = {
+                        'ObjectName': this.objectname,
+                        'ObjectId': this.objectid,
+                        'DocumentId': this.documentId,
+                        'Base64': base64,
+                        'LastAppend': lastAppend
+                    };
+                    flexygo.ajax.post('~/api/DocumentManager', 'appendToDocument', params, (response) => {
+                        if ($('body').find(this.documentContainer)) {
+                            this.documentContainer.find('.dtc-progressbar').animate({ width: this.percentDone() + '%' }, 200);
+                            this.documentContainer.find('.dtc-progresstext').html(this.percentDone() + '%');
+                            this.currentPosition += this.bufferSize;
+                            this.upload_file();
+                        }
+                        else {
+                            this.removeDocument();
+                        }
+                    }, () => { this.removeDocument(); this.documentContainer.find('.dtc-progresstext').html('Error uploading document.'); });
+                }
+                catch (ex) {
+                    console.log(ex);
+                }
+            }
+            setDocument(base64, documentName, multipart) {
+                try {
+                    if ((this.objectid || this.objectid == '0') && this.objectname) {
+                        let me = $(this);
+                        var params;
+                        if (base64) {
+                            base64 = base64.split(',')[1];
+                        }
+                        else {
+                            base64 = null;
+                        }
+                        if ((this.documentType.toLowerCase() === "diskfile" || this.documentType.toLowerCase() === "diskfolder") && !base64) {
+                            flexygo.msg.warning('documentmanager.documentempty');
+                            return;
+                        }
+                        params = {
+                            'ObjectName': this.objectname,
+                            'ObjectId': this.objectid,
+                            'DocumentName': documentName,
+                            'DocumentType': this.documentType,
+                            'Base64': base64,
+                            'CloudId': null,
+                            'CloudLink': null,
+                            'DownloadLink': null,
+                            'DocAction': this.action,
+                            'PartialUpload': multipart
+                        };
+                        flexygo.ajax.post('~/api/DocumentManager', 'SetDocument', params, (response) => {
+                            if (multipart) {
+                                this.documentId = response.docGuid;
+                                this.manager.renderDocument(response.docGuid, response.path, response.downloadLink, response.name, response.origin, response.iconClass, response.creationDate, response.category, response.categoryId, response.description, response.documentType, response.extension, false);
+                                this.manager.documentEvents();
+                                this.documentContainer = $(this.manager).find('#' + response.docGuid);
+                                this.documentContainer.append('<div class="dtc-inprogress"><div class="dtc-progressbar" style="width:' + this.percentDone() + '%"></div><div class="dtc-progresstext">' + this.percentDone() + '%</div></div>');
+                                this.currentPosition += this.bufferSize;
+                                this.upload_file();
+                            }
+                            else {
+                                if (response && !response.documentError) {
+                                    this.manager.renderDocument(response.docGuid, response.path, response.downloadLink, response.name, response.origin, response.iconClass, response.creationDate, response.category, response.categoryId, response.description, response.documentType, response.extension, false);
+                                    this.manager.documentEvents();
+                                    flexygo.msg.success('documentmanager.saved');
+                                }
+                                else {
+                                    if (!response.permissionError) {
+                                        flexygo.msg.error('documentmanager.errorsaving');
+                                    }
+                                    else {
+                                        flexygo.msg.warning('documentmanager.permissionerror');
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+                catch (ex) {
+                    console.log(ex);
+                }
+            }
+            removeDocument() {
+                try {
+                    var params;
+                    params = {
+                        'DocGuid': this.documentId,
+                        'ObjectName': this.objectname,
+                        'ObjectId': this.objectid,
+                    };
+                    flexygo.ajax.post('~/api/DocumentManager', 'RemoveDocument', params, (response) => {
+                        if (response.documentError) {
+                            if (!response.permissionError) {
+                                flexygo.msg.error('documentmanager.errorremoving');
+                            }
+                            else {
+                                flexygo.msg.warning('documentmanager.permissionerror');
+                            }
+                        }
+                    });
+                }
+                catch (ex) {
+                    console.log(ex);
+                }
+            }
+        }
+        io.DocumentUpload = DocumentUpload;
+    })(io = flexygo.io || (flexygo.io = {}));
 })(flexygo || (flexygo = {}));
 window.customElements.define('flx-documentmanager', flexygo.ui.wc.FlxDocumentManagerElement);
 //# sourceMappingURL=flx-documentmanager.js.map

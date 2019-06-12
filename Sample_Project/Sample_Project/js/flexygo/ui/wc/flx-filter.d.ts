@@ -76,6 +76,13 @@ declare namespace flexygo.ui.wc {
              */
         saveSearchValue(): void;
         /**
+       * Parses edit string
+       * @method parseEditString
+       * @param {string} str
+       * @return {string}
+       */
+        parseEditString(str: string): string;
+        /**
    * Removes user search values from DB.
    * @method removeSearchValue
    * @param {string} id - Search Id

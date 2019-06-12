@@ -405,8 +405,10 @@ var flexygo;
                                 this.hideOptions();
                             });
                         }
-                        $(window).scroll((e) => {
-                            this.hideOptions();
+                        $('#mainContent, main.pageContainer').on('scroll.multicombo', (e) => {
+                            if (!navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
+                                this.hideOptions();
+                            }
                         });
                         input.on('keyup search', (e) => {
                             this.showOptions();
@@ -496,7 +498,7 @@ var flexygo;
                         }
                     }
                 }
-                loadValues(page) {
+                loadValues(page, fromvalue, value) {
                     let params;
                     let method;
                     this.page = page;
@@ -514,19 +516,35 @@ var flexygo;
                         };
                         method = 'getComboDataView';
                     }
-                    else {
-                        params = {
-                            "Mode": this.mode,
-                            "ObjectName": this.options.ProcessName || this.options.ReportName || this.options.ObjectName,
-                            "PropertyName": this.options.Name,
-                            "CryptedSql": this.options.SQLSentence,
-                            "CryptedFilter": this.options.SQLFilter,
-                            "Value": this.input.val(),
-                            "Page": page,
-                            "PageSize": this.options.PageSize,
-                            "AdditionalWhere": this.additionalWhere
-                        };
-                        method = 'getComboData';
+                    else if (this.options.SQLEditSentence || this.options.SQLSentence) {
+                        if (fromvalue === true) {
+                            params = {
+                                Mode: this.mode,
+                                ObjectName: this.options.ProcessName || this.options.ReportName || this.options.ObjectName,
+                                PropertyName: this.options.Name,
+                                CryptedSql: this.options.SQLEditSentence || this.options.SQLSentence,
+                                CryptedFilter: this.options.SQLFilter,
+                                Value: value,
+                                Page: page,
+                                //"PageSize": this.options.PageSize,                   
+                                AdditionalWhere: this.additionalWhere
+                            };
+                            method = 'getComboText';
+                        }
+                        else {
+                            params = {
+                                "Mode": this.mode,
+                                "ObjectName": this.options.ProcessName || this.options.ReportName || this.options.ObjectName,
+                                "PropertyName": this.options.Name,
+                                "CryptedSql": this.options.SQLSentence,
+                                "CryptedFilter": this.options.SQLFilter,
+                                "Value": this.input.val(),
+                                "Page": page,
+                                "PageSize": this.options.PageSize,
+                                "AdditionalWhere": this.additionalWhere
+                            };
+                            method = 'getComboData';
+                        }
                     }
                     flexygo.ajax.syncPost('~/api/Edit', method, params, (response) => {
                         if (response) {
@@ -544,7 +562,9 @@ var flexygo;
                             else {
                                 elm = this.getListItem(data[i][this.options.SQLValueField], data[i][this.options.SQLDisplayField], data[i][this.options.SQLDisplayField]);
                             }
-                            this.datalist.append(elm);
+                            if (this.datalist.find('[data-value="' + elm.attr("data-value") + '"]').length == 0 && this.datalist.find('[data-text="' + elm.attr("data-text") + '"]').length == 0) {
+                                this.datalist.append(elm);
+                            }
                         }
                     }
                 }
@@ -584,15 +604,24 @@ var flexygo;
                 getIconButtons() {
                     let me = $(this);
                     let ret = $('<div class="input-group-btn" />');
-                    let editCtl = me.closest('flx-edit, flx-list')[0];
+                    let editCtl = me.closest('flx-edit, flx-list, flx-filter')[0];
                     if (this.options && (this.options.SearchCollection || this.options.SearchFunction)) {
                         let icon1 = $('<button class="btn btn-default" type="button"><i class="flx-icon icon-search" /></button>').on('click', (e) => {
                             if (this.options.SearchFunction) {
                                 flexygo.utils.execDynamicCode.call(this, editCtl.parseEditString(this.options.SearchFunction));
                             }
                             if (this.options.SearchCollection && this.options.SearchCollection != '') {
-                                //TODO
-                                flexygo.nav.openPage('list', editCtl.parseEditString(this.options.SearchCollection), editCtl.parseEditString(this.options.SearchWhere), null, 'modal');
+                                flexygo.events.on(this, "entity", "selected", (e) => {
+                                    flexygo.events.off(this, "entity", "selected");
+                                    let entity = e.sender;
+                                    let config = entity.getConfig();
+                                    let value = ((flexygo.utils.isBlank(this.options.SearchReturnFields)) ? entity.data[config.KeyFields[0]].Value : entity.data[this.options.SearchReturnFields].Value).toString();
+                                    this.loadValues(0, true, value);
+                                    this.setValue(value);
+                                    this.triggerDependencies();
+                                    $(document).find('flx-search[objectname="' + this.options.SearchCollection + '"]').closest(".ui-dialog").remove();
+                                });
+                                flexygo.nav.openPage('search', editCtl.parseEditString(this.options.SearchCollection), editCtl.parseEditString(this.options.SearchWhere), null, 'modal');
                             }
                         });
                         ret.append(icon1);
@@ -685,7 +714,21 @@ var flexygo;
                         this.loadValues(0);
                     }
                     else {
-                        //alert('TODO!')
+                        if (value !== 'null' && value !== null && value !== '') {
+                            if (this.datalist && this.datalist.find('li[data-value="' + value + '"]').length === 0) {
+                                if (!text) {
+                                    text = value;
+                                }
+                            }
+                            else {
+                                if (!text) {
+                                    text = this.datalist.find('li[data-value="' + value + '"]').attr("data-text");
+                                }
+                            }
+                        }
+                        if (typeof text == 'undefined') {
+                            text = value;
+                        }
                         let txts = text.split("|");
                         $.each(value.split("|"), (i, e) => {
                             this.container.tagsinput('add', { "value": e, "text": txts[i] });

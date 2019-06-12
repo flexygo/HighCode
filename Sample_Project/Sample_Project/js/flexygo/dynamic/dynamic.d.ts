@@ -34,6 +34,3 @@ declare namespace flexygo.profiles {
 declare namespace flexygo {
     var context: any;
 }
-declare namespace flexygo.culture {
-    var engb: any;
-}

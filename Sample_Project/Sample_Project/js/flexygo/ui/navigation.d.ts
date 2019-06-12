@@ -76,7 +76,7 @@ declare namespace flexygo.nav {
     * @param {boolean} showprogress - false to hide progress indicator
    */
     function execProcess(processname: string, objectname: string, objectwhere: string, defaults: any, processparams: any, targetid: string, excludeHist: boolean, triggerElement: JQuery, callBack?: any, showProgress?: boolean): void;
-    function openPageReturn(pageConf: flexygo.api.pages.Page, objectname: string, objectwhere: string, defaults: any, pageContainer: JQuery, reportname: string, processname?: string, isClone?: boolean): void;
+    function openPageReturn(pageConf: flexygo.api.pages.Page, objectname: string, objectwhere: string, defaults: any, pageContainer: JQuery, reportname: string, processname?: string, isClone?: boolean, reportwhere?: string): void;
     /**
    * Opens the parameter process page
    * @method openProcessParams

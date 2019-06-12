@@ -25,6 +25,7 @@ var flexygo;
                     this.mode = null;
                     this.objectname = null;
                     this.childname = null;
+                    this.collectionname = null;
                     this.objectwhere = null;
                     this.processwhere = null;
                     this.data = null;
@@ -56,6 +57,9 @@ var flexygo;
                     this.presetId = null;
                     this.presetText = null;
                     this.presetIcon = null;
+                    this.canDelete = null;
+                    this.canInsert = null;
+                    this.canUpdate = null;
                     //flx-genericsearch:
                     this.filter = null;
                     //flx-filter
@@ -285,6 +289,7 @@ var flexygo;
                     };
                     flexygo.ajax.post('~/api/List', 'getList', params, (response) => {
                         if (response) {
+                            this.collectionname = response.ObjectName;
                             if (response.Template) {
                                 let template = response.Template;
                                 this.templateId = template.Id;
@@ -305,6 +310,9 @@ var flexygo;
                                 this.groups = template.Groups;
                                 this.viewId = template.DataViewName;
                             }
+                            this.canInsert = response.CanInsert;
+                            this.canUpdate = response.CanUpdate;
+                            this.canDelete = response.CanDelete;
                             this.processwhere = response.ObjectWhere;
                             this.properties = response.Properties;
                             for (let key in this.properties) {
@@ -537,7 +545,7 @@ var flexygo;
                             buttons.hide();
                         }
                     }
-                    if (this.mode == 'edit') {
+                    if (this.mode == 'edit' && this.canUpdate) {
                         if (this.propArr.length > 1) {
                             me.find('tbody tr td:last-child [property],tfoot tr td:last-child [property]').off('blur').on('blur', (e) => {
                                 $(e.currentTarget).closest('tr').find('.saveRowButton').click();
@@ -561,7 +569,9 @@ var flexygo;
                             });
                         });
                         this.processLoadDependencies();
-                    }
+                    } /* else if (this.mode == 'edit' && ! this.canUpdate) {
+                        $(me).find('.saveRowButton').hide();
+                    }*/
                     let tbl = me.find('table.flxRszTbl');
                     if (tbl.length == 1) {
                         tbl.colResizable({
@@ -1135,7 +1145,7 @@ var flexygo;
                 paintFooter(row) {
                     let me = $(this);
                     let tfoot = $('<tfoot />');
-                    if (this.mode == 'edit') {
+                    if (this.mode == 'edit' && this.canInsert) {
                         let tr = $('<tr class="rowInsert"/>');
                         let td = $('<td/>');
                         let defString = flexygo.history.getDefaults(this.objectname, me);
@@ -1199,7 +1209,7 @@ var flexygo;
                     let page = flexygo.history.get(me);
                     let ident = page.pagename + '-' + this.moduleName;
                     let gridSizes = flexygo.storage.local.get('gridSizes');
-                    if (this.mode == 'edit') {
+                    if (this.mode == 'edit' && this.canUpdate) {
                         tr.attr('objectname', row._objectname);
                         tr.attr('objectwhere', row._objectwhere);
                         if (!this.buttons) {
@@ -1234,6 +1244,9 @@ var flexygo;
                                     val = '';
                                 }
                                 let input = $('<' + this.propArr[i].WebComponent + ' property="' + this.propArr[i].Name + '" tab="' + flexygo.utils.uniqueTabIndex() + '"  />');
+                                if (!this.canUpdate) {
+                                    input.attr('disabled', 'true');
+                                }
                                 if (this.propArr[i].WebComponent.startsWith('flx-check') || this.propArr[i].WebComponent == 'flx-switch') {
                                     if (row[key] == true || row[key] == 'true') {
                                         input.attr('checked', 'checked');

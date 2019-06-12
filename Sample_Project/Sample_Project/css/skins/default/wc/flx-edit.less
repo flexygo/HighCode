@@ -803,6 +803,7 @@ flx-whiteboard .cpr-btn-browse, .flx-cpr-image .cpr-btn-browse {
     //END whiteboard
     //Document Manager
     flx-documentmanager .dtc-container {
+        position:relative;
         background-color: #f0f1f1;
         min-width: 295px;
         max-width: 92%;
@@ -815,6 +816,35 @@ flx-whiteboard .cpr-btn-browse, .flx-cpr-image .cpr-btn-browse {
         -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
         -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
     }
+
+    flx-documentmanager .dtc-inprogress {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        bottom: 0px;
+        right: 0px;
+        background-color: rgba(0,0,0,0.5);
+    }
+
+    flx-documentmanager .dtc-inprogress .dtc-progressbar {
+        position: absolute;
+        background-color: fade(DbColor(OutstandingColor),50%);
+        top: 0px;
+        bottom: 0px;
+    }
+
+    flx-documentmanager .dtc-inprogress .dtc-progresstext { 
+        position: absolute;
+        text-align: center;
+        color: DbColor(txtOutstandingColor);
+        font-weight: bold;
+        padding-top:12px;
+        font-size: 2em;
+        top: 0px;
+        left: 0px;
+        bottom: 0px;
+        right: 0px;
+    }    
 
     flx-documentmanager .dtc-subcontainer {
         display: flex;
@@ -937,6 +967,10 @@ flx-whiteboard .cpr-btn-browse, .flx-cpr-image .cpr-btn-browse {
         min-height: 74vh;
     }
 
+    flx-documentmanager[type=view] .dtc-pry-container {
+        min-height: unset;
+    }
+
     flx-documentmanager .dtc-container:hover {
         box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
         -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
@@ -1043,6 +1077,12 @@ flx-whiteboard .cpr-btn-browse, .flx-cpr-image .cpr-btn-browse {
         margin: 0 10px;
     }
 
+flx-imagemanager[mode=view] .im-pry-container {
+    min-height: unset;
+    max-height: unset;
+    overflow:hidden;
+}
+
     flx-imagemanager .im-pry-container-single {
         overflow: hidden;
     }
@@ -1133,6 +1173,11 @@ flx-whiteboard .cpr-btn-browse, .flx-cpr-image .cpr-btn-browse {
         overflow: hidden;
         cursor: -webkit-grab;
         margin: 10px 0;
+    }
+
+    flx-imagemanager[mode=view] .im-item {
+        width: 175px;
+        height: 175px;
     }
 
     flx-imagemanager .im-item:hover {
@@ -1320,6 +1365,10 @@ flx-whiteboard .cpr-btn-browse, .flx-cpr-image .cpr-btn-browse {
         align-items: center;
     }
 
+    flx-imagemanager[mode=view] .im-data-container-action {
+        width: 50%;
+    }
+
     flx-imagemanager .im-data-container-action:hover {
         box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
         background-color: fade(dbColor(OutstandingColor), 25%);
@@ -1347,7 +1396,6 @@ flx-whiteboard .cpr-btn-browse, .flx-cpr-image .cpr-btn-browse {
         overflow-x: visible;
         overflow-y: visible
     }
-
     // FILTER
     flx-filter > div.item {
         margin-bottom: .2em;
@@ -1371,18 +1419,18 @@ flx-whiteboard .cpr-btn-browse, .flx-cpr-image .cpr-btn-browse {
         content: "*";
         color: dbColor(DangerColor);
     }
-  
+
     label:hover {
         color: dbColor(NavColor);
     }
 
     label > span.help-icon, legend > span.help-icon {
-        font-size:12px;
+        font-size: 12px;
         color: dbColor(txtNavColor);
     }
 
     label:hover > span.help-icon, legend:hover > span.help-icon {
-        cursor:pointer;
+        cursor: pointer;
         color: dbColor(OutstandingColor);
     }
 

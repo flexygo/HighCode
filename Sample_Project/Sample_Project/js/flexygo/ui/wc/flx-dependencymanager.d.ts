@@ -20,6 +20,7 @@ declare namespace flexygo.ui.wc {
         reportname: string;
         processname: string;
         propertyname: string;
+        constringItems: any;
         mode: string;
         constructor();
         /**
@@ -48,6 +49,11 @@ declare namespace flexygo.ui.wc {
      */
         refresh(): void;
         /**
+      * RefrLoads connstrings for combo.
+      * @method loadConnStrings
+      */
+        private loadConnStrings();
+        /**
         * RefrLoads tabs.
         * @method loadTabs
         */
@@ -65,5 +71,11 @@ declare namespace flexygo.ui.wc {
         * @returns string
         */
         getTemplate(): string;
+        /**
+      * Gets connection string items as string.
+      * @method getConnStringItems
+      * @returns string
+      */
+        getConnStringItems(): string;
     }
 }

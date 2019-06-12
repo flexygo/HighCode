@@ -304,9 +304,9 @@ var flexygo;
                         prop.AllowNewFunction = "";
                         prop.AllowNewObject = "";
                         prop.ObjNameLink = "";
-                        prop.SearchCollection = "";
-                        prop.SearchFunction = "";
-                        prop.SearchReturnFields = "";
+                        prop.SearchCollection = e.Config.SearchCollection;
+                        prop.SearchFunction = e.Config.SearchFunction;
+                        prop.SearchReturnFields = e.Config.SearchReturnFields;
                         this.properties[prop.ObjectName + '-' + prop.Name] = prop;
                     });
                 }
@@ -459,6 +459,22 @@ var flexygo;
                     else {
                         flexygo.msg.alert(flexygo.localization.translate('flxlist.selectfilterfirst'));
                     }
+                }
+                /**
+               * Parses edit string
+               * @method parseEditString
+               * @param {string} str
+               * @return {string}
+               */
+                parseEditString(str) {
+                    let me = $(this);
+                    let props = me.find('[property]');
+                    let obj = new Object();
+                    for (let i = 0; i < props.length; i++) {
+                        let prop = $(props[i])[0];
+                        obj[prop.property] = prop.getValue();
+                    }
+                    return flexygo.utils.parser.compile(obj, str, this);
                 }
                 /**
            * Removes user search values from DB.

@@ -1466,6 +1466,9 @@ declare namespace flexygo.api.list {
         Searcher: boolean;
         Properties: flexygo.api.ObjectPropertyCollection;
         Presets: flexygo.api.PresetSettingsCollection;
+        CanDelete: boolean;
+        CanInsert: boolean;
+        CanUpdate: boolean;
     }
     /**
     * api for getSearchParams

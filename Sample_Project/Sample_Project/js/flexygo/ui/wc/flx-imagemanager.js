@@ -31,6 +31,7 @@ var flexygo;
                     this.moduleName = element.attr('ModuleName');
                     this.singleImage = element.attr('SingleImage');
                     this.empty = element.attr('Empty');
+                    this.mode = element.attr('mode') || '';
                     if (element.attr('manualInit') != 'true') {
                         this.init();
                     }
@@ -48,7 +49,7 @@ var flexygo;
                 * @property observedAttributes
                 */
                 static get observedAttributes() {
-                    return ['modulename', 'objectname', 'objectwhere', 'objectid', 'singleimage', 'empty'];
+                    return ['modulename', 'objectname', 'objectwhere', 'objectid', 'singleimage', 'empty', 'mode'];
                 }
                 /**
                 * Fires when the attribute value of the element is changed.
@@ -79,6 +80,10 @@ var flexygo;
                         }
                         else if (attrName.toLowerCase() == 'empty' && newVal && newVal != '') {
                             this.empty = newVal;
+                            needInit = true;
+                        }
+                        else if (attrName.toLowerCase() == 'mode' && newVal && newVal != '') {
+                            this.mode = newVal;
                             needInit = true;
                         }
                         if (needInit) {
@@ -130,10 +135,11 @@ var flexygo;
                 render() {
                     try {
                         let me = $(this);
-                        var rendered;
-                        rendered = `<div class="im-btn-container">
+                        var rendered = '';
+                        if (!(this.mode.toLowerCase() == "view")) {
+                            rendered = `<div class="im-btn-container">
                                 <label method="upload" value="" type="" class="btn btn-default bg-outstanding btn-file im-btn">
-                                    <i class="flx-icon icon-upload-1" flx-fw=""></i><span class="hidden-xs">  ` + flexygo.localization.translate('imagemanager.upload') + `</span><input method="upload" value="" type="file" multiple class="hide" accept="image/*" />
+                                    <i class="flx-icon icon-upload-1" flx-fw=""></i><span class="hidden-xs">   ${flexygo.localization.translate('imagemanager.upload')}</span><input method="upload" value="" type="file" multiple class="hide" accept="image/*" />
                                 </label>
                                 <button type="button" method="downloadall" value="downloadall" class="btn btn-default im-btn im-btn im-btn-settings " data-original-title="" title="">
                                     <i class="flx-icon icon-download"  ></i>
@@ -145,9 +151,9 @@ var flexygo;
                                     <i class="flx-icon icon-settings" flx-fw="" ></i>
                                 </button>
                                 
-                            </div>
-                            <div class="im-pry-container im-wall im-transition">
-                           </div>`;
+                            </div>`;
+                        }
+                        rendered += '<div class="im-pry-container im-wall im-transition"></div>';
                         me.html(rendered);
                         me.find('label[method="upload"]').tooltip({ title: flexygo.localization.translate('imagemanager.upload'), placement: 'bottom', trigger: 'hover' });
                         me.find('button[method="downloadall"]').tooltip({ title: flexygo.localization.translate('imagemanager.downloadall'), placement: 'bottom', trigger: 'hover' });
@@ -184,13 +190,13 @@ var flexygo;
                         var iconEdit;
                         iconSize = (me.find('div.im-pry-container').width() > 250) ? 'icon-3x' : 'icon-2x';
                         iconEdit = (this.singleImage && mainImage) ? 'fa fa-image' : 'flx-icon icon-pencil';
-                        rendered = `<div imageId="` + imageId + `" order="` + orderNumber + `" class="im-item im-transition">
+                        rendered = `<div imageId="` + imageId + `" order="` + orderNumber + `" class="im-item im-transition" style="${this.mode.toLowerCase() == "view" ? 'cursor: initial' : ''}">
                                 <div method="" class="im-data im-transition">
                                     <div method="mainimage" value="` + mainImage + `" class="ignore-drag im-mainimage im-transition">
                                         <i class="flx-icon icon-star im-item-corner-icon im-transition" flx-fw=""></i>
                                         <div class="im-item-corner im-transition"></div>
                                     </div>
-                                    <div method="removeimage" class="ignore-drag im-removeimage im-transition">
+                                    <div method="removeimage" class="ignore-drag im-removeimage im-transition ${this.mode.toLowerCase() == "view" ? 'hidden' : ''}">
                                         <i class="flx-icon flx-icon icon-document-remove" flx-fw=""></i>
                                     </div>
                                     <div class="im-data-container im-data-descrip im-transition">
@@ -198,11 +204,13 @@ var flexygo;
                                         <hr class="im-transition">
                                         <span class="im-descrip im-data-item im-transition size-xs"><small>` + classDescrip.toUpperCase() + `</small></span>
                                     </div>
-                                    <div  method="preview" class="ignore-drag im-data-container im-data-container-action im-data-preview im-transition" data-src="` + flexygo.utils.resolveUrl(path) + `" data-sub-html="<h3>` + name.toUpperCase() + `</h3><p>` + descrip + `</p>" >
+                                    <div  method="preview" class="ignore-drag im-data-container im-data-container-action im-data-preview im-transition"
+                                    ${this.mode.toLowerCase() == "view" ? 'style="margin: 15px calc(25%)"' : ''}
+                                     data-src="` + flexygo.utils.resolveUrl(path) + `" data-sub-html="<h3>` + name.toUpperCase() + `</h3><p>` + descrip + `</p>" >
                                         <img style="display:none;" src="` + flexygo.utils.resolveUrl(path) + `" />
                                         <i class="flx-icon icon-eye ` + iconSize + ` im-transition im-data-icon im-data-item" flx-fw=""></i>
                                     </div>
-                                    <div  method="edit" class="ignore-drag im-data-container im-data-container-action im-data-edit im-transition">
+                                    <div  method="edit" class="ignore-drag im-data-container im-data-container-action im-data-edit im-transition ${this.mode.toLowerCase() == "view" ? 'hidden' : ''}">
                                         <i class="` + iconEdit + ` ` + iconSize + ` im-transition im-data-icon im-data-item" flx-fw=""></i>
                                     </div>
                                 </div>
@@ -226,9 +234,10 @@ var flexygo;
                                     left: 0,
                                     block: me.find('div[imageid="' + imageId + '"]')
                                 });
+                                let size = me.find('div.im-pry-container').width() / 1.34;
                                 this.wall.fixSize({
-                                    height: me.find('div.im-pry-container').width() / 1.34,
-                                    width: me.find('div.im-pry-container').width() / 1.34,
+                                    height: size,
+                                    width: size,
                                     block: me.find('div[imageid="' + imageId + '"]'),
                                 });
                                 this.wall.refresh();
@@ -251,19 +260,29 @@ var flexygo;
                         this.wall = new Freewall(me.find('div.im-wall'));
                         this.wall.reset({
                             selector: '.im-item',
-                            draggable: !this.singleImage && !flexygo.utils.isAgentMobile(),
+                            draggable: !this.singleImage && !flexygo.utils.isAgentMobile() && this.mode.toLowerCase() != "view",
                             animate: true,
                             cellW: () => { if (this.singleImage) {
                                 return me.find('div.im-pry-container').width() / 1.35;
                             }
                             else {
-                                return 250;
+                                if (this.mode == 'view') {
+                                    return 175;
+                                }
+                                else {
+                                    return 250;
+                                }
                             } },
                             cellH: () => { if (this.singleImage) {
                                 return me.find('div.im-pry-container').width() / 1.35;
                             }
                             else {
-                                return 250;
+                                if (this.mode == 'view') {
+                                    return 175;
+                                }
+                                else {
+                                    return 250;
+                                }
                             } },
                             delay: 50,
                             fixSize: 0,
@@ -413,7 +432,7 @@ var flexygo;
                             method = element.attr('method');
                             value = element.attr('value');
                             imageId = element.closest('div.im-item').attr('imageId');
-                            if (method === 'mainimage') {
+                            if (method === 'mainimage' && !(this.mode.toLowerCase() === 'view')) {
                                 this.updateImage(imageId, value.toLocaleLowerCase() !== 'true', parseInt(element.closest('div.im-item').attr('order')), this.rObjectName);
                             }
                             else if (method === 'removeimage') {
@@ -545,6 +564,9 @@ var flexygo;
                                                 flexygo.nav.openPage('list', 'sysObjectImages', "Objects_Images.ObjectId = '" + this.rObjectId + "' And Objects_Images.ObjectName = '" + this.rObjectName + "'", JSON.stringify(defaults), 'modal' + ($(window).width() - 30) + 'x' + ($(window).height() - 50), false, me);
                                             }
                                         });
+                                    }
+                                    else if (response.length === 0 && this.mode == 'view') {
+                                        me.html('<div class="box-info"><i class="flx-icon icon-information-2 icon-lg icon-margin-right"></i><span><strong>Info!</strong> ' + flexygo.localization.translate('flxlist.noentriesfound') + '</span></div>');
                                     }
                                 }
                             });

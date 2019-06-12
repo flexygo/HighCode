@@ -251,11 +251,56 @@
             "fors": {},
             "namespaces": {}
         },
+        "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\localization\\language-caes.js": {
+            "name": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\localization\\language-caes.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {
+                "flexygo.culture.caes": 1
+            }
+        },
+        "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\localization\\language-dede.js": {
+            "name": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\localization\\language-dede.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {
+                "flexygo.culture.dede": 1
+            }
+        },
+        "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\localization\\language-engb.js": {
+            "name": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\localization\\language-engb.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {
+                "flexygo.culture.engb": 1
+            }
+        },
+        "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\localization\\language-eses.js": {
+            "name": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\localization\\language-eses.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {
+                "flexygo.culture.eses": 1
+            }
+        },
+        "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\localization\\language-frfr.js": {
+            "name": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\localization\\language-frfr.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {
+                "flexygo.culture.frfr": 1
+            }
+        },
         "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\localization\\translate.js": {
             "name": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\localization\\translate.js",
             "modules": {},
             "classes": {
-                "flexygo.events.flexygo.localization": 1
+                "flexygo.culture.frfr.flexygo.localization": 1
             },
             "fors": {},
             "namespaces": {}
@@ -264,7 +309,7 @@
             "name": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\msg\\msg.js",
             "modules": {},
             "classes": {
-                "flexygo.events.flexygo.msg": 1
+                "flexygo.culture.frfr.flexygo.msg": 1
             },
             "fors": {},
             "namespaces": {}
@@ -273,7 +318,7 @@
             "name": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\push\\push.js",
             "modules": {},
             "classes": {
-                "flexygo.events.flexygo.push": 1
+                "flexygo.culture.frfr.flexygo.push": 1
             },
             "fors": {},
             "namespaces": {}
@@ -282,8 +327,8 @@
             "name": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\storage\\storage.js",
             "modules": {},
             "classes": {
-                "flexygo.events.flexygo.storage.local": 1,
-                "flexygo.events.flexygo.storage.session": 1
+                "flexygo.culture.frfr.flexygo.storage.local": 1,
+                "flexygo.culture.frfr.flexygo.storage.session": 1
             },
             "fors": {},
             "namespaces": {}
@@ -3686,69 +3731,69 @@
             "line": 1,
             "description": "Library to manage navigation history items."
         },
-        "flexygo.events.flexygo.localization": {
-            "name": "flexygo.events.flexygo.localization",
+        "flexygo.culture.frfr.flexygo.localization": {
+            "name": "flexygo.culture.frfr.flexygo.localization",
             "shortname": "flexygo.localization",
             "classitems": [],
             "plugins": [],
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "namespace": "flexygo.events",
+            "namespace": "flexygo.culture.frfr",
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\localization\\translate.js",
             "line": 1,
             "description": "Library for the flexygo.localization."
         },
-        "flexygo.events.flexygo.msg": {
-            "name": "flexygo.events.flexygo.msg",
+        "flexygo.culture.frfr.flexygo.msg": {
+            "name": "flexygo.culture.frfr.flexygo.msg",
             "shortname": "flexygo.msg",
             "classitems": [],
             "plugins": [],
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "namespace": "flexygo.events",
+            "namespace": "flexygo.culture.frfr",
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\msg\\msg.js",
             "line": 1,
             "description": "Library to launch notifications on screen."
         },
-        "flexygo.events.flexygo.push": {
-            "name": "flexygo.events.flexygo.push",
+        "flexygo.culture.frfr.flexygo.push": {
+            "name": "flexygo.culture.frfr.flexygo.push",
             "shortname": "flexygo.push",
             "classitems": [],
             "plugins": [],
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "namespace": "flexygo.events",
+            "namespace": "flexygo.culture.frfr",
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\push\\push.js",
             "line": 1,
             "description": "Library to manage signalR messages."
         },
-        "flexygo.events.flexygo.storage.local": {
-            "name": "flexygo.events.flexygo.storage.local",
+        "flexygo.culture.frfr.flexygo.storage.local": {
+            "name": "flexygo.culture.frfr.flexygo.storage.local",
             "shortname": "flexygo.storage.local",
             "classitems": [],
             "plugins": [],
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "namespace": "flexygo.events",
+            "namespace": "flexygo.culture.frfr",
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\storage\\storage.js",
             "line": 106,
             "description": "Library to call local storage functions."
         },
-        "flexygo.events.flexygo.storage.session": {
-            "name": "flexygo.events.flexygo.storage.session",
+        "flexygo.culture.frfr.flexygo.storage.session": {
+            "name": "flexygo.culture.frfr.flexygo.storage.session",
             "shortname": "flexygo.storage.session",
             "classitems": [],
             "plugins": [],
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "namespace": "flexygo.events",
+            "namespace": "flexygo.culture.frfr",
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\storage\\storage.js",
-            "line": 217,
+            "line": 216,
             "description": "Library to call local storage session functions.",
             "is_constructor": 1
         },
@@ -4824,7 +4869,7 @@
             "extension_for": [],
             "namespace": "flexygo.ui.wc",
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 937,
+            "line": 936,
             "description": "Library for the FlxTimelineProgressBar",
             "is_constructor": 1,
             "return": {
@@ -6002,6 +6047,36 @@
             "namespace": "flexygo.events"
         },
         {
+            "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\localization\\language-caes.js",
+            "line": 1,
+            "class": "flexygo.culture.frfr.flexygo.localization",
+            "namespace": "flexygo.culture.caes"
+        },
+        {
+            "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\localization\\language-dede.js",
+            "line": 1,
+            "class": "flexygo.culture.frfr.flexygo.localization",
+            "namespace": "flexygo.culture.dede"
+        },
+        {
+            "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\localization\\language-engb.js",
+            "line": 1,
+            "class": "flexygo.culture.frfr.flexygo.localization",
+            "namespace": "flexygo.culture.engb"
+        },
+        {
+            "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\localization\\language-eses.js",
+            "line": 1,
+            "class": "flexygo.culture.frfr.flexygo.localization",
+            "namespace": "flexygo.culture.eses"
+        },
+        {
+            "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\localization\\language-frfr.js",
+            "line": 1,
+            "class": "flexygo.culture.frfr.flexygo.localization",
+            "namespace": "flexygo.culture.frfr"
+        },
+        {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\localization\\translate.js",
             "line": 10,
             "description": "Translates java script strings to profile default language.\nIf no translation is found it will display fall back language en-gb",
@@ -6018,8 +6093,8 @@
                 "description": "- returns translated string",
                 "type": "String"
             },
-            "class": "flexygo.events.flexygo.localization",
-            "namespace": "flexygo.events"
+            "class": "flexygo.culture.frfr.flexygo.localization",
+            "namespace": "flexygo.culture.frfr"
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\localization\\translate.js",
@@ -6027,8 +6102,8 @@
             "description": "Initializes date plugin moment.locale with correct language.",
             "itemtype": "method",
             "name": "init",
-            "class": "flexygo.events.flexygo.localization",
-            "namespace": "flexygo.events"
+            "class": "flexygo.culture.frfr.flexygo.localization",
+            "namespace": "flexygo.culture.frfr"
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\msg\\msg.js",
@@ -6043,8 +6118,8 @@
                     "type": "String"
                 }
             ],
-            "class": "flexygo.events.flexygo.msg",
-            "namespace": "flexygo.events"
+            "class": "flexygo.culture.frfr.flexygo.msg",
+            "namespace": "flexygo.culture.frfr"
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\msg\\msg.js",
@@ -6064,8 +6139,8 @@
                     "type": "LobiBoxConfirmCallback"
                 }
             ],
-            "class": "flexygo.events.flexygo.msg",
-            "namespace": "flexygo.events"
+            "class": "flexygo.culture.frfr.flexygo.msg",
+            "namespace": "flexygo.culture.frfr"
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\msg\\msg.js",
@@ -6090,8 +6165,8 @@
                     "type": "LobiBoxQuestionCallback"
                 }
             ],
-            "class": "flexygo.events.flexygo.msg",
-            "namespace": "flexygo.events"
+            "class": "flexygo.culture.frfr.flexygo.msg",
+            "namespace": "flexygo.culture.frfr"
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\msg\\msg.js",
@@ -6127,8 +6202,8 @@
                     "type": "('error'|'info'|'success'|'warning')"
                 }
             ],
-            "class": "flexygo.events.flexygo.msg",
-            "namespace": "flexygo.events"
+            "class": "flexygo.culture.frfr.flexygo.msg",
+            "namespace": "flexygo.culture.frfr"
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\msg\\msg.js",
@@ -6159,8 +6234,8 @@
                     "optional": true
                 }
             ],
-            "class": "flexygo.events.flexygo.msg",
-            "namespace": "flexygo.events"
+            "class": "flexygo.culture.frfr.flexygo.msg",
+            "namespace": "flexygo.culture.frfr"
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\msg\\msg.js",
@@ -6191,8 +6266,8 @@
                     "optional": true
                 }
             ],
-            "class": "flexygo.events.flexygo.msg",
-            "namespace": "flexygo.events"
+            "class": "flexygo.culture.frfr.flexygo.msg",
+            "namespace": "flexygo.culture.frfr"
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\msg\\msg.js",
@@ -6223,8 +6298,8 @@
                     "optional": true
                 }
             ],
-            "class": "flexygo.events.flexygo.msg",
-            "namespace": "flexygo.events"
+            "class": "flexygo.culture.frfr.flexygo.msg",
+            "namespace": "flexygo.culture.frfr"
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\msg\\msg.js",
@@ -6255,8 +6330,8 @@
                     "optional": true
                 }
             ],
-            "class": "flexygo.events.flexygo.msg",
-            "namespace": "flexygo.events"
+            "class": "flexygo.culture.frfr.flexygo.msg",
+            "namespace": "flexygo.culture.frfr"
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\msg\\msg.js",
@@ -6301,12 +6376,12 @@
                     "optdefault": "text"
                 }
             ],
-            "class": "flexygo.events.flexygo.msg",
-            "namespace": "flexygo.events"
+            "class": "flexygo.culture.frfr.flexygo.msg",
+            "namespace": "flexygo.culture.frfr"
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\storage\\storage.js",
-            "line": 118,
+            "line": 117,
             "description": "Method to add an element to local Storage.",
             "itemtype": "method",
             "name": "add",
@@ -6322,12 +6397,12 @@
                     "type": "String"
                 }
             ],
-            "class": "flexygo.events.flexygo.storage.local",
-            "namespace": "flexygo.events"
+            "class": "flexygo.culture.frfr.flexygo.storage.local",
+            "namespace": "flexygo.culture.frfr"
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\storage\\storage.js",
-            "line": 134,
+            "line": 133,
             "description": "Method to remove an element from Session Storage.",
             "itemtype": "method",
             "name": "remove",
@@ -6343,12 +6418,12 @@
                     "type": "String"
                 }
             ],
-            "class": "flexygo.events.flexygo.storage.local",
-            "namespace": "flexygo.events"
+            "class": "flexygo.culture.frfr.flexygo.storage.local",
+            "namespace": "flexygo.culture.frfr"
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\storage\\storage.js",
-            "line": 149,
+            "line": 148,
             "description": "Method to get an element from Session Storage.",
             "itemtype": "method",
             "name": "get",
@@ -6368,30 +6443,30 @@
                 "description": "- Object from local storage.",
                 "type": "Object"
             },
-            "class": "flexygo.events.flexygo.storage.local",
-            "namespace": "flexygo.events"
+            "class": "flexygo.culture.frfr.flexygo.storage.local",
+            "namespace": "flexygo.culture.frfr"
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\storage\\storage.js",
-            "line": 166,
+            "line": 165,
             "description": "Method to clear all elements from Session Storage.",
             "itemtype": "method",
             "name": "clear",
-            "class": "flexygo.events.flexygo.storage.local",
-            "namespace": "flexygo.events"
+            "class": "flexygo.culture.frfr.flexygo.storage.local",
+            "namespace": "flexygo.culture.frfr"
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\storage\\storage.js",
-            "line": 179,
+            "line": 178,
             "description": "Method to load local Storage from DataBase.",
             "itemtype": "method",
             "name": "load",
-            "class": "flexygo.events.flexygo.storage.local",
-            "namespace": "flexygo.events"
+            "class": "flexygo.culture.frfr.flexygo.storage.local",
+            "namespace": "flexygo.culture.frfr"
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\storage\\storage.js",
-            "line": 192,
+            "line": 191,
             "description": "Method to save local Storage to DataBase.",
             "itemtype": "method",
             "name": "save",
@@ -6411,12 +6486,12 @@
                 "description": "- If was saved correctly.",
                 "type": "Boolean"
             },
-            "class": "flexygo.events.flexygo.storage.local",
-            "namespace": "flexygo.events"
+            "class": "flexygo.culture.frfr.flexygo.storage.local",
+            "namespace": "flexygo.culture.frfr"
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\storage\\storage.js",
-            "line": 228,
+            "line": 227,
             "description": "Method to add an element to Session Storage.",
             "itemtype": "method",
             "name": "add",
@@ -6432,12 +6507,12 @@
                     "type": "String"
                 }
             ],
-            "class": "flexygo.events.flexygo.storage.session",
-            "namespace": "flexygo.events"
+            "class": "flexygo.culture.frfr.flexygo.storage.session",
+            "namespace": "flexygo.culture.frfr"
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\storage\\storage.js",
-            "line": 238,
+            "line": 237,
             "description": "Method to remove an element from Session Storage.",
             "itemtype": "method",
             "name": "remove",
@@ -6453,21 +6528,21 @@
                     "type": "String"
                 }
             ],
-            "class": "flexygo.events.flexygo.storage.session",
-            "namespace": "flexygo.events"
+            "class": "flexygo.culture.frfr.flexygo.storage.session",
+            "namespace": "flexygo.culture.frfr"
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\storage\\storage.js",
-            "line": 248,
+            "line": 247,
             "description": "Method to clear Session Storage.",
             "itemtype": "method",
             "name": "clear",
-            "class": "flexygo.events.flexygo.storage.session",
-            "namespace": "flexygo.events"
+            "class": "flexygo.culture.frfr.flexygo.storage.session",
+            "namespace": "flexygo.culture.frfr"
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\storage\\storage.js",
-            "line": 261,
+            "line": 260,
             "description": "Method to remove a series of elements from Session Storage.\nUsed on Applicaiton Init.",
             "itemtype": "method",
             "name": "reset",
@@ -6483,12 +6558,12 @@
                     "type": "String"
                 }
             ],
-            "class": "flexygo.events.flexygo.storage.session",
-            "namespace": "flexygo.events"
+            "class": "flexygo.culture.frfr.flexygo.storage.session",
+            "namespace": "flexygo.culture.frfr"
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\storage\\storage.js",
-            "line": 272,
+            "line": 271,
             "description": "Method to get an element from Session Storage.",
             "itemtype": "method",
             "name": "get",
@@ -6508,8 +6583,8 @@
                 "description": "- Object from session storage.",
                 "type": "Object"
             },
-            "class": "flexygo.events.flexygo.storage.session",
-            "namespace": "flexygo.events"
+            "class": "flexygo.culture.frfr.flexygo.storage.session",
+            "namespace": "flexygo.culture.frfr"
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\inputs\\flx-check.js",
@@ -7099,7 +7174,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\inputs\\flx-multicombo.js",
-            "line": 707,
+            "line": 750,
             "description": "Trigger Dependencies.",
             "itemtype": "method",
             "name": "triggerDependencies",
@@ -8052,7 +8127,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-dependencymanager.js",
-            "line": 32,
+            "line": 33,
             "description": "Fires when element is attached to DOM",
             "itemtype": "method",
             "name": "connectedCallback",
@@ -8061,7 +8136,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-dependencymanager.js",
-            "line": 55,
+            "line": 57,
             "description": "Array of observed attributes.",
             "itemtype": "property",
             "name": "observedAttributes",
@@ -8071,7 +8146,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-dependencymanager.js",
-            "line": 62,
+            "line": 64,
             "description": "Fires when the attribute value of the element is changed.",
             "itemtype": "method",
             "name": "attributeChangedCallback",
@@ -8080,7 +8155,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-dependencymanager.js",
-            "line": 87,
+            "line": 89,
             "description": "Init the webcomponent.",
             "itemtype": "method",
             "name": "init",
@@ -8089,7 +8164,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-dependencymanager.js",
-            "line": 94,
+            "line": 96,
             "description": "Refresh de webcomponent.",
             "itemtype": "method",
             "name": "refresh",
@@ -8098,7 +8173,16 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-dependencymanager.js",
-            "line": 105,
+            "line": 107,
+            "description": "RefrLoads connstrings for combo.",
+            "itemtype": "method",
+            "name": "loadConnStrings",
+            "class": "flexygo.ui.wc.FlxDependencyManagerElement",
+            "namespace": "flexygo.ui.wc"
+        },
+        {
+            "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-dependencymanager.js",
+            "line": 115,
             "description": "RefrLoads tabs.",
             "itemtype": "method",
             "name": "loadTabs",
@@ -8107,7 +8191,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-dependencymanager.js",
-            "line": 141,
+            "line": 152,
             "description": "Saves dependencies.",
             "itemtype": "method",
             "name": "save",
@@ -8116,10 +8200,22 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-dependencymanager.js",
-            "line": 303,
+            "line": 314,
             "description": "Gets template.",
             "itemtype": "method",
             "name": "getTemplate",
+            "return": {
+                "description": "string"
+            },
+            "class": "flexygo.ui.wc.FlxDependencyManagerElement",
+            "namespace": "flexygo.ui.wc"
+        },
+        {
+            "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-dependencymanager.js",
+            "line": 371,
+            "description": "Gets connection string items as string.",
+            "itemtype": "method",
+            "name": "getConnStringItems",
             "return": {
                 "description": "string"
             },
@@ -8144,7 +8240,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 29,
+            "line": 30,
             "description": "Fires when element is attached to DOM",
             "itemtype": "method",
             "name": "connectedCallback",
@@ -8153,7 +8249,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 45,
+            "line": 49,
             "description": "Fires when element is detached to DOM",
             "itemtype": "method",
             "name": "disconnectedCallback",
@@ -8162,7 +8258,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 53,
+            "line": 57,
             "description": "Monitor the list of observed attribute for changes.",
             "itemtype": "property",
             "name": "observedAttributes",
@@ -8171,7 +8267,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 60,
+            "line": 64,
             "description": "Fires when the attribute value of the element is changed.",
             "itemtype": "method",
             "name": "attributeChangedCallback",
@@ -8180,7 +8276,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 93,
+            "line": 97,
             "description": "Init the webcomponent.",
             "itemtype": "method",
             "name": "init",
@@ -8189,7 +8285,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 123,
+            "line": 127,
             "description": "Refresh de webcomponent.",
             "itemtype": "method",
             "name": "refresh",
@@ -8198,7 +8294,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 138,
+            "line": 142,
             "description": "Render HTML data.",
             "itemtype": "method",
             "name": "render",
@@ -8207,7 +8303,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 202,
+            "line": 208,
             "description": "Render HTML document data.",
             "itemtype": "method",
             "name": "renderDocument",
@@ -8278,7 +8374,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 323,
+            "line": 336,
             "description": "Open dialog upload/link.",
             "itemtype": "method",
             "name": "openDialog",
@@ -8294,7 +8390,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 458,
+            "line": 471,
             "description": "Main events.",
             "itemtype": "method",
             "name": "mainEvents",
@@ -8303,7 +8399,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 594,
+            "line": 608,
             "description": "Dialog events.",
             "itemtype": "method",
             "name": "dialogEvents",
@@ -8312,7 +8408,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 818,
+            "line": 834,
             "description": "Document events.",
             "itemtype": "method",
             "name": "documentEvents",
@@ -8321,33 +8417,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 856,
-            "description": "Document reader.",
-            "itemtype": "method",
-            "name": "documentReader",
-            "params": [
-                {
-                    "name": "File.",
-                    "description": "",
-                    "type": "File"
-                },
-                {
-                    "name": "Document",
-                    "description": "type.",
-                    "type": "String"
-                },
-                {
-                    "name": "Action.",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "class": "flexygo.ui.wc.FlxDependencyManagerElement",
-            "namespace": "flexygo.ui.wc"
-        },
-        {
-            "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 877,
+            "line": 872,
             "description": "Remove document.",
             "itemtype": "method",
             "name": "removeDocument",
@@ -8368,7 +8438,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 913,
+            "line": 908,
             "description": "Set document.",
             "itemtype": "method",
             "name": "setDocument",
@@ -8409,7 +8479,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 970,
+            "line": 965,
             "description": "Start editing.",
             "itemtype": "method",
             "name": "editStartDocument",
@@ -8425,7 +8495,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 1001,
+            "line": 996,
             "description": "End editing.",
             "itemtype": "method",
             "name": "editFinishDocument",
@@ -8441,7 +8511,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 1057,
+            "line": 1052,
             "description": "Exit edit mode.",
             "itemtype": "method",
             "name": "editReturn",
@@ -8457,7 +8527,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 1085,
+            "line": 1080,
             "description": "Get documents.",
             "itemtype": "method",
             "name": "getDocument",
@@ -8473,7 +8543,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 1119,
+            "line": 1117,
             "description": "Get document categories.",
             "itemtype": "method",
             "name": "getCategories",
@@ -8482,7 +8552,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 1136,
+            "line": 1134,
             "description": "Get configuration Documents_Object.",
             "itemtype": "method",
             "name": "getConfig",
@@ -8491,7 +8561,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 1172,
+            "line": 1170,
             "description": "Load Picker (Use the Google API Loader script to load the google.picker script).",
             "itemtype": "method",
             "name": "loadPicker",
@@ -8512,7 +8582,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 1181,
+            "line": 1179,
             "description": "On Picker Api Load.",
             "itemtype": "method",
             "name": "onPickerApiLoad",
@@ -8533,7 +8603,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 1194,
+            "line": 1192,
             "description": "Create Picker.",
             "itemtype": "method",
             "name": "createPicker",
@@ -8554,7 +8624,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 1238,
+            "line": 1236,
             "description": "Picker Callback.",
             "itemtype": "method",
             "name": "pickerCallback",
@@ -8580,7 +8650,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 1286,
+            "line": 1284,
             "description": "Show loading funcion before executing process",
             "itemtype": "method",
             "name": "showLoading",
@@ -8589,7 +8659,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 1308,
+            "line": 1306,
             "description": "Move loading funcion during process execution",
             "itemtype": "method",
             "name": "moveLoading",
@@ -8598,7 +8668,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-documentmanager.js",
-            "line": 1319,
+            "line": 1317,
             "description": "Close loading funcion after executing process",
             "itemtype": "method",
             "name": "closeLoading",
@@ -9222,7 +9292,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-edit.js",
-            "line": 368,
+            "line": 374,
             "description": "Starts control rendering.",
             "itemtype": "method",
             "name": "render",
@@ -9231,7 +9301,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-edit.js",
-            "line": 433,
+            "line": 439,
             "description": "Checks if form is dirty.",
             "itemtype": "method",
             "name": "checkDirtyEdit",
@@ -9244,7 +9314,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-edit.js",
-            "line": 457,
+            "line": 463,
             "description": "Establish webcomponent settings",
             "itemtype": "method",
             "name": "configure",
@@ -9253,7 +9323,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-edit.js",
-            "line": 476,
+            "line": 482,
             "description": "Establish webcomponent settings when in process mode",
             "itemtype": "method",
             "name": "configureProcess",
@@ -9262,7 +9332,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-edit.js",
-            "line": 494,
+            "line": 500,
             "description": "Establish webcomponent settings when object process",
             "itemtype": "method",
             "name": "configureObjectProcess",
@@ -9271,7 +9341,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-edit.js",
-            "line": 508,
+            "line": 514,
             "description": "Opens configuration popup",
             "itemtype": "method",
             "name": "openConfig",
@@ -9280,7 +9350,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-edit.js",
-            "line": 555,
+            "line": 561,
             "description": "Processes dependency loading",
             "itemtype": "method",
             "name": "processLoadDependencies",
@@ -9289,7 +9359,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-edit.js",
-            "line": 608,
+            "line": 614,
             "description": "Sets layout x and y to starting position",
             "itemtype": "method",
             "name": "restartPosition",
@@ -9298,7 +9368,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-edit.js",
-            "line": 627,
+            "line": 633,
             "description": "Sets Form property values",
             "itemtype": "method",
             "name": "setFormValues",
@@ -9307,7 +9377,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-edit.js",
-            "line": 650,
+            "line": 656,
             "description": "Gets value from property",
             "itemtype": "method",
             "name": "getValue",
@@ -9332,7 +9402,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-edit.js",
-            "line": 681,
+            "line": 687,
             "description": "Paints properties with template string",
             "itemtype": "method",
             "name": "paintProperties",
@@ -9357,7 +9427,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-edit.js",
-            "line": 763,
+            "line": 769,
             "description": "Parses edit string",
             "itemtype": "method",
             "name": "parseEditString",
@@ -9377,7 +9447,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-edit.js",
-            "line": 779,
+            "line": 785,
             "description": "Translates string",
             "itemtype": "method",
             "name": "translate",
@@ -9397,7 +9467,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-edit.js",
-            "line": 788,
+            "line": 794,
             "description": "Refreshes a property",
             "itemtype": "method",
             "name": "refreshProperty",
@@ -9432,7 +9502,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-edit.js",
-            "line": 853,
+            "line": 859,
             "description": "Removes property from the gridstack control",
             "itemtype": "method",
             "name": "removeStack",
@@ -9448,7 +9518,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-edit.js",
-            "line": 881,
+            "line": 887,
             "description": "Appends property from the gridstack control",
             "itemtype": "method",
             "name": "appendStack",
@@ -9464,7 +9534,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-edit.js",
-            "line": 900,
+            "line": 906,
             "description": "Gets module full Id using pagename objectname modulename",
             "itemtype": "method",
             "name": "getModuleFullId",
@@ -9477,7 +9547,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-edit.js",
-            "line": 913,
+            "line": 919,
             "description": "Captures property change event",
             "itemtype": "method",
             "name": "onPropertyChanged",
@@ -9933,6 +10003,26 @@
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-filter.js",
             "line": 463,
+            "description": "Parses edit string",
+            "itemtype": "method",
+            "name": "parseEditString",
+            "params": [
+                {
+                    "name": "str",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "flexygo.ui.wc.FlxFilterElement",
+            "namespace": "flexygo.ui.wc"
+        },
+        {
+            "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-filter.js",
+            "line": 479,
             "description": "Removes user search values from DB.",
             "itemtype": "method",
             "name": "removeSearchValue",
@@ -9948,7 +10038,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-filter.js",
-            "line": 475,
+            "line": 491,
             "description": "Saves filter values to history.",
             "itemtype": "method",
             "name": "saveFilterValueHistory",
@@ -9969,7 +10059,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-filter.js",
-            "line": 497,
+            "line": 513,
             "description": "Clears filter values.",
             "itemtype": "method",
             "name": "clearFilters",
@@ -10810,7 +10900,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-imagemanager.js",
-            "line": 38,
+            "line": 39,
             "description": "Fires when element is detached to DOM",
             "itemtype": "method",
             "name": "disconnectedCallback",
@@ -10819,7 +10909,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-imagemanager.js",
-            "line": 46,
+            "line": 47,
             "description": "Monitor the list of observed attribute for changes.",
             "itemtype": "property",
             "name": "observedAttributes",
@@ -10828,7 +10918,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-imagemanager.js",
-            "line": 53,
+            "line": 54,
             "description": "Fires when the attribute value of the element is changed.",
             "itemtype": "method",
             "name": "attributeChangedCallback",
@@ -10837,7 +10927,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-imagemanager.js",
-            "line": 89,
+            "line": 94,
             "description": "Init the webcomponent.",
             "itemtype": "method",
             "name": "init",
@@ -10846,7 +10936,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-imagemanager.js",
-            "line": 112,
+            "line": 117,
             "description": "Refresh de webcomponent.",
             "itemtype": "method",
             "name": "refresh",
@@ -10855,7 +10945,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-imagemanager.js",
-            "line": 126,
+            "line": 131,
             "description": "Render HTML data.",
             "itemtype": "method",
             "name": "render",
@@ -10864,7 +10954,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-imagemanager.js",
-            "line": 167,
+            "line": 173,
             "description": "Render HTML image data.",
             "itemtype": "method",
             "name": "renderImage",
@@ -10915,7 +11005,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-imagemanager.js",
-            "line": 243,
+            "line": 252,
             "description": "Main events.",
             "itemtype": "method",
             "name": "mainEvents",
@@ -10924,7 +11014,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-imagemanager.js",
-            "line": 399,
+            "line": 418,
             "description": "Image events.",
             "itemtype": "method",
             "name": "imageEvents",
@@ -10933,7 +11023,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-imagemanager.js",
-            "line": 463,
+            "line": 482,
             "description": "set image.",
             "itemtype": "method",
             "name": "setImage",
@@ -10954,7 +11044,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-imagemanager.js",
-            "line": 510,
+            "line": 529,
             "description": "Get image.",
             "itemtype": "method",
             "name": "getImage",
@@ -10970,7 +11060,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-imagemanager.js",
-            "line": 557,
+            "line": 579,
             "description": "Update image.",
             "itemtype": "method",
             "name": "getImage",
@@ -10996,7 +11086,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-imagemanager.js",
-            "line": 594,
+            "line": 616,
             "description": "Order image.",
             "itemtype": "method",
             "name": "orderImage",
@@ -11012,7 +11102,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-imagemanager.js",
-            "line": 632,
+            "line": 654,
             "description": "Remove image.",
             "itemtype": "method",
             "name": "removeImage",
@@ -11028,7 +11118,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-imagemanager.js",
-            "line": 672,
+            "line": 694,
             "description": "Remove all images.",
             "itemtype": "method",
             "name": "removeAllImages",
@@ -11049,7 +11139,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-imagemanager.js",
-            "line": 713,
+            "line": 735,
             "description": "Downloads all images.",
             "itemtype": "method",
             "name": "downloadAllImages",
@@ -11070,7 +11160,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-imagemanager.js",
-            "line": 745,
+            "line": 767,
             "description": "Image reader.",
             "itemtype": "method",
             "name": "imageReader",
@@ -11086,7 +11176,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-imagemanager.js",
-            "line": 764,
+            "line": 786,
             "description": "Get image classification.",
             "itemtype": "method",
             "name": "getClassification",
@@ -11095,7 +11185,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-imagemanager.js",
-            "line": 781,
+            "line": 803,
             "description": "Set gallery.",
             "itemtype": "method",
             "name": "setGallery",
@@ -11224,7 +11314,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 72,
+            "line": 76,
             "description": "Fires when element is attached to DOM",
             "itemtype": "method",
             "name": "connectedCallback",
@@ -11233,7 +11323,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 94,
+            "line": 98,
             "description": "Fires when element is dettached to DOM",
             "itemtype": "method",
             "name": "connectedCallback",
@@ -11242,7 +11332,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 102,
+            "line": 106,
             "description": "Array of observed attributes.",
             "itemtype": "property",
             "name": "observedAttributes",
@@ -11252,7 +11342,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 109,
+            "line": 113,
             "description": "Fires when the attribute value of the element is changed.",
             "itemtype": "method",
             "name": "attributeChangedCallback",
@@ -11261,7 +11351,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 140,
+            "line": 144,
             "description": "Refresh the webcomponent",
             "itemtype": "method",
             "name": "refresh",
@@ -11270,7 +11360,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 149,
+            "line": 153,
             "description": "Init the webcomponent.",
             "itemtype": "method",
             "name": "init",
@@ -11279,7 +11369,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 252,
+            "line": 256,
             "description": "Init the grid.",
             "itemtype": "method",
             "name": "initGrid",
@@ -11305,7 +11395,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 386,
+            "line": 394,
             "description": "Sets the parent module to start loading mode.",
             "itemtype": "method",
             "name": "startLoading",
@@ -11314,7 +11404,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 395,
+            "line": 403,
             "description": "Sets the parent module to stop loading mode.",
             "itemtype": "method",
             "name": "stopLoading",
@@ -11323,7 +11413,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 404,
+            "line": 412,
             "description": "Starts control rendering.",
             "itemtype": "method",
             "name": "render",
@@ -11332,7 +11422,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 581,
+            "line": 591,
             "description": "Processes dependency loading",
             "itemtype": "method",
             "name": "processLoadDependencies",
@@ -11341,7 +11431,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 631,
+            "line": 641,
             "description": "Refreshes a property",
             "itemtype": "method",
             "name": "refreshProperty",
@@ -11371,7 +11461,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 691,
+            "line": 701,
             "description": "Parses edit string",
             "itemtype": "method",
             "name": "parseEditString",
@@ -11391,7 +11481,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 707,
+            "line": 717,
             "description": "Captures property change event",
             "itemtype": "method",
             "name": "onPropertyChanged",
@@ -11407,7 +11497,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 765,
+            "line": 775,
             "description": "Establish webcomponent settings",
             "itemtype": "method",
             "name": "configure",
@@ -11416,7 +11506,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 795,
+            "line": 805,
             "description": "Sort based on an object .",
             "itemtype": "method",
             "name": "sort",
@@ -11432,7 +11522,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 806,
+            "line": 816,
             "description": "Sort based on column in asc or desc mode.",
             "itemtype": "method",
             "name": "sort",
@@ -11458,7 +11548,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 836,
+            "line": 846,
             "description": "loads pager.",
             "itemtype": "method",
             "name": "loadPager",
@@ -11467,7 +11557,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 903,
+            "line": 913,
             "description": "Refreshes pager.",
             "itemtype": "method",
             "name": "refreshPager",
@@ -11476,7 +11566,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 951,
+            "line": 961,
             "description": "Moves to next page.",
             "itemtype": "method",
             "name": "nextPage",
@@ -11485,7 +11575,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 958,
+            "line": 968,
             "description": "Moves to previous page.",
             "itemtype": "method",
             "name": "previousPage",
@@ -11494,7 +11584,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 965,
+            "line": 975,
             "description": "Moves to first page.",
             "itemtype": "method",
             "name": "firstPage",
@@ -11503,7 +11593,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 972,
+            "line": 982,
             "description": "Moves to last page.",
             "itemtype": "method",
             "name": "lastPage",
@@ -11512,7 +11602,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 979,
+            "line": 989,
             "description": "Loads page given a page number.",
             "itemtype": "method",
             "name": "lastPage!~YUIDOC_LINE~!param  newPage",
@@ -11522,7 +11612,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 1016,
+            "line": 1026,
             "description": "Save page into history.",
             "itemtype": "method",
             "name": "savePageValueHistory",
@@ -11531,7 +11621,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 1039,
+            "line": 1049,
             "description": "Load searcher",
             "itemtype": "method",
             "name": "loadSearcher",
@@ -11540,7 +11630,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 1054,
+            "line": 1064,
             "description": "Load filters",
             "itemtype": "method",
             "name": "loadFilters",
@@ -11555,7 +11645,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 1080,
+            "line": 1090,
             "description": "Paint header",
             "itemtype": "method",
             "name": "paintHeader",
@@ -11575,7 +11665,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 1129,
+            "line": 1139,
             "description": "Paint footer",
             "itemtype": "method",
             "name": "paintFooter",
@@ -11595,7 +11685,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 1186,
+            "line": 1196,
             "description": "Paint Body",
             "itemtype": "method",
             "name": "paintBody",
@@ -11615,7 +11705,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 1297,
+            "line": 1310,
             "description": "Translates string",
             "itemtype": "method",
             "name": "translate",
@@ -11635,7 +11725,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 1315,
+            "line": 1328,
             "description": "Gets value from property",
             "itemtype": "method",
             "name": "getValue",
@@ -11655,7 +11745,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 1350,
+            "line": 1363,
             "description": "Loads list count",
             "itemtype": "method",
             "name": "loadCount",
@@ -11664,7 +11754,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-list.js",
-            "line": 1378,
+            "line": 1391,
             "description": "Gets module full Id using pagename objectname modulename",
             "itemtype": "method",
             "name": "getModuleFullId",
@@ -11727,7 +11817,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-module.js",
-            "line": 45,
+            "line": 46,
             "description": "Fires when element is attached to DOM",
             "itemtype": "method",
             "name": "connectedCallback",
@@ -11736,7 +11826,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-module.js",
-            "line": 57,
+            "line": 58,
             "description": "Init the webcomponent.",
             "itemtype": "method",
             "name": "init",
@@ -11745,7 +11835,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-module.js",
-            "line": 85,
+            "line": 86,
             "description": "Loads module header.",
             "itemtype": "method",
             "name": "loadHeader",
@@ -11754,7 +11844,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-module.js",
-            "line": 159,
+            "line": 160,
             "description": "Refresh module.",
             "itemtype": "method",
             "name": "refresh",
@@ -13128,7 +13218,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 75,
+            "line": 74,
             "description": "Set filter of webcomponent. REQUIRED.",
             "itemtype": "method",
             "name": "refresh",
@@ -13137,7 +13227,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 85,
+            "line": 84,
             "description": "Render HTML data.",
             "itemtype": "method",
             "name": "render",
@@ -13146,7 +13236,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 138,
+            "line": 137,
             "description": "Set Structure Events.",
             "itemtype": "method",
             "name": "setStructureEvents",
@@ -13155,7 +13245,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 440,
+            "line": 439,
             "description": "Init Vis Timeline.",
             "itemtype": "method",
             "name": "initVisTimeline",
@@ -13181,7 +13271,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 456,
+            "line": 455,
             "description": "Init Vis Timeline.",
             "itemtype": "method",
             "name": "setItemsWithoutGroups",
@@ -13207,7 +13297,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 480,
+            "line": 479,
             "description": "Get Timeline.",
             "itemtype": "method",
             "name": "getTimeline",
@@ -13216,7 +13306,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 526,
+            "line": 525,
             "description": "Build Vis Options.",
             "itemtype": "method",
             "name": "buildVisOptions",
@@ -13232,7 +13322,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 664,
+            "line": 663,
             "description": "Build Vis Item.",
             "itemtype": "method",
             "name": "buildVisItem",
@@ -13248,7 +13338,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 692,
+            "line": 691,
             "description": "Build Vis Group.",
             "itemtype": "method",
             "name": "buildVisGroup",
@@ -13264,7 +13354,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 707,
+            "line": 706,
             "description": "Object Actions.",
             "itemtype": "method",
             "name": "objectActions",
@@ -13285,7 +13375,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 753,
+            "line": 752,
             "description": "Open Object Edit.",
             "itemtype": "method",
             "name": "openObjectEdit",
@@ -13306,7 +13396,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 791,
+            "line": 790,
             "description": "Get Object Where.",
             "itemtype": "method",
             "name": "getObjectWhere",
@@ -13322,7 +13412,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 803,
+            "line": 802,
             "description": "Has id structure.",
             "itemtype": "method",
             "name": "hasIdStructure",
@@ -13338,7 +13428,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 821,
+            "line": 820,
             "description": "Has id structure.",
             "itemtype": "method",
             "name": "hasIdStructure",
@@ -13354,7 +13444,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 835,
+            "line": 834,
             "description": "Check Editable Property.",
             "itemtype": "method",
             "name": "checkEditableProperty",
@@ -13370,7 +13460,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 861,
+            "line": 860,
             "description": "Load filters",
             "itemtype": "method",
             "name": "loadFilters",
@@ -13379,7 +13469,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 883,
+            "line": 882,
             "description": "Establish webcomponent settings",
             "itemtype": "method",
             "name": "configure",
@@ -13388,7 +13478,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 890,
+            "line": 889,
             "description": "Fires when element is attached to DOM",
             "itemtype": "method",
             "name": "connectedCallback",
@@ -13397,7 +13487,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 904,
+            "line": 903,
             "description": "Fires when element is detached to DOM",
             "itemtype": "method",
             "name": "disconnectedCallback",
@@ -13406,7 +13496,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 913,
+            "line": 912,
             "description": "Fires when the attribute value of the element is changed.",
             "itemtype": "method",
             "name": "attributeChangedCallback",
@@ -13415,7 +13505,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 948,
+            "line": 947,
             "description": "Set if element has been connected to DOM",
             "itemtype": "property",
             "name": "connected",
@@ -13425,7 +13515,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 954,
+            "line": 953,
             "description": "Array of observed attributes. REQUIRED",
             "itemtype": "property",
             "name": "observedAttributes",
@@ -13435,7 +13525,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 961,
+            "line": 960,
             "description": "Init the webcomponent. REQUIRED.",
             "itemtype": "method",
             "name": "init",
@@ -13444,7 +13534,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 968,
+            "line": 967,
             "description": "Refresh de webcomponent. REQUIRED.",
             "itemtype": "method",
             "name": "refresh",
@@ -13453,7 +13543,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 975,
+            "line": 974,
             "description": "Render HTML data.",
             "itemtype": "method",
             "name": "render",
@@ -13462,7 +13552,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 986,
+            "line": 985,
             "description": "Fires when element is attached to DOM",
             "itemtype": "method",
             "name": "connectedCallback",
@@ -13471,7 +13561,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-timeline.js",
-            "line": 1000,
+            "line": 999,
             "description": "Fires when the attribute value of the element is changed.",
             "itemtype": "method",
             "name": "attributeChangedCallback",
@@ -14262,7 +14352,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\navigation.js",
-            "line": 89,
+            "line": 90,
             "description": "Navigate to default page",
             "itemtype": "method",
             "name": "goHome",
@@ -14280,7 +14370,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\navigation.js",
-            "line": 100,
+            "line": 101,
             "description": "Opens a page by its name",
             "itemtype": "method",
             "name": "openPageName",
@@ -14336,7 +14426,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\navigation.js",
-            "line": 165,
+            "line": 166,
             "description": "Executes a process, opening its param page if required",
             "itemtype": "method",
             "name": "execProcess",
@@ -14397,7 +14487,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\navigation.js",
-            "line": 318,
+            "line": 323,
             "description": "Opens the parameter process page",
             "itemtype": "method",
             "name": "openProcessParams",
@@ -14443,7 +14533,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\navigation.js",
-            "line": 334,
+            "line": 339,
             "description": "Opens the parameter process page",
             "itemtype": "method",
             "name": "openProcessParamsPage",
@@ -14494,7 +14584,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\navigation.js",
-            "line": 382,
+            "line": 387,
             "description": "Opens the parameter report page",
             "itemtype": "method",
             "name": "openReportsParams",
@@ -14545,7 +14635,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\navigation.js",
-            "line": 399,
+            "line": 404,
             "description": "Opens the parameter report page",
             "itemtype": "method",
             "name": "openReportsParamsPage",
@@ -14601,7 +14691,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\navigation.js",
-            "line": 446,
+            "line": 451,
             "description": "Opens the report page",
             "itemtype": "method",
             "name": "viewReport",
@@ -14657,7 +14747,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\navigation.js",
-            "line": 476,
+            "line": 481,
             "description": "Opens an URL",
             "itemtype": "method",
             "name": "openURL",
@@ -14683,7 +14773,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\navigation.js",
-            "line": 508,
+            "line": 513,
             "description": "Opens an edit table Page",
             "itemtype": "method",
             "name": "openEditTable",
@@ -14719,7 +14809,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\navigation.js",
-            "line": 571,
+            "line": 576,
             "description": "Opens a help page",
             "itemtype": "method",
             "name": "openHelpId",
@@ -14750,7 +14840,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\navigation.js",
-            "line": 621,
+            "line": 626,
             "description": "Gets help content",
             "itemtype": "method",
             "name": "GetHelpContent",
@@ -14770,7 +14860,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\navigation.js",
-            "line": 639,
+            "line": 644,
             "description": "Attaches Object Menu to button",
             "itemtype": "method",
             "name": "getObjectMenu",
@@ -14801,7 +14891,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\navigation.js",
-            "line": 690,
+            "line": 695,
             "description": "Close flexygo popup or modal page",
             "itemtype": "method",
             "name": "closePage",
@@ -14817,7 +14907,7 @@
         },
         {
             "file": "Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\navigation.js",
-            "line": 707,
+            "line": 712,
             "description": "Close all flexygo popup or modal page",
             "itemtype": "method",
             "name": "closeAllPages",
@@ -15436,7 +15526,11 @@
     "warnings": [
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-dependencymanager.js:303"
+            "line": " Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-dependencymanager.js:314"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\wc\\flx-dependencymanager.js:371"
         },
         {
             "message": "unknown tag: hideafterclick",
@@ -15468,7 +15562,7 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\navigation.js:621"
+            "line": " Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\ui\\navigation.js:626"
         },
         {
             "message": "Missing item type",
@@ -15597,6 +15691,26 @@
         {
             "message": "Missing item type",
             "line": " Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\events\\events.js:1"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\localization\\language-caes.js:1"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\localization\\language-dede.js:1"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\localization\\language-engb.js:1"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\localization\\language-eses.js:1"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Source\\flexygo\\Proyectos\\FlexyGo\\FlexyGo\\js\\flexygo\\localization\\language-frfr.js:1"
         },
         {
             "message": "Missing item type",

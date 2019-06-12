@@ -43,45 +43,45 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="flxDataManager, Version=1.23.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+    <Reference Include="flxDataManager, Version=1.24.0.3, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Flexygo.1.24.0.3\lib\net46\flxDataManager.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxDataManager.dll</HintPath>
     </Reference>
-    <Reference Include="flxEntity, Version=1.23.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+    <Reference Include="flxEntity, Version=1.24.0.3, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Flexygo.1.24.0.3\lib\net46\flxEntity.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxEntity.dll</HintPath>
     </Reference>
-    <Reference Include="flxGlobals, Version=1.23.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+    <Reference Include="flxGlobals, Version=1.24.0.3, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Flexygo.1.24.0.3\lib\net46\flxGlobals.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxGlobals.dll</HintPath>
     </Reference>
-    <Reference Include="flxLocalization, Version=1.23.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+    <Reference Include="flxLocalization, Version=1.24.0.3, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Flexygo.1.24.0.3\lib\net46\flxLocalization.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxLocalization.dll</HintPath>
     </Reference>
-    <Reference Include="flxMail, Version=1.23.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+    <Reference Include="flxMail, Version=1.24.0.3, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Flexygo.1.24.0.3\lib\net46\flxMail.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxMail.dll</HintPath>
     </Reference>
-    <Reference Include="flxObjectConfig, Version=1.23.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+    <Reference Include="flxObjectConfig, Version=1.24.0.3, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Flexygo.1.24.0.3\lib\net46\flxObjectConfig.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxObjectConfig.dll</HintPath>
     </Reference>
-    <Reference Include="flxSession, Version=1.23.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+    <Reference Include="flxSession, Version=1.24.0.3, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Flexygo.1.24.0.3\lib\net46\flxSession.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxSession.dll</HintPath>
     </Reference>
-    <Reference Include="flxSettings, Version=1.23.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+    <Reference Include="flxSettings, Version=1.24.0.3, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Flexygo.1.24.0.3\lib\net46\flxSettings.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxSettings.dll</HintPath>
     </Reference>
-    <Reference Include="flxSysProcess, Version=1.23.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+    <Reference Include="flxSysProcess, Version=1.24.0.3, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Flexygo.1.24.0.3\lib\net46\flxSysProcess.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxSysProcess.dll</HintPath>
     </Reference>
-    <Reference Include="flxUtilities, Version=1.23.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+    <Reference Include="flxUtilities, Version=1.24.0.3, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Flexygo.1.24.0.3\lib\net46\flxUtilities.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxUtilities.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

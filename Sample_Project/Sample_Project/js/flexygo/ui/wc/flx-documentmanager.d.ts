@@ -130,6 +130,7 @@ declare namespace flexygo.ui.wc {
         */
         rObjectId: any;
         managerMode: string;
+        type: string;
         constructor();
         /**
         * Fires when element is attached to DOM
@@ -182,7 +183,7 @@ declare namespace flexygo.ui.wc {
         * @param {string} Document type.
         * @param {string} Document extension.
         */
-        renderDocument(docGuid: string, path: string, downloadLink: string, name: string, origin: string, iconClass: string, creationDate: string, category: string, categoryId: string, description: string, documentType: string, extension: string): void;
+        renderDocument(docGuid: string, path: string, downloadLink: string, name: string, origin: string, iconClass: string, creationDate: string, category: string, categoryId: string, description: string, documentType: string, extension: string, inProgress: boolean): void;
         /**
         *Open dialog upload/link.
         * @method openDialog
@@ -208,14 +209,6 @@ declare namespace flexygo.ui.wc {
         */
         documentEvents(): void;
         /**
-        * Document reader.
-        * @method documentReader
-        * @param {File} File.
-        * @param {string} Document type.
-        * @param {string} Action.
-        */
-        documentReader(file: any, documentType: string, action: string, multi: boolean): void;
-        /**
         * Remove document.
         * @method removeDocument
         * @param {string} Document ID.
@@ -232,7 +225,7 @@ declare namespace flexygo.ui.wc {
         * @param {string} Cloud link.
         * @param {string}  action
         */
-        setDocument(base64: string, documentName: string, documentType: string, cloudId: string, cloudLink: string, downloadLink: string, action: string, multi: boolean): void;
+        setCloudDocument(base64: string, documentName: string, documentType: string, cloudId: string, cloudLink: string, downloadLink: string, action: string, multi: boolean): void;
         /**
         * Start editing.
         * @method editStartDocument
@@ -313,5 +306,28 @@ declare namespace flexygo.ui.wc {
         * @method closeLoading
         */
         closeLoading(multi: boolean): void;
+    }
+}
+declare namespace flexygo.io {
+    class DocumentUpload {
+        file: any;
+        fileSize: any;
+        bufferSize: number;
+        reader: FileReader;
+        currentPosition: number;
+        objectname: string;
+        objectid: string;
+        documentType: string;
+        action: string;
+        documentId: string;
+        manager: flexygo.ui.wc.FlxDocumentManagerElement;
+        documentContainer: JQuery;
+        constructor(file: any, objectname: string, objectid: string, type: string, action: string, manager: flexygo.ui.wc.FlxDocumentManagerElement);
+        startUpload(): void;
+        percentDone(): number;
+        upload_file(): void;
+        appendToDocument(base64: string, lastAppend: boolean): void;
+        setDocument(base64: string, documentName: string, multipart: boolean): void;
+        removeDocument(): void;
     }
 }

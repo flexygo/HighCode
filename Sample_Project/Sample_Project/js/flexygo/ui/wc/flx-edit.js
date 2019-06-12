@@ -360,7 +360,13 @@ var flexygo;
                             $(element).parent().removeClass('has-success').addClass('has-error');
                         },
                         errorPlacement: (error, element) => {
-                            error.insertAfter($(element).parent()[0]);
+                            if ($(element).closest('flx-radio').length > 0) {
+                                error.css("display", 'block');
+                                error.insertAfter($(element).parent().parent()[0]);
+                            }
+                            else {
+                                error.insertAfter($(element).parent()[0]);
+                            }
                         },
                         errorClass: 'txt-danger'
                     });

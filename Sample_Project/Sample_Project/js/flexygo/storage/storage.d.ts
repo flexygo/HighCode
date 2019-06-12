@@ -20,6 +20,7 @@ declare namespace flexygo.selection {
 * @class flexygo.storage.local
 */
 declare namespace flexygo.storage.local {
+    var _saveTimer: number;
     /**
      * Method to add an element to local Storage.
      * @method add

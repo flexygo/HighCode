@@ -68,6 +68,11 @@ declare namespace flexygo.ui.wc {
         */
         wall: JQuery;
         /**
+        * Visualization mode
+        * @property mode {string}
+        */
+        mode: string;
+        /**
         * Fires when element is attached to DOM
         * @method connectedCallback
         */

@@ -113,7 +113,6 @@ var flexygo;
     (function (storage) {
         var local;
         (function (local) {
-            var _saveTimer;
             var _Timer = 30000;
             /**
              * Method to add an element to local Storage.
@@ -124,8 +123,8 @@ var flexygo;
             function add(key, value) {
                 value = JSON.stringify(value);
                 localStorage.setItem(flexygo.profiles.projectName + '-' + key, value);
-                if (_saveTimer == null) {
-                    _saveTimer = setTimeout(() => {
+                if (local._saveTimer == null) {
+                    local._saveTimer = setTimeout(() => {
                         flexygo.storage.local.save();
                     }, _Timer);
                 }
@@ -139,8 +138,8 @@ var flexygo;
          */
             function remove(key) {
                 localStorage.removeItem(flexygo.profiles.projectName + '-' + key);
-                if (_saveTimer == null) {
-                    _saveTimer = setTimeout(() => {
+                if (local._saveTimer == null) {
+                    local._saveTimer = setTimeout(() => {
                         flexygo.storage.local.save();
                     }, _Timer);
                 }
@@ -197,7 +196,7 @@ var flexygo;
              * @return {Boolean} - If was saved correctly.
              */
             function save() {
-                _saveTimer = null;
+                local._saveTimer = null;
                 var ret = false;
                 var properties = new Array();
                 for (var i = 0; i < localStorage.length; i++) {

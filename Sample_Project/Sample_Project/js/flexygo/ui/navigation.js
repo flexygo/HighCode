@@ -69,6 +69,7 @@ var flexygo;
                 };
                 flexygo.events.trigger(ev);
                 flexygo.ajax.post('~/api/Pages', 'getPageByObject', { "StrType": pagetypeid, "ObjectName": objectname, "ObjectWhere": objectwhere, "isClone": isClone }, (ret) => {
+                    histObj.pagename = ret.PageName;
                     var pageContainer = flexygo.targets.createContainer(histObj, excludeHist, triggerElement);
                     var editObj = flexygo.history.get(pageContainer);
                     if (editObj.targetid.indexOf('main') == 0 || (editObj.targetid.indexOf('current') == 0 && pageContainer.is('#realMain'))) {
@@ -216,7 +217,7 @@ var flexygo;
             }
         }
         nav.execProcess = execProcess;
-        function openPageReturn(pageConf, objectname, objectwhere, defaults, pageContainer, reportname, processname, isClone) {
+        function openPageReturn(pageConf, objectname, objectwhere, defaults, pageContainer, reportname, processname, isClone, reportwhere) {
             pageContainer.html(flexygo.utils.loadingMsg());
             //pageContainer.trigger('pageloaded', pageConf);
             if (pageConf) {
@@ -234,6 +235,9 @@ var flexygo;
                 //else {
                 //    pageContainer.attr('class', 'pageContainer ' + bodyClass);
                 //}
+                if (pageConf.Descrip.includes("{{") && !flexygo.utils.isBlank(reportname)) {
+                    pageConf.Descrip = reportname;
+                }
                 pageContainer.closest('.flx-dialog,.flx-dialog-modal').find("span.ui-dialog-title").text(pageConf.Descrip);
                 pageContainer.html(pageConf.LayoutTemplate);
                 // Add page script 
@@ -272,6 +276,7 @@ var flexygo;
                     ctrl.objectwhere = objectwhere;
                     //ctrl.mode = mode;
                     ctrl.reportname = reportname;
+                    ctrl.reportwhere = reportwhere;
                     ctrl.processname = processname;
                     ctrl.moduleName = mod.ModuleName;
                     ctrl.moduleTitle = mod.Title;
@@ -438,7 +443,7 @@ var flexygo;
                 var pageContainer = flexygo.targets.createContainer(histObj, excludeHist, triggerElement);
                 flexygo.ajax.post('~/api/Pages', 'getPageByName', { "pageName": pagename }, (ret) => {
                     ret.pageHistory = histObj;
-                    openPageReturn(ret, objectname, objectwhere, defaults, pageContainer, reportname);
+                    openPageReturn(ret, objectname, objectwhere, defaults, pageContainer, reportname, null, null, reportwhere);
                 });
             }
         }

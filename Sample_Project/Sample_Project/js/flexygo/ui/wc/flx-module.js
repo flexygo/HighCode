@@ -38,6 +38,7 @@ var flexygo;
                     this.JSAfterLoad = null;
                     this.mode = null;
                     this.reportname = null;
+                    this.reportwhere = null;
                     this.processname = null;
                     this.emptyTop = false;
                     this.emptyTimer = null;
@@ -61,7 +62,7 @@ var flexygo;
                 init() {
                     let me = $(this);
                     if (this.componentString && this.componentString.length > 0) {
-                        let module = $('<' + this.componentString + ' />').attr('ObjectName', this.objectname).attr('ObjectWhere', this.objectwhere).attr('reportName', this.reportname).attr('processName', this.processname).attr('id', 'mod-' + this.moduleName).attr('modulename', this.moduleName);
+                        let module = $('<' + this.componentString + ' />').attr('ObjectName', this.objectname).attr('ObjectWhere', this.objectwhere).attr('reportName', this.reportname).attr('reportWhere', this.reportwhere).attr('processName', this.processname).attr('id', 'mod-' + this.moduleName).attr('modulename', this.moduleName);
                         if (this.ManualInit) {
                             module.attr('manualInit', 'true');
                         }
@@ -216,7 +217,7 @@ var flexygo;
                     $(this).find('.icon-minus, .icon-plus').toggleClass("icon-minus icon-plus");
                     $(this).find('.cntBody, .cntBodyHeader, .cntFooterHeader').toggle();
                 }
-                setButtons(buttons, objectname, objectwhere, reportname, processname) {
+                setButtons(buttons, objectname, objectwhere, reportname, processname, reportwhere) {
                     let me = $(this);
                     if (me.find('.cntBodyHeader .moduleToolbar').length == 0) {
                         me.find('.cntBodyHeader').append('<div class="moduleToolbar btn-toolbar" />');
@@ -263,7 +264,7 @@ var flexygo;
                                     btnGroup = null;
                                 }
                                 else {
-                                    btnGroup.append(this.getButton(btn, objectname, objectwhere, defString, reportname, null, processname));
+                                    btnGroup.append(this.getButton(btn, objectname, objectwhere, defString, reportname, this.reportwhere, processname));
                                 }
                                 lastPosition = btn.PositionId;
                             }
@@ -528,10 +529,10 @@ var flexygo;
                         let list = mod.find('flx-list')[0];
                         if (list.moduleButtons) {
                             if (selectionLength == 0) {
-                                mod[0].refreshButtons(list.moduleButtons, list.objectname, list.processwhere);
+                                mod[0].refreshButtons(list.moduleButtons, list.collectionname, list.processwhere);
                             }
                             else
-                                mod[0].refreshButtons(list.moduleButtons, list.objectname, flexygo.selection.getFilterString(objectname));
+                                mod[0].refreshButtons(list.moduleButtons, list.collectionname, flexygo.selection.getFilterString(objectname));
                         }
                     }
                     if (selectionLength > 0) {

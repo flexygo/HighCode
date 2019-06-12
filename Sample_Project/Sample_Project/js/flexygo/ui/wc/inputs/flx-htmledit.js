@@ -300,7 +300,7 @@ var flexygo;
                         callbacks: {
                             onKeydown: function (e) {
                                 var t = e.currentTarget.innerText;
-                                if (t.length >= maxnumofchars) {
+                                if (maxnumofchars != 0 && t.length >= maxnumofchars) {
                                     if (e.keyCode != 8 && !(e.keyCode >= 37 && e.keyCode <= 40) && e.keyCode != 46 && !(e.keyCode == 88 && e.ctrlKey) && !(e.keyCode == 67 && e.ctrlKey)) {
                                         e.preventDefault();
                                     }
@@ -308,7 +308,7 @@ var flexygo;
                             },
                             onKeyup: function (e) {
                                 var t = e.currentTarget.innerText;
-                                if (t.length >= maxnumofchars) {
+                                if (maxnumofchars != 0 && t.length >= maxnumofchars) {
                                     if (e.keyCode != 8 && !(e.keyCode >= 37 && e.keyCode <= 40) && e.keyCode != 46 && !(e.keyCode == 88 && e.ctrlKey) && !(e.keyCode == 67 && e.ctrlKey)) {
                                         e.preventDefault();
                                     }
@@ -319,7 +319,7 @@ var flexygo;
                                 var bufferText = ((e.originalEvent || e).clipboardData).getData('Text');
                                 e.preventDefault();
                                 var maxPaste = bufferText.length;
-                                if (t.length + bufferText.length > maxnumofchars) {
+                                if (maxnumofchars != 0 && t.length + bufferText.length > maxnumofchars) {
                                     maxPaste = maxnumofchars - t.length;
                                 }
                                 if (maxPaste > 0) {
