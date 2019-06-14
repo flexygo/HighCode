@@ -425,6 +425,12 @@
     <Content Include="css\skins\default\fonts\raleway\raleway-semibold-webfont.svg" />
     <Content Include="css\skins\default\fonts\raleway\raleway.css" />
     <Content Include="css\skins\default\print.css" />
+    <Content Include="custom\Courses\Level II\Steps\1\navigation_nodes.sql" />
+    <Content Include="custom\Courses\Level II\Steps\1\objects.sql" />
+    <Content Include="custom\Courses\Level II\Steps\1\objects_properties.sql" />
+    <Content Include="custom\Courses\Level II\Steps\1\objects_templates.sql" />
+    <Content Include="custom\Courses\Level II\Steps\1\objects_views.sql" />
+    <Content Include="custom\Courses\Level II\Steps\1\objects_views_properties.sql" />
     <Content Include="custom\dll\Microsoft.VisualStudio.TestPlatform.TestFramework.dll" />
     <Content Include="custom\dll\Sample_Project_UnitTest.dll" />
     <Content Include="custom\help\InterfaceTest.PNG" />
