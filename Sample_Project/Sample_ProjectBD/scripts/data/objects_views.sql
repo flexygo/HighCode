@@ -55,6 +55,13 @@ left join Countries on Countries.IsoName = Contact.IdCountry
 from Contact
 inner join Client on client.IdClient = Contact.IdClient
 left join Countries on Countries.IsoName = Contact.IdCountry',0,0,1,0,0,N'Contact.Name',1)
+ ,(N'Course',N'CursoDefaultList',N'CursoDefaultList',N'DataConnectionString',N' SELECT [Courses].[CourseId], [Courses].[CourseId] as [CourseId_1], [Courses].[Course] as [Course] FROM [Courses] 
+
+',0,1,1,0,1,NULL,1)
+ ,(N'Course_Step',N'Course_StepDefaultList',N'Course_StepDefaultList',N'DataConnectionString',N' SELECT [Steps].[StepId], [Steps].[CourseId], [Steps].[StepId] as [Step], [FlxCmb1].[Course] as [Course], [Steps].[Order] as [Order] FROM [Steps] 
+  LEFT JOIN (Select CourseId,Course From Courses ) [FlxCmb1] ON [FlxCmb1].[CourseId]=[Steps].[CourseId] 
+
+',0,1,1,0,1,NULL,1)
  ,(N'Employee',N'EmployeeDefaultList',N'EmployeeDefaultList',N'DataConnectionString',N' SELECT [Employee].[IdEmployee], [Employee].[IdEmployee] as [Id. Employee], [Employee].[Name] as [Name], [Employee].[Tel] as [Tel], [Employee].[Image] as [Image] FROM [Employee] 
 
 ',0,1,1,0,1,NULL,1)
