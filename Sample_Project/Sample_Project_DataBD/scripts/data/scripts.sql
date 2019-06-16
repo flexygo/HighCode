@@ -61,6 +61,26 @@ USING (VALUES
  ,(40,N'SP 3ª practica',1,N'~/custom/Courses/Level II/Steps/4/processes.sql',0,'ConfConnectionString')
  ,(41,N'SP 3ª practica',1,N'~/custom/Courses/Level II/Steps/4/processes_params.sql',0,'ConfConnectionString')
 
+
+
+ ,(42,N'SP 4ª practica',1,N'~/custom/Courses/Level II/Steps/Utils/Check_Dev_Client_I.sql',1,'DataConnectionString')
+ ,(43,N'SP 4ª practica',1,N'~/custom/Courses/Level II/Steps/Utils/Check_Dev_Client_U.sql',1,'DataConnectionString')
+ ,(44,N'SP 4ª practica',1,N'~/custom/Courses/Level II/Steps/Utils/Check_Dev_Client_D.sql',1,'DataConnectionString')
+ ,(45,N'SP 4ª practica',1,N'~/custom/Courses/Level II/Steps/5/Dev_Client_I.sql',1,'DataConnectionString')
+ ,(46,N'SP 4ª practica',1,N'~/custom/Courses/Level II/Steps/5/Dev_Client_U.sql',1,'DataConnectionString')
+ ,(47,N'SP 4ª practica',1,N'~/custom/Courses/Level II/Steps/5/Dev_Client_D.sql',1,'DataConnectionString')
+ 
+ ,(48,N'SP 4ª practica',1,N'~/custom/Courses/Level II/Steps/5/menus.sql',0,'ConfConnectionString')
+ ,(49,N'SP 4ª practica',1,N'~/custom/Courses/Level II/Steps/5/navigation_nodes.sql',0,'ConfConnectionString')
+ ,(50,N'SP 4ª practica',1,N'~/custom/Courses/Level II/Steps/5/objects.sql',0,'ConfConnectionString')
+ ,(51,N'SP 4ª practica',1,N'~/custom/Courses/Level II/Steps/5/objects_processes.sql',0,'ConfConnectionString')
+ ,(52,N'SP 4ª practica',1,N'~/custom/Courses/Level II/Steps/5/objects_properties.sql',0,'ConfConnectionString')
+ ,(53,N'SP 4ª practica',1,N'~/custom/Courses/Level II/Steps/5/objects_templates.sql',0,'ConfConnectionString')
+ ,(54,N'SP 4ª practica',1,N'~/custom/Courses/Level II/Steps/5/objects_views.sql',0,'ConfConnectionString')
+ ,(55,N'SP 4ª practica',1,N'~/custom/Courses/Level II/Steps/5/objects_views_properties.sql',0,'ConfConnectionString')
+ ,(56,N'SP 4ª practica',1,N'~/custom/Courses/Level II/Steps/5/processes.sql',0,'ConfConnectionString')
+ ,(57,N'SP 4ª practica',1,N'~/custom/Courses/Level II/Steps/5/processes_params.sql',0,'ConfConnectionString')
+
 ) AS Source ([ScriptId],[StepId],[CourseId],[Script],[Inherit],[ConnStringId])
 ON (Target.[ScriptId] = Source.[ScriptId] AND Target.[StepId] = Source.[StepId] AND Target.[CourseId] = Source.[CourseId])
 WHEN MATCHED AND (

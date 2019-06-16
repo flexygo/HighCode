@@ -14,7 +14,7 @@
     CONSTRAINT [PK_Actions] PRIMARY KEY CLUSTERED ([ActionId] ASC),
     CONSTRAINT [FK_Actions_Action_States] FOREIGN KEY ([ActionState]) REFERENCES [dbo].[Action_States] ([State]),
     CONSTRAINT [FK_Actions_Action_Types] FOREIGN KEY ([ActionType]) REFERENCES [dbo].[Action_Types] ([ActionType]),
-    CONSTRAINT [FK_Actions_Client] FOREIGN KEY ([IdClient]) REFERENCES [dbo].[Client] ([IdClient]),
+    CONSTRAINT [FK_Actions_Client] FOREIGN KEY ([IdClient]) REFERENCES [dbo].[Client] ([IdClient]) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT [FK_Actions_Employee] FOREIGN KEY ([IdEmployee]) REFERENCES [dbo].[Employee] ([IdEmployee])
 );
 

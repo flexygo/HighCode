@@ -9,7 +9,7 @@ USING (VALUES
  ,(N'SP 2ª practica',1,N'',2)
  ,(N'SP 3ª practica',1,N'',3)
  ,(N'SP 4ª practica',1,N'',4)
- ,(N'SP 5ª practica',1,N'',5)
+ --,(N'SP 5ª practica',1,N'',5)
 ) AS Source ([StepId],[CourseId],[Descrip],[Order])
 ON (Target.[StepId] = Source.[StepId] AND Target.[CourseId] = Source.[CourseId])
 WHEN MATCHED AND (
