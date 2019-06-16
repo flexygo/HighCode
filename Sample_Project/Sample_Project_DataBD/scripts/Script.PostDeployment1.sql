@@ -30,6 +30,9 @@ EXEC sp_MSforeachtable 'ALTER TABLE ? DISABLE TRIGGER all'
 :r .\data\team.sql
 :r .\data\tasks.sql
 :r .\data\tasks_states.sql
+:r .\data\courses.sql
+:r .\data\steps.sql
+:r .\data\scripts.sql
 
 --- FIN SECCIONA DATOS POR DEFECTO
 

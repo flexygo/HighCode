@@ -1,4 +1,4 @@
-﻿
+
 
 BEGIN TRY
 
@@ -87,6 +87,10 @@ USING (VALUES
 	<div class="col-2 col-m-2 col-s-2">{{objectmenu}}</div>
   </div>
 </div>',N'Contact_ExtendProperties',NULL,N'<legend class="padding-left-m">Contact List</legend>',NULL,N'<legend class="padding-left-m">No hay contactos para este cliente</legend>',NULL,1,1)
+ ,(N'Course_StepDefaultView',N'Course_Step',N'view',N'Course_Step Default View',N'<div class="margin-xl text-center">
+<h1 class="margin-xl">{{StepId}}</h1>
+<button class="btn btn-default btn-lg btn-outstanding" onclick="flexygo.nav.execProcess(''ApplyStep'',null,null,null,[{ ''Key'': ''Course'', ''Value'': ''{{CourseId}}'' },{ ''Key'': ''Step'', ''Value'': ''{{StepId}}'' }], ''modal'',false, ' + convert(nvarchar(max),NCHAR(36)) + N'(this),null,true);">Apply Step</button>
+</div>',N'Course_StepDefaultList',NULL,NULL,NULL,NULL,NULL,1,1)
  ,(N'EquipoDefaultList',N'Equipo',N'list',N'Equipo Default List',N'<div class="col-6 col-l-6 col-m-12 padding-l">
 	
     	<div class="col-1 col-l-1 col-m-1 col-s-1">

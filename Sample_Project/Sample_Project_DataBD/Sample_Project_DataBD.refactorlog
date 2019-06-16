@@ -49,4 +49,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="Validated" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="b437452f-d9ba-4933-b1b6-364a0c1b7487" ChangeDateTime="06/15/2019 17:25:24">
+    <Property Name="ElementName" Value="[dbo].[Scripts].[Order]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Scripts]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="inherit" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="b259cbe3-9d71-47cb-b1ca-114d6cce0f0b" ChangeDateTime="06/15/2019 17:25:40">
+    <Property Name="ElementName" Value="[dbo].[Scripts].[inherit]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Scripts]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Inherit" />
+  </Operation>
 </Operations>

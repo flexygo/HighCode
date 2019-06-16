@@ -24,6 +24,7 @@ where objectname=''Cliente'' and ObjectId= ''{{IdClient}}''',N'<div class=""><ul
  
 ',N'</ul></div>',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,N'document',NULL,NULL,N'ConfConnectionString',NULL,NULL,NULL,NULL,NULL,NULL,0,0,0,NULL,NULL,NULL,NULL,NULL,1)
  ,(N'Contacts_Related',N'flx-objectlist',N'project',N'Contactos',N'Contact.IdClient = {{IdClient}}',N'Contactos',N'Contactos',N'default',1,1,1,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,N'contacts2',NULL,NULL,NULL,N'systb-list',NULL,N'ContactoDefaultList',NULL,NULL,NULL,0,0,0,NULL,NULL,NULL,NULL,NULL,1)
+ ,(N'GenericViewNoHeader',N'flx-view',N'system',N'{{ObjectName}}',N'{{ObjectWhere}}',N'Generic View (No Header)',N'{{ObjectDescrip}}',N'noheader',1,1,1,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,N'sysobjecticon',NULL,100,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,0,0,NULL,NULL,NULL,NULL,NULL,1)
  ,(N'graficaVentas',N'flx-easypie',N'project',NULL,NULL,N'Gráfica de ventas',N'Gráfica de ventas',N'none',1,1,1,0,N'select ''<b>'' + Product.descrip + ''</b>'' as label, convert(int,sum(EconomicAmount) * 100.0 / (select sum(EconomicAmount)  from Sale) )as value,
 case	
 	when (select sum(EconomicAmount) * 100.0 / (select sum(EconomicAmount) from Sale)) BETWEEN 0 and 10 then ''#ff9191''

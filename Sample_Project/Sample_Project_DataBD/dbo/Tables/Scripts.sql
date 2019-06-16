@@ -3,7 +3,8 @@
 	[StepId]    NVARCHAR (100)  NOT NULL,
 	[CourseId]  INT             NOT NULL,
     [Script]   NVARCHAR (MAX)  NOT NULL,
-    [Order]     INT NOT NULL,
+    [Inherit]     BIT NOT NULL,
+    [ConnStringId] NVARCHAR(50) NOT NULL, 
     CONSTRAINT [PK_Scripts] PRIMARY KEY CLUSTERED ([ScriptId] ASC, [StepId] ASC,[CourseId] ASC),
     CONSTRAINT [FK_Scripts_Steps] FOREIGN KEY ([StepId],[CourseId]) REFERENCES [dbo].[Steps] ([StepId],[CourseId]) ON DELETE CASCADE ON UPDATE CASCADE
 );

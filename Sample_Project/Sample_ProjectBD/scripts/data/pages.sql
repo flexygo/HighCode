@@ -44,6 +44,7 @@ USING (VALUES
 }',1,NULL,0,1,0,NULL,1)
  ,(N'Acciones_calendario',N'generic',NULL,NULL,N'default',N'Acciones calendario',N'calendar-check-o',N'Calendario de acciones',NULL,NULL,0,NULL,0,0,0,NULL,1)
  ,(N'acciones_kanban',N'generic',NULL,NULL,N'default',N'Acciones kanban',N'flag Uruguay',N'Kanban de acciones',NULL,NULL,0,NULL,0,0,0,NULL,1)
+ ,(N'B2F9A6DE-5B6D-40D3-8011-A8EED03A05A7',N'view',N'Course_Step',NULL,N'default',N'view Course_Step',N'noicon',N'{{ObjectDescrip}}',NULL,NULL,0,NULL,0,1,0,NULL,1)
  ,(N'DC383501-83BE-4821-BB15-7868697E71A6',N'view',N'Cliente',NULL,N'syslayout-19',N'view Cliente',N'noicon',N'{{ObjectDescrip}}',NULL,NULL,0,NULL,0,1,0,NULL,1)
  ,(N'e452b005-f6fb-4fd8-9d42-94b621ed2bb3',N'generic',NULL,NULL,N'default',N'Demo Calendar',N'noicon',N'Demo Calendar',NULL,NULL,0,NULL,0,0,0,NULL,1)
  ,(N'E59F61C0-3F30-4AA3-9744-4ACE436A04C1',N'list',N'Accion',NULL,N'default',N'list Accion',N'noicon',N'{{ObjectDescrip}}',NULL,NULL,0,NULL,0,1,0,NULL,1)
