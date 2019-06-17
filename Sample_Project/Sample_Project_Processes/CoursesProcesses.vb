@@ -35,6 +35,8 @@ Public Class CoursesProcesses
             dmData.ExecuteSQLInstruction("sp_MSforeachtable 'ALTER TABLE ? NOCHECK CONSTRAINT all'")
             dmData.ExecuteSQLInstruction("sp_msforeachtable 'ALTER TABLE ? DISABLE TRIGGER all'")
 
+            dmConf.ExecuteSQLInstruction(IO.File.ReadAllText(Ret.ConfToken.MapPath("~/custom/Courses/Utils/CleanSteps.sql")).Replace(vbNewLine & "GO", ";"))
+
             For Each row As DataRow In dt.Rows
                 If Not IO.File.Exists(Ret.ConfToken.MapPath(row.Item("Script").ToString)) Then
                     Throw New Exception("The file does not exist: " & row.Item("Script").ToString)
