@@ -48,6 +48,33 @@ Practices_Processes
  <returns><c>true</c> if no error, <c>false</c> otherwise.</returns>
  <exception cref="T:System.Exception">Returns error</exception>
 </member>
+<member name="M:Practices_Processes.Processes.Practices.DevClientI(FLEXYGO.Objects.EntityObject,FLEXYGO.Processing.ProcessManager.ProcessHelper@)">
+ <summary>
+ Client Insert
+ </summary>
+ <param name="Entity">The entity.</param>
+ <param name="Ret">Returns a Process Helper.</param>
+ <returns><c>true</c> if no error, <c>false</c> otherwise.</returns>
+ <exception cref="T:System.Exception">Returns error</exception>
+</member>
+<member name="M:Practices_Processes.Processes.Practices.DevClientU(FLEXYGO.Objects.EntityObject,FLEXYGO.Processing.ProcessManager.ProcessHelper@)">
+ <summary>
+ Client Insert
+ </summary>
+ <param name="Entity">The entity.</param>
+ <param name="Ret">Returns a Process Helper.</param>
+ <returns><c>true</c> if no error, <c>false</c> otherwise.</returns>
+ <exception cref="T:System.Exception">Returns error</exception>
+</member>
+<member name="M:Practices_Processes.Processes.Practices.DevClientD(FLEXYGO.Objects.EntityObject,FLEXYGO.Processing.ProcessManager.ProcessHelper@)">
+ <summary>
+ Client Insert
+ </summary>
+ <param name="Entity">The entity.</param>
+ <param name="Ret">Returns a Process Helper.</param>
+ <returns><c>true</c> if no error, <c>false</c> otherwise.</returns>
+ <exception cref="T:System.Exception">Returns error</exception>
+</member>
 <member name="M:Practices_Processes.Processes.Practices.DevBlockBatchClients(FLEXYGO.Objects.EntityCollection,FLEXYGO.Processing.ProcessManager.ProcessHelper@,System.String)">
  <summary>
  Block Batch Client 

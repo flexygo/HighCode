@@ -507,6 +507,16 @@
     <Content Include="custom\Courses\Level II\Steps\8\objects_views_properties.sql" />
     <Content Include="custom\Courses\Level II\Steps\8\processes.sql" />
     <Content Include="custom\Courses\Level II\Steps\8\processes_params.sql" />
+    <Content Include="custom\Courses\Level II\Steps\9\menus.sql" />
+    <Content Include="custom\Courses\Level II\Steps\9\navigation_nodes.sql" />
+    <Content Include="custom\Courses\Level II\Steps\9\objects.sql" />
+    <Content Include="custom\Courses\Level II\Steps\9\objects_processes.sql" />
+    <Content Include="custom\Courses\Level II\Steps\9\objects_properties.sql" />
+    <Content Include="custom\Courses\Level II\Steps\9\objects_templates.sql" />
+    <Content Include="custom\Courses\Level II\Steps\9\objects_views.sql" />
+    <Content Include="custom\Courses\Level II\Steps\9\objects_views_properties.sql" />
+    <Content Include="custom\Courses\Level II\Steps\9\processes.sql" />
+    <Content Include="custom\Courses\Level II\Steps\9\processes_params.sql" />
     <Content Include="custom\Courses\Level II\Steps\Utils\Check_Dev_Block_Batch_Clients.sql" />
     <Content Include="custom\Courses\Level II\Steps\Utils\Check_Dev_Block_Client.sql" />
     <Content Include="custom\Courses\Level II\Steps\Utils\Check_Dev_Client_D.sql" />
