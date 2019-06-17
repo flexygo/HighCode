@@ -1,0 +1,68 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+flxGlobals
+</name>
+</assembly>
+<members>
+<member name="T:FLEXYGO.Web.GlobalVars">
+ <summary>
+ Class GlobalVars.
+ </summary>
+</member>
+<member name="P:FLEXYGO.Web.GlobalVars.ConfToken">
+ <summary>
+ Gets or sets the configuration token.
+ </summary>
+ <value>The conf token.</value>
+</member>
+<member name="M:FLEXYGO.Web.GlobalVars.TestConnections">
+ <summary>
+ Tests the web.config connection strings.
+ </summary>
+ <exception cref="T:System.Exception">Error in connection string:" + invalid connstrings</exception>
+</member>
+<member name="P:FLEXYGO.Web.GlobalVars.IsLoggedIn">
+ <summary>
+ Gets a value indicating whether this instance is a logged in user.
+ </summary>
+ <value><c>true</c> if this instance is logged in; otherwise, <c>false</c>.</value>
+</member>
+<member name="P:FLEXYGO.Web.GlobalVars.Skins">
+ <summary>
+ Gets the application skins.
+ </summary>
+ <value>The skins.</value>
+</member>
+<member name="M:FLEXYGO.Web.GlobalVars.CreateConfToken(System.String)">
+ <summary>
+ Creates the configuration token.
+ </summary>
+ <param name="userName">Name of the user.</param>
+ <returns>ConfToken.</returns>
+</member>
+<member name="M:FLEXYGO.Web.GlobalVars.SetConfToken(FLEXYGO.Configuration.Tokens.ConfToken)">
+ <summary>
+ Sets Global Vars with a configuration token.
+ </summary>
+ <param name="aConfToken">a configuration token.</param>
+</member>
+<member name="T:FLEXYGO.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:FLEXYGO.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:FLEXYGO.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+</members>
+</doc>

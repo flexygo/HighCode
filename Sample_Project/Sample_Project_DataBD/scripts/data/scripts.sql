@@ -81,6 +81,43 @@ USING (VALUES
  ,(56,N'SP 4ª practica',1,N'~/custom/Courses/Level II/Steps/5/processes.sql',0,'ConfConnectionString')
  ,(57,N'SP 4ª practica',1,N'~/custom/Courses/Level II/Steps/5/processes_params.sql',0,'ConfConnectionString')
 
+
+ ,(58,N'DLL 1ª practica',1,N'~/custom/Courses/Level II/Steps/6/menus.sql',0,'ConfConnectionString')
+ ,(59,N'DLL 1ª practica',1,N'~/custom/Courses/Level II/Steps/6/navigation_nodes.sql',0,'ConfConnectionString')
+ ,(60,N'DLL 1ª practica',1,N'~/custom/Courses/Level II/Steps/6/objects.sql',0,'ConfConnectionString')
+ ,(61,N'DLL 1ª practica',1,N'~/custom/Courses/Level II/Steps/6/objects_processes.sql',0,'ConfConnectionString')
+ ,(62,N'DLL 1ª practica',1,N'~/custom/Courses/Level II/Steps/6/objects_properties.sql',0,'ConfConnectionString')
+ ,(63,N'DLL 1ª practica',1,N'~/custom/Courses/Level II/Steps/6/objects_templates.sql',0,'ConfConnectionString')
+ ,(64,N'DLL 1ª practica',1,N'~/custom/Courses/Level II/Steps/6/objects_views.sql',0,'ConfConnectionString')
+ ,(65,N'DLL 1ª practica',1,N'~/custom/Courses/Level II/Steps/6/objects_views_properties.sql',0,'ConfConnectionString')
+ ,(66,N'DLL 1ª practica',1,N'~/custom/Courses/Level II/Steps/6/processes.sql',0,'ConfConnectionString')
+ ,(67,N'DLL 1ª practica',1,N'~/custom/Courses/Level II/Steps/6/processes_params.sql',0,'ConfConnectionString')
+
+
+ ,(68,N'DLL 2ª practica',1,N'~/custom/Courses/Level II/Steps/7/menus.sql',0,'ConfConnectionString')
+ ,(69,N'DLL 2ª practica',1,N'~/custom/Courses/Level II/Steps/7/navigation_nodes.sql',0,'ConfConnectionString')
+ ,(70,N'DLL 2ª practica',1,N'~/custom/Courses/Level II/Steps/7/objects.sql',0,'ConfConnectionString')
+ ,(71,N'DLL 2ª practica',1,N'~/custom/Courses/Level II/Steps/7/objects_processes.sql',0,'ConfConnectionString')
+ ,(72,N'DLL 2ª practica',1,N'~/custom/Courses/Level II/Steps/7/objects_properties.sql',0,'ConfConnectionString')
+ ,(73,N'DLL 2ª practica',1,N'~/custom/Courses/Level II/Steps/7/objects_templates.sql',0,'ConfConnectionString')
+ ,(74,N'DLL 2ª practica',1,N'~/custom/Courses/Level II/Steps/7/objects_views.sql',0,'ConfConnectionString')
+ ,(75,N'DLL 2ª practica',1,N'~/custom/Courses/Level II/Steps/7/objects_views_properties.sql',0,'ConfConnectionString')
+ ,(76,N'DLL 2ª practica',1,N'~/custom/Courses/Level II/Steps/7/processes.sql',0,'ConfConnectionString')
+ ,(77,N'DLL 2ª practica',1,N'~/custom/Courses/Level II/Steps/7/processes_params.sql',0,'ConfConnectionString')
+
+
+
+ ,(78,N'DLL 3ª practica',1,N'~/custom/Courses/Level II/Steps/8/menus.sql',0,'ConfConnectionString')
+ ,(79,N'DLL 3ª practica',1,N'~/custom/Courses/Level II/Steps/8/navigation_nodes.sql',0,'ConfConnectionString')
+ ,(80,N'DLL 3ª practica',1,N'~/custom/Courses/Level II/Steps/8/objects.sql',0,'ConfConnectionString')
+ ,(81,N'DLL 3ª practica',1,N'~/custom/Courses/Level II/Steps/8/objects_processes.sql',0,'ConfConnectionString')
+ ,(82,N'DLL 3ª practica',1,N'~/custom/Courses/Level II/Steps/8/objects_properties.sql',0,'ConfConnectionString')
+ ,(83,N'DLL 3ª practica',1,N'~/custom/Courses/Level II/Steps/8/objects_templates.sql',0,'ConfConnectionString')
+ ,(84,N'DLL 3ª practica',1,N'~/custom/Courses/Level II/Steps/8/objects_views.sql',0,'ConfConnectionString')
+ ,(85,N'DLL 3ª practica',1,N'~/custom/Courses/Level II/Steps/8/objects_views_properties.sql',0,'ConfConnectionString')
+ ,(86,N'DLL 3ª practica',1,N'~/custom/Courses/Level II/Steps/8/processes.sql',0,'ConfConnectionString')
+ ,(87,N'DLL 3ª practica',1,N'~/custom/Courses/Level II/Steps/8/processes_params.sql',0,'ConfConnectionString')
+
 ) AS Source ([ScriptId],[StepId],[CourseId],[Script],[Inherit],[ConnStringId])
 ON (Target.[ScriptId] = Source.[ScriptId] AND Target.[StepId] = Source.[StepId] AND Target.[CourseId] = Source.[CourseId])
 WHEN MATCHED AND (

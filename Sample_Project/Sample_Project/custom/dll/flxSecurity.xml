@@ -1,0 +1,2100 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+flxSecurity
+</name>
+</assembly>
+<members>
+<member name="M:FLEXYGO.Security.NativeMethods.LogonUserA(System.String@,System.String@,System.String@,System.Int32,System.Int32,System.IntPtr@)">
+ <summary>
+ Logons the user a.
+ </summary>
+ <param name="lpszUsername">The LPSZ username.</param>
+ <param name="lpszDomain">The LPSZ domain.</param>
+ <param name="lpszPassword">The LPSZ password.</param>
+ <param name="dwLogonType">Type of the dw logon.</param>
+ <param name="dwLogonProvider">The dw logon provider.</param>
+ <param name="phToken">The ph token.</param>
+ <returns>System.Int32.</returns>
+</member>
+<member name="M:FLEXYGO.Security.NativeMethods.DuplicateToken(System.IntPtr,System.Int32,System.IntPtr@)">
+ <summary>
+ Duplicates the token.
+ </summary>
+ <param name="ExistingTokenHandle">The existing token handle.</param>
+ <param name="ImpersonationLevel">The impersonation level.</param>
+ <param name="DuplicateTokenHandle">The duplicate token handle.</param>
+ <returns>System.Int32.</returns>
+</member>
+<member name="M:FLEXYGO.Security.NativeMethods.RevertToSelf">
+ <summary>
+ Reverts to self.
+ </summary>
+ <returns>System.Int64.</returns>
+</member>
+<member name="M:FLEXYGO.Security.NativeMethods.CloseHandle(System.IntPtr)">
+ <summary>
+ Closes the handle.
+ </summary>
+ <param name="handle">The handle.</param>
+ <returns>System.Int64.</returns>
+</member>
+<member name="T:FLEXYGO.Security.Impersonate">
+ <summary>
+ Class Impersonate.
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.Impersonate.LOGON32_LOGON_INTERACTIVE">
+ <summary>
+ The logo N32_ logo n_ interactive
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.Impersonate.LOGON32_PROVIDER_DEFAULT">
+ <summary>
+ The logo N32_ provide r_ default
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.Impersonate.impersonationContext">
+ <summary>
+ The impersonation context
+ </summary>
+</member>
+<member name="M:FLEXYGO.Security.Impersonate.startImpersonation(System.String,System.String,System.String)">
+ <summary>
+ Impersonates the valid user.
+ </summary>
+ <param name="userName">Name of the user.</param>
+ <param name="domain">The domain.</param>
+ <param name="password">The password.</param>
+ <returns><c>true</c> if worked else, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Security.Impersonate.undoImpersonation">
+ <summary>
+ Undoes the impersonation.
+ </summary>
+</member>
+<member name="T:FLEXYGO.Security.UserMasterTableSecurity">
+ <summary>
+ Class UserNodeSecurity.
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserMasterTableSecurity._TableName">
+ <summary>
+ The TableName
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserMasterTableSecurity._CanView">
+ <summary>
+ Can view The Table
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserMasterTableSecurity._CanInsert">
+ <summary>
+ Can insert into The Table
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserMasterTableSecurity._CanUpdate">
+ <summary>
+ Can update into The Table
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserMasterTableSecurity._CanDelete">
+ <summary>
+ Can delete from The Table
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserMasterTableSecurity._CanPrint">
+ <summary>
+ Can print  The Table
+ </summary>
+</member>
+<member name="P:FLEXYGO.Security.UserMasterTableSecurity.CanView">
+ <summary>
+ If Table enabled for that user
+ </summary>
+</member>
+<member name="P:FLEXYGO.Security.UserMasterTableSecurity.CanInsert">
+ <summary>
+ If Table insert enabled for that user
+ </summary>
+</member>
+<member name="P:FLEXYGO.Security.UserMasterTableSecurity.CanUpdate">
+ <summary>
+ If Table update enabled for that user
+ </summary>
+</member>
+<member name="P:FLEXYGO.Security.UserMasterTableSecurity.CanDelete">
+ <summary>
+ If Table delete enabled for that user
+ </summary>
+</member>
+<member name="P:FLEXYGO.Security.UserMasterTableSecurity.CanPrint">
+ <summary>
+ If Table print enabled for that user
+ </summary>
+</member>
+<member name="T:FLEXYGO.Security.UserMasterTableSecurityCollection">
+ <summary>
+ Class UserMasterTableSecurityCollection.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Security.UserMasterTableSecurityCollection.Add(FLEXYGO.Security.UserMasterTableSecurity)">
+ <summary>
+ Adds the UserMasterTableSecurity object to the Collection using TableName.
+ </summary>
+ <param name="UserMasterTableSecurity">An UserMasterTableSecurity object.</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Security.UserMasterTableSecurityCollection.Remove(FLEXYGO.Security.UserMasterTableSecurity)">
+ <summary>
+ Removes the UserMasterTableSecurity object from the Collection using TableName.
+ </summary>
+ <param name="UserMasterTableSecurity">An UserMasterTableSecurity object.</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Security.UserMasterTableSecurityCollection.Remove(System.String)">
+ <summary>
+ Removes the UserMasterTableSecurity object from the Collection using TableName.
+ </summary>
+ <param name="TableName">The TableName</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Security.UserMasterTableSecurityCollection.Contains(System.String)">
+ <summary>
+ Checks  if UserMasterTableSecurity Object exists in Collection using TableName.
+ </summary>
+ <param name="TableName">The TableName.</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="T:FLEXYGO.Security.UserModuleSecurity">
+ <summary>
+ Class UserModuleSecurity.
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserModuleSecurity._ModuleName">
+ <summary>
+ The Module Id
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserModuleSecurity._CanView">
+ <summary>
+ Can view The Module
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserModuleSecurity._viewFilter">
+ <summary>
+ View filter
+ </summary>
+</member>
+<member name="P:FLEXYGO.Security.UserModuleSecurity.CanView">
+ <summary>
+ Gets a value indicating whether this Module can be viewed.
+ </summary>
+ <value><c>true</c> if can view; otherwise, <c>false</c>.</value>
+</member>
+<member name="P:FLEXYGO.Security.UserModuleSecurity.ViewFilter">
+ <summary>
+ Gets a value indicating the view filter value.
+ </summary>
+ <value>value indicating the view filter value.</value>
+</member>
+<member name="T:FLEXYGO.Security.UserTemplateSecurity">
+ <summary>
+ Class UserTemplateSecurity.
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserTemplateSecurity._TemplateId">
+ <summary>
+ The Template Id
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserTemplateSecurity._CanView">
+ <summary>
+ Can view The Module
+ </summary>
+</member>
+<member name="P:FLEXYGO.Security.UserTemplateSecurity.CanView">
+ <summary>
+ Gets a value indicating whether this Template can be viewed.
+ </summary>
+ <value><c>true</c> if can view; otherwise, <c>false</c>.</value>
+</member>
+<member name="T:FLEXYGO.Security.UserModuleSecurityCollection">
+ <summary>
+ Class UserModuleSecurityCollection.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Security.UserModuleSecurityCollection.Add(FLEXYGO.Security.UserModuleSecurity)">
+ <summary>
+ Adds the UserModuleSecurity object to the Collection using ModuleName.
+ </summary>
+ <param name="UserModuleSecurity">An UserModuleSecurity object.</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Security.UserModuleSecurityCollection.Remove(FLEXYGO.Security.UserModuleSecurity)">
+ <summary>
+ Removes the UserModuleSecurity object from the Collection using ModuleName.
+ </summary>
+ <param name="UserModuleSecurity">An UserModuleSecurity object.</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Security.UserModuleSecurityCollection.Remove(System.String)">
+ <summary>
+ Removes the UserModuleSecurity object from the Collection using ModuleName.
+ </summary>
+ <param name="ModuleName">The ModuleName</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Security.UserModuleSecurityCollection.Contains(System.String)">
+ <summary>
+ Checks  if UserModuleSecurity Object exists in Collection using ModuleName.
+ </summary>
+ <param name="ModuleName">The ModuleName.</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="T:FLEXYGO.Security.UserNodeSecurity">
+ <summary>
+ Class UserNodeSecurity.
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserNodeSecurity._NodeId">
+ <summary>
+ The Node Id
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserNodeSecurity._CanView">
+ <summary>
+ Can view The Node
+ </summary>
+</member>
+<member name="T:FLEXYGO.Security.UserNodeSecurityCollection">
+ <summary>
+ Class UserNodeSecurityCollection.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Security.UserNodeSecurityCollection.Add(FLEXYGO.Security.UserNodeSecurity)">
+ <summary>
+ Adds the UserNodeSecurity object to the Collection using NodeId.
+ </summary>
+ <param name="UserNodeSecurity">An UserNodeSecurity object.</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Security.UserNodeSecurityCollection.Remove(FLEXYGO.Security.UserNodeSecurity)">
+ <summary>
+ Removes the UserNodeSecurity object from the Collection using NodeId.
+ </summary>
+ <param name="UserNodeSecurity">An UserNodeSecurity object.</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Security.UserNodeSecurityCollection.Remove(System.String)">
+ <summary>
+ Removes the UserNodeSecurity object from the Collection using NodeId.
+ </summary>
+ <param name="NodeId">The NodeId</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Security.UserNodeSecurityCollection.Contains(System.String)">
+ <summary>
+ Checks  if UserNodeSecurity Object exists in Collection using NodeId.
+ </summary>
+ <param name="NodeId">The NodeId.</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="T:FLEXYGO.Security.UserPageSecurity">
+ <summary>
+ Class UserPageSecurity.
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserPageSecurity._PageName">
+ <summary>
+ The Page Id
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserPageSecurity._CanView">
+ <summary>
+ Can view The Page
+ </summary>
+</member>
+<member name="P:FLEXYGO.Security.UserPageSecurity.CanView">
+ <summary>
+ Gets a value indicating whether this Page can be viewed.
+ </summary>
+ <value><c>true</c> if can view; otherwise, <c>false</c>.</value>
+</member>
+<member name="T:FLEXYGO.Security.UserPageSecurityCollection">
+ <summary>
+ Class UserPageSecurityCollection.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Security.UserPageSecurityCollection.Add(FLEXYGO.Security.UserPageSecurity)">
+ <summary>
+ Adds the UserPageSecurity object to the Collection using PageName.
+ </summary>
+ <param name="UserPageSecurity">An UserPageSecurity object.</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Security.UserPageSecurityCollection.Remove(FLEXYGO.Security.UserPageSecurity)">
+ <summary>
+ Removes the UserPageSecurity object from the Collection using PageName.
+ </summary>
+ <param name="UserPageSecurity">An UserPageSecurity object.</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Security.UserPageSecurityCollection.Remove(System.String)">
+ <summary>
+ Removes the UserPageSecurity object from the Collection using PageName.
+ </summary>
+ <param name="PageName">The PageName</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Security.UserPageSecurityCollection.Contains(System.String)">
+ <summary>
+ Checks  if UserPageSecurity Object exists in Collection using PageName.
+ </summary>
+ <param name="PageName">The PageName.</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="T:FLEXYGO.Security.UserSecurityConfig">
+ <summary>
+ Class UserSecurityConfig.
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._UserId">
+ <summary>
+ The unique user identifier
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._UserName">
+ <summary>
+ The user name
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._RoleId">
+ <summary>
+ The Role Id
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._RoleName">
+ <summary>
+ The  Role name
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._CultureId">
+ <summary>
+ The User Culture Id
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._Email">
+ <summary>
+ The User Email
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._ProfileName">
+ <summary>
+ If the User ProfileName
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._ProfileLoaded">
+ <summary>
+ If the User Profile
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._Profile">
+ <summary>
+ The  User Profile
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._FullName">
+ <summary>
+ The full name
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._IsAdministrator">
+ <summary>
+ Is an Administrator
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._IsDesigner">
+ <summary>
+ is a Designer
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._Reference">
+ <summary>
+ The reference
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._SubReference">
+ <summary>
+ The SubReference
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._UserContextVars">
+ <summary>
+ The user Context variables
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._ConnectionStrings">
+ <summary>
+ The user ConnectionStrings
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._ObjSecurityLoaded">
+ <summary>
+ If object security is loaded
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._ObjectSecurity">
+ <summary>
+ The object security
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._ObjectPropertySecurityLoaded">
+ <summary>
+ If object property security loaded
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._ObjectPropertySecurity">
+ <summary>
+ The object property security
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._ObjectProcessSecurityLoaded">
+ <summary>
+ If object process security is loaded
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._ObjectProcessSecurity">
+ <summary>
+ The object process security
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._ReportSecurityLoaded">
+ <summary>
+ If  report security is loaded
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._ReportSecurity">
+ <summary>
+ The report security
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._NodesSecurityLoaded">
+ <summary>
+ If Nodes security is loaded
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._NodesSecurity">
+ <summary>
+ The Nodes Security Collection
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._MasterTableSecurityLoaded">
+ <summary>
+ If MasterTable security is loaded
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._MasterTablesSecurity">
+ <summary>
+ The MasterTable Security Collection
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._ModuleSecurityLoaded">
+ <summary>
+ If Modules security is loaded
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._TemplateSecurityLoaded">
+ <summary>
+ If Templates security is loaded
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._ModulesSecurity">
+ <summary>
+ The Modules Security Collection
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._TemplatesSecurity">
+ <summary>
+ The Templates Security Collection
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._PagesSecurityLoaded">
+ <summary>
+ If Pages security is loaded
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._PagesSecurity">
+ <summary>
+ The Pages Security Collection
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._ConfConnStr">
+ <summary>
+ The Configuration connection string
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig._ConfDbtype">
+ <summary>
+ The Configuration Database Type
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig.WebAPIAuthorized">
+ <summary>
+ User WebApi Authorization
+ </summary>
+</member>
+<member name="F:FLEXYGO.Security.UserSecurityConfig.EmailAccountSettings">
+ <summary>
+ User WebApi Authorization
+ </summary>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+ <summary>
+ Populates a <see cref="T:System.Runtime.Serialization.SerializationInfo" /> with the data needed to serialize the target object.
+ </summary>
+ <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo" /> to populate with data.</param>
+ <param name="context">The destination (see <see cref="T:System.Runtime.Serialization.StreamingContext" />) for this serialization.</param>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+ <summary>
+ Initializes a new instance of the <see cref="T:FLEXYGO.Security.UserSecurityConfig"/> class.
+ </summary>
+ <param name="info">The information.</param>
+ <param name="context">The context.</param>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.#ctor">
+ <summary>
+ Initializes a new instance of the <see cref="T:FLEXYGO.Security.UserSecurityConfig"/> class. Only for serialization
+ </summary>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.#ctor(FLEXYGO.Data.UserConnectionCollection,System.String)">
+ <summary>
+ Initializes a new instance of the <see cref="T:FLEXYGO.Security.UserSecurityConfig"/> class.
+ </summary>
+ <param name="ConnectionStrings">a User ConnectionString Collection.</param>
+ <param name="UserName">a User Name</param>
+ <exception cref="T:System.Exception">Error, Could Not create user configuration</exception>
+</member>
+<member name="P:FLEXYGO.Security.UserSecurityConfig.ToJSon">
+ <summary>
+ Serializes object to JSon.
+ </summary>
+ <value>To JSon.</value>
+</member>
+<member name="P:FLEXYGO.Security.UserSecurityConfig.UserId">
+ <summary>
+ Gets the user Id.
+ </summary>
+ <value>The user login Id.</value>
+</member>
+<member name="P:FLEXYGO.Security.UserSecurityConfig.UserName">
+ <summary>
+ Gets the user Name.
+ </summary>
+ <value>The user login.</value>
+</member>
+<member name="P:FLEXYGO.Security.UserSecurityConfig.UserFullName">
+ <summary>
+ Gets the full name of the user.
+ </summary>
+ <value>The full name of the user.</value>
+</member>
+<member name="P:FLEXYGO.Security.UserSecurityConfig.Profile">
+ <summary>
+ Gets the Profile and Node Information.
+ </summary>
+ <value>The <see cref="T:FLEXYGO.User.Interface.UserProfile"/>.</value>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.ChangeProfile(System.String)">
+ <summary>
+ Changes the profile and node information.
+ <param name="NewProfile">new profile name</param>
+ </summary>
+</member>
+<member name="P:FLEXYGO.Security.UserSecurityConfig.IsAdministrator">
+ <summary>
+ Gets a value indicating whether this user is an Administrator.
+ </summary>
+ <value><c>true</c> if this instance is Administrator; otherwise, <c>false</c>.</value>
+</member>
+<member name="P:FLEXYGO.Security.UserSecurityConfig.IsDesigner">
+ <summary>
+ Gets a value indicating whether this user is a Designer.
+ </summary>
+ <value><c>true</c> if this instance is Designer; otherwise, <c>false</c>.</value>
+</member>
+<member name="P:FLEXYGO.Security.UserSecurityConfig.RoleName">
+ <summary>
+ Gets the user Role Name.
+ </summary>
+ <value>The user group.</value>
+</member>
+<member name="P:FLEXYGO.Security.UserSecurityConfig.CultureId">
+ <summary>
+ Gets the user Culture Id.
+ </summary>
+ <value>The user CultureId.</value>
+</member>
+<member name="P:FLEXYGO.Security.UserSecurityConfig.Email">
+ <summary>
+ Gets the user Email.
+ </summary>
+ <value>The user Email.</value>
+</member>
+<member name="P:FLEXYGO.Security.UserSecurityConfig.RoleId">
+ <summary>
+ Gets the user Role Id.
+ </summary>
+ <value>The user group.</value>
+</member>
+<member name="P:FLEXYGO.Security.UserSecurityConfig.DefaultVar(System.String)">
+ <summary>
+ Gets a user context variable.
+ </summary>
+ <value>The default UserContextVars collection.</value>
+</member>
+<member name="P:FLEXYGO.Security.UserSecurityConfig.DefaultVars">
+ <summary>
+ Gets the UserContextVars.
+ </summary>
+ <value>The default UserContextVars collection</value>
+</member>
+<member name="P:FLEXYGO.Security.UserSecurityConfig.ConnectionStrings">
+ <summary>
+ Gets the ConnectionStrings.
+ </summary>
+ <value>The User ConnectionStrings collection</value>
+</member>
+<member name="P:FLEXYGO.Security.UserSecurityConfig.Reference">
+ <summary>
+ Gets the user reference to link with other tables
+ </summary>
+ <value>system.string.</value>
+</member>
+<member name="P:FLEXYGO.Security.UserSecurityConfig.SubReference">
+ <summary>
+ Gets the user SubReference to link with other tables
+ </summary>
+ <value>The SubReference.</value>
+</member>
+<member name="P:FLEXYGO.Security.UserSecurityConfig.ObjectSecurity">
+ <summary>
+ Gets the UserObjectSecurityCollection.
+ </summary>
+ <value>The default UserObjectSecurity collection</value>
+</member>
+<member name="P:FLEXYGO.Security.UserSecurityConfig.PropertySecurity">
+ <summary>
+ Gets the property security.
+ </summary>
+ <value>The UserObjectPropertySecurityCollection.</value>
+</member>
+<member name="P:FLEXYGO.Security.UserSecurityConfig.ProcessSecurity">
+ <summary>
+ Gets the process security.
+ </summary>
+ <value>The UserProcessSecurityCollection.</value>
+</member>
+<member name="P:FLEXYGO.Security.UserSecurityConfig.ReportSecurity">
+ <summary>
+ Gets the report security.
+ </summary>
+ <value>The UserReportSecurityCollection.</value>
+</member>
+<member name="P:FLEXYGO.Security.UserSecurityConfig.NodesSecurity">
+ <summary>
+ Gets the Nodes security.
+ </summary>
+ <value>The UserNodeSecurityCollection.</value>
+</member>
+<member name="P:FLEXYGO.Security.UserSecurityConfig.MasterTablesSecurity">
+ <summary>
+ Gets the MasterTables security.
+ </summary>
+ <value>The UserMasterTableSecurityCollection.</value>
+</member>
+<member name="P:FLEXYGO.Security.UserSecurityConfig.ModulesSecurity">
+ <summary>
+ Gets the Modules security.
+ </summary>
+ <value>The UserModuleSecurityCollection.</value>
+</member>
+<member name="P:FLEXYGO.Security.UserSecurityConfig.TemplatesSecurity">
+ <summary>
+ Gets the Templates security.
+ </summary>
+ <value>The UserModuleSecurityCollection.</value>
+</member>
+<member name="P:FLEXYGO.Security.UserSecurityConfig.PagesSecurity">
+ <summary>
+ Gets the Pages security.
+ </summary>
+ <value>The UserPageSecurityCollection.</value>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.ParseDefaultVars(System.String)">
+ <summary>
+ Parses a String against the UserContextVars.
+ </summary>
+ <param name="str">String to parse against DefaultVars</param>
+ <returns>The parsed string</returns>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.ContextVarsToXML">
+ <summary>
+ Return Context variables as XML string.
+ </summary>
+ <returns>System.String.</returns>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.CanViewPage(System.String)">
+ <summary>
+ Determines whether this page can be viewed .
+ </summary>
+ <param name="PageName">The PageName.</param>
+ <returns><c>true</c> if this page can be viewed; otherwise, <c>false</c>.</returns>
+ <exception cref="T:System.Exception">Error Checking can Update</exception>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.CanViewModule(System.String)">
+ <summary>
+ Determines whether this module can be viewed .
+ </summary>
+ <param name="ModuleName">The module name.</param>
+ <returns><c>true</c> if this module can be viewed; otherwise, <c>false</c>.</returns>
+ <exception cref="T:System.Exception">Error Checking Can Update</exception>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.CanViewObjectModule(FLEXYGO.Objects.Settings.IObjectSettings,System.String,System.String)">
+ <summary>
+ Determines whether this EntityObject can be viewed.
+ </summary>
+ <param name="ObjectSettings">The object settings.</param>
+ <param name="ObjectWhere">Object Where Sentence</param>
+ <returns><c>true</c> if this EntityObject can be viewed; otherwise, <c>false</c>.</returns>
+ <exception cref="T:System.Exception">Error Checking Can View</exception>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.CanViewTemplate(System.String)">
+ <summary>
+ Determines whether this Template can be viewed.
+ </summary>
+ <param name="TemplateId">The TemplateId.</param>
+ <returns><c>true</c> if this EntityObject can be viewed; otherwise, <c>false</c>.</returns>
+ <exception cref="T:System.Exception">Error Checking Can View</exception>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.CanUpdateObject(FLEXYGO.Objects.Settings.IObjectSettings,System.String)">
+ <summary>
+ Determines whether this EntityObject can be Updated .
+ </summary>
+ <param name="ObjectSettings">The object settings.</param>
+ <param name="ObjectWhere">Object Where Sentence</param>
+ <returns><c>true</c> if this EntityObject Can be updated; otherwise, <c>false</c>.</returns>
+ <exception cref="T:System.Exception">Error Checking Can Update</exception>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.CanInsertObject(FLEXYGO.Objects.Settings.IObjectSettings,System.String)">
+ <summary>
+ Determines whether the EntityObject can be Inserted.
+ </summary>
+ <param name="ObjectSettings">The object settings.</param>
+ <param name="ObjectWhere">Object Where Sentence</param>
+ <returns><c>true</c> if this EntityObject can be Inserted; otherwise, <c>false</c>.</returns>
+ <exception cref="T:System.Exception">Error Checking Can Insert</exception>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.CanDeleteObject(FLEXYGO.Objects.Settings.IObjectSettings,System.String)">
+ <summary>
+ Determines whether the EntityObject can be deleted.
+ </summary>
+ <param name="ObjectSettings">The object settings.</param>
+ <param name="ObjectWhere">Object Where Sentence</param>
+ <returns><c>true</c> if this EntityObject can be deleted; otherwise, <c>false</c>.</returns>
+ <exception cref="T:System.Exception">Error Checking Can Delete</exception>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.CanViewObject(FLEXYGO.Objects.Settings.IObjectSettings,System.String)">
+ <summary>
+ Determines whether this EntityObject can be viewed.
+ </summary>
+ <param name="ObjectSettings">The object settings.</param>
+ <param name="ObjectWhere">Object Where Sentence</param>
+ <returns><c>true</c> if this EntityObject can be viewed; otherwise, <c>false</c>.</returns>
+ <exception cref="T:System.Exception">Error Checking Can View</exception>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.GetObjectViewFilterx(FLEXYGO.Objects.Settings.IObjectSettings)">
+ <summary>
+ returns object view security filter for current role or user.
+ </summary>
+ <param name="SecurityObjectSettings">The security object settings.</param>
+ <returns>filter to append on an SQL sentence</returns>
+ <exception cref="T:System.Exception">Error Checking Can View</exception>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.CanViewCollection(System.String)">
+ <summary>
+ Determines whether this EntityObject allows its collection to be viewed.
+ </summary>
+ <param name="ObjectName">The object Name.</param>
+ <returns><c>true</c> if this EntityObject can be viewed; otherwise, <c>false</c>.</returns>
+ <exception cref="T:System.Exception">Error Checking Can View</exception>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.CanPrintObject(FLEXYGO.Objects.Settings.IObjectSettings)">
+ <summary>
+ Determines whether this EntityObject can be printed.
+ </summary>
+ <param name="ObjectSettings">The object settings.</param>
+ <returns><c>true</c> if this EntityObject can be printed; otherwise, <c>false</c>.</returns>
+ <exception cref="T:System.Exception">Error Checking Can Print</exception>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.CanViewMasterTable(System.String)">
+ <summary>
+ Determines whether this Master Table can be viewed .
+ </summary>
+ <param name="TableName">The TableName.</param>
+ <returns><c>true</c> if this table content can be viewed; otherwise, <c>false</c>.</returns>
+ <exception cref="T:System.Exception">Error checking can view master table</exception>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.CanEditMasterTable(System.String)">
+ <summary>
+ Determines whether this Master Table can be edited .
+ </summary>
+ <param name="TableName">The TableName.</param>
+ <returns><c>true</c> if this tables rows can be edited; otherwise, <c>false</c>.</returns>
+ <exception cref="T:System.Exception">Error checking can update master table</exception>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.CanInsertMasterTable(System.String)">
+ <summary>
+ Determines whether this Master Table can be used for insert .
+ </summary>
+ <param name="TableName">The TableName.</param>
+ <returns><c>true</c> if this table admits new rows; otherwise, <c>false</c>.</returns>
+ <exception cref="T:System.Exception">Error checking can insert master table</exception>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.CanDeleteMasterTable(System.String)">
+ <summary>
+ Determines whether this Master Tables rows can be deleted .
+ </summary>
+ <param name="TableName">The TableName.</param>
+ <returns><c>true</c> if this tables rows can be deleted; otherwise, <c>false</c>.</returns>
+ <exception cref="T:System.Exception">Error checking can delete master table</exception>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.CanPrintMasterTable(System.String)">
+ <summary>
+ Determines whether this Master Table can be printed .
+ </summary>
+ <param name="TableName">The TableName.</param>
+ <returns><c>true</c> if this table can be printed; otherwise, <c>false</c>.</returns>
+ <exception cref="T:System.Exception">Error checking can print master table</exception>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.GetCollectionVisibleFilter(System.String)">
+ <summary>
+ Gets the Collection visible filter.
+ </summary>
+ <param name="ChildObjectName">The collection child object name.</param>
+ <returns>System.String.</returns>
+ <exception cref="T:System.Exception">Error Checking GetVisibleFilter</exception>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.CanViewProperty(System.String,System.String)">
+ <summary>
+ Determines whether this Property can be viewed.
+ </summary>
+ <param name="objectName">Name of the object.</param>
+ <param name="PropertyName">Name of the property.</param>
+ <returns><c>true</c> if this Property can be viewed; otherwise, <c>false</c>.</returns>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.CanEditProperty(System.String,System.String)">
+ <summary>
+ Determines whether this Property can be edited.
+ </summary>
+ <param name="objectName">Name of the object.</param>
+ <param name="PropertyName">Name of the property.</param>
+ <returns><c>true</c> if this  Property can be edited; otherwise, <c>false</c>.</returns>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.CanRunProcess(FLEXYGO.Objects.Settings.IObjectSettings,System.String)">
+ <summary>
+ Determines whether this Process can be Run.
+ </summary>
+ <param name="ObjectSettings">The object settings.</param>
+ <param name="ProcessName">The process identifier.</param>
+ <returns><c>true</c> if this Process can be Run; otherwise, <c>false</c>.</returns>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.CanPrintReport(System.String)">
+ <summary>
+ Determines whether this Report can be used.
+ </summary>
+ <param name="ReportName">The Report identifier.</param>
+ <returns><c>true</c> if this Report can be Run; otherwise, <c>false</c>.</returns>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.SetSecurity(System.String,System.String,System.String,System.String,System.String,System.String)">
+ <summary>
+ Sets the security for given roles or users to diferent objects in the applicaion.
+ </summary>
+ <param name="SecurityType">Type of the security.</param>
+ <param name="SecurityKey">The primary key.</param>
+ <param name="SecurityKey2">The Primary key second value.</param>
+ <param name="SecurityItem">The security item to be set (CanEdit, CanView, CanPrint...).</param>
+ <param name="SecurityItemValue">The security item value (true or false).</param>
+ <param name="SecurityId">The security User or Role identifier.</param>
+ <returns>True or false.</returns>
+ <exception cref="T:System.Exception"></exception>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig._loadObjectSecurity">
+ <summary>
+ Loads Basic ObjectSecurity for specified user.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig._loadObjectPropertySecurity">
+ <summary>
+ Loads Basic PropertySecurity for specified user.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig._loadObjectProcessSecurity">
+ <summary>
+ Loads Basic ProcessSecurity for specified user.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig._loadReportSecurity">
+ <summary>
+ Loads Basic ReportSecurity for specified user.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig._loadNodesSecurity">
+ <summary>
+ Loads Basic Nodes Security for specified user.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig._loadMasterTablesSecurity">
+ <summary>
+ Loads Basic MasterTables Security for specified user.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig._loadModulesSecurity">
+ <summary>
+ Loads Basic Modules Security for specified user.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig._loadTemplatesSecurity">
+ <summary>
+ Loads Basic Templates Security for specified user.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig._loadPagesSecurity">
+ <summary>
+ Loads Basic Pages Security for specified user.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig._MatchesCondition(System.String,FLEXYGO.Objects.Settings.IObjectSettings,System.String)">
+ <summary>
+ Matches condition.
+ </summary>
+ <param name="Condition">A condition to match.</param>
+ <param name="ObjectSettings">The Object Settings object.</param>
+ <param name="ObjectWhere"> Object Where sentence</param>
+ <returns><c>true</c> if condition is matched, <c>false</c> otherwise.</returns>
+ <exception cref="T:System.Exception">_MatchesCondition:   + e.Message</exception>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig._composeSQL(System.String,FLEXYGO.Objects.Settings.IObjectSettings,System.String)">
+ <summary>
+ Composes SQL sentence.
+ 
+ </summary>
+ <param name="Condition">A condition to use.</param>
+ <param name="ObjectSettings">The Object Settings object.</param>
+ <param name="ObjectWhere">Object Where sentence</param>
+ <returns><c>true</c> if condition is matched, <c>false</c> otherwise.</returns>
+ <exception cref="T:System.Exception">_MatchesCondition:   + e.Message</exception>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig._resultsExist(System.String,FLEXYGO.Objects.Settings.IObjectSettings)">
+ <summary>
+ Determines if there are resulting values.
+ </summary>
+ <param name="aSql">A SQL sentence.</param>
+ <param name="ObjectSettings">The object Settings</param>
+ <returns><c>true</c> if sql returns values, <c>false</c> otherwise.</returns>
+ <exception cref="T:System.Exception">_resultsExist:  + e.Message</exception>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig.ReplaceVars(System.String)">
+ <summary>
+ Replaces a string with default var tokens with the users actual value
+ abcd{currentUser} would be abcd12
+ </summary>
+ <param name="Str">A string containing items to replace.</param>
+ <returns>System.String. with replaced items</returns>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig._getDefaults(FLEXYGO.Data.UserConnectionCollection)">
+ <summary>
+ Gets the default variables.
+ </summary>
+ <param name="ConnectionStrings">a UserConnectionCollection.</param>
+ <returns>BaseCollection with default tokens.</returns>
+ <exception cref="T:System.Exception">error Message</exception>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig._GetDBTokens(FLEXYGO.Utilities.General.BaseCollection,FLEXYGO.Data.UserConnectionCollection)">
+ <summary>
+ Gets the database tokens.
+ </summary>
+ <param name="lRetVal">The return values.</param>
+ <param name="ConnectionStrings">a UserConnectionCollection.</param>
+</member>
+<member name="M:FLEXYGO.Security.UserSecurityConfig._GetUserInfo(System.String)">
+ <summary>
+ Gets User Info.
+ </summary>
+ <param name="aUser">a user.</param>
+</member>
+<member name="T:FLEXYGO.Security.EmailAccount">
+ <summary>
+ Class EmailAccount.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Security.EmailAccount.#ctor(System.String)">
+ <summary>
+ Initializes a new instance of the <see cref="T:FLEXYGO.Security.EmailAccount"/> class.
+ </summary>
+ <param name="MailAccountId">The mail account id.</param>
+</member>
+<member name="P:FLEXYGO.Security.EmailAccount.MailAccountId">
+ <summary>
+ The unique email identifier
+ </summary>
+</member>
+<member name="P:FLEXYGO.Security.EmailAccount.Account">
+ <summary>
+ The address mail
+ </summary>
+</member>
+<member name="P:FLEXYGO.Security.EmailAccount.UserName">
+ <summary>
+ The user name 
+ </summary>
+</member>
+<member name="P:FLEXYGO.Security.EmailAccount.VisibleName">
+ <summary>
+ The visible name to show as FromName
+ </summary>
+</member>
+<member name="P:FLEXYGO.Security.EmailAccount.PopImapHost">
+ <summary>
+ The Pop/Imap Host to receive emails
+ </summary>
+</member>
+<member name="P:FLEXYGO.Security.EmailAccount.SMTPHost">
+ <summary>
+ The SMTP Host to send emails
+ </summary>
+</member>
+<member name="P:FLEXYGO.Security.EmailAccount.MailPassword">
+ <summary>
+ The Mail Password
+ </summary>
+</member>
+<member name="P:FLEXYGO.Security.EmailAccount.SMTPPort">
+ <summary>
+ The SMTP Port to send emails
+ </summary>
+</member>
+<member name="P:FLEXYGO.Security.EmailAccount.PopImapPort">
+ <summary>
+ The SMTP Port to receive emails
+ </summary>
+</member>
+<member name="P:FLEXYGO.Security.EmailAccount.UseSSL">
+ <summary>
+ If SSL protocol is active or not
+ </summary>
+</member>
+<member name="T:FLEXYGO.Objects.Settings.IObjectSettings">
+ <summary>
+ Interface IEntity, Used for working with EntityCollection And ObjectEntity
+ </summary>
+</member>
+<member name="P:FLEXYGO.Objects.Settings.IObjectSettings.ObjectName">
+ <summary>
+ Gets the Entity name.
+ </summary>
+ <value>The name.</value>
+</member>
+<member name="P:FLEXYGO.Objects.Settings.IObjectSettings.IsCollection">
+ <summary>
+ Gets a value indicating whether this Entity is collection.
+ </summary>
+ <value><c>true</c> if this instance is collection; otherwise, <c>false</c>.</value>
+</member>
+<member name="P:FLEXYGO.Objects.Settings.IObjectSettings.Where">
+ <summary>
+ Gets Entity the where string.
+ </summary>
+ <value>The where string.</value>
+</member>
+<member name="P:FLEXYGO.Objects.Settings.IObjectSettings.TableName">
+ <summary>
+ Gets Entity TableName.
+ </summary>
+ <value>Table Name.</value>
+</member>
+<member name="P:FLEXYGO.Objects.Settings.IObjectSettings.ConnStringId">
+ <summary>
+ Gets the Connection String Id.
+ </summary>
+ <value>Connection string</value>
+</member>
+<member name="T:FLEXYGO.Objects.Security.UserProcessSecurity">
+ <summary>
+ Class UserProcessSecurity.
+ </summary>
+</member>
+<member name="F:FLEXYGO.Objects.Security.UserProcessSecurity._ObjectName">
+ <summary>
+ The object name
+ </summary>
+</member>
+<member name="F:FLEXYGO.Objects.Security.UserProcessSecurity._ProcessName">
+ <summary>
+ The Process Id
+ </summary>
+</member>
+<member name="F:FLEXYGO.Objects.Security.UserProcessSecurity._CanRun">
+ <summary>
+ Can Run the process
+ </summary>
+</member>
+<member name="F:FLEXYGO.Objects.Security.UserProcessSecurity._Condition">
+ <summary>
+ The security condition
+ </summary>
+</member>
+<member name="P:FLEXYGO.Objects.Security.UserProcessSecurity.CombinedKey">
+ <summary>
+ Gets the combined key.
+ </summary>
+ <value>The combined key.</value>
+</member>
+<member name="T:FLEXYGO.Objects.Security.UserProcessSecurityCollection">
+ <summary>
+ Class UserProcessSecurityCollection.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Objects.Security.UserProcessSecurityCollection.Add(FLEXYGO.Objects.Security.UserProcessSecurity)">
+ <summary>
+ Adds the UserProcessSecurity object to the Collection using CombinedKey as Key.
+ </summary>
+ <param name="UserProcessSecurity">An UserProcessSecurity object.</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Objects.Security.UserProcessSecurityCollection.Remove(FLEXYGO.Objects.Security.UserProcessSecurity)">
+ <summary>
+ Removes the UserProcessSecurity object from the Collection using CombinedKey as Key.
+ </summary>
+ <param name="UserProcessSecurity">An UserProcessSecurity object.</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Objects.Security.UserProcessSecurityCollection.Remove(System.String,System.String)">
+ <summary>
+ Removes the UserProcessSecurity object from the Collection using object Name a Process name
+ </summary>
+ <param name="ObjectName">The object name.</param>
+ <param name="ProcessName">The Process Id</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Objects.Security.UserProcessSecurityCollection.Contains(System.String,System.String)">
+ <summary>
+ Checks  if UserProcessSecurity Object exists in Collection using CombinedKey.
+ </summary>
+ <param name="ObjectName">The ObjectName.</param>
+ <param name="ProcessName">The Process Id.</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Objects.Security.UserProcessSecurityCollection.GetProcess(System.String,System.String)">
+ <summary>
+ Gets  UserProcessSecurity using ObjectName and ProcessNanme
+ </summary>
+ <param name="ObjectName">The ObjectName.</param>
+ <param name="ProcessName"> the Process Id.</param>
+ <returns>a UserProcessSecurity object</returns>
+</member>
+<member name="T:FLEXYGO.Objects.Security.UserObjectPropertySecurity">
+ <summary>
+ Class UserObjectPropertySecurity.
+ </summary>
+</member>
+<member name="F:FLEXYGO.Objects.Security.UserObjectPropertySecurity._ObjectName">
+ <summary>
+ The object Name
+ </summary>
+</member>
+<member name="F:FLEXYGO.Objects.Security.UserObjectPropertySecurity._PropertyName">
+ <summary>
+ The property Name
+ </summary>
+</member>
+<member name="F:FLEXYGO.Objects.Security.UserObjectPropertySecurity._CanEdit">
+ <summary>
+ Can edit Property
+ </summary>
+</member>
+<member name="F:FLEXYGO.Objects.Security.UserObjectPropertySecurity._CanView">
+ <summary>
+ Can View property
+ </summary>
+</member>
+<member name="P:FLEXYGO.Objects.Security.UserObjectPropertySecurity.CombinedKey">
+ <summary>
+ Gets the combined key.
+ </summary>
+ <value>The combined key.</value>
+</member>
+<member name="T:FLEXYGO.Objects.Security.UserObjectPropertySecurityCollection">
+ <summary>
+ Class UserObjectPropertySecurityCollection.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Objects.Security.UserObjectPropertySecurityCollection.Add(FLEXYGO.Objects.Security.UserObjectPropertySecurity)">
+ <summary>
+ Adds the UserObjectPropertySecurity object to the Collection using CombinedKey as Key.
+ </summary>
+ <param name="UserObjectPropertySecurity">An UserObjectPropertySecurity object.</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Objects.Security.UserObjectPropertySecurityCollection.Remove(FLEXYGO.Objects.Security.UserObjectPropertySecurity)">
+ <summary>
+ Removes the UserObjectPropertySecurity object from the Collection using CombinedKey as Key.
+ </summary>
+ <param name="UserObjectPropertySecurity">An UserObjectPropertySecurity object.</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Objects.Security.UserObjectPropertySecurityCollection.Remove(System.String,System.String)">
+ <summary>
+ Removes the UserObjectPropertySecurity object from the Collection using object Name a property name.
+ </summary>
+ <param name="ObjectName">The object name.</param>
+ <param name="PropertyName">The Property Name</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Objects.Security.UserObjectPropertySecurityCollection.Contains(System.String,System.String)">
+ <summary>
+ Checks  if UserObjectPropertySecurity Object exists in Collection using CombinedKey.
+ </summary>
+ <param name="ObjectName">The ObjectName.</param>
+ <param name="PropertyName"> the property name</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Objects.Security.UserObjectPropertySecurityCollection.GetProperty(System.String,System.String)">
+ <summary>
+ Gets  UserObjectPropertySecurity  using ObjectName and PropertyName.
+ </summary>
+ <param name="ObjectName">The ObjectName.</param>
+ <param name="PropertyName"> the property name</param>
+ <returns>a UserObjectPropertySecurity object</returns>
+</member>
+<member name="T:FLEXYGO.Objects.Security.UserReportSecurity">
+ <summary>
+ Class UserReportSecurity.
+ </summary>
+</member>
+<member name="F:FLEXYGO.Objects.Security.UserReportSecurity._ReportName">
+ <summary>
+ The Report Identifier
+ </summary>
+</member>
+<member name="F:FLEXYGO.Objects.Security.UserReportSecurity._CanPrint">
+ <summary>
+ If Printable
+ </summary>
+</member>
+<member name="T:FLEXYGO.Objects.Security.UserReportSecurityCollection">
+ <summary>
+ Class UserReportSecurityCollection.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Objects.Security.UserReportSecurityCollection.Add(FLEXYGO.Objects.Security.UserReportSecurity)">
+ <summary>
+ Adds the UserReportSecurity object to the Collection using ReportName as Key.
+ </summary>
+ <param name="UserReportSecurity">An UserReportSecurity object.</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Objects.Security.UserReportSecurityCollection.Remove(FLEXYGO.Objects.Security.UserReportSecurity)">
+ <summary>
+ Removes the UserReportSecurity object from the Collection u.
+ </summary>
+ <param name="UserReportSecurity">An UserReportSecurity object.</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Objects.Security.UserReportSecurityCollection.Remove(System.String)">
+ <summary>
+ Removes the UserReportSecurity object from the Collection using  ReportName as Key.
+ </summary>
+ <param name="ReportName">The Report Id</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Objects.Security.UserReportSecurityCollection.Contains(System.String)">
+ <summary>
+ Checks  if UserReportSecurity Object exists in Collection using ReportName
+ </summary>
+ <param name="ReportName">The Report name</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Objects.Security.UserReportSecurityCollection.GetReport(System.String)">
+ <summary>
+ Gets  UserReportSecurity using ObjectName and ReportName
+ </summary>
+ <param name="ReportName"> the Report Name.</param>
+ <returns>a UserProcessSecurity object</returns>
+</member>
+<member name="T:FLEXYGO.Objects.Security.UserObjectSecurity">
+ <summary>
+ Class UserObjectSecurity.
+ </summary>
+</member>
+<member name="F:FLEXYGO.Objects.Security.UserObjectSecurity._ObjectName">
+ <summary>
+ The object name
+ </summary>
+</member>
+<member name="F:FLEXYGO.Objects.Security.UserObjectSecurity._CanUpdate">
+ <summary>
+ updatable
+ </summary>
+</member>
+<member name="F:FLEXYGO.Objects.Security.UserObjectSecurity._CanInsert">
+ <summary>
+ CanInsert
+ </summary>
+</member>
+<member name="F:FLEXYGO.Objects.Security.UserObjectSecurity._CanDelete">
+ <summary>
+ deletable
+ </summary>
+</member>
+<member name="F:FLEXYGO.Objects.Security.UserObjectSecurity._Visible">
+ <summary>
+ visible
+ </summary>
+</member>
+<member name="F:FLEXYGO.Objects.Security.UserObjectSecurity._Printable">
+ <summary>
+ printable
+ </summary>
+</member>
+<member name="F:FLEXYGO.Objects.Security.UserObjectSecurity._CollectionVisible">
+ <summary>
+ Collection visible
+ </summary>
+</member>
+<member name="F:FLEXYGO.Objects.Security.UserObjectSecurity._EditFilter">
+ <summary>
+ The edit filter
+ </summary>
+</member>
+<member name="F:FLEXYGO.Objects.Security.UserObjectSecurity._InsertFilter">
+ <summary>
+ The insert filter
+ </summary>
+</member>
+<member name="F:FLEXYGO.Objects.Security.UserObjectSecurity._DeleteFilter">
+ <summary>
+ The delete filter
+ </summary>
+</member>
+<member name="F:FLEXYGO.Objects.Security.UserObjectSecurity._VisibleFilter">
+ <summary>
+ The visible filter
+ </summary>
+</member>
+<member name="F:FLEXYGO.Objects.Security.UserObjectSecurity._CollectionVisibleFilter">
+ <summary>
+ The collection visible filter
+ </summary>
+</member>
+<member name="T:FLEXYGO.Objects.Security.UserObjectSecurityCollection">
+ <summary>
+ Class UserObjectSecurityCollection.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Objects.Security.UserObjectSecurityCollection.Add(FLEXYGO.Objects.Security.UserObjectSecurity)">
+ <summary>
+ Adds the UserObjectSecurity object to the Collection using ObjectName as Key.
+ </summary>
+ <param name="UserObjectSecurity">An UserObjectSecurity object.</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Objects.Security.UserObjectSecurityCollection.Remove(FLEXYGO.Objects.Security.UserObjectSecurity)">
+ <summary>
+ Removes the UserObjectSecurity object from the Collection using ObjectName as Key.
+ </summary>
+ <param name="UserObjectSecurity">An UserObjectSecurity object.</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Objects.Security.UserObjectSecurityCollection.Contains(System.String)">
+ <summary>
+ Checks  if UserObjectSecurity Object exists in Collection using ObjectName.
+ </summary>
+ <param name="ObjectName">The ObjectName.</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="T:FLEXYGO.User.Interface.UserNavigateNodes">
+ <summary>
+ Class UserNavigateNodes.
+ </summary>
+</member>
+<member name="T:FLEXYGO.User.Interface.UserNavigateNodes.eNodeType">
+ <summary>
+ Enum eNodeType Types of navigation nodes
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.eNodeType.ActionNode">
+ <summary>
+ Action Node
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.eNodeType.GroupNode">
+ <summary>
+ Group type
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.eNodeType.TextNode">
+ <summary>
+ Text type
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.eNodeType.ObjectLink">
+ <summary>
+ Object link type
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.eNodeType.ProcessLink">
+ <summary>
+ Process link type
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.eNodeType.ReportLink">
+ <summary>
+ Report link type
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.eNodeType.PageLink">
+ <summary>
+ Page link type
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.eNodeType.ExternalPage">
+ <summary>
+ External page type
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.eNodeType.AutoGenerateObjects">
+ <summary>
+ The automatic generate objects links
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.eNodeType.MasterTable">
+ <summary>
+ Master Table
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.eNodeType.WebComponent">
+ <summary>
+ Web Component
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.eNodeType.HelpLink">
+ <summary>
+ Help Link
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.eNodeType.Separator">
+ <summary>
+ Separator node
+ </summary>
+</member>
+<member name="T:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface">
+ <summary>
+ Class UserInterface.
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface.MaxNodeLevel">
+ <summary>
+ The maximum node level
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface.InterfaceName">
+ <summary>
+ The interface identifier
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface.Logo">
+ <summary>
+ The logo
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface.Skin">
+ <summary>
+ The skin
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface.Script">
+ <summary>
+ The Interface Script
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface.Style">
+ <summary>
+ The Interface Style
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface.MainNavigateId">
+ <summary>
+ The main navigate identifier
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface.NavigateId">
+ <summary>
+ The navigate identifier
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface.DefaultPageSize">
+ <summary>
+ The default page size
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface.DefaultDropDownRows">
+ <summary>
+ The default drop down rows
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface.MainNavigationNodes">
+ <summary>
+ The main navigation nodes
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface.NavigationNodes">
+ <summary>
+ The navigation nodes
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface.JSCollection">
+ <summary>
+ Array of JavaScripts
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface.Plugins">
+ <summary>
+ Array of Plugins
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface.Count">
+ <summary>
+ Used for node count
+ </summary>
+</member>
+<member name="M:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface._loadMainNavigationNodes(FLEXYGO.Security.UserSecurityConfig,FLEXYGO.Data.DataManager)">
+ <summary>
+ Loads the main navigation nodes.
+ </summary>
+ <param name="aUserSecurityConfig">The User Security Configuration.</param>
+ <param name="aDatamanager">a Datamanager.</param>
+</member>
+<member name="M:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface._loadNavigationNodes(FLEXYGO.Security.UserSecurityConfig,FLEXYGO.Data.DataManager)">
+ <summary>
+ Loads the navigation nodes.
+ </summary>
+ <param name="aUserSecurityConfig">The User Security Configuration.</param>
+ <param name="aDatamanager">a datamanager.</param>
+</member>
+<member name="M:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface._getErrorNode(System.Exception,System.String,System.Int32)">
+ <summary>
+ Creates as error node base on the exception.
+ </summary>
+ <param name="ex">The exception.</param>
+ <param name="ParentId">The parent node id.</param>
+ <returns>NavigationNode.</returns>
+</member>
+<member name="M:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface._loadNode(FLEXYGO.User.Interface.UserNavigateNodes.NavigationNodes,System.String,FLEXYGO.Security.UserSecurityConfig,FLEXYGO.Data.DataManager,System.Data.DataView,System.Boolean,System.Int32)">
+ <summary>
+ loads the node.
+ </summary>
+ <param name="Nodes">The nodes.</param>
+ <param name="NodeId">The node identifier.</param>
+ <param name="aUserSecurityConfig">The User Security Configuration.</param>
+ <param name="aDatamanager">a datamanager.</param>
+ <param name="HideAutoSQLNodes">Boolean to set if we want to generate the auto SQL nodes</param>
+ <param name="NodeLevel">The node level.</param>
+ <exception cref="T:System.Exception"></exception>
+</member>
+<member name="M:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface._loadNodes(FLEXYGO.User.Interface.UserNavigateNodes.NavigationNodes,System.String,FLEXYGO.Security.UserSecurityConfig,FLEXYGO.Data.DataManager,System.Data.DataRowView,System.Data.DataView,System.Boolean,System.Boolean,System.Int32)">
+ <summary>
+ loads the nodes.
+ </summary>
+ <param name="Nodes">The nodes.</param>
+ <param name="ParentNodeId">The parent node identifier.</param>
+ <param name="aUserSecurityConfig">The User Security Configuration.</param>
+ <param name="aDatamanager">a datamanager.</param>
+ <param name="parentRow">Parent row used for parsing</param>
+ <param name="HideAutoSQLNodes">Boolean to set if we want to generate the auto SQL nodes</param>
+ <param name="NodeLevel">The node level.</param>
+ <exception cref="T:System.Exception"></exception>
+</member>
+<member name="M:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface._loadSQLNodes(FLEXYGO.User.Interface.UserNavigateNodes.NavigationNodes,FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode,FLEXYGO.Security.UserSecurityConfig,FLEXYGO.Data.DataManager,System.Data.DataView,System.Int32,System.Data.DataView)">
+ <summary>
+ loads the nodes based on a SQL sentence
+ </summary>
+ <param name="Nodes">The nodes.</param>
+ <param name="ParentNode">The parent node.</param>
+ <param name="aUserSecurityConfig">The User Security Configuration.</param>
+ <param name="aDatamanager">a datamanager.</param>
+ <param name="NodeLevel">The node level.</param>
+ <param name="childNodes">Dataview with autoSqlNodes rows.</param>
+ <exception cref="T:System.Exception"></exception>
+</member>
+<member name="M:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface._ParseNodeSQL(System.String,System.Data.DataRowView,FLEXYGO.Security.UserSecurityConfig)">
+ <summary>
+ Parses SQL nodes.
+ </summary>
+ <param name="SQl">The s ql.</param>
+ <param name="Row">The row.</param>
+ <param name="aUserSecurityConfig">a user security configuration.</param>
+ <returns>System.String.</returns>
+ <exception cref="T:System.Exception"></exception>
+</member>
+<member name="M:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface._checkNodeSecurity(FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode,FLEXYGO.Security.UserSecurityConfig,System.Boolean)">
+ <summary>
+ Checks the node security.
+ </summary>
+ <param name="Node">The node.</param>
+ <param name="securityConfig">The user security config.</param>
+ <param name="AdminOnly">If process is only for AdminUsers</param>
+ <returns><c>true</c> if can view node, <c>false</c> otherwise.</returns>
+ <exception cref="T:System.Exception"></exception>
+</member>
+<member name="M:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface.GetNodes(System.String,FLEXYGO.Security.UserSecurityConfig,System.Boolean,System.Boolean)">
+ <summary>
+ Gets the nodes for a given parent Node Id.
+ </summary>
+ <param name="parentNodeId">The parent node identifier.</param>
+ <param name="securityConfig">The security configuration.</param>
+ <param name="IncludeParentNode">Indicates if we want the parent Node as part of the list</param>
+ <param name="HideAutoSQLNodes">Boolean to set if we want to generate the auto SQL nodes</param>
+ <returns>NavigationNodes.</returns>
+</member>
+<member name="M:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface.deleteNode(FLEXYGO.Security.UserSecurityConfig,System.String)">
+ <summary>
+ Deletes a node
+ </summary>
+ <param name="aUserSecurityConfig">The User Security Configuration.</param>
+ <param name="nodeId">The node identifier.</param>
+ <returns>Boolean.</returns>
+</member>
+<member name="M:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface.refreshNodes(FLEXYGO.Security.UserSecurityConfig)">
+ <summary>
+ Refreshes nodes
+ </summary>
+ <param name="aUserSecurityConfig">The User Security Configuration.</param>
+ <returns>Boolean.</returns>
+</member>
+<member name="M:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface.relocateNode(FLEXYGO.Security.UserSecurityConfig,System.String,System.String,System.Int32)">
+ <summary>
+ Relocates a node
+ </summary>
+ <param name="aUserSecurityConfig">The User Security Configuration.</param>
+ <param name="nodeId">The node identifier.</param>
+ <param name="parentNodeId">The parent node identifier.</param>
+ <param name="order">The order of the node.</param>
+ <returns>Boolean.</returns>
+</member>
+<member name="M:FLEXYGO.User.Interface.UserNavigateNodes.UserInterface.GetAreaNodes(System.String)">
+ <summary>
+ Gets the nodes based on are table.
+ </summary>
+ <param name="parentAreaId">The parent area identifier.</param>
+ <returns>NavigationNodes.</returns>
+</member>
+<member name="T:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode">
+ <summary>
+ Class NavigationNode.
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.NodeId">
+ <summary>
+ The node identifier
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.Order">
+ <summary>
+ The node identifier
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.ParentNodeId">
+ <summary>
+ The parent node identifier
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.ChildNodes">
+ <summary>
+ The child nodes
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.Title">
+ <summary>
+ The title
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.IconClass">
+ <summary>
+ The icon class
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.IconPath">
+ <summary>
+ The icon path
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.Descrip">
+ <summary>
+ The description
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.Refresh">
+ <summary>
+ Execution causes page refresh
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.Type">
+ <summary>
+ The type
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.Params">
+ <summary>
+ Optional Parameters
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.Url">
+ <summary>
+ The URL
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.TargetId">
+ <summary>
+ The target identifier
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.ProcessName">
+ <summary>
+ The process identifier
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.ProcessHasParams">
+ <summary>
+ The process has parameters
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.PageTypeId">
+ <summary>
+ The page Type identifier
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.PageName">
+ <summary>
+ The page identifier
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.ReportName">
+ <summary>
+ The report identifier
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.ReportHasParams">
+ <summary>
+ The report has parameters
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.ReportWhere">
+ <summary>
+ The report where
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.HelpId">
+ <summary>
+ The Help identifier
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.ObjectName">
+ <summary>
+ The object name
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.ObjectWhere">
+ <summary>
+ The object where
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.Defaults">
+ <summary>
+ The object defaults
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.ObjectDefaults">
+ <summary>
+ The object defaults
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.SQLSentence">
+ <summary>
+ The SQL sentence
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.SQLConStringId">
+ <summary>
+ The SQL con string identifier
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.TableName">
+ <summary>
+ The Table Name
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.WebComponent">
+ <summary>
+ The web component definition
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.BadgeClass">
+ <summary>
+ The badge class
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.BadgeSQL">
+ <summary>
+ The badge SQL
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.BadgeConStringId">
+ <summary>
+ The badge con string identifier
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.BadgeRefresh">
+ <summary>
+ The badge refresh
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.cssClass">
+ <summary>
+ The CSS class
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.ShowInMenu">
+ <summary>
+ Visible in Menu
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.ShowInAnalysis">
+ <summary>
+ Visible In Analysis
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.NodeLevel">
+ <summary>
+ The node level
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.ActionType">
+ <summary>
+ The Action Type only for action nodes
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.BagOnly">
+ <summary>
+ Process only can be executed with manually selections
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.BagObject">
+ <summary>
+ Object to find if bag has items.
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.Enabled">
+ <summary>
+ If node should be displayed
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.ReportMode">
+ <summary>
+Enabled report modes PDF,WORd,EXCEL...
+ </summary>
+</member>
+<member name="P:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.StrType">
+ <summary>
+ Gets the node type string value.
+ </summary>
+ <value>The type of the node.</value>
+</member>
+<member name="M:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode.BuildNodeFromNotice(System.String,FLEXYGO.Security.UserSecurityConfig)">
+ <summary>
+ Builds a Node Based on NoticeId info.
+ </summary>
+ <param name="NoticeId">The Notice identifier.</param>
+ <exception cref="T:System.Exception"></exception>
+</member>
+<member name="T:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNodes">
+ <summary>
+ NavigationNodes Class.
+ </summary>
+</member>
+<member name="M:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNodes.Add(FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode)">
+ <summary>
+ Adds the NavigationNode object to the Collection using NavigationNode Node Id .
+ </summary>
+ <param name="NavigationNode">A NavigationNode.</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNodes.Remove(FLEXYGO.User.Interface.UserNavigateNodes.NavigationNode)">
+ <summary>
+ Removes NavigationNode from the Collection using NodeId as Key.
+ </summary>
+ <param name="NavigationNode">A NavigationNode.</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.User.Interface.UserNavigateNodes.NavigationNodes.Contains(System.String)">
+ <summary>
+ Checks  if NavigationNode object exists in Collection using NodeId.
+ </summary>
+ <param name="NodeId">The NodeId.</param>
+ <returns><c>true</c> if ok, <c>false</c> otherwise.</returns>
+</member>
+<member name="T:FLEXYGO.User.Interface.UserNavigateNodes.ePluginType">
+ <summary>
+ Enum Plugin Types
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.ePluginType.js">
+ <summary>
+ js
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.ePluginType.css">
+ <summary>
+ CSS
+ </summary>
+</member>
+<member name="T:FLEXYGO.User.Interface.UserNavigateNodes.plugin">
+ <summary>
+ Class plugin.
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.plugin.Path">
+ <summary>
+ The file path
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.plugin.Bundle">
+ <summary>
+ To be bundled
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.plugin.type">
+ <summary>
+ The plugin type
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserNavigateNodes.plugin.Id">
+ <summary>
+ The Id
+ </summary>
+</member>
+<member name="T:FLEXYGO.User.Interface.UserProfile">
+ <summary>
+ Class UserProfile.
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserProfile._ProfileName">
+ <summary>
+ The ProfileName
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserProfile._WebInterface">
+ <summary>
+ The Web Interface
+ </summary>
+</member>
+<member name="F:FLEXYGO.User.Interface.UserProfile._DefaultStartupPageName">
+ <summary>
+ The Default startup Page
+ </summary>
+</member>
+<member name="P:FLEXYGO.User.Interface.UserProfile.WebInterface">
+ <summary>
+ Gets the web interface.
+ </summary>
+ <value>The web interface.</value>
+</member>
+<member name="P:FLEXYGO.User.Interface.UserProfile.MobileInterface">
+ <summary>
+ Gets the mobile interface.
+ </summary>
+ <value>The mobile interface.</value>
+</member>
+<member name="P:FLEXYGO.User.Interface.UserProfile.ActiveInterface">
+ <summary>
+ Gets the active interface.
+ </summary>
+ <value>The active interface depending on caller agent.</value>
+</member>
+<member name="P:FLEXYGO.User.Interface.UserProfile.DefaultStartUpPageName">
+ <summary>
+ Gets the profile default startup Page.
+ </summary>
+ <value>The profile default startup Page.</value>
+</member>
+<member name="P:FLEXYGO.User.Interface.UserProfile.ToJSon">
+ <summary>
+ Serializes object to JSon.
+ </summary>
+ <value>To JSon.</value>
+</member>
+<member name="M:FLEXYGO.User.Interface.UserProfile.#ctor(System.String,FLEXYGO.Security.UserSecurityConfig)">
+ <summary>
+ Initializes a new instance of the <see cref="T:FLEXYGO.User.Interface.UserProfile"/> class.
+ </summary>
+ <param name="ProfileName">The profile identifier.</param>
+ <param name="aUserSecurityConfig">The user Configuration.</param>
+ <exception cref="T:System.Exception"></exception>
+</member>
+<member name="M:FLEXYGO.User.Interface.UserProfile.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+ <summary>
+ Fills <see cref="T:System.Runtime.Serialization.SerializationInfo" /> with necessary information for serializing Object Configuration.
+ </summary>
+ <param name="info"><see cref="T:System.Runtime.Serialization.SerializationInfo" /> to fill with object date</param>
+ <param name="context">Serialization Destination (see <see cref="T:System.Runtime.Serialization.StreamingContext" />).</param>
+</member>
+<member name="M:FLEXYGO.User.Interface.UserProfile.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+ <summary>
+ Initializes a new instance of the <see cref="T:FLEXYGO.User.Interface.UserProfile" /> class.
+ </summary>
+ <param name="info">The information.</param>
+ <param name="context">The context.</param>
+</member>
+<member name="M:FLEXYGO.User.Interface.UserProfile._loadInterfaces(FLEXYGO.Security.UserSecurityConfig)">
+ <summary>
+ loads profile interfaces.
+ </summary>
+ <param name="aUserSecurityConfig">As UserSecurityConfig</param>
+ <exception cref="T:System.Exception"></exception>
+</member>
+<member name="M:FLEXYGO.User.Interface.UserProfile.IsMobile">
+ <summary>
+ Determines whether this instance is mobile.
+ </summary>
+ <returns><c>true</c> if this instance is mobile; otherwise, <c>false</c>.</returns>
+</member>
+<member name="T:FLEXYGO.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:FLEXYGO.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:FLEXYGO.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+</members>
+</doc>

@@ -1,0 +1,416 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+flxAccount
+</name>
+</assembly>
+<members>
+<member name="T:FLEXYGO.Authentication.Identity.EmailService">
+ <summary>
+ Class EmailService.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.EmailService.SendAsync(Microsoft.AspNet.Identity.IdentityMessage)">
+ <summary>
+ This method should send the message
+ </summary>
+ <param name="message">The message.</param>
+ <returns>Task.</returns>
+</member>
+<member name="T:FLEXYGO.Authentication.Identity.SmsService">
+ <summary>
+ Class SmsService.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.SmsService.SendAsync(Microsoft.AspNet.Identity.IdentityMessage)">
+ <summary>
+ This method should send the message
+ </summary>
+ <param name="message">The message.</param>
+ <returns>Task.</returns>
+</member>
+<member name="T:FLEXYGO.Authentication.Identity.ApplicationUserManager">
+ <summary>
+ Class ApplicationUserManager.
+ Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.ApplicationUserManager.#ctor(Microsoft.AspNet.Identity.IUserStore{FLEXYGO.Authentication.Identity.ApplicationUser})">
+ <summary>
+ Constructor
+ </summary>
+ <param name="store">The store.</param>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.ApplicationUserManager.Create(Microsoft.AspNet.Identity.Owin.IdentityFactoryOptions{FLEXYGO.Authentication.Identity.ApplicationUserManager},Microsoft.Owin.IOwinContext)">
+ <summary>
+ Creates with the specified options.
+ </summary>
+ <param name="options">The options.</param>
+ <param name="context">The context.</param>
+ <returns>ApplicationUserManager.</returns>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.ApplicationUserManager.FindByEmailOrUserName(System.String)">
+ <summary>
+ Finds ApplicationUser based on user name or by email.
+ </summary>
+ <param name="userName">Name of the user.</param>
+ <returns>ApplicationUser.</returns>
+</member>
+<member name="T:FLEXYGO.Authentication.Identity.ApplicationSignInManager">
+ <summary>
+ Class ApplicationSignInManager.
+ </summary>
+</member>
+<member name="T:FLEXYGO.Authentication.Identity.ApplicationSignInManager.LoginType">
+ <summary>
+ Enum LoginType
+ </summary>
+</member>
+<member name="F:FLEXYGO.Authentication.Identity.ApplicationSignInManager.LoginType.Net_User">
+ <summary>
+ The net_ user
+ </summary>
+</member>
+<member name="F:FLEXYGO.Authentication.Identity.ApplicationSignInManager.LoginType.Net_Email">
+ <summary>
+ The net_ email
+ </summary>
+</member>
+<member name="F:FLEXYGO.Authentication.Identity.ApplicationSignInManager.LoginType.SQL_User">
+ <summary>
+ The sq l_ user
+ </summary>
+</member>
+<member name="F:FLEXYGO.Authentication.Identity.ApplicationSignInManager.LoginType.LDAP">
+ <summary>
+ The LDAP
+ </summary>
+</member>
+<member name="F:FLEXYGO.Authentication.Identity.ApplicationSignInManager.LoginType.LDAP_Direct">
+ <summary>
+ The lda p_ direct
+ </summary>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.ApplicationSignInManager.#ctor(FLEXYGO.Authentication.Identity.ApplicationUserManager,Microsoft.Owin.Security.IAuthenticationManager)">
+ <summary>
+ Initializes a new instance of the <see cref="T:FLEXYGO.Authentication.Identity.ApplicationSignInManager"/> class.
+ </summary>
+ <param name="userManager">The user manager.</param>
+ <param name="authenticationManager">The authentication manager.</param>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.ApplicationSignInManager.CreateUserIdentityAsync(FLEXYGO.Authentication.Identity.ApplicationUser)">
+ <summary>
+ Called to generate the ClaimsIdentity for the user, override to add additional claims before SignIn
+ </summary>
+ <param name="user">The user.</param>
+ <returns>Task(Of ClaimsIdentity).</returns>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.ApplicationSignInManager.Create(Microsoft.AspNet.Identity.Owin.IdentityFactoryOptions{FLEXYGO.Authentication.Identity.ApplicationSignInManager},Microsoft.Owin.IOwinContext)">
+ <summary>
+ Creates the specified options.
+ </summary>
+ <param name="options">The options.</param>
+ <param name="context">The context.</param>
+ <returns>ApplicationSignInManager.</returns>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.ApplicationSignInManager.PasswordSignIn(System.String,System.String,System.Boolean,System.Boolean)">
+ <summary>
+ Passwords the sign in.
+ </summary>
+ <param name="userName">Name of the user.</param>
+ <param name="password">The password.</param>
+ <param name="isPersistent">if set to <c>true</c> [is persistent].</param>
+ <param name="shouldLockout">if set to <c>true</c> [should lockout].</param>
+ <returns>SignInStatus.</returns>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.ApplicationSignInManager.GetLoginType(System.String,System.String)">
+ <summary>
+ Gets the type of the login.
+ </summary>
+ <param name="UserName">Name of the user.</param>
+ <param name="Password">The password.</param>
+ <returns>LoginType.</returns>
+</member>
+<member name="T:FLEXYGO.Authentication.Identity.IdentityExtensions">
+ <summary>
+ Class IdentityExtensions.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.IdentityExtensions.GetAvatar(System.Security.Principal.IIdentity)">
+ <summary>
+ Gets users avatar.
+ </summary>
+ <param name="user">The user.</param>
+ <returns>System.String.</returns>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.IdentityExtensions.GetIpGroup(System.Security.Principal.IIdentity)">
+ <summary>
+ Gets users ip group.
+ </summary>
+ <param name="user">The user.</param>
+ <returns>System.String.</returns>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.IdentityExtensions.GetReference(System.Security.Principal.IIdentity)">
+ <summary>
+ Gets users reference.
+ </summary>
+ <param name="user">The user.</param>
+ <returns>System.String.</returns>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.IdentityExtensions.GetSubReference(System.Security.Principal.IIdentity)">
+ <summary>
+ Gets users sub reference.
+ </summary>
+ <param name="user">The user.</param>
+ <returns>System.String.</returns>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.IdentityExtensions.GetProfileName(System.Security.Principal.IIdentity)">
+ <summary>
+ Gets users profile identifier.
+ </summary>
+ <param name="user">The user.</param>
+ <returns>System.Int32.</returns>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.IdentityExtensions.GetEmail(System.Security.Principal.IIdentity)">
+ <summary>
+ Gets the email.
+ </summary>
+ <param name="user">The user.</param>
+ <returns>System.String.</returns>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.IdentityExtensions.GetId(System.Security.Principal.IIdentity)">
+ <summary>
+ Gets the user identifier.
+ </summary>
+ <param name="user">The user.</param>
+ <returns>System.String.</returns>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.IdentityExtensions.RoleId(System.Security.Principal.IIdentity)">
+ <summary>
+ Gets the user Role Identifier.
+ </summary>
+ <param name="user">The user.</param>
+ <returns>System.String.</returns>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.IdentityExtensions.GetCultureId(System.Security.Principal.IIdentity)">
+ <summary>
+ Gets the user Culture Identifier.
+ </summary>
+ <param name="user">The user.</param>
+ <returns>System.String.</returns>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.IdentityExtensions.GetCleanCultureId(System.Security.Principal.IIdentity)">
+ <summary>
+ Gets the user Culture Identifier with no -.
+ </summary>
+ <param name="user">The user.</param>
+ <returns>System.String.</returns>
+</member>
+<member name="T:FLEXYGO.Authentication.Identity.ApplicationUser">
+ <summary>
+ Class ApplicationUser.
+ </summary>
+</member>
+<member name="P:FLEXYGO.Authentication.Identity.ApplicationUser.IPGroup">
+ <summary>
+ Gets or sets the ip group.
+ </summary>
+ <value>The ip group.</value>
+</member>
+<member name="P:FLEXYGO.Authentication.Identity.ApplicationUser.Reference">
+ <summary>
+ Gets or sets the reference.
+ </summary>
+ <value>The reference.</value>
+</member>
+<member name="P:FLEXYGO.Authentication.Identity.ApplicationUser.SubReference">
+ <summary>
+ Gets or sets the sub reference.
+ </summary>
+ <value>The sub reference.</value>
+</member>
+<member name="P:FLEXYGO.Authentication.Identity.ApplicationUser.ProfileName">
+ <summary>
+ Gets or sets the profile identifier.
+ </summary>
+ <value>The profile identifier.</value>
+</member>
+<member name="P:FLEXYGO.Authentication.Identity.ApplicationUser.Avatar">
+ <summary>
+ Gets or sets the avatar.
+ </summary>
+ <value>The avatar.</value>
+</member>
+<member name="P:FLEXYGO.Authentication.Identity.ApplicationUser.Name">
+ <summary>
+ Gets or sets the name.
+ </summary>
+ <value>The name.</value>
+</member>
+<member name="P:FLEXYGO.Authentication.Identity.ApplicationUser.SurName">
+ <summary>
+ Gets or sets the name of the sur.
+ </summary>
+ <value>The name of the sur.</value>
+</member>
+<member name="P:FLEXYGO.Authentication.Identity.ApplicationUser.NickName">
+ <summary>
+ Gets or sets the name of the nick.
+ </summary>
+ <value>The name of the nick.</value>
+</member>
+<member name="P:FLEXYGO.Authentication.Identity.ApplicationUser.RoleId">
+ <summary>
+ Gets or sets User RoleId.
+ </summary>
+ <value>The RoleId.</value>
+</member>
+<member name="P:FLEXYGO.Authentication.Identity.ApplicationUser.CultureId">
+ <summary>
+ Gets or sets User CultureId.
+ </summary>
+ <value>The RoleId.</value>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.ApplicationUser.GenerateUserIdentity(FLEXYGO.Authentication.Identity.ApplicationUserManager)">
+ <summary>
+ Generates the user identity.
+ </summary>
+ <param name="manager">The manager.</param>
+ <returns>ClaimsIdentity.</returns>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.ApplicationUser.GenerateUserIdentityAsync(FLEXYGO.Authentication.Identity.ApplicationUserManager)">
+ <summary>
+ Generates the user identity asynchronously.
+ </summary>
+ <param name="manager">The manager.</param>
+ <returns>Task(Of ClaimsIdentity).</returns>
+</member>
+<member name="T:FLEXYGO.Authentication.Identity.ApplicationDbContext">
+ <summary>
+ Class ApplicationDbContext.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.ApplicationDbContext.#ctor">
+ <summary>
+ Initializes a new instance of the <see cref="T:FLEXYGO.Authentication.Identity.ApplicationDbContext"/> class.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.ApplicationDbContext.Create">
+ <summary>
+ Creates this ApplicationDbContext instance.
+ </summary>
+ <returns>ApplicationDbContext.</returns>
+</member>
+<member name="T:FLEXYGO.Authentication.Identity.IdentityHelper">
+ <summary>
+ Class IdentityHelper.
+ </summary>
+</member>
+<member name="F:FLEXYGO.Authentication.Identity.IdentityHelper.XsrfKey">
+ <summary>
+ The XSRF key
+ </summary>
+</member>
+<member name="F:FLEXYGO.Authentication.Identity.IdentityHelper.ProviderNameKey">
+ <summary>
+ The provider name key
+ </summary>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.IdentityHelper.GetProviderNameFromRequest(System.Web.HttpRequest)">
+ <summary>
+ Gets the provider name from request.
+ </summary>
+ <param name="request">The request.</param>
+ <returns>System.String.</returns>
+</member>
+<member name="F:FLEXYGO.Authentication.Identity.IdentityHelper.CodeKey">
+ <summary>
+ The code key
+ </summary>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.IdentityHelper.GetCodeFromRequest(System.Web.HttpRequest)">
+ <summary>
+ Gets the code from request.
+ </summary>
+ <param name="request">The request.</param>
+ <returns>System.String.</returns>
+</member>
+<member name="F:FLEXYGO.Authentication.Identity.IdentityHelper.UserIdKey">
+ <summary>
+ The user identifier key
+ </summary>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.IdentityHelper.GetUserIdFromRequest(System.Web.HttpRequest)">
+ <summary>
+ Gets the user identifier from request.
+ </summary>
+ <param name="request">The request.</param>
+ <returns>System.String.</returns>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.IdentityHelper.GetResetPasswordRedirectUrl(System.String,System.Web.HttpRequest)">
+ <summary>
+ Gets the reset password  URL.
+ </summary>
+ <param name="code">The code.</param>
+ <param name="request">The request.</param>
+ <returns>System.String.</returns>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.IdentityHelper.GetUserConfirmationRedirectUrl(System.String,System.String,System.Web.HttpRequest)">
+ <summary>
+ Gets the user confirmation URL.
+ </summary>
+ <param name="code">The code.</param>
+ <param name="userId">The user identifier.</param>
+ <param name="request">The request.</param>
+ <returns>System.String.</returns>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.IdentityHelper.IsLocalUrl(System.String)">
+ <summary>
+ Determines whether the specified URL is local a URL.
+ </summary>
+ <param name="url">The URL.</param>
+ <returns><c>true</c> if specified URL is local; otherwise, <c>false</c>.</returns>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.IdentityHelper.RedirectToReturnUrl(System.String,System.Web.HttpResponse,System.Boolean,System.Web.HttpContext)">
+ <summary>
+ Redirects to return URL.
+ </summary>
+ <param name="returnUrl">The return URL.</param>
+ <param name="response">The response.</param>
+</member>
+<member name="T:FLEXYGO.Authentication.Identity.Startup">
+ <summary>
+ Class Startup For configuring authentication.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.Startup.ConfigureAuth(Owin.IAppBuilder)">
+ <summary>
+ Configures the authentication.
+ </summary>
+ <param name="app">The application.</param>
+</member>
+<member name="M:FLEXYGO.Authentication.Identity.BasicAuthorizationProvider.IsUserAuthorized(System.String)">
+ <summary>
+ Is user autorized to use WebAPI.
+ </summary>
+ <param name="aUser">a user.</param>
+</member>
+<member name="T:FLEXYGO.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:FLEXYGO.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:FLEXYGO.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+</members>
+</doc>

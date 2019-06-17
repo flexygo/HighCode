@@ -477,6 +477,36 @@
     <Content Include="custom\Courses\Level II\Steps\5\objects_views_properties.sql" />
     <Content Include="custom\Courses\Level II\Steps\5\processes.sql" />
     <Content Include="custom\Courses\Level II\Steps\5\processes_params.sql" />
+    <Content Include="custom\Courses\Level II\Steps\6\menus.sql" />
+    <Content Include="custom\Courses\Level II\Steps\6\navigation_nodes.sql" />
+    <Content Include="custom\Courses\Level II\Steps\6\objects.sql" />
+    <Content Include="custom\Courses\Level II\Steps\6\objects_processes.sql" />
+    <Content Include="custom\Courses\Level II\Steps\6\objects_properties.sql" />
+    <Content Include="custom\Courses\Level II\Steps\6\objects_templates.sql" />
+    <Content Include="custom\Courses\Level II\Steps\6\objects_views.sql" />
+    <Content Include="custom\Courses\Level II\Steps\6\objects_views_properties.sql" />
+    <Content Include="custom\Courses\Level II\Steps\6\processes.sql" />
+    <Content Include="custom\Courses\Level II\Steps\6\processes_params.sql" />
+    <Content Include="custom\Courses\Level II\Steps\7\menus.sql" />
+    <Content Include="custom\Courses\Level II\Steps\7\navigation_nodes.sql" />
+    <Content Include="custom\Courses\Level II\Steps\7\objects.sql" />
+    <Content Include="custom\Courses\Level II\Steps\7\objects_processes.sql" />
+    <Content Include="custom\Courses\Level II\Steps\7\objects_properties.sql" />
+    <Content Include="custom\Courses\Level II\Steps\7\objects_templates.sql" />
+    <Content Include="custom\Courses\Level II\Steps\7\objects_views.sql" />
+    <Content Include="custom\Courses\Level II\Steps\7\objects_views_properties.sql" />
+    <Content Include="custom\Courses\Level II\Steps\7\processes.sql" />
+    <Content Include="custom\Courses\Level II\Steps\7\processes_params.sql" />
+    <Content Include="custom\Courses\Level II\Steps\8\menus.sql" />
+    <Content Include="custom\Courses\Level II\Steps\8\navigation_nodes.sql" />
+    <Content Include="custom\Courses\Level II\Steps\8\objects.sql" />
+    <Content Include="custom\Courses\Level II\Steps\8\objects_processes.sql" />
+    <Content Include="custom\Courses\Level II\Steps\8\objects_properties.sql" />
+    <Content Include="custom\Courses\Level II\Steps\8\objects_templates.sql" />
+    <Content Include="custom\Courses\Level II\Steps\8\objects_views.sql" />
+    <Content Include="custom\Courses\Level II\Steps\8\objects_views_properties.sql" />
+    <Content Include="custom\Courses\Level II\Steps\8\processes.sql" />
+    <Content Include="custom\Courses\Level II\Steps\8\processes_params.sql" />
     <Content Include="custom\Courses\Level II\Steps\Utils\Check_Dev_Block_Batch_Clients.sql" />
     <Content Include="custom\Courses\Level II\Steps\Utils\Check_Dev_Block_Client.sql" />
     <Content Include="custom\Courses\Level II\Steps\Utils\Check_Dev_Client_D.sql" />
@@ -6231,6 +6261,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Practices_Processes\Practices_Processes.vbproj">
+      <Project>{7705d81f-c2df-456e-bace-b073ffa0b7fc}</Project>
+      <Name>Practices_Processes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sample_Project_Processes\Sample_Project_Processes.vbproj">
       <Project>{52178239-14cc-47e9-828d-c3c3479be8b7}</Project>
       <Name>Sample_Project_Processes</Name>

@@ -4,8 +4,8 @@ BEGIN TRY
 
 MERGE INTO [Menus] AS Target
 USING (VALUES
-  (N'42fa6a7c-b954-47ec-8ec7-a90793497ede',N'Unblock',NULL,N'fa-unlock',2)
- ,(N'7f216fa7-ee3b-4d5e-8e8d-68a827aeeb17',N'Block',NULL,N'fa-lock',2)
+  (N'42fa6a7c-b954-47ec-8ec7-a90793497ede',N'SP Unblock',NULL,N'fa-unlock',2)
+ ,(N'7f216fa7-ee3b-4d5e-8e8d-68a827aeeb17',N'SP Block',NULL,N'fa-lock',2)
 ) AS Source ([MenuId],[Descrip],[ParentId],[IconName],[OriginId])
 ON (Target.[MenuId] = Source.[MenuId])
 WHEN MATCHED AND (

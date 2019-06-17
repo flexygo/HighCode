@@ -1,0 +1,187 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+flxLocalization
+</name>
+</assembly>
+<members>
+<member name="T:FLEXYGO.Exceptions.LocalizedException">
+ <summary>
+ Class LocalizedException.
+ </summary>
+ <seealso cref="T:System.Exception" />
+</member>
+<member name="M:FLEXYGO.Exceptions.LocalizedException.#ctor(System.String,System.Exception)">
+ <summary>
+ Initializes a new instance of the <see cref="T:FLEXYGO.Exceptions.LocalizedException"/> class.
+ </summary>
+ <param name="message">The message.</param>
+ <param name="innerException">The inner exception.</param>
+</member>
+<member name="M:FLEXYGO.Exceptions.LocalizedException.#ctor(System.String)">
+ <summary>
+ Initializes a new instance of the <see cref="T:FLEXYGO.Exceptions.LocalizedException"/> class.
+ </summary>
+ <param name="message">The message that describes the error.</param>
+</member>
+<member name="M:FLEXYGO.Exceptions.LocalizedException.#ctor(System.String,System.String[])">
+ <summary>
+ Initializes a new instance of the <see cref="T:FLEXYGO.Exceptions.LocalizedException"/> class.
+ </summary>
+ <param name="message">The message.</param>
+ <param name="args">The arguments for string format.</param>
+</member>
+<member name="M:FLEXYGO.Exceptions.LocalizedException.#ctor(System.Exception,System.String,System.String[])">
+ <summary>
+ Initializes a new instance of the <see cref="T:FLEXYGO.Exceptions.LocalizedException"/> class.
+ </summary>
+ <param name="innerException">The inner exception.</param>
+ <param name="message">The message.</param>
+ <param name="args">The arguments for string format.</param>
+</member>
+<member name="T:FLEXYGO.Localization.GoogleTranslate">
+ <summary>
+ Class GoogleTranslate.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Localization.GoogleTranslate.TranslateText(System.Collections.Generic.List{System.String},System.String,System.String)">
+ <summary>
+ Translates a text to another given language using Google's translate API JSON calls.
+ </summary>
+ <param name="srcText">An list of strings to translate</param>
+ <param name="toLang">Two letter culture (as for FromCulture)</param>
+ <param name="key">Google Api Key</param>
+ <returns>List(Of System.String).</returns>
+</member>
+<member name="M:FLEXYGO.Localization.GoogleTranslate.TranslateList(System.Collections.Generic.List{System.String},System.String,System.String,System.String)">
+ <summary>
+ Translates a list of strings into another language using Google's translate API JSON calls.
+ </summary>
+ <param name="srcText">An list of strings to translate</param>
+ <param name="fromLang">Two letter culture (en of en-us, fr of fr-ca, de of de-ch)</param>
+ <param name="toLang">Two letter culture (as for FromCulture)</param>
+ <param name="key">Google Api Key</param>
+ <returns>List(Of System.String).</returns>
+</member>
+<member name="M:FLEXYGO.Localization.GoogleTranslate.TranslateAllEmptyEntriesForCulture(System.String,System.String,System.Int32)">
+ <summary>
+ Translates all empty string in translation table to a given language.
+ </summary>
+ <param name="ToLanguage">To language.</param>
+ <param name="key">The Google Api key.</param>
+ <param name="OriginId">OringinId Strings to translate</param>
+ <returns>Number of translated strings</returns>
+ <exception cref="T:System.Exception">Error connecting to google</exception>
+</member>
+<member name="M:FLEXYGO.Localization.GoogleTranslate.UpdateCultureEntries(System.Data.DataTable)">
+ <summary>
+ Updates the culture entries to database.
+ </summary>
+ <param name="t">The t.</param>
+</member>
+<member name="M:FLEXYGO.Localization.GoogleTranslate.GetData(System.Data.SqlClient.SqlCommand)">
+ <summary>
+ Gets the data from a SQL command.
+ </summary>
+ <param name="cmd">The command.</param>
+ <returns>DataTable.</returns>
+</member>
+<member name="M:FLEXYGO.Localization.GoogleTranslate.GenerateCultureEntries(System.String,System.Int32)">
+ <summary>
+ Generates the culture entries to be translated.
+ </summary>
+ <param name="lang">The language.</param>
+ <param name="Origin">The origin.</param>
+</member>
+<member name="T:FLEXYGO.Localization.Translator">
+ <summary>
+ Class Language contains Translating tools for working with different languages
+ </summary>
+</member>
+<member name="F:FLEXYGO.Localization.Translator._TranslateOn">
+ <summary>
+ If Translate is set to on
+ </summary>
+</member>
+<member name="F:FLEXYGO.Localization.Translator._Language">
+ <summary>
+ Translation language
+ </summary>
+</member>
+<member name="M:FLEXYGO.Localization.Translator.#ctor">
+ <summary>
+ Initializes a new instance of the <see cref="T:FLEXYGO.Localization.Translator"/> class Using current identity language.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Localization.Translator.Translate(System.String,FLEXYGO.Localization.eTranslation_Areas)">
+ <summary>
+ Translates the specified text to the default profile language .
+ If no entry exists for that language it will return the original string
+ </summary>
+ <param name="aText">A text to translate.</param>
+ <param name="Area">A system translation area</param>
+ <returns>System.String.</returns>
+</member>
+<member name="M:FLEXYGO.Localization.Translator.setTranslateStatus">
+ <summary>
+ Determines whether translate is on in the app settings.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Localization.Translator.TranslateImage(System.String)">
+ <summary>
+ Translates the image adding the language string in front of the original path string.
+ </summary>
+ <param name="aPath">A path.</param>
+ <returns>The translated Image Path</returns>
+</member>
+<member name="M:FLEXYGO.Localization.Translator._GetTranslation(System.String,FLEXYGO.Localization.eTranslation_Areas)">
+ <summary>
+ Get translation.
+ </summary>
+ <param name="Text">A text to translate.</param>
+ <param name="Area">A system translation area</param>
+ <returns>System.String.</returns>
+</member>
+<member name="M:FLEXYGO.Localization.Translator._GetImageTranslation(System.String,System.Boolean)">
+ <summary>
+ Get image translation
+ </summary>
+ <param name="filePath">The image original path.</param>
+ <param name="prepend">indicates if language string is added to the end or the beginning of file name</param>
+ <returns>System.String.</returns>
+</member>
+<member name="M:FLEXYGO.Localization.Translator._FindTranslation(System.String,FLEXYGO.Localization.eTranslation_Areas,System.String@)">
+ <summary>
+ Finds translation in Database and returns true or false depending if found or not.
+ </summary>
+ <param name="Text">A text.</param>
+ <param name="Area">A system translation area</param>
+ <param name="Trans">The translated string to return.</param>
+ <returns><c>true</c> if we find the translation string, <c>false</c> otherwise.</returns>
+</member>
+<member name="M:FLEXYGO.Localization.Translator.TranslateMarker(System.String)">
+ <summary>
+ Searches for Translate('') option and checks for translation in Database
+ </summary>
+ <param name="TemplateStr">The template string.</param>
+ <returns>System.String.</returns>
+</member>
+<member name="T:FLEXYGO.My.Resources.Resources">
+<summary>
+  Clase de recurso fuertemente tipado, para buscar cadenas traducidas, etc.
+</summary>
+</member>
+<member name="P:FLEXYGO.My.Resources.Resources.ResourceManager">
+<summary>
+  Devuelve la instancia de ResourceManager almacenada en caché utilizada por esta clase.
+</summary>
+</member>
+<member name="P:FLEXYGO.My.Resources.Resources.Culture">
+<summary>
+  Reemplaza la propiedad CurrentUICulture del subproceso actual para todas las
+  búsquedas de recursos mediante esta clase de recurso fuertemente tipado.
+</summary>
+</member>
+</members>
+</doc>

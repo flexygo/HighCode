@@ -10,6 +10,10 @@ USING (VALUES
  ,(N'SP 3ª practica',1,N'',3)
  ,(N'SP 4ª practica',1,N'',4)
  --,(N'SP 5ª practica',1,N'',5)
+ ,(N'DLL 1ª practica',1,N'',5)
+ ,(N'DLL 2ª practica',1,N'',6)
+ ,(N'DLL 3ª practica',1,N'',7)
+ ,(N'DLL 4ª practica',1,N'',8)
 ) AS Source ([StepId],[CourseId],[Descrip],[Order])
 ON (Target.[StepId] = Source.[StepId] AND Target.[CourseId] = Source.[CourseId])
 WHEN MATCHED AND (

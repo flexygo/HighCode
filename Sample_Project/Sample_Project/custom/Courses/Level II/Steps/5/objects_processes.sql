@@ -4,9 +4,9 @@ BEGIN TRY
 
 MERGE INTO [Objects_Processes] AS Target
 USING (VALUES
-  (N'Dev_Client',N'Dev_Obj_Block_Client',N'7f216fa7-ee3b-4d5e-8e8d-68a827aeeb17',0,1,NULL,N'Condition State Active',N'IdState',N'1',NULL,0,2)
- ,(N'Dev_Client',N'Dev_Obj_Unblock_Client',N'42fa6a7c-b954-47ec-8ec7-a90793497ede',0,1,NULL,N'Condition State Blocked',N'IdState',N'2',NULL,0,2)
- ,(N'Dev_Clients',N'Dev_Block_Batch_Clients',N'd53c32ba-98e2-4dac-9781-6bfa6abbfb8d',0,1,NULL,NULL,NULL,NULL,NULL,1,2)
+  (N'Dev_Client',N'Dev_SP_Obj_Block_Client',N'7f216fa7-ee3b-4d5e-8e8d-68a827aeeb17',0,1,NULL,N'Condition State Active',N'IdState',N'1',NULL,0,2)
+ ,(N'Dev_Client',N'Dev_SP_Obj_Unblock_Client',N'42fa6a7c-b954-47ec-8ec7-a90793497ede',0,1,NULL,N'Condition State Blocked',N'IdState',N'2',NULL,0,2)
+ ,(N'Dev_Clients',N'Dev_SP_Block_Batch_Clients',N'd53c32ba-98e2-4dac-9781-6bfa6abbfb8d',0,1,NULL,NULL,NULL,NULL,NULL,1,2)
 ) AS Source ([ObjectName],[ProcessName],[MenuId],[Order],[Active],[SQLEnabled],[SQLEnabledDescrip],[EnabledProperty],[EnabledValues],[DisabledValues],[BagOnly],[OriginId])
 ON (Target.[ObjectName] = Source.[ObjectName] AND Target.[ProcessName] = Source.[ProcessName])
 WHEN MATCHED AND (

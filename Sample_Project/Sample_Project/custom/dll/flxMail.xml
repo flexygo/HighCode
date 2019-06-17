@@ -1,0 +1,146 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+flxMail
+</name>
+</assembly>
+<members>
+<member name="T:FLEXYGO.Mails.Mail">
+ <summary>
+ Class Mail.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Mails.Mail.SendTemplateMail(System.String,System.String,System.String,System.String,System.Collections.Generic.List{System.Net.Mail.Attachment},FLEXYGO.Objects.EntityObject,System.String,System.String)">
+ <summary>
+ Sends the template mail.
+ </summary>
+ <param name="EMail">The email.</param>
+ <param name="subject">The subject.</param>
+ <param name="Body">The body.</param>
+ <param name="TemplateName">Name of the template.</param>
+ <param name="ReportsList">A list of crystal report document attachments</param>
+ <param name="Entity">Entity to parse properties.</param>
+ <param name="ReplyTo">Reply to.</param>
+ <param name="CC">CC.</param>
+ <returns><c>true</c> if mail was sent, <c>false</c> otherwise.</returns>
+ <exception cref="T:System.Exception">Could Not send template mail</exception>
+</member>
+<member name="M:FLEXYGO.Mails.Mail.SendTemplateMail(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+ <summary>
+ Sends the template mail.
+ </summary>
+ <param name="EMail">The email.</param>
+ <param name="subject">The subject.</param>
+ <param name="Body">The body.</param>
+ <param name="From">Mail sender email</param>
+ <param name="ReplyTo">Mail to reply To</param>
+ <param name="CC">Carbon Copy.</param>
+ <param name="FromName">An specifc Name to send from</param>
+ <returns><c>true</c> if mail was sent, <c>false</c> otherwise.</returns>
+ <exception cref="T:System.Exception">Could Not send template mail</exception>
+</member>
+<member name="M:FLEXYGO.Mails.Mail.SendTemplateMail(System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.List{System.Net.Mail.Attachment},System.String,System.Net.Mail.SmtpClient,FLEXYGO.Objects.EntityObject,System.String,System.String,System.String)">
+ <summary>
+ Sends the template mail.
+ </summary>
+ <param name="EMail">The email.</param>
+ <param name="subject">The subject.</param>
+ <param name="HTMLBody">The html body.</param>
+ <param name="TextBody">The text body.</param>
+ <param name="TemplateName">Name of the template.</param>
+ <param name="ReportsList">A list of crystal report document attachments</param>
+ <param name="From">Mail sender email</param>
+ <param name="SmtpServer">An specifc SmtpClient</param>
+ <param name="Entity">Entity to parse properties.</param>
+ <param name="ReplyTo">Reply to.</param>
+ <param name="CC">CC.</param>
+ <returns><c>true</c> if mail was sent, <c>false</c> otherwise.</returns>
+ <exception cref="T:System.Exception">Could Not send template mail</exception>
+</member>
+<member name="M:FLEXYGO.Mails.Mail.SendTemplateMail(System.String,System.String,System.String,System.String,System.String)">
+ <summary>
+ Sends the template mail.
+ </summary>
+ <param name="EMail">The email.</param>
+ <param name="subject">The subject.</param>
+ <param name="HTMLBody">The html body.</param>
+ <param name="TextBody">The text body.</param>
+ <param name="TemplateName">Name of the template.</param>
+ <returns><c>true</c> if mail was sent, <c>false</c> otherwise.</returns>
+ <exception cref="T:System.Exception">Could Not send template mail</exception>
+</member>
+<member name="M:FLEXYGO.Mails.Mail.SendTemplateMail(System.String,System.String,System.String,System.String,System.Collections.ArrayList,FLEXYGO.Objects.EntityObject,System.String,System.String)">
+ <summary>
+ Sends the template mail.
+ </summary>
+ <param name="EMail">The email.</param>
+ <param name="subject">The subject.</param>
+ <param name="Body">The body.</param>
+ <param name="TemplateName">Name of the template.</param>
+ <param name="docs">The docs.</param>
+ <param name="Entity">Entity to parse properties.</param>
+ <param name="ReplyTo">Reply to.</param>
+ <param name="CC">CC.</param>
+ <returns><c>true</c> if mail was sent, <c>false</c> otherwise.</returns>
+ <exception cref="T:System.Exception">Could Not send template mail</exception>
+</member>
+<member name="M:FLEXYGO.Mails.Mail.GetMailTemplate(System.String,System.String,FLEXYGO.Objects.EntityObject)">
+ <summary>
+ Gets the mail template from the Mails_Templates Table
+ and replaces the body {{Msg}} string with the Msg content.
+ </summary>
+ <param name="TemplateName">Name of the template.</param>
+ <param name="Msg">The MSG.</param>
+ <param name="Entity">Entity to parse properties.</param>
+ <returns>System.String.</returns>
+ <exception cref="T:System.Exception">Error building Template Mail</exception>
+</member>
+<member name="M:FLEXYGO.Mails.Mail.MailAccountChangePassword(FLEXYGO.Objects.EntityObject,System.String,System.String,FLEXYGO.Processing.ProcessManager.ProcessHelper@)">
+ <summary>
+ Change Mail Account Password from the object sysMailAccount 
+ or from the template user if exists
+ </summary>
+ <param name="MailAccountId">MailAccountId from the user connected or selected</param>
+ <param name="MailPassword">New Mail Password</param>
+ <returns>Boolean</returns>
+ <exception cref="T:System.Exception">Error changing password"</exception>
+</member>
+<member name="M:FLEXYGO.Mails.Mail.MailAccountTester(FLEXYGO.Objects.IEntity,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Boolean,System.String,System.String,FLEXYGO.Processing.ProcessManager.ProcessHelper@)">
+ <summary>
+ Mail Account Setting Tester
+ Send mails if works
+ </summary>
+ <param name="MailAccountId">Id from the mail account</param>
+ <param name="Account">Address mail</param>
+ <param name="UserName">Mail UserName</param>
+ <param name="VisibleName">VisibleName</param>
+ <param name="PopImapHost">Pop/Imap Host to receive emails</param>
+ <param name="SMTPHost">SMTP Host to send emails</param>
+ <param name="MailPassword">Address Mail Password</param>
+ <param name="SMTPPort">SMTP Port to send mails</param>
+ <param name="PopImapPort">Pop/Imap Port to receive emails</param>
+ <param name="UseSSL">If the mail server use SSL or not</param>
+ <param name="aSubject">Email Subject to test send</param>
+ <param name="aTo">Receiver for the test mail</param>
+ <returns>Boolean</returns>
+ <exception cref="T:System.Exception">Error sending mail while testing"</exception>
+</member>
+<member name="T:FLEXYGO.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:FLEXYGO.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:FLEXYGO.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+</members>
+</doc>

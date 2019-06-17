@@ -1,0 +1,116 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+flxSession
+</name>
+</assembly>
+<members>
+<member name="T:FLEXYGO.Web.MySession">
+ <summary>
+ Class MySession.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Web.MySession.AddItem(System.String,System.Object)">
+ <summary>
+ Adds an item to the session.
+ </summary>
+ <param name="key">The key.</param>
+ <param name="item">The item.</param>
+</member>
+<member name="M:FLEXYGO.Web.MySession.GetItem(System.String)">
+ <summary>
+ Gets an item from the session.
+ </summary>
+ <param name="key">The key.</param>
+ <returns>System.Object.</returns>
+</member>
+<member name="M:FLEXYGO.Web.MySession.RemoveItem(System.String)">
+ <summary>
+ Removes an item from the session.
+ </summary>
+ <param name="key">The key.</param>
+</member>
+<member name="M:FLEXYGO.Web.MySession.Clear">
+ <summary>
+ Clears the session instance.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Web.MySession.Contains(System.String)">
+ <summary>
+ Checks to see if contains key.
+ </summary>
+</member>
+<member name="T:FLEXYGO.Caching.MyCache">
+ <summary>
+ Class MyCache.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Caching.MyCache.AddItem(System.String,System.Object)">
+ <summary>
+ Adds an item to the cache.
+ </summary>
+ <param name="key">The item key.</param>
+ <param name="item">The item.</param>
+</member>
+<member name="M:FLEXYGO.Caching.MyCache.AddItem(System.String,System.Object,System.TimeSpan,System.Boolean)">
+ <summary>
+ Adds the item.
+ </summary>
+ <param name="key">The key.</param>
+ <param name="item">The item.</param>
+ <param name="slidingExpiration">time period since the object was last used.</param>
+ <param name="NotRemovable">If element can not be removed from cache.</param>
+</member>
+<member name="M:FLEXYGO.Caching.MyCache.AddItem(System.String,System.Object,System.Runtime.Caching.CacheItemPolicy)">
+ <summary>
+ Adds the item.
+ </summary>
+ <param name="key">The key.</param>
+ <param name="item">The item.</param>
+ <param name="Policy">The Cache Item Policy.</param>
+</member>
+<member name="M:FLEXYGO.Caching.MyCache.GetItem(System.String)">
+ <summary>
+ Gets an item from the cache.
+ </summary>
+ <param name="key">The item key.</param>
+ <returns>System.Object.</returns>
+</member>
+<member name="M:FLEXYGO.Caching.MyCache.RemoveItem(System.String)">
+ <summary>
+ Removes an item from the cache.
+ </summary>
+ <param name="key">The item key.</param>
+</member>
+<member name="M:FLEXYGO.Caching.MyCache.Clear">
+ <summary>
+ Clears the cache instance.
+ </summary>
+</member>
+<member name="M:FLEXYGO.Caching.MyCache.SaveSetting(System.String,System.Object)">
+ <summary>
+ Save applications settings to the config.json file.
+ </summary>
+ <param name="key">The property key.</param>
+ <param name="value">The property value</param>
+ <exception cref="T:System.Exception">Could not read config.json File</exception>
+</member>
+<member name="T:FLEXYGO.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:FLEXYGO.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:FLEXYGO.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+</members>
+</doc>

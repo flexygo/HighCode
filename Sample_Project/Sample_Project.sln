@@ -15,6 +15,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Sample_Project_UnitTest", "
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Sample_Project_InterfaceTest", "Sample_Project_InterfaceTest\Sample_Project_InterfaceTest.vbproj", "{07C37035-D330-4CA7-BA04-27DA6649AA63}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Practices_Processes", "Practices_Processes\Practices_Processes.vbproj", "{7705D81F-C2DF-456E-BACE-B073FFA0B7FC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{07C37035-D330-4CA7-BA04-27DA6649AA63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07C37035-D330-4CA7-BA04-27DA6649AA63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07C37035-D330-4CA7-BA04-27DA6649AA63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7705D81F-C2DF-456E-BACE-B073FFA0B7FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7705D81F-C2DF-456E-BACE-B073FFA0B7FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7705D81F-C2DF-456E-BACE-B073FFA0B7FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7705D81F-C2DF-456E-BACE-B073FFA0B7FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
