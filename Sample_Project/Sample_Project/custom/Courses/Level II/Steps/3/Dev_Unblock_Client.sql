@@ -22,13 +22,15 @@ AS
 BEGIN TRY
 
 	BEGIN TRAN
-
+	  
+	  --Update client
       UPDATE Client 
       SET IdState = 1, 
       BlockReason = NULL, 
       BlockDate = NULL 
       WHERE IdClient = @IdClient
       
+	  --Redirect to object view and change success message
       SELECT 
     	CASE WHEN @Redirect = 1 THEN 'flexygo.nav.openPage("view", "Dev_Client", "(IdClient=' + CAST(@IdClient AS NVARCHAR) + ')", null, "current", false, null);' ELSE NULL END AS JSCode,
         'Client Unblocked ;)' AS SuccessMessage

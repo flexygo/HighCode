@@ -22,13 +22,15 @@ AS
 BEGIN TRY
 
 	BEGIN TRAN
-
+		
+	  --Update client
       UPDATE Client 
       SET IdState = 2, 
       BlockReason = @BlockReason, 
       BlockDate = GETDATE() 
       WHERE IdClient = @IdClient
       
+	  --Redirect to object view and change success message
       SELECT 
     	'flexygo.nav.openPage("view", "Dev_Client", "(IdClient=' + CAST(@IdClient AS NVARCHAR) + ')", null, "current", false, null);' AS JSCode,
         'Client blocked ;)' AS SuccessMessage

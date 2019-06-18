@@ -4,8 +4,8 @@ BEGIN TRY
 
 MERGE INTO [Processes] AS Target
 USING (VALUES
-  (N'Dev_DLL_Block_Client',1,N'product',NULL,N'Dev DLL Block Client',NULL,NULL,NULL,N'~/custom/dll/Practices_Processes.dll',N'Practices_Processes.Processes.Practices',N'DevBlockClient',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,N'modal640x480',NULL,1,0,0,0,1,1,NULL,NULL,0,NULL,2)
- ,(N'Dev_DLL_Unblock_Client',1,N'product',NULL,N'Dev DLL Unblock Client ',NULL,NULL,NULL,N'~/custom/dll/Practices_Processes.dll',N'Practices_Processes.Processes.Practices',N'DevUnblockClient',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,N'modal640x480',NULL,1,0,0,0,1,1,NULL,NULL,0,NULL,2)
+  (N'Dev_DLL_Block_Client',1,N'product',NULL,N'Dev DLL Block Client',NULL,NULL,NULL,N'~/bin/Practices_Processes.dll',N'Practices_Processes.Processes.Practices',N'DevBlockClient',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,N'modal640x480',NULL,1,0,0,0,1,1,NULL,NULL,0,NULL,2)
+ ,(N'Dev_DLL_Unblock_Client',1,N'product',NULL,N'Dev DLL Unblock Client ',NULL,NULL,NULL,N'~/bin/Practices_Processes.dll',N'Practices_Processes.Processes.Practices',N'DevUnblockClient',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,N'modal640x480',NULL,1,0,0,0,1,1,NULL,NULL,0,NULL,2)
  ,(N'Dev_SP_Block_Batch_Clients',0,N'product',NULL,N'Dev SP Block Batch Clients',NULL,NULL,NULL,NULL,NULL,NULL,N'Dev_Block_Batch_Clients',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,N'DataConnectionString',N'modal640x480',NULL,1,1,0,0,1,1,NULL,NULL,0,NULL,2)
  ,(N'Dev_SP_Block_Client',0,N'product',NULL,N'Dev SP Block Client',NULL,NULL,NULL,NULL,NULL,NULL,N'Dev_Block_Client',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,N'DataConnectionString',N'modal640x480',NULL,1,0,0,0,1,1,NULL,NULL,0,NULL,2)
  ,(N'Dev_SP_Client_D',0,N'product',NULL,N'Dev SP Client D',NULL,NULL,NULL,NULL,NULL,NULL,N'Dev_Client_D',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,N'DataConnectionString',N'modal640x480',NULL,1,0,0,0,1,0,NULL,NULL,0,NULL,2)

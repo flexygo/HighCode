@@ -28,7 +28,28 @@ Namespace Processes
         ''' <exception cref="System.Exception">Returns error</exception>
         Public Shared Function DevClientI(ByVal Entity As EntityObject, ByRef Ret As ProcessHelper) As Boolean
             Try
-                Entity.InsertProcess(Entity.TableName, Settings.ObjectSettings.eUpdateType.Standard, Nothing)
+                Dim Action As EntityObject
+
+                'Insert client
+                If Entity.InsertProcess(Entity.TableName, Settings.ObjectSettings.eUpdateType.Standard, Nothing) Then
+                    'New action
+                    Action = New EntityObject("Accion", Ret.ConfToken)
+                    'Set values
+                    Action("Date") = Date.Now
+                    Action("EndDate") = Date.Now.AddDays(1)
+                    Action("ActionType") = "EMAIL"
+                    Action("Comment") = "Talk to the customer and get the technical data"
+                    Action("ActionState") = 1
+                    Action("UserName") = Ret.ConfToken.UserSecurity.UserName
+                    Action("IdClient") = Entity("IdClient")
+                    Action("IdEmployee") = Entity("IdEmployee")
+                    'Insert action
+                    If Not Action.Insert() Then
+                        Throw New Exception("Error inserting action")
+                    End If
+                Else
+                    Throw New Exception("Error inserting client")
+                End If
 
                 Ret.Success = True
                 Return True
@@ -48,7 +69,31 @@ Namespace Processes
         ''' <exception cref="System.Exception">Returns error</exception>
         Public Shared Function DevClientU(ByVal Entity As EntityObject, ByRef Ret As ProcessHelper) As Boolean
             Try
-                Entity.UpdateProcess(Settings.ObjectSettings.eUpdateType.Standard, Nothing)
+                Dim Action As EntityObject
+
+                'Update client
+                If Entity.UpdateProcess(Settings.ObjectSettings.eUpdateType.Standard, Nothing) Then
+                    'Check state
+                    If Entity("IdState") = 2 Then
+                        'New action
+                        Action = New EntityObject("Accion", Ret.ConfToken)
+                        'Set values
+                        Action("Date") = Date.Now
+                        Action("EndDate") = Date.Now.AddDays(1)
+                        Action("ActionType") = "EMAIL"
+                        Action("Comment") = "Communicate to the customer that is blocked"
+                        Action("ActionState") = 1
+                        Action("UserName") = Ret.ConfToken.UserSecurity.UserName
+                        Action("IdClient") = Entity("IdClient")
+                        Action("IdEmployee") = Entity("IdEmployee")
+                        'Insert action
+                        If Not Action.Insert() Then
+                            Throw New Exception("Error inserting action")
+                        End If
+                    End If
+                Else
+                    Throw New Exception("Error inserting client")
+                End If
 
                 Ret.Success = True
                 Return True
@@ -68,7 +113,15 @@ Namespace Processes
         ''' <exception cref="System.Exception">Returns error</exception>
         Public Shared Function DevClientD(ByVal Entity As EntityObject, ByRef Ret As ProcessHelper) As Boolean
             Try
-                Entity.DeleteProcess(Entity.TableName, Settings.ObjectSettings.eUpdateType.Standard, Nothing)
+                'Check state
+                If Entity("IdState") = 2 Then
+                    'Delete client
+                    If Not Entity.DeleteProcess(Entity.TableName, Settings.ObjectSettings.eUpdateType.Standard, Nothing) Then
+                        Throw New Exception("Error removing client")
+                    End If
+                Else
+                    Throw New Exception("Only can remove clients blocked")
+                End If
 
                 Ret.Success = True
                 Return True

@@ -65,7 +65,7 @@ BEGIN TRY
            @Mailing BIT,
            @LastModif SMALLDATETIME,
 		   @CurrentUserLogin NVARCHAR(50)
-		   
+		--Get values
         SET @IdClient = @Values.value('(/Row/Property[@Name=''IdClient'']/@Value)[1]', 'INT')
         SET @Name = @Values.value('(/Row/Property[@Name=''Name'']/@Value)[1]', 'VARCHAR(50)')
         SET @NIF = @Values.value('(/Row/Property[@Name=''NIF'']/@Value)[1]', 'VARCHAR(50)')
@@ -85,6 +85,7 @@ BEGIN TRY
         SET @CurrentUserLogin = @ContextVars.value('(/Row/Property[@Name=''currentUserLogin'']/@Value)[1]', 'NVARCHAR(50)')
 
         --Perform process (Insert fields into different tables)
+		--Update client
 		UPDATE Client SET
                 [Name] = @Name
                 ,NIF = @NIF
@@ -100,7 +101,7 @@ BEGIN TRY
                 ,Mailing = @Mailing
                 ,LastModif = @LastModif
 				WHERE IdClient = @IdClient
-
+		--Check state to insert action
 	    IF @IdState = 2 AND @OldIdState <> 2 
 		BEGIN
 

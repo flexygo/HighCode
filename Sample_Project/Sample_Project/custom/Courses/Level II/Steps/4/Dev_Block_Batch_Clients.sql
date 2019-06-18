@@ -24,10 +24,12 @@ BEGIN TRY
 
 	BEGIN TRAN
 
+	--Prepare id clients
 	DECLARE @ClientsCollection TABLE (IdClient INT)
 	
 	INSERT INTO @ClientsCollection EXEC sp_executesql @sysCollectionSentence;
-
+	  
+	  --Update client
       UPDATE Client 
       SET IdState = 2, 
       BlockReason = @BlockReason,
@@ -35,6 +37,7 @@ BEGIN TRY
 	  FROM Client
 	  INNER JOIN @ClientsCollection AS ClientsCollection ON Client.IdClient = ClientsCollection.IdClient
       
+	  --Change success message
       SELECT
 		'Clients blocked ;)' AS SuccessMessage
     

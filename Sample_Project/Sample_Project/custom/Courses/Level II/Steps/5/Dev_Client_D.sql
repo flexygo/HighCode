@@ -51,10 +51,12 @@ BEGIN TRY
         --Declare field variables to load
         DECLARE @IdClient INT,
            @IdState INT
-
+		
+		--Get values
         SET @IdClient = @Values.value('(/Row/Property[@Name=''IdClient'']/@Value)[1]', 'INT')
         SET @IdState = @Values.value('(/Row/Property[@Name=''IdState'']/@Value)[1]', 'INT')
        
+	   --Check state
 		IF @IdState <> 2 
 		BEGIN
 

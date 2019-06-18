@@ -6275,6 +6275,7 @@
     <ProjectReference Include="..\Practices_Processes\Practices_Processes.vbproj">
       <Project>{7705d81f-c2df-456e-bace-b073ffa0b7fc}</Project>
       <Name>Practices_Processes</Name>
+      <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\Sample_Project_Processes\Sample_Project_Processes.vbproj">
       <Project>{52178239-14cc-47e9-828d-c3c3479be8b7}</Project>
