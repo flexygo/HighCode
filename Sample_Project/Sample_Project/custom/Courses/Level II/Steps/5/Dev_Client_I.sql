@@ -113,6 +113,8 @@ BEGIN TRY
 			   @IdEmployee,
 			   @Mailing,
 			   @LastModif)
+
+		Select @IdClient = MAX(IdClient) From Client
 		
 		--Insert action
 		INSERT INTO Actions

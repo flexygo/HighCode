@@ -76,7 +76,7 @@ Namespace Processes
                     'Check state
                     If Entity("IdState") = 2 Then
                         'New action
-                        Action = New EntityObject("Accion", Ret.ConfToken)
+                        Action = New EntityObject("Accion", Ret.ConfToken, Entity.DataManager)
                         'Set values
                         Action("Date") = Date.Now
                         Action("EndDate") = Date.Now.AddDays(1)
