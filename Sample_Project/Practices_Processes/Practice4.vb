@@ -33,7 +33,7 @@ Namespace Processes
                 'Insert client
                 If Entity.InsertProcess(Entity.TableName, Settings.ObjectSettings.eUpdateType.Standard, Nothing) Then
                     'New action
-                    Action = New EntityObject("Accion", Ret.ConfToken)
+                    Action = New EntityObject("Accion", Ret.ConfToken, Entity.DataManager)
                     'Set values
                     Action("Date") = Date.Now
                     Action("EndDate") = Date.Now.AddDays(1)
@@ -41,7 +41,7 @@ Namespace Processes
                     Action("Comment") = "Talk to the customer and get the technical data"
                     Action("ActionState") = 1
                     Action("UserName") = Ret.ConfToken.UserSecurity.UserName
-                    Action("IdClient") = Entity("IdClient")
+                    Action("IdClient") = Entity.DataManager.GetValue("Select MAX(IdClient) From Client")
                     Action("IdEmployee") = Entity("IdEmployee")
                     'Insert action
                     If Not Action.Insert() Then
