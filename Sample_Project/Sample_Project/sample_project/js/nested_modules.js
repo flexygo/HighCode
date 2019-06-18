@@ -13,18 +13,18 @@ var sample_project;
         */
         function moduleListFilterCapture(dependingModuleName, parentModuleName) {
             debugger;
-            let opToList = $('flx-module[modulename="' + dependingModuleName + '"] flx-list');
-            let opList = $('flx-module[modulename="' + parentModuleName + '"] flx-list');
+            var opToList = $('flx-module[modulename="' + dependingModuleName + '"] flx-list');
+            var opList = $('flx-module[modulename="' + parentModuleName + '"] flx-list');
             if (opList[0] && opToList[0]) {
-                let opToListItm = opToList[0];
-                let opListItm = opList[0];
-                opToListItm.presets = opListItm.presets;
+                var opToListItm_1 = opToList[0];
+                var opListItm_1 = opList[0];
+                opToListItm_1.presets = opListItm_1.presets;
                 flexygo.events.off(opList, 'module', 'filtered');
-                flexygo.events.on(opList, 'module', 'filtered', (e) => {
+                flexygo.events.on(opList, 'module', 'filtered', function (e) {
                     if (e.sender === opList.closest('flx-module')[0]) {
-                        opToListItm.activeFilter = opListItm.activeFilter;
-                        opToListItm.filterValues = opListItm.filterValues;
-                        opToListItm.setPreset(opListItm.presetId, opListItm.presetText, opListItm.presetIcon);
+                        opToListItm_1.activeFilter = opListItm_1.activeFilter;
+                        opToListItm_1.filterValues = opListItm_1.filterValues;
+                        opToListItm_1.setPreset(opListItm_1.presetId, opListItm_1.presetText, opListItm_1.presetIcon);
                     }
                 });
             }

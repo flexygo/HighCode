@@ -44,32 +44,35 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="flxDataManager">
-      <HintPath>..\..\..\..\..\Users\acriado\Desktop\Formación Nivel II\3. Flexygo Nivel II DLLs\Practices\packages\Flexygo.1.26.0.5\lib\net46\flxDataManager.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxDataManager.dll</HintPath>
     </Reference>
     <Reference Include="flxEntity">
-      <HintPath>..\..\..\..\..\Users\acriado\Desktop\Formación Nivel II\3. Flexygo Nivel II DLLs\Practices\packages\Flexygo.1.26.0.5\lib\net46\flxEntity.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxEntity.dll</HintPath>
     </Reference>
     <Reference Include="flxGlobals">
-      <HintPath>..\..\..\..\..\Users\acriado\Desktop\Formación Nivel II\3. Flexygo Nivel II DLLs\Practices\packages\Flexygo.1.26.0.5\lib\net46\flxGlobals.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxGlobals.dll</HintPath>
     </Reference>
     <Reference Include="flxLocalization">
-      <HintPath>..\..\..\..\..\Users\acriado\Desktop\Formación Nivel II\3. Flexygo Nivel II DLLs\Practices\packages\Flexygo.1.26.0.5\lib\net46\flxLocalization.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxLocalization.dll</HintPath>
     </Reference>
     <Reference Include="flxMail">
-      <HintPath>..\..\..\..\..\Users\acriado\Desktop\Formación Nivel II\3. Flexygo Nivel II DLLs\Practices\packages\Flexygo.1.26.0.5\lib\net46\flxMail.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxMail.dll</HintPath>
     </Reference>
     <Reference Include="flxObjectConfig">
-      <HintPath>..\..\..\..\..\Users\acriado\Desktop\Formación Nivel II\3. Flexygo Nivel II DLLs\Practices\packages\Flexygo.1.26.0.5\lib\net46\flxObjectConfig.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxObjectConfig.dll</HintPath>
     </Reference>
-    <Reference Include="flxSecurity, Version=1.26.0.5, Culture=neutral, PublicKeyToken=d94feba4661f934f" />
+    <Reference Include="flxSecurity, Version=1.26.0.5, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxSecurity.dll</HintPath>
+    </Reference>
     <Reference Include="flxSession">
-      <HintPath>..\..\..\..\..\Users\acriado\Desktop\Formación Nivel II\3. Flexygo Nivel II DLLs\Practices\packages\Flexygo.1.26.0.5\lib\net46\flxSession.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxSession.dll</HintPath>
     </Reference>
     <Reference Include="flxSettings">
-      <HintPath>..\..\..\..\..\Users\acriado\Desktop\Formación Nivel II\3. Flexygo Nivel II DLLs\Practices\packages\Flexygo.1.26.0.5\lib\net46\flxSettings.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxSettings.dll</HintPath>
     </Reference>
     <Reference Include="flxUtilities">
-      <HintPath>..\..\..\..\..\Users\acriado\Desktop\Formación Nivel II\3. Flexygo Nivel II DLLs\Practices\packages\Flexygo.1.26.0.5\lib\net46\flxUtilities.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxUtilities.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
