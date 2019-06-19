@@ -95,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Practice1.vb" />
+    <Compile Include="Practice5.vb" />
     <Compile Include="Practice4.vb" />
     <Compile Include="Practice3.vb" />
     <Compile Include="Practice2.vb" />
