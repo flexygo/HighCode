@@ -61,6 +61,7 @@ var flexygo;
                 selectobject: 'Veuillez sélectionner une page contenant un objet',
                 objectpropertysecurity: 'Sécurité des propriétés',
                 pageSettings: 'Propriétés de la page',
+                chatter: 'Chatter',
             };
             frfr.history = {
                 historyempty: 'Historique de navigation vide',
@@ -584,6 +585,32 @@ var flexygo;
                 to: 'à',
                 withoutpercentage: 'Sans Pourcentage',
                 notsupported: 'taille d’écran non supportée',
+            };
+            frfr.flxfilebrowser = {
+                saved: 'Sauvegardé',
+                errorsaving: 'Erreur sauvedardé',
+                errorremoving: 'Erreur supprimé',
+                permissionerror: 'Désolé, vous n’avez pas d’autorisations',
+                documentempty: 'Document vide',
+                itemsselected: "Éléments sélectionnés",
+                emptyfolder: "Le dossier est vide",
+                existingfiles: "Certains fichiers existent sur le serveur",
+                overwritefiles: "Êtes-vous sûr de vouloir les remplacer?",
+                deleting: "Suppression",
+                items: 'articles',
+                sure: 'Êtes-vous sûr?',
+                currentfolder: 'Dossier en cours',
+                uploadfiles: 'Télécharger des fichiers',
+                addfolder: 'Ajouter le dossier',
+                download: 'Télécharger',
+                delete: 'Effacer',
+                goback: 'Retourner',
+                processingdownload: 'Traitement Télécharger'
+            };
+            frfr.chatter = {
+                composerplaceholder: 'Écris quelque chose ...',
+                sendbutton: 'Registre',
+                startinfo: 'Vous devez d\'abord configurer le chatter',
             };
         })(frfr = culture.frfr || (culture.frfr = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

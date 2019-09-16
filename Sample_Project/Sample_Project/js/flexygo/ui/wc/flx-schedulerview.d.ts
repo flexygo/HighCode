@@ -53,7 +53,7 @@ declare namespace flexygo.ui.wc {
         drawEvents(day: any, element: any): void;
         getDayClass(day: any): any;
         openDay(el: any): any;
-        renderEvents(events: any, ele: any): any;
+        renderEvents(events: any, ele: any, defaultDate: string): any;
         drawLegend(): any;
         getObjectWhere(table: string, key: string[], id: string[]): string;
         nextMonth(): any;

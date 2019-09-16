@@ -166,7 +166,7 @@ var flexygo;
                         TemplateId: this.templateId,
                         Clone: (me.attr('isClone') === 'true')
                     };
-                    flexygo.ajax.post('~/api/Edit', 'getEditTemplate', params, (response) => {
+                    flexygo.ajax.post('~/api/Edit', 'GetEditTemplate', params, (response) => {
                         if (response) {
                             let template = response.Template;
                             let parentModule = me.closest('flx-module');
@@ -234,7 +234,7 @@ var flexygo;
                         "ReportName": me.attr('ReportName'),
                         "Defaults": flexygo.utils.dataToArray(objDef),
                     };
-                    flexygo.ajax.post('~/api/Edit', 'getReportParamsTemplate', params, (response) => {
+                    flexygo.ajax.post('~/api/Edit', 'GetReportParamsTemplate', params, (response) => {
                         if (response) {
                             if (me.closest('.ui-dialog').find('.ui-dialog-title').length > 0) {
                                 if (me.closest('.ui-dialog').find('.ui-dialog-title').html() == '{{ReportDescrip}}') {
@@ -309,7 +309,7 @@ var flexygo;
                         "ProcessName": me.attr('ProcessName'),
                         "Defaults": flexygo.utils.dataToArray(objDef),
                     };
-                    flexygo.ajax.post('~/api/Edit', 'getProcessParamsTemplate', params, (response) => {
+                    flexygo.ajax.post('~/api/Edit', 'GetProcessParamsTemplate', params, (response) => {
                         if (response) {
                             if (me.closest('.ui-dialog').find('.ui-dialog-title').length > 0) {
                                 if (me.closest('.ui-dialog').find('.ui-dialog-title').html() == '{{ProcessDescrip}}') {
@@ -945,7 +945,7 @@ var flexygo;
                                     PropertyName: propertyName,
                                     Properties: Properties
                                 };
-                                flexygo.ajax.post('~/api/Edit', 'processDependencies', params, (response) => {
+                                flexygo.ajax.post('~/api/Edit', 'ProcessDependencies', params, (response) => {
                                     if (response) {
                                         for (let i = 0; i < response.length; i++) {
                                             let itm = response[i];

@@ -109,14 +109,14 @@ var flexygo;
                         if (!this.options) {
                             this.options = new flexygo.api.ObjectProperty();
                         }
-                        this.options.MinValue = parseInt(MinValue);
+                        this.options.MinValue = MinValue;
                     }
                     let MaxValue = element.attr('MaxValue');
                     if (MaxValue && MaxValue != '') {
                         if (!this.options) {
                             this.options = new flexygo.api.ObjectProperty();
                         }
-                        this.options.MaxValue = parseInt(MaxValue);
+                        this.options.MaxValue = MaxValue;
                     }
                     let MaxValueMessage = element.attr('MaxValueMessage');
                     if (MaxValueMessage && MaxValueMessage != '') {
@@ -440,7 +440,7 @@ var flexygo;
                 //                    this.triggerDependencies();
                 //                    $(document).find('flx-search[objectname="' + this.options.SearchCollection + '"]').closest(".ui-dialog").remove();
                 //                });
-                //                flexygo.nav.openPage('search', parseEdit(this.options.SearchCollection, editCtl), parseEdit(this.options.SearchWhere, editCtl), null, 'popup');
+                //                flexygo.nav.openPage('search', parseEdit(this.options.SearchCollection, editCtl), parseEdit(this.options.SearchWhere, editCtl), null, 'modal');
                 //            }
                 //        });
                 //        ret.append(icon1);

@@ -324,7 +324,7 @@ var flexygo;
                         searchId: this.activeFilter,
                         filterValues: this.filterValues
                     };
-                    flexygo.ajax.post('~/api/Kanban', 'getKanban', params, (response) => {
+                    flexygo.ajax.post('~/api/Kanban', 'GetKanban', params, (response) => {
                         if (response) {
                             this.config = response.KanbanSettings;
                             this.columns = response.Columns;

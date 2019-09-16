@@ -61,6 +61,7 @@ var flexygo;
                 selectobject: 'Por favor seleccione una página que contenga un objeto',
                 objectpropertysecurity: 'Seguridad de propiedades',
                 pageSettings: 'Propiedades de la página',
+                chatter: 'Chatter',
             };
             eses.history = {
                 historyempty: 'Histórico de navegación vacio',
@@ -589,6 +590,32 @@ var flexygo;
                 to: 'a',
                 withoutpercentage: 'Sin Porcentaje',
                 notsupported: 'Tamaño de pantalla no soportado',
+            };
+            eses.flxfilebrowser = {
+                saved: 'Guardado',
+                errorsaving: 'Error guardando',
+                errorremoving: 'Error eliminando',
+                permissionerror: 'Lo sentimos, no tienes permisos',
+                documentempty: 'Documento vacío',
+                itemsselected: 'items seleccionados',
+                emptyfolder: 'La carpeta está vacia',
+                existingfiles: 'Algunos archivos ya existen en el servidor',
+                overwritefiles: '¿Estás seguro de que quieres borrarlos?',
+                deleting: 'Borrando',
+                items: 'items',
+                sure: '¿Estás seguro?',
+                currentfolder: 'Carpeta actual',
+                uploadfiles: 'Subir archivos',
+                addfolder: 'Crear carpeta',
+                download: 'Descargar',
+                delete: 'Borrar',
+                goback: 'Volver',
+                processingdownload: 'Procesando descarga'
+            };
+            eses.chatter = {
+                composerplaceholder: 'Escriba algo',
+                sendbutton: 'Registrar',
+                startinfo: 'Primero debe configurar el chatter',
             };
         })(eses = culture.eses || (culture.eses = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

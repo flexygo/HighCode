@@ -135,7 +135,7 @@ var flexygo;
                     //if (triggerElement && !triggerElement.closest('.pageContainer').is(pageContainer)) {
                     //    pageContainer.data('opener', triggerElement.closest('.pageContainer'));
                     //}
-                    flexygo.ajax.post('~/api/Pages', 'getPageByName', { "pageName": processparampage }, (ret) => {
+                    flexygo.ajax.post('~/api/Page', 'GetPageByName', { "PageName": processparampage }, (ret) => {
                         ret.pageHistory = histObj;
                         flexygo.nav.openPageReturn(ret, data.objectName, data.objectWhere, defaults, pageContainer, null, data.processName);
                         let selected = false;

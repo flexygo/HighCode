@@ -277,17 +277,17 @@ var flexygo;
                         ObjectWhere: me.attr('ObjectWhere'),
                         ModuleName: this.moduleName,
                         PageName: flexygo.history.getPageName(me),
-                        page: this.page,
-                        additionalWhere: this.additionalWhere,
-                        orderInfo: this.orderObj,
-                        mode: this.mode,
-                        searchId: this.activeFilter,
-                        filterValues: this.filterValues,
+                        Page: this.page,
+                        AdditionalWhere: this.additionalWhere,
+                        OrderInfo: this.orderObj,
+                        Mode: this.mode,
+                        SearchId: this.activeFilter,
+                        FilterValues: this.filterValues,
                         TemplateId: this.templateId,
                         ViewId: this.viewId,
                         PresetId: this.presetId
                     };
-                    flexygo.ajax.post('~/api/List', 'getList', params, (response) => {
+                    flexygo.ajax.post('~/api/List', 'GetList', params, (response) => {
                         if (response) {
                             this.collectionname = response.ObjectName;
                             if (response.Template) {
@@ -621,7 +621,7 @@ var flexygo;
                         paramsArray.push(params);
                     }
                     if (paramsArray.length > 0) {
-                        flexygo.ajax.post('~/api/Edit', 'processAllListDependencies', paramsArray, (response) => {
+                        flexygo.ajax.post('~/api/Edit', 'ProcessAllListDependencies', paramsArray, (response) => {
                             if (response) {
                                 for (let j = 0; j < Object.keys(response).length; j++) {
                                     let rowKey = Object.keys(response)[j];
@@ -742,7 +742,7 @@ var flexygo;
                                 "PropertyName": propertyName,
                                 "Properties": Properties
                             };
-                            flexygo.ajax.post('~/api/Edit', 'processDependencies', params, (response) => {
+                            flexygo.ajax.post('~/api/Edit', 'ProcessDependencies', params, (response) => {
                                 if (response) {
                                     for (let i = 0; i < response.length; i++) {
                                         let itm = response[i];
@@ -919,7 +919,7 @@ var flexygo;
                     this.pager.find('.numRows').html(String(this.maxRows));
                     this.pager.find('.numPages').html(String(this.maxPages));
                     let iniBtn = Number((this.page - this.pagesButtons / 2).toFixed());
-                    if (iniBtn < 0) {
+                    if (iniBtn < 0 || (this.maxPages <= this.pagesButtons)) {
                         iniBtn = 0;
                     }
                     else if (iniBtn > (this.maxPages - this.pagesButtons)) {
@@ -927,7 +927,7 @@ var flexygo;
                     }
                     let btns = this.pager.find('.pageButtons');
                     btns.html('');
-                    for (let i = 0; i < this.pagesButtons && i < this.maxPages; i++) {
+                    for (let i = 0; i < this.pagesButtons && (iniBtn + i) < this.maxPages; i++) {
                         this.addButtons(btns, (iniBtn + i));
                     }
                     if (this.page == 0) {
@@ -938,7 +938,7 @@ var flexygo;
                         this.pager.find('.prevPage').show();
                         this.pager.find('.firstPage').show();
                     }
-                    if ((this.data.length < this.pageSize) || (this.maxPages == (this.page))) {
+                    if ((this.data.length < this.pageSize) || (this.maxPages == (this.page + 1))) {
                         this.pager.find('.nextPage').hide();
                         this.pager.find('.lastPage').hide();
                     }
@@ -997,13 +997,13 @@ var flexygo;
                     this.page = newPage;
                     params = {
                         "ObjectName": this.objectname,
-                        "cryptedSql": this.cryptedSql,
-                        "page": this.page,
-                        "pagesize": this.pageSize,
+                        "CryptedSql": this.cryptedSql,
+                        "Page": this.page,
+                        "PageSize": this.pageSize,
                         "RemoveKeys": this.removeKeys,
-                        "filter": this.filters
+                        "Filter": this.filters
                     };
-                    flexygo.ajax.post('~/api/List', 'getPageList', params, (response) => {
+                    flexygo.ajax.post('~/api/List', 'GetPageList', params, (response) => {
                         if (response) {
                             this.data = response;
                             this.render();
@@ -1342,6 +1342,9 @@ var flexygo;
                             type = 'date';
                         }
                     }
+                    else if (type == 'object' && value != null && value.Hours) {
+                        type = 'time';
+                    }
                     switch (type) {
                         case 'undefined':
                             return '';
@@ -1356,6 +1359,8 @@ var flexygo;
                             return moment(value).utc().format('L');
                         case 'datetime':
                             return moment(value).utc().format('L') + ' ' + moment(value).utc().format('LTS');
+                        case 'time':
+                            return moment(value).utc().format('LTS');
                         default:
                             return value;
                     }
@@ -1367,10 +1372,10 @@ var flexygo;
                 loadCount() {
                     let params = {
                         ObjectName: this.objectname,
-                        cryptedSql: this.cryptedSql,
-                        filter: this.filters
+                        CryptedSql: this.cryptedSql,
+                        Filter: this.filters
                     };
-                    flexygo.ajax.post('~/api/List', 'getCount', params, (response) => {
+                    flexygo.ajax.post('~/api/List', 'GetCount', params, (response) => {
                         if (response) {
                             this.maxRows = response;
                             let numPages = 0;
@@ -1384,6 +1389,13 @@ var flexygo;
                                 }
                             }
                             this.maxPages = numPages;
+                            this.refreshPager();
+                        }
+                        else {
+                            this.maxRows = 0;
+                            let numPages = 0;
+                            this.maxPages = numPages;
+                            this.page = 0;
                             this.refreshPager();
                         }
                     });
@@ -1448,8 +1460,16 @@ var flexygo;
                                 //eventName = 'update';
                             }
                             if (ret) {
+                                if (obj.jsCode) {
+                                    flexygo.utils.execDynamicCode.call(this, obj.jsCode);
+                                }
                                 if (msg) {
-                                    flexygo.msg.success('Saved :)');
+                                    if (obj.warningMessage) {
+                                        flexygo.msg.warning(obj.warningMessage);
+                                    }
+                                    else {
+                                        flexygo.msg.success(flexygo.localization.translate('Saved :)'));
+                                    }
                                 }
                                 tr.removeClass('dirty');
                                 if (objectWhere && objectWhere != '') {

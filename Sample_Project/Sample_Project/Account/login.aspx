@@ -1,4 +1,4 @@
-﻿<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="login.aspx.vb" Inherits="FLEXYGO.login1"  UnobtrusiveValidationMode="None" %>
+<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="login.aspx.vb" Inherits="FLEXYGO.login1"  UnobtrusiveValidationMode="None" %>
 <%@ Register Src="~/Account/Links.ascx" TagPrefix="uc1" TagName="Links" %>
 
 
@@ -108,7 +108,7 @@
                     <asp:LinkButton ID="MainButton" CssClass="mainbutton" CommandName="LogIn" runat="server" OnClientClick="Progress(event)">Login</asp:LinkButton>
                     <div class="others">
                         <asp:CheckBox runat="server" ID="RememberMe" />
-                        <asp:Label runat="server" AssociatedControlID="RememberMe">Remember me?</asp:Label>
+                        <asp:Label runat="server" ID="RememberMeLabel" AssociatedControlID="RememberMe">Remember me?</asp:Label>
                     </div>
                     <div class="others">
                         <asp:HyperLink runat="server" ID="RegisterHyperLink" ViewStateMode="Disabled">Register as a new user</asp:HyperLink>

@@ -126,19 +126,19 @@ var flexygo;
                     this.headerTemplate = headerTemplate;
                     if (initNode) {
                         if (initNode == 'navBar') {
-                            this.method = 'getNavNodes';
+                            this.method = 'GetNavNodes';
                             $(window).off('resize.getNavNodes');
                             $(window).on('resize.getNavNodes', (ev) => { this.onNavResize(ev); });
                             this.methodParams = null;
                         }
                         else if (initNode == 'mainBar') {
-                            this.method = 'getMainNodes';
+                            this.method = 'GetMainNodes';
                             $(window).off('resize.getMainNodes');
                             $(window).on('resize.getMainNodes', (ev) => { this.onNavResize(ev); });
                             this.methodParams = null;
                         }
                         else {
-                            this.method = 'getNodesById';
+                            this.method = 'GetNodesById';
                             this.methodParams = { ParentId: initNode, HideAutoSQLNodes: false };
                             if ((this.mode === 'panel') || (this.mode === 'box')) {
                                 this.template = itemTemplate;
@@ -424,15 +424,17 @@ var flexygo;
                     let ret = json.childnodes;
                     if (Object.keys(ret).length > 0) {
                         for (let nKey in ret) {
-                            if (ret[nKey].strtype == 'wc') {
-                                cnt += flexygo.utils.parser.compile(ret[nKey], this.wcTemplate, this);
-                            }
-                            else {
-                                if (ret[nKey].actiontype == 'separator' || ret[nKey].strtype == 'separator') {
-                                    cnt += '<li class="separator"></li>';
+                            if (ret[nKey].enabled) {
+                                if (ret[nKey].strtype == 'wc') {
+                                    cnt += flexygo.utils.parser.compile(ret[nKey], this.wcTemplate, this);
                                 }
                                 else {
-                                    cnt += flexygo.utils.parser.compile(ret[nKey], this.template, this);
+                                    if (ret[nKey].actiontype == 'separator' || ret[nKey].strtype == 'separator') {
+                                        cnt += '<li class="separator"></li>';
+                                    }
+                                    else {
+                                        cnt += flexygo.utils.parser.compile(ret[nKey], this.template, this);
+                                    }
                                 }
                             }
                         }

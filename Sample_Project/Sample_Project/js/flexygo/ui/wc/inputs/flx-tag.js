@@ -373,7 +373,7 @@ var flexygo;
                                     this.triggerDependencies();
                                     $(document).find('flx-search[objectname="' + this.options.SearchCollection + '"]').closest(".ui-dialog").remove();
                                 });
-                                flexygo.nav.openPage('search', parseEdit(this.options.SearchCollection, editCtl), parseEdit(this.options.SearchWhere, editCtl), null, 'popup');
+                                flexygo.nav.openPage('search', parseEdit(this.options.SearchCollection, editCtl), parseEdit(this.options.SearchWhere, editCtl), null, 'modal');
                             }
                         });
                         ret.append(icon1);

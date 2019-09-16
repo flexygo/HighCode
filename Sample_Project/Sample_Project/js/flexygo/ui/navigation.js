@@ -68,7 +68,7 @@ var flexygo;
                     detailIdentity: objectwhere
                 };
                 flexygo.events.trigger(ev);
-                flexygo.ajax.post('~/api/Pages', 'getPageByObject', { "StrType": pagetypeid, "ObjectName": objectname, "ObjectWhere": objectwhere, "isClone": isClone }, (ret) => {
+                flexygo.ajax.post('~/api/Page', 'GetPageByObject', { "StrType": pagetypeid, "ObjectName": objectname, "ObjectWhere": objectwhere, "IsClone": isClone }, (ret) => {
                     histObj.pagename = ret.PageName;
                     var pageContainer = flexygo.targets.createContainer(histObj, excludeHist, triggerElement);
                     var editObj = flexygo.history.get(pageContainer);
@@ -149,7 +149,7 @@ var flexygo;
                     detailIdentity: objectwhere
                 };
                 flexygo.events.trigger(ev);
-                flexygo.ajax.post('~/api/Pages', 'getPageByName', { "pageName": pagename, "ObjectName": objectname, "ObjectWhere": objectwhere }, (ret) => {
+                flexygo.ajax.post('~/api/Page', 'GetPageByName', { "PageName": pagename, "ObjectName": objectname, "ObjectWhere": objectwhere }, (ret) => {
                     if (!histObj.pagetypeid) {
                         histObj.pagetypeid = ret.StrType;
                     }
@@ -200,7 +200,10 @@ var flexygo;
             }
             //If process is not a workflow, and has params and params have not be passed use openprocessparams window
             if ((!proc.config.IsWorkflow) && proc.config.HasParams && processparams == null) {
-                flexygo.nav.openProcessParams(processname, objectname, objectwhere, defaults, target, true, triggerElement);
+                if (!flexygo.utils.isSizeMobile) {
+                    excludeHist = true;
+                }
+                flexygo.nav.openProcessParams(processname, objectname, objectwhere, defaults, target, excludeHist, triggerElement);
             }
             else {
                 if (typeof proc.config.ConfirmText != 'undefined' && proc.config.ConfirmText && proc.config.ConfirmText != '') {
@@ -225,7 +228,7 @@ var flexygo;
                 if (pageConf.BodyCssClass) {
                     bodyClass = pageConf.BodyCssClass;
                 }
-                if (flexygo.debug.isDevelopMode()) {
+                if (flexygo.debug && flexygo.debug.isDevelopMode && flexygo.debug.isDevelopMode()) {
                     bodyClass += ' develop';
                 }
                 if (pageContainer.is('#realMain')) {
@@ -377,7 +380,7 @@ var flexygo;
                 if (triggerElement && !triggerElement.closest('.pageContainer').is(pageContainer)) {
                     pageContainer.data('opener', triggerElement.closest('.pageContainer'));
                 }
-                flexygo.ajax.post('~/api/Pages', 'getPageByName', { "pageName": pagename }, (ret) => {
+                flexygo.ajax.post('~/api/Page', 'GetPageByName', { "PageName": pagename }, (ret) => {
                     ret.pageHistory = histObj;
                     openPageReturn(ret, objectname, objectwhere, defaults, pageContainer, null, processname);
                 });
@@ -441,7 +444,7 @@ var flexygo;
             }
             else {
                 var pageContainer = flexygo.targets.createContainer(histObj, excludeHist, triggerElement);
-                flexygo.ajax.post('~/api/Pages', 'getPageByName', { "pageName": pagename }, (ret) => {
+                flexygo.ajax.post('~/api/Page', 'GetPageByName', { "PageName": pagename }, (ret) => {
                     ret.pageHistory = histObj;
                     openPageReturn(ret, objectname, objectwhere, defaults, pageContainer, reportname, null, null, reportwhere);
                 });
@@ -499,14 +502,19 @@ var flexygo;
                     url += '&' + params;
                 }
             }
-            var p = window.open('');
-            if (!p) {
-                flexygo.msg.warning('navigation.popupwarning');
+            if (flexygo.utils.isAgentMobile()) {
+                return window.open(url);
             }
             else {
-                p.document.write('<htm><body style="background:url(' + flexygo.utils.resolveUrl('~/img/loading' + n + '.gif') + ') no-repeat;background-size:cover"></body></html>');
-                p.document.location.href = url;
-                return p;
+                let p = window.open('');
+                if (!p) {
+                    flexygo.msg.warning('navigation.popupwarning');
+                }
+                else {
+                    p.document.write('<htm><body style="background:url(' + flexygo.utils.resolveUrl('~/img/loading' + n + '.gif') + ') no-repeat;background-size:cover"></body></html>');
+                    p.document.location.href = url;
+                    return p;
+                }
             }
         }
         nav.openURL = openURL;
@@ -604,7 +612,7 @@ var flexygo;
             }
             else {
                 var pageContainer = flexygo.targets.createContainer(histObj, excludeHist, triggerElement);
-                flexygo.ajax.post('~/api/Pages', 'getHelpById', { "helpId": helpid }, (ret) => {
+                flexygo.ajax.post('~/api/Page', 'GetHelpById', { "HelpId": helpid }, (ret) => {
                     if (ret) {
                         ret.pageHistory = histObj;
                         flexygo.history.historyLog.add('flx-icon icon-help-2', ret.Title, histObj);
@@ -632,7 +640,7 @@ var flexygo;
         function getHelpContent(helpid) {
             let retHtml = '';
             if (helpid) {
-                flexygo.ajax.syncPost('~/api/Pages', 'getHelpById', { "helpId": helpid }, (ret) => {
+                flexygo.ajax.syncPost('~/api/Page', 'GetHelpById', { "HelpId": helpid }, (ret) => {
                     if (ret) {
                         retHtml = ret.HTMLText;
                     }

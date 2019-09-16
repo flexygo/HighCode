@@ -16,6 +16,8 @@ declare namespace flexygo.obj {
         objectName: string;
         objectWhere: string;
         data: flexygo.api.BasicPropertyCollection;
+        warningMessage: string;
+        jsCode: string;
         /**
         * Init entity and recive the values.
         * @method read

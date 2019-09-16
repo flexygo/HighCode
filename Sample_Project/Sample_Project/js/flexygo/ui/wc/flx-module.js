@@ -393,7 +393,8 @@ var flexygo;
                             break;
                         case 'process':
                             htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.nav.execProcess', [btn.ProcessName, objectname, objectwhere, objectdefaults, null, btn.TargetId, false], ['$(this)']));
-                            htmlBTN.tooltip({ title: flexygo.localization.translate('flxmodule.settings'), placement: 'bottom' });
+                            if (htmlBTN.attr('title'))
+                                htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
                             break;
                         case 'processmenu':
                             htmlBTN.append('<span class="caret"></span>');
@@ -557,7 +558,7 @@ var flexygo;
                 }
                 bagSelectionAll(objectName, objectWhere, module, button, cllbck) {
                     let currentFilter = module.find('flx-list')[0].processwhere;
-                    flexygo.ajax.post('~/api/List', 'getBagPage', { ObjectName: objectName, ObjectWhere: currentFilter }, (response) => {
+                    flexygo.ajax.post('~/api/List', 'GetBagPage', { ObjectName: objectName, ObjectWhere: currentFilter }, (response) => {
                         if (response.length > 0) {
                             flexygo.selection.appendArray(objectName, response);
                             module[0].refresh();
@@ -567,7 +568,7 @@ var flexygo;
                 bagShowOnlySelected(objectName, objectWhere, module, button, cllbck) {
                     if (flexygo.selection.getArray(objectName).length > 0) {
                         let colWhere = flexygo.selection.getFilterString(objectName);
-                        flexygo.nav.openPage('list', $(module).find('flx-list')[0].objectname, colWhere, null, 'modal', true);
+                        flexygo.nav.openPage('list', $(module).find('flx-list')[0].collectionname, colWhere, null, 'modal', true);
                     }
                     else {
                         flexygo.msg.error('flxmodule.noItemsSelected');
@@ -578,7 +579,15 @@ var flexygo;
                         if (result) {
                             let obj = new flexygo.obj.Entity(objectName, objectWhere);
                             if (obj.delete()) {
-                                flexygo.msg.success(flexygo.localization.translate('flxmodule.deleted'));
+                                if (obj.jsCode) {
+                                    flexygo.utils.execDynamicCode.call(this, obj.jsCode);
+                                }
+                                if (obj.warningMessage) {
+                                    flexygo.msg.warning(obj.warningMessage);
+                                }
+                                else {
+                                    flexygo.msg.success(flexygo.localization.translate('flxmodule.deleted'));
+                                }
                                 if (!module) {
                                     module = $(button).closest('flx-module');
                                 }
@@ -627,7 +636,15 @@ var flexygo;
                                     }
                                     $('.saveButton').prop('disabled', false);
                                     if (ret) {
-                                        flexygo.msg.success(flexygo.localization.translate('flxmodule.saved'));
+                                        if (obj.jsCode) {
+                                            flexygo.utils.execDynamicCode.call(this, obj.jsCode);
+                                        }
+                                        if (obj.warningMessage) {
+                                            flexygo.msg.warning(obj.warningMessage);
+                                        }
+                                        else {
+                                            flexygo.msg.success(flexygo.localization.translate('flxmodule.saved'));
+                                        }
                                         let modBody = module.find('.cntBody');
                                         modBody.css('min-height', modBody.height() + 'px');
                                         let editModule = module.is('flx-edit') ? module : module.find('flx-edit');
@@ -658,7 +675,7 @@ var flexygo;
                                                     ObjectName: obj.objectName,
                                                     ObjectWhere: obj.objectWhere
                                                 };
-                                                flexygo.ajax.post('~/api/Pages', 'getPageObjectDefaults', params, (response) => {
+                                                flexygo.ajax.post('~/api/Page', 'GetPageObjectDefaults', params, (response) => {
                                                     $(module).closest('.pageContainer').find('flx-module[init="false"]').each((i, e) => {
                                                         let mod = $(e);
                                                         mod.removeAttr('init');

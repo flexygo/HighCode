@@ -70,7 +70,7 @@ var flexygo;
                     this.connected = true;
                     let initNode = navBar.attr('initNode');
                     navBar.attr('original-mode', navBar.attr('mode'));
-                    this.method = 'getAreaNode';
+                    this.method = 'GetAreaNode';
                     this.methodParams = { ParentId: initNode };
                     this.initNode = initNode;
                     this.loadNodes();
@@ -317,7 +317,7 @@ var flexygo;
                                         source: node.infoSource,
                                         target: node.infoTarget
                                     };
-                                    flexygo.ajax.post('~/api/Navigation', 'getProcessesNodes', procparams, (response) => {
+                                    flexygo.ajax.post('~/api/Navigation', 'GetProcessesNodes', procparams, (response) => {
                                         //console.log(response);
                                         node.isExpanded = true;
                                         this.nodes.update(node);

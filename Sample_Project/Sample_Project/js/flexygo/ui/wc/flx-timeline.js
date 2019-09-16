@@ -486,8 +486,8 @@ var flexygo;
                         ModuleName: this.moduleName,
                         ObjectName: $(this).attr('ObjectName'),
                         ObjectWhere: $(this).attr('ObjectWhere'),
-                        searchId: this.activeFilter,
-                        filterValues: this.filterValues
+                        SearchId: this.activeFilter,
+                        FilterValues: this.filterValues
                     };
                     flexygo.ajax.post('~/api/Timeline', 'GetTimeline', params, (response) => {
                         if (response) {
@@ -548,9 +548,9 @@ var flexygo;
                         locale: flexygo.context.currentUserLang,
                         /*locales: none*/
                         /*moment: vis.moment,*/
-                        moment: function (date) {
-                            return vis.moment(date).utc();
-                        },
+                        /* moment: function (date) {
+                             return (<any>vis).moment(date).utc();
+                         },*/
                         /*margin: {axis: 20, item: { horizontal: 10, vertical: 10}},*/
                         max: moment().add('years', 25).format(),
                         /*maxHeight: none*/
@@ -673,8 +673,8 @@ var flexygo;
                             id: JSON.stringify(id),
                             group: data[(this.timelineSetting.Advanced) ? this.timelineSetting.ItemGroupField : this.timelineSetting.PropertyGroup],
                             content: (this.timelineSetting.ItemContentTemplate) ? flexygo.utils.parser.recursiveCompile(data, this.timelineSetting.ItemContentTemplate) : (data[(this.timelineSetting.Advanced) ? this.timelineSetting.ItemDescripField : this.timelineSetting.PropertyDescrip]) ? data[(this.timelineSetting.Advanced) ? this.timelineSetting.ItemDescripField : this.timelineSetting.PropertyDescrip] : flexygo.localization.translate('flxtimeline.withoutDescription'),
-                            start: moment(data[(this.timelineSetting.Advanced) ? this.timelineSetting.ItemStartDateField : this.timelineSetting.PropertyStartDate]).toDate(),
-                            end: (data[(this.timelineSetting.Advanced) ? this.timelineSetting.ItemEndDateField : this.timelineSetting.PropertyEndDate]) ? moment(data[(this.timelineSetting.Advanced) ? this.timelineSetting.ItemEndDateField : this.timelineSetting.PropertyEndDate]).toDate() : null,
+                            start: (data[(this.timelineSetting.Advanced) ? this.timelineSetting.ItemStartDateField : this.timelineSetting.PropertyStartDate]) ? moment(data[(this.timelineSetting.Advanced) ? this.timelineSetting.ItemStartDateField : this.timelineSetting.PropertyStartDate]).utc().format("YYYY-MM-DD HH:mm") : null,
+                            end: (data[(this.timelineSetting.Advanced) ? this.timelineSetting.ItemEndDateField : this.timelineSetting.PropertyEndDate]) ? moment(data[(this.timelineSetting.Advanced) ? this.timelineSetting.ItemEndDateField : this.timelineSetting.PropertyEndDate]).utc().format("YYYY-MM-DD HH:mm") : null,
                             title: data[(this.timelineSetting.Advanced) ? this.timelineSetting.ItemDescripField : this.timelineSetting.PropertyDescrip],
                             withOutGroup: (data[(this.timelineSetting.Advanced) ? this.timelineSetting.ItemGroupField : this.timelineSetting.PropertyGroup]) ? false : true,
                             editable: (this.timelineSetting.Advanced && this.timelineSetting.Editable && this.checkEditableProperty(data[this.timelineSetting.ItemEditableField])) ? JSON.parse(data[this.timelineSetting.ItemEditableField]) : undefined,
@@ -722,7 +722,7 @@ var flexygo;
                                     }
                                     else {
                                         if (objectEntity.read()) {
-                                            $.extend(true, objectEntity.data, { [this.timelineSetting.PropertyGroup]: this.timelineSetting.WithGroups && this.timelineSetting.PropertyGroup ? { Value: object.group } : undefined, [this.timelineSetting.PropertyStartDate]: { Value: object.start }, [this.timelineSetting.PropertyEndDate]: this.timelineSetting.PropertyEndDate ? { Value: object.end } : undefined });
+                                            $.extend(true, objectEntity.data, { [this.timelineSetting.PropertyGroup]: this.timelineSetting.WithGroups && this.timelineSetting.PropertyGroup ? { Value: object.group } : undefined, [this.timelineSetting.PropertyStartDate]: { Value: moment(object.start).format("YYYY-MM-DD HH:mm") }, [this.timelineSetting.PropertyEndDate]: this.timelineSetting.PropertyEndDate ? { Value: object.end ? moment(object.end).format("YYYY-MM-DD HH:mm") : object.end } : undefined });
                                             if ((action === 'insert') ? objectEntity.insert() : objectEntity.update()) {
                                                 objectEntity.objectName = this.timelineSetting.EntityConfiguration.CollectionName;
                                                 resolve(this.buildVisItem(objectEntity.getView((this.timelineSetting.Advanced) ? this.timelineSetting.ItemViewName : null, null, null, null, null, null, true)[0]));
@@ -758,7 +758,7 @@ var flexygo;
                 openObjectEdit(object, objectEntity) {
                     return new Promise((resolve, reject) => {
                         try {
-                            flexygo.nav.openPage('edit', objectEntity.objectName, objectEntity.objectWhere, JSON.stringify(Object.assign(this.defaults, { [this.timelineSetting.PropertyStartDate]: object.start, [this.timelineSetting.PropertyEndDate]: this.timelineSetting.PropertyEndDate ? object.end : undefined, [this.timelineSetting.PropertyGroup]: this.timelineSetting.WithGroups && this.timelineSetting.PropertyGroup ? object.group : undefined })), 'modal');
+                            flexygo.nav.openPage('edit', objectEntity.objectName, objectEntity.objectWhere, JSON.stringify(Object.assign(this.defaults, { [this.timelineSetting.PropertyStartDate]: moment(object.start).format("YYYY-MM-DD HH:mm"), [this.timelineSetting.PropertyEndDate]: this.timelineSetting.PropertyEndDate ? object.end ? moment(object.end).format("YYYY-MM-DD HH:mm") : object.end : undefined, [this.timelineSetting.PropertyGroup]: this.timelineSetting.WithGroups && this.timelineSetting.PropertyGroup ? object.group : undefined })), 'modal');
                             flexygo.events.on(this, 'entity', 'all', (e) => {
                                 if (this === e.context && e.sender.objectName === objectEntity.objectName) {
                                     flexygo.events.off(this, 'entity', 'all');
@@ -771,7 +771,7 @@ var flexygo;
                                         e.sender.objectName = this.timelineSetting.EntityConfiguration.CollectionName;
                                         resolve(this.buildVisItem(e.sender.getView((this.timelineSetting.Advanced) ? this.timelineSetting.ItemViewName : null, null, null, null, null, null, true)[0]));
                                     }
-                                    flexygo.nav.closePage($('flx-edit[objectname="' + objectEntity.objectName + '"]'));
+                                    flexygo.nav.closePage($(`flx-edit[objectname="${objectEntity.objectName}"]`));
                                 }
                             });
                             flexygo.events.on(this, 'dialog', 'closed', (e) => {

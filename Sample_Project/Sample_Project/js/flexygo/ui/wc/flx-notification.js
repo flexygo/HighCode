@@ -89,7 +89,7 @@ var flexygo;
                     let params = {
                         NoticeId: noticeId
                     };
-                    flexygo.ajax.post('~/api/Notify', 'getNotice', params, (response) => {
+                    flexygo.ajax.post('~/api/Notify', 'GetNotice', params, (response) => {
                         if (response) {
                             let lfnav = new flexygo.ui.wc.FlxNavElement();
                             var itemClick = new Function(lfnav.getTreeNavigate(flexygo.utils.lowerKeys(response)));
@@ -103,7 +103,7 @@ var flexygo;
                 */
                 refreshBadge() {
                     if ($('#notifyBadge')) {
-                        flexygo.ajax.post('~/api/Notify', 'getBadgeValue', null, (response) => {
+                        flexygo.ajax.post('~/api/Notify', 'GetBadgeValue', null, (response) => {
                             this.updateBadge(response, false);
                         });
                     }
@@ -141,7 +141,7 @@ var flexygo;
                     let params = {
                         NoticeId: noticeId
                     };
-                    flexygo.ajax.post('~/api/Notify', 'setNoticeIsRead', params, (response) => {
+                    flexygo.ajax.post('~/api/Notify', 'SetNoticeIsRead', params, (response) => {
                         if (response) {
                             if (ni) {
                                 $(elm).closest('.active').removeClass('active');

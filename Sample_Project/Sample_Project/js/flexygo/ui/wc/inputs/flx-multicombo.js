@@ -411,9 +411,8 @@ var flexygo;
                             }
                         });
                         input.on('keyup search', (e) => {
-                            this.showOptions();
-                            this.datalist.find('li:not(.search)').remove();
                             this.loadValues(0);
+                            this.showOptions();
                         });
                         inputli.append(input);
                         this.datalist.append(inputli);
@@ -459,6 +458,11 @@ var flexygo;
                                 }
                             });
                         }
+                        this.container.on('itemRemoved', (event) => {
+                            if (event.item) {
+                                this.triggerDependencies();
+                            }
+                        });
                         me.find('.bootstrap-tagsinput').first().on('click', (e) => {
                             this.showOptions();
                             this.input.focus();
@@ -514,7 +518,7 @@ var flexygo;
                             "SQLFilter": this.options.SQLFilter,
                             "CnnString": null
                         };
-                        method = 'getComboDataView';
+                        method = 'GetComboDataView';
                     }
                     else if (this.options.SQLEditSentence || this.options.SQLSentence) {
                         if (fromvalue === true) {
@@ -529,7 +533,7 @@ var flexygo;
                                 //"PageSize": this.options.PageSize,                   
                                 AdditionalWhere: this.additionalWhere
                             };
-                            method = 'getComboText';
+                            method = 'GetComboText';
                         }
                         else {
                             params = {
@@ -543,7 +547,7 @@ var flexygo;
                                 "PageSize": this.options.PageSize,
                                 "AdditionalWhere": this.additionalWhere
                             };
-                            method = 'getComboData';
+                            method = 'GetComboData';
                         }
                     }
                     flexygo.ajax.syncPost('~/api/Edit', method, params, (response) => {
@@ -553,6 +557,7 @@ var flexygo;
                     });
                 }
                 addComboItems(data) {
+                    this.datalist.find('li:not(.search)').remove();
                     if (data) {
                         for (let i = 0; i < data.length; i++) {
                             let elm;
@@ -562,7 +567,7 @@ var flexygo;
                             else {
                                 elm = this.getListItem(data[i][this.options.SQLValueField], data[i][this.options.SQLDisplayField], data[i][this.options.SQLDisplayField]);
                             }
-                            if (this.datalist.find('[data-value="' + elm.attr("data-value") + '"]').length == 0 && this.datalist.find('[data-text="' + elm.attr("data-text") + '"]').length == 0) {
+                            if (this.datalist.find('[data-value="' + elm.attr("data-value") + '"]').length == 0) {
                                 this.datalist.append(elm);
                             }
                         }
@@ -600,6 +605,7 @@ var flexygo;
                     }
                     this.container.tagsinput('add', { "value": value, "text": text });
                     me.find('.bootstrap-tagsinput input').hide();
+                    this.triggerDependencies();
                 }
                 getIconButtons() {
                     let me = $(this);
@@ -703,35 +709,19 @@ var flexygo;
                     if (newSQL && newSQL != '') {
                         this.options.SQLSentence = newSQL;
                     }
-                    this.datalist.find('li:not(.search)').remove();
                     this.loadValues(0);
                 }
                 setValue(value, text) {
-                    if (value == null || value == '') {
-                        this.container.tagsinput('removeAll');
-                        this.input.empty();
-                        this.datalist.find('li:not(.search)').remove();
+                    this.container.tagsinput('removeAll');
+                    if (flexygo.utils.isBlank(value)) {
                         this.loadValues(0);
                     }
                     else {
-                        if (value !== 'null' && value !== null && value !== '') {
-                            if (this.datalist && this.datalist.find('li[data-value="' + value + '"]').length === 0) {
-                                if (!text) {
-                                    text = value;
-                                }
-                            }
-                            else {
-                                if (!text) {
-                                    text = this.datalist.find('li[data-value="' + value + '"]').attr("data-text");
-                                }
-                            }
-                        }
-                        if (typeof text == 'undefined') {
-                            text = value;
-                        }
-                        let txts = text.split("|");
-                        $.each(value.split("|"), (i, e) => {
-                            this.container.tagsinput('add', { "value": e, "text": txts[i] });
+                        let txts = (text) ? text.split('|') : null;
+                        $.each(value.split('|'), (i, e) => {
+                            this.container.tagsinput('add', {
+                                'value': e, 'text': (txts && txts[i]) ? txts[i] : (this.datalist && this.datalist.find(`li[data-value="${e}"]`).attr('data-text')) ? this.datalist.find(`li[data-value="${e}"]`).attr('data-text') : e
+                            });
                         });
                     }
                 }

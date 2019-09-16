@@ -96,7 +96,7 @@ var flexygo;
                         //PageName: flexygo.history.getPageName(me)
                     };
                     this.pageName = flexygo.history.getPageName(me);
-                    flexygo.ajax.post('~/api/Pages', 'GetPageTabModules', params, (response) => {
+                    flexygo.ajax.post('~/api/Page', 'GetPageTabModules', params, (response) => {
                         if (response) {
                             me.empty();
                             this.config = flexygo.utils.sortObject(response, 'TabOrder');

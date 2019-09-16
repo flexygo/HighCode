@@ -53,40 +53,40 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Flexygo">
-      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\Flexygo.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.30.0.7\lib\net46\Flexygo.dll</HintPath>
     </Reference>
     <Reference Include="flxDataManager">
-      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxDataManager.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.30.0.7\lib\net46\flxDataManager.dll</HintPath>
     </Reference>
     <Reference Include="flxEntity">
-      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxEntity.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.30.0.7\lib\net46\flxEntity.dll</HintPath>
     </Reference>
     <Reference Include="flxEnvironment">
-      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxEnvironment.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.30.0.7\lib\net46\flxEnvironment.dll</HintPath>
     </Reference>
     <Reference Include="flxGlobals">
-      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxGlobals.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.30.0.7\lib\net46\flxGlobals.dll</HintPath>
     </Reference>
     <Reference Include="flxLocalization">
-      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxLocalization.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.30.0.7\lib\net46\flxLocalization.dll</HintPath>
     </Reference>
     <Reference Include="flxMock">
-      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxMock.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.30.0.7\lib\net46\flxMock.dll</HintPath>
     </Reference>
     <Reference Include="flxObjectConfig">
-      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxObjectConfig.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.30.0.7\lib\net46\flxObjectConfig.dll</HintPath>
     </Reference>
     <Reference Include="flxSecurity">
-      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxSecurity.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.30.0.7\lib\net46\flxSecurity.dll</HintPath>
     </Reference>
     <Reference Include="flxSession">
-      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxSession.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.30.0.7\lib\net46\flxSession.dll</HintPath>
     </Reference>
     <Reference Include="flxSettings">
-      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxSettings.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.30.0.7\lib\net46\flxSettings.dll</HintPath>
     </Reference>
     <Reference Include="flxUtilities">
-      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\flxUtilities.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.30.0.7\lib\net46\flxUtilities.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\MSTest.TestFramework.1.3.2\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
@@ -99,7 +99,7 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Flexygo.1.26.0.5\lib\net46\System.Web.Mvc.dll</HintPath>
+      <HintPath>..\packages\Flexygo.1.30.0.7\lib\net46\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />

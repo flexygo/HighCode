@@ -89,7 +89,7 @@ var flexygo;
                         PageName: flexygo.history.getPageName(me),
                         TemplateId: this.templateId
                     };
-                    flexygo.ajax.post('~/api/View', 'getViewTemplate', params, (response) => {
+                    flexygo.ajax.post('~/api/View', 'GetViewTemplate', params, (response) => {
                         if (response) {
                             this.data = response.Template.Data;
                             this.objectname = response.Template.ObjectName;

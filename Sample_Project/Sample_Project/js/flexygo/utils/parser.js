@@ -98,9 +98,12 @@ var flexygo;
                                 propFormat = auxMarker.split('|')[1];
                             }
                             jKey = jKeyUp.toLowerCase();
-                            if ((json && typeof json[jKey] != 'undefined') || (contextVars && typeof contextVars[jKey] != 'undefined') || (contextFunctions && typeof contextFunctions[jKeyUp] != 'undefined') || (jKey == 'currentdatetime')) {
+                            if ((json && typeof json[jKey] != 'undefined') || (contextVars && typeof contextVars[jKey] != 'undefined') || (contextFunctions && typeof contextFunctions[jKeyUp] != 'undefined') || (jKey == 'currentdatetime') || (jKey == 'currentdate')) {
                                 if (jKey == 'currentdatetime') {
                                     rValue = moment().format('YYYYMMDD HHmmss');
+                                }
+                                else if (jKey == 'currentdate') {
+                                    rValue = moment().format('YYYYMMDD');
                                 }
                                 else if (json && typeof json[jKey] != 'undefined') {
                                     rValue = flexygo.utils.parser.getValue(json[jKey], 'Value');
@@ -250,9 +253,12 @@ var flexygo;
                             //Es un marcador simple.
                             let jKeyUp = marker.substring(2, marker.length - 2).trim();
                             let jKey = jKeyUp.toLowerCase();
-                            if ((json && typeof json[jKey.toLowerCase()] != 'undefined') || (contextVars && typeof contextVars[jKey.toLowerCase()] != 'undefined') || (contextFunctions && typeof contextFunctions[jKeyUp] != 'undefined') || (jKey == 'currentdatetime')) {
+                            if ((json && typeof json[jKey.toLowerCase()] != 'undefined') || (contextVars && typeof contextVars[jKey.toLowerCase()] != 'undefined') || (contextFunctions && typeof contextFunctions[jKeyUp] != 'undefined') || (jKey == 'currentdatetime') || (jKey == 'currentdate')) {
                                 if (jKey == 'currentdatetime') {
                                     rValue = moment().format('YYYYMMDD HHmmss');
+                                }
+                                else if (jKey == 'currentdate') {
+                                    rValue = moment().format('YYYYMMDD');
                                 }
                                 else if (json && typeof json[jKey] != 'undefined' && json[jKey] != null) {
                                     rValue = flexygo.utils.parser.getValue(json[jKey]);
@@ -269,6 +275,9 @@ var flexygo;
                             }
                             if (typeof rValue == 'string' && rValue.indexOf('/Date') != -1) {
                                 rValue = moment(rValue).locale(flexygo.profiles.culture).format(defDateFormat);
+                            }
+                            else if (typeof rValue == 'object' && rValue != null && rValue.Hours) {
+                                rValue = moment(rValue).utc().format('LTS');
                             }
                             if (rValue == null) {
                                 rValue = '';
@@ -356,7 +365,7 @@ var flexygo;
                 if (lvl > -1) {
                     //Append footer templates from inside to found deep level.
                     for (let i = arrGroups.length - 1; i >= lvl; i--) {
-                        str += flexygo.utils.parser.recursiveCompile(item, arrGroups[i]['Footer'], ctx);
+                        str += flexygo.utils.parser.recursiveCompile(prev, arrGroups[i]['Footer'], ctx);
                     }
                     //Append header templates from deep level to last header.
                     for (let i = lvl; i < arrGroups.length; i++) {

@@ -224,7 +224,7 @@ var flexygo;
                     params.ObjectName = this.objectname || null;
                     params.LayoutName = this.layoutname;
                     params.Modules = pageModules;
-                    flexygo.ajax.post('~/api/Pages', 'savePageConfig', params, (ret) => {
+                    flexygo.ajax.post('~/api/Page', 'SavePageConfig', params, (ret) => {
                         me.closest('.ui-dialog').remove();
                         let wc = $('#mainSidePanel')[0];
                         wc.hidePanels();
@@ -236,7 +236,7 @@ var flexygo;
                     let params = {
                         pageName: this.pagename
                     };
-                    flexygo.ajax.post('~/api/Pages', 'getModuleManagerModules', params, (ret) => {
+                    flexygo.ajax.post('~/api/Page', 'GetModuleManagerModules', params, (ret) => {
                         me.find('#layoutList img[data-id="' + ret.LayoutName + '"]').click();
                         let arrOrdered = flexygo.utils.sortObject(ret.Modules, 'Order');
                         for (let key in arrOrdered) {

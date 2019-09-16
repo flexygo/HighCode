@@ -3,6 +3,12 @@
  */
 declare namespace flexygo.utils {
     /**
+     * Shows a QR with the specified text,
+     * @method showQR
+     * @param {string} text - The text to include in QR, by default current location page.
+     */
+    function showQR(text: string): void;
+    /**
     * Creates a string function from a param array.
     * @method functionToString
     * @param {string} functionName - The function name.
@@ -149,6 +155,12 @@ declare namespace flexygo.utils {
     * @return {boolean}
     */
     function isBlank(value: any): boolean;
+    /**
+      * Document viewer Events
+      * @method documentViewerEvents
+      * @param {flexygo.ui.wc.FlxModuleElement} documentModuleElement - Document Module Element.
+      */
+    function documentViewerEvents(documentModuleElement: flexygo.ui.wc.FlxModuleElement): void;
 }
 declare namespace flexygo.utils.querystring {
     function getParamValue(url: string, paramName: string): string;

@@ -1,16 +1,6 @@
 /**
  * @namespace ahoraflexy.ui.wc
  */
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var ahoraflexy;
 (function (ahoraflexy) {
     var ui;
@@ -24,86 +14,79 @@ var ahoraflexy;
             * @constructor
             * @return {aflCarousel} .
             */
-            var AflCarousel = (function (_super) {
-                __extends(AflCarousel, _super);
-                function AflCarousel() {
-                    var _this = 
+            class AflCarousel extends HTMLElement {
+                constructor() {
                     //If a constructor is defined, is REQUIRED call the super constructor
-                    _super.call(this) || this;
+                    super();
                     /**
                     * Set if element has been connected to DOM
                     * @property connected {boolean}
                     */
-                    _this.connected = false;
-                    return _this;
+                    this.connected = false;
                 }
-                Object.defineProperty(AflCarousel, "observedAttributes", {
-                    /**
-                    * Array of observed attributes. REQUIRED
-                    * @property observedAttributes {Array}
-                    */
-                    get: function () {
-                        return ['ObjectName', 'ObjectWhere', 'ModuleName', 'asd'];
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
+                /**
+                * Array of observed attributes. REQUIRED
+                * @property observedAttributes {Array}
+                */
+                static get observedAttributes() {
+                    return ['ObjectName', 'ObjectWhere', 'ModuleName', 'asd'];
+                }
                 /**
                 * Init the webcomponent. REQUIRED.
                 * @method init
                 */
-                AflCarousel.prototype.init = function () {
+                init() {
                     this.render();
-                };
+                }
                 /**
                 * Render HTML data.
                 * @method render
                 */
-                AflCarousel.prototype.render = function () {
+                render() {
                     this.loadData();
-                };
+                }
                 /**
                * Calls controller and load carousel
                * @method render
                */
-                AflCarousel.prototype.loadData = function () {
-                    var me = $(this);
-                    var params = {
+                loadData() {
+                    let me = $(this);
+                    let params = {
                         ObjectName: me.attr('ObjectName'),
                         ObjectWhere: me.attr('ObjectWhere'),
                         ModuleName: this.moduleName
                     };
-                    flexygo.ajax.post('~/api/Carousel', 'getData', params, function (response) {
+                    flexygo.ajax.post('~/api/Carousel', 'getData', params, (response) => {
                         if (response) {
                             debugger;
-                            var imgs = new Array();
-                            for (var i = 0; i < response.length; i++) {
+                            let imgs = new Array();
+                            for (let i = 0; i < response.length; i++) {
                                 imgs.push({ src: flexygo.utils.resolveUrl(response[i].File) });
                             }
-                            var carr = $('<div class="carrousel"><div>');
+                            let carr = $('<div class="carrousel"><div>');
                             me.html(carr);
                             carr.jR3DCarousel({ slides: imgs });
                         }
                     });
-                };
+                }
                 /**
                 * Fires when element is attached to DOM
                 * @method connectedCallback
                 */
-                AflCarousel.prototype.connectedCallback = function () {
-                    var element = $(this);
+                connectedCallback() {
+                    let element = $(this);
                     this.connected = true;
                     this.objectName = element.attr("ObjectName");
                     this.objectWhere = element.attr("ObjectWhere");
                     this.moduleName = element.attr("ModuleName");
                     this.init();
-                };
+                }
                 /**
                 * Fires when the attribute value of the element is changed.
                 * @method attributeChangedCallback
                 */
-                AflCarousel.prototype.attributeChangedCallback = function (attrName, oldVal, newVal) {
-                    var needInit = false;
+                attributeChangedCallback(attrName, oldVal, newVal) {
+                    let needInit = false;
                     if (attrName.toLowerCase() == 'modulename' && newVal && newVal != '') {
                         this.moduleName = newVal;
                         needInit = true;
@@ -119,9 +102,8 @@ var ahoraflexy;
                     if (this.connected && needInit) {
                         this.init();
                     }
-                };
-                return AflCarousel;
-            }(HTMLElement));
+                }
+            }
             wc.AflCarousel = AflCarousel;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = ahoraflexy.ui || (ahoraflexy.ui = {}));

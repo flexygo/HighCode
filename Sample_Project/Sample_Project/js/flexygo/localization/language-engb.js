@@ -61,6 +61,7 @@ var flexygo;
                 selectobject: 'Please select a page containing an object',
                 objectpropertysecurity: 'Property security',
                 pageSettings: 'Page Settings',
+                chatter: 'Chatter',
             };
             engb.history = {
                 historyempty: 'Navigation history empty',
@@ -590,6 +591,32 @@ var flexygo;
                 to: 'to',
                 withoutpercentage: 'Without Percentage',
                 notsupported: 'Screen size not supported',
+            };
+            engb.flxfilebrowser = {
+                saved: 'Saved',
+                errorsaving: 'Error saving',
+                errorremoving: 'Error removing',
+                permissionerror: 'Sorry, you do not have permissions',
+                documentempty: 'Document empty',
+                itemsselected: 'items selected',
+                emptyfolder: 'The folder is empty',
+                existingfiles: 'Some files exist on server',
+                overwritefiles: 'Are you sure you want to overwrite them?',
+                deleting: 'Deleting',
+                items: 'items',
+                sure: 'Are you sure?',
+                currentfolder: 'Current folder',
+                uploadfiles: 'Upload Files',
+                addfolder: 'Add Folder',
+                download: 'Download',
+                delete: 'Delete',
+                goback: 'Go Back',
+                processingdownload: 'Processing Download',
+            };
+            engb.chatter = {
+                composerplaceholder: 'Type something',
+                sendbutton: 'Register',
+                startinfo: 'You must first configure the chatter',
             };
         })(engb = culture.engb || (culture.engb = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

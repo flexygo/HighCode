@@ -6,6 +6,21 @@ var flexygo;
     var utils;
     (function (utils) {
         /**
+         * Shows a QR with the specified text,
+         * @method showQR
+         * @param {string} text - The text to include in QR, by default current location page.
+         */
+        function showQR(text) {
+            if (typeof text == 'undefined' || text == '') {
+                text = document.location.href;
+            }
+            let elm = $('<div id="lastQR" style="width:400px;height:400px;margin: 0 auto;" />');
+            Lobibox.window({ title: 'QR Code', content: elm });
+            let qrcode = new QRCode($('#lastQR')[0], { width: 400, height: 400 });
+            qrcode.makeCode(text);
+        }
+        utils.showQR = showQR;
+        /**
         * Creates a string function from a param array.
         * @method functionToString
         * @param {string} functionName - The function name.
@@ -86,7 +101,7 @@ var flexygo;
                 var newobj = {};
                 for (var i = 0; i < n; i++) {
                     key = keys[i];
-                    if (recursive && (typeof obj[key] === "object") && (obj[key] !== null)) {
+                    if (recursive && (typeof obj[key] === "object") && (obj[key] !== null) && (key.toLowerCase() !== 'objectdefaults')) {
                         newobj[key.toLowerCase()] = lowerKeys(obj[key], recursive);
                     }
                     else {
@@ -438,6 +453,21 @@ var flexygo;
             }
         }
         utils.isBlank = isBlank;
+        /**
+          * Document viewer Events
+          * @method documentViewerEvents
+          * @param {flexygo.ui.wc.FlxModuleElement} documentModuleElement - Document Module Element.
+          */
+        function documentViewerEvents(documentModuleElement) {
+            $(documentModuleElement).find('div.flx-documentmanager > div').off('click.documentdata').on('click.documentdata', function () {
+                let documentDataModule = $(documentModuleElement).closest('main.pageContainer').find('#mod-sysmod-view-document');
+                documentDataModule.attr('objectwhere', "Documents.DocGuid = '" + $(this).attr('id') + "'");
+                $(documentModuleElement).find('div.flx-documentmanager > div.active').removeClass('active');
+                $(this).addClass('active');
+                documentDataModule[0].refresh();
+            });
+        }
+        utils.documentViewerEvents = documentViewerEvents;
     })(utils = flexygo.utils || (flexygo.utils = {}));
 })(flexygo || (flexygo = {}));
 (function (flexygo) {
@@ -522,6 +552,33 @@ var flexygo;
         })(querystring = utils.querystring || (utils.querystring = {}));
     })(utils = flexygo.utils || (flexygo.utils = {}));
 })(flexygo || (flexygo = {}));
+//Temporal hook to jQuery.data function while old web component syntax (.data('controller')) is rewrited to new web component syntax (HTMLElment descendant)
+(function ($) {
+    var olddata = $.fn.data;
+    $.fn.data = function (key, value) {
+        var getController = false;
+        if (key && key === "controller") {
+            if (arguments && arguments.length && arguments.length === 1) {
+                getController = true;
+            }
+        }
+        var res = olddata.apply(this, arguments);
+        if (!res) {
+            if (getController === true) {
+                //By convention, old elements has class name flxXXXXPrototype, and new elements flxXXXXXElement
+                //In the latter case, return the element itself
+                if (this.length > 0) {
+                    let className = this[0].constructor.name.toLowerCase();
+                    if (className.startsWith("flx") && className.endsWith("element")) {
+                        console.warn('Warning: data("controller") is deprecated for ' + this.prop("tagName"));
+                        res = this[0];
+                    }
+                }
+            }
+        }
+        return res;
+    };
+})(jQuery);
 // Create a jquery plugin that prints the given element.
 jQuery.fn.print = function () {
     // NOTE: We are trimming the jQuery collection down to the

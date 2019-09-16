@@ -109,14 +109,14 @@ var flexygo;
                         ObjectWhere: me.attr('ObjectWhere'),
                         ModuleName: this.moduleName,
                         PageName: flexygo.history.getPageName(me),
-                        page: this.page,
-                        additionalWhere: '',
-                        orderInfo: this.orderObj,
-                        mode: mode,
-                        searchId: this.activeFilter,
-                        filterValues: this.filterValues
+                        Page: this.page,
+                        AdditionalWhere: '',
+                        OrderInfo: this.orderObj,
+                        Mode: mode,
+                        SearchId: this.activeFilter,
+                        FilterValues: this.filterValues
                     };
-                    flexygo.ajax.post('~/api/List', 'getSearch', params, (response) => {
+                    flexygo.ajax.post('~/api/List', 'GetSearch', params, (response) => {
                         if (response) {
                             if (response.Template) {
                                 let template = response.Template;
@@ -328,10 +328,10 @@ var flexygo;
                 loadCount() {
                     let params = {
                         ObjectName: this.objectname,
-                        cryptedSql: this.cryptedSql,
-                        filter: this.filters
+                        CryptedSql: this.cryptedSql,
+                        Filter: this.filters
                     };
-                    flexygo.ajax.post('~/api/List', 'getCount', params, (response) => {
+                    flexygo.ajax.post('~/api/List', 'GetCount', params, (response) => {
                         if (response) {
                             this.maxRows = response;
                             let numPages = 0;
@@ -365,13 +365,13 @@ var flexygo;
                     this.page = newPage;
                     let params = {
                         "ObjectName": this.objectname,
-                        "cryptedSql": this.cryptedSql,
-                        "page": this.page,
-                        "pagesize": this.pageSize,
-                        "removeKeys": this.removeKeys,
-                        "filter": this.filters
+                        "CryptedSql": this.cryptedSql,
+                        "Page": this.page,
+                        "PageSize": this.pageSize,
+                        "RemoveKeys": this.removeKeys,
+                        "Filter": this.filters
                     };
-                    flexygo.ajax.post('~/api/List', 'getPageList', params, (response) => {
+                    flexygo.ajax.post('~/api/List', 'GetPageList', params, (response) => {
                         if (response) {
                             this.data = response;
                             this.render();

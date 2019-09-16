@@ -82,7 +82,7 @@ var flexygo;
                     let params = {
                         tablename: this.tbName
                     };
-                    flexygo.ajax.post('~/api/MasterTables', 'getSettings', params, (response) => {
+                    flexygo.ajax.post('~/api/MasterTable', 'GetSettings', params, (response) => {
                         this.schema = response.TableFields;
                         this.canDelete = response.canDelete;
                         this.canInsert = response.canInsert;
@@ -97,7 +97,7 @@ var flexygo;
                 */
                 loadData() {
                     //let loadRet = this.loadRet;
-                    flexygo.ajax.post('~/api/MasterTables', 'getTableData', { "tablename": this.tbName }, (response) => {
+                    flexygo.ajax.post('~/api/MasterTable', 'GetTableData', { "tablename": this.tbName }, (response) => {
                         this.loadRet(response);
                     });
                 }
@@ -221,7 +221,7 @@ var flexygo;
                         tablename: this.tbName,
                         values: props
                     };
-                    flexygo.ajax.post('~/api/MasterTables', 'insert', params, (response) => {
+                    flexygo.ajax.post('~/api/MasterTable', 'Insert', params, (response) => {
                         let index = this.data.length;
                         this.data[index] = response;
                         let row = this.getRow(response, index);
@@ -272,7 +272,7 @@ var flexygo;
                             keys: keys,
                             values: props
                         };
-                        flexygo.ajax.post('~/api/MasterTables', 'update', params, (response) => {
+                        flexygo.ajax.post('~/api/MasterTable', 'Update', params, (response) => {
                             let oldRow = $(elm).closest('tr');
                             let index = oldRow.data('index');
                             let row = this.getRow(response, index);
@@ -303,7 +303,7 @@ var flexygo;
                             tablename: this.tbName,
                             keys: keys
                         };
-                        flexygo.ajax.post('~/api/MasterTables', 'delete', params, (response) => {
+                        flexygo.ajax.post('~/api/MasterTable', 'Delete', params, (response) => {
                             let tr = $(elm).closest('tr');
                             tr.hide(1000, () => {
                                 let index = tr.data('index');
@@ -322,7 +322,7 @@ var flexygo;
                     //if (confirmed || flexygo.msg.confirm(flexygo.localization.translate('editgrid.deleteconfirm'))) {
                     //    let ctx = this;
                     //    let keys = $(elm).closest('tr').data('keys');
-                    //    flexygo.ajax.post('~/api/MasterTables', 'delete', { "tablename": this.tbName, "keys": keys },
+                    //    flexygo.ajax.post('~/api/MasterTable', 'Delete', { "tablename": this.tbName, "keys": keys },
                     //    function (response) {
                     //        $(elm).closest('tr').hide(1000, function () {
                     //            let index = $(this).data('index');

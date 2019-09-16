@@ -120,14 +120,14 @@ var flexygo;
                         if (!this.options) {
                             this.options = new flexygo.api.ObjectProperty();
                         }
-                        this.options.MinValue = parseInt(MinValue);
+                        this.options.MinValue = MinValue;
                     }
                     let MaxValue = element.attr('MaxValue');
                     if (MaxValue && MaxValue !== '') {
                         if (!this.options) {
                             this.options = new flexygo.api.ObjectProperty();
                         }
-                        this.options.MaxValue = parseInt(MaxValue);
+                        this.options.MaxValue = MaxValue;
                     }
                     let MaxValueMessage = element.attr('MaxValueMessage');
                     if (MaxValueMessage && MaxValueMessage !== '') {
@@ -578,7 +578,7 @@ var flexygo;
                                     this.triggerDependencies();
                                     $(document).find('flx-search[objectname="' + this.options.SearchCollection + '"]').closest(".ui-dialog").remove();
                                 });
-                                flexygo.nav.openPage('search', parseEdit(this.options.SearchCollection, editCtl), parseEdit(this.options.SearchWhere, editCtl), null, 'popup');
+                                flexygo.nav.openPage('search', parseEdit(this.options.SearchCollection, editCtl), parseEdit(this.options.SearchWhere, editCtl), null, 'modal');
                             }
                         });
                         ret.append(icon1);
@@ -783,23 +783,35 @@ var flexygo;
                         });
                     }
                     if (this.options && this.options.CauseRefresh) {
-                        input.on('change', (e) => {
-                            //$(document).trigger('refreshProperty', [input.closest('flx-edit'), this.options.Name]);
-                            let ev = {
-                                class: "property",
-                                type: "changed",
-                                sender: this,
-                                masterIdentity: this.property
-                            };
-                            if (this.type === 'date') {
-                                if (this.getValue() == null || (this.getValue().getFullYear() >= 1900 && this.getValue().getFullYear() <= 2079)) {
+                        if (this.type === 'time' || this.type === 'date' || this.type === 'datetime-local') {
+                            input.on('blur', (e) => {
+                                let ev = {
+                                    class: "property",
+                                    type: "changed",
+                                    sender: this,
+                                    masterIdentity: this.property
+                                };
+                                if (this.type === 'date') {
+                                    if (this.getValue() == null || (this.getValue().getFullYear() >= 1900 && this.getValue().getFullYear() <= 2079)) {
+                                        flexygo.events.trigger(ev);
+                                    }
+                                }
+                                else {
                                     flexygo.events.trigger(ev);
                                 }
-                            }
-                            else {
+                            });
+                        }
+                        else {
+                            input.on('change', (e) => {
+                                let ev = {
+                                    class: "property",
+                                    type: "changed",
+                                    sender: this,
+                                    masterIdentity: this.property
+                                };
                                 flexygo.events.trigger(ev);
-                            }
-                        });
+                            });
+                        }
                     }
                     if (this.options && this.options.DecimalPlaces && this.options.DecimalPlaces.toString() !== '' && (this.options.DecimalPlaces > 0)) {
                         let step = '0.';

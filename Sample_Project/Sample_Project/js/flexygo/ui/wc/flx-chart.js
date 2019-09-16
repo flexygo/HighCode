@@ -105,6 +105,10 @@ var flexygo;
                     flexygo.ajax.post('~/api/Chart', 'GetHTML', params, (response) => {
                         if (response) {
                             this.data = response.Values[0];
+                            if (!this.data || this.data.length == 0) {
+                                me.html('<div class="box-info"><i class="flx-icon icon-information-2 icon-lg icon-margin-right"></i><span><strong>Info!</strong> ' + flexygo.localization.translate('flxlist.noentriesfound') + '</span></div>');
+                                return;
+                            }
                             this.dataColum = response.Values[1];
                             this.settings = response.Settings;
                             if (response.Options) {
@@ -156,6 +160,8 @@ var flexygo;
                         AnimationDuration: 100,
                         Colors: this.settings.Colors.split("|"),
                         ColorsBackground: this.settings.BorderColors.split("|"),
+                        MinXAxes: this.settings.MinXAxes,
+                        MinYAxes: this.settings.MinYAxes,
                     };
                     //var JSONoptions = JSON.stringify(options);
                     //if (ctx.params) {
@@ -530,30 +536,17 @@ var flexygo;
                         },
                         scales: {
                             xAxes: [{
-                                    display: true,
                                     ticks: {
+                                        min: options.MinXAxes,
                                         display: options.Showlabels
                                     }
                                 }],
                             yAxes: [{
-                                    type: "linear",
-                                    display: true,
-                                    position: "left",
-                                    id: "y-axis-1",
                                     ticks: {
-                                        display: options.Showlabels,
-                                        beginAtZero: true,
-                                        min: 0
+                                        min: options.MinYAxes,
+                                        display: options.Showlabels
                                     }
-                                }, {
-                                    type: "linear",
-                                    display: false,
-                                    position: "right",
-                                    id: "y-axis-2",
-                                    gridLines: {
-                                        drawOnChartArea: false
-                                    }
-                                }],
+                                }]
                         },
                         tooltips: {
                             backgroundColor: options.ToolTipBackgroundColor
@@ -880,6 +873,7 @@ var flexygo;
                             });
                             break;
                         case 'bar':
+                        case 'horizontalBar':
                             for (let o in series) {
                                 let res = [Label.length];
                                 for (let l in Label) {

@@ -700,7 +700,7 @@ var flexygo;
                             SQLFilter: this.options.SQLFilter,
                             CnnString: this.cnnString
                         };
-                        method = 'getComboDataView';
+                        method = 'GetComboDataView';
                     }
                     else if (this.options.SQLEditSentence || this.options.SQLSentence) {
                         if (fromvalue === true) {
@@ -715,7 +715,7 @@ var flexygo;
                                 //"PageSize": this.options.PageSize,                   
                                 AdditionalWhere: this.additionalWhere
                             };
-                            method = 'getComboText';
+                            method = 'GetComboText';
                         }
                         else {
                             params = {
@@ -729,7 +729,7 @@ var flexygo;
                                 //PageSize: this.options.PageSize,                 
                                 AdditionalWhere: this.additionalWhere
                             };
-                            method = 'getComboData';
+                            method = 'GetComboData';
                         }
                     }
                     else {
@@ -760,7 +760,7 @@ var flexygo;
                             this.datalist.append(elm);
                         }
                     }
-                    if (this.datalist.children('li').length == 1 && this.input.val().toString().toLowerCase() == this.datalist.children('li').text().toString().toLowerCase() && autoselect) {
+                    if (this.datalist.children('li').length == 1 && this.input.val().toString().toLowerCase() == this.datalist.children('li').text().toString().toLowerCase().trim() && autoselect) {
                         let itm = $(this.datalist.children('li')[0]);
                         this.input.val(itm.attr('data-text'));
                         this.inputval.val(itm.attr('data-value'));
@@ -783,7 +783,7 @@ var flexygo;
                                 //PageSize: 1,                       
                                 AdditionalWhere: this.additionalWhere
                             };
-                            flexygo.ajax.syncPost('~/api/Edit', 'getComboText', params, (response) => {
+                            flexygo.ajax.syncPost('~/api/Edit', 'GetComboText', params, (response) => {
                                 if (response) {
                                     value = response[0][this.options.SQLDisplayField];
                                 }
@@ -845,7 +845,7 @@ var flexygo;
                                     this.triggerDependencies();
                                     $(document).find('flx-search[objectname="' + this.options.SearchCollection + '"]').closest(".ui-dialog").remove();
                                 });
-                                flexygo.nav.openPage('search', editCtl.parseEditString(this.options.SearchCollection), editCtl.parseEditString(this.options.SearchWhere), null, 'popup');
+                                flexygo.nav.openPage('search', editCtl.parseEditString(this.options.SearchCollection), editCtl.parseEditString(this.options.SearchWhere), null, 'modal');
                             }
                         });
                         ret.append(icon1);

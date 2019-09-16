@@ -61,6 +61,7 @@ var flexygo;
                 selectobject: 'Selecciona una pàgina que contingui un objecte',
                 objectpropertysecurity: 'Seguretat de la propietat',
                 pageSettings: 'Configuració de pàgina',
+                chatter: 'Chatter',
             };
             caes.history = {
                 historyempty: 'Historial de la navegació buit',
@@ -588,6 +589,32 @@ var flexygo;
                 to: 'a',
                 withoutpercentage: 'Sense percentatge',
                 notsupported: 'La mida de la pantalla no és compatible',
+            };
+            caes.flxfilebrowser = {
+                saved: 'Desada',
+                errorsaving: "Error en desar",
+                errorremoving: "Error al esborar",
+                permissionerror: "Ho sentim, no té permisos",
+                documentempty: "Document buit",
+                itemsselected: "Articles seleccionats",
+                emptyfolder: "La carpeta està buida",
+                existingfiles: "Hi ha alguns arxius al servidor",
+                overwritefiles: "Esteu segur que voleu sobreescriure?",
+                deleting: "Esborrant",
+                items: "Articles",
+                sure: "Estàs segur?",
+                currentfolder: "Carpeta actual",
+                uploadfiles: 'Pujar fitxers',
+                addfolder: 'Afegir carpeta',
+                download: 'Descarregar',
+                delete: 'Esborrar',
+                goback: 'Tornar',
+                processingdownload: 'Processament descarrega',
+            };
+            caes.chatter = {
+                composerplaceholder: 'Escriu alguna cosa',
+                sendbutton: 'Registrar',
+                startinfo: 'Primer ha de configurar el chatter',
             };
         })(caes = culture.caes || (culture.caes = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

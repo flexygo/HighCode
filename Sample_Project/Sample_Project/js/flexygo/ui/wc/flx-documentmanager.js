@@ -225,10 +225,9 @@ var flexygo;
                     try {
                         let me = $(this);
                         var date;
-                        var typeClass;
+                        //var typeClass: string;
                         var rendered;
                         var permissionLink;
-                        var iconType;
                         if (!description) {
                             description = '';
                         }
@@ -282,44 +281,28 @@ var flexygo;
                         switch (documentType) {
                             case 'diskfile':
                                 permissionLink = this.diskFileLink;
-                                typeClass = 'dtc-disk';
-                                iconType = 'fa-hdd-o txt-outstanding';
                                 break;
                             case 'diskfolder':
                                 permissionLink = this.diskFolderLink;
-                                typeClass = 'dtc-disk';
-                                iconType = 'fa-hdd-o txt-outstanding';
                                 break;
                             case 'drivefile':
                                 permissionLink = this.driveFileLink;
-                                typeClass = 'dtc-drive';
-                                iconType = 'fa-google txt-primary';
                                 break;
                             case 'drivefolder':
                                 permissionLink = this.driveFolderLink;
-                                typeClass = 'dtc-drive';
-                                iconType = 'fa-google txt-primary';
                                 break;
                             case 'dropboxfile':
                                 permissionLink = this.dropboxFileLink;
-                                typeClass = 'dtc-dropbox';
-                                iconType = 'fa-dropbox txt-info';
                                 break;
                             case 'dropboxfolder':
                                 permissionLink = this.dropboxFolderLink;
-                                typeClass = 'dtc-dropbox';
-                                iconType = 'fa-dropbox txt-info';
                                 break;
                             default:
                                 permissionLink = false;
-                                typeClass = 'dtc-disk';
-                                iconType = 'fa-hdd-o txt-outstanding';
                         }
                         if (!permissionLink) {
                             me.find('div#' + docGuid).find('i[method="link"]').removeClass('dtc-hover').addClass('dtc-disabled');
                         }
-                        me.find('div#' + docGuid).addClass(typeClass);
-                        me.find('div#' + docGuid + ' i.dtc-icontype').addClass(iconType);
                         me.find('i[method="copy"]').tooltip({ title: flexygo.localization.translate('documentmanager.copy'), placement: 'bottom', trigger: 'hover' });
                         /* me.find('i[method="preview"]').tooltip({ title: flexygo.localization.translate('documentmanager.preview'), placement: 'bottom', trigger: 'hover' });*/
                         me.find('i[method="edit"]').tooltip({ title: flexygo.localization.translate('documentmanager.edit'), placement: 'bottom', trigger: 'hover' });
@@ -1420,7 +1403,7 @@ var flexygo;
                         'Base64': base64,
                         'LastAppend': lastAppend
                     };
-                    flexygo.ajax.post('~/api/DocumentManager', 'appendToDocument', params, (response) => {
+                    flexygo.ajax.post('~/api/DocumentManager', 'AppendToDocument', params, (response) => {
                         if ($('body').find(this.documentContainer)) {
                             this.documentContainer.find('.dtc-progressbar').animate({ width: this.percentDone() + '%' }, 200);
                             this.documentContainer.find('.dtc-progresstext').html(this.percentDone() + '%');

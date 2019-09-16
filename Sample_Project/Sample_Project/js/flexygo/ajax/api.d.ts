@@ -147,9 +147,9 @@ declare namespace flexygo.api {
         IsRequired: boolean;
         IsRequiredMessage: string;
         MaxNumOfChars: number;
-        MinValue: number;
+        MinValue: string;
         MinValueMessage: string;
-        MaxValue: number;
+        MaxValue: string;
         MaxValueMessage: string;
         RegExp: string;
         RegExpText: string;
@@ -235,9 +235,9 @@ declare namespace flexygo.api {
         connstringid: string;
         isrequired: boolean;
         isrequiredmessage: string;
-        minvalue: number;
+        minvalue: string;
         minvaluemessage: string;
-        maxvalue: number;
+        maxvalue: string;
         maxvaluemessage: string;
         regexp: string;
         regexptext: string;
@@ -705,8 +705,8 @@ declare namespace flexygo.api.timeline {
         ModuleName: string;
         ObjectName: string;
         ObjectWhere: string;
-        searchId: string;
-        filterValues: flexygo.ui.wc.FlxFilterInfo[];
+        SearchId: string;
+        FilterValues: flexygo.ui.wc.FlxFilterInfo[];
     }
     /**
     * api for getTimelineResponse
@@ -1429,12 +1429,12 @@ declare namespace flexygo.api.list {
         ObjectWhere: string;
         ModuleName: string;
         PageName: string;
-        page: number;
-        additionalWhere: string;
-        orderInfo: PropertyOrder[];
-        mode: string;
-        searchId: string;
-        filterValues: flexygo.ui.wc.FlxFilterInfo[];
+        Page: number;
+        AdditionalWhere: string;
+        OrderInfo: PropertyOrder[];
+        Mode: string;
+        SearchId: string;
+        FilterValues: flexygo.ui.wc.FlxFilterInfo[];
         TemplateId: string;
         ViewId: string;
         PageSize?: number;
@@ -1481,12 +1481,12 @@ declare namespace flexygo.api.list {
         ObjectWhere: string;
         ModuleName: string;
         PageName: string;
-        page: number;
-        orderInfo: flexygo.api.list.PropertyOrder[];
-        additionalWhere: string;
-        mode: string;
-        searchId: string;
-        filterValues: flexygo.ui.wc.FlxFilterInfo[];
+        Page: number;
+        OrderInfo: flexygo.api.list.PropertyOrder[];
+        AdditionalWhere: string;
+        Mode: string;
+        SearchId: string;
+        FilterValues: flexygo.ui.wc.FlxFilterInfo[];
     }
     /**
     * api for getSearchResponse
@@ -1522,8 +1522,8 @@ declare namespace flexygo.api.list {
     */
     class getCountParams {
         ObjectName: string;
-        cryptedSql: string;
-        filter: string;
+        CryptedSql: string;
+        Filter: string;
     }
 }
 /**
@@ -1767,6 +1767,7 @@ declare namespace flexygo.api.navigation {
         actiontype: string;
         strtype: string;
         defaults: string;
+        enabled: boolean;
     }
 }
 /**
@@ -2528,4 +2529,26 @@ declare namespace flexygo.api.Notify {
     class NotifyParams {
         NoticeId: string;
     }
+}
+/**
+ * @namespace flexygo.api.Chatter
+ */
+declare namespace flexygo.api.Chatter {
+    type composerAttachmentData = {
+        id: string;
+        name: string;
+        base64?: string;
+    };
+    type parentMessageData = {
+        id: string;
+        author: string;
+        content: string;
+    };
+    type messageData = {
+        messageId: string;
+        avatar: string;
+        author: string;
+        insertionDate: Date;
+        content: string;
+    };
 }

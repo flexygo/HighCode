@@ -114,7 +114,7 @@ var flexygo;
                         //ModuleName: 'sysmod-edit-generic',
                         //Defaults: null
                     };
-                    flexygo.ajax.post('~/api/Edit', 'getEditConfig', params, (response) => {
+                    flexygo.ajax.post('~/api/Edit', 'GetEditConfig', params, (response) => {
                         if (response) {
                             let template = response.Template;
                             this.tHeader = template.Header;
@@ -145,7 +145,7 @@ var flexygo;
                         ProcessName: me.attr('ProcessName'),
                         Defaults: null
                     };
-                    flexygo.ajax.post('~/api/Edit', 'getProcessParamsTemplate', params, (response) => {
+                    flexygo.ajax.post('~/api/Edit', 'GetProcessParamsTemplate', params, (response) => {
                         if (response) {
                             let template = response.Template;
                             this.data = response.Properties;
@@ -180,7 +180,7 @@ var flexygo;
                         ReportName: me.attr('ReportName'),
                         Defaults: null
                     };
-                    flexygo.ajax.post('~/api/Edit', 'getReportParamsTemplate', params, (response) => {
+                    flexygo.ajax.post('~/api/Edit', 'GetReportParamsTemplate', params, (response) => {
                         if (response) {
                             let template = response.Template;
                             this.data = response.Properties;
@@ -332,7 +332,7 @@ var flexygo;
                             let params = {
                                 ObjectName: me.attr('ObjectName')
                             };
-                            flexygo.ajax.syncPost('~/api/Edit', 'getNewProperties', params, (ret) => {
+                            flexygo.ajax.syncPost('~/api/Edit', 'GetNewProperties', params, (ret) => {
                                 let contenAppend = '<div style="float:right"><span class="size-xs clickable" title="close" onclick="$(this).closest(\'flx-module\').find(\'.addProps\').click();"><i class="flx-icon icon-remove"></i></span></div>';
                                 if (ret.length > 0) {
                                     let botonera = '<legend>' + flexygo.localization.translate('flxedit.addproperties') + '</legend><div class="pop-buttons" >';
@@ -428,7 +428,7 @@ var flexygo;
                         FieldType: fieldType,
                         TableName: fieldTable
                     };
-                    flexygo.ajax.syncPost('~/api/Edit', 'addNewFields', params, (ret) => {
+                    flexygo.ajax.syncPost('~/api/Edit', 'AddNewFields', params, (ret) => {
                         this.refresh();
                     });
                 }
@@ -447,7 +447,7 @@ var flexygo;
                         PropertyName: propertyName,
                         PropertyLabel: propertyLabel
                     };
-                    flexygo.ajax.syncPost('~/api/Edit', 'addNewDetachedProperty', params, (ret) => {
+                    flexygo.ajax.syncPost('~/api/Edit', 'AddNewDetachedProperty', params, (ret) => {
                         this.refresh();
                     });
                 }
@@ -465,7 +465,7 @@ var flexygo;
                         ObjectName: me.attr('ObjectName'),
                         Properties: props
                     };
-                    flexygo.ajax.syncPost('~/api/Edit', 'addNewProperties', params, (ret) => {
+                    flexygo.ajax.syncPost('~/api/Edit', 'AddNewProperties', params, (ret) => {
                         this.refresh();
                     });
                 }

@@ -25,7 +25,7 @@
 
                     <div class="cell"><i class="flx-icon icon-lock"></i>
                         <asp:TextBox ID="ConfirmPassword" placeHolder="ConfirmPassword" runat="server" TextMode="Password"></asp:TextBox><asp:RequiredFieldValidator ID="ConfirmPasswordRequired" runat="server" ControlToValidate="ConfirmPassword" Text="*"></asp:RequiredFieldValidator>
-                         <asp:CompareValidator runat="server" ControlToCompare="Password" ControlToValidate="ConfirmPassword"
+                         <asp:CompareValidator ID="ValidatorPassword" runat="server" ControlToCompare="Password" ControlToValidate="ConfirmPassword"
                     CssClass="text-danger" Display="Dynamic" ErrorMessage="The password and confirmation password do not match."  />
                     </div>
                     <asp:LinkButton ID="MainButton" CssClass="mainbutton" CommandName="Reset" runat="server">Reset</asp:LinkButton>

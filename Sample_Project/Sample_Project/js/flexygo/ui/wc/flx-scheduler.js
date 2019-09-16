@@ -85,7 +85,7 @@ var flexygo;
                     let schedulerParams = {
                         ModuleName: ctx.moduleName
                     };
-                    flexygo.ajax.post('~/api/Scheduler', 'getSchedulerTemplate', schedulerParams, (response) => {
+                    flexygo.ajax.post('~/api/Scheduler', 'GetSchedulerTemplate', schedulerParams, (response) => {
                         if (response) {
                             activeMode = response.ActiveMode;
                             SQLValueField = response.SQLValueField;
@@ -281,6 +281,7 @@ var flexygo;
                         allDaySlot: ctx.allDay,
                         defaultView: activeMode,
                         timeFormat: 'HH:mm',
+                        nextDayThreshold: '00:00:00',
                         minTime: minTime,
                         maxTime: maxTime,
                         navLinks: navLinks,
@@ -567,37 +568,37 @@ var flexygo;
                     let dateWeek = new Date(dateStartWeek.getTime() + (7 * 24 * 60 * 60 * 1000));
                     let dateDay = new Date(date.getTime() + (1 * 24 * 60 * 60 * 1000));
                     let view = myCalendar.fullCalendar('getView');
-                    let inicio = '';
-                    let fin = '';
+                    let start = '';
+                    let end = '';
                     let dp1 = $('#datepicker');
                     dp1.datepicker("setDate", (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear());
                     switch (view.name) {
                         case 'month':
-                            inicio = ctx.formatDate(date, '' + (date.getMonth() + 1), '01', date.getFullYear());
+                            start = ctx.formatDate(date, '' + (date.getMonth() + 1), '01', date.getFullYear());
                             if (date.getMonth() + 1 == 12) {
-                                fin = ctx.formatDate(date, '01', '01', date.getFullYear() + 1);
+                                end = ctx.formatDate(date, '01', '01', date.getFullYear() + 1);
                             }
                             else {
-                                fin = ctx.formatDate(date, '' + (date.getMonth() + 2), '01', date.getFullYear());
+                                end = ctx.formatDate(date, '' + (date.getMonth() + 2), '01', date.getFullYear());
                             }
                             break;
                         case 'agendaWeek':
                         case 'listWeek':
-                            inicio = ctx.formatDate(dateStartWeek, '' + (dateStartWeek.getMonth() + 1), '' + (dateStartWeek.getDate()), dateStartWeek.getFullYear());
-                            fin = ctx.formatDate(dateWeek, '' + (dateWeek.getMonth() + 1), '' + (dateWeek.getDate()), dateWeek.getFullYear());
+                            start = ctx.formatDate(dateStartWeek, '' + (dateStartWeek.getMonth() + 1), '' + (dateStartWeek.getDate()), dateStartWeek.getFullYear());
+                            end = ctx.formatDate(dateWeek, '' + (dateWeek.getMonth() + 1), '' + (dateWeek.getDate()), dateWeek.getFullYear());
                             break;
                         case 'agendaDay':
-                            inicio = ctx.formatDate(date, '' + (date.getMonth() + 1), '' + (date.getDate()), date.getFullYear());
-                            fin = ctx.formatDate(dateDay, '' + (dateDay.getMonth() + 1), '' + (dateDay.getDate()), dateDay.getFullYear());
+                            start = ctx.formatDate(date, '' + (date.getMonth() + 1), '' + (date.getDate()), date.getFullYear());
+                            end = ctx.formatDate(dateDay, '' + (dateDay.getMonth() + 1), '' + (dateDay.getDate()), dateDay.getFullYear());
                             break;
                     }
-                    ctx.schedulerResult(objectName, viewName, inicio, fin, color, startDate, endDate, startTime, endTime, duration, descripTemplate, key, table, userIdField, filter, textColor, additionalWhere, tokenDefault, canEdit, canView, allDayField);
+                    ctx.schedulerResult(objectName, viewName, start, end, color, startDate, endDate, startTime, endTime, duration, descripTemplate, key, table, userIdField, filter, textColor, additionalWhere, tokenDefault, canEdit, canView, allDayField);
                 }
                 /**
                * Results.
                * @method schedulerResult
                */
-                schedulerResult(objectName, viewName, inicio, fin, color, startDate, endDate, startTime, endTime, duration, descripTemplate, key, table, userIdField, filter, textColor, additionalWhere, tokenDefault, canEdit, canView, allDayField) {
+                schedulerResult(objectName, viewName, start, end, color, startDate, endDate, startTime, endTime, duration, descripTemplate, key, table, userIdField, filter, textColor, additionalWhere, tokenDefault, canEdit, canView, allDayField) {
                     let ctx = this;
                     let me = $(this);
                     let myCalendar = me.find('#calendar');
@@ -605,8 +606,8 @@ var flexygo;
                     let params = {
                         "ObjectName": objectName,
                         "ViewName": viewName,
-                        "Inicio": inicio,
-                        "Fin": fin,
+                        "Start": start,
+                        "End": end,
                         "StartDate": startDate,
                         "EndDate": endDate,
                         "StartTime": startTime,

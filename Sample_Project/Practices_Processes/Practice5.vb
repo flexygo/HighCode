@@ -26,36 +26,50 @@ Namespace Processes
         ''' <param name="Ret">Returns a Process Helper.</param>
         ''' <returns>List(Of FormAction) with actions to do with properties.</returns>
         ''' <exception cref="System.Exception">Returns error</exception>
-        Public Shared Function stateDepencies(ByVal aSender As FormSender, ByRef Ret As ProcessHelper) As List(Of FormAction)
+        Public Shared Function StateDepencies(ByVal aSender As FormSender, ByRef Ret As ProcessHelper) As List(Of FormAction)
             Try
 
                 'Define new action after load/change
+                Dim actionResult As List(Of FormAction)
                 Dim BlockReason As New FormAction
-                Dim actionDate As New FormAction
+                Dim BlockDate As New FormAction
+                Dim Image As New FormAction
+
                 BlockReason.PropertyName = "BlockReason"
                 BlockDate.PropertyName = "BlockDate"
+                Image.PropertyName = "Image"
 
-                If aSender.FormValues("IdState") = 2 Then
-                    'Set new values to the properties
-                    BlockReason.changeValue = True
-                    BlockReason.newValue = "Blocked by admin"
+                If aSender.PropertyName IsNot Nothing Then
+                    If Not FLEXYGO.Utilities.General.Util.IsBlank(aSender.FormValues("IdState")) AndAlso aSender.FormValues("IdState") = 2 Then
+                        'Set new values to the properties
+                        BlockReason.changeValue = True
+                        BlockReason.newValue = "Blocked by admin"
 
-                    BlockDate.changeValue = True
-                    BlockDate.newValue = Date.Now
+                        BlockDate.changeValue = True
+                        BlockDate.newValue = Date.Now
 
-                    'Change default class to properties
-                    BlockReason.changeClass = True
-                    BlockReason.newClass = "box-danger"
+                        'Change default class to properties
+                        BlockReason.changeClass = True
+                        BlockReason.newClass = "box-danger"
 
-                    BlockDate.changeClass = True
-                    BlockDate.newClass = "box-danger"
+                        BlockDate.changeClass = True
+                        BlockDate.newClass = "box-danger"
+                    End If
+
+                    ''Append to afterload action array.
+                    actionResult = New List(Of FormAction) From {
+                        BlockReason,
+                        BlockDate
+                    }
+                Else
+
+                    Image.changeVisibility = True
+                    Image.newVisibility = False
+                    ''Append to afterload action array.
+                    actionResult = New List(Of FormAction) From {
+                        Image
+                    }
                 End If
-
-                ''Append to afterload action array.
-                Dim actionResult As New List(Of FormAction)
-                actionResult.Add(BlockReason)
-                actionResult.Add(BlockDate)
-
                 Ret.Success = True
                 Return actionResult
             Catch ex As Exception
@@ -66,5 +80,3 @@ Namespace Processes
         End Function
     End Class
 End Namespace
-
-

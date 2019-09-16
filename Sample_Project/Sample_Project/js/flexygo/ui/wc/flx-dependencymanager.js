@@ -188,7 +188,7 @@ var flexygo;
                         PropertyName: this.propertyname,
                         Dependencies: depProps
                     };
-                    flexygo.ajax.post('~/api/Edit', 'saveDependenciesConfig', params, (ret) => {
+                    flexygo.ajax.post('~/api/Edit', 'SaveDependenciesConfig', params, (ret) => {
                         me.closest('.ui-dialog').remove();
                         flexygo.msg.success('Saved :)');
                     });

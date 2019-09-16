@@ -56,6 +56,8 @@ var flexygo;
                     ctx.data = response.Properties;
                     ctx.objectWhere = response.ObjectWhere;
                     ctx.objectName = response.ObjectName;
+                    ctx.warningMessage = response.WarningMessage;
+                    ctx.jsCode = response.JSCode;
                     let ev = {
                         class: "entity",
                         type: "inserted",
@@ -84,6 +86,8 @@ var flexygo;
                     ctx.data = response.Properties;
                     ctx.objectWhere = response.ObjectWhere;
                     ctx.objectName = response.ObjectName;
+                    ctx.warningMessage = response.WarningMessage;
+                    ctx.jsCode = response.JSCode;
                     let ev = {
                         class: "entity",
                         type: "updated",
@@ -108,6 +112,8 @@ var flexygo;
                 params.ObjectName = ctx.objectName;
                 params.ObjectWhere = ctx.objectWhere;
                 flexygo.ajax.syncPost('~/api/Entity', 'Delete', params, function (response) {
+                    ctx.warningMessage = response.WarningMessage;
+                    ctx.jsCode = response.JSCode;
                     ret = true;
                     let ev = {
                         class: "entity",

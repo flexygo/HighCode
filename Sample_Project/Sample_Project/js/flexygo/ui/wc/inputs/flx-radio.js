@@ -322,8 +322,7 @@ var flexygo;
                     }
                     input.on('blur', () => { me.trigger('blur'); });
                     if (this.options && this.options.CauseRefresh) {
-                        control.find('input').on('change', () => {
-                            //$(document).trigger('refreshProperty', [$(control.find('input')[0]).closest('flx-edit'), ctx.options.Name]);
+                        control.find('input').off('change').on('change', () => {
                             let ev = {
                                 class: "property",
                                 type: "changed",
@@ -354,8 +353,7 @@ var flexygo;
                     if (this.options && this.options.Hide) {
                         me.addClass("hideControl");
                     }
-                    control.find('input[type="radio"]').off('click').off('change');
-                    control.find('input[type="radio"]').on('click', (e) => {
+                    control.find('input[type="radio"]').off('click').on('click', (e) => {
                         let inp = $(e.currentTarget);
                         if (inp.attr('lastvalue') === 'true') {
                             inp.prop('checked', false);

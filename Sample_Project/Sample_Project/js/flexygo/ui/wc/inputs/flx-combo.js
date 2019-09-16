@@ -465,7 +465,7 @@ var flexygo;
                                         Page: 0,
                                         AdditionalWhere: null
                                     };
-                                    let method = 'getComboText';
+                                    let method = 'GetComboText';
                                     let input = me.find('select');
                                     $(document).find('flx-search[objectname="' + this.options.SearchCollection + '"]').closest(".ui-dialog").remove();
                                     flexygo.ajax.syncPost('~/api/Edit', method, params, (response) => {
@@ -487,7 +487,7 @@ var flexygo;
                                         }
                                     });
                                 });
-                                flexygo.nav.openPage('search', editCtl.parseEditString(this.options.SearchCollection), editCtl.parseEditString(this.options.SearchWhere), null, 'popup');
+                                flexygo.nav.openPage('search', editCtl.parseEditString(this.options.SearchCollection), editCtl.parseEditString(this.options.SearchWhere), null, 'modal');
                             }
                         });
                         ret.append(icon1);
@@ -526,7 +526,7 @@ var flexygo;
                                             "Page": 0,
                                             "AdditionalWhere": null
                                         };
-                                        let method = 'getComboText';
+                                        let method = 'GetComboText';
                                         let input = me.find('select');
                                         $(document).find('flx-edit[objectname="' + this.options.AllowNewObject + '"]').closest(".ui-dialog").remove();
                                         flexygo.ajax.syncPost('~/api/Edit', method, params, (response) => {
@@ -617,7 +617,7 @@ var flexygo;
                             SQLFilter: null,
                             CnnString: this.cnnString
                         };
-                        method = 'getComboDataView';
+                        method = 'GetComboDataView';
                         flexygo.ajax.syncPost('~/api/Edit', method, params, (response) => {
                             if (response) {
                                 input.append($('<option/>').text(null).val(null));

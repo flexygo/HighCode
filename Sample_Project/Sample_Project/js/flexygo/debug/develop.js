@@ -158,9 +158,25 @@ var flexygo;
                     }
                     event.stopPropagation();
                 });
+                let objChatter = $('<span class="clickable"/>').html('<i class="flx-icon icon-chats icon-margin-right "></i>' + flexygo.localization.translate('develop.chatter') + '</span>').on('click', (event) => {
+                    let pageContext = flexygo.history.get($('#realMain'));
+                    let obj = new flexygo.obj.Entity(pageContext.objectname);
+                    if (typeof (pageContext.objectname) != 'undefined') {
+                        let cnf = (obj.objectName) ? obj.getConfig() : null;
+                        let defaults = {
+                            'ObjectName': (cnf) ? cnf.ObjectName : '',
+                            'ObjectPK': (cnf) ? (cnf.KeyFields.length === 1) ? cnf.KeyFields[0] : '' : '',
+                        };
+                        flexygo.nav.openPage('edit', 'sysChatter_Config', (cnf) ? "ObjectName = '" + cnf.ObjectName + "'" : null, defaults, 'modal900x400', false, $(this));
+                    }
+                    else {
+                        flexygo.msg.warning(flexygo.localization.translate('develop.selectobject'));
+                    }
+                    event.stopPropagation();
+                });
                 //add object and collection  options to the pannel
                 let newObjectStr = '<span class="newObject" title="New Object" ><i class="size-m txt-outstanding  flx-icon icon-password icon-margin-right pull-right"></i></span>';
-                panelCtx.add('<span><i class="flx-icon icon-object icon-margin-right"></i>' + flexygo.localization.translate('develop.object') + newObjectStr + '</span>', [objConfig, objView, objWizard, objImageManager, objDocumentManager]);
+                panelCtx.add('<span><i class="flx-icon icon-object icon-margin-right"></i>' + flexygo.localization.translate('develop.object') + newObjectStr + '</span>', [objConfig, objView, objWizard, objImageManager, objDocumentManager, objChatter]);
                 $(panelCtx).find('.newObject').on('click', (event) => {
                     flexygo.nav.openPageName('syspage-generic-objectwizard', 'sysObject', '', 'null', 'current', false);
                     event.stopPropagation();
@@ -299,21 +315,6 @@ var flexygo;
             });
         }
         debug.launchAnimation = launchAnimation;
-        /**
-         * Shows a QR with the specified text,
-         * @method showQR
-         * @param {string} text - The text to include in QR, by default current location page.
-         */
-        function showQR(text) {
-            if (typeof text == 'undefined' || text == '') {
-                text = document.location.href;
-            }
-            let elm = $('<div id="lastQR" style="width:400px;height:400px;margin: 0 auto;" />');
-            Lobibox.window({ title: 'QR Code', content: elm });
-            let qrcode = new QRCode($('#lastQR')[0], { width: 400, height: 400 });
-            qrcode.makeCode(text);
-        }
-        debug.showQR = showQR;
         /**
          * Display a window with de dependency manager
          * @method manageDependencies
@@ -604,31 +605,4 @@ var flexygo;
         })(test = debug.test || (debug.test = {}));
     })(debug = flexygo.debug || (flexygo.debug = {}));
 })(flexygo || (flexygo = {}));
-//Temporal hook to jQuery.data function while old web component syntax (.data('controller')) is rewrited to new web component syntax (HTMLElment descendant)
-(function ($) {
-    var olddata = $.fn.data;
-    $.fn.data = function (key, value) {
-        var getController = false;
-        if (key && key === "controller") {
-            if (arguments && arguments.length && arguments.length === 1) {
-                getController = true;
-            }
-        }
-        var res = olddata.apply(this, arguments);
-        if (!res) {
-            if (getController === true) {
-                //By convention, old elements has class name flxXXXXPrototype, and new elements flxXXXXXElement
-                //In the latter case, return the element itself
-                if (this.length > 0) {
-                    let className = this[0].constructor.name.toLowerCase();
-                    if (className.startsWith("flx") && className.endsWith("element")) {
-                        console.warn('Warning: data("controller") is deprecated for ' + this.prop("tagName"));
-                        res = this[0];
-                    }
-                }
-            }
-        }
-        return res;
-    };
-})(jQuery);
 //# sourceMappingURL=develop.js.map

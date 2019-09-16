@@ -397,22 +397,25 @@ var flexygo;
                                 elem.append(bitm);
                             }
                             for (let key in response.RelatedObjects) {
-                                let prop = $('<li class="list-group-item objectFolder"></li>');
-                                prop.html('<span><i class="flx-icon icon-folder" /> ' + key + '<span>');
-                                prop.data('extvalue', response.RelatedObjects[key]);
-                                prop.addClass('obj-filter');
-                                prop.find('span').on('click', (e) => {
-                                    let el = $(e.currentTarget).closest('li');
-                                    el.find('i:first').toggleClass('icon-folder').toggleClass('icon-folder-2');
-                                    if (el.find('ul').length > 0) {
-                                        el.find('ul:first').toggle();
-                                    }
-                                    else {
-                                        let itm = $('<ul class="list-group" />');
-                                        this.loadObj(el.data('extvalue').ChildCollection, itm, false);
-                                        el.append(itm);
-                                    }
-                                });
+                                let prop = $('');
+                                if (response.RelatedObjects[key].ShowInAnalysis == true) {
+                                    prop = $('<li class="list-group-item objectFolder"></li>');
+                                    prop.html('<span><i class="flx-icon icon-folder" /> ' + key + '<span>');
+                                    prop.data('extvalue', response.RelatedObjects[key]);
+                                    prop.addClass('obj-filter');
+                                    prop.find('span').on('click', (e) => {
+                                        let el = $(e.currentTarget).closest('li');
+                                        el.find('i:first').toggleClass('icon-folder').toggleClass('icon-folder-2');
+                                        if (el.find('ul').length > 0) {
+                                            el.find('ul:first').toggle();
+                                        }
+                                        else {
+                                            let itm = $('<ul class="list-group" />');
+                                            this.loadObj(el.data('extvalue').ChildCollection, itm, false);
+                                            el.append(itm);
+                                        }
+                                    });
+                                }
                                 elem.append(prop);
                             }
                             let itm = $('<li class="list-group-item"></li>');

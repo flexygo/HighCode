@@ -100,34 +100,43 @@ var flexygo;
                     let me = $(this);
                     let datepicker = new Date(ctx.me.current);
                     let date = new Date(ctx.me.current.date(1));
-                    let inicio = ctx.formatDate(date, '' + (date.getMonth() + 1), '01', date.getFullYear());
-                    let fin = '';
+                    let start = ctx.formatDate(date, '' + (date.getMonth() + 1), '01', date.getFullYear());
+                    let end = '';
                     let dp1 = me.find('#datepicker');
                     dp1.datepicker("setDate", (datepicker.getMonth() + 1) + '/' + datepicker.getDate() + '/' + datepicker.getFullYear());
                     if (date.getMonth() + 1 == 12) {
-                        fin = ctx.formatDate(date, '01', '01', date.getFullYear() + 1);
+                        end = ctx.formatDate(date, '01', '01', date.getFullYear() + 1);
                     }
                     else {
-                        fin = ctx.formatDate(date, '' + (date.getMonth() + 2), '01', date.getFullYear());
+                        end = ctx.formatDate(date, '' + (date.getMonth() + 2), '01', date.getFullYear());
                     }
-                    let params = {
-                        ObjName: me.attr('objectname'),
-                        ObjectWhere: me.attr('objectwhere'),
-                        ModuleName: ctx.moduleName,
-                        Inicio: inicio,
-                        Fin: fin,
-                        AdditionalWhere: additionalWhere
+                    let paramsConfig = {
+                        ModuleName: ctx.moduleName
                     };
-                    flexygo.ajax.post('~/api/SchedulerView', 'GetSchedulerViewConfig', params, (response) => {
+                    flexygo.ajax.post('~/api/SchedulerView', 'GetSchedulerConfig', paramsConfig, (response) => {
                         if (response) {
-                            ctx.me.events = response;
-                            ctx.draw();
-                            var current = document.querySelector('.today');
-                            if (current) {
-                                window.setTimeout(function () {
-                                    ctx.openDay(current);
-                                }, 500);
-                            }
+                            ctx.me.conf = response;
+                            let params = {
+                                ObjName: me.attr('objectname'),
+                                ObjectWhere: me.attr('objectwhere'),
+                                ModuleName: ctx.moduleName,
+                                Start: start,
+                                End: end,
+                                AdditionalWhere: additionalWhere,
+                                SchedulerConfig: response
+                            };
+                            flexygo.ajax.post('~/api/SchedulerView', 'GetSchedulerViewConfig', params, (response) => {
+                                if (response) {
+                                    ctx.me.events = response;
+                                    ctx.draw();
+                                    var current = document.querySelector('.today');
+                                    if (current) {
+                                        window.setTimeout(function () {
+                                            ctx.openDay(current);
+                                        }, 500);
+                                    }
+                                }
+                            });
                         }
                     });
                 }
@@ -193,7 +202,7 @@ var flexygo;
                     let ctx = this;
                     let me = $(this);
                     ctx.me.events.forEach(function (ev) {
-                        ev.date = moment(ev.fecha);
+                        ev.date = moment(ev.Date);
                         ev.eventName = flexygo.utils.parser.recursiveCompile(ev.Row, ev.eventName);
                     });
                     if (ctx.me.month) {
@@ -345,6 +354,7 @@ var flexygo;
                 }
                 openDay(el) {
                     let ctx = this;
+                    var defaultDate = $(el).attr('currentdate');
                     var details, arrow;
                     var dayNumber = +$(el).find('.day-number').text();
                     var day = ctx.me.current.clone().date(dayNumber);
@@ -386,15 +396,56 @@ var flexygo;
                         }
                         return memo;
                     }, []);
-                    ctx.renderEvents(todaysEvents, details);
+                    ctx.renderEvents(todaysEvents, details, defaultDate);
                     var arrowWidth = (50 * $(el).width() / 100) + 7;
                     $(arrow).css("left", $(el).offset().left - $(el).parent().offset().left + arrowWidth + 'px');
                 }
-                renderEvents(events, ele) {
+                renderEvents(events, ele, defaultDate) {
                     let ctx = this;
                     //Remove any events in the current details element
                     var currentWrapper = ele.querySelector('.events');
                     var wrapper = ctx.createElement('div', 'events in' + (currentWrapper ? ' new' : ''), '', '');
+                    var addNew = ctx.createElement('i', 'clickable padding-right-l addnew icon-15x flx-icon icon-add-icon txt-notify', '', '');
+                    $(addNew).click(function () {
+                        if (ctx.me.conf.length > 1) {
+                            let myButtons = new Object();
+                            let buttons = '';
+                            for (var i = 0; i < ctx.me.conf.length; i++) {
+                                myButtons[ctx.me.conf[i].ObjectName] = {
+                                    ObjectName: ctx.me.conf[i].ObjectName,
+                                    StartDateField: ctx.me.conf[i].StartDateField,
+                                    Icon: ctx.me.conf[i].Icon,
+                                    Target: ctx.me.conf[i].Target
+                                };
+                                if (ctx.me.conf[i].CanInsert) {
+                                    buttons += '<a style="padding: 0.7em;margin-right: 3%;margin-bottom: 3%;" class="btn btn-default bg-outstanding modalButton"><i style="margin-right:4px;" class="' + ctx.me.conf[i].Icon + '"></i>' + ctx.me.conf[i].ObjectName + '</a>';
+                                }
+                            }
+                            if (buttons != '') {
+                                $.sweetModal({
+                                    title: flexygo.localization.translate('flxscheduler.chooseobjects'),
+                                    content: '<div>' + buttons + '</div>',
+                                    theme: $.sweetModal.THEME_MIXED,
+                                    width: '31%'
+                                });
+                                $(".modalButton").click(function () {
+                                    let object = myButtons[this.text];
+                                    let defaults = {};
+                                    defaults[ctx.me.conf[0].StartDateField] = defaultDate.substring(0, 4) + '-' + defaultDate.substring(4, 6) + '-' + defaultDate.substring(6, 8);
+                                    flexygo.nav.openPage('edit', object.ObjectName, null, JSON.stringify(defaults), object.Target, false, $(this));
+                                    $('.sweet-modal-overlay').remove();
+                                });
+                            }
+                        }
+                        else {
+                            if (ctx.me.conf[0].CanInsert) {
+                                let defaults = {};
+                                defaults[ctx.me.conf[0].StartDateField] = defaultDate.substring(0, 4) + '-' + defaultDate.substring(4, 6) + '-' + defaultDate.substring(6, 8);
+                                flexygo.nav.openPage('edit', ctx.me.conf[0].ObjectName, null, JSON.stringify(defaults), ctx.me.conf[0].Target, false, $(this));
+                            }
+                        }
+                    });
+                    $(wrapper).append(addNew);
                     events.forEach(function (ev) {
                         var div = ctx.createElement('div', 'event', '', '');
                         var square = ctx.createElement('div', 'event-category ', '', ev.color);

@@ -92,7 +92,7 @@ var flexygo;
                             ModuleName: this.moduleName,
                             PageName: flexygo.history.getPageName(me)
                         };
-                        flexygo.ajax.post('~/api/Maps', 'GetHTML', params, (response) => {
+                        flexygo.ajax.post('~/api/Map', 'GetHTML', params, (response) => {
                             if (response) {
                                 for (let i = 0, x; x = response.Markers[i++];) {
                                     let html = $('<marker/>').attr('lat', x.lat).attr('lng', x.lng).attr('address', x.address).attr('title', x.title).attr('icon', x.icon).attr('label', x.label).attr('zIndex', x.zIndex).html(x.content);

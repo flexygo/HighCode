@@ -52,7 +52,7 @@ function initPage() {
     main.after(footer);
     footer.after(sidepanel);
     $('body').append('<flx-contextmenu id="flx-menu"></flx-contextmenu>');
-    if (flexygo.debug.isDevelopMode()) {
+    if (flexygo.debug && flexygo.debug.isDevelopMode && flexygo.debug.isDevelopMode()) {
         flexygo.debug.enableDevelopMode(true, false);
     }
     if (flexygo.utils.isAgentMobile() && !flexygo.utils.isSizeMobile()) {

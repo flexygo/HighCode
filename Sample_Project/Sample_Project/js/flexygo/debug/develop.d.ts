@@ -38,12 +38,6 @@ declare namespace flexygo.debug {
      */
     function launchAnimation(): void;
     /**
-     * Shows a QR with the specified text,
-     * @method showQR
-     * @param {string} text - The text to include in QR, by default current location page.
-     */
-    function showQR(text: string): void;
-    /**
      * Display a window with de dependency manager
      * @method manageDependencies
      * @param {string} ObjectName - The object name
@@ -107,8 +101,4 @@ declare namespace flexygo.debug.test {
      * @param {object} test - Test result.
      */
     function executeTestRes(testPanel: JQuery, test: JQuery): void;
-}
-declare class QRCode {
-    constructor(e: HTMLElement, o: any);
-    makeCode(s: any): void;
 }

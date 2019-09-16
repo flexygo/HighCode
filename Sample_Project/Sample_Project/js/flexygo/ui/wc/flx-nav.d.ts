@@ -24,7 +24,7 @@ declare namespace flexygo.ui.wc {
         wcTemplate: string;
         headerTemplate: string;
         itemTemplate: string;
-        method: 'getNavNodes' | 'getMainNodes' | 'getNodesById';
+        method: 'GetNavNodes' | 'GetMainNodes' | 'GetNodesById';
         methodParams: flexygo.api.navigation.getNodesByIdParams | flexygo.api.navigation.GetMainNodesParams | flexygo.api.navigation.GetNavNodesParams;
         mode: FlxNavMode;
         hierarchical: boolean;

@@ -33,9 +33,9 @@ var flexygo;
                    */
                     this.connected = false;
                     this.method = null;
-                    this.deleteMethod = "deleteNode";
-                    this.relocateMethod = "relocateNode";
-                    this.refreshMetod = "refreshNodes";
+                    this.deleteMethod = "DeleteNode";
+                    this.relocateMethod = "RelocateNode";
+                    this.refreshMetod = "RefreshNodes";
                     this.rootNodeId = '';
                     this.openNodes = null;
                     this.scrollY = 0;
@@ -70,7 +70,7 @@ var flexygo;
                     this.connected = true;
                     let initNode = element.attr("initNode");
                     if (initNode) {
-                        this.method = "getNodesById";
+                        this.method = "GetNodesById";
                         this.methodParams = { ParentId: initNode, HideAutoSQLNodes: true };
                         this.initNode = initNode;
                     }

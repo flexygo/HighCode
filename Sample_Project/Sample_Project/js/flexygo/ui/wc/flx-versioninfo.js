@@ -60,7 +60,7 @@ var flexygo;
                 * @method refresh
                 */
                 refresh(force = false) {
-                    if (flexygo.debug.isDevelopMode()) {
+                    if (flexygo.debug && flexygo.debug.isDevelopMode && flexygo.debug.isDevelopMode()) {
                         let params = {
                             Force: force
                         };
@@ -277,11 +277,14 @@ var flexygo;
                         '<div class="col-6"><i class="fa fa-arrow-right icon-margin-right"></i><strong>{{RowKey}}</strong></div>' +
                         '</div>' +
                         '<div class="row changebox-values">' +
-                        '<div class="col-2"><div>' + ov + '</div><div><flx-text disabled  iconclass="flx-icon icon-minus" value="{{OldValue}}"></flx-text></div></div>' +
-                        '<div class="col-3"><div><input type="radio" name="select-{{DifId}}" value="1">' + cv + '</div><div><flx-text disabled iconclass="flx-icon icon-man" value="{{UserValue}}"></flx-text></div></div>' +
-                        '<div class="col-3"><div><input type="radio" name="select-{{DifId}}" value="0">' + nv + '</div><div><flx-text disabled iconclass="flx-icon icon-plus" value="{{NewValue}}"></flx-text></div></div>' +
-                        '<div class="col-4"><div><input type="radio" name="select-{{DifId}}" value="2">' + mv + '</div><div><flx-text iconclass="flx-icon icon-choose-hand" name="manualvalue-{{DifId}}" placeholder= "' + mv + '"/></flx-text></div></div>' +
-                        '</div>' +
+                        //'<div class="col-2"><div>' + ov + '</div><div><flx-text disabled  iconclass="flx-icon icon-minus" value="{{OldValue}}"></flx-text></div></div>' +
+                        //'<div class="col-3"><div><input type="radio" name="select-{{DifId}}" value="1">' + cv + '</div><div><flx-text disabled iconclass="flx-icon icon-man" value="{{UserValue}}"></flx-text></div></div>' +
+                        //'<div class="col-3"><div><input type="radio" name="select-{{DifId}}" value="0">' + nv + '</div><div><flx-text disabled iconclass="flx-icon icon-plus" value="{{NewValue}}"></flx-text></div></div>' +
+                        //'<div class="col-4"><div><input type="radio" name="select-{{DifId}}" value="2">' + mv + '</div><div><flx-text iconclass="flx-icon icon-choose-hand" name="manualvalue-{{DifId}}" placeholder= "' + mv + '"/></flx-text></div></div>' +
+                        '<div class="row"><div>' + ov + '</div><div><flx-text   iconclass="flx-icon icon-minus" value="{{OldValue|html}}"></flx-text></div></div>' +
+                        '<div class="row"><div><input type="radio" name="select-{{DifId}}" value="1">' + cv + '</div><div><flx-text   iconclass="flx-icon icon-minus" value="{{UserValue|html}}"></flx-text></div></div>' +
+                        '<div class="row"><div><input type="radio" name="select-{{DifId}}" value="0">' + nv + '</div><div><flx-text  iconclass="flx-icon icon-plus" value="{{NewValue|html}}"></flx-text></div></div>' +
+                        '<div class="row"><div><input type="radio" name="select-{{DifId}}" value="2">' + mv + '</div><div><flx-text iconclass="flx-icon icon-choose-hand" name="manualvalue-{{DifId}}" placeholder= "' + mv + '"/></flx-text></div></div>' + '</div>' +
                         '</div>';
                     let items = '';
                     $.each(this.changes, (i, v) => {

@@ -100,6 +100,7 @@ var flexygo;
                 */
                 renderFromAttr() {
                     let me = $(this);
+                    me.empty();
                     this.addEasyLine(this.value, me.attr("label"), me.attr("color"), me.attr("symbol"), me.attr("size"), me.attr("rounded"), me.attr("hideValue"));
                 }
                 /**
@@ -136,38 +137,54 @@ var flexygo;
                         default:
                             layoutOptions.height = "auto";
                             layoutOptions.width = "auto";
-                            layoutOptions.sizeClass = "size-l";
+                            layoutOptions.sizeClass = "";
                     }
                     let barColor = `background-color: ${color};`;
                     let labelClass = color ? 'label' : 'no-label';
                     let roundedClass = rounded ? 'rounded' : '';
                     let valueClass = hideValue ? 'no-value' : 'value';
-                    let hasSymbol = symbol ? symbol : '';
                     let div = $(`<div class="flx-easyline ${layoutOptions.sizeClass}" style="width: ${layoutOptions.width}">
                             <h5 class="${labelClass}" >${label}</h5>
                             <div  class="hor-bar-bg ${roundedClass}" style="height: ${layoutOptions.height}">
-                                <div style="${barColor}; height: ${layoutOptions.height}" class="hor-bar-fg ${roundedClass}">
-                                    <div class="${valueClass}">${value}</div>
+                                <div prop="bar" style="${barColor}; height: ${layoutOptions.height}" class="hor-bar-fg ${roundedClass}">
+                                    <div prop="value" class="${valueClass}">${value}</div>
                                 </div>
                             </div>
                         </div>`);
                     me.append(div);
-                    $(".hor-bar-fg", div).animate({
+                    this.setValue(value, color, symbol);
+                }
+                setValue(value, color, symbol) {
+                    if (!color) {
+                        color = this.color;
+                    }
+                    if (!symbol) {
+                        symbol = this.symbol;
+                    }
+                    let me = $(this);
+                    let bar = me.find('.hor-bar-fg');
+                    let hasSymbol = symbol ? symbol : '';
+                    let width = (parseFloat(value) > 100 ? '100' : value);
+                    bar.animate({
                         opacity: 1,
-                        width: `${value}%`
+                        width: `${width}%`
                     }, {
                         duration: 1000,
                         easing: "swing",
                         step: (now, fx) => {
                             let percentage = this.formatValue(now);
-                            $('.value', div).html(`${percentage}${hasSymbol}`);
+                            me.find('.value').html(`${percentage}${hasSymbol}`);
                         },
                         complete: function () {
-                            let bar = $('.hor-bar-fg', div);
+                            let valueDOM = me.find('.value');
+                            valueDOM.html(`${value}${hasSymbol}`);
                             if (bar.width() < 50) {
-                                let value = $('.value', div);
-                                value.css("padding-left", '120%');
-                                value.css("color", color);
+                                valueDOM.css("padding-left", '120%');
+                                valueDOM.css("color", color);
+                            }
+                            else {
+                                valueDOM.css("padding-left", '');
+                                valueDOM.css("color", '');
                             }
                         }
                     });
@@ -226,7 +243,9 @@ var flexygo;
                     }
                     else if (attrName.toLowerCase() == 'value' && newVal && newVal != '') {
                         this.value = newVal;
-                        needInit = true;
+                        if (this.connected) {
+                            this.setValue(newVal);
+                        }
                     }
                     if (this.connected && needInit) {
                         this.init();

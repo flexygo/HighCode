@@ -62,17 +62,17 @@ var flexygo;
                             ObjectWhere: $(listToExport).attr('ObjectWhere'),
                             ModuleName: listToExport.moduleName,
                             PageName: flexygo.history.getPageName($(listToExport)),
-                            page: 0,
-                            additionalWhere: listToExport.additionalWhere,
-                            orderInfo: listToExport.orderObj,
-                            mode: listToExport.mode,
-                            searchId: listToExport.activeFilter,
-                            filterValues: listToExport.filterValues,
+                            Page: 0,
+                            AdditionalWhere: listToExport.additionalWhere,
+                            OrderInfo: listToExport.orderObj,
+                            Mode: listToExport.mode,
+                            SearchId: listToExport.activeFilter,
+                            FilterValues: listToExport.filterValues,
                             TemplateId: listToExport.templateId,
                             ViewId: listToExport.viewId,
                             PageSize: maxNumber
                         };
-                        flexygo.ajax.post('~/api/List', 'getList', params, (response) => {
+                        flexygo.ajax.post('~/api/List', 'GetList', params, (response) => {
                             if (response.Template.TableData) {
                                 responseData = response.Template.TableData;
                                 $('#exporttable').remove();

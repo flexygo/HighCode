@@ -65,4 +65,5 @@
     </div>
 </body>
      <%= Me.getMissingFiles()%>
+     <%= Me.getDatabaseScriptJobErrors()%>
 </html>

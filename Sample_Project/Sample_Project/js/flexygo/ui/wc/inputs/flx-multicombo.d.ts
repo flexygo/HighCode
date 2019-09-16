@@ -53,7 +53,7 @@ declare namespace flexygo.ui.wc {
         getIconButtons(): JQuery;
         setOptions(): void;
         changeSQLData(newSQL: string, newOptions: string): void;
-        setValue(value: any, text?: any): void;
+        setValue(value: string, text?: string): void;
         getValue(): any;
         /**
         * Trigger Dependencies.

@@ -148,20 +148,20 @@ var flexygo;
                         this.addSeparator(menuUl);
                     }
                     if (proc.ProcessLink && Object.keys(proc.ProcessLink.ChildNodes).length > 0) {
-                        menuUl.append($(myObj.getChildNodes(flexygo.utils.lowerKeys(proc.ProcessLink))).children());
+                        menuUl.append($(myObj.getChildNodes(flexygo.utils.lowerKeys(proc.ProcessLink, true))).children());
                         this.processSubMenus(menuUl);
                         this.addSeparator(menuUl);
                     }
                     if (proc.ObjectLink && Object.keys(proc.ObjectLink.ChildNodes).length > 0) {
                         let nNode = $('<li><span><i class="flx-icon icon-properties-relations-1" /><span> ' + flexygo.localization.translate('navigation.relatedobjects') + '</span></span></li>');
                         menuUl.append(nNode);
-                        this.createSubMenu($(myObj.getChildNodes(flexygo.utils.lowerKeys(proc.ObjectLink))), nNode);
+                        this.createSubMenu($(myObj.getChildNodes(flexygo.utils.lowerKeys(proc.ObjectLink, true))), nNode);
                         this.addSeparator(menuUl);
                     }
                     if (proc.ReportLink && Object.keys(proc.ReportLink.ChildNodes).length > 0) {
                         var nNode = $('<li><span><i class="flx-icon icon-report" /><span> ' + flexygo.localization.translate('navigation.reports') + '</span></span></li>');
                         menuUl.append(nNode);
-                        this.createSubMenu($(myObj.getChildNodes(flexygo.utils.lowerKeys(proc.ReportLink))), nNode);
+                        this.createSubMenu($(myObj.getChildNodes(flexygo.utils.lowerKeys(proc.ReportLink, true))), nNode);
                         this.addSeparator(menuUl);
                     }
                     if (menuUl.children().length == 0) {

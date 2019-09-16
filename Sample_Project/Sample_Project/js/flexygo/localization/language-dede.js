@@ -61,6 +61,7 @@ var flexygo;
                 selectobject: 'Bitte wählen Sie eine Seite mit einem Objekt aus',
                 objectpropertysecurity: 'Eigenschaftssicherheit',
                 pageSettings: 'Seiteneinstellung',
+                chatter: 'Chatter',
             };
             dede.history = {
                 historyempty: 'Navigationsverlauf leer',
@@ -587,6 +588,32 @@ var flexygo;
                 to: 'zu',
                 withoutpercentage: 'Ohne Prozentsatz',
                 notsupported: 'Bildschirmgröße wird nicht unterstützt',
+            };
+            dede.flxfilebrowser = {
+                saved: 'Gespeichert',
+                errorsaving: 'Speicher Fehler',
+                errorremoving: 'Lösch Fehler',
+                permissionerror: 'Entschuldigung, Sie haben keine Berechtigung',
+                documentempty: 'Dokument leer',
+                itemsselected: 'elemente ausgewählt',
+                emptyfolder: 'Der Ordner leer ist',
+                existingfiles: 'Einige Dateien existieren auf Server',
+                overwritefiles: 'Sind Sie sicher, dass Sie sie überschreiben?',
+                deleting: 'Löschen',
+                items: 'Artikel',
+                sure: 'Bist du sicher?',
+                currentfolder: 'Aktueller Ordner',
+                uploadfiles: 'Daten hochladen',
+                addfolder: 'Ordner hinzufügen',
+                download: 'Herunterladen',
+                delete: 'Löschen',
+                goback: 'Geh zurück',
+                processingdownload: 'Verarbeitung herunterladen',
+            };
+            dede.chatter = {
+                composerplaceholder: 'Schreibe etwas',
+                sendbutton: 'Registrieren',
+                startinfo: 'Sie müssen zuerst das chatter konfigurieren',
             };
         })(dede = culture.dede || (culture.dede = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

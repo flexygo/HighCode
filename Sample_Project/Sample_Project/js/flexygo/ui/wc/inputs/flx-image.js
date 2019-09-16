@@ -60,8 +60,8 @@ var flexygo;
                             else {
                                 this.options = jQuery.extend(true, {}, wcParent.properties[propName]);
                             }
-                            if (parentCtl && parentCtl.mode) {
-                                this.mode = parentCtl.mode;
+                            if (wcParent && wcParent.mode) {
+                                this.mode = wcParent.mode;
                             }
                         }
                         this.property = propName;
@@ -462,7 +462,7 @@ var flexygo;
                                 Base64: result.split(',')[1],
                                 CurrentValue: me.attr('value')
                             };
-                            flexygo.ajax.post('~/api/Image', 'saveFile', params, (ret) => {
+                            flexygo.ajax.post('~/api/Image', 'SaveFile', params, (ret) => {
                                 if (ret.Value != 'errorrootpath')
                                     this.setValue(ret.Value, ret.Text);
                                 else {

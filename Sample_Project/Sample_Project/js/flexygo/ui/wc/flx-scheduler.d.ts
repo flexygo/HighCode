@@ -74,7 +74,7 @@ declare namespace flexygo.ui.wc {
        * Results.
        * @method schedulerResult
        */
-        schedulerResult(objectName: string, viewName: string, inicio: string, fin: string, color: string, startDate: string, endDate: string, startTime: string, endTime: string, duration: string, descripTemplate: string, key: string[], table: string, userIdField: string, filter: string, textColor: string, additionalWhere: string, tokenDefault: string, canEdit: boolean, canView: boolean, allDayField: string): void;
+        schedulerResult(objectName: string, viewName: string, start: string, end: string, color: string, startDate: string, endDate: string, startTime: string, endTime: string, duration: string, descripTemplate: string, key: string[], table: string, userIdField: string, filter: string, textColor: string, additionalWhere: string, tokenDefault: string, canEdit: boolean, canView: boolean, allDayField: string): void;
         formatDate(date: Date, month: string, day: string, year: number): string;
         getStartWeek(d: Date): Date;
         getObjectWhere(table: string, key: string[], id: string[]): string;

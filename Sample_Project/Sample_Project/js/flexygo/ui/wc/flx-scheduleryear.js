@@ -163,7 +163,7 @@ var flexygo;
                     let params = {
                         ModuleName: ctx.moduleName
                     };
-                    flexygo.ajax.post('~/api/SchedulerYear', 'getSchedulerCombo', params, (response) => {
+                    flexygo.ajax.post('~/api/SchedulerYear', 'GetSchedulerCombo', params, (response) => {
                         if (response) {
                             if (response.ObjectName) {
                                 me.prepend('<div class="fc-toolbar fc-header-toolbar filter"><div class="a" style="text-align:left;" id="filters"><flx-multicombo class="combo padding-m" ObjectName="' + response.ObjectName + '" ViewName="' + response.ViewName + '" IconClass="flx-icon icon-role" SQLValueField="' + response.SQLValueField + '" SQLDisplayField="' + response.SQLDisplayField + '" SQLFilter="' + response.SQLFilterField + '" filtertype="dbcombo"><template>' + response.DirectTemplate + '</template></flx-multicombo></div></div>');
@@ -183,25 +183,25 @@ var flexygo;
                     let ctx = this;
                     let me = $(this);
                     let date = new Date(ctx.me.current);
-                    var inicio = ctx.formatDate(date, '01', '01', date.getFullYear());
-                    var fin = ctx.formatDate(date, '01', '01', date.getFullYear() + 1);
+                    var start = ctx.formatDate(date, '01', '01', date.getFullYear());
+                    var end = ctx.formatDate(date, '01', '01', date.getFullYear() + 1);
                     let paramsHolidays = {
                         ModuleName: ctx.moduleName,
-                        Inicio: inicio,
-                        Fin: fin
+                        Start: start,
+                        End: end
                     };
                     flexygo.ajax.post('~/api/SchedulerYear', 'GetSchedulerHolidays', paramsHolidays, (response) => {
                         if (response) {
                             ctx.me.holidays = response;
                             ctx.me.holidays.forEach(function (ev) {
-                                ev.date = moment(ev.fecha);
+                                ev.date = moment(ev.Date);
                             });
                             let params = {
                                 ObjName: me.attr('objectname'),
                                 ObjectWhere: me.attr('objectwhere'),
                                 ModuleName: ctx.moduleName,
-                                Inicio: inicio,
-                                Fin: fin,
+                                Start: start,
+                                End: end,
                                 AdditionalWhere: additionalWhere,
                                 Filter: filter
                             };
@@ -209,7 +209,7 @@ var flexygo;
                                 if (response) {
                                     ctx.me.events = response;
                                     ctx.me.events.forEach(function (ev) {
-                                        ev.date = moment(ev.fecha);
+                                        ev.date = moment(ev.Date);
                                         ev.eventName = flexygo.utils.parser.recursiveCompile(ev.Row, ev.eventName);
                                     });
                                     ctx.currentYear();
