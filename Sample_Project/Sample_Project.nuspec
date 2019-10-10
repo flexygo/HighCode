@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Sample_Project</id>
+    <version>1.0.0.00</version>
+    <title>Flexygo Sample_Project</title>
+    <authors>Ahora Freeware</authors>
+    <owners>Ahora Freeware</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Create your own Professional Solutions. Flexygo allows you to immediatly build incredible Solutions for companies, professionals and individuals.</description>
+    <copyright>Copyright © 2018 Ahora Freeware</copyright>
+    <projectUrl>http://flexygo.es</projectUrl>
+    <iconUrl>https://nuget.flexygo.com/isotipo.png</iconUrl>
+    <releaseNotes/>
+    <dependencies>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\publish\bin\**\*.*" target="lib\net46\" />
+    <file src="..\..\publish\**\*.*" target="content\" exclude="..\..\publish\bin\**\*.*;..\..\publish\db\*.dacpac"/>
+    <file src=".\Sample_ProjectBD\bin\$configuration$\*.dacpac" target="content\db\" />
+	<file src=".\Sample_Project_DataBD\bin\$configuration$\Sample_Project_DataBD.dacpac" target="content\db\" />
+  </files>
+</package>
