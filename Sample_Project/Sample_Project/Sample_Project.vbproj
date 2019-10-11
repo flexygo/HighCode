@@ -428,6 +428,11 @@
     <Content Include="css\skins\default\fonts\raleway\raleway-semibold-webfont.svg" />
     <Content Include="css\skins\default\fonts\raleway\raleway.css" />
     <Content Include="css\skins\default\print.css" />
+    <Content Include="custom\carousel\1.jpg" />
+    <Content Include="custom\carousel\2.jpg" />
+    <Content Include="custom\carousel\3.jpg" />
+    <Content Include="custom\carousel\4.jpg" />
+    <Content Include="custom\carousel\5.jpg" />
     <Content Include="custom\Courses\Level II\Steps\1\navigation_nodes.sql" />
     <Content Include="custom\Courses\Level II\Steps\1\objects.sql" />
     <Content Include="custom\Courses\Level II\Steps\1\objects_properties.sql" />
@@ -5967,7 +5972,7 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="custom\carousel\" />
+    <Folder Include="sample_project\carousel\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
