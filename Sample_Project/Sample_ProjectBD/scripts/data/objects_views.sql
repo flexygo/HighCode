@@ -129,7 +129,7 @@ Employee.Image,
 Team.Descrip AS Team,
 IIF(Employee.IdEmployee = {{currentReference}}, ''background: linear-gradient(315deg,lightslategray 15px,transparent 0%);'', '''') AS Style
 FROM Employee
-LEFT JOIN Team ON Employee.IdTeam = Team.IdTeam',0,0,1,0,0,NULL,1)
+LEFT JOIN Team ON Employee.IdTeam = Team.IdTeam',1,0,1,0,0,NULL,1)
  ,(N'Task',N'AdvancedWithGroups_Timeline',N'Advanced With Groups (Timeline)',N'DataConnectionString',N'SELECT * 
 FROM (
   SELECT 
@@ -176,7 +176,7 @@ FROM (
       NULL,
       CHOOSE(EmployeesHolidays.Validated + 1, ''background-color: rgba(240, 128, 128, 0.3);border-color: rgba(240, 128, 128, 0.3);'', ''background-color: rgba(144, 238, 144, 0.3);border-color: rgba(144, 238, 144, 0.3);'') AS Style
    FROM EmployeesHolidays
-) AS Tasks ',0,0,1,0,0,NULL,1)
+) AS Tasks ',1,0,1,0,0,NULL,1)
  ,(N'Task',N'Kanban',N'Kanban',N'DataConnectionString',N'SELECT 
 	Tasks.IdTask,
 	Tasks.Name,
