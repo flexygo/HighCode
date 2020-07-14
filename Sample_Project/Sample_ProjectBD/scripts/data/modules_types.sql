@@ -4,8 +4,8 @@ BEGIN TRY
 
 MERGE INTO [Modules_Types] AS Target
 USING (VALUES
-  (N'afl-carousel',N'Carousel',N'fighter-jet',NULL,N'afl-carousel',0,1)
-) AS Source ([TypeId],[Descrip],[IconName],[SettingsTable],[WebComponent],[UseCollection],[OriginId])
+  (N'afl-carousel',N'Carousel',N'fighter-jet',NULL,N'afl-carousel',0,0,1)
+) AS Source ([TypeId],[Descrip],[IconName],[SettingsTable],[WebComponent],[UseCollection],[Reserved],[OriginId])
 ON (Target.[TypeId] = Source.[TypeId])
 WHEN MATCHED AND (
 	NULLIF(Source.[Descrip], Target.[Descrip]) IS NOT NULL OR NULLIF(Target.[Descrip], Source.[Descrip]) IS NOT NULL OR 
@@ -13,6 +13,7 @@ WHEN MATCHED AND (
 	NULLIF(Source.[SettingsTable], Target.[SettingsTable]) IS NOT NULL OR NULLIF(Target.[SettingsTable], Source.[SettingsTable]) IS NOT NULL OR 
 	NULLIF(Source.[WebComponent], Target.[WebComponent]) IS NOT NULL OR NULLIF(Target.[WebComponent], Source.[WebComponent]) IS NOT NULL OR 
 	NULLIF(Source.[UseCollection], Target.[UseCollection]) IS NOT NULL OR NULLIF(Target.[UseCollection], Source.[UseCollection]) IS NOT NULL OR 
+	NULLIF(Source.[Reserved], Target.[Reserved]) IS NOT NULL OR NULLIF(Target.[Reserved], Source.[Reserved]) IS NOT NULL OR 
 	NULLIF(Source.[OriginId], Target.[OriginId]) IS NOT NULL OR NULLIF(Target.[OriginId], Source.[OriginId]) IS NOT NULL) THEN
  UPDATE SET
   [Descrip] = Source.[Descrip], 
@@ -20,10 +21,11 @@ WHEN MATCHED AND (
   [SettingsTable] = Source.[SettingsTable], 
   [WebComponent] = Source.[WebComponent], 
   [UseCollection] = Source.[UseCollection], 
+  [Reserved] = Source.[Reserved], 
   [OriginId] = Source.[OriginId]
 WHEN NOT MATCHED BY TARGET THEN
- INSERT([TypeId],[Descrip],[IconName],[SettingsTable],[WebComponent],[UseCollection],[OriginId])
- VALUES(Source.[TypeId],Source.[Descrip],Source.[IconName],Source.[SettingsTable],Source.[WebComponent],Source.[UseCollection],Source.[OriginId])
+ INSERT([TypeId],[Descrip],[IconName],[SettingsTable],[WebComponent],[UseCollection],[Reserved],[OriginId])
+ VALUES(Source.[TypeId],Source.[Descrip],Source.[IconName],Source.[SettingsTable],Source.[WebComponent],Source.[UseCollection],Source.[Reserved],Source.[OriginId])
 WHEN NOT MATCHED BY SOURCE AND TARGET.OriginId = 1 THEN 
  DELETE
 ;

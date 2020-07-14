@@ -4,7 +4,8 @@ BEGIN TRY
 
 MERGE INTO [Documents_Objects_Config] AS Target
 USING (VALUES
-  (N'Cliente',N'IdClient',NULL,N'flexygo',N'~/custom/documents/',NULL,NULL,0,0,0,0,0,0,0,0,1,1,1,1,1)
+  (N'Accion',N'ActionId',NULL,N'flexygo',N'~/custom/documents/',NULL,NULL,0,0,0,0,0,0,0,0,1,1,1,1,1)
+ ,(N'Cliente',N'IdClient',NULL,N'flexygo',N'~/custom/documents/',NULL,NULL,0,0,0,0,0,0,0,0,1,1,1,1,1)
 ) AS Source ([ObjectName],[ObjectPK],[ERPObjectName],[TypeId],[Path],[DefaultCategoryId],[CategoryFilter],[DropboxFolderCreate],[DropboxFolderLink],[DropboxFileCreate],[DropboxFileLink],[DriveFolderCreate],[DriveFolderLink],[DriveFileCreate],[DriveFileLink],[DiskFolderCreate],[DiskFolderLink],[DiskFileCreate],[DiskFileLink],[OriginId])
 ON (Target.[ObjectName] = Source.[ObjectName] AND Target.[ObjectPK] = Source.[ObjectPK])
 WHEN MATCHED AND (

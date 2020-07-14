@@ -9,18 +9,18 @@ USING (VALUES
     {{Name}} 
 </p>
 
-',N'Employee',N'Vista_calendario',N'08:00',N'18:00',1,0,N'00:15',N'currentReference',N'edit',N'modal640x480',NULL,NULL,NULL,1)
+',N'Employee',N'Vista_calendario',N'08:00',N'18:00',1,0,N'00:15',N'currentReference',N'edit',N'modal640x480',NULL,NULL,NULL,1,1)
  ,(N'Calendario_ventas',N'agendaDay',1,1,1,1,N'IdClient',N'Name',NULL,N'<p>
 	<img style="width:20px" src="{{image|url}}"/>    
     {{Name}} 
 </p>
 
-',N'Cliente',N'Cliente_calendar',N'08:00',N'18:00',1,0,N'00:15',NULL,N'edit',N'modal640x480',NULL,NULL,NULL,1)
+',N'Cliente',N'Cliente_calendar',N'08:00',N'18:00',1,0,N'00:15',NULL,N'edit',N'modal640x480',NULL,NULL,NULL,1,1)
  ,(N'Scheduler',N'agendaWeek',1,1,1,1,N'IdEmployee',N'Name',NULL,N'<div class="row" style="display: flex;align-items: center; margin: 5px 15px;">
   <img class="img-responsive" style="width: 40px;margin-right: 10px;" src="{{Image|url}}" />
   <span>{{Name}}</span>
-</div>',N'Employee',N'Scheduler_Filter',N'08:00',N'18:00',1,1,N'00:15',N'currentReference',N'edit',N'modal1024x768',N'Bank_holiday',N'Bank_holiday',N'Date',1)
-) AS Source ([SchedulerName],[ActiveMode],[MonthView],[AgendaWeekView],[AgendaDayView],[ListWeekView],[SQLValueField],[SQLDisplayField],[SQLFilterField],[DirectTemplate],[ObjectName],[ViewName],[MinTime],[MaxTime],[OnClickEvent],[AllDaySlot],[SlotDuration],[TokenDefault],[EventPageTypeId],[EventTargetId],[HolidaysObjectName],[HolidaysViewName],[DateHolidayField],[OriginId])
+</div>',N'Employee',N'Scheduler_Filter',N'08:00',N'18:00',1,1,N'00:15',N'currentReference',N'edit',N'modal1024x768',N'Bank_holiday',N'Bank_holiday',N'Date',1,1)
+) AS Source ([SchedulerName],[ActiveMode],[MonthView],[AgendaWeekView],[AgendaDayView],[ListWeekView],[SQLValueField],[SQLDisplayField],[SQLFilterField],[DirectTemplate],[ObjectName],[ViewName],[MinTime],[MaxTime],[OnClickEvent],[AllDaySlot],[SlotDuration],[TokenDefault],[EventPageTypeId],[EventTargetId],[HolidaysObjectName],[HolidaysViewName],[DateHolidayField],[EventLimit],[OriginId])
 ON (Target.[SchedulerName] = Source.[SchedulerName])
 WHEN MATCHED AND (
 	NULLIF(Source.[ActiveMode], Target.[ActiveMode]) IS NOT NULL OR NULLIF(Target.[ActiveMode], Source.[ActiveMode]) IS NOT NULL OR 
@@ -45,6 +45,7 @@ WHEN MATCHED AND (
 	NULLIF(Source.[HolidaysObjectName], Target.[HolidaysObjectName]) IS NOT NULL OR NULLIF(Target.[HolidaysObjectName], Source.[HolidaysObjectName]) IS NOT NULL OR 
 	NULLIF(Source.[HolidaysViewName], Target.[HolidaysViewName]) IS NOT NULL OR NULLIF(Target.[HolidaysViewName], Source.[HolidaysViewName]) IS NOT NULL OR 
 	NULLIF(Source.[DateHolidayField], Target.[DateHolidayField]) IS NOT NULL OR NULLIF(Target.[DateHolidayField], Source.[DateHolidayField]) IS NOT NULL OR 
+	NULLIF(Source.[EventLimit], Target.[EventLimit]) IS NOT NULL OR NULLIF(Target.[EventLimit], Source.[EventLimit]) IS NOT NULL OR 
 	NULLIF(Source.[OriginId], Target.[OriginId]) IS NOT NULL OR NULLIF(Target.[OriginId], Source.[OriginId]) IS NOT NULL) THEN
  UPDATE SET
   [ActiveMode] = Source.[ActiveMode], 
@@ -69,10 +70,11 @@ WHEN MATCHED AND (
   [HolidaysObjectName] = Source.[HolidaysObjectName], 
   [HolidaysViewName] = Source.[HolidaysViewName], 
   [DateHolidayField] = Source.[DateHolidayField], 
+  [EventLimit] = Source.[EventLimit], 
   [OriginId] = Source.[OriginId]
 WHEN NOT MATCHED BY TARGET THEN
- INSERT([SchedulerName],[ActiveMode],[MonthView],[AgendaWeekView],[AgendaDayView],[ListWeekView],[SQLValueField],[SQLDisplayField],[SQLFilterField],[DirectTemplate],[ObjectName],[ViewName],[MinTime],[MaxTime],[OnClickEvent],[AllDaySlot],[SlotDuration],[TokenDefault],[EventPageTypeId],[EventTargetId],[HolidaysObjectName],[HolidaysViewName],[DateHolidayField],[OriginId])
- VALUES(Source.[SchedulerName],Source.[ActiveMode],Source.[MonthView],Source.[AgendaWeekView],Source.[AgendaDayView],Source.[ListWeekView],Source.[SQLValueField],Source.[SQLDisplayField],Source.[SQLFilterField],Source.[DirectTemplate],Source.[ObjectName],Source.[ViewName],Source.[MinTime],Source.[MaxTime],Source.[OnClickEvent],Source.[AllDaySlot],Source.[SlotDuration],Source.[TokenDefault],Source.[EventPageTypeId],Source.[EventTargetId],Source.[HolidaysObjectName],Source.[HolidaysViewName],Source.[DateHolidayField],Source.[OriginId])
+ INSERT([SchedulerName],[ActiveMode],[MonthView],[AgendaWeekView],[AgendaDayView],[ListWeekView],[SQLValueField],[SQLDisplayField],[SQLFilterField],[DirectTemplate],[ObjectName],[ViewName],[MinTime],[MaxTime],[OnClickEvent],[AllDaySlot],[SlotDuration],[TokenDefault],[EventPageTypeId],[EventTargetId],[HolidaysObjectName],[HolidaysViewName],[DateHolidayField],[EventLimit],[OriginId])
+ VALUES(Source.[SchedulerName],Source.[ActiveMode],Source.[MonthView],Source.[AgendaWeekView],Source.[AgendaDayView],Source.[ListWeekView],Source.[SQLValueField],Source.[SQLDisplayField],Source.[SQLFilterField],Source.[DirectTemplate],Source.[ObjectName],Source.[ViewName],Source.[MinTime],Source.[MaxTime],Source.[OnClickEvent],Source.[AllDaySlot],Source.[SlotDuration],Source.[TokenDefault],Source.[EventPageTypeId],Source.[EventTargetId],Source.[HolidaysObjectName],Source.[HolidaysViewName],Source.[DateHolidayField],Source.[EventLimit],Source.[OriginId])
 WHEN NOT MATCHED BY SOURCE AND TARGET.OriginId = 1 THEN 
  DELETE
 ;

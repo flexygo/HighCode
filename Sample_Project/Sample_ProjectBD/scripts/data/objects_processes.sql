@@ -4,15 +4,15 @@ BEGIN TRY
 
 MERGE INTO [Objects_Processes] AS Target
 USING (VALUES
-  (N'Cliente',N'Cliente_lock',N'de5a2347-abb8-441f-8fca-4f26a5189360',0,1,NULL,N'Solo aparecerá si el cliente tiene estado = 1',N'IdState',N'1',NULL,0,1)
- ,(N'Cliente',N'Cliente_nuevo_contacto',N'3d766532-4458-4376-a9c9-fb1497fb8345',0,1,NULL,NULL,NULL,NULL,NULL,0,1)
- ,(N'Cliente',N'cliente_unlock',N'06538bbd-995b-46f7-8cd8-aed3cdf27f22',0,1,NULL,N'Solo si está bloqueado',N'IdState',N'2',N'1',0,1)
- ,(N'Cliente',N'ConvertToNational',N'714e690b-22ef-4132-8d3f-5689f6298cfd',0,1,NULL,N'Solo aparecerá si el cliente tiene estado = 4',N'IdType',N'4',NULL,0,1)
- ,(N'Cliente',N'nueva_venta',N'6ba6af55-ec08-466c-92c5-b532df341eba',0,1,NULL,NULL,NULL,NULL,NULL,0,1)
- ,(N'Clientes',N'ConvertToNationalColl',N'714e690b-22ef-4132-8d3f-5689f6298cfd',0,1,NULL,N'Solo aparecerá si el cliente tiene estado = 4',NULL,N'4',NULL,1,1)
- ,(N'Clientes',N'pPers_LockClientBatch',N'de5a2347-abb8-441f-8fca-4f26a5189360',0,1,NULL,NULL,NULL,NULL,NULL,1,1)
- ,(N'Employee',N'CreateUser',N'98c4529d-9920-4fd7-9c10-9a43ff47635f',0,1,NULL,NULL,NULL,NULL,NULL,0,1)
-) AS Source ([ObjectName],[ProcessName],[MenuId],[Order],[Active],[SQLEnabled],[SQLEnabledDescrip],[EnabledProperty],[EnabledValues],[DisabledValues],[BagOnly],[OriginId])
+  (N'Cliente',N'Cliente_lock',N'de5a2347-abb8-441f-8fca-4f26a5189360',0,1,NULL,N'Solo aparecerá si el cliente tiene estado = 1',N'IdState',N'1',NULL,0,1,0,1)
+ ,(N'Cliente',N'Cliente_nuevo_contacto',N'3d766532-4458-4376-a9c9-fb1497fb8345',0,1,NULL,NULL,NULL,NULL,NULL,0,1,0,1)
+ ,(N'Cliente',N'cliente_unlock',N'06538bbd-995b-46f7-8cd8-aed3cdf27f22',0,1,NULL,N'Solo si está bloqueado',N'IdState',N'2',N'1',0,1,0,1)
+ ,(N'Cliente',N'ConvertToNational',N'714e690b-22ef-4132-8d3f-5689f6298cfd',0,1,NULL,N'Solo aparecerá si el cliente tiene estado = 4',N'IdType',N'4',NULL,0,1,0,1)
+ ,(N'Cliente',N'nueva_venta',N'6ba6af55-ec08-466c-92c5-b532df341eba',0,1,NULL,NULL,NULL,NULL,NULL,0,1,0,1)
+ ,(N'Clientes',N'ConvertToNationalColl',N'714e690b-22ef-4132-8d3f-5689f6298cfd',0,1,NULL,N'Solo aparecerá si el cliente tiene estado = 4',NULL,N'4',NULL,1,1,0,1)
+ ,(N'Clientes',N'pPers_LockClientBatch',N'de5a2347-abb8-441f-8fca-4f26a5189360',0,1,NULL,NULL,NULL,NULL,NULL,1,1,0,1)
+ ,(N'Employee',N'CreateUser',N'98c4529d-9920-4fd7-9c10-9a43ff47635f',0,1,NULL,NULL,NULL,NULL,NULL,0,1,0,1)
+) AS Source ([ObjectName],[ProcessName],[MenuId],[Order],[Active],[SQLEnabled],[SQLEnabledDescrip],[EnabledProperty],[EnabledValues],[DisabledValues],[BagOnly],[ClearSelectionBag],[Offline],[OriginId])
 ON (Target.[ObjectName] = Source.[ObjectName] AND Target.[ProcessName] = Source.[ProcessName])
 WHEN MATCHED AND (
 	NULLIF(Source.[MenuId], Target.[MenuId]) IS NOT NULL OR NULLIF(Target.[MenuId], Source.[MenuId]) IS NOT NULL OR 
@@ -24,6 +24,8 @@ WHEN MATCHED AND (
 	NULLIF(Source.[EnabledValues], Target.[EnabledValues]) IS NOT NULL OR NULLIF(Target.[EnabledValues], Source.[EnabledValues]) IS NOT NULL OR 
 	NULLIF(Source.[DisabledValues], Target.[DisabledValues]) IS NOT NULL OR NULLIF(Target.[DisabledValues], Source.[DisabledValues]) IS NOT NULL OR 
 	NULLIF(Source.[BagOnly], Target.[BagOnly]) IS NOT NULL OR NULLIF(Target.[BagOnly], Source.[BagOnly]) IS NOT NULL OR 
+	NULLIF(Source.[ClearSelectionBag], Target.[ClearSelectionBag]) IS NOT NULL OR NULLIF(Target.[ClearSelectionBag], Source.[ClearSelectionBag]) IS NOT NULL OR 
+	NULLIF(Source.[Offline], Target.[Offline]) IS NOT NULL OR NULLIF(Target.[Offline], Source.[Offline]) IS NOT NULL OR 
 	NULLIF(Source.[OriginId], Target.[OriginId]) IS NOT NULL OR NULLIF(Target.[OriginId], Source.[OriginId]) IS NOT NULL) THEN
  UPDATE SET
   [MenuId] = Source.[MenuId], 
@@ -35,10 +37,12 @@ WHEN MATCHED AND (
   [EnabledValues] = Source.[EnabledValues], 
   [DisabledValues] = Source.[DisabledValues], 
   [BagOnly] = Source.[BagOnly], 
+  [ClearSelectionBag] = Source.[ClearSelectionBag], 
+  [Offline] = Source.[Offline], 
   [OriginId] = Source.[OriginId]
 WHEN NOT MATCHED BY TARGET THEN
- INSERT([ObjectName],[ProcessName],[MenuId],[Order],[Active],[SQLEnabled],[SQLEnabledDescrip],[EnabledProperty],[EnabledValues],[DisabledValues],[BagOnly],[OriginId])
- VALUES(Source.[ObjectName],Source.[ProcessName],Source.[MenuId],Source.[Order],Source.[Active],Source.[SQLEnabled],Source.[SQLEnabledDescrip],Source.[EnabledProperty],Source.[EnabledValues],Source.[DisabledValues],Source.[BagOnly],Source.[OriginId])
+ INSERT([ObjectName],[ProcessName],[MenuId],[Order],[Active],[SQLEnabled],[SQLEnabledDescrip],[EnabledProperty],[EnabledValues],[DisabledValues],[BagOnly],[ClearSelectionBag],[Offline],[OriginId])
+ VALUES(Source.[ObjectName],Source.[ProcessName],Source.[MenuId],Source.[Order],Source.[Active],Source.[SQLEnabled],Source.[SQLEnabledDescrip],Source.[EnabledProperty],Source.[EnabledValues],Source.[DisabledValues],Source.[BagOnly],Source.[ClearSelectionBag],Source.[Offline],Source.[OriginId])
 WHEN NOT MATCHED BY SOURCE AND TARGET.OriginId = 1 THEN 
  DELETE
 ;

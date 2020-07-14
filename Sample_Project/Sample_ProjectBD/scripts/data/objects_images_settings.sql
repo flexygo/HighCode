@@ -4,7 +4,8 @@ BEGIN TRY
 
 MERGE INTO [Objects_Images_Settings] AS Target
 USING (VALUES
-  (N'Cliente',N'IdClient',N'~/custom/images/',N'flexygo',NULL,NULL,1)
+  (N'Accion',N'ActionId',N'~/custom/images/',N'flexygo',NULL,N'sysimg-generic',1)
+ ,(N'Cliente',N'IdClient',N'~/custom/images/',N'flexygo',NULL,NULL,1)
 ) AS Source ([ObjectName],[KeyProperty],[RootPath],[TypeId],[ERPObjectName],[DefaultCategoryId],[OriginId])
 ON (Target.[ObjectName] = Source.[ObjectName] AND Target.[KeyProperty] = Source.[KeyProperty])
 WHEN MATCHED AND (
