@@ -70,7 +70,8 @@ var flexygo;
                             FilterValues: listToExport.filterValues,
                             TemplateId: listToExport.templateId,
                             ViewId: listToExport.viewId,
-                            PageSize: maxNumber
+                            PageSize: maxNumber,
+                            PresetId: listToExport.presetId
                         };
                         flexygo.ajax.post('~/api/List', 'GetList', params, (response) => {
                             if (response.Template.TableData) {
@@ -87,7 +88,7 @@ var flexygo;
                                     tr = $('<tr/>').appendTo(table.find('tbody'));
                                     for (let cell in row) {
                                         if (cell.toLowerCase() !== '_objectname' && cell.toLowerCase() !== '_objectwhere' && cell.toLowerCase() !== '_guid' && cell.toLowerCase() !== '_ot') {
-                                            tr.append('<td>' + ((row[cell] === null) ? (format === "pdf" || format === "excel" || format === "xls" || format === "doc") ? '' : null : (format !== "json" && row[cell].toString().startsWith('/Date(') && row[cell].toString().endsWith(')/')) ? moment(row[cell]).format('L') + ((moment(row[cell]).format('HH:mm:ss') !== "00:00:00") ? ' ' + moment(row[cell]).format('LTS') : '') : row[cell]) + '</td>');
+                                            tr.append('<td>' + ((row[cell] === null) ? (format === "pdf" || format === "excel" || format === "xls" || format === "doc") ? '' : null : (format !== "json" && row[cell].toString().startsWith('/Date(') && row[cell].toString().endsWith(')/')) ? moment(row[cell]).format('L') + ((moment(row[cell]).format('HH:mm:ss') !== "00:00:00") ? ' ' + moment(row[cell]).format('LTS') : '') : ((typeof row[cell] == 'number') ? row[cell].toString().replace('.', ',') : row[cell])) + '</td>');
                                         }
                                     }
                                 }
@@ -146,7 +147,7 @@ var flexygo;
                         menuUl.append('<li class="separator"></li>');
                         let itm = $('<li method="opensubmenu"><span class="item-closed"><i class="flx-icon icon-report" /><span> ' + flexygo.localization.translate('navigation.reports') + ' </span></li>');
                         menuUl.append(itm);
-                        itm.append($(myObj.getChildNodes(flexygo.utils.lowerKeys(proc.ReportLink))));
+                        itm.append($(myObj.getChildNodes(flexygo.utils.lowerKeys(proc.ReportLink, true))));
                     }
                     menuUl.find('li').off('click').on('click', function (event) {
                         if ($(this).attr('method') === 'print') {

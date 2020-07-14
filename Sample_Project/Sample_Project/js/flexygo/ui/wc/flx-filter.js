@@ -397,7 +397,14 @@ var flexygo;
                     else {
                         for (let key in objects) {
                             let ctl = me.find('[property=' + objects[key].objectproperty + ']')[0];
-                            ctl.setValue(objects[key].value, objects[key].text);
+                            if (objects[key].filtertype == 'number-range' || objects[key].filtertype == 'date-range') {
+                                let valMin = objects[key].value.split('|')[0];
+                                let valMax = objects[key].value.split('|')[1];
+                                ctl.setValue(valMin, valMax);
+                            }
+                            else {
+                                ctl.setValue(objects[key].value, objects[key].text);
+                            }
                         }
                     }
                     this.applyFilters();

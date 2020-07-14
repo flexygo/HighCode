@@ -10849,7 +10849,7 @@ var dialog = $.widget( "ui.dialog", {
 
 		// TODO: Remove hack when datepicker implements
 		// the .ui-front logic (#8989)
-		return !!$( event.target ).closest( ".ui-datepicker" ).length;
+        return !!$(event.target).closest(".ui-datepicker").length || !!$(event.target).closest(".lobibox").length ;
 	},
 
 	_createOverlay: function() {

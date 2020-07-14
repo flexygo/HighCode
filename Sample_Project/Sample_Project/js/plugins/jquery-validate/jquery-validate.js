@@ -1138,7 +1138,8 @@
             dateISO: { dateISO: true },
             number: { number: true },
             digits: { digits: true },
-            creditcard: { creditcard: true }
+            creditcard: { creditcard: true },
+            sqlvalidator: { sqlvalidator: true }
         },
 
         addClassRules: function (className, rules) {

@@ -3,6 +3,14 @@
     return (new RegExp(regexpr)).test(value);
 }, "Please enter a valid value.");
 
+$.validator.addMethod("sqlvalidator", function (value, element, validated) {
+    if (validated == 0) {
+        $.validator.messages.sqlvalidator = element.getAttributeNode("data-msg-sqlvalidator").value;
+        return false;
+    }
+    return true;
+});
+
 $.validator.methods.step = function (value, element, param) {
     // Replace default Jquery step validation
     var type = $(element).attr("type"),

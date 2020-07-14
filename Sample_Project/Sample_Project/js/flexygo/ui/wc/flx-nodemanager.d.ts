@@ -21,7 +21,7 @@ declare namespace flexygo.ui.wc {
         order: number;
     }
     /**
-    * Library for the FlxNodeManagerElement web component.
+    * Library for the FlxMenuManagerElement web component.
     *
     * @class FlxNodeManagerElement
     * @constructor
@@ -49,6 +49,10 @@ declare namespace flexygo.ui.wc {
        * @method connectedCallback
        */
         connectedCallback(): void;
+        /**
+        * Init menu manager
+        * @method init
+        */
         init(): void;
         template: string;
         refreshNavBar(): void;

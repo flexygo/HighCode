@@ -2,8 +2,8 @@
  * @namespace flexygo.utils.parser
  */
 declare namespace flexygo.utils.parser {
-    function recursiveCompile(json: any, template: string, contextFunctions?: any, lastTemplate?: string): string;
-    function compile(json: any, template: string, contextFunctions?: any): string;
+    function recursiveCompile(json: any, template: string, contextFunctions?: any, lastTemplate?: string, AddTimeZone?: boolean): string;
+    function compile(json: any, template: string, contextFunctions?: any, AddTimeZone?: boolean): string;
     function compileTemplate(tmp: any, dataTbl: any, ctx: any): string;
     function paintGroupHeader(item: any, groups: any, ctx: any): string;
     function paintGroupFooter(item: any, groups: any, ctx: any): string;

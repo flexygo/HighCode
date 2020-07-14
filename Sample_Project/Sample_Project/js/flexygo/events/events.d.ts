@@ -2,8 +2,8 @@
  * @namespace flexygo.events
  */
 declare namespace flexygo.events {
-    type EventClass = "all" | "entity" | "property" | "process" | "module" | "page" | "post" | "dialog" | "push" | "message" | "gipe";
-    type EventType = "all" | "inserted" | "updated" | "deleted" | "changed" | "selected" | "executed" | "loaded" | "closed" | "refreshed" | "resized" | "generic" | "notify" | "filtered" | "loading" | "error" | "warning" | "info" | "success" | "exception" | "askparams" | "askentity" | "askyesno" | "debugstep" | "jsreturn" | "start" | "finish";
+    type EventClass = "all" | "entity" | "property" | "process" | "module" | "page" | "post" | "dialog" | "push" | "message" | "gipe" | "navbar";
+    type EventType = "all" | "inserted" | "updated" | "deleted" | "changed" | "selected" | "executed" | "loaded" | "closed" | "refreshed" | "resized" | "generic" | "notify" | "filtered" | "loading" | "error" | "warning" | "info" | "success" | "exception" | "askparams" | "askentity" | "askyesno" | "debugstep" | "jsreturn" | "start" | "finish" | "toggled" | "check" | "uncheck";
     type EventAction = "refresh" | "process";
     /**
     * api for FlexygoEvent
@@ -17,7 +17,7 @@ declare namespace flexygo.events {
         sender?: any;
         context?: object;
         masterIdentity?: string;
-        detailIdentity?: string;
+        detailIdentity?: any;
         firedBy?: string;
         constructor(eventClass: EventClass, eventType: EventType, sender?: object, masterIdentity?: string, detailIdentity?: string, firedBy?: string);
     }

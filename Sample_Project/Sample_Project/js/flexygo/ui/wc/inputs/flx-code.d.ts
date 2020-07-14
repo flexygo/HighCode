@@ -1,4 +1,5 @@
 declare var CodeMirror: any;
+declare var JSHINT: any;
 /**
  * @namespace flexygo.ui.wc
  */

@@ -96,6 +96,10 @@ var flexygo;
                         if (response.CloseParamWindow && response.Success && this.module) {
                             this.module.closeWindow();
                         }
+                        if (response.ClearSelectionBag && response.Success) {
+                            let ent = new flexygo.obj.Entity(this.objectName);
+                            flexygo.selection.clear(ent.getConfig().ObjectName);
+                        }
                         let ev = {
                             class: "process",
                             type: "executed",

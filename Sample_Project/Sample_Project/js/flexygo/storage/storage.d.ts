@@ -105,3 +105,44 @@ declare namespace flexygo.storage.session {
      */
     function get(key: string): any;
 }
+/**
+* Library to call local storage cache functions.
+*
+* @class flexygo.storage.cache
+* @constructor
+*/
+declare namespace flexygo.storage.cache {
+    class cacheResponse {
+        filters: any;
+        response: any;
+        expiredDate: any;
+    }
+    /**
+     * Method to add an element to Session Storage.
+     * @method add
+     * @param {string} key - Element key.
+     * @param {string} filters - filters value.
+     * @param {string} value - element value.
+     */
+    function add(key: string, filters: any, value: any, minutesToExpire: number): void;
+    /**
+     * Method to remove an element from Session Storage.
+     * @method remove
+     * @param {string} key - Element key.
+     * @param {string} filters - filters value.
+     */
+    function remove(key: string, filters: any): void;
+    /**
+     * Method to clear Session Storage.
+     * @method clear
+    * @param {string} key - Element key.
+     */
+    function clear(key: string): void;
+    /**
+     * Method to get an element from Session Storage.
+     * @method get
+     * @param {string} key - Element key.
+     * @param {string} filters - filters value.
+     */
+    function get(key: string, filters: any): cacheResponse;
+}

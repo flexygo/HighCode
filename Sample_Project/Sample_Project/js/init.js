@@ -92,7 +92,9 @@ function initPage() {
 * @method resizeMain
 */
 function resizeMain() {
-    $('#mainBlock').css('min-height', (!($('body.header-follows').length > 0 || $('body.header-overflow').length > 0)) ? $(window).height() - $('header:first').height() + 'px' : '100%');
+    if (!flexygo.utils.isSizeMobile()) {
+        $('#mainBlock').css('min-height', (!($('body.header-follows').length > 0 || $('body.header-overflow').length > 0)) ? $(window).height() - $('header:first').height() + 'px' : '100%');
+    }
 }
 /**
 * Load Page.

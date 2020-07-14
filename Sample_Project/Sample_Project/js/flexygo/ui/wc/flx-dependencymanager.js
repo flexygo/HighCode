@@ -28,6 +28,7 @@ var flexygo;
                     this.processname = null;
                     this.propertyname = null;
                     this.constringItems = null;
+                    this.cusControlsItems = null;
                     this.mode = null;
                 }
                 /**
@@ -38,6 +39,7 @@ var flexygo;
                     let element = $(this);
                     this.connected = true;
                     this.loadConnStrings();
+                    this.loadCusControls();
                     this.template = this.getTemplate();
                     this.objectname = element.attr('ObjectName');
                     this.reportname = element.attr("ReportName");
@@ -113,6 +115,14 @@ var flexygo;
                     this.constringItems = obj.getView('CnnStrings');
                 }
                 /**
+              * RefrLoads CusControls for combo.
+              * @method loadCusControls
+              */
+                loadCusControls() {
+                    let obj = new flexygo.obj.Entity('SysCustomProperty');
+                    this.cusControlsItems = obj.getView('SysCustomPropertyDefaultList');
+                }
+                /**
                 * RefrLoads tabs.
                 * @method loadTabs
                 */
@@ -126,7 +136,8 @@ var flexygo;
                     me.find('.pnlNavigate').append('<li data-link="enabled-controls"><a href="#"><i class="flx-icon icon-lock-1"></i> ' + flexygo.localization.translate('dependecymanager.enabledep') + '</a></li>');
                     me.find('.pnlNavigate').append('<li data-link="visible-controls"><a href="#"><i class="flx-icon icon-eye"></i> ' + flexygo.localization.translate('dependecymanager.visibledep') + '</a></li>');
                     me.find('.pnlNavigate').append('<li data-link="required-controls"><a href="#"><i class="flx-icon icon-checked"></i> ' + flexygo.localization.translate('dependecymanager.requireddep') + '</a></li>');
-                    me.find('.pnlNavigate').append('<li data-link="cnnstrings-controls"><a href="#"><i class="flx-icon icon-checked"></i> ' + flexygo.localization.translate('dependecymanager.connectionstrings') + '</a></li>');
+                    me.find('.pnlNavigate').append('<li data-link="customControl-controls"><a href="#"><i class="flx-icon icon-wizard-1"></i> ' + flexygo.localization.translate('dependecymanager.CustomProperty') + '</a></li>');
+                    me.find('.pnlNavigate').append('<li data-link="cnnstrings-controls"><a href="#"><i class="flx-icon icon-database-configuration"></i> ' + flexygo.localization.translate('dependecymanager.connectionstrings') + '</a></li>');
                     me.find('.pnlNavigate').append('<li data-link="save-Module" class="pull-right"><button class="btn btn-default bg-info"><i class="flx-icon icon-save"></i> ' + flexygo.localization.translate('dependecymanager.save') + '</button></a></li>');
                     me.find('.pnlNavigate>li>a').on('click', (ev) => {
                         ev.stopPropagation();
@@ -213,7 +224,7 @@ var flexygo;
                     let pnl = me.find('.pnlProperties');
                     let unpnl = me.find('.unactiveProperties');
                     for (let i = 0; i < propItems.length; i++) {
-                        if (propItems[i].HasValueDep == 1 || propItems[i].HasClassDep == 1 || propItems[i].HasComboDep == 1 || propItems[i].HasEnabledDep == 1 || propItems[i].HasVisibleDep == 1 || propItems[i].HasRequiredDep) {
+                        if (propItems[i].HasValueDep == 1 || propItems[i].HasClassDep == 1 || propItems[i].HasComboDep == 1 || propItems[i].HasEnabledDep == 1 || propItems[i].HasVisibleDep == 1 || propItems[i].HasRequiredDep || propItems[i].HasCustomPropertyDep || propItems[i].HasConnstringDep) {
                             pnl.append(flexygo.utils.parser.compile(propItems[i], this.template, flexygo));
                         }
                         else {
@@ -254,6 +265,9 @@ var flexygo;
                     dep.find('.HasEnabledDep').visible(dep.find('[property="EnabledValues"]').val() != null || dep.find('[property="DisabledValues"]').val() != null || dep.find('[property="SQLEnabled"]').val() != null);
                     dep.find('.HasVisibleDep').visible(dep.find('[property="VisibleValues"]').val() != null || dep.find('[property="HiddenValues"]').val() != null || dep.find('[property="SQLVisible"]').val() != null);
                     dep.find('.HasRequiredDep').visible(dep.find('[property="RequiredValues"]').val() != null || dep.find('[property="NotRequiredValues"]').val() != null || dep.find('[property="SQLRequired"]').val() != null);
+                    dep.find('.HasCustomPropertyDep').visible(dep.find('[property="SQLCustomProperty"]').val() != null || dep.find('[property="PropertyValue"]').val() != null || dep.find('[property="CusPropName"]').val() != null);
+                    dep.find('.HasConnstringDep').visible(dep.find('[property="HasConnstringDep"]').val() != null);
+                    //dep.find('.HasConnstringDep').visible(dep.find('[property="ConnStringId"]').val() != null);
                     if (dep.find('[property="Active"]').val()) {
                         dep.find('.propName').removeClass('strike');
                     }
@@ -310,6 +324,18 @@ var flexygo;
                         dep.find('[property="RequiredValues"]').attr('disabled', true);
                         dep.find('[property="NotRequiredValues"]').attr('disabled', true);
                     }
+                    //Enabled or disabled Custom Property dep
+                    dep.find('.customControl-controls [property]').removeAttr('disabled');
+                    if (dep.find('[property="SQLCustomProperty"]').val() != null) {
+                        dep.find('[property="PropertyValue"]').attr('disabled', true);
+                        dep.find('[property="CusPropName"]').attr('disabled', true);
+                    }
+                    else if (dep.find('[property="PropertyValue"]').val() != null) {
+                        dep.find('[property="SQLCustomProperty"]').attr('disabled', true);
+                    }
+                    else if (dep.find('[property="CusPropName"]').val() != null) {
+                        dep.find('[property="SQLCustomProperty"]').attr('disabled', true);
+                    }
                 }
                 /**
                 * Gets template.
@@ -322,7 +348,8 @@ var flexygo;
                     template += '<div class="row">';
                     template += '<div class="col-2 propName {{Active|Bool:,strike}}">';
                     template += '{{DependingPropertyName}}';
-                    template += '  <i title="Connection string for dependencies" class="flx-icon icon-tag HasConnstringDep" style="{{HasConnstringDep|Bool:,display:none}}"></i>';
+                    template += '  <i title="Connection string for dependencies" class="flx-icon icon-database-configuration " style="{{HasConnstringDep|Bool:,display:none}}"></i>';
+                    template += '  <i title="Has Custom Control dependency" class="flx-icon icon-wizard-1 HasCustomPropertyDep" style="{{HasCustomPropertyDep|Bool:,display:none}}"></i>';
                     template += '  <i title="Has value dependency" class="flx-icon icon-tag HasValueDep" style="{{HasValueDep|Bool:,display:none}}"></i>';
                     template += '  <i title="Has Class dependency" class="flx-icon icon-custom HasClassDep" style="{{HasClassDep|Bool:,display:none}}"></i>';
                     template += '  <i title="Has Combo dependency" class="flx-icon icon-listbox-2 HasComboDep" style="{{HasComboDep|Bool:,display:none}}"></i>';
@@ -333,6 +360,11 @@ var flexygo;
                     template += '<div class="col-10">';
                     template += '<div class="cnnstrings-controls ctl-panel" style="display:none">';
                     template += '  <flx-combo type="text" property="ConnStringId" placeholder="' + flexygo.localization.translate('dependecymanager.connStringvalues') + '" value="{{ConnStringId}}">' + this.getConnStringItems() + '</flx-combo>';
+                    template += '</div>';
+                    template += '<div class="customControl-controls ctl-panel" style="display:none">';
+                    template += '  <flx-tag separator= "|" class="col-3" property="PropertyValue" placeholder="' + flexygo.localization.translate('dependecymanager.valueApply') + '" value= "{{PropertyValue}}" > </flx-tag>';
+                    template += '  <flx-combo type="text" title="' + flexygo.localization.translate('dependecymanager.CusPropertyName') + '" class="col-3" property="CusPropName" value="{{CusPropName}}">' + this.getCusControls() + '</flx-combo>';
+                    template += '  <flx-text type="text" class="col-6" property="SQLCustomProperty" placeholder="' + flexygo.localization.translate('dependecymanager.SQLCustomProperty') + '" value="{{SQLCustomProperty}}" ></flx-text>';
                     template += '</div>';
                     template += '<div class="value-controls ctl-panel" style="display:none">';
                     template += '  <flx-text type="text" property="SQLValue" placeholder="' + flexygo.localization.translate('dependecymanager.sqlvalue') + '" value="{{SQLValue}}"></flx-text>';
@@ -377,6 +409,13 @@ var flexygo;
                     let str = '<option value=""></option>';
                     for (let i = 0; i < this.constringItems.length; i++) {
                         str += '<option value="' + this.constringItems[i].ConnStringid + '">' + this.constringItems[i].ConnStringid + '</option >';
+                    }
+                    return str;
+                }
+                getCusControls() {
+                    let str = '<option value=""></option>';
+                    for (let i = 0; i < this.cusControlsItems.length; i++) {
+                        str += '<option value="' + this.cusControlsItems[i].CustomPropName + '">' + this.cusControlsItems[i].CustomPropName + '</option >';
                     }
                     return str;
                 }

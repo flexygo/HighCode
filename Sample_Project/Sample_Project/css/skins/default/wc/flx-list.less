@@ -1,3 +1,40 @@
+flx-list {
+    .start_info {
+        font-size: 2em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 100px;
+
+        i {
+            cursor: pointer;
+            margin-left: 10px;
+            padding: 10px;
+            border-radius: @flxlist_containers_border_radius;
+            border: 1px solid transparent;
+            background-color: rgba(170, 170, 170, 0.15);
+            .flxlist_transition();
+
+            &:hover {
+                color: dbColor(OutstandingColor);
+                border-color: unset;
+                background-color: unset;
+            }
+        }
+    }
+
+    .flxlist_transition(@property: all, @duration: .15s, @function: ease-in-out, @delay: 0s) {
+        @transition: @property @duration @function @delay;
+        -webkit-transition: @transition;
+        -moz-transition: @transition;
+        -o-transition: @transition;
+        transition: @transition;
+    }
+
+    @flxlist_containers_border_radius: 6px;
+    @flxlist_controls_border_radius: 4px;
+}
+
 
 flx-filter .filter-control {
     height: 30px;
@@ -22,6 +59,7 @@ flx-list table.flxRszTbl, .flx-list table {
     display: block;
     margin: 0px;
     display: table;
+   // padding-bottom: 10px;
 }
 
 .filterPanel:empty {

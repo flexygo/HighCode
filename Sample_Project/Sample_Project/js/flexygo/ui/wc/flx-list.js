@@ -23,6 +23,7 @@ var flexygo;
                    */
                     this.connected = false;
                     this.mode = null;
+                    this.isFocused = false;
                     this.objectname = null;
                     this.childname = null;
                     this.collectionname = null;
@@ -34,6 +35,9 @@ var flexygo;
                     this.tFooter = null;
                     this.tCSSText = null;
                     this.tScriptText = null;
+                    this.currentRow = null;
+                    this.prevRow = null;
+                    this.isRowDirty = false;
                     this.pager = null;
                     this.pagerConfig = null;
                     this.additionalWhere = '';
@@ -74,9 +78,9 @@ var flexygo;
                     this.refreshing = null; //Set by FlxGenericSearchElement
                 }
                 /**
-                * Fires when element is attached to DOM
-                * @method connectedCallback
-                */
+               * Fires when element is attached to DOM
+               * @method connectedCallback
+               */
                 connectedCallback() {
                     let element = $(this);
                     this.connected = true;
@@ -147,7 +151,7 @@ var flexygo;
                 */
                 refresh() {
                     if ($(this).attr('manualInit') != 'true') {
-                        this.initGrid(false, true);
+                        this.initGrid(false, true, this.page);
                     }
                 }
                 /**
@@ -292,6 +296,7 @@ var flexygo;
                             this.collectionname = response.ObjectName;
                             if (response.Template) {
                                 let template = response.Template;
+                                this.fields = template.TableColumns;
                                 this.templateId = template.Id;
                                 this.templatetype = template.TemplateType;
                                 this.data = template.TableData;
@@ -316,9 +321,8 @@ var flexygo;
                             this.processwhere = response.ObjectWhere;
                             this.properties = response.Properties;
                             for (let key in this.properties) {
-                                this.properties[key].PlaceHolder = this.properties[key].Label;
-                                if (this.mode == 'edit') {
-                                    this.properties[key].ObjNameLink = '';
+                                if (!this.properties[key].PlaceHolder) {
+                                    this.properties[key].PlaceHolder = this.properties[key].Label;
                                 }
                             }
                             this.propArr = flexygo.utils.sortObject(this.properties, 'PositionY', 'PositionX');
@@ -410,6 +414,71 @@ var flexygo;
                     }
                 }
                 /**
+                * Start info Template
+                * @property startInfo {string}
+                */
+                startInfoTemplate() {
+                    return `<div class="start_info txt-muted">
+                        <span>${flexygo.localization.translate('flxeditgrid.startinfo')}</span>
+                        <i class="flx-icon icon-settings"/>
+                    </div>`;
+                }
+                /**
+                * Set main events.
+                * @method setStartInfoEvents
+                */
+                setStartInfoEvents() {
+                    try {
+                        let me = $(this);
+                        me.find('.start_info i').off('click.editgridconf').on('click.editgridconf', function () {
+                            me[0].configure();
+                        });
+                    }
+                    catch (ex) {
+                        console.log(ex);
+                    }
+                }
+                hasProperties() {
+                    let foundProperties = [];
+                    for (let i = 0; i < this.propArr.length; i++) {
+                        let prop = this.propArr[i];
+                        if (prop.WebComponent && !prop.Hide) {
+                            foundProperties.push(prop);
+                        }
+                    }
+                    return foundProperties.length > 0;
+                }
+                setRowEvents() {
+                    let me = $(this);
+                    me.find('tbody tr td:visible [property], tfoot tr td:visible [property]').each((i, el) => {
+                        this.setRowEvent(el);
+                    });
+                }
+                setRowEvent(el) {
+                    $(el).off('change.dirty').on('change.dirty', (e) => {
+                        if (this.isFocused) {
+                            this.isRowDirty = true;
+                        }
+                    });
+                    $(el).off('focusin.dirty').on('focusin.dirty', (e) => {
+                        this.currentRow = $(e.currentTarget).closest("tr");
+                        if (this.prevRow && !this.currentRow.is(this.prevRow)) {
+                            if (this.isRowDirty) {
+                                this.prevRow.find('.saveRowButton').click();
+                                this.isRowDirty = false;
+                            }
+                        }
+                    });
+                    $(el).off('focusout.dirty').on('focusout.dirty', (e) => {
+                        this.prevRow = $(e.currentTarget).closest("tr");
+                        let isLastChild = $(e.currentTarget).closest("td").nextAll(":visible")[0] == undefined ? true : false;
+                        if (isLastChild && this.isRowDirty && $(e.currentTarget).closest("tr").closest('tfoot').length > 0) {
+                            $(e.currentTarget).closest('tr').find('.saveRowButton').click();
+                            this.isRowDirty = false;
+                        }
+                    });
+                }
+                /**
                 * Starts control rendering.
                 * @method render
                 */
@@ -429,6 +498,13 @@ var flexygo;
                     if (this.presetId) {
                         this.changePresetText();
                     }
+                    // If is in edit mode and is not configured
+                    if (this.mode === "edit" && !this.hasProperties()) {
+                        rendered += this.startInfoTemplate();
+                        me.html(rendered);
+                        this.setStartInfoEvents();
+                        return;
+                    }
                     if (this.data.length > 0 || this.mode === 'edit') {
                         if (this.tHeader && this.tHeader !== '') {
                             let render = flexygo.utils.parser.recursiveCompile(this.data[0], this.tHeader, this);
@@ -438,7 +514,6 @@ var flexygo;
                         if (this.tBody && this.tBody !== '') {
                             let lastItem = null;
                             if (this.data.length > 0) {
-                                rendered += flexygo.utils.parser.paintGroupHeader(this.data[0], this.groups, this);
                                 for (let i = 0; i < this.data.length; i++) {
                                     let notExclude = false;
                                     if (this.filter && this.filter !== '') {
@@ -453,12 +528,17 @@ var flexygo;
                                         notExclude = true;
                                     }
                                     if (notExclude) {
+                                        if (!lastItem) {
+                                            rendered += flexygo.utils.parser.paintGroupHeader(this.data[i], this.groups, this);
+                                        }
                                         rendered += flexygo.utils.parser.controlGroup(lastItem, this.data[i], this.groups, this);
                                         rendered += flexygo.utils.parser.recursiveCompile(this.data[i], this.tBody, this);
                                         lastItem = this.data[i];
                                     }
                                 }
-                                rendered += flexygo.utils.parser.paintGroupFooter(this.data[this.data.length - 1], this.groups, this);
+                                if (lastItem) {
+                                    rendered += flexygo.utils.parser.paintGroupFooter(this.data[this.data.length - 1], this.groups, this);
+                                }
                             }
                         }
                         if (this.tFooter && this.tFooter !== '') {
@@ -547,9 +627,7 @@ var flexygo;
                     }
                     if (this.mode == 'edit' && this.canUpdate) {
                         if (this.propArr.length > 1) {
-                            me.find('tbody tr td:last-child [property],tfoot tr td:last-child [property]').off('blur').on('blur', (e) => {
-                                $(e.currentTarget).closest('tr').find('.saveRowButton').click();
-                            });
+                            this.setRowEvents();
                         }
                         me.find('tbody tr, tfoot tr').each((i, e) => {
                             $(e).attr('id', flexygo.utils.uniqueId()).addClass('form');
@@ -569,9 +647,7 @@ var flexygo;
                             });
                         });
                         this.processLoadDependencies();
-                    } /* else if (this.mode == 'edit' && ! this.canUpdate) {
-                        $(me).find('.saveRowButton').hide();
-                    }*/
+                    }
                     let tbl = me.find('table.flxRszTbl');
                     if (tbl.length == 1) {
                         tbl.colResizable({
@@ -648,6 +724,34 @@ var flexygo;
              */
                 refreshProperty(itm, prop, loadDependency) {
                     let cntl = prop[0];
+                    if (itm.changeCustomProperty) {
+                        this.properties[itm.PropertyName] = itm.newCustomProperty;
+                        let element = $(`<${itm.newCustomProperty.WebComponent}/>`);
+                        let EType = element.attr("type");
+                        let attrs = prop[0].attributes;
+                        $.each(attrs, function () {
+                            element.attr(this.name, this.value);
+                        });
+                        element.attr("type", EType);
+                        let cntl = prop[0];
+                        let IObjectName = cntl.options.ObjectName;
+                        let IName = cntl.options.Name;
+                        let IPositionX = cntl.options.PositionX;
+                        let IPositionY = cntl.options.PositionY;
+                        cntl.options = itm.newCustomProperty;
+                        cntl.options.ObjectName = IObjectName;
+                        cntl.options.Name = IName;
+                        cntl.options.PositionX = IPositionX;
+                        cntl.options.PositionY = IPositionY;
+                        cntl.options.DropDownValues = itm.newSqlItems;
+                        prop.replaceWith(element);
+                        prop = element;
+                        this.setRowEvent(element[0]);
+                    }
+                    if (itm.JSCode) {
+                        let func = new Function("ObjectName", "itm", "prop", itm.JSCode);
+                        func.call(this, this.objectname, itm, prop[0]);
+                    }
                     if (itm.changeSQL) {
                         if (cntl.changeSQLData) {
                             if (!loadDependency) {
@@ -704,15 +808,19 @@ var flexygo;
                 * @param {string} str
                 * @return {string}
                 */
-                parseEditString(str) {
-                    let me = $(this);
-                    let props = me.find('[property]');
+                parseEditString(str, ctx, property) {
+                    let props;
                     let obj = new Object();
+                    //if (ctx.mode === 'edit') {
+                    props = $(property).closest('tr').find('[property]');
+                    //} else {
+                    //   props = $(ctx).find('[property]');
+                    //}
                     for (let i = 0; i < props.length; i++) {
                         let prop = $(props[i])[0];
                         obj[prop.property] = prop.getValue();
                     }
-                    return flexygo.utils.parser.compile(obj, str, this);
+                    return flexygo.utils.parser.compile(obj, str, ctx.mode);
                 }
                 /**
                 * Captures property change event
@@ -838,7 +946,6 @@ var flexygo;
                         PropertyName: property,
                         Asc: this.sortAsc
                     };
-                    //this.orderStr = this.orderOpenQuote + property + this.orderCloseQuote + ((this.sortAsc) ? ' asc' : ' desc');
                     this.orderObj = [orderProp];
                     this.saveDefaultOrder();
                     this.refresh();
@@ -908,7 +1015,6 @@ var flexygo;
                     });
                     this.pager.attr('title', this.pager.find('.pageInfo').first().text());
                     this.refreshPager();
-                    //aqui
                 }
                 /**
                 * Refreshes pager.
@@ -996,12 +1102,14 @@ var flexygo;
                     let params;
                     this.page = newPage;
                     params = {
-                        "ObjectName": this.objectname,
-                        "CryptedSql": this.cryptedSql,
-                        "Page": this.page,
-                        "PageSize": this.pageSize,
-                        "RemoveKeys": this.removeKeys,
-                        "Filter": this.filters
+                        ObjectName: this.objectname,
+                        CryptedSql: this.cryptedSql,
+                        Page: this.page,
+                        PageSize: this.pageSize,
+                        RemoveKeys: this.removeKeys,
+                        Filter: this.filters,
+                        ModuleName: this.moduleName,
+                        PageName: flexygo.history.getPageName($(this)),
                     };
                     flexygo.ajax.post('~/api/List', 'GetPageList', params, (response) => {
                         if (response) {
@@ -1041,9 +1149,7 @@ var flexygo;
                     if (!history.filtersValues[module.moduleName]) {
                         history.filtersValues[module.moduleName] = new flexygo.nav.FilterHistoryValue();
                     }
-                    // if (!history.filtersValues[module.moduleName].activePage) {
                     history.filtersValues[module.moduleName].activePage = page;
-                    // }
                     flexygo.history.replace(history, me, false);
                 }
                 /**
@@ -1223,7 +1329,6 @@ var flexygo;
                         let arrBtn = flexygo.utils.sortObject(this.buttons, 'PositionId', 'Order');
                         if (arrBtn.length > 0) {
                             let btnGroup = $('<div class="btn-group" />');
-                            //btnGroup.css('width', (25 * arrBtn.length)+'px')
                             for (let i = 0; i < arrBtn.length; i++) {
                                 btnGroup.append(this._getButton(arrBtn[i], row._objectname, row._objectwhere, defString));
                             }
@@ -1373,7 +1478,9 @@ var flexygo;
                     let params = {
                         ObjectName: this.objectname,
                         CryptedSql: this.cryptedSql,
-                        Filter: this.filters
+                        Filter: this.filters,
+                        ModuleName: this.moduleName,
+                        PageName: flexygo.history.getPageName($(this)),
                     };
                     flexygo.ajax.post('~/api/List', 'GetCount', params, (response) => {
                         if (response) {
@@ -1424,15 +1531,15 @@ var flexygo;
                     let cell = $(e);
                     let ctl = cell.find('[property]')[0];
                     if (ctl) {
-                        let val = cell.attr('def-value') || null;
-                        let text = cell.attr('def-text') || null;
-                        ctl.setValue(val, text);
+                        ctl.init();
+                        if (!flexygo.utils.isBlank(cell.attr('def-value')) || !flexygo.utils.isBlank(cell.attr('def-text'))) {
+                            ctl.setValue(cell.attr('def-value') || null, cell.attr('def-text') || null);
+                        }
                     }
                 });
                 let flxlist = (list.is('flx-list')) ? list : list.find('flx-list');
                 flxlist[0].processLoadDependencies(list.find('tfoot > tr'));
                 list.find('.rowInsert').validate().resetForm();
-                list.find('tfoot > tr > td  input:enabled:visible:first').focus();
             }
             wc_1.clearRow = clearRow;
             function saveRow(objectName, objectWhere, list, btn, msg = true) {
@@ -1446,20 +1553,36 @@ var flexygo;
                             obj.read();
                             for (let i = 0; i < props.length; i++) {
                                 let prop = $(props[i])[0];
-                                obj.data[prop.property].Value = prop.getValue();
+                                if (obj.data[prop.property]) {
+                                    //DO SOMETHING WHEN PROPERTY IS NOT DETACHED
+                                    obj.data[prop.property].Value = prop.getValue();
+                                }
                             }
                             let ret;
                             //This is now controlled by Entity
-                            //let eventName;
                             if (!objectWhere || objectWhere == '') {
                                 ret = obj.insert();
-                                //eventName = 'insert';
                             }
                             else {
                                 ret = obj.update();
-                                //eventName = 'update';
                             }
                             if (ret) {
+                                if (obj.objectWhere && objectWhere && obj.objectWhere != objectWhere) {
+                                    tr.attr('objectWhere', obj.objectWhere);
+                                    let parentModule = tr.closest('flx-module');
+                                    let wcList = list[0];
+                                    let oldBtnGroup = tr.find('.btn-group:first');
+                                    if (wcList.buttons && obj.objectName && obj.objectWhere) {
+                                        let arrBtn = flexygo.utils.sortObject(wcList.buttons, 'PositionId', 'Order');
+                                        if (arrBtn.length > 0) {
+                                            let btnGroup = $('<div class="btn-group" />');
+                                            for (let i = 0; i < arrBtn.length; i++) {
+                                                btnGroup.append(wcList._getButton(arrBtn[i], obj.objectName, obj.objectWhere, parentModule[0].objectdefaults));
+                                            }
+                                            oldBtnGroup.replaceWith(btnGroup);
+                                        }
+                                    }
+                                }
                                 if (obj.jsCode) {
                                     flexygo.utils.execDynamicCode.call(this, obj.jsCode);
                                 }
@@ -1471,16 +1594,18 @@ var flexygo;
                                         flexygo.msg.success(flexygo.localization.translate('Saved :)'));
                                     }
                                 }
+                                list[0].isRowDirty = false;
                                 tr.removeClass('dirty');
                                 if (objectWhere && objectWhere != '') {
                                     for (let i = 0; i < props.length; i++) {
                                         let prop = $(props[i])[0];
-                                        prop.setValue(obj.data[prop.property].Value);
+                                        if (!prop.options.DetachedFromDB) {
+                                            prop.setValue(obj.data[prop.property].Value);
+                                        }
                                     }
                                     tr.animate({ backgroundColor: flexygo.colors.success }, 700, () => {
                                         //Refresh control inside module.
                                         tr.animate({ backgroundColor: "none" }, 700, function () { $(this).css("background-color", ""); });
-                                        //$(document).trigger(eventName, [obj, list]);
                                     });
                                 }
                                 else {
@@ -1494,7 +1619,7 @@ var flexygo;
                                     newTr.show(250);
                                     newTr.attr('id', flexygo.utils.uniqueId()).addClass('form');
                                     newTr.validate({
-                                        ignore: '',
+                                        ignore: [],
                                         unhighlight: (element, errorClass, validClass) => {
                                             $(element).parent().addClass('has-success').removeClass('has-error');
                                         },
@@ -1509,6 +1634,7 @@ var flexygo;
                                     flexygo.ui.wc.clearRow(list, btn);
                                     /*To process the dependencies of this row*/
                                     tr = newTr;
+                                    wcList.setRowEvents();
                                 }
                                 list[0].processLoadDependencies(tr);
                             }
@@ -1532,5 +1658,25 @@ var flexygo;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));
 })(flexygo || (flexygo = {}));
+$(document).on('click.dirty', (e) => {
+    let lists = $('flx-list[mode="edit"]');
+    for (let i = 0; i < lists.length; i++) {
+        let me = $(lists[i]);
+        let listItem = me[0];
+        this.isFocused = true;
+        if (!me.find('table').is(e.target) && !$.contains(me.find('table')[0], e.target)) {
+            //focusout
+            if (listItem.isRowDirty && listItem.prevRow) {
+                listItem.isRowDirty = false;
+                listItem.prevRow.find('.saveRowButton').click();
+            }
+            listItem.isFocused = false;
+        }
+        else {
+            //focusin
+            listItem.isFocused = true;
+        }
+    }
+});
 window.customElements.define('flx-list', flexygo.ui.wc.FlxListElement);
 //# sourceMappingURL=flx-list.js.map

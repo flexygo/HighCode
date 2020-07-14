@@ -21,6 +21,7 @@ declare namespace flexygo.ui.wc {
         processname: string;
         propertyname: string;
         constringItems: any;
+        cusControlsItems: any;
         mode: string;
         constructor();
         /**
@@ -54,6 +55,11 @@ declare namespace flexygo.ui.wc {
       */
         private loadConnStrings();
         /**
+      * RefrLoads CusControls for combo.
+      * @method loadCusControls
+      */
+        private loadCusControls();
+        /**
         * RefrLoads tabs.
         * @method loadTabs
         */
@@ -77,5 +83,6 @@ declare namespace flexygo.ui.wc {
       * @returns string
       */
         getConnStringItems(): string;
+        getCusControls(): string;
     }
 }

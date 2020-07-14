@@ -120,6 +120,7 @@ var flexygo;
                         if (response) {
                             if (response.Template) {
                                 let template = response.Template;
+                                this.fields = template.TableColumns;
                                 this.data = template.TableData;
                                 this.tHeader = template.Header;
                                 this.tBody = template.Body;
@@ -238,6 +239,16 @@ var flexygo;
                         wcModule.moduleLoaded(this);
                     }
                 }
+                /**
+                * Sort based on an object .
+                * @method sort
+                * @param  {api.list.PropertyOrder[]} orderInfo
+                */
+                sortByObj(orderInfo) {
+                    this.sortColumn = null;
+                    this.orderObj = orderInfo;
+                    this.refresh();
+                }
                 sort(columnItem, property, ascMode) {
                     if (ascMode) {
                         this.sortAsc = ascMode;
@@ -258,7 +269,8 @@ var flexygo;
                     };
                     //this.orderStr = this.orderOpenQuote + property + this.orderCloseQuote + ((this.sortAsc) ? ' asc' : ' desc');
                     this.orderObj = [orderProp];
-                    this.init();
+                    //this.init();
+                    this.refresh();
                 }
                 loadPager() {
                     let me = $(this);
@@ -329,7 +341,9 @@ var flexygo;
                     let params = {
                         ObjectName: this.objectname,
                         CryptedSql: this.cryptedSql,
-                        Filter: this.filters
+                        Filter: this.filters,
+                        ModuleName: this.moduleName,
+                        PageName: flexygo.history.getPageName($(this)),
                     };
                     flexygo.ajax.post('~/api/List', 'GetCount', params, (response) => {
                         if (response) {
@@ -364,12 +378,14 @@ var flexygo;
                 loadPage(newPage) {
                     this.page = newPage;
                     let params = {
-                        "ObjectName": this.objectname,
-                        "CryptedSql": this.cryptedSql,
-                        "Page": this.page,
-                        "PageSize": this.pageSize,
-                        "RemoveKeys": this.removeKeys,
-                        "Filter": this.filters
+                        ObjectName: this.objectname,
+                        CryptedSql: this.cryptedSql,
+                        Page: this.page,
+                        PageSize: this.pageSize,
+                        RemoveKeys: this.removeKeys,
+                        Filter: this.filters,
+                        ModuleName: this.moduleName,
+                        PageName: flexygo.history.getPageName($(this)),
                     };
                     flexygo.ajax.post('~/api/List', 'GetPageList', params, (response) => {
                         if (response) {

@@ -58,6 +58,11 @@ declare namespace flexygo.ui.wc {
         */
         init(): void;
         /**
+       * prepares chart for render based on response saved in session o received from post
+       * @method preRender
+       */
+        preRender(response: flexygo.api.chart.GetHTMLResponse): void;
+        /**
         * Renders the chart
         * @method render
         */

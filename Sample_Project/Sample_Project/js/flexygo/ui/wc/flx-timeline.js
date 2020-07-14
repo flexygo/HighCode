@@ -491,7 +491,7 @@ var flexygo;
                     };
                     flexygo.ajax.post('~/api/Timeline', 'GetTimeline', params, (response) => {
                         if (response) {
-                            let visItems = new vis.DataSet(), visGroups = new vis.DataSet();
+                            let visItems = new vis.DataSet(), visGroups;
                             this.timelineSetting = response.TimelineSetting;
                             this.defaults = (response.Defaults) ? response.Defaults : {};
                             this.toolbar = response.Toolbar;
@@ -507,9 +507,11 @@ var flexygo;
                                 visItems.add(this.buildVisItem(item));
                             }
                             if (this.timelineSetting.WithGroups) {
-                                for (const group of response.Groups) {
-                                    visGroups.add(this.buildVisGroup(group));
+                                let groups = [];
+                                for (let i = 0; i < response.Groups.length; i++) {
+                                    groups.push(this.buildVisGroup(response.Groups[i], i));
                                 }
+                                visGroups = new vis.DataSet(groups);
                             }
                             else {
                                 visGroups = null;
@@ -538,7 +540,9 @@ var flexygo;
                         end: moment().add(this.timelineRanges[this.timelineSetting.DefaultRangeName], 'millisecond').format(),
                         /*format: none,*/
                         /*groupEditable: { add: false, remove: false, order: false },*/
-                        /*groupOrder: 'order', (Ordered In The SQL Query)*/
+                        groupOrder: function (a, b) {
+                            return a.value - b.value;
+                        },
                         /*groupOrderSwap: none,*/
                         /*groupTemplate: none,*/
                         height: (this.timelineSetting.ShowControls) ? 'calc(100% - 42px)' : '100%',
@@ -693,14 +697,21 @@ var flexygo;
                 * @method buildVisGroup
                 * @param {object} data Data group.
                 */
-                buildVisGroup(data) {
+                buildVisGroup(data, order) {
                     return (data) ? {
+                        value: order,
                         id: data[this.timelineSetting.GroupIdField] || data[this.timelineSetting.PropertyGroup],
                         content: (this.timelineSetting.GroupContentTemplate) ? flexygo.utils.parser.recursiveCompile(data, this.timelineSetting.GroupContentTemplate) : data[this.timelineSetting.GroupDescripField] || data[this.timelineSetting.PropertyGroup],
                         //title: data[this.timelineSetting.GroupDescripField] || data[this.timelineSetting.PropertyGroup],
                         className: (this.timelineSetting.Advanced) ? data[this.timelineSetting.GroupClassNameField] : null,
                         style: (this.timelineSetting.Advanced) ? data[this.timelineSetting.GroupStyleField] : null,
-                        data: data,
+                        data: data
+                        /* Not Implemented
+                        subgroupStack
+                        visible
+                        nestedGroups
+                        showNested
+                        */
                     } : null;
                 }
                 /**
@@ -737,7 +748,11 @@ var flexygo;
                                     }
                                     break;
                                 case 'delete':
-                                    resolve((objectEntity.delete()) ? object : null);
+                                    flexygo.msg.confirm(flexygo.localization.translate('flxeditgrid.deleteconfirm'), (result) => {
+                                        if (result) {
+                                            resolve((objectEntity.delete()) ? object : null);
+                                        }
+                                    });
                                     break;
                                 default:
                                     resolve(null);

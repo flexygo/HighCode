@@ -153,6 +153,8 @@ declare namespace flexygo.api {
         MaxValueMessage: string;
         RegExp: string;
         RegExpText: string;
+        SQLValidator: string;
+        ValidatorMessage: string;
         OnChangeJsFunction: string;
         OnChangeProcessName: string;
         PlaceHolder: string;
@@ -165,6 +167,9 @@ declare namespace flexygo.api {
         Locked: boolean;
         CauseRefresh: boolean;
         HasDefinition: boolean;
+        ImageCompressionType: number;
+        ImageMaxWidth: number;
+        ImageMaxHeight: number;
         ObjectPath?: string;
         Type?: string;
         AllowNull?: boolean;
@@ -241,6 +246,8 @@ declare namespace flexygo.api {
         maxvaluemessage: string;
         regexp: string;
         regexptext: string;
+        sqlvalidator: string;
+        validatormessage: string;
         onchangejsfunction: string;
         onchangeprocessname: string;
         placeholder: string;
@@ -253,6 +260,9 @@ declare namespace flexygo.api {
         locked: boolean;
         causerefresh: boolean;
         hasdefinition: boolean;
+        imagecompressiontype: number;
+        imagemaxwidth: number;
+        imagemaxheight: number;
         objectpath?: string;
         type?: string;
         allownull?: boolean;
@@ -473,6 +483,7 @@ declare namespace flexygo.api {
         RemoveKeys: boolean;
         PageSize: number;
         TableData: any;
+        TableColumns: object;
         Groups: TemplateGroupCollection;
         Data: {
             [name: string]: flexygo.api.BasicProperty;
@@ -567,6 +578,7 @@ declare namespace flexygo.api.chart {
         Settings: {
             [name: string]: string;
         };
+        Cache: number;
     }
 }
 /**
@@ -824,6 +836,7 @@ declare namespace flexygo.api.timeline {
     * @return {visDataGroup} .
     */
     interface visDataGroup extends vis.DataGroup {
+        value: number;
         data: {};
     }
     /**
@@ -897,6 +910,9 @@ declare namespace flexygo.api.edit {
         changeRequired: boolean;
         newRequired: boolean;
         cascadeDependencies: boolean;
+        changeCustomProperty: boolean;
+        newCustomProperty: ObjectProperty;
+        JSCode: string;
     }
     /**
     * api for DependencyHelper
@@ -924,6 +940,9 @@ declare namespace flexygo.api.edit {
         SQLRequired: string;
         RequiredValues: string;
         NotRequiredValues: string;
+        PropertyValue: string;
+        CusPropName: string;
+        SQLCustomProperty: string;
     }
     /**
     * api for saveDependenciesConfigParams
@@ -1391,6 +1410,39 @@ declare namespace flexygo.api.html {
     }
 }
 /**
+ * @namespace flexygo.api.mail
+ */
+declare namespace flexygo.api.mail {
+    /**
+    * api for SearchSettings
+    * @class SearchSettings
+    * @constructor
+    * @return {MailFilters} .
+    */
+    class MailFilters {
+        Page: number;
+        PageSize: number;
+        Folder: string;
+        Seen: string;
+        MailAddress: string;
+        Subject: string;
+        Body: string;
+        MailDateMin: string;
+        MailDateMax: string;
+    }
+    /**
+   * api for SearchSettings
+   * @class SearchSettings
+   * @constructor
+   * @return {MailFolder} .
+   */
+    class MailFolder {
+        Folders: MailFolder;
+        Name: string;
+        ImapName: string;
+    }
+}
+/**
  * @namespace flexygo.api.list
  */
 declare namespace flexygo.api.list {
@@ -1524,6 +1576,8 @@ declare namespace flexygo.api.list {
         ObjectName: string;
         CryptedSql: string;
         Filter: string;
+        ModuleName: string;
+        PageName: string;
     }
 }
 /**
@@ -2386,7 +2440,7 @@ declare namespace flexygo.api.pages {
         SQLEnabled: string;
         TabShortDescrip: string;
         TabIconClass: string;
-        TabOrder: string;
+        TabOrder: number;
         ShowWhenNew: boolean;
         InitHidden: boolean;
         ManualInit: boolean;
@@ -2410,7 +2464,7 @@ declare namespace flexygo.api.pages {
         RelationWhere: string;
         Order: number;
         TabName: string;
-        TabOrder: string;
+        TabOrder: number;
     }
     /**
     * api for Page
@@ -2550,5 +2604,29 @@ declare namespace flexygo.api.Chatter {
         author: string;
         insertionDate: Date;
         content: string;
+        parentMessage: string;
+        attachmentsCount: number;
+    };
+}
+/**
+ * @namespace flexygo.api.DocumentManager
+ */
+declare namespace flexygo.api.DocumentManager {
+    type documentResult = {
+        docGuid: string;
+        creationDate: string;
+        category: string;
+        categoryId: string;
+        description: string;
+        downloadLink: string;
+        name: string;
+        path: string;
+        origin: string;
+        iconClass: string;
+        documentType: string;
+        documentError: boolean;
+        permissionError: boolean;
+        extension: string;
+        inProgress: boolean;
     };
 }

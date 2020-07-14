@@ -461,6 +461,9 @@ var flexygo;
                         if (this.diskFileCreate) {
                             var dragDropZone = me.find('div.dtc-main');
                             dragDropZone.on('dragover', (ev) => {
+                                if (ev.originalEvent && ev.originalEvent.dataTransfer) {
+                                    ev.originalEvent.dataTransfer.dropEffect = 'copy';
+                                }
                                 dragDropZone.css('background-color', 'rgba(0,0,0,0.5)');
                                 dragDropZone.find('.dtc-container, .dtc-btn-container button').css('background-color', 'rgba(0,0,0,0.5)');
                             }).on('dragleave', (ev) => {

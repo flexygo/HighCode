@@ -145,6 +145,13 @@ var flexygo;
                         }
                         this.options.Tag = Tag;
                     }
+                    let ImageCompressionType = element.attr('ImageCompression');
+                    if (ImageCompressionType && ImageCompressionType !== '') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.ImageCompressionType = parseInt(ImageCompressionType);
+                    }
                     this.init();
                     //let Value = element.attr('value');
                     //if (Value && Value !== '') {
@@ -240,6 +247,13 @@ var flexygo;
                             this.options = new flexygo.api.ObjectProperty();
                         }
                         this.options.Tag = newVal;
+                        this.refresh();
+                    }
+                    if (attrName.toLowerCase() === 'imagecompression' && newVal && newVal !== '') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.ImageCompressionType = newVal;
                         this.refresh();
                     }
                 }
@@ -454,13 +468,25 @@ var flexygo;
                     try {
                         let me = $(this);
                         if (this.TypeMode === 'file') {
+                            let formValues = [];
+                            let module = $(this).closest('flx-edit');
+                            if (module.length > 0) {
+                                let props = module.find('[property]');
+                                if (props.length > 0) {
+                                    for (var i = 0; i < props.length; i++) {
+                                        let prop = $(props[i])[0];
+                                        formValues.push({ "key": prop.property, "value": prop.getValue() });
+                                    }
+                                }
+                            }
                             let params = {
                                 Mode: this.mode,
                                 ObjectName: this.options.ProcessName || this.options.ReportName || this.options.ObjectName,
                                 PropertyName: this.options.Name,
                                 FileName: this.fileName,
                                 Base64: result.split(',')[1],
-                                CurrentValue: me.attr('value')
+                                CurrentValue: me.attr('value'),
+                                FormValues: formValues
                             };
                             flexygo.ajax.post('~/api/Image', 'SaveFile', params, (ret) => {
                                 if (ret.Value != 'errorrootpath')
@@ -638,7 +664,7 @@ var flexygo;
                         "modal": true,
                         "close": (e) => { $(e.target).remove(); }
                     });
-                    if (!this.options.ClientReadOnly) {
+                    if (!this.options.ClientReadOnly && image) {
                         let options = null;
                         if (this.isJSON(this.options.Tag) && JSON.parse(this.options.Tag).options) {
                             options = JSON.parse(this.options.Tag).options;
@@ -662,15 +688,77 @@ var flexygo;
                             }
                         }
                         else if (method === 'save') {
-                            let options = null;
+                            let options = {};
+                            let compression;
                             if (this.isJSON(this.options.Tag) && JSON.parse(this.options.Tag).getCroppedCanvas) {
                                 options = JSON.parse(this.options.Tag).getCroppedCanvas;
+                            }
+                            if (this.options.ImageMaxWidth) {
+                                options.maxWidth = this.options.ImageMaxWidth;
+                            }
+                            if (this.options.ImageMaxHeight) {
+                                options.maxHeight = this.options.ImageMaxHeight;
                             }
                             let croppedCanvas = imageElement.cropper('getCroppedCanvas', options);
                             if (rounded) {
                                 croppedCanvas = this.getRoundedCanvas(croppedCanvas);
                             }
-                            this.setResult(croppedCanvas.toDataURL());
+                            if (imageElement[0].src.includes('.png') || imageElement[0].src.includes('image/png')) {
+                                if (this.options.ImageCompressionType && this.options.ImageCompressionType > 0) {
+                                    switch (this.options.ImageCompressionType) {
+                                        //Low
+                                        case 1:
+                                            compression = 192;
+                                            break;
+                                        //Medium
+                                        case 2:
+                                            compression = 128;
+                                            break;
+                                        //High
+                                        case 3:
+                                            compression = 64;
+                                            break;
+                                    }
+                                    let optionsgRgb = {
+                                        colors: compression
+                                    };
+                                    let rgbQuant = new RgbQuant(optionsgRgb);
+                                    rgbQuant.sample(croppedCanvas);
+                                    let img = rgbQuant.reduce(croppedCanvas);
+                                    let canvas = croppedCanvas;
+                                    let uint = new Uint8ClampedArray(img.buffer);
+                                    let imageData = new ImageData(uint, croppedCanvas.width, croppedCanvas.height);
+                                    let ctx = croppedCanvas.getContext('2d');
+                                    ctx.putImageData(imageData, 0, 0);
+                                    canvas.getContext('2d').drawImage(croppedCanvas, 0, 0, canvas.width, canvas.height);
+                                    this.setResult(canvas.toDataURL('image/png'));
+                                }
+                                else {
+                                    this.setResult(croppedCanvas.toDataURL());
+                                }
+                            }
+                            else {
+                                if (this.options.ImageCompressionType && this.options.ImageCompressionType > 0) {
+                                    switch (this.options.ImageCompressionType) {
+                                        //Low
+                                        case 1:
+                                            compression = 0.75;
+                                            break;
+                                        //Medium
+                                        case 2:
+                                            compression = 0.50;
+                                            break;
+                                        //High
+                                        case 3:
+                                            compression = 0.25;
+                                            break;
+                                    }
+                                    this.setResult(croppedCanvas.toDataURL('image/jpeg', compression));
+                                }
+                                else {
+                                    this.setResult(croppedCanvas.toDataURL());
+                                }
+                            }
                             this.pageContainer.dialog('destroy').remove();
                         }
                         else {
@@ -756,6 +844,9 @@ var flexygo;
                                         this.pageContainer.find('input[type="file"]').prop("files", file);
                                         if (e.originalEvent.dataTransfer.files.length !== 1) {
                                             flexygo.msg.warning('image.errorfilenumber');
+                                        }
+                                        else {
+                                            this.pageContainer.find('input[type="file"]').trigger('change');
                                         }
                                     }
                                     else {

@@ -1,57 +1,49 @@
 ﻿
-flx-user>div{    
-    display:inline-block;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 5px;
-    padding-left:0;
-    line-height:1.0;
+flx-user {
+    display: block;
 
-}
-flx-user>div:hover{
- color:dbColor(outstandingColor);
- }
+    div.profile-mini {
+        display: flex;
+        align-items: center;
 
-flx-user>div:after{
-    clear:both;
+        &:hover {
+            color: dbColor(outstandingColor);
+        }
+
+        div {
+            margin-right: 12px;
+
+            img {
+                width: 28px;
+                border-radius: 30px;
+            }
+        }
+
+        div {
+            span {
+                font-size: .8em;
+
+                @media (max-width: dbSize(medium)) {
+                    font-size:unset;
+                }
+            }
+
+            p {
+                font-size: .6em;
+                margin: unset;
+            }
+        }
     }
-
-flx-user .profile-mini img{
-   border-radius: 50%;
-    position:absolute;
-    margin:0 0 0 0;
-    padding:0;
-    max-height:20px;
-    
 }
-
-flx-user .profile-mini span , flx-user .profile-mini p{
-    
-     position:relative;
-    
-     margin:0px;
-     padding:0px;
-     margin-left:26px;  
-}
-
-flx-user .profile-mini span {
-    font-size: .7em;
-    top: -.4em;
-}
-
-flx-user .profile-mini p {
-    font-size: .5em;
-    top: -.3em;
-}
-
-
+/*TODO: Use "flexbox" to align the li*/
 flx-nav[mode=menu] > ul > li[typeid="10"][class*="userwc"] > span {
-    padding: 8px 0 0 0;
+    padding: 9px 0 0 0;
 }
 
 
-.profilepopover{min-width:800px;}
+.profilepopover{
+    min-width:800px;
+}
 
 
 

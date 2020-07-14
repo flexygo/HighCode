@@ -404,661 +404,719 @@ flx-nav[mode=tree] li.parent_li > span:hover + ul li span, .tree li.parent_li > 
 
 
 flx-nav li {
-    list-style: none;
-    margin-bottom: 0;
-}
-
-flx-nav[mode=nav] > ul ul {
-    display: none;
+        list-style: none;
+        margin-bottom: 0;   
 }
 
 flx-nav {
-    z-index: 3;
+    &[mode="nav"], &[mode="menu"] {
+        @media (max-width: dbSize(medium)) {
+            font-size: 1.3em;
+        }
+
+        li {
+            /*&:after {
+                content: "";
+                height: 2px;
+                background-color: black;
+                width: 60%;
+                left: calc((100% - 60%)/ 2);
+                position: absolute;
+                border-radius: 2px;
+            }*/
+
+            > span {
+                display: flex;
+                align-items: center;
+
+                @media (max-width: dbSize(medium)) {
+                    padding: 12px !important;
+                }
+
+                > * {
+                    padding: 0 2px 0 2px;
+                }
+
+                > span {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                &:after {
+                    margin-left: auto;
+                }
+            }
+        }
+    }
 }
 
-//Navegacion
-flx-nav {
-    cursor: pointer;
-}
+    flx-nav[mode=nav] > ul ul {
+        display: none;
+    }
 
-flx-nav[mode=nav] ul {
-    padding: 0px;
-    margin: 0
-}
+    flx-nav {
+        z-index: 3;
+    }
+    //Navegacion
+    flx-nav {
+        cursor: pointer;
+    }
 
-flx-nav[mode=nav] li > span {
-    display: block;
-    padding: 5px 5px 5px 5px
-}
+    flx-nav[mode=nav] ul {
+        padding: 0px;
+        margin: 0
+    }
+
+    flx-nav[mode=nav] li > span {
+        padding: 6px;
+    }
 
 
 flx-nav[mode=nav] > ul > li > span {
-    padding-left: 10px;
+    padding-left: 10px !important;
 }
 
 flx-nav[mode=nav] > ul > li > ul > li > span {
-    padding-left: 15px;
+    padding-left: 15px !important;
 }
 
 flx-nav[mode=nav] > ul > li > ul > li > ul > li > span {
-    padding-left: 20px;
+    padding-left: 20px !important;
 }
 
 flx-nav[mode=nav] > ul > li > ul > li > ul > li > ul > li > span {
-    padding-left: 25px;
+    padding-left: 25px !important;
 }
 
 flx-nav[mode=nav] > ul > li > ul > li > ul > li > ul > li > ul > li > span {
-    padding-left: 30px;
+    padding-left: 30px !important;
 }
 
 flx-nav[mode=nav] > ul > li > ul > li > ul > li > ul > li > ul > li > ul > li > span {
-    padding-left: 35px;
+    padding-left: 35px !important;
 }
 
 flx-nav[mode=nav] > ul > li > ul > li > ul > li > ul > li > ul > li > ul > li > span {
-    padding-left: 40px;
+    padding-left: 40px !important;
 }
 
 flx-nav[mode=nav] > ul > li > ul > li > ul > li > ul > li > ul > li > ul > li > span {
-    padding-left: 45px;
+    padding-left: 45px !important;
 }
 
-flx-nav[mode=nav] > ul > li > ul > li > ul > li > ul > li > ul > li > ul > li > ul > li > span {
-    padding-left: 50px;
-}
+    flx-nav[mode=nav] > ul > li > ul > li > ul > li > ul > li > ul > li > ul > li > ul > li > span {
+        padding-left: 50px !important;
+    }
 
 flx-nav[mode=nav] ul li span.active:not(.item-opened):not(.item-closed):after {
     content: "\f0d9";
     font-family: 'FontAwesome';
-    float: right;
     display: block;
     right: -6px;
     position: relative;
     color: dbColor(bgColor);
+
+    @media (max-width: dbSize(medium)) {
+        right: -12px;
+    }
 }
 
-flx-nav[mode=nav] .lnr {
-    margin-right: 10px;
-}
+    flx-nav[mode=nav] .lnr {
+        margin-right: 10px;
+    }
 
-flx-nav[mode=nav] .lnr {
-    font-size: 1.2em;
-}
+    flx-nav[mode=nav] .lnr {
+        font-size: 1.2em;
+    }
 
-flx-nav[mode=nav] ul li ul .lnr {
-    font-size: 1em;
-}
+    flx-nav[mode=nav] ul li ul .lnr {
+        font-size: 1em;
+    }
 
-flx-nav[mode=nav] .item-closed:after, flx-nav[mode=menu] ul ul .item-closed:after {
-    font-family: 'Linearicons-Free';
-    text-transform: none;
-    content: "\e876";
-    float: right;
-    //margin-right:3px;
-    transform: rotate(0) scale(1);
-    transition: .3s linear;
-    font-size: .7em;
-    line-height: 25px;
-    display: inline-block;
-}
+    flx-nav[mode=nav] .item-closed:after, flx-nav[mode=menu] ul ul .item-closed:after {
+        font-family: 'Linearicons-Free';
+        text-transform: none;
+        content: "\e876";
+        //margin-right:3px;
+        transform: rotate(0) scale(1);
+        transition: .3s linear;
+        font-size: .7em;
+        line-height: 25px;
+        display: inline-block;
+    }
 
-flx-nav[mode=nav] .item-closed:after, flx-nav[mode=nav] .item-opened:after {
-    line-height: 25px;
-}
-
+    flx-nav[mode=nav] .item-closed:after, flx-nav[mode=nav] .item-opened:after {
+        line-height: 25px;
+    }
 
 
-flx-nav[mode=nav] .item-opened:after, flx-nav[mode=menu] ul ul .item-opened:after {
-    font-family: 'Linearicons-Free';
-    text-transform: none;
-    content: "\e876";
-    float: right;
-    //margin-right:3px;
-    font-size: .7em;
-    //margin-left:10px;
-    transform: rotate(90deg) scale(1);
-    transition: .3s linear;
-    line-height: 25px;
-    display: inline-block;
-}
 
-//Special Nodes
-flx-nav[mode=menu] .noText > span > span {
-    display: none;
-}
+    flx-nav[mode=nav] .item-opened:after, flx-nav[mode=menu] ul ul .item-opened:after {
+        font-family: 'Linearicons-Free';
+        text-transform: none;
+        content: "\e876";
+        //margin-right:3px;
+        font-size: .7em;
+        //margin-left:10px;
+        transform: rotate(90deg) scale(1);
+        transition: .3s linear;
+        line-height: 25px;
+        display: inline-block;
+    }
+    //Special Nodes
+    flx-nav[mode=menu] .noText > span > span {
+        display: none;
+    }
 
-flx-nav[mode=panel] .noText > span > span {
-    display: none;
-}
+    flx-nav[mode=panel] .noText > span > span {
+        display: none;
+    }
 
-flx-nav[mode=box] .noText > span > span {
-    display: none;
-}
+    flx-nav[mode=box] .noText > span > span {
+        display: none;
+    }
 
-flx-nav[mode=menu] .confignode, flx-nav[mode=nav] .confignode span {
-    color: dbColor(OutstandingColor);
-}
+    flx-nav[mode=menu] .confignode, flx-nav[mode=nav] .confignode span {
+        color: dbColor(OutstandingColor);
+    }
 
-@media (min-width: dbSize(large)) {
-    flx-nav[mode=nav] .noText > span > span {
+    @media (min-width: dbSize(large)) {
+        flx-nav[mode=nav] .noText > span > span {
+            display: none;
+        }
+    }
+
+@media (max-width: dbSize(large)) {
+    flx-nav[mode=menu] .mNoText > span > span {
+        display: none;
+    }
+
+    flx-nav[mode=panel] .mNoText > span > span {
+        display: none;
+    }
+
+    flx-nav[mode=box] .mNoText > span > span {
         display: none;
     }
 }
 
-flx-nav[mode=panel] .confignode {
-    position: absolute;
-    top: 10px;
-    right: 10px;
+@media (max-width: dbSize(medium)) {
+    flx-nav[mode=menu] .sNoText > span > span {
+        display: none;
+    }
+
+    flx-nav[mode=panel] .sNoText > span > span {
+        display: none;
+    }
+
+    flx-nav[mode=box] .sNoText > span > span {
+        display: none;
+    }
 }
 
-//END Special Nodes
-flx-nav[mode=menu] .lnr {
-    font-size: 1.2em;
-}
+    flx-nav[mode=panel] .confignode {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+    //END Special Nodes
+    flx-nav[mode=menu] .lnr {
+        font-size: 1.2em;
+    }
 
-flx-nav[mode=menu] ul ul .item-closed:after, flx-nav[mode=menu] ul ul .item-opened:after {
-    line-height: 35px;
-}
+    flx-nav[mode=menu] ul ul .item-closed:after, flx-nav[mode=menu] ul ul .item-opened:after {
+        line-height: 35px;
+    }
 
-flx-nav[mode=menu] ul ul .item-opened:after {
-    transform: rotateY(180deg) scale(1);
-}
+    flx-nav[mode=menu] ul ul .item-opened:after {
+        transform: rotateY(180deg) scale(1);
+    }
 
-flx-nav[mode=menu] .item-closed:after {
-    font-size: .7em;
-    font-weight: bold;
-    line-height: 1;
-    content: "▼";
-    margin-left: 3px;
-}
+    flx-nav[mode=menu] .item-closed:after {
+        font-size: .7em;
+        font-weight: bold;
+        line-height: 1;
+        content: "▼";
+    }
 
-flx-nav[mode=menu] .item-opened:after {
-    font-size: .7em;
-    font-weight: bold;
-    line-height: 1;
-    content: "▼";
-    margin-left: 3px;
-}
-
-
-flx-nav[mode=menu] > ul > li > span {
-    font-weight: 700;
-    text-transform: uppercase;
-}
-
-flx-nav[mode=menu],
-flx-nav[mode=menu] ul,
-flx-nav[mode=menu] ul li,
-flx-nav[mode=menu] ul li > span {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    list-style: none;
-    z-index: 10;
-    display: block;
-    position: relative;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-flx-nav[mode=menu]:after,
-flx-nav[mode=menu] > ul:after {
-    content: ".";
-    display: block;
-    clear: both;
-    visibility: hidden;
-    line-height: 0;
-    height: 0;
-}
-
-flx-nav[mode=menu] > ul > li {
-    float: left;
-}
-
-flx-nav[mode=menu].align-center > ul {
-    font-size: 0;
-    text-align: center;
-}
-
-flx-nav[mode=menu].align-center > ul > li {
-    display: inline-block;
-    float: none;
-}
-
-flx-nav[mode=menu].align-center ul ul {
-    text-align: left;
-}
-
-flx-nav[mode=menu].align-right > ul > li {
-    float: right;
-}
-
-flx-nav[mode=menu] > ul > li > span {
-    padding: 15px;
-    letter-spacing: 1px;
-    text-decoration: none;
-}
-
-flx-nav[mode=menu] ul ul {
-    position: absolute;
-}
-
-flx-nav[mode=menu].align-right ul ul {
-    text-align: right;
-}
-
-flx-nav[mode=menu] ul ul li {
-    height: 0;
-}
-
-flx-nav[mode=menu] ul ul ul {
-    margin-left: 100%;
-    top: 0;
-}
-
-flx-nav[mode=menu].align-right ul ul ul {
-    margin-left: 0;
-    margin-right: 100%;
-}
-
-flx-nav[mode=menu] ul ul li > span {
-    padding: 0 8px;
-    height: 35px;
-    line-height: 35px;
-    min-width: 12em;
-    text-decoration: none;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-flx-nav[mode=menu] li > ul {
-    left: auto;
-    display: none;
-}
-
-flx-nav[mode=menu].align-right li > ul {
-    left: auto;
-    right: 0;
-    display: none;
-}
-
-flx-nav[mode=menu] li > ul > li {
-    height: 35px;
-}
-
-flx-nav {
-    font-family: 'latolight',Arial;
-}
-
-flx-nav {
-    font-size: 1.1em;
-}
-
-flx-nav[mode=nav] > ul ul {
-    display: none;
-    background: darken(dbColor(NavColor),2);
-}
-
-flx-nav[mode=nav] > ul ul ul{
-    display: none;
-    background: darken(dbColor(NavColor),4);
-}
-
-flx-nav[mode=nav] > ul ul ul ul {
-    display: none;
-    background: darken(dbColor(NavColor),6);
-}
-
-lx-nav[mode=nav] > ul ul ul ul ul {
-    display: none;
-    background: darken(dbColor(NavColor),8);
-}
+    flx-nav[mode=menu] .item-opened:after {
+        font-size: .7em;
+        font-weight: bold;
+        line-height: 1;
+        content: "▼";
+    }
 
 
-flx-nav[mode=nav] {
-    color: dbColor(txtNavColor);
-    background: dbColor(NavColor);
-    padding: 0;
-}
+    flx-nav[mode=menu] > ul > li > span {
+        font-weight: 700;
+        text-transform: uppercase;
+    }
 
-/*flx-nav[mode=nav] > ul > li {
+    flx-nav[mode=menu],
+    flx-nav[mode=menu] ul,
+    flx-nav[mode=menu] ul li,
+    flx-nav[mode=menu] ul li > span {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        list-style: none;
+        z-index: 10;
+        position: relative;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    flx-nav[mode=menu]:after,
+    flx-nav[mode=menu] > ul:after {
+        content: ".";
+        display: block;
+        clear: both;
+        visibility: hidden;
+        line-height: 0;
+        height: 0;
+    }
+
+    flx-nav[mode=menu] > ul > li {
+        float: left;
+    }
+
+    flx-nav[mode=menu].align-center > ul {
+        font-size: 0;
+        text-align: center;
+    }
+
+    flx-nav[mode=menu].align-center > ul > li {
+        display: inline-block;
+        float: none;
+    }
+
+    flx-nav[mode=menu].align-center ul ul {
+        text-align: left;
+    }
+
+    flx-nav[mode=menu].align-right > ul > li {
+        float: right;
+    }
+
+    flx-nav[mode=menu] > ul > li > span {
+        padding: 15px;
+        letter-spacing: 1px;
+        text-decoration: none;
+    }
+
+    flx-nav[mode=menu] ul ul {
+        position: absolute;
+    }
+
+    flx-nav[mode=menu].align-right ul ul {
+        text-align: right;
+    }
+
+    flx-nav[mode=menu] ul ul li {
+        height: 0;
+    }
+
+    flx-nav[mode=menu] ul ul ul {
+        margin-left: 100%;
+        top: 0;
+    }
+
+    flx-nav[mode=menu].align-right ul ul ul {
+        margin-left: 0;
+        margin-right: 100%;
+    }
+
+    flx-nav[mode=menu] ul ul li > span {
+        padding: 0 8px;
+        height: 35px;
+        line-height: 35px;
+        min-width: 12em;
+        text-decoration: none;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    flx-nav[mode=menu] li > ul {
+        left: auto;
+        display: none;
+    }
+
+    flx-nav[mode=menu].align-right li > ul {
+        left: auto;
+        right: 0;
+        display: none;
+    }
+
+    flx-nav[mode=menu] li > ul > li {
+        height: 35px;
+    }
+
+    flx-nav {
+        font-family: 'latolight',Arial;
+    }
+
+    flx-nav {
+        font-size: 1.1em;
+    }
+
+    flx-nav[mode=nav] > ul ul {
+        display: none;
+        background: darken(dbColor(NavColor),2);
+    }
+
+    flx-nav[mode=nav] > ul ul ul {
+        display: none;
+        background: darken(dbColor(NavColor),4);
+    }
+
+    flx-nav[mode=nav] > ul ul ul ul {
+        display: none;
+        background: darken(dbColor(NavColor),6);
+    }
+
+    lx-nav[mode=nav] > ul ul ul ul ul {
+        display: none;
+        background: darken(dbColor(NavColor),8);
+    }
+
+
+    flx-nav[mode=nav] {
+        color: dbColor(txtNavColor);
+        background: dbColor(NavColor);
+        padding: 0;
+    }
+    /*flx-nav[mode=nav] > ul > li {
     background-color: dbColor(NavColor)
 }
 
 flx-nav[mode=nav] li ul {
     background-color: dbColor(NavColor);
 }*/
+    flx-nav[mode=nav] li > span:hover {
+        color: dbColor(NavColor);
+        background-color: dbColor(txtNavColor);
+    }
+
+    flx-nav[mode=nav] li > span {
+        border-left: 3px solid dbColor(NavColor);
+    }
+
+    flx-nav[mode=nav] ul li > span {
+        border-left: 3px solid dbColor(NavColor);
+    }
+
+    flx-nav[mode=nav] ul ul li > span {
+        border-left: 3px solid darken(dbColor(NavColor),2);
+    }
+
+    flx-nav[mode=nav] ul ul ul li > span {
+        border-left: 3px solid darken(dbColor(NavColor),4);
+    }
+
+    flx-nav[mode=nav] ul ul ul li > span {
+        border-left: 3px solid darken(dbColor(NavColor),6);
+    }
+
+    flx-nav[mode=nav] ul ul ul ul li > span {
+        border-left: 3px solid darken(dbColor(NavColor),8);
+    }
+
+    flx-nav[mode=nav] li > .active {
+        color: dbColor(OutstandingColor);
+        border-color: dbColor(OutstandingColor)
+    }
+
+    flx-nav[mode=nav] li > .active:hover {
+        color: dbColor(txtOutstandingColor);
+        background-color: lighten(dbColor(OutstandingColor),25%);
+    }
 
 
-flx-nav[mode=nav] li > span:hover {
-    color: dbColor(NavColor);
-    background-color: dbColor(txtNavColor);
-}
+    flx-nav[mode=menu] {
+        font-size: 1em;
+    }
 
-flx-nav[mode=nav] li > span {
-    border-left: 3px solid dbColor(NavColor);
-}
+    flx-nav[mode=menu] {
+        color: dbColor(txtHeaderColor);
+    }
 
-flx-nav[mode=nav] ul li > span {
-    border-left: 3px solid dbColor(NavColor);
-}
+    flx-nav[mode=menu] ul ul {
+        color: dbColor(txtMenuColor);
+        font-family: 'latoregular';
+        box-sizing: border-box;
+        border: 1px solid #e0e0e0;
+        border-left: 4px solid dbColor(OutstandingColor);
+        font-size: 1em;
+        background-color: dbColor(MenuColor);
+        box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, .2);
+        z-index: 7;
+    }
 
-flx-nav[mode=nav] ul ul li > span {
-    border-left: 3px solid darken(dbColor(NavColor),2);
-}
+    flx-nav[mode=menu] ul ul {
+        box-sizing: border-box;
+        font-size: 1em;
+        //background-color: dbColor(MenuColor);
+    }
 
-flx-nav[mode=nav] ul ul ul li > span {
-    border-left: 3px solid darken(dbColor(NavColor),4);
-}
+    flx-nav[mode=menu] ul ul li span:hover {
+        box-sizing: border-box;
+        background-color: dbColor(OutstandingColor);
+        color: dbColor(txtOutstandingColor);
+    }
 
-flx-nav[mode=nav] ul ul ul li > span {
-    border-left: 3px solid darken(dbColor(NavColor),6);
-}
-
-flx-nav[mode=nav] ul ul ul ul li > span {
-    border-left: 3px solid darken(dbColor(NavColor),8);
-}
-
-flx-nav[mode=nav] li > .active {
-    color: dbColor(OutstandingColor);
-    font-weight: 900;
-    border-color: dbColor(OutstandingColor)
-}
-
-flx-nav[mode=nav] li > .active:hover {
-    color: dbColor(txtOutstandingColor);
-    background-color: lighten(dbColor(OutstandingColor),25%);
-}
+    flx-nav[mode=menu] ul ul li .lnr {
+        font-size: 1.2em;
+        margin-right: 2px;
+    }
 
 
-flx-nav[mode=menu] {
-    font-size: 1em;
-}
+    flx-nav[mode=network] div.graphcontainer {
+        display: block;
+        border: 1px solid dbColor(txtHeaderColor);
+        background-color: white;
+        height: 100%;
+    }
 
-flx-nav[mode=menu] {
-    color: dbColor(txtHeaderColor);
-}
+    flx-nav[mode=menu] li.separator {
+        border-bottom: solid 1px dbColor(borderModuleColor);
+        height: 0px;
+    }
 
-flx-nav[mode=menu] ul ul {
-    color: dbColor(txtMenuColor);
-    font-family: 'latoregular';
-    box-sizing: border-box;
-    border: 1px solid #e0e0e0;
-    border-left: 4px solid dbColor(OutstandingColor);
-    font-size: 1em;
-    background-color: dbColor(MenuColor);
-    box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, .2);
-    z-index: 7;
-}
+    flx-nav[mode=nav] li.separator {
+        border-bottom: solid 1px lighten(dbColor(NavColor),5);
+        height: 0;
+        padding: 4px;
+    }
+    // flx-contextmenu
+    .flx-contextmenu,
+    .flx-contextmenu ul,
+    .flx-contextmenu ul li {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        list-style: none;
+        z-index: 999999;
+        display: block;
+        cursor: pointer;
+    }
 
-flx-nav[mode=menu] ul ul {
-    box-sizing: border-box;
-    font-size: 1em;
-    //background-color: dbColor(MenuColor);
-}
+    .flx-contextmenu {
+        font-size: 14px;
+        float: left;
+        clear: left;
+    }
 
-flx-nav[mode=menu] ul ul li span:hover {
-    box-sizing: border-box;
-    background-color: dbColor(OutstandingColor);
-    color: dbColor(txtOutstandingColor);
-}
+    .flx-contextmenu ul {
+        color: dbColor(txtMenuColor);
+        font-family: 'latoregular';
+        box-sizing: border-box;
+        border: 1px solid #e0e0e0;
+        border-left: 4px solid dbColor(OutstandingColor);
+        font-size: 1em;
+        background-color: dbColor(MenuColor);
+        box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, .2);
+        z-index: 9998;
+        text-align: left;
+    }
 
-flx-nav[mode=menu] ul ul li .lnr {
-    font-size: 1.2em;
-    margin-right: 2px;
-}
+    .flx-contextmenu li.separator {
+        border-bottom: solid 1px dbColor(borderModuleColor)
+    }
 
+    .flx-contextmenu ul li > span {
+        padding: 0 8px;
+        height: 35px;
+        line-height: 35px;
+        min-width: 12em;
+        text-decoration: none;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
 
-flx-nav[mode=network] div.graphcontainer {
-    display: block;
-    border: 1px solid dbColor(txtHeaderColor);
-    background-color: white;
-    height: 100%;
-}
+    .flx-contextmenu ul li:not([submenu]) > span {
+        display: block;
+    }
 
-flx-nav[mode=menu] li.separator {
-    border-bottom: solid 1px dbColor(borderModuleColor);
-    height:0px;
-}
+    .flx-contextmenu ul li:hover {
+        background-color: dbColor(OutstandingColor);
+        color: dbColor(txtOutstandingColor);
+    }
 
-flx-nav[mode=nav] li.separator {
-    border-bottom: solid 1px lighten(dbColor(NavColor),5);
-    height: 0;
-    padding:4px;
-}
-
-
-// flx-contextmenu
-.flx-contextmenu,
-.flx-contextmenu ul,
-.flx-contextmenu ul li {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    list-style: none;
-    z-index: 9999;
-    display: block;
-    cursor: pointer;
-}
-
-.flx-contextmenu {
-    font-size: 14px;
-    float: left;
-    clear: left;
-}
-
-.flx-contextmenu ul {
-    color: dbColor(txtMenuColor);
-    font-family: 'latoregular';
-    box-sizing: border-box;
-    border: 1px solid #e0e0e0;
-    border-left: 4px solid dbColor(OutstandingColor);
-    font-size: 1em;
-    background-color: dbColor(MenuColor);
-    box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, .2);
-    z-index: 9998;
-    text-align: left;
-}
-
-.flx-contextmenu li.separator {
-    border-bottom: solid 1px dbColor(borderModuleColor)
-}
-
-.flx-contextmenu ul li > span {
-    padding: 0 8px;
-    height: 35px;
-    line-height: 35px;
-    min-width: 12em;
-    text-decoration: none;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-.flx-contextmenu ul li:not([submenu]) > span {
-    display: block;
-}
-
-.flx-contextmenu ul li:hover {
-    background-color: dbColor(OutstandingColor);
-    color: dbColor(txtOutstandingColor);
-}
-
-.flx-contextmenu ul li[submenu]:after {
-    font-family: 'Linearicons-Free';
-    text-transform: none;
-    content: "\e876";
-    float: right;
-    transform: rotate(0) scale(1);
-    transition: .3s linear;
-    font-size: .7em;
-    line-height: 35px;
-    margin-right: 5px;
-}
-// flx-menu */
-.flx-menu,
-.flx-menu ul,
-.flx-menu ul li,
-.flx-menu ul li > span {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    list-style: none;
-    z-index: 4;
-    display: block;
-    position: relative;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
+    .flx-contextmenu ul li[submenu]:after {
+        font-family: 'Linearicons-Free';
+        text-transform: none;
+        content: "\e876";
+        float: right;
+        transform: rotate(0) scale(1);
+        transition: .3s linear;
+        font-size: .7em;
+        line-height: 35px;
+        margin-right: 5px;
+    }
+    // flx-menu */
+    .flx-menu,
+    .flx-menu ul,
+    .flx-menu ul li,
+    .flx-menu ul li > span {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        list-style: none;
+        z-index: 4;
+        display: block;
+        position: relative;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
 
 
-.flx-menu ul {
-    color: dbColor(txtMenuColor);
-    font-family: 'latoregular';
-    box-sizing: border-box;
-    border: 1px solid #e0e0e0;
-    border-left: 4px solid dbColor(OutstandingColor);
-    font-size: 1em;
-    background-color: dbColor(MenuColor);
-    box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, .2);
-    z-index: 7;
-    position: absolute;
-    text-align: left;
-    display: none;
-}
+    .flx-menu ul {
+        color: dbColor(txtMenuColor);
+        font-family: 'latoregular';
+        box-sizing: border-box;
+        border: 1px solid #e0e0e0;
+        border-left: 4px solid dbColor(OutstandingColor);
+        font-size: 1em;
+        background-color: dbColor(MenuColor);
+        box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, .2);
+        z-index: 7;
+        position: absolute;
+        text-align: left;
+        display: none;
+    }
 
-.flx-menu ul ul {
-    margin-left: 100%;
-    top: 0;
-}
+    .flx-menu ul ul {
+        margin-left: 100%;
+        top: 0;
+    }
 
-.flx-menu.align-right ul ul {
-    margin-left: 0;
-    margin-right: 100%;
-    text-align: right;
-}
+    .flx-menu.align-right ul ul {
+        margin-left: 0;
+        margin-right: 100%;
+        text-align: right;
+    }
 
-.flx-menu {
-    position: absolute;
-    display: block;
-    z-index: 10;
-    cursor: pointer;
-    font-size: 14px;
-}
+    .flx-menu {
+        position: absolute;
+        display: block;
+        z-index: 10;
+        cursor: pointer;
+        font-size: 14px;
+    }
 
-.flx-menu.align-center ul {
-    text-align: left;
-}
+    .flx-menu.align-center ul {
+        text-align: left;
+    }
 
-.flx-menu ul .item-opened:after {
-    line-height: 35px;
-    transform: rotateY(180deg) scale(1);
-}
+    .flx-menu ul .item-opened:after {
+        line-height: 35px;
+        transform: rotateY(180deg) scale(1);
+    }
 
-.flx-menu ul .item-closed:after {
-    line-height: 35px;
-    transform: rotateY(0) scale(1);
-}
+    .flx-menu ul .item-closed:after {
+        line-height: 35px;
+        transform: rotateY(0) scale(1);
+    }
 
-.flx-menu ul .item-closed:after {
-    font-family: 'Linearicons-Free';
-    text-transform: none;
-    content: "\e876";
-    float: right;
-    transform: rotate(0) scale(1);
-    transition: .3s linear;
-    font-size: .7em;
-    line-height: 35px;
-}
+    .flx-menu ul .item-closed:after {
+        font-family: 'Linearicons-Free';
+        text-transform: none;
+        content: "\e876";
+        float: right;
+        transform: rotate(0) scale(1);
+        transition: .3s linear;
+        font-size: .7em;
+        line-height: 35px;
+    }
 
-.flx-menu .active {
-    color: dbColor(OutstandingColor);
-}
+    .flx-menu .active {
+        color: dbColor(OutstandingColor);
+    }
 
-.flx-menu .active:hover {
-    color: dbColor(txtOutstandingColor);
-    background-color: lighten(dbColor(OutstandingColor), 25%);
-}
+    .flx-menu .active:hover {
+        color: dbColor(txtOutstandingColor);
+        background-color: lighten(dbColor(OutstandingColor), 25%);
+    }
 
-.flx-menu ul .item-opened:after {
-    font-family: 'Linearicons-Free';
-    text-transform: none;
-    content: "\e876";
-    float: right;
-    font-size: .7em;
-    transform: rotate(90deg) scale(1);
-    transition: .3s linear;
-    line-height: 35px;
-}
+    .flx-menu ul .item-opened:after {
+        font-family: 'Linearicons-Free';
+        text-transform: none;
+        content: "\e876";
+        float: right;
+        font-size: .7em;
+        transform: rotate(90deg) scale(1);
+        transition: .3s linear;
+        line-height: 35px;
+    }
 
-.flx-menu li {
-    list-style: none;
-    margin-bottom: 0;
-}
+    .flx-menu li {
+        list-style: none;
+        margin-bottom: 0;
+    }
 
-.flx-menu li.separator {
-    border-bottom: solid 1px dbColor(borderModuleColor)
-}
+    .flx-menu li.separator {
+        border-bottom: solid 1px dbColor(borderModuleColor)
+    }
 
-.flx-menu ul li > span {
-    padding: 0 8px;
-    height: 35px;
-    line-height: 35px;
-    min-width: 12em;
-    text-decoration: none;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
+    .flx-menu ul li > span {
+        padding: 0 8px;
+        height: 35px;
+        line-height: 35px;
+        min-width: 12em;
+        text-decoration: none;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
 
-.flx-menu ul li span, .flx-menu ul li span i {
-    box-sizing: border-box;
-    font-size: 1em;
-}
+    .flx-menu ul li span, .flx-menu ul li span i {
+        box-sizing: border-box;
+        font-size: 1em;
+    }
 
-.flx-menu ul li span:hover {
-    box-sizing: border-box;
-    background-color: dbColor(OutstandingColor);
-    color: dbColor(txtOutstandingColor);
-}
+    .flx-menu ul li span:hover {
+        box-sizing: border-box;
+        background-color: dbColor(OutstandingColor);
+        color: dbColor(txtOutstandingColor);
+    }
 
-.flx-menu .item-closed:after, .flx-menu .item-opened:after {
-    font-size: .7em;
-    font-weight: bold;
-    line-height: 1;
-    content: "▼";
-    margin-left: 3px;
-}
+    .flx-menu .item-closed:after, .flx-menu .item-opened:after {
+        font-size: .7em;
+        font-weight: bold;
+        line-height: 1;
+        content: "▼";
+        margin-left: 3px;
+    }
 
-.flx-menu ul li .lnr {
-    font-size: 1.2em;
-    margin-right: 2px;
-}
+    .flx-menu ul li .lnr {
+        font-size: 1.2em;
+        margin-right: 2px;
+    }
+    // Dialog Menu
+    .dialog-menu {
+        margin: 0;
+        padding-left: 20px;
+        border: 0;
+        list-style: none;
+        z-index: 5;
+        display: block;
+    }
 
-// Dialog Menu
-.dialog-menu {
-    margin: 0;
-    padding-left: 20px;
-    border: 0;
-    list-style: none;
-    z-index: 5;
-    display: block;
-}
+    .dialog-menu li {
+        padding: 0 8px;
+        height: 35px;
+        line-height: 35px;
+        cursor: pointer;
+    }
 
-.dialog-menu li {
-    padding: 0 8px;
-    height: 35px;
-    line-height: 35px;
-    cursor: pointer;
-}
-
-.dialog-menu li span small {
-    line-height: 34px;
-}
+    .dialog-menu li span small {
+        line-height: 34px;
+    }
 
 .dialog-menu li:hover {
     box-sizing: border-box;
@@ -1066,31 +1124,259 @@ flx-nav[mode=nav] li.separator {
     color: dbColor(txtOutstandingColor);
 }
 
-//flx-nodemanager
-
 flx-nodemanager ul.sortable, flx-nodemanager ul.sortable ul {
     list-style-type: none;
 }
 
-flx-nodemanager li {
-    width: 800px;
+@import '../mixins.less';
+flx-nodemanager, flx-menumanager {
+    display: block;
+    height: inherit;
+
+    .managerpanel {
+        @dark-color: dbColor(NavColor);
+        @light-color: dbColor(txtNavColor);
+        @general-border-radius: 6px;
+        background-color: dbColor(NavColor);
+        padding: 32px 10px;
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+        height: 100%;
+
+        > .managerbuttons {
+            display: flex;
+            justify-content: space-between;
+            color: @light-color;
+            padding-top: 15px;
+            position: sticky;
+            top: -32px;
+            background: @dark-color;
+            z-index: 5;
+            box-shadow: 0 0 3px 15px @dark-color;
+
+            > span {
+                display: flex;
+                align-items: center;
+                font-size: 21px;
+
+                i {
+                    transform: rotateY(180deg);
+                    margin-right: 0.5em;
+                }
+            }
+
+            > div {
+                i {
+                    padding: 8px;
+                    background-color: fade(@light-color, 10%);
+                    border-radius: @general-border-radius;
+                    cursor: pointer;
+                    transition: all 0.15s ease-in-out 0s;
+                    .ripple();
+
+                    &:hover {
+                        color: @dark-color;
+                        background-color: @light-color;
+                    }
+
+                    &:last-child {
+                        margin-left: 4px;
+                    }
+                }
+            }
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 15px;
+            margin: unset;
+
+            &:empty {
+                padding: 0;
+            }
+
+            > li {
+                width: 100%;
+
+                > ul {
+                    padding: 0px 0 0 24px;
+                }
+
+                > div:first-child {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin: 8px 0;
+                    padding: 8px 6px;
+                    cursor: move;
+                    position: relative;
+                    background-color: fade(@light-color,10%);
+                    color: @light-color;
+                    transition: all 0.15s ease-in-out 0s;
+                    border-radius: @general-border-radius;
+
+                    &:hover, &.active {
+                        background-color: @light-color;
+                        color: @dark-color;
+
+                        > div.btn-panel {
+                            > i {
+                                background-color: fade(@dark-color,10%);
+                            }
+                        }
+                    }
+
+                    > div:first-child {
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+                        overflow: hidden;
+                        flex: 1;
+
+                        > * {
+                            margin-right: 4px;
+                        }
+
+                        > span {
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+
+                            > small {
+                                color: dbColor(OutstandingColor);
+                            }
+                        }
+                    }
+
+                    > div.btn-panel {
+                        display: flex;
+                        justify-content: flex-end;
+                        align-items: center;
+
+                        &.reduced {
+                            transition: width 0.15s ease-in-out 0s;
+                            width: 26px;
+                            border-radius: @general-border-radius;
+                            overflow: hidden;
+
+                            &.show-all {
+                                width: (26px + 4px) * 5;
+                            }
+                        }
+
+                        > i {
+                            padding: 6px;
+                            border-radius: @general-border-radius;
+                            cursor: pointer;
+                            transition: all 0.15s ease-in-out 0s;
+                            margin-left: 4px;
+                            background-color: fade(@light-color,10%);
+                            min-width: 26px;
+                            max-width: 26px;
+                            max-height: 26px;
+                            .ripple(dbColor(OutstandingColor));
+
+                            &:hover {
+                                color: dbColor(OutstandingColor);
+                                background-color: fade(dbColor(OutstandingColor),10%);
+                            }
+
+                            &.active {
+                                color: dbColor(OutstandingColor);
+                                background-color: fade(dbColor(OutstandingColor),10%);
+                            }
+                        }
+                    }
+                }
+
+                > div {
+                    &.editMenu, &.editnode {
+                        background-color: dbColor(ModuleColor);
+                        border-radius: @general-border-radius;
+                    }
+                }
+
+                &.placeholder {
+                    border: 2px solid fade(dbColor(OutstandingColor),30%);
+                    border-style: dashed;
+                    background-color: fade(dbColor(OutstandingColor),10%);
+                    border-radius: @general-border-radius;
+                }
+            }
+        }
+
+        > ul:not(:empty) {
+            & ~ .empty-info {
+                display: none;
+            }
+        }
+
+        > .empty-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            color: fade(@light-color,40%);
+            text-align: right;
+            margin: 25px 8px;
+            z-index: 6;
+
+            > i {
+                transform: scale(1.5) rotateX(180deg) rotateZ(90deg) translateX(48%) translateY(2.5px);
+                margin-left: 18px;
+            }
+        }
+    }
 }
 
-flx-nodemanager li div {
-}
+    .tab-button-holder {
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+    }
+
+    .tab-button {
+        background-color: #fff;
+        border-color: #ccc;
+        display: inline-block;
+        margin: 4px;
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        touch-action: manipulation;
+        cursor: pointer;
+        user-select: none;
+        background-image: none;
+        border: 1px solid dbColor(borderModuleColor);
+        border-radius: 4px;
+    }
+
+    .tab-button i {
+        /*speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    display: inline-block;
+    font: normal normal normal 14px/1 Flexygo-icons;
+    font-family: 'Flexygo-icons' !important;*/
+        margin-right: 4px;
+    }
+    /*.tab-button i:before {
+    content: "\e9f3";
+}*/
+    .tab-button li {
+        color: dbColor(outstandingColor);
+    }
 
 flx-nodemanager li > div {
     Border: solid 1px #e0e0e0;
     border-top: none;
     background-color: #fafafa;
-}
-
-flx-nodemanager li > div:first-child {
-    Border: solid 1px #999;
-    background-color: #e0e0e0;
-    margin-top: 5px;
-    padding: 10px 10px 15px 10px;
-    cursor: move;
 }
 
 flx-nodemanager li > div:first-child:hover {
@@ -1105,17 +1391,8 @@ flx-nodemanager .mjs-nestedSortable-leaf {
     // padding:5px;
 }
 
-flx-nodemanager .placeholder {
-    border: 1px dashed silver;
-    background-color: #fcf0bf;
-}
-
 flx-nodemanager .processType {
     float: right;
-}
-
-flx-nodemanager a:hover {
-    text-decoration: none;
 }
 
 flx-nodemanager .processType:after {
@@ -1136,48 +1413,3 @@ flx-nodemanager > .btnPnl {
     padding: 5px;
     border-top: solid 1px dbColor(borderModuleColor);
 }
-
-.tab-button-holder {
-    display:inline-block;
-    width:100%;
-    text-align:center;
-}
-
-.tab-button {
-    background-color: #fff;
-    border-color: #ccc;
-    display: inline-block;
-    margin: 4px;
-    font-size: 14px;
-    font-weight: normal;
-    line-height: 1.42857143;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    touch-action: manipulation;
-    cursor: pointer;
-    user-select: none;
-    background-image: none;
-    border: 1px solid dbColor(borderModuleColor);
-    border-radius: 4px;
-    
-}
-.tab-button i {
-    /*speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    display: inline-block;
-    font: normal normal normal 14px/1 Flexygo-icons;
-    font-family: 'Flexygo-icons' !important;*/
-    margin-right: 4px;
-}
-/*.tab-button i:before {
-    content: "\e9f3";
-}*/
-
-.tab-button li {
-    color:dbColor(outstandingColor);
-}
-

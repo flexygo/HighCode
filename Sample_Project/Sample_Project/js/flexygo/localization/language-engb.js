@@ -18,6 +18,7 @@ var flexygo;
                 enabledep: 'Enabled Dep.',
                 visibledep: 'Visible Dep.',
                 requireddep: 'Required Dep.',
+                CustomProperty: 'Custom Property Dep.',
                 save: 'Save',
                 addmore: 'Add more depending properties',
                 sqlvalue: 'SQL Value',
@@ -34,6 +35,9 @@ var flexygo;
                 notrequiredvalues: 'Not Required Values',
                 requiredsentence: 'SQL Required Sentence',
                 description: 'Description',
+                valueApply: 'Affected values',
+                CusPropertyName: 'Custom Control name',
+                SQLCustomProperty: 'SQL Custom Property',
                 connectionstrings: 'Connection strings',
                 connStringvalues: 'Connection string values'
             };
@@ -52,8 +56,9 @@ var flexygo;
                 collection: 'Collection',
                 page: 'Page',
                 object: 'Object',
-                imagemanager: 'Image Manager',
-                documentmanager: 'Document Manager',
+                imagemanager: 'Image Settings',
+                documentmanager: 'Document Settings',
+                mailmanager: 'Mail Settings',
                 viewobject: 'View Object',
                 security: 'Security',
                 objectsecurity: 'Object Security',
@@ -116,12 +121,15 @@ var flexygo;
                 close: 'Close',
                 areyousuretitle: 'Unsaved changes',
                 areyousuremsg: 'Do you really want to close this page?',
+                areyousuremsgyes: 'Yes',
+                areyousuremsgno: 'No',
                 emptyproperty: 'Empty property',
                 addproperties: 'Add properties',
                 propertyname: 'Property Name',
                 propertylabel: 'Property Label',
                 adddetachedproperty: 'Add detached property',
-                selecttable: 'Select Table'
+                selecttable: 'Select Table',
+                loadmore: 'Scroll to load more',
             };
             engb.flxeditgrid = {
                 addrow: 'Add row',
@@ -129,6 +137,7 @@ var flexygo;
                 hide: 'Hide',
                 settings: 'Settings',
                 deleteconfirm: 'Do you want to remove all selected elements?',
+                startinfo: 'You must first configure the editgrid',
             };
             engb.flxgipe = {
                 butonadd: 'Add',
@@ -261,6 +270,18 @@ var flexygo;
                 selectfilterfirst: 'Please select a filter first',
                 save: 'Save',
             };
+            engb.flxmail = {
+                nomails: 'No mails found',
+                nosettings: 'Your account has not been set up. Click to setup your account.',
+                loadmore: 'Load More ',
+                folders: 'Folders',
+                address: 'Address',
+                subject: 'Subject',
+                body: 'Body',
+                mindate: 'Min Date',
+                maxdate: 'Max Date',
+                unseen: 'Only unseen',
+            };
             engb.flxmodule = {
                 delete: 'Delete',
                 save: 'Save',
@@ -377,6 +398,19 @@ var flexygo;
                 error: 'Error exporting data :(',
                 exportinglist: 'Exporting list',
             };
+            engb.menumanager = {
+                deleteMenu: 'Delete menu',
+                deleteMenuquestion: 'Are you sure you want to delete this menu and all its childs',
+                empty: 'Create a new menu to navigate!',
+                menus: 'Menus',
+                new: 'New',
+                refresh: 'Refresh',
+                moreoptions: 'More options',
+                delete: 'Delete',
+                edit: 'edit',
+                submenus: 'Submenus',
+                newsubmenu: 'New submenu',
+            };
             engb.modulemanager = {
                 save: 'Save',
                 searchmodules: 'Search modules',
@@ -464,6 +498,7 @@ var flexygo;
                 addplaceholder: 'Add place holder',
                 save: 'Save',
                 close: 'Close',
+                hasdefinition: 'Review the property in the table:',
             };
             engb.flxversioninfo = {
                 currentversion: 'Actual version ({{CurrentVersion}}).',
@@ -617,6 +652,17 @@ var flexygo;
                 composerplaceholder: 'Type something',
                 sendbutton: 'Register',
                 startinfo: 'You must first configure the chatter',
+            };
+            engb.offline = {
+                createobjecttitle: 'Add new object to App',
+                createobjectcontent: 'You can create a new object or build on an existing one',
+                createobjectbuttonnew: 'New object',
+                createobjectbuttonbased: 'Object based',
+                enablewebapiconfirmation: 'To use the offline application it is necessary to activate the WebApi and restart the application. Do you want to restart the application now?',
+            };
+            engb.offlineemulator = {
+                ios: 'Toggle iOS mode',
+                md: 'Toggle Android mode',
             };
         })(engb = culture.engb || (culture.engb = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

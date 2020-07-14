@@ -33,4 +33,11 @@ declare namespace flexygo.string {
     * @return {boolean} Escaped text.
     */
     function escapeHTML(str: string): string;
+    /**
+    * Remove HTML tags from a string to get only text value.
+    * @method HTMLtoText
+    * @param str {string} HTML text code.
+    * @return {string} Inner text.
+    */
+    function HTMLtoText(value: any): string;
 }

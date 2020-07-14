@@ -71,6 +71,14 @@ var flexygo;
                 * @method refresh
                 */
                 refresh() {
+                    let me = $(this);
+                    let params = {
+                        ObjectName: (me.attr('ObjectName') ? me.attr('ObjectName') : null),
+                        ObjectWhere: (me.attr('ObjectWhere') ? me.attr('ObjectWhere') : null),
+                        ModuleName: me.attr('ModuleName'),
+                        PageName: flexygo.history.getPageName(me)
+                    };
+                    flexygo.storage.cache.remove('chart', params);
                     if ($(this).attr('manualInit') != 'true') {
                         this.init();
                     }
@@ -97,34 +105,53 @@ var flexygo;
                     }
                     me.html('<div><canvas  height=' + height + ' width=' + width + ' position:absolute;"></canvas></div>');
                     let params = {
-                        ObjectName: me.attr('ObjectName'),
-                        ObjectWhere: me.attr('ObjectWhere'),
+                        ObjectName: (me.attr('ObjectName') ? me.attr('ObjectName') : null),
+                        ObjectWhere: (me.attr('ObjectWhere') ? me.attr('ObjectWhere') : null),
                         ModuleName: me.attr('ModuleName'),
                         PageName: flexygo.history.getPageName(me)
                     };
-                    flexygo.ajax.post('~/api/Chart', 'GetHTML', params, (response) => {
-                        if (response) {
-                            this.data = response.Values[0];
-                            if (!this.data || this.data.length == 0) {
-                                me.html('<div class="box-info"><i class="flx-icon icon-information-2 icon-lg icon-margin-right"></i><span><strong>Info!</strong> ' + flexygo.localization.translate('flxlist.noentriesfound') + '</span></div>');
-                                return;
+                    /** Read Cache **/
+                    let cacheResponse = flexygo.storage.cache.get('chart', params);
+                    /** If Cache use cache**/
+                    if (cacheResponse) {
+                        this.preRender(cacheResponse.response);
+                    }
+                    else {
+                        flexygo.ajax.post('~/api/Chart', 'GetHTML', params, (response) => {
+                            if (response) {
+                                flexygo.storage.cache.add('chart', params, response, response.Cache);
+                                this.preRender(response);
                             }
-                            this.dataColum = response.Values[1];
-                            this.settings = response.Settings;
-                            if (response.Options) {
-                                this.options = JSON.parse(response.Options);
-                            }
-                            this.Title = response.Title;
-                            this.Labels = response.Labels;
-                            this.Series = response.Series;
-                            this.Values = response.Value;
-                            this.Params = response.Params;
-                            this.type = response.ChartType;
-                            this.Background = response.ChartBackground;
-                            this.Border = response.ChartBorder;
-                            this.render();
+                        }, null, () => { this.stopLoading(); }, () => { this.startLoading(); });
+                    }
+                }
+                /**
+               * prepares chart for render based on response saved in session o received from post
+               * @method preRender
+               */
+                preRender(response) {
+                    let me = $(this);
+                    if (response) {
+                        this.data = response.Values[0];
+                        if (!this.data || this.data.length == 0) {
+                            me.html('<div class="box-info"><i class="flx-icon icon-information-2 icon-lg icon-margin-right"></i><span><strong>Info!</strong> ' + flexygo.localization.translate('flxlist.noentriesfound') + '</span></div>');
+                            return;
                         }
-                    }, null, () => { this.stopLoading(); }, () => { this.startLoading(); });
+                        this.dataColum = response.Values[1];
+                        this.settings = response.Settings;
+                        if (response.Options) {
+                            this.options = JSON.parse(response.Options);
+                        }
+                        this.Title = response.Title;
+                        this.Labels = response.Labels;
+                        this.Series = response.Series;
+                        this.Values = response.Value;
+                        this.Params = response.Params;
+                        this.type = response.ChartType;
+                        this.Background = response.ChartBackground;
+                        this.Border = response.ChartBorder;
+                        this.render();
+                    }
                 }
                 /**
                 * Renders the chart
@@ -703,6 +730,9 @@ var flexygo;
                                 let res = [Label.length];
                                 for (let l in Label) {
                                     res[l] = 0;
+                                    if (!Label[l]) {
+                                        Label[l] = '(Empty)';
+                                    }
                                 }
                                 let index = -1;
                                 for (let h in Datas[o]) {
@@ -760,6 +790,9 @@ var flexygo;
                                 let res = [Label.length];
                                 for (let l in Label) {
                                     res[l] = 0;
+                                    if (!Label[l]) {
+                                        Label[l] = '(Empty)';
+                                    }
                                 }
                                 let index = -1;
                                 for (let h in Datas[o]) {
@@ -799,6 +832,9 @@ var flexygo;
                                 let res = [Label.length];
                                 for (let l in Label) {
                                     res[l] = 0;
+                                    if (!Label[l]) {
+                                        Label[l] = '(Empty)';
+                                    }
                                 }
                                 let index = -1;
                                 for (let h in Datas[o]) {
@@ -838,6 +874,9 @@ var flexygo;
                                 let res = [Label.length];
                                 for (let l in Label) {
                                     res[l] = 0;
+                                    if (!Label[l]) {
+                                        Label[l] = '(Empty)';
+                                    }
                                 }
                                 let index = -1;
                                 for (let h in Datas[o]) {
@@ -878,6 +917,9 @@ var flexygo;
                                 let res = [Label.length];
                                 for (let l in Label) {
                                     res[l] = 0;
+                                    if (!Label[l]) {
+                                        Label[l] = '(Empty)';
+                                    }
                                 }
                                 let index = -1;
                                 for (let h in Datas[o]) {
@@ -917,6 +959,9 @@ var flexygo;
                                 let res = [Label.length];
                                 for (let l in Label) {
                                     res[l] = 0;
+                                    if (!Label[l]) {
+                                        Label[l] = '(Empty)';
+                                    }
                                 }
                                 let index = -1;
                                 for (let h in Datas[o]) {

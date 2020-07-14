@@ -771,6 +771,35 @@ var flexygo;
     })(api = flexygo.api || (flexygo.api = {}));
 })(flexygo || (flexygo = {}));
 /**
+ * @namespace flexygo.api.mail
+ */
+(function (flexygo) {
+    var api;
+    (function (api) {
+        var mail;
+        (function (mail) {
+            /**
+            * api for SearchSettings
+            * @class SearchSettings
+            * @constructor
+            * @return {MailFilters} .
+            */
+            class MailFilters {
+            }
+            mail.MailFilters = MailFilters;
+            /**
+           * api for SearchSettings
+           * @class SearchSettings
+           * @constructor
+           * @return {MailFolder} .
+           */
+            class MailFolder {
+            }
+            mail.MailFolder = MailFolder;
+        })(mail = api.mail || (api.mail = {}));
+    })(api = flexygo.api || (flexygo.api = {}));
+})(flexygo || (flexygo = {}));
+/**
  * @namespace flexygo.api.list
  */
 (function (flexygo) {

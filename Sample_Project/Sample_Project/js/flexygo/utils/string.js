@@ -65,6 +65,17 @@ var flexygo;
             });
         }
         string.escapeHTML = escapeHTML;
+        /**
+        * Remove HTML tags from a string to get only text value.
+        * @method HTMLtoText
+        * @param str {string} HTML text code.
+        * @return {string} Inner text.
+        */
+        function HTMLtoText(value) {
+            let text = $('<div></div>').html(value).text();
+            return text;
+        }
+        string.HTMLtoText = HTMLtoText;
     })(string = flexygo.string || (flexygo.string = {}));
 })(flexygo || (flexygo = {}));
 //# sourceMappingURL=string.js.map

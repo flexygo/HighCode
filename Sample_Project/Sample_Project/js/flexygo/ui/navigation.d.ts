@@ -10,6 +10,7 @@ declare namespace flexygo.nav {
     class FlexygoHistory {
         targetid: string;
         navigateFun?: string;
+        opener?: string;
         objectname?: string;
         objectwhere?: string;
         defaults?: any;
@@ -187,6 +188,7 @@ declare namespace flexygo.nav {
 */
     function getObjectMenu(objectname: string, objectwhere: string, defaults: string, btn: JQuery, coord?: JQueryCoordinates, options?: string): void;
     function getRealTarget(elm: JQuery): JQuery;
+    function getCurrentOpener(triggerElement: JQuery): string;
     /**
      * Close flexygo popup or modal page
      * @method closePage
@@ -201,5 +203,6 @@ declare namespace flexygo.nav {
     function toggleMobileMenu(): void;
     function toggleMobileNav(): void;
     function toggleNavBar(): void;
+    function hideNavBar(): void;
     function toggleFlxnav(menuNav: JQuery): void;
 }

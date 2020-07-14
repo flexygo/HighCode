@@ -251,6 +251,10 @@ var flexygo;
                     htmlCtl += '</div>';
                     me.html(htmlCtl);
                     this.setOptions();
+                    me.find('label:first').on('click', () => {
+                        me.trigger('focusin');
+                        me.trigger('focusout');
+                    });
                 }
                 setOptions() {
                     let me = $(this);

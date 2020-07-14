@@ -9,6 +9,13 @@ declare namespace flexygo.utils {
      */
     function showQR(text: string): void;
     /**
+    * Check if two objects are equivalent
+    * @method ObjectsAreEquivalent
+    * @param {object} a - Object a to compare.
+    * @param {object} b - Object b to compare.
+    */
+    function objectsAreEquivalent(a: any, b: any): boolean;
+    /**
     * Creates a string function from a param array.
     * @method functionToString
     * @param {string} functionName - The function name.
@@ -63,6 +70,12 @@ declare namespace flexygo.utils {
     * @return {boolean} True if agent's navigator comes from a mobile, false if not.
     */
     function isAgentMobile(): boolean;
+    /**
+   * Says if the agent's navigator comes from Electron.
+   * @method isAgentElectron
+   * @return {boolean} True if agent's navigator comes from Electron, false if not.
+   */
+    function isAgentElectron(): boolean;
     /**
     * Transform object into key value pairs array.
     * @param {object} data - Object to transform.
@@ -161,6 +174,19 @@ declare namespace flexygo.utils {
       * @param {flexygo.ui.wc.FlxModuleElement} documentModuleElement - Document Module Element.
       */
     function documentViewerEvents(documentModuleElement: flexygo.ui.wc.FlxModuleElement): void;
+    /**
+    * Evaluates if element is in main content.
+    * @param {Element} element - Element to evaluate
+    * @param {number} margin - Respect margin
+    * @method isInMainContent
+    * @return {boolean}
+    */
+    function isInMainContent(element: HTMLElement, margin?: number): boolean;
+    /**
+    * Get file icon.
+    * @method getFileIcon
+    */
+    function getFileIcon(extension: string): string;
 }
 declare namespace flexygo.utils.querystring {
     function getParamValue(url: string, paramName: string): string;
@@ -171,4 +197,66 @@ declare namespace flexygo.utils.querystring {
         key: string;
         value: string;
     }];
+}
+declare namespace flexygo.mail {
+    /**
+    * Filters mail list Module with folder Name.
+    * @method changeFolder
+    * @param {string} folderId - new folder id.
+    */
+    function changeFolder(folderId: string, object: boolean): void;
+    function viewLoaded(e: any, messageId: string): void;
+    function openMail(messageId: string, objectName: string, objectId: string, mail: any): void;
+    /**
+    * Open search dinamically from dbcombo
+    * @method parseJavaString
+    * @param {string} property - name dbcombo property.
+    * @param {HTMLElement} me - search property.
+    */
+    function openSearch(property: any, me: any): void;
+}
+/**
+ * @namespace flexygo.utils.offline
+ */
+declare namespace flexygo.utils.offline {
+    /**
+   * Init Offline Module.
+   * @method initOfflineModule
+   * @param {Element} moduleElement HTML Element.
+   * @param {boolean} withHorizontalScroll With Horizontal Scroll.
+   * @param {number} visibleElements Visible Elements.
+   * @param {number} respectSpace Respect Space.
+   *  @param {string} scrollContainerSelector Scroll Container Selector.
+   */
+    function initOfflineModule(moduleElement: Element, withHorizontalScroll: boolean, visibleElements: number, respectSpace?: number, scrollContainerSelector?: string): void;
+    /**
+    * Show Related Info.
+    * @method showRelatedInfo
+    * @param {Element} triggerElement HTML Element.
+    */
+    function showRelatedInfo(triggerElement: Element): void;
+    /**
+    * Init Tabs Control.
+    * @method initTabsControl
+    * @param {Element} tabSection HTML Element.
+    */
+    function initTabsControl(tabSection: Element): void;
+    /**
+    * Get Attribute In Empty Template.
+    * @method getAttributeInEmptyTemplate
+    * @param {Element} element HTML Element.
+    * @param {string} attributeName Attribute Name.
+    * @returns {any} Atribute Value
+    */
+    function getAttributeInEmptyTemplate(element: Element, attributeName: string): string;
+    /**
+    * Is Empty Attribute.
+    * @method isEmptyAttribute
+    * @param {Element} element HTML Element.
+    * @param {string} attributeName Attribute Name.
+    * @param {string} is is Value.
+    * @param {string} notIs notIs Value.
+    * @returns {any} Value of "is" or "notIs"
+    */
+    function isEmptyAttribute(element: Element, attributeName: string, is: string, notIs: string): any;
 }

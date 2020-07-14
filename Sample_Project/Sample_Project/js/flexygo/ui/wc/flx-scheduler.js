@@ -75,6 +75,7 @@ var flexygo;
                     let slotDuration;
                     let pageType;
                     let target;
+                    let eventLimit;
                     me.removeAttr('manualInit');
                     let parentModule = me.closest('flx-module');
                     let wcModule = parentModule[0];
@@ -102,6 +103,7 @@ var flexygo;
                             slotDuration = response.SlotDuration;
                             pageType = response.PageType;
                             target = response.Target;
+                            eventLimit = response.EventLimit;
                             if (response.MonthView == "True") {
                                 options.push("month");
                             }
@@ -148,7 +150,7 @@ var flexygo;
                                         ctx.checkObjects.push(response[i].ObjectName);
                                     }
                                     if (ctx.objects.length > 0) {
-                                        ctx.render(options, activeMode, maxTime, minTime, onClickEvent, allDaySlot, slotDuration, pageType, target);
+                                        ctx.render(options, activeMode, maxTime, minTime, onClickEvent, allDaySlot, slotDuration, pageType, target, eventLimit);
                                         //$('.fc-left').addClass('col-lg-5');
                                         //$('.fc-left').addClass('col-md-6');
                                         if (objectName != '') {
@@ -228,7 +230,7 @@ var flexygo;
                 * Initialize Scheduler.
                 * @method render
                 */
-                render(options, activeMode, maxTime, minTime, onClickEvent, allDaySlot, slotDuration, pageType, target) {
+                render(options, activeMode, maxTime, minTime, onClickEvent, allDaySlot, slotDuration, pageType, target, eventLimit) {
                     let ctx = this;
                     let me = $(this);
                     let right = '';
@@ -288,7 +290,7 @@ var flexygo;
                         height: 'auto',
                         slotEventOverlap: false,
                         editable: true,
-                        eventLimit: true,
+                        eventLimit: eventLimit,
                         slotDuration: slotDuration,
                         eventDrop: function (event, delta, revertFunc) {
                             let obj = new flexygo.obj.Entity(event.objectName, ctx.getObjectWhere(event.table, event.key, event.id));
@@ -415,6 +417,7 @@ var flexygo;
                         dayClick: function (date, jsEvent, view) {
                             if (!ctx.dayClick) {
                                 ctx.dayClick = true;
+                                let hasTime = date.hasTime();
                                 if (ctx.objects.length > 1) {
                                     let myButtons = new Object();
                                     let buttons = '';
@@ -445,14 +448,14 @@ var flexygo;
                                         });
                                         $(".modalButton").click(function () {
                                             let object = myButtons[this.text];
-                                            ctx.openEvent(object.ObjectName, object.StartDateField, object.EndDateField, object.StartTimeField, object.EndTimeField, object.DurationField, date.format("YYYY-MM-DD"), date.format("HH:mm"));
+                                            ctx.openEvent(object.ObjectName, object.StartDateField, object.EndDateField, object.StartTimeField, object.EndTimeField, object.DurationField, date.format("YYYY-MM-DD"), date.format("HH:mm"), object.AllDayField, hasTime);
                                             $('.sweet-modal-overlay').remove();
                                         });
                                     }
                                 }
                                 else {
                                     if (ctx.objects[0].CanInsert) {
-                                        ctx.openEvent(ctx.objects[0].ObjectName, ctx.objects[0].StartDateField, ctx.objects[0].EndDateField, ctx.objects[0].StartTimeField, ctx.objects[0].EndTimeField, ctx.objects[0].DurationField, date.format("YYYY-MM-DD"), date.format("HH:mm"));
+                                        ctx.openEvent(ctx.objects[0].ObjectName, ctx.objects[0].StartDateField, ctx.objects[0].EndDateField, ctx.objects[0].StartTimeField, ctx.objects[0].EndTimeField, ctx.objects[0].DurationField, date.format("YYYY-MM-DD"), date.format("HH:mm"), ctx.objects[0].AllDayField, hasTime);
                                     }
                                 }
                             }
@@ -526,7 +529,7 @@ var flexygo;
                * Open Event.
                * @method openEvent
                */
-                openEvent(objectName, startDate, endDate, startTime, endTime, duration, date, time) {
+                openEvent(objectName, startDate, endDate, startTime, endTime, duration, date, time, allday, hasTime) {
                     let ctx = this;
                     let displayTimeEnd = new Date();
                     let hour = time.slice(0, 2);
@@ -549,6 +552,14 @@ var flexygo;
                     }
                     if (duration) {
                         defaults[duration] = '15';
+                    }
+                    if (allday) {
+                        if (hasTime) {
+                            defaults[allday] = false;
+                        }
+                        else {
+                            defaults[allday] = true;
+                        }
                     }
                     flexygo.nav.openPage('edit', objectName, null, JSON.stringify(defaults), 'modal1024x768', false, $(this));
                     ctx.dayClick = false;

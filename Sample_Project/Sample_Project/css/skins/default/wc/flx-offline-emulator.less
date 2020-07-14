@@ -1,0 +1,228 @@
+﻿@import '../mixins.less';
+flx-offline-emulator {
+    display: grid;
+
+    @media (max-width: dbsize(medium)) {
+        & {
+            display: none;
+        }
+    }
+
+    .mode-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 2rem;
+        padding-bottom: 1rem;
+        @toggle-radius: 16px;
+
+        &[active-mode="ios"] {
+            .toggle-group {
+
+                &:before {
+                    left: 0%;
+                }
+
+                button {
+                    &[mode="ios"] {
+                        color: dbColor(TxtOutstandingColor);
+                        cursor: unset;
+                    }
+                }
+            }
+        }
+
+        &[active-mode="md"] {
+            .toggle-group {
+
+                &:before {
+                    left: 50%;
+                }
+
+                button {
+                    &[mode="md"] {
+                        color: dbColor(TxtOutstandingColor);
+                        cursor: unset;
+                    }
+                }
+            }
+        }
+
+        .toggle-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: dbColor(TxtOutstandingColor);
+            border-radius: @toggle-radius;
+            position: relative;
+            height: 28px;
+            width: 80%;
+            max-width: 240px;
+            min-width: 120px;
+            transition: .15s background-color ease-in-out;
+            box-shadow: 0 0 10px fade(dbColor(OutstandingColor),10%);
+
+            &:before {
+                content: "";
+                background-color: dbColor(OutstandingColor);
+                width: 50%;
+                height: 100%;
+                position: absolute;
+                transition: left 0.15s cubic-bezier(0.8, -0.05, 0.07, 0.99);
+                border-radius: @toggle-radius;
+            }
+
+            &.chage-mode {
+                background-color: fade(dbColor(OutstandingColor),15%)
+            }
+
+            button {
+                background-color: transparent;
+                border: none;
+                border-radius: @toggle-radius;
+                color: dbColor(OutstandingColor);
+                font-size: 20px;
+                font-weight: 700;
+                letter-spacing: 0.1em;
+                margin: 0;
+                padding: 0;
+                text-transform: uppercase;
+                transition: .15s background-color ease-in-out, .15s color ease-in-out;
+                z-index: 0;
+                width: 50%;
+                height: 100%;
+                cursor: pointer;
+
+                &:not(.rippled) {
+                    .ripple(dbColor(txtOutstandingColor));
+                }
+
+                &:focus,
+                &:active {
+                    outline: none;
+                }
+            }
+        }
+    }
+
+    .device {
+        @device-aspect-ratio: 2.125;
+        @device-base: 320px;
+        @device-padding: 2rem;
+        @md-radius: 20px;
+        @ios-radius: 32px;
+        @frame-color: #323f4b;
+        padding: @device-padding;
+        position: sticky;
+        top: 0;
+
+        &[mode="ios"] {
+            > figure {
+                border-radius: @ios-radius;
+
+                &:after {
+                    display: block;
+                    background-color: rgba(0,0,0,0.5);
+                    border-radius: 2px;
+                    bottom: 6px;
+                    content: "";
+                    height: 4px;
+                    left: 50%;
+                    position: absolute;
+                    transform: translateX(-50%);
+                    width: 35%;
+                    z-index: 1;
+                }
+
+                > .device__ios-notch {
+                    opacity: 1;
+                }
+
+                > iframe {
+                    border-radius: @ios-radius;
+                }
+            }
+        }
+
+        &[mode="md"] {
+            > figure {
+                border-radius: @md-radius;
+
+                > .device__md-bar {
+                    display: block;
+                    fill: #090a0d;
+                    opacity: .1;
+                    padding: .8rem 1.2rem;
+                    position: relative;
+                    width: 100%;
+                    z-index: 2;
+                }
+
+                > iframe {
+                    border-radius: @md-radius;
+                }
+            }
+        }
+
+        > figure {
+            box-shadow: 0 0 0 13px @frame-color, 0 0 0 16px desaturate(lighten(@frame-color, 20%),10%), 0 0 34px 19px rgba(0,0,0,0.2);
+            height: 0;
+            margin: auto;
+            overflow: hidden;
+            padding-bottom: ~"calc(@{device-aspect-ratio} *  @{device-base})";
+            position: relative;
+            width: @device-base;
+            z-index: 1;
+            transition: all .15s ease-in-out;
+
+            > .device__ios-notch {
+                opacity: 0;
+                fill: @frame-color;
+                left: 50%;
+                position: absolute;
+                top: -1px;
+                transform: translateX(-50%);
+                width: 165px;
+                z-index: 2;
+                transition: all .15s ease-in-out;
+            }
+
+            > .device__md-bar {
+                opacity: 0;
+                transition: all .15s ease-in-out;
+            }
+
+            > iframe {
+                border: none;
+                height: 100%;
+                left: 0;
+                position: absolute;
+                top: 0;
+                width: 100%;
+                z-index: 1;
+            }
+        }
+    }
+
+    .help-options {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 1rem;
+
+        i {
+            padding: 8px 40px;
+            background-color: fade(dbColor(OutstandingColor), 10%);
+            color: dbColor(OutstandingColor);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s ease-in-out 0s;
+            margin: 0 5px;
+            .ripple(dbColor(TxtOutstandingColor));
+            &:hover {
+                color: dbColor(TxtOutstandingColor);
+                background-color: dbColor(OutstandingColor);
+            }
+        }
+    }
+}

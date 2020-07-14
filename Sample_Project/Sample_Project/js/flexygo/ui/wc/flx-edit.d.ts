@@ -160,7 +160,7 @@ declare namespace flexygo.ui.wc {
         * @param {string} str
         * @return {string}
         */
-        parseEditString(str: string): string;
+        parseEditString(str: string, ctx?: flexygo.ui.wc.FlxEditElement | flexygo.ui.wc.FlxListElement, property?: Element): string;
         /**
        *Translates string
        * @method translate
@@ -196,6 +196,13 @@ declare namespace flexygo.ui.wc {
        * @return {string}
        */
         getModuleFullId(): string;
+        /**
+        * Validate property
+        * @method validateSQLProperty
+        * @param {string} propertyName
+        * @param {Properties}  flexygo.api.edit.KeyValuePair[]
+        */
+        validateSQLProperty(propertyName: string, Properties: flexygo.api.edit.KeyValuePair[]): void;
         /**
       * Captures property change event
       * @method onPropertyChanged

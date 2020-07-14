@@ -27,6 +27,22 @@ var flexygo;
                     * @property value {string}
                     */
                     this.value = null;
+                    /**
+                    * Composer Attachment Template
+                    * @property composerAttachmentTemplate {string}
+                    */
+                    this.uploadFileTemplate = (fileId, name, extension, base64) => `<div class="upload-file" upload-file-id="${fileId}">
+                                                                                                                                    <div>
+                                                                                                                                        <i class="size-l fa ${flexygo.utils.getFileIcon(extension)}"/>
+                                                                                                                                        <small>${name}</small>
+                                                                                                                                    </div>
+                                                                                                                                    <div>
+                                                                                                                                        <a href="${base64}" download="${name + extension}">
+                                                                                                                                            <i class="flx-icon icon-download-1 upload-file-download"></i>
+                                                                                                                                        </a>
+                                                                                                                                        <i class="flx-icon icon-close-2 upload-file-delete"></i>
+                                                                                                                                    </div>
+                                                                                                                                 </div>`;
                 }
                 /**
                 * Fires when element is attached to DOM
@@ -45,8 +61,7 @@ var flexygo;
                     if (this.property) {
                         let parentCtl = element.closest('flx-edit,flx-list,flx-propertymanager,flx-view,flx-filter');
                         if (parentCtl && parentCtl.length > 0) {
-                            parentCtl = parentCtl.data('controller');
-                            this.options = jQuery.extend(true, {}, parentCtl.properties[this.property]);
+                            this.options = jQuery.extend(true, {}, parentCtl[0].properties[this.property]);
                         }
                     }
                     if (element.attr('manualInit') != 'true') {
@@ -104,6 +119,12 @@ var flexygo;
                     }
                 }
                 /**
+                * Fires when element is detached to DOM
+                * @method disconnectedCallback
+                */
+                disconnectedCallback() {
+                }
+                /**
                 * Init the webcomponent.
                 * @method init
                 */
@@ -122,15 +143,22 @@ var flexygo;
                 */
                 render() {
                     var rendered;
-                    rendered = ((this.customCSS) ? `<style>` + this.customCSS + `</style>` : ``) + `
-                        <div class="upload-container">
+                    rendered = `${(this.customCSS) ? `<style>${this.customCSS}</style>` : ``}
+                        <div class="upload-container" style="${(this.options && this.options.Locked) ? 'cursor: no-drop' : ''}">
                             <div class="upload-drag-container">
-                                <i class="flx-icon icon-upload-1 upload-transition txt-primary icon-4x" flx-fw=""></i>
+                                <span class="txt-primary">
+                                    <i class="flx-icon icon-upload-1"/> ${flexygo.localization.translate('upload.info')}
+                                </span>
+                                <div class="uploaded-flies">
+                                </div>
                             </div>
+                               
+                             ${(this.options && this.options.Locked) ? '' : `<label class="btn upload-btn">
+                               <i class="fa fa-search"></i><input type="file" class="hide" multiple/>
+                                   </label>`}
                         </div>
-                        ` + ((this.customScript) ? `<script>` + this.customScript + `</script>` : ``);
+                        ${(this.customScript) ? `<script>` + this.customScript + `</script>` : ``}`;
                     $(this).html(rendered);
-                    $(this).find('div.upload-container').tooltip({ title: flexygo.localization.translate('upload.info'), placement: 'top', trigger: 'hover' });
                     this.mainEvents();
                 }
                 /**
@@ -141,23 +169,49 @@ var flexygo;
                     let me = $(this);
                     me.removeAttr('manualInit');
                     let ctx = this;
+                    if (this.options && this.options.Locked) {
+                        return;
+                    }
                     var dragDropZone;
                     dragDropZone = me.find('div.upload-container');
-                    dragDropZone.off('dragover').on('dragover', (e) => {
+                    me.find('input[type = "file"]').off('input.upload').on('input.upload', (e) => {
+                        for (let it of e.currentTarget.files) {
+                            documentReader(it, '');
+                        }
+                    });
+                    me.on('upload.upload', (event, fileId, type, moduleName, objectName, objectWhere, processName, property, path, name, extension, base64) => {
+                        $(ctx.uploadFileTemplate(fileId, name, extension, base64)).appendTo(me.find('.upload-drag-container > .uploaded-flies')).find('.upload-file-delete').off('click.upload').on('click.upload', (e) => {
+                            let fileElement = $(e.currentTarget).closest('.upload-file');
+                            let fileId = fileElement.attr('upload-file-id');
+                            let values;
+                            values = JSON.parse(this.value);
+                            delete values[fileId];
+                            this.value = JSON.stringify(values);
+                            fileElement.remove();
+                        });
+                    });
+                    dragDropZone.off('dragover.upload').on('dragover.upload', (e) => {
                         e.preventDefault();
                         e.stopPropagation();
+                        if (e.originalEvent && e.originalEvent.dataTransfer) {
+                            e.originalEvent.dataTransfer.dropEffect = 'copy';
+                        }
                         me.find('div.upload-drag-container').addClass('upload-dragging');
                     });
-                    dragDropZone.off('dragleave').on('dragleave', (e) => {
+                    dragDropZone.off('dragleave.upload').on('dragleave.upload', (e) => {
                         e.preventDefault();
                         e.stopPropagation();
+                        if (e.originalEvent && e.originalEvent.dataTransfer) {
+                            e.originalEvent.dataTransfer.dropEffect = 'copy';
+                        }
                         me.find('div.upload-drag-container').removeClass('upload-dragging');
                     });
-                    dragDropZone.off('drop').on('drop', (e) => {
+                    dragDropZone.off('drop.upload').on('drop.upload', (e) => {
                         var file;
                         var items;
                         var item;
-                        if (e.originalEvent) {
+                        if (e.originalEvent && e.originalEvent.dataTransfer) {
+                            e.originalEvent.dataTransfer.dropEffect = 'copy';
                             items = e.originalEvent.dataTransfer.items;
                             for (let it of items) {
                                 item = it.webkitGetAsEntry();
@@ -167,7 +221,6 @@ var flexygo;
                             }
                         }
                         e.preventDefault();
-                        e.stopPropagation();
                         me.find('div.upload-drag-container').removeClass('upload-dragging');
                     });
                     function traverseFileTree(item, path) {
@@ -201,6 +254,7 @@ var flexygo;
                             name = file.name.substring(0, file.name.lastIndexOf("."));
                             extension = file.name.substring(file.name.lastIndexOf(".")).toLowerCase();
                             reader.onload = function (e) {
+                                let fileId;
                                 if (ctx.type === 'file') {
                                     ctx.rootPath = ctx.rootPath.replace('\\', '/');
                                     if (!ctx.rootPath.endsWith('/') && !path.startsWith('/')) {
@@ -217,8 +271,7 @@ var flexygo;
                                     flexygo.ajax.post('~/api/Upload', 'Upload', params, (response) => {
                                         if (response && !response.uploadError) {
                                             flexygo.msg.success('upload.uploaded');
-                                            $(document).trigger('upload', [ctx.type, ctx.moduleName, ctx.objectName, ctx.objectWhere, ctx.processName, ctx.property, response.path, name, extension, reader.result]);
-                                            ctx.setValue({
+                                            fileId = ctx.setValue({
                                                 type: ctx.type,
                                                 moduleName: ctx.moduleName,
                                                 objectName: ctx.objectName,
@@ -230,16 +283,25 @@ var flexygo;
                                                 extension: extension,
                                                 base64: reader.result,
                                             });
+                                            if (ctx.options && ctx.options.CauseRefresh) {
+                                                let ev = {
+                                                    class: "property",
+                                                    type: "changed",
+                                                    sender: ctx,
+                                                    masterIdentity: ctx.property
+                                                };
+                                                flexygo.events.trigger(ev);
+                                            }
                                         }
                                         else {
                                             flexygo.msg.error('upload.error');
                                         }
+                                        me.trigger('upload', [fileId - 1, ctx.type, ctx.moduleName, ctx.objectName, ctx.objectWhere, ctx.processName, ctx.property, response.path, name, extension, reader.result]);
                                     });
                                 }
                                 else if (ctx.type === 'base64') {
                                     flexygo.msg.success('upload.uploaded');
-                                    $(document).trigger('upload', [ctx.type, ctx.moduleName, ctx.objectName, ctx.objectWhere, ctx.processName, ctx.property, path, name, extension, reader.result]);
-                                    ctx.setValue({
+                                    fileId = ctx.setValue({
                                         type: ctx.type,
                                         moduleName: ctx.moduleName,
                                         objectName: ctx.objectName,
@@ -251,6 +313,7 @@ var flexygo;
                                         extension: extension,
                                         base64: reader.result,
                                     });
+                                    me.trigger('upload', [fileId - 1, ctx.type, ctx.moduleName, ctx.objectName, ctx.objectWhere, ctx.processName, ctx.property, path, name, extension, reader.result]);
                                 }
                             };
                             reader.readAsDataURL(file);
@@ -308,11 +371,13 @@ var flexygo;
                 */
                 setValue(value) {
                     try {
-                        var values;
+                        let values;
+                        let position;
                         if (value != null && value.toString() != '') {
                             values = JSON.parse((this.value) ? this.value : '[]');
-                            values.push(value);
+                            position = values.push(value);
                             this.value = JSON.stringify(values);
+                            return position;
                         }
                     }
                     catch (ex) {

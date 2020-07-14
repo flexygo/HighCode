@@ -7,17 +7,17 @@ var flexygo;
     (function (utils) {
         var parser;
         (function (parser) {
-            function recursiveCompile(json, template, contextFunctions, lastTemplate) {
+            function recursiveCompile(json, template, contextFunctions, lastTemplate, AddTimeZone = false) {
                 let reg = /{{([^{}]+)}}/g;
                 let hasMoreMatches = template.match(reg);
-                let retString = flexygo.utils.parser.compile(json, template, contextFunctions);
+                let retString = flexygo.utils.parser.compile(json, template, contextFunctions, AddTimeZone);
                 if ((!lastTemplate || retString != lastTemplate) && hasMoreMatches != null) {
-                    retString = flexygo.utils.parser.recursiveCompile(json, retString, contextFunctions, retString);
+                    retString = flexygo.utils.parser.recursiveCompile(json, retString, contextFunctions, retString, AddTimeZone);
                 }
                 return retString;
             }
             parser.recursiveCompile = recursiveCompile;
-            function compile(json, template, contextFunctions) {
+            function compile(json, template, contextFunctions, AddTimeZone = false) {
                 let reg = /{{([^{}]+)}}/g;
                 let matches = template.match(reg);
                 let retString = template;
@@ -125,11 +125,21 @@ var flexygo;
                                         strFormat = defDateFormat;
                                     }
                                     if (strFormat == 'W') {
-                                        rValue = moment.utc(rValue).locale(flexygo.profiles.culture).format();
+                                        if (AddTimeZone) {
+                                            rValue = moment(rValue).locale(flexygo.profiles.culture).format();
+                                        }
+                                        else {
+                                            rValue = moment.utc(rValue).locale(flexygo.profiles.culture).format();
+                                        }
                                     }
                                     else {
                                         if (rValue && rValue != '' && moment.utc(rValue).isValid()) {
-                                            rValue = moment.utc(rValue).locale(flexygo.profiles.culture).format(strFormat);
+                                            if (AddTimeZone) {
+                                                rValue = moment(rValue).locale(flexygo.profiles.culture).format(strFormat);
+                                            }
+                                            else {
+                                                rValue = moment.utc(rValue).locale(flexygo.profiles.culture).format(strFormat);
+                                            }
                                         }
                                         else {
                                             rValue = '';
@@ -138,12 +148,22 @@ var flexygo;
                                 }
                                 else if (typeF == 'fromnow') {
                                     if (rValue && rValue != '' && moment.utc(rValue).isValid()) {
-                                        rValue = moment(moment.utc(rValue).format().split('+')[0]).locale(flexygo.profiles.culture).fromNow();
+                                        if (AddTimeZone) {
+                                            rValue = moment(rValue).locale(flexygo.profiles.culture).fromNow();
+                                        }
+                                        else {
+                                            rValue = moment(moment.utc(rValue).format().split('+')[0]).locale(flexygo.profiles.culture).fromNow();
+                                        }
                                     }
                                 }
                                 else if (typeF == 'tonow') {
                                     if (rValue && rValue != '' && moment.utc(rValue).isValid()) {
-                                        rValue = moment(moment.utc(rValue).format().split('+')[0]).locale(flexygo.profiles.culture).toNow();
+                                        if (AddTimeZone) {
+                                            rValue = moment(rValue).locale(flexygo.profiles.culture).toNow();
+                                        }
+                                        else {
+                                            rValue = moment(moment.utc(rValue).format().split('+')[0]).locale(flexygo.profiles.culture).toNow();
+                                        }
                                     }
                                 }
                                 else if (typeF == 'decimal') {
@@ -192,6 +212,7 @@ var flexygo;
                                 }
                                 else if (typeF == 'string') {
                                     if (rValue && rValue != '') {
+                                        rValue = flexygo.string.HTMLtoText(rValue);
                                         if (strFormat.toLowerCase() == 'lower') {
                                             rValue = rValue.toLowerCase();
                                         }

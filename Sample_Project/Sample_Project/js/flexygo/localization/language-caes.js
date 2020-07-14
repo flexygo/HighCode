@@ -18,6 +18,7 @@ var flexygo;
                 enabledep: 'Habilitar Dep.',
                 visibledep: 'Dep. Visible',
                 requireddep: 'Dep. Requirida',
+                CustomProperty: 'Custom Property Dep.',
                 save: 'Desa',
                 addmore: 'Afegeix més propietats depenents',
                 sqlvalue: 'Valor SQL',
@@ -34,6 +35,9 @@ var flexygo;
                 notrequiredvalues: 'Valors no Requerits',
                 requiredsentence: 'Sentencies requerides SQL',
                 description: 'Descripció',
+                valueApply: 'Valors afectats',
+                CusPropertyName: 'Nom Custom Control',
+                SQLCustomProperty: 'SQL Custom Property',
                 connectionstrings: 'Cadenas de conexión',
                 connStringvalues: 'valores de conexión'
             };
@@ -52,8 +56,9 @@ var flexygo;
                 collection: 'Colecció',
                 page: 'Pàgina',
                 object: 'Objecte',
-                imagemanager: 'Administrador d&#39;Imatge',
-                documentmanager: 'Administrador de Documents',
+                imagemanager: 'Configuració d&#39;Imatge',
+                documentmanager: 'Configuració de Documents',
+                mailmanager: 'Configuració de correu',
                 viewobject: 'Vista de l&#39;objecte',
                 security: 'Seguretat',
                 objectsecurity: 'Seguretat de l&#39;Objecte',
@@ -116,11 +121,14 @@ var flexygo;
                 close: 'Tancar',
                 areyousuretitle: 'Canvis no guardats',
                 areyousuremsg: 'Segur que vols tancar aquesta pàgina?',
+                areyousuremsgyes: 'Sí',
+                areyousuremsgno: 'No',
                 emptyproperty: 'Propietat buida',
                 addproperties: 'Afegeix propietats',
                 propertyname: 'Nom de la Propietat',
                 propertylabel: 'Etiqueta de la propietat',
                 adddetachedproperty: 'Afegir propietat separada ',
+                loadmore: 'Desplaça\'t per carregar-ne més',
             };
             caes.flxeditgrid = {
                 addrow: 'Afegeix fila',
@@ -128,6 +136,7 @@ var flexygo;
                 hide: 'Ocult',
                 settings: 'Paràmetres',
                 deleteconfirm: 'Vols esborrar tot elements seleccionats?',
+                startinfo: 'Primer ha de configurar el editgrid',
             };
             caes.flxgipe = {
                 butonadd: 'Afegeix',
@@ -260,6 +269,18 @@ var flexygo;
                 selectfilterfirst: 'Seleccioneu primer un filtre',
                 save: 'Desa',
             };
+            caes.flxmail = {
+                nomails: 'No hi ha cap correu trobat ',
+                nosettings: 'El vostre compte de correu electrònic no s’ha configurat.Feu clic per configurar-lo.',
+                loadmore: 'Carrega’ls més ',
+                folders: 'Carpetes',
+                address: 'Adreça',
+                subject: 'Matèria',
+                body: 'Cos',
+                mindate: 'Data  mínima',
+                maxdate: 'Data  máxima',
+                unseen: 'Només no llegits',
+            };
             caes.flxmodule = {
                 delete: 'Esborrar',
                 save: 'Desa',
@@ -375,6 +396,19 @@ var flexygo;
                 error: 'S&#39;ha produït un error al exportar dades :(',
                 exportinglist: 'Exportant la llista',
             };
+            caes.menumanager = {
+                deleteMenu: 'Esborrar menu',
+                deleteMenuquestion: '¿Està segur que vol esborrar aquest menu i tots els seus fills?',
+                empty: 'Creeu un menú nou per navegar!',
+                menus: 'Menús',
+                new: 'Nou',
+                refresh: 'Refrescar',
+                moreoptions: 'Més opcions',
+                delete: 'Borrar',
+                edit: 'Editar',
+                submenus: 'Submenús',
+                newsubmenu: 'Submenú nou',
+            };
             caes.modulemanager = {
                 save: 'Desa',
                 searchmodules: 'Cercar mòduls',
@@ -462,6 +496,7 @@ var flexygo;
                 addplaceholder: 'Afegir Place holder',
                 save: 'Desa',
                 close: 'Tancar',
+                hasdefinition: 'Revisi a la taula la propietat:',
             };
             caes.flxversioninfo = {
                 currentversion: 'Versió actual ({{CurrentVersion}}).',
@@ -615,6 +650,17 @@ var flexygo;
                 composerplaceholder: 'Escriu alguna cosa',
                 sendbutton: 'Registrar',
                 startinfo: 'Primer ha de configurar el chatter',
+            };
+            caes.offline = {
+                createobjecttitle: 'Afegeix un nou objecte a l\'App',
+                createobjectcontent: 'Pots crear un objecte nou o basar-se en un d\'existent',
+                createobjectbuttonnew: 'Nou objecte',
+                createobjectbuttonbased: 'Basat en objecte',
+                enablewebapiconfirmation: 'Per utilitzar l’aplicació offline, cal activar el WebApi i reiniciar l’aplicació.Voleu reiniciar l\'aplicació ara?',
+            };
+            caes.offlineemulator = {
+                ios: 'Commuta el mode iOS',
+                md: 'Commuta el mode Android',
             };
         })(caes = culture.caes || (culture.caes = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

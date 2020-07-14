@@ -18,6 +18,8 @@ declare namespace flexygo.ui.wc {
         connected: boolean;
         objectname: string;
         collectionname: string;
+        offline: boolean;
+        appName: string;
         wzButtons: JQuery;
         wzPanels: JQuery;
         connectedCallback(): void;

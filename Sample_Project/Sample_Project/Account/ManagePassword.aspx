@@ -19,14 +19,14 @@
                    <div class="cell">
                         <asp:Label runat="server" ViewStateMode="Disabled">Please set your new password and password confirmation</asp:Label>
                     </div>
-                    <div class="cell"><i class="flx-icon icon-user"></i>
+                    <div class="cell"><i class="flx-icon icon-password"></i>
                         <asp:TextBox ID="CurrentPassword" autocomplete="off" placeHolder="Current password" runat="server" TextMode="Password"></asp:TextBox><asp:RequiredFieldValidator ID="CurrentpwdRequired" runat="server" ControlToValidate="CurrentPassword" Text="*"></asp:RequiredFieldValidator>
                     </div>
-                    <div class="cell"><i class="flx-icon icon-lock"></i>
+                    <div class="cell"><i class="flx-icon icon-password"></i>
                         <asp:TextBox ID="NewPassword" placeHolder="Password" runat="server" TextMode="Password"></asp:TextBox><asp:RequiredFieldValidator ID="PasswordRequired" runat="server" ControlToValidate="NewPassword" Text="*"></asp:RequiredFieldValidator>
                     </div>
 
-                    <div class="cell"><i class="flx-icon icon-lock"></i>
+                    <div class="cell"><i class="flx-icon icon-password"></i>
                         <asp:TextBox ID="ConfirmPassword" placeHolder="ConfirmPassword" runat="server" TextMode="Password"></asp:TextBox><asp:RequiredFieldValidator ID="ConfirmPasswordRequired" runat="server" ControlToValidate="ConfirmPassword" Text="*"></asp:RequiredFieldValidator>
                          <asp:CompareValidator runat="server" ControlToCompare="NewPassword" ControlToValidate="ConfirmPassword"
                     CssClass="text-danger" Display="Dynamic" ErrorMessage="The password and confirmation password do not match."  />

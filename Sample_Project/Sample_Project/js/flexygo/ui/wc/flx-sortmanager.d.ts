@@ -13,8 +13,7 @@ declare namespace flexygo.ui.wc {
         constructor();
         objectname: string;
         module: JQuery;
-        list: flexygo.ui.wc.FlxListElement;
-        fields: string[];
+        list: flexygo.ui.wc.FlxListElement | flexygo.ui.wc.FlxSearchElement;
         sorting: boolean;
         sortingFrom: JQuery;
         /**

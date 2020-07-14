@@ -199,6 +199,13 @@ var flexygo;
                         }
                         this.options.PageSize = Number(PageSize);
                     }
+                    let ValidatorMessage = element.attr('ValidatorMessage');
+                    if (ValidatorMessage && ValidatorMessage !== '') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.ValidatorMessage = ValidatorMessage;
+                    }
                     //let cnnstring = element.attr('cnnstring');
                     //if (cnnstring && cnnstring !== '') {
                     //  this.cnnstring = cnnstring;
@@ -223,7 +230,7 @@ var flexygo;
                * @property observedAttributes {Array}
                */
                 static get observedAttributes() {
-                    return ['type', 'property', 'objectname', 'viewname', 'sqlvaluefield', 'sqldisplayfield', 'required', 'disabled', 'requiredmessage', 'style', 'class', 'placeholder', 'iconclass', 'template', 'helpid', 'hide', 'additionalwhere', 'sqlfilter', 'pagesize', 'cnnstring'];
+                    return ['type', 'property', 'objectname', 'viewname', 'sqlvaluefield', 'sqldisplayfield', 'required', 'disabled', 'requiredmessage', 'style', 'class', 'placeholder', 'iconclass', 'template', 'helpid', 'hide', 'additionalwhere', 'sqlfilter', 'pagesize', 'validatormessage', 'cnnstring'];
                 }
                 /**
                * Fires when the attribute value of the element is changed.
@@ -461,6 +468,7 @@ var flexygo;
                 }
                 initEditMode() {
                     let me = $(this);
+                    this.open = false;
                     if (this.options) {
                         //var lastHeight;
                         let iconsLeft;
@@ -469,7 +477,7 @@ var flexygo;
                         let input = $('<input type="search" class="form-control" />');
                         let inputval = $('<input type="text" style="display:none" />');
                         let datalist = $('<ul style="display:none" class="comboOptions" />');
-                        if (flexygo.utils.isAgentMobile()) {
+                        if (flexygo.utils.isSizeMobile()) {
                             datalist.addClass('mobile');
                             let mobileInputDiv = $('<div class="mobileinputdiv input-group"/>').appendTo(datalist);
                             this.mobileInput = $('<input type="search" class="mobileinputdiv form-control mobileinput" autocomplete="off" />').appendTo(mobileInputDiv);
@@ -503,6 +511,11 @@ var flexygo;
                         this.input = input;
                         this.inputval = inputval;
                         this.datalist = datalist;
+                        this.datalist.off('scroll.dbcombo').on('scroll.dbcombo', (e) => {
+                            if (this.datalist[0].offsetHeight + this.datalist[0].scrollTop >= this.datalist[0].scrollHeight) {
+                                this.loadValues(this.page + 1, false, false, null, true);
+                            }
+                        });
                         input.off('focus').on('click', (ev) => {
                             if (!this.open) {
                                 this.showOptions();
@@ -572,15 +585,17 @@ var flexygo;
                             e.stopPropagation();
                             e.preventDefault();
                         });
-                        $('#mainContent, main.pageContainer').on('scroll.dbcombo', (e) => {
-                            this.hideOptions();
-                        });
+                        if (!flexygo.utils.isSizeMobile()) {
+                            $('#mainContent, main.pageContainer').on('scroll.dbcombo', (e) => {
+                                this.hideOptions();
+                            });
+                        }
                         $(window, me.closest('div.ui-dialog')).resize(() => {
-                            if (!flexygo.utils.isAgentMobile()) {
+                            if (!flexygo.utils.isSizeMobile()) {
                                 this.hideOptions();
                             }
                             else {
-                                this.datalist.css({ 'max-height': window.innerHeight - 5 });
+                                // this.datalist.css({ 'max-height': window.innerHeight - 5 })
                             }
                         });
                         input.on('keyup', (e) => {
@@ -656,12 +671,12 @@ var flexygo;
                                 this.datalist.css({ bottom: parseInt((this.input.outerHeight() + 1).toFixed()), width: parseInt((me.children('div').width()).toFixed()), 'max-height': parseInt((this.input.offset().top - dialogTop - headerHeight).toFixed()), 'box-shadow': '0 -6px 20px 4px rgba(0, 0, 0, 0.15), 0 -2px 10px 0px rgba(0, 0, 0, 0.20)' });
                             }
                             else {
-                                this.datalist.css({ bottom: 'auto', width: parseInt((me.children('div').width()).toFixed()), 'max-height': parseInt((winHeight - (this.input.offset().top - dialogTop) - 40).toFixed()), 'box-shadow': '0 6px 20px 4px rgba(0, 0, 0, 0.15), 0 2px 10px 0px rgba(0, 0, 0, 0.20)' });
+                                this.datalist.css({ bottom: 'auto', width: parseInt((me.children('div').width()).toFixed()), 'max-height': parseInt((winHeight - (this.input.offset().top - dialogTop) - 60).toFixed()), 'box-shadow': '0 6px 20px 4px rgba(0, 0, 0, 0.15), 0 2px 10px 0px rgba(0, 0, 0, 0.20)' });
                             }
                             this.datalist.slideDown(250);
                         }
                         else {
-                            this.datalist.css({ position: 'fixed', top: 3, left: 5, width: "calc(100% - 10px)", 'max-height': window.innerHeight - 5, 'padding-top': 30, 'box-shadow': '0 -6px 20px 4px rgba(0, 0, 0, 0.15), 0 -2px 10px 0px rgba(0, 0, 0, 0.20)' });
+                            this.datalist.css({ position: 'fixed', top: 3, left: 5, width: "calc(100% - 10px)", 'max-height': (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) ? '48%' : '98%', 'padding-top': 30, 'box-shadow': '0 -6px 20px 4px rgba(0, 0, 0, 0.15), 0 -2px 10px 0px rgba(0, 0, 0, 0.20)' });
                             this.mobileInput.val(this.input.val());
                             me.append('<div class="mobilebackground"/>');
                             this.datalist.fadeIn(250);
@@ -675,16 +690,20 @@ var flexygo;
                         this.open = false;
                         if (!this.mobileInput) {
                             this.datalist.slideUp(250);
-                            this.input.blur();
+                            if ($(this.input).is(':focus')) {
+                                this.input.blur();
+                            }
                         }
                         else {
                             this.datalist.fadeOut(250);
                             $(this).find('div.mobilebackground').remove();
-                            this.mobileInput.blur();
+                            if ($(this.mobileInput).is(':focus')) {
+                                this.mobileInput.blur();
+                            }
                         }
                     }
                 }
-                loadValues(page, autoselect, fromvalue, value) {
+                loadValues(page, autoselect, fromvalue, value, append) {
                     let params;
                     let method = null;
                     this.page = page;
@@ -741,13 +760,18 @@ var flexygo;
                     if (method) {
                         flexygo.ajax.syncPost('~/api/Edit', method, params, (response) => {
                             if (response) {
-                                this.addComboItems(response, autoselect);
+                                this.addComboItems(response, autoselect, append);
                             }
                         });
                     }
                 }
-                addComboItems(data, autoselect) {
-                    this.datalist.find('*').not('.mobileinputdiv').remove();
+                addComboItems(data, autoselect, append) {
+                    if (!append) {
+                        this.datalist.find('*').not('.mobileinputdiv').remove();
+                    }
+                    else {
+                        this.datalist.find('> div.load-more').remove();
+                    }
                     if (data) {
                         for (let i = 0; i < data.length; i++) {
                             let elm;
@@ -759,11 +783,13 @@ var flexygo;
                             }
                             this.datalist.append(elm);
                         }
+                        if (this.datalist.find(' > li').length >= (this.options.PageSize || flexygo.profiles.defaultDropDownRows) && data.length > 0) {
+                            this.datalist.append(`<div class="load-more txt-muted"><span>${flexygo.localization.translate('flxedit.loadmore')}</span><i class="fa fa-angle-down"></div>`);
+                        }
                     }
                     if (this.datalist.children('li').length == 1 && this.input.val().toString().toLowerCase() == this.datalist.children('li').text().toString().toLowerCase().trim() && autoselect) {
                         let itm = $(this.datalist.children('li')[0]);
-                        this.input.val(itm.attr('data-text'));
-                        this.inputval.val(itm.attr('data-value'));
+                        this.setValue(itm.attr('data-value'), itm.attr('data-text'));
                         this.datalist.find('.selected').removeClass('selected');
                         itm.addClass('selected');
                         this.triggerDependencies();
@@ -800,8 +826,7 @@ var flexygo;
                         template = text;
                     }
                     return $('<li/>').html(template).attr('data-value', value).attr('data-text', text).on('mousedown', (e) => {
-                        this.input.val($(e.currentTarget).attr('data-text'));
-                        this.inputval.val($(e.currentTarget).attr('data-value'));
+                        this.setValue($(e.currentTarget).attr('data-value'), $(e.currentTarget).attr('data-text'));
                         this.datalist.find('.selected').removeClass('selected');
                         $(e.currentTarget).addClass('selected');
                         this.triggerDependencies();
@@ -826,10 +851,10 @@ var flexygo;
                         return false;
                     });
                     let editCtl = me.closest('flx-edit, flx-list')[0];
-                    if (this.options && (this.options.SearchCollection || this.options.SearchFunction)) {
+                    if (this.options && (this.options.SearchCollection || this.options.SearchFunction) && !this.options.Locked) {
                         icon1 = $('<button class="btn btn-default" type="button"><i class="flx-icon icon-search" /></button>').on('click', () => {
                             if (this.options.SearchFunction) {
-                                flexygo.utils.execDynamicCode.call(this, editCtl.parseEditString(this.options.SearchFunction));
+                                flexygo.utils.execDynamicCode.call(this, editCtl.parseEditString(this.options.SearchFunction, editCtl, this));
                             }
                             if (this.options.SearchCollection && this.options.SearchCollection !== '') {
                                 flexygo.events.on(this, "entity", "selected", (e) => {
@@ -845,7 +870,7 @@ var flexygo;
                                     this.triggerDependencies();
                                     $(document).find('flx-search[objectname="' + this.options.SearchCollection + '"]').closest(".ui-dialog").remove();
                                 });
-                                flexygo.nav.openPage('search', editCtl.parseEditString(this.options.SearchCollection), editCtl.parseEditString(this.options.SearchWhere), null, 'modal');
+                                flexygo.nav.openPage('search', editCtl.parseEditString(this.options.SearchCollection, editCtl, this), editCtl.parseEditString(this.options.SearchWhere, editCtl, this), null, 'modal');
                             }
                         });
                         ret.append(icon1);
@@ -853,7 +878,7 @@ var flexygo;
                     if (this.options && this.options.ObjNameLink && this.options.ObjWhereLink) {
                         icon1 = $('<button class="btn btn-default" type="button"><i class="flx-icon icon-link" /></button>').on('click', () => {
                             if (this.getValue()) {
-                                flexygo.nav.openPage('view', editCtl.parseEditString(this.options.ObjNameLink), editCtl.parseEditString(this.options.ObjWhereLink), null, this.options.TargetIdLink);
+                                flexygo.nav.openPage('view', editCtl.parseEditString(this.options.ObjNameLink, editCtl, this), editCtl.parseEditString(this.options.ObjWhereLink, editCtl, this), null, this.options.TargetIdLink);
                             }
                             else {
                                 flexygo.msg.warning('flxedit.emptyproperty');
@@ -864,7 +889,7 @@ var flexygo;
                     if (this.options && (this.options.AllowNewFunction || this.options.AllowNewObject) && !this.options.Locked) {
                         icon1 = $('<button class="btn btn-default flxallownew" type="button"><i class="fa fa-plus" /></button>').on('click', () => {
                             if (this.options.AllowNewFunction) {
-                                flexygo.utils.execDynamicCode.call(this, editCtl.parseEditString(this.options.AllowNewFunction));
+                                flexygo.utils.execDynamicCode.call(this, editCtl.parseEditString(this.options.AllowNewFunction, editCtl, this));
                             }
                             else if (this.options.AllowNewObject && this.options.AllowNewObject !== '') {
                                 flexygo.events.on(this, "entity", "inserted", (e) => {
@@ -881,10 +906,11 @@ var flexygo;
                                         }
                                         this.loadValues(0, false, true, value);
                                         this.setValue(value);
+                                        this.triggerDependencies();
                                         $(document).find('flx-edit[objectname="' + this.options.AllowNewObject + '"]').closest(".ui-dialog").remove();
                                     }
                                 });
-                                flexygo.nav.openPage('edit', editCtl.parseEditString(this.options.AllowNewObject), null, null, 'modal');
+                                flexygo.nav.openPage('edit', editCtl.parseEditString(this.options.AllowNewObject, editCtl, this), null, null, 'modal');
                             }
                         });
                         ret.append(icon1);
@@ -948,7 +974,10 @@ var flexygo;
                     if (this.options && this.options.IsRequiredMessage) {
                         this.inputval.attr('data-msg-required', this.options.IsRequiredMessage);
                     }
-                    if (this.options && this.options.CauseRefresh) {
+                    if (this.options && this.options.ValidatorMessage && this.options.ValidatorMessage !== '') {
+                        this.input.attr('data-msg-sqlvalidator', this.options.ValidatorMessage);
+                    }
+                    if (this.options && (this.options.CauseRefresh || this.options.SQLValidator)) {
                         this.inputval.on('change', () => {
                             //$(document).trigger('refreshProperty', [this.inputval.closest('flx-edit'), this.options.Name]);
                             let ev = {

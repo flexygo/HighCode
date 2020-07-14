@@ -18,6 +18,7 @@ var flexygo;
                 enabledep: 'Habilitado',
                 visibledep: 'Visible',
                 requireddep: 'Requerido',
+                CustomProperty: 'Custom Property Dep.',
                 save: 'Guardar',
                 addmore: 'Añadir mas propiedades dependientes',
                 sqlvalue: 'SQL Valor',
@@ -34,6 +35,9 @@ var flexygo;
                 notrequiredvalues: 'valores para no requerido',
                 requiredsentence: 'SQL para requerido',
                 description: 'Descripción',
+                valueApply: 'Valores afectados',
+                CusPropertyName: 'Nombre Custom Control',
+                SQLCustomProperty: 'SQL Custom Property',
                 connectionstrings: 'Cadenas de connexió',
                 connStringvalues: 'Valors de la cadena de connexió'
             };
@@ -52,8 +56,9 @@ var flexygo;
                 collection: 'Colección',
                 page: 'Página',
                 object: 'Objeto',
-                imagemanager: 'Gestión de imagenes',
-                documentmanager: 'Gestión de documentos',
+                imagemanager: 'Configuración de imagenes',
+                documentmanager: 'Configuración de documentos',
+                mailmanager: 'Configuración de correo',
                 viewobject: 'Ver objeto',
                 security: 'Seguridad',
                 objectsecurity: 'Seguridad de Objeto',
@@ -108,12 +113,15 @@ var flexygo;
                 close: 'Cerrar',
                 areyousuretitle: 'Tiene cambios sin guardar',
                 areyousuremsg: '¿Desea realmente cerrar esta página?',
+                areyousuremsgyes: 'Sí',
+                areyousuremsgno: 'No',
                 emptyproperty: 'Propiedad vacía',
                 addproperties: 'Añadir propiedades',
                 propertyname: 'Nombre de la propiedad',
                 propertylabel: 'Etiqueta de la propiedad',
                 adddetachedproperty: 'Añadir propiedad desconectada',
                 selecttable: 'Seleccione Tabla',
+                loadmore: 'Scroll para cargar más',
             };
             eses.flxeditgrid = {
                 addrow: 'Añadir fila',
@@ -121,6 +129,7 @@ var flexygo;
                 hide: 'Ocultar',
                 settings: 'Configuración',
                 deleteconfirm: '¿Desea eliminar los elementos seleccionados?',
+                startinfo: 'Primero debe configurar el editgrid',
             };
             eses.flxfilter = {
                 searchplaceholder: 'Busqueda por: ',
@@ -261,6 +270,18 @@ var flexygo;
                 selectfilterfirst: 'Seleccione un filtro primero',
                 save: 'Guardar',
             };
+            eses.flxmail = {
+                nomails: 'No se encontró ningún correo ',
+                nosettings: 'Su cuenta de correo no ha sido configurada. Haga clic para configurarla.',
+                loadmore: 'Cargar más ',
+                folders: 'Carpetas',
+                address: 'Dirección',
+                subject: 'Asunto',
+                body: 'Cuerpo',
+                mindate: 'Fecha mínima',
+                maxdate: 'Fecha máxima',
+                unseen: 'Solo no leidos',
+            };
             eses.flxmodule = {
                 delete: 'Eliminar',
                 save: 'Guardar',
@@ -376,6 +397,19 @@ var flexygo;
                 error: 'Error exportando datos :(',
                 exportinglist: 'Exportando lista',
             };
+            eses.menumanager = {
+                deleteMenu: 'Borrar menu',
+                deleteMenuquestion: '¿Seguro que quiere eliminar este menu y todos sus hijos?',
+                empty: '¡Crea un nuevo menú para navegar!',
+                menus: 'Menús',
+                new: 'Nuevo',
+                refresh: 'Refrescar',
+                moreoptions: 'Más opciones',
+                delete: 'Borrar',
+                edit: 'Editar',
+                submenus: 'Submenús',
+                newsubmenu: 'Submenú nuevo',
+            };
             eses.modulemanager = {
                 save: 'Guardar',
                 searchmodules: 'Buscar módulos',
@@ -463,6 +497,7 @@ var flexygo;
                 addplaceholder: 'Añadir un contol de posición',
                 save: 'Guardar',
                 close: 'Cerrar',
+                hasdefinition: 'Revise en la tabla la propiedad:',
             };
             eses.flxversioninfo = {
                 currentversion: 'Versión actual ({{CurrentVersion}}).',
@@ -616,6 +651,17 @@ var flexygo;
                 composerplaceholder: 'Escriba algo',
                 sendbutton: 'Registrar',
                 startinfo: 'Primero debe configurar el chatter',
+            };
+            eses.offline = {
+                createobjecttitle: 'Añade un nuevo objeto a la App',
+                createobjectcontent: 'Puedes crear un objeto nuevo o basarte en uno existente',
+                createobjectbuttonnew: 'Nuevo objeto',
+                createobjectbuttonbased: 'Basado en objeto',
+                enablewebapiconfirmation: 'Para usar la aplicación offline, es necesario activar la WebApi y reiniciar la aplicación. ¿Desea reiniciar la aplicación ahora?',
+            };
+            eses.offlineemulator = {
+                ios: 'Cambiar a modo iOS',
+                md: 'Cambiar a modo Android',
             };
         })(eses = culture.eses || (culture.eses = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

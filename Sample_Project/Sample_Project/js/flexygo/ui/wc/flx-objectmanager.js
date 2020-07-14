@@ -9,6 +9,8 @@ var flexygo;
         (function (wc) {
             class ObjectTemplateDefault {
             }
+            class ObjColData {
+            }
             /**
             * Library for the FlxObjectManagerElement web component.
             *
@@ -26,6 +28,8 @@ var flexygo;
                     this.connected = false;
                     this.objectname = null;
                     this.collectionname = null;
+                    this.offline = false;
+                    this.appName = null;
                     this.wzButtons = null;
                     this.wzPanels = null;
                 }
@@ -61,8 +65,19 @@ var flexygo;
                 }
                 init() {
                     let me = $(this);
+                    let defaults = (flexygo.history.get(me)) ? flexygo.history.get(me).defaults : null;
+                    let objData;
+                    if (defaults) {
+                        this.offline = (defaults.offline) ? defaults.offline : false;
+                        this.appName = (defaults.appName) ? defaults.appName : null;
+                    }
+                    if (!flexygo.utils.isBlank(this.objectname)) {
+                        let obj = new flexygo.obj.Entity('sysObject', "Objects.ObjectName='" + this.objectname + "'");
+                        objData = obj.getView('ObjColData', 0, 1, null, null, null)[0];
+                        this.offline = objData.Offline;
+                    }
                     let initHtml = '';
-                    initHtml += '  <div id="bootstrap-wizard-1" class="col-sm-12">';
+                    initHtml += '  <div id="bootstrap-wizard-1" class="col-sm-12 margin-top-m">';
                     initHtml += '      <ul class="wizardnodes">';
                     initHtml += '      </ul>';
                     initHtml += '      <div class="clearfix"></div>';
@@ -74,11 +89,13 @@ var flexygo;
                     this.wzPanels = me.find('.tab-content');
                     this.basicInformationPane();
                     this.objectPropertiesPane();
-                    this.listSettingsPane();
-                    this.displaySettingsPane();
-                    this.colPropertiesPane();
+                    if (!this.offline) {
+                        this.listSettingsPane();
+                        this.displaySettingsPane();
+                        this.colPropertiesPane();
+                    }
                     this.endPane();
-                    if (this.objectname == null || this.objectname == '') {
+                    if (flexygo.utils.isBlank(this.objectname)) {
                         $('[data-toggle="tab"]').on('click.disable', (ev) => {
                             ev.stopPropagation();
                             ev.preventDefault();
@@ -87,15 +104,12 @@ var flexygo;
                     else {
                         me.find('[name="objectname"]').val(this.objectname);
                         me.find('.onlyNew').hide();
-                        let obj = new flexygo.obj.Entity('sysObject', "Objects.ObjectName='" + this.objectname + "'");
-                        obj.getView('ObjColData', 0, 1, null, null, (ret) => {
-                            me.find('[name="collectionname"]')[0].setValue(ret[0].CollectionName);
-                            this.collectionname = ret[0].CollectionName;
-                            me.find('[name="objectdescrip"]')[0].setValue(ret[0].ObjectDescrip);
-                            me.find('[name="collectiondescrip"]')[0].setValue(ret[0].CollectionDescrip);
-                            me.find('[name="iconclass"]')[0].setValue(ret[0].ObjectIconName, ret[0].ObjectIconDescrip);
-                            me.find('[name="coliconclass"]')[0].setValue(ret[0].CollectionIconName, ret[0].CollectionIconDescrip);
-                        });
+                        me.find('[name="collectionname"]')[0].setValue(objData.CollectionName);
+                        this.collectionname = objData.CollectionName;
+                        me.find('[name="objectdescrip"]')[0].setValue(objData.ObjectDescrip);
+                        me.find('[name="collectiondescrip"]')[0].setValue(objData.CollectionDescrip);
+                        me.find('[name="iconclass"]')[0].setValue(objData.ObjectIconName, objData.ObjectIconDescrip);
+                        me.find('[name="coliconclass"]')[0].setValue(objData.CollectionIconName, objData.CollectionIconDescrip);
                         this.activeEditMode();
                     }
                     //Init validate options
@@ -119,7 +133,7 @@ var flexygo;
                     pnl.append(form);
                     //Object form
                     let icn = '';
-                    icn += '<flx-dbcombo class="size-l" name="iconclass" id="iconclass" PlaceHolder="' + flexygo.localization.translate('objectmanager.selecticon') + '" iconClass="flx-icon icon-image" ObjectName="sysObject" ViewName="iconsView" SQLValueField="IconName" SQLDisplayField="IconName"   required data-msg-required="' + flexygo.localization.translate('objectmanager.validicon') + '">';
+                    icn += '<flx-dbcombo onChange="$(\'#coliconclass\').val($(this).val());" class="size-l" name="iconclass" id="iconclass" PlaceHolder="' + flexygo.localization.translate('objectmanager.selecticon') + '" iconClass="flx-icon icon-image" ObjectName="sysObject" ViewName="iconsView" SQLValueField="IconName" SQLDisplayField="IconName"   required data-msg-required="' + flexygo.localization.translate('objectmanager.validicon') + '">';
                     icn += '  <template>';
                     icn += '   <div class="icon-box">';
                     icn += ' 	<div class="icon-margin">';
@@ -129,7 +143,7 @@ var flexygo;
                     icn += '  </div>';
                     icn += ' </template>';
                     icn += '</flx-dbcombo>';
-                    let objName = $('<flx-text type="ident" name="objectname" iconClass="flx-icon icon-object" class="size-l" placeholder="' + flexygo.localization.translate('objectmanager.objectname') + '" required requiredmessage="' + flexygo.localization.translate('objectmanager.validobjectname') + '"> </flx-text>');
+                    let objName = $('<flx-text type="ident" name="objectname" iconClass="flx-icon icon-object" class="size-l ' + ((flexygo.utils.isBlank(this.objectname) && this.offline) ? 'offline-prefix' : '') + '" placeholder="' + flexygo.localization.translate('objectmanager.objectname') + '" required requiredmessage="' + flexygo.localization.translate('objectmanager.validobjectname') + '" ' + ((!flexygo.utils.isBlank(this.objectname) && this.offline) ? 'disabled' : '') + '> </flx-text>');
                     let objDescrip = $('<flx-text type="text" name="objectdescrip" iconClass="flx-icon icon-text" class="size-l" placeholder="' + flexygo.localization.translate('objectmanager.objectdescription') + '" required requiredmessage="' + flexygo.localization.translate('objectmanager.validobjectdescription') + '"> </flx-text>');
                     let objIconClass = $(icn);
                     let fila = $('<div class="row"><div class="col-sm-4"></div><div class="col-sm-4"></div><div class="col-sm-4"></div></div>');
@@ -149,7 +163,7 @@ var flexygo;
                     icn += '    </div>';
                     icn += '  </template>';
                     icn += '</flx-dbcombo>';
-                    let colName = $('<flx-text type="ident" name="collectionname" iconClass="flx-icon icon-object" class="size-l" placeholder="' + flexygo.localization.translate('objectmanager.collectionname') + '" required requiredmessage="' + flexygo.localization.translate('objectmanager.validcollectionname') + '"> </flx-text>');
+                    let colName = $('<flx-text type="ident" name="collectionname" iconClass="flx-icon icon-object" class="size-l ' + ((flexygo.utils.isBlank(this.objectname) && this.offline) ? 'offline-prefix' : '') + '" placeholder="' + flexygo.localization.translate('objectmanager.collectionname') + '" required requiredmessage="' + flexygo.localization.translate('objectmanager.validcollectionname') + '" ' + ((!flexygo.utils.isBlank(this.objectname) && this.offline) ? 'disabled' : '') + '> </flx-text>');
                     let colDescrip = $('<flx-text type="text" name="collectiondescrip" iconClass="flx-icon icon-text" class="size-l" placeholder="' + flexygo.localization.translate('objectmanager.collectiondescription') + '" required requiredmessage="' + flexygo.localization.translate('objectmanager.validocollectiondescription') + '"> </flx-text>');
                     let colIconClass = $(icn);
                     fila = $('<div class="row"><div class="col-sm-4"></div><div class="col-sm-4"></div><div class="col-sm-4"></div></div>');
@@ -167,9 +181,9 @@ var flexygo;
                     btns.append('<button type="button" class="btn btn-success" name="btn-table"><i class="flx-icon icon-listbox-2" />' + flexygo.localization.translate('objectmanager.fromtable') + '</button>');
                     btns.append('<button type="button" class="btn btn-default" name="btn-view"><i class="flx-icon icon-sql" /> ' + flexygo.localization.translate('objectmanager.fromview') + '</button>');
                     btns.append('<button type="button" class="btn btn-default" name="btn-newtable"><i class="flx-icon icon-sql" /> ' + flexygo.localization.translate('objectmanager.fromnewtable') + '</button>');
-                    fila.append('<span><flx-dbcombo class="size-l" name="cnnstring" PlaceHolder="' + flexygo.localization.translate('objectmanager.selectcnnstring') + '" iconClass="flx-icon icon-sql" ObjectName="SysObject" ViewName="CnnStrings" SQLValueField="ConnStringid" SQLDisplayField="Descrip" required data-msg-required="' + flexygo.localization.translate('objectmanager.validselectcnnstring') + '"></flx-dbcombo></span>');
-                    fila.append('<span><flx-dbcombo class="size-l" name="tablename" PlaceHolder="' + flexygo.localization.translate('objectmanager.selecttable') + '" iconClass="flx-icon icon-sql" ObjectName="SysObject" ViewName="DataTables" SQLValueField="table_name" SQLDisplayField="table_name" data-msg-required="' + flexygo.localization.translate('objectmanager.validorigin') + '"></flx-dbcombo>');
-                    fila.append('<span style="display:none"><flx-text type="text" name="newtablename" iconClass="flx-icon icon-listbox-2" class="size-l" placeholder="' + flexygo.localization.translate('objectmanager.newtablename') + '" requiredmessage="' + flexygo.localization.translate('objectmanager.validnewtablename') + '"> </flx-text>');
+                    fila.append('<span><flx-dbcombo class="size-l" name="cnnstring" onChange="$(\'#tablename\').val(\'\');" PlaceHolder="' + flexygo.localization.translate('objectmanager.selectcnnstring') + '" iconClass="flx-icon icon-sql" ObjectName="SysObject" ViewName="CnnStrings" SQLValueField="ConnStringid" SQLDisplayField="Descrip" required data-msg-required="' + flexygo.localization.translate('objectmanager.validselectcnnstring') + '"></flx-dbcombo></span>');
+                    fila.append('<span><flx-dbcombo class="size-l" name="tablename" id="tablename" PlaceHolder="' + flexygo.localization.translate('objectmanager.selecttable') + '" iconClass="flx-icon icon-sql" ObjectName="SysObject" ViewName="DataTables" SQLValueField="table_name" SQLDisplayField="table_name" data-msg-required="' + flexygo.localization.translate('objectmanager.validorigin') + '"></flx-dbcombo>');
+                    fila.append('<span style="display:none"><flx-text type="ident" name="newtablename" iconClass="flx-icon icon-listbox-2" class="size-l" placeholder="' + flexygo.localization.translate('objectmanager.newtablename') + '" requiredmessage="' + flexygo.localization.translate('objectmanager.validnewtablename') + '"> </flx-text>');
                     fila.append('<span style="display:none"><flx-tag type="text" name="viewkeyfields" separator="|" iconClass="flx-icon icon-key" class="size-l" placeholder="' + flexygo.localization.translate('objectmanager.viewkeyfields') + '" requiredmessage="' + flexygo.localization.translate('objectmanager.validviewkeyfields') + '"> </flx-text><span>');
                     form.append(fila);
                     pnl.closest('.tab-pane').find('h3').append('<button style="float:right" class="btn btn-default btn-info createObject">' + flexygo.localization.translate('objectmanager.savecontinue') + ' <i class="flx-icon icon-order-right-2" /></button>');
@@ -294,6 +308,30 @@ var flexygo;
                         let objectWhere = flexygo.string.format("[Objects_Objects].[ObjectName]='{0}' or [Objects_Objects].[ChildCollection]='{1}'", this.objectname, this.collectionname);
                         flexygo.nav.openPage('list', 'sysObjectRelations', objectWhere, JSON.stringify({ ChildCollection: this.collectionname }), 'popup', true, $(e.currentTarget));
                     }));
+                    ul.append($('<li><a href="#"><i class="fa fa-image icon-3x "/><br> ' + flexygo.localization.translate('develop.imagemanager') + '</a></li>').on('click', (e) => {
+                        let obj = new flexygo.obj.Entity(this.objectname);
+                        let cnf = (obj.objectName) ? obj.getConfig() : null;
+                        let defaults = {
+                            'ObjectName': (cnf) ? cnf.ObjectName : '',
+                            'KeyProperty': (cnf) ? (cnf.KeyFields.length === 1) ? cnf.KeyFields[0] : '' : '',
+                        };
+                        if (this.offline && cnf) {
+                            defaults['ERPObjectName'] = cnf.ObjectName.replace('Offline_', '');
+                        }
+                        flexygo.nav.openPage('edit', 'sysObjectImageSetting', (cnf) ? "ObjectName = '" + cnf.ObjectName + "'" : null, defaults, 'modal900x500', false, $(this));
+                    }));
+                    ul.append($('<li><a href="#"><i class="flx-icon icon-document icon-3x "/><br> ' + flexygo.localization.translate('develop.documentmanager') + '</a></li>').on('click', (e) => {
+                        let obj = new flexygo.obj.Entity(this.objectname);
+                        let cnf = (obj.objectName) ? obj.getConfig() : null;
+                        let defaults = {
+                            'ObjectName': (cnf) ? cnf.ObjectName : '',
+                            'ObjectPK': (cnf) ? (cnf.KeyFields.length === 1) ? cnf.KeyFields[0] : '' : '',
+                        };
+                        if (this.offline && cnf) {
+                            defaults['ERPObjectName'] = cnf.ObjectName.replace('Offline_', '');
+                        }
+                        flexygo.nav.openPage('edit', 'Documents_Object_Config', (cnf) ? "ObjectName = '" + cnf.ObjectName + "'" : null, defaults, 'modal900x580', false, $(this));
+                    }));
                     pnl.append(ul);
                 }
                 addPane(index, name) {
@@ -393,13 +431,15 @@ var flexygo;
                         arr.push({ key: 'OriginName', value: me.find('[name="tablename"]')[0].getValue() });
                         arr.push({ key: 'NewOriginName', value: me.find('[name="newtablename"]')[0].getValue() });
                         arr.push({ key: 'ViewKeys', value: me.find('[name="viewkeyfields"]')[0].getValue() });
+                        arr.push({ key: 'Offline', value: this.offline });
+                        arr.push({ key: 'AppName', value: this.appName });
                     }
                     let params = new flexygo.api.sys.updateObjectParams();
                     params.StoredParams = arr;
                     flexygo.ajax.post('~/api/Sys', method, params, (response) => {
-                        if (response) {
-                            this.objectname = me.find('[name="objectname"]')[0].getValue();
-                            this.collectionname = me.find('[name="collectionname"]')[0].getValue();
+                        if (response && response[0]) {
+                            this.objectname = response[0].objectname; //(<any>me).find('[name="objectname"]')[0].getValue();
+                            this.collectionname = response[0].collectionname; //(<any>me).find('[name="collectionname"]')[0].getValue();
                             flexygo.msg.info('Object saved :)');
                             me.find('.onlyNew').hide();
                             this.activeEditMode();

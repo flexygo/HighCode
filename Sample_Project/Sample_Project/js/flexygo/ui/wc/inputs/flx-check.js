@@ -298,6 +298,10 @@ var flexygo;
                     let id = flexygo.utils.uniqueId();
                     me.html('<div><input type="checkbox" id="' + id + '"  /><label for="' + id + '"></label></div>');
                     this.setOptions();
+                    me.find('div:first').on('click', () => {
+                        me.trigger('focusin');
+                        me.find('input').focus();
+                    });
                 }
                 setOptions() {
                     let me = $(this);

@@ -143,6 +143,13 @@ var flexygo;
                         }
                         this.options.Hide = Hide == 'true';
                     }
+                    let ValidatorMessage = element.attr('ValidatorMessage');
+                    if (ValidatorMessage && ValidatorMessage !== '') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.ValidatorMessage = ValidatorMessage;
+                    }
                     this.init();
                     let Value = element.attr('Value');
                     if (Value && Value !== '') {
@@ -154,7 +161,7 @@ var flexygo;
                * @property observedAttributes {Array}
                */
                 static get observedAttributes() {
-                    return ['type', 'property', 'required', 'disabled', 'multiple', 'separator', 'requiredmessage', 'style', 'class', 'iconclass', 'hide'];
+                    return ['type', 'property', 'required', 'disabled', 'multiple', 'separator', 'requiredmessage', 'style', 'class', 'iconclass', 'hide', 'validatormessage'];
                 }
                 /**
                * Fires when the attribute value of the element is changed.
@@ -332,6 +339,17 @@ var flexygo;
                             flexygo.events.trigger(ev);
                         });
                     }
+                    if (this.options && this.options.SQLValidator != null) {
+                        control.find('input').off('change').on('change', (e) => {
+                            let ev = {
+                                class: "property",
+                                type: "changed",
+                                sender: this,
+                                masterIdentity: this.property
+                            };
+                            flexygo.events.trigger(ev);
+                        });
+                    }
                     if (this.options && this.options.Locked) {
                         control.find('input').prop('disabled', this.options.Locked);
                     }
@@ -352,6 +370,9 @@ var flexygo;
                     }
                     if (this.options && this.options.Hide) {
                         me.addClass("hideControl");
+                    }
+                    if (this.options && this.options.ValidatorMessage && this.options.ValidatorMessage !== '') {
+                        control.find('input').attr('data-msg-sqlvalidator', this.options.ValidatorMessage);
                     }
                     control.find('input[type="radio"]').off('click').on('click', (e) => {
                         let inp = $(e.currentTarget);

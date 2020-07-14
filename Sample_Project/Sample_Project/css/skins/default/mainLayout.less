@@ -1,16 +1,13 @@
+﻿
 * {
     box-sizing: border-box;
 }
 
-html {
-    height: 100%;
-}
-
 body {
     margin: 0;
-    height: 100%;
     font-size: 12px;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 header {
@@ -359,6 +356,12 @@ h1, h2, h3, h4, h5 {
     z-index: 1;
 }
 
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
 // Scrollbar
 //IE
 body {
@@ -442,18 +445,29 @@ input::-webkit-inner-spin-button {
 }
 
 #mainBlock {
-    height: ~"calc(100vh - 50px)";
-    overflow: auto;
+    @media (min-width: dbSize(medium)) {
+        height: ~"calc(100vh - 50px)";
+        overflow: auto;
+    }
+    @media (max-width: dbSize(medium)) {
+        padding-top: 50px;
+        padding-bottom: env(safe-area-inset-bottom);
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+    }
 }
-//{min-height: ~"calc(100% - 65px)";}
+
 #mainContent {
-    height: 100%;
-    overflow: auto;
+    @media (min-width: dbSize(medium)) {
+        height: 100%;
+        overflow: auto;
+    }
 }
 
 #mainNav {
     min-height: 100%;
-    overflow-y: auto;
+    overflow-y: auto !important;
+    overflow-x: hidden;
 }
 
 #LineDown {
@@ -543,6 +557,17 @@ flx-nav[mode=nav] {
 
 .fullpage #realMain {
     margin: 0;
+}
+
+.fullpage.nopadding {
+    main[id="realMain"] > .row {
+        padding: 0
+    }
+
+    .col-12, .col-11, .col-10, .col-9, .col-8, .col-7, .col-6, .col-5, .col-4, .col-3, .col-2, .col-1, .col-15 {
+        padding-left: 0px;
+        padding-right: 20px;
+    }
 }
 
 
@@ -673,14 +698,18 @@ flx-sidepanel #responsivePanels div .icon-mobile {
     font-size: .7em;
 }
 
+.flx-contextmenu {
+    position: absolute !important;
+}
+
 #responsiveFrame {
     position: fixed;
-    z-index: 2;
+    z-index: 10;
     top: 0;
     width: 100%;
     left: 0;
     height: 100%;
-    background-color: rgba(0, 0, 0, .7);
+    background-color: rgba(0, 0, 0, .51);
     display: table;
 }
 
@@ -734,10 +763,10 @@ flx-sidepanel #responsivePanels div .icon-mobile {
 }
 
 #responsiveFrame > div .respMobilePortraitFrame > iframe {
-    margin-top: 132px;
-    margin-left: -5px;
-    width: 324px;
-    height: 462px;
+    margin-top: 60px;
+    margin-left: -90px;
+    width: 320px;
+    height: 625px;
 }
 
 #responsiveFrame > div .respMobileLandscapeFrame {
@@ -749,10 +778,10 @@ flx-sidepanel #responsivePanels div .icon-mobile {
 }
 
 #responsiveFrame > div .respMobileLandscapeFrame > iframe {
-    margin-top: 68px;
-    margin-left: 62px;
-    height: 324px;
-    width: 462px;
+    margin-top: 22px;
+    margin-left: -34px;
+    height: 318px;
+    width: 626px;
 }
 
 
@@ -1183,6 +1212,10 @@ flx-text .form-control[type='color'] {
 //RESPONSIVE SIZING
 .container {
     width: dbSize(large) - 220px;
+}
+
+.no-label label[data-tag="label"]{
+    display:none;
 }
 
 @media (max-width: dbSize(large)) {
@@ -1679,15 +1712,17 @@ flx-text .form-control[type='color'] {
 
     #mainMenu, #mainNav {
         display: none;
-        position: absolute;
-        width: 50%;
-        height: 100%;
+        position: fixed;
+        width: 100vw;
         top: 55px;
-        opacity: .95;
+        bottom: 0;
+        padding-bottom: env(safe-area-inset-bottom);
+        min-height: unset;
+        z-index: 9999;
     }
 
-    #mainMenu, #mainNav > ul {
-        overflow-y: auto;
+    #mainMenu > ul, #mainNav > ul {
+        overflow: hidden;
     }
 
     #mainMenu > ul {
@@ -1697,30 +1732,43 @@ flx-text .form-control[type='color'] {
 
     #mainMenu {
         right: 0;
+        padding-right: env(safe-area-inset-right);
+        overflow: auto;
+        scrollbar-width: none;
     }
+
+    #mainMenu::-webkit-scrollbar {
+        display: none;
+    }
+
 
     #mainNav {
         left: 0;
+        padding-left: env(safe-area-inset-left);
     }
 
     #buttonMenu {
         order: 3;
         flex: 0 1 auto;
-        display: block;
-        margin: 5px;
+        margin: 8px;
         font-size: 2.5em;
         float: right;
         cursor: pointer;
+        display:flex;
+        justify-content:center;
+        align-items:center;
     }
 
     #buttonNav {
         order: 1;
         flex: 0 1 auto;
-        display: block;
-        margin: 5px;
+        margin: 8px;
         font-size: 2.5em;
         float: left;
         cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
 
@@ -1741,7 +1789,15 @@ flx-text .form-control[type='color'] {
     #realMain {
         margin: 25px 5px 0 5px;
     }
+    header {
+        height: 55px;
+    }
+
+    #mainBlock {
+        padding-top: 55px;
+    }
 }
+
 
 @media (max-width: dbSize(small)) {
     //RESPONSIVE SIZING SMALL
@@ -2346,12 +2402,12 @@ flx-text .form-control[type='color'] {
 
 .cute-calendar .ui-datepicker .ui-datepicker-next span:before {
     font-family: 'Flexygo-icons';
-    content: '\e92d';
+    content: '\f303';
 }
 
 .cute-calendar .ui-datepicker .ui-datepicker-prev span:before {
     font-family: 'Flexygo-icons';
-    content: '\e92c';
+    content: '\f305';
 }
 
 .cute-calendar .ui-datepicker table {
@@ -2445,6 +2501,13 @@ blink {
 
 .popover {
     max-width: none;
+    border: unset;
+    box-shadow: 0 0px 20px rgba(0, 0, 0, .1);
+    z-index: 999999;
+    .arrow {
+        border-color: transparent !important;
+        filter: drop-shadow(0 0px 20px rgba(0, 0, 0, .1));
+    }
 }
 
 label {
@@ -2505,7 +2568,7 @@ input[type='search']::-webkit-search-cancel-button {
 //JQUERY UI Overrides
 .ui-widget {
     font-size: 1.0em;
-    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 // mCustomScrollbar overloads 
 .mCSB_horizontal.mCSB_inside > .mCSB_container {
@@ -2556,6 +2619,7 @@ input[type='search']::-webkit-search-cancel-button {
 
 .tool-property-help{max-height:400px;overflow:auto;max-width:600px;}
 
+.help-fixed{position:fixed;margin-top:20px;}
 
 //colResizable bootstrap tag
 .bootstrap-tagsinput .tag {
@@ -2571,3 +2635,658 @@ input[type='search']::-webkit-search-cancel-button {
 .sweet-modal-close a.sweet-modal-close-link:hover {
     background-color: dbcolor(OutstandingColor);
 }
+.sweet-modal-buttons a.button, .sweet-modal-buttons button {
+    border: unset;
+    background-color: dbcolor(OutstandingColor);
+    color: dbcolor(txtOutstandingColor) !important;
+}
+.sweet-modal-buttons a.button:hover, .sweet-modal-buttons button:hover {
+    color: dbcolor(txtOutstandingColor);
+    background-color: darken(dbColor(OutstandingColor),15);
+}
+.sweet-modal-buttons a.button.middle-width, .sweet-modal-buttons button.middle-width {
+    width: ~"calc(50% - 16px)";
+}
+
+
+/*Offline*/
+@import "mixins.less";
+
+/*Replace icon with prefix*/
+.offline-prefix {
+    span.input-group-addon {
+        &:before {
+            content: "Offline_";
+        }
+
+        i {
+            display: none !important;
+        }
+    }
+}
+
+.offline-page {
+    @header-height: 50px;
+    @container-radius: 6px;
+    @element-radius: 6px;
+    /*Bad practices*/
+    @real-main-space: 32px;
+
+    .offline_transition(@property: all, @duration: .15s, @function: ease-in-out, @delay: 0s) {
+        @transition: @property @duration @function @delay;
+        -webkit-transition: @transition;
+        -moz-transition: @transition;
+        -o-transition: @transition;
+        transition: @transition;
+    }
+
+    main#realMain {
+        > div {
+            > div.module-placeholder {
+                &[class*="Left"], &[class*="Right"] {
+                    position: sticky;
+                    top: @real-main-space;
+                }
+            }
+        }
+
+        &:after {
+            content: "BETA 🙊";
+            color: dbColor(OutstandingColor);
+            background-color: fade(dbColor(OutstandingColor),10%);
+            position: absolute;
+            top: 77px;
+            right: 0px;
+            padding: 4px 18px;
+            font-size: 20px;
+            backdrop-filter: blur(6px);
+            border-radius: 25px 0 0 25px;
+        }
+    }
+
+    .offline-module {
+        border: unset;
+
+        &:not(.offline-module-menus) {
+            border-radius: @container-radius;
+            /*TODO: Offline Alberto (lOADING MODULE)*/
+            background-color: dbColor(ModuleColor);
+            min-height: 100px;
+        }
+
+        &.loading {
+            /*TODO: Offline Alberto (lOADING MODULE)*/
+            background-color: dbColor(ModuleColor);
+            min-height: 100px;
+        }
+
+        &.offline-module-menus {
+            margin-top: -@real-main-space;
+            margin-left: -@real-main-space;
+            margin-bottom: -@real-main-space;
+
+            &.loading {
+                background-color: dbColor(ModuleHeaderColor);
+                height: ~"calc(100vh - @{header-height})";
+            }
+
+            flx-menumanager {
+                background-color: dbColor(ModuleHeaderColor);
+                height: ~"calc(100vh - @{header-height})";
+            }
+        }
+
+        .offline-processes {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            flx-navbutton {
+                text-align: center;
+                justify-content: center;
+                align-items: center;
+                margin-left: 8px;
+                padding: 8px;
+                border-radius: 6px;
+                cursor: pointer;
+                .offline_transition();
+
+                &:nth-of-type(1) {
+                    margin-left: 22px;
+                }
+            }
+
+            flx-navbutton.edit {
+                color: dbColor(SuccessColor);
+                background-color: fade(dbColor(SuccessColor),10%);
+                .ripple(dbColor(txtSuccessColor));
+
+                &:hover {
+                    color: dbColor(txtSuccessColor);
+                    background-color: dbColor(SuccessColor);
+                }
+            }
+
+            flx-navbutton.css {
+                color: dbColor(DangerColor);
+                background-color: fade(dbColor(DangerColor),10%);
+                .ripple(dbColor(txtDangerColor));
+
+                &:hover {
+                    color: dbColor(txtDangerColor);
+                    background-color: dbColor(DangerColor);
+                }
+            }
+
+            flx-navbutton.js {
+                color: dbColor(WarningColor);
+                background-color: fade(dbColor(WarningColor),10%);
+                .ripple(dbColor(txtWarningColor));
+
+                &:hover {
+                    color: dbColor(txtWarningColor);
+                    background-color: dbColor(WarningColor);
+                }
+            }
+
+            flx-navbutton.db {
+                color: dbColor(PrimaryColor);
+                background-color: fade(dbColor(PrimaryColor),10%);
+                .ripple(dbColor(txtPrimaryColor));
+
+                &:hover {
+                    color: dbColor(txtPrimaryColor);
+                    background-color: dbColor(PrimaryColor);
+                }
+            }
+
+            flx-navbutton.home {
+                color: dbColor(InfoColor);
+                background-color: fade(dbColor(InfoColor),10%);
+                .ripple(dbColor(txtInfoColor));
+
+                &:hover {
+                    color: dbColor(txtInfoColor);
+                    background-color: dbColor(InfoColor);
+                }
+            }
+
+            flx-navbutton.files {
+                color: dbColor(ToolsColor);
+                background-color: fade(dbColor(ToolsColor),10%);
+                .ripple(dbColor(txtToolsColor));
+
+                &:hover {
+                    color: dbColor(txtToolsColor);
+                    background-color: dbColor(ToolsColor);
+                }
+            }
+        }
+
+
+        .offline-container {
+            .offline-container-title {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                flx-separator {
+                    width: 100%;
+                }
+            }
+
+            .offline-container-property {
+                display: flex;
+                flex-direction: column;
+                margin: 5px 0;
+
+                .offline-property-name {
+                    font-size: 12px;
+                }
+
+                a {
+                    color: dbColor(OutstandingColor);
+                    text-decoration: unset;
+                    .offline_transition();
+
+                    &:active, &:hover {
+                        color: darken(dbColor(OutstandingColor), 10%);
+                    }
+                }
+            }
+
+            .empty-info {
+                font-size: 18px;
+                color: desaturate(darken(dbColor(bgColor),30%),100%);
+                margin-top: 5px;
+
+                span {
+                }
+
+                i {
+                    transform: scale(1.5) rotateX(180deg) rotateZ(90deg) translateX(35%) translateY(2.5px);
+                    margin-left: 18px;
+                }
+            }
+
+            .offline-container-items {
+                display: flex;
+                position: relative;
+                padding: 2px;
+                margin: 0 15px;
+                width: ~"calc(100% - (15px * 2))";
+
+                &.horizontal {
+                    flex-direction: row;
+                    overflow-x: auto;
+                    scroll-behavior: smooth;
+
+                    > * {
+                        flex: 1 0 150px;
+                    }
+
+                    > :last-child {
+                        margin-right: 0;
+                    }
+
+                    > :first-child {
+                        margin-left: 0;
+                    }
+                }
+
+                &.vertical {
+                    flex-direction: column;
+                }
+
+                &::-webkit-scrollbar {
+                    width: 4px;
+                    height: 4px;
+                    background-color: #f6f6f6;
+                }
+
+                &::-webkit-scrollbar-thumb {
+                    background-color: fade(dbColor(OutstandingColor),50%);
+                    .offline_transition();
+                }
+            }
+        }
+
+        &[modulename="sysofflineApp_Objects"] {
+            .offline-container {
+                .offline-container-items {
+                    &.horizontal {
+                        > * {
+                            flex: 1 0 ~"calc(20% - 16px)";
+                            min-height: 100px;
+                        }
+                    }
+                }
+            }
+        }
+
+        &[modulename="sysofflineApp_Pages"] {
+            .offline-container {
+                .offline-container-items {
+                    &.horizontal {
+                        > * {
+                            flex: 1 0 ~"calc(33.33% - 14px)";
+                            min-height: 50px;
+                        }
+                    }
+                }
+            }
+        }
+
+        &[modulename="sysofflineApp_views"], &[modulename="sysofflineApp_Processes"] {
+            .offline-container {
+                .offline-container-items {
+                    &.horizontal {
+                        > * {
+                            flex: 1 0 ~"calc(33.33% - 14px)";
+                            min-height: 50px;
+                        }
+                    }
+                }
+            }
+        }
+
+        flx-offline-emulator {
+            .mode-toggle {
+                padding-top: unset;
+            }
+        }
+
+        section.offline-tabs {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+
+            > nav {
+                width: 100%;
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: dbColor(ModuleColor);
+                border-radius: @container-radius;
+                padding: 4px;
+                overflow: hidden;
+
+                > span {
+                    flex: 1;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 4px 0;
+                    border-radius: @container-radius;
+                    .offline_transition();
+                    font-size: 21px;
+                    text-align: center;
+
+                    &:not(.rippled) {
+                        .ripple(dbColor(OutstandingColor));
+                    }
+
+                    &:hover {
+                        &:not(.active):not(.separator) {
+                            color: dbColor(OutstandingColor);
+                            background-color: fade(dbColor(OutstandingColor),10%);
+                            cursor: pointer;
+                        }
+                    }
+
+                    &.active {
+                        color: dbColor(OutstandingColor);
+                    }
+
+                    &.separator {
+                        margin: 0 4px;
+                        border-radius: 2px;
+                        background-color: fade(dbColor(txtModuleColor),20%);
+                        max-width: 1px;
+                        height: 20px;
+                    }
+                }
+
+                &:after {
+                    content: "";
+                    position: absolute;
+                    height: 2px;
+                    bottom: 0;
+                    border-radius: 4px;
+                    background-color: dbColor(OutstandingColor);
+                    .offline_transition();
+                    left: var(--offline-tab-bar-poistion);
+                    width: var(--offline-tab-bar-width);
+                }
+            }
+
+            > div.offline-tabs-container {
+                display: flex;
+                align-items: stretch;
+                width: 100%;
+                margin-top: 6px;
+                overflow: hidden;
+                flex-direction: row-reverse;
+
+                > div.offline-tab-content {
+                    display: flex;
+                    justify-content: center;
+                    align-items: stretch;
+                    flex: 1 0 100%;
+                    max-width: 100%;
+                    .offline_transition();
+                    /***********non-standardizable***********/
+                    &.offline-structure {
+                        > flx-module {
+                            &:first-child {
+                                flex: 1 1 ~"calc(100% - 3px)";
+                                max-width: ~"calc(100% - 3px)";
+                                margin-right: 3px;
+                            }
+
+                            &:last-child {
+                                flex: 1 0 ~"calc(100% - 3px)";
+                                max-width: ~"calc(100% - 3px)";
+                                margin-left: 3px;
+                            }
+                        }
+                    }
+
+                    &.offline-data-logic {
+                        > flx-module {
+                            &:first-child {
+                                flex: 1 0 ~"calc(100% - 3px)";
+                                max-width: ~"calc(100% - 3px)";
+                                margin-right: 3px;
+                            }
+
+                            &:last-child {
+                                flex: 1 0 ~"calc(100% - 3px)";
+                                max-width: ~"calc(100% - 3px)";
+                                margin-left: 3px;
+                            }
+                        }
+                    }
+                    /***********non-standardizable***********/
+                }
+            }
+        }
+    }
+
+    .tooltip {
+        line-height: 1;
+
+        &.show {
+            opacity: 1 !important;
+        }
+
+
+        .tooltip-arrow {
+            display: none;
+        }
+
+        .tooltip-inner {
+            padding: 6px 12px;
+            font-size: 12px;
+            background: rgba(83, 91, 100, 0.6) !important;
+            border-radius: 4px;
+            backdrop-filter: blur(12px);
+            --webkit-backdrop-filter: blur(12px);
+        }
+
+        @supports
+
+        not (backdrop-filter: blur(12px)) {
+            .tooltip-inner {
+                background: rgba(83, 91, 100, 0.8) !important;
+            }
+        }
+    }
+}
+    //POWERBI
+    .powerbi {
+        width: 100%;
+        height: 1024px;
+        background-color: #FFFFFF;
+        padding: 20px;
+        clear: both;
+    }
+
+    .powerbi iframe {
+        border: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #FFFFFF;
+    }
+
+    //MAILCHIMP INTEGRATION
+    flx-module.superclean:not(.config):not(.fullscreen) {
+        border: none;
+        background-color: unset;
+        .cntHeader, .cntBodyHeader { background-color: unset; }
+    }
+
+    [modulename="sysmod-mailchimp-navbar"] {
+        li > a {
+            cursor: pointer;
+            font-size: 15.5px;
+            &:hover { background-color: #ddd; }
+            i {
+                color: #C1BFBD;
+                font-size: 24px;
+                vertical-align: middle;
+            }
+        }
+        li.active > a, li.active > a:hover {
+            background-color: dbColor(OutstandingColor);
+            i { color: white; }
+        }
+    }
+
+    [modulename="sysmod-mailchimp-campaigns"], [modulename="sysmod-mailchimp-templates"], [modulename="sysmod-mailchimp-lists"], [modulename=sysmod-mailchimp-objects-contacts],
+    [modulename="sysmod-mailchimp-contacts"] {
+        .cntHeader .cntIcon, .cntHeader .cntTitle {
+            margin: 0 !important;
+        }
+        table.flxRszTbl {
+            border: 1px solid #ccc;
+            border-collapse: unset;
+            border-radius: 6px;
+            background-color: #fff;
+            td, th {
+                text-align: left;
+                @media (min-width: dbSize(medium)) {
+                    padding: 10px 6px !important;
+                }
+            }
+            thead {
+                th {
+                    text-align: left;
+                    font-weight: bold;
+                    color: dbColor(txtColor); 
+                    &:not(:hover) { background-color: #ddd; }
+                    &:hover { color: #fff; }
+                }
+            }
+            tr:not(.rowHeader) { 
+                &:not(:hover) { 
+                    background-color: unset !important; 
+                    td:nth-of-type(2) { color: dbColor(OutstandingColor); }
+                }
+                td:nth-of-type(2) { 
+                    font-weight: bold;
+                }
+            }
+
+        }
+    }
+
+    [modulename="sysmod-mailchimp-campaignsbycontact"], [modulename="sysmod-mailchimp-contactsbycampaign"] {
+        i.icon-email-2, i.flx-icon.icon-man {
+            color: #c1bfbd;
+            font-size: 24px;
+        }
+        hr {
+            margin-top: 10px; 
+            margin-bottom: 15px; 
+            padding: 0.5px; 
+            opacity: 0.3;
+        }
+    }
+
+    [modulename="sysmod-mailchimp-contactsbycampaign"] {
+        .badge {
+            position:absolute;
+            top:-42px;
+            right:-14px;
+        }
+    }
+
+    [modulename="sysmod-view-campaignInfo"] .stats {
+        border: solid 1px #ccd5dd;
+        > div {
+            background-color: white;
+            > div {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                > span:first-of-type {
+                    color: #adb8c2;
+                    font-size: 12px;
+                    font-weight: 700;
+                }
+                > span:last-of-type {
+                    font-size: 16px;
+                    color: #59687f;
+                    font-weight: 600;
+                }
+            }
+        }
+        li {
+            border-bottom: 1px solid white;
+            .marcador {
+                border: solid 1px #ccd5dd;
+                border-radius: 10%;
+                background-color: white;
+            }
+        &:hover .marcador {font-weight: 600;}
+        }
+    }
+
+    //DDBB
+    #dataModel {
+        margin: 15px;
+        overflow: auto;
+    }
+
+    #dataModel .tb {
+        float: left;
+        border: solid 2px dbColor(outstandingColor);
+        border-radius: 5px;
+        margin-left: 15px;
+        box-shadow: 10px 10px 20px -10px rgba(0,0,0,0.75);
+    }
+
+    #dataModel .tb:hover {
+        border: solid 2px lighten(dbColor(outstandingColor),25);
+    }
+
+    #dataModel .tbname {
+        background-color: dbColor(outstandingColor);
+        color: dbColor(txtOutstandingColor);
+        padding: 5px;
+        font-weight: bold;
+    }
+
+    #dataModel .tb:hover .tbname {
+        background-color: lighten(dbColor(outstandingColor),25);
+    }
+
+    #dataModel .field {
+        padding: 2px;
+        border-bottom: solid 1px dbColor(outstandingColor);
+        overflow: auto;
+    }
+
+    #dataModel .field:last-child {
+        border: none;
+    }
+
+    #dataModel .field .name {
+        margin-left: 5px;
+        float: left;
+        margin-right: 5px;
+    }
+
+    #dataModel .field .name > i {
+        width: 10px;
+        margin-right: 15px;
+    }
+
+    #dataModel .field .type {
+        margin-right: 5px;
+        float: right;
+        font-style: italic;
+    }

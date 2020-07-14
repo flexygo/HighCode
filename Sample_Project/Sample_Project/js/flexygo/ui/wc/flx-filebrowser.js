@@ -13,7 +13,7 @@ var flexygo;
             *
             * @class FlxFileBrowser
             * @constructor
-            * @return {FlxFileBrowserElement} .
+            * @return {FlxFileBrowserElement}
             */
             class FlxFileBrowserElement extends HTMLElement {
                 constructor() {
@@ -112,7 +112,7 @@ var flexygo;
                  */
                 renderFooter() {
                     let itemsSelectedTranslation = this.translate('itemsselected');
-                    return `<div class="fb-footer"><span id="fb-info-selected">0 ${itemsSelectedTranslation}</span></div>`;
+                    return `<div class="fb-footer"><span class="fb-info-selected">0 ${itemsSelectedTranslation}</span></div>`;
                 }
                 /**
                 * Calls controller and execute action
@@ -140,7 +140,9 @@ var flexygo;
                             rendered += this.renderHeader();
                             if (response.length == 0) {
                                 rendered += `<div class="dir-entry dir-empty">
-                                            <div class="dir-icon"><i class="transition-all dir flx-icon icon-folder icon-5x"></i></div>
+                                            <div class="dir-icon">
+                                                <i class="transition-all dir flx-icon icon-folder icon-5x"></i>
+                                            </div>
                                             <div class="dir-name">${this.translate('emptyfolder')}</div>
                                         </div>`;
                             }
@@ -152,8 +154,11 @@ var flexygo;
                                         let dirpath = this.currentDirPath + value.Name;
                                         rendered += `
                                         <div class="dir-entry animated fadeIn">
-                                            <div class="dir-icon"><i data-path="${dirpath}"
-                                                class="clickable transition-all dir flx-icon icon-folder icon-5x"></i></div>
+                                            <div class="dir-icon">
+                                                <i data-path="${dirpath}"
+                                                    class="clickable transition-all dir flx-icon icon-folder icon-5x">
+                                                </i>
+                                            </div>
                                             <div class="dir-name">${value.Name}</div>
                                             <div class="fb-check"></div>
                                         </div>`;
@@ -172,7 +177,7 @@ var flexygo;
                                         else {
                                             rendered += `
                                     <div class="dir-entry animated fadeIn ${value.Name == 'flx-download.zip' ? 'hidden' : ''}">
-                                        <div class="dir-icon"><a href="${value.Url.split("/").splice(1).join("/")}"><i data-path="${filepath}" class="clickable file transition-all ${this.getDocIcon(value.Name)} icon-4x"></i></a>
+                                        <div class="dir-icon"><a href="${value.Url.split("/").splice(1).join("/")}"><i data-path="${filepath}" class="clickable file transition-all ${flexygo.utils.getFileIcon(value.Name.split(".").pop())} icon-4x"></i></a>
                                         </div>
                                         <div class="dir-name">${value.Name}</div>
                                         <div class="fb-check"></div>
@@ -198,12 +203,16 @@ var flexygo;
                     this.filesPending = files.length;
                     this.filesTotal = this.filesPending;
                     // Get all filenames in dir 
-                    $(".clickable.file").each((i, element) => {
+                    $(".clickable.file", this).each((i, element) => {
+                        let filenameParts = $(element).data("path").split("/");
+                        filesInDir.push(filenameParts[filenameParts.length - 1]);
+                    });
+                    $("img", this).each((i, element) => {
                         let filenameParts = $(element).data("path").split("/");
                         filesInDir.push(filenameParts[filenameParts.length - 1]);
                     });
                     // Check if any file to upload exists in dir
-                    for (var i = 0; i < files.length; i++) {
+                    for (let i = 0; i < files.length; i++) {
                         let filename = files[i].name;
                         if (filesInDir.indexOf(filename) != -1) {
                             found.push(filename);
@@ -217,7 +226,7 @@ var flexygo;
                         flexygo.msg.confirm(msg, shouldProceed => {
                             if (shouldProceed) {
                                 this.disableEvents();
-                                for (var i = 0; i < files.length; i++) {
+                                for (let i = 0; i < files.length; i++) {
                                     let fileUpload = new flexygo.io.FileUpload(files[i], "diskfile", "upload", this);
                                     fileUpload.startUpload();
                                 }
@@ -226,24 +235,24 @@ var flexygo;
                     }
                     else {
                         this.disableEvents();
-                        for (var i = 0; i < files.length; i++) {
+                        for (let i = 0; i < files.length; i++) {
                             let fileUpload = new flexygo.io.FileUpload(files[i], "diskfile", "upload", this);
                             fileUpload.startUpload();
                         }
                     }
                 }
                 disableEvents() {
-                    var me = $(this);
+                    let me = $(this);
                     $(".fb-download-overlay", me).toggleClass("hidden");
                     $(".clickable", me).css("opacity", "0.3");
-                    $(".fb-delete").prop("disabled", true);
-                    $(".fb-download").prop("disabled", true);
-                    $(".fb-upload").prop("disabled", true);
-                    $(".fb-add").prop("disabled", true);
-                    $(".fb-up").prop("disabled", true);
+                    $(".fb-delete", me).prop("disabled", true);
+                    $(".fb-download", me).prop("disabled", true);
+                    $(".fb-upload", me).prop("disabled", true);
+                    $(".fb-add", me).prop("disabled", true);
+                    $(".fb-up", me).prop("disabled", true);
                 }
                 setupEvents() {
-                    var me = $(this);
+                    let me = $(this);
                     // On dir entry click    
                     $(".clickable.dir", me).on("click", e => {
                         let t = $(e.target);
@@ -303,7 +312,7 @@ var flexygo;
                     });
                     // On upload btn click we force event on upload input 
                     $(".fb-upload", me).on("click", e => {
-                        $(".fb-input-upload").click();
+                        $(".fb-input-upload", me).click();
                     });
                     // On upload input change
                     $(".fb-input-upload", me).on("change", e => {
@@ -330,17 +339,17 @@ var flexygo;
                             return path;
                         }));
                         let itemsSelectedTranslation = this.translate('itemsselected');
-                        $("#fb-info-selected").html(`${this.selectedEntries.length} ${itemsSelectedTranslation}`);
+                        $(".fb-info-selected", me).html(`${this.selectedEntries.length} ${itemsSelectedTranslation}`);
                         if (this.selectedEntries.length > 0) {
-                            $(".fb-delete").prop("disabled", false);
-                            $(".fb-download").prop("disabled", false);
+                            $(".fb-delete", me).prop("disabled", false);
+                            $(".fb-download", me).prop("disabled", false);
                         }
                         else {
-                            $(".fb-delete").prop("disabled", true);
-                            $(".fb-download").prop("disabled", true);
+                            $(".fb-delete", me).prop("disabled", true);
+                            $(".fb-download", me).prop("disabled", true);
                         }
                     });
-                    var dragDropZone = $(".flx-filebrowser", me);
+                    let dragDropZone = $(".flx-filebrowser", me);
                     dragDropZone.on('dragover', (e) => {
                         dragDropZone.css('background-color', 'rgba(0,0,0,0.1)');
                     }).on('dragleave', (e) => {
@@ -350,7 +359,9 @@ var flexygo;
                         dragDropZone.css('background-color', '');
                         let dragEvent = e.originalEvent;
                         let files = dragEvent.dataTransfer.files;
-                        this.startFileUpload(files);
+                        if (files.length > 0) {
+                            this.startFileUpload(files);
+                        }
                     });
                     // If the file flx-download.zip exists download it
                     let downloadFile = $('[data-path*="flx-download.zip"]', me).parent();
@@ -358,10 +369,10 @@ var flexygo;
                         location.href = downloadFile.prop("href");
                     }
                     if (this.currentDirPath == "/") {
-                        $(".fb-up").prop("disabled", true);
+                        $(".fb-up", me).prop("disabled", true);
                     }
                     else {
-                        $(".fb-up").prop("disabled", false);
+                        $(".fb-up", me).prop("disabled", false);
                     }
                 }
                 isImage(file) {
@@ -374,31 +385,6 @@ var flexygo;
                             return true;
                         default:
                             return false;
-                    }
-                }
-                getDocIcon(file) {
-                    let ext = file.split(".").pop().toLowerCase();
-                    switch (ext) {
-                        case "doc":
-                        case "docx":
-                            return "flx-icon icon-word";
-                        case "xls":
-                        case "xlsx":
-                        case "csv":
-                            return "flx-icon icon-excel";
-                        case "ppt":
-                        case "pptx":
-                            return "fa fa-file-powerpoint-o";
-                        case "pdf":
-                            return "flx-icon icon-pdf";
-                        case "zip":
-                        case "rar":
-                            return "fa fa-file-zip-o";
-                        //case "html":
-                        //case "htm":
-                        //    return "flx-icon icon-html"
-                        default:
-                            return "flx-icon icon-document";
                     }
                 }
                 /**
@@ -505,13 +491,13 @@ var flexygo;
                 return percent > 100 ? 100 : percent;
             }
             upload_file() {
-                var blob = this.file.slice(this.currentPosition, this.currentPosition + this.bufferSize);
+                let blob = this.file.slice(this.currentPosition, this.currentPosition + this.bufferSize);
                 this.reader.readAsDataURL(blob);
             }
             appendToDocument(base64, documentName, lastAppend) {
                 try {
                     let me = $(this);
-                    var params;
+                    let params;
                     if (base64) {
                         base64 = base64.split(',')[1];
                     }
@@ -531,9 +517,8 @@ var flexygo;
                     flexygo.ajax.post('~/api/FileBrowser', 'AppendToDocument', params, (response) => {
                         this.currentPosition += this.bufferSize;
                         this.upload_file();
-                        $(`.fb-progress[data-progress="${documentName}"]`).html(`
-                            <flx-timeline-progressbar percentage="${this.percentDone()}"></flx-timeline-progressbar>
-                        `);
+                        $(this.manager).find(`.fb-progress[data-progress="${documentName}"]`).html(`
+                            <flx-timeline-progressbar percentage="${this.percentDone()}"></flx-timeline-progressbar>`);
                     }, () => {
                         this.removeDocument();
                     });
@@ -545,7 +530,7 @@ var flexygo;
             setDocument(base64, documentName, multipart) {
                 try {
                     let me = $(this);
-                    var params;
+                    let params;
                     if (base64) {
                         base64 = base64.split(',')[1];
                     }
@@ -558,7 +543,7 @@ var flexygo;
                     }
                     params = {
                         'ObjectName': this.objectName,
-                        'ObjectWhere': me.attr('ObjectWhere'),
+                        'ObjectWhere': this.objectWhere,
                         'ModuleName': this.moduleName,
                         'ObjectId': null,
                         'DocumentName': documentName,
@@ -574,7 +559,7 @@ var flexygo;
                     this.manager.getElementsByClassName("fb-footer")[0].scrollIntoView({ block: 'end', behavior: 'smooth' });
                     flexygo.ajax.post('~/api/FileBrowser', 'SetDocument', params, (response) => {
                         if (multipart) {
-                            let insertionPoint = $(".dir-entry").last();
+                            let insertionPoint = $(this.manager).find(".dir-entry").last();
                             insertionPoint.after(`
                                     <div class="dir-entry animated bounceIn">
                                         <div class="dir-icon dir-upload"></div>
@@ -586,7 +571,7 @@ var flexygo;
                         }
                         else {
                             if (response && !response.documentError) {
-                                let insertionPoint = $(".dir-entry").last();
+                                let insertionPoint = $(this.manager).find(".dir-entry").last();
                                 insertionPoint.after(`
                                     <div class="dir-entry animated bounceIn">
                                         <div class="dir-icon dir-upload"></div>
@@ -618,7 +603,7 @@ var flexygo;
             }
             removeDocument() {
                 try {
-                    var params;
+                    let params;
                     params = {
                         'ObjectName': this.objectName,
                         'ObjectWhere': this.objectWhere,

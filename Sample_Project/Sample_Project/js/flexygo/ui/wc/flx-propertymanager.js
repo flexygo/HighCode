@@ -554,51 +554,57 @@ var flexygo;
                     str += '<div class="propHeader bg-module">' + configText + '</div><div class="cntBody"><form><div class="resizable-row grid-stack edit-form">';
                     for (let i = 0; i < dataArray.length; i++) {
                         let row = flexygo.utils.lowerKeys(dataArray[i]);
-                        if (this.properties[row.name].HasDefinition) {
-                            let item = $('<div class="grid-stack-item-content" />').html(template);
-                            let container = $('<div class="grid-stack-item" />').append(item);
-                            let props = item.find('[data-tag]');
-                            /*manage labels */
-                            for (let j = 0; j < props.length; j++) {
-                                let prop = $(props[j]);
-                                let tag = prop.data('tag').toLowerCase();
-                                if (tag.toLowerCase() == 'label') {
-                                    if (this.properties[row.name].ControlType != 'separator' && this.properties[row.name].ControlType != 'placeholder') {
-                                        var inp = $('<input type="text" class="lblEdit" autocomplete="off" />');
-                                        prop.html(inp);
-                                        inp.attr('value', this.getValue(row, tag));
-                                        if (this.properties[row.name].IsRequired) {
-                                            prop.addClass("required");
+                        try {
+                            if (this.properties[row.name].HasDefinition) {
+                                let item = $('<div class="grid-stack-item-content" />').html(template);
+                                let container = $('<div class="grid-stack-item" />').append(item);
+                                let props = item.find('[data-tag]');
+                                /*manage labels */
+                                for (let j = 0; j < props.length; j++) {
+                                    let prop = $(props[j]);
+                                    let tag = prop.data('tag').toLowerCase();
+                                    if (tag.toLowerCase() == 'label') {
+                                        if (this.properties[row.name].ControlType != 'separator' && this.properties[row.name].ControlType != 'placeholder') {
+                                            var inp = $('<input type="text" class="lblEdit" autocomplete="off" />');
+                                            prop.html(inp);
+                                            inp.attr('value', this.getValue(row, tag));
+                                            if (this.properties[row.name].IsRequired) {
+                                                prop.addClass("required");
+                                            }
+                                            if (this.properties[row.name].LabelStyle != '') {
+                                                prop.attr('style', this.properties[row.name].LabelStyle);
+                                            }
+                                            if (this.properties[row.name].LabelCssClass != '') {
+                                                prop.addClass(this.properties[row.name].LabelCssClass);
+                                            }
+                                            prop.attr('lblproperty', row.name);
                                         }
-                                        if (this.properties[row.name].LabelStyle != '') {
-                                            prop.attr('style', this.properties[row.name].LabelStyle);
+                                        else {
+                                            prop.empty();
                                         }
-                                        if (this.properties[row.name].LabelCssClass != '') {
-                                            prop.addClass(this.properties[row.name].LabelCssClass);
-                                        }
-                                        prop.attr('lblproperty', row.name);
                                     }
-                                    else {
-                                        prop.empty();
+                                    else if (tag.toLowerCase() == 'property-toolbar') {
+                                        prop.attr('data-propertyName', row.name);
+                                    }
+                                    else if (row[tag] || tag.toLowerCase() == 'control') {
+                                        prop.prepend(this.getValue(row, tag));
+                                        if (this.properties[row.name].ControlType.indexOf('code') != -1 || this.properties[row.name].ControlType == 'multiline') {
+                                            let lblHeight = 25;
+                                            prop.css('height', 'calc(100% - ' + lblHeight + 'px)');
+                                        }
                                     }
                                 }
-                                else if (tag.toLowerCase() == 'property-toolbar') {
-                                    prop.attr('data-propertyName', row.name);
-                                }
-                                else if (row[tag] || tag.toLowerCase() == 'control') {
-                                    prop.prepend(this.getValue(row, tag));
-                                    if (this.properties[row.name].ControlType.indexOf('code') != -1 || this.properties[row.name].ControlType == 'multiline') {
-                                        let lblHeight = 25;
-                                        prop.css('height', 'calc(100% - ' + lblHeight + 'px)');
-                                    }
-                                }
+                                container.attr('data-gs-x', row.positionx);
+                                container.attr('data-gs-y', row.positiony);
+                                container.attr('data-gs-width', row.width);
+                                container.attr('data-gs-height', row.height);
+                                //container.attr('data-gs-max-height', 3);
+                                str += container[0].outerHTML;
                             }
-                            container.attr('data-gs-x', row.positionx);
-                            container.attr('data-gs-y', row.positiony);
-                            container.attr('data-gs-width', row.width);
-                            container.attr('data-gs-height', row.height);
-                            //container.attr('data-gs-max-height', 3);
-                            str += container[0].outerHTML;
+                        }
+                        catch (ex) {
+                            flexygo.msg.error(flexygo.localization.translate('flxpropertymanager.hasdefinition') + ' ' + row.name);
+                            return flexygo.localization.translate('flxpropertymanager.hasdefinition') + ' ' + row.name;
                         }
                     }
                     str += '</div></form></div>';

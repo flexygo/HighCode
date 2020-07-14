@@ -43,6 +43,9 @@ var flexygo;
             if (triggerElement) {
                 triggerElement = getRealTarget(triggerElement);
             }
+            if (targetid == 'opener') {
+                targetid = getCurrentOpener(triggerElement);
+            }
             var histObj = {
                 targetid: targetid,
                 navigateFun: 'openpage',
@@ -121,6 +124,12 @@ var flexygo;
             else if (flexygo.utils.isSizeMobile() && targetid.indexOf('modal') == 0) {
                 targetid = "modal";
             }
+            if (triggerElement) {
+                triggerElement = getRealTarget(triggerElement);
+            }
+            if (targetid == 'opener') {
+                targetid = getCurrentOpener(triggerElement);
+            }
             var histObj = {
                 navigateFun: 'openpagename',
                 targetid: targetid,
@@ -130,9 +139,6 @@ var flexygo;
                 pagename: pagename,
                 filtersValues: (previousHist && previousHist.filtersValues) ? previousHist.filtersValues : null
             };
-            if (triggerElement) {
-                triggerElement = getRealTarget(triggerElement);
-            }
             if (targetid && targetid.indexOf('new') == 0) {
                 flexygo.targets.openNewWindow(histObj, targetid);
             }
@@ -206,6 +212,17 @@ var flexygo;
                 flexygo.nav.openProcessParams(processname, objectname, objectwhere, defaults, target, excludeHist, triggerElement);
             }
             else {
+                if (!processparams && defaults) {
+                    let jsonDefaults = JSON.parse(flexygo.utils.parser.replaceAll(defaults, "'", '"'));
+                    let paramsDefaults = [];
+                    for (let key in jsonDefaults) {
+                        let jsonValue = {};
+                        jsonValue["Key"] = key;
+                        jsonValue["Value"] = jsonDefaults[key];
+                        paramsDefaults.push(jsonValue);
+                    }
+                    processparams = paramsDefaults;
+                }
                 if (typeof proc.config.ConfirmText != 'undefined' && proc.config.ConfirmText && proc.config.ConfirmText != '') {
                     let resultCallback = (result) => {
                         if (result) {
@@ -222,7 +239,11 @@ var flexygo;
         nav.execProcess = execProcess;
         function openPageReturn(pageConf, objectname, objectwhere, defaults, pageContainer, reportname, processname, isClone, reportwhere) {
             pageContainer.html(flexygo.utils.loadingMsg());
-            //pageContainer.trigger('pageloaded', pageConf);
+            //Hide menu when page is loaded.
+            if (!flexygo.utils.isSizeMobile()) {
+                $('#mainMenu').find('.item-opened').parent().find('ul').slideUp(flexygo.utils.animationTime);
+                $('#mainMenu').find('.item-opened').addClass("item-closed").removeClass("item-opened");
+            }
             if (pageConf) {
                 var bodyClass = '';
                 if (pageConf.BodyCssClass) {
@@ -235,6 +256,7 @@ var flexygo;
                     $('body').attr('class', bodyClass);
                     resizeMain();
                 }
+                pageContainer.attr('pageName', pageConf.PageName);
                 //else {
                 //    pageContainer.attr('class', 'pageContainer ' + bodyClass);
                 //}
@@ -364,6 +386,9 @@ var flexygo;
             if (triggerElement) {
                 triggerElement = getRealTarget(triggerElement);
             }
+            if (targetid == 'opener') {
+                targetid = getCurrentOpener(triggerElement);
+            }
             var histObj = {
                 navigateFun: 'openProcessParams',
                 targetid: targetid,
@@ -427,6 +452,12 @@ var flexygo;
             else if (flexygo.utils.isSizeMobile() && targetid.indexOf('modal') == 0) {
                 targetid = "modal";
             }
+            if (triggerElement) {
+                triggerElement = getRealTarget(triggerElement);
+            }
+            if (targetid == 'opener') {
+                targetid = getCurrentOpener(triggerElement);
+            }
             var histObj = {
                 navigateFun: 'openReportsParams',
                 targetid: targetid,
@@ -436,9 +467,6 @@ var flexygo;
                 reportname: reportname,
                 reportwhere: reportwhere
             };
-            if (triggerElement) {
-                triggerElement = getRealTarget(triggerElement);
-            }
             if (targetid && targetid.indexOf('new') == 0) {
                 flexygo.targets.openNewWindow(histObj, targetid);
             }
@@ -502,7 +530,7 @@ var flexygo;
                     url += '&' + params;
                 }
             }
-            if (flexygo.utils.isAgentMobile()) {
+            if (flexygo.utils.isAgentMobile() || flexygo.utils.isAgentElectron()) {
                 return window.open(url);
             }
             else {
@@ -528,6 +556,11 @@ var flexygo;
         * @param {JQuery} triggerElement - Relative element to open the page
        */
         function openEditTable(tablename, targetid, tabledescrip, excludeHist, triggerElement) {
+            //Hide menu when page loaded
+            if (!flexygo.utils.isSizeMobile()) {
+                $('#mainMenu').find('.item-opened').parent().find('ul').slideUp(flexygo.utils.animationTime);
+                $('#mainMenu').find('.item-opened').addClass("item-closed").removeClass("item-opened");
+            }
             if (typeof event != 'undefined') {
                 event.preventDefault();
             }
@@ -537,15 +570,18 @@ var flexygo;
             else if (flexygo.utils.isSizeMobile() && targetid.indexOf('modal') == 0) {
                 targetid = "modal";
             }
+            if (triggerElement) {
+                triggerElement = getRealTarget(triggerElement);
+            }
+            if (targetid == 'opener') {
+                targetid = getCurrentOpener(triggerElement);
+            }
             var histObj = {
                 tablename: tablename,
                 targetid: targetid,
                 navigateFun: 'openedittable',
                 tabledescrip: tabledescrip
             };
-            if (triggerElement) {
-                triggerElement = getRealTarget(triggerElement);
-            }
             if (targetid && targetid.indexOf('new') == 0) {
                 flexygo.targets.openNewWindow(histObj, targetid);
             }
@@ -590,6 +626,11 @@ var flexygo;
         * @param {JQuery} triggerElement - Relative element to open the page
        */
         function openHelpId(helpid, targetid, excludeHist, triggerElement) {
+            //Hide menu when page loaded
+            if (!flexygo.utils.isSizeMobile()) {
+                $('#mainMenu').find('.item-opened').parent().find('ul').slideUp(flexygo.utils.animationTime);
+                $('#mainMenu').find('.item-opened').addClass("item-closed").removeClass("item-opened");
+            }
             if (typeof event != 'undefined') {
                 event.preventDefault();
             }
@@ -599,14 +640,17 @@ var flexygo;
             else if (flexygo.utils.isSizeMobile() && targetid.indexOf('modal') == 0) {
                 targetid = "modal";
             }
+            if (triggerElement) {
+                triggerElement = getRealTarget(triggerElement);
+            }
+            if (targetid == 'opener') {
+                targetid = getCurrentOpener(triggerElement);
+            }
             var histObj = {
                 targetid: targetid,
                 navigateFun: 'openhelpid',
                 helpid: helpid
             };
-            if (triggerElement) {
-                triggerElement = getRealTarget(triggerElement);
-            }
             if (targetid && targetid.indexOf('new') == 0) {
                 flexygo.targets.openNewWindow(histObj, targetid);
             }
@@ -617,7 +661,7 @@ var flexygo;
                         ret.pageHistory = histObj;
                         flexygo.history.historyLog.add('flx-icon icon-help-2', ret.Title, histObj);
                         pageContainer.html(ret.HTMLText);
-                        pageContainer.prepend('<div class="develop-only help-button"><button class="btn btn-default" onclick="flexygo.nav.openPage(\'edit\',\'sysHelp\',\'(HelpId=\\\'' + helpid + '\\\')\',null,\'current\',false,$(this))"><i class="flx-icon icon-pencil"></i> </button></div>');
+                        pageContainer.prepend('<div class="develop-only help-button help-fixed"><button class="btn btn-default" onclick="flexygo.nav.openPage(\'edit\',\'sysHelp\',\'(HelpId=\\\'' + helpid + '\\\')\',null,\'current\',false,$(this))"><i class="flx-icon icon-pencil"></i> </button></div>');
                         //$(document).trigger('helpLoaded', [helpid, pageContainer]);
                         var ev = {
                             class: "page",
@@ -700,6 +744,17 @@ var flexygo;
             return elm;
         }
         nav.getRealTarget = getRealTarget;
+        function getCurrentOpener(triggerElement) {
+            let opener = '';
+            if (triggerElement && triggerElement.closest('.pageContainer').length > 0) {
+                let context = triggerElement.closest('.pageContainer').data('context');
+                if (context && context.opener) {
+                    return 'opener|' + context.opener;
+                }
+            }
+            return 'main';
+        }
+        nav.getCurrentOpener = getCurrentOpener;
         /**
          * Close flexygo popup or modal page
          * @method closePage
@@ -746,18 +801,34 @@ var flexygo;
             flexygo.nav.toggleFlxnav($('#mainNav'));
         }
         nav.toggleNavBar = toggleNavBar;
-        function toggleFlxnav(menuNav) {
+        function hideNavBar() {
+            let menuNav = $('#mainNav');
             if (menuNav.is(':visible')) {
-                menuNav.css('overflow', 'hidden').attr('minimized', 'True');
+                $('#miniButton i').toggleClass('flipped');
+                flexygo.nav.toggleFlxnav(menuNav);
+            }
+        }
+        nav.hideNavBar = hideNavBar;
+        function toggleFlxnav(menuNav) {
+            let isOpen;
+            if (menuNav.is(':visible')) {
+                menuNav.attr('minimized', 'True');
+                isOpen = false;
             }
             else {
-                menuNav.css('overflow', 'auto').attr('minimized', 'false');
+                menuNav.attr('minimized', 'false');
+                isOpen = true;
             }
             menuNav.animate({
                 'min-width': 'toggle',
                 'width': 'toggle',
-                opacity: 'toggle'
-            }, 500);
+            }, 250);
+            let ev = {
+                class: "navbar",
+                type: "toggled",
+                sender: { isOpen: isOpen },
+            };
+            flexygo.events.trigger(ev);
         }
         nav.toggleFlxnav = toggleFlxnav;
     })(nav = flexygo.nav || (flexygo.nav = {}));

@@ -120,6 +120,23 @@ var flexygo;
                 manager.init(module);
             }
             templates.showSortManager = showSortManager;
+            function iconCategoryFilter(e) {
+                $(e).toggleClass('txt-info bg-warning');
+                let selected = $(e).closest('.iconlist').find('.bg-warning');
+                let modFilter = [];
+                for (let i = 0; i < selected.length; i++) {
+                    modFilter.push("'" + $(selected[i]).text() + "'");
+                }
+                var listMod = $('#mod-sysmod-list-icons')[0];
+                if (modFilter.length == 0) {
+                    listMod.additionalWhere = null;
+                }
+                else {
+                    listMod.additionalWhere = 'Icons.Category in (' + modFilter.join(',') + ')';
+                }
+                listMod.refresh();
+            }
+            templates.iconCategoryFilter = iconCategoryFilter;
         })(templates = ui.templates || (ui.templates = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));
 })(flexygo || (flexygo = {}));

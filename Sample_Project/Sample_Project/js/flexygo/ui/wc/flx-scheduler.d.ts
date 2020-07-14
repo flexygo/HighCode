@@ -54,7 +54,7 @@ declare namespace flexygo.ui.wc {
         * Initialize Scheduler.
         * @method render
         */
-        render(options: string[], activeMode: string, maxTime: string, minTime: string, onClickEvent: string, allDaySlot: string, slotDuration: string, pageType: string, target: string): void;
+        render(options: string[], activeMode: string, maxTime: string, minTime: string, onClickEvent: string, allDaySlot: string, slotDuration: string, pageType: string, target: string, eventLimit: boolean): void;
         /**
        * Check Objects.
        * @method checkPanelObjects
@@ -64,7 +64,7 @@ declare namespace flexygo.ui.wc {
        * Open Event.
        * @method openEvent
        */
-        openEvent(objectName: string, startDate: string, endDate: string, startTime: string, endTime: string, duration: string, date: string, time: string): void;
+        openEvent(objectName: string, startDate: string, endDate: string, startTime: string, endTime: string, duration: string, date: string, time: string, allday: string, hasTime: boolean): void;
         /**
        * Change Events.
        * @method changeEvents

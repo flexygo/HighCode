@@ -34,7 +34,7 @@ var flexygo;
                 * @property observedAttributes {Array}
                 */
                 static get observedAttributes() {
-                    return ['ObjectName', 'ObjectWhere', 'ModuleName', 'RootPath', 'Path', 'Property', 'Type', 'Mode'];
+                    return ['ObjectName', 'ObjectWhere', 'ModuleName', 'RootPath', 'Path', 'Property', 'Type', 'Mode', 'disabled'];
                 }
                 /**
                 * Init the webcomponent.
@@ -111,16 +111,37 @@ var flexygo;
                 */
                 saveFile(name, base64) {
                     if (this.type === 'file') {
+                        let formValues = [];
+                        let module = $(this).closest('flx-edit');
+                        if (module.length > 0) {
+                            let props = module.find('[property]');
+                            if (props.length > 0) {
+                                for (var i = 0; i < props.length; i++) {
+                                    let prop = $(props[i])[0];
+                                    formValues.push({ "key": prop.property, "value": prop.getValue() });
+                                }
+                            }
+                        }
                         let params = {
                             'Mode': this.mode,
                             'ObjectName': this.options.ProcessName || this.options.ReportName || this.options.ObjectName,
                             'PropertyName': this.options.Name,
                             'Base64': base64,
                             'Name': name,
+                            'FormValues': formValues
                         };
                         flexygo.ajax.post('~/api/File', 'SaveFile', params, (response) => {
                             if (response && !response.fileError) {
                                 this.setValue(response.path);
+                                if (this.options && this.options.CauseRefresh) {
+                                    let ev = {
+                                        class: "property",
+                                        type: "changed",
+                                        sender: this,
+                                        masterIdentity: this.property
+                                    };
+                                    flexygo.events.trigger(ev);
+                                }
                                 flexygo.msg.success('file.saved');
                             }
                             else {
@@ -178,17 +199,8 @@ var flexygo;
                             me.find('div').first().addClass('input-group');
                         }
                     }
-                    if (this.options && this.options.CauseRefresh) {
-                        input.on('change', (e) => {
-                            //$(document).trigger('refreshProperty', [input.closest('flx-edit'), this.options.Name]);
-                            let ev = {
-                                class: "property",
-                                type: "changed",
-                                sender: this,
-                                masterIdentity: this.property
-                            };
-                            flexygo.events.trigger(ev);
-                        });
+                    if (this.options && this.options.RegExp) {
+                        input.attr('accept', this.options.RegExp);
                     }
                 }
                 /**
@@ -284,6 +296,7 @@ var flexygo;
                 */
                 attributeChangedCallback(attrName, oldVal, newVal) {
                     let needInit = false;
+                    let element = $(this);
                     if (attrName.toLowerCase() == 'modulename' && newVal && newVal != '') {
                         this.moduleName = newVal;
                         needInit = true;
@@ -303,6 +316,23 @@ var flexygo;
                     else if (attrName.toLowerCase() === 'mode' && newVal && newVal !== '') {
                         this.mode = newVal;
                         needInit = true;
+                    }
+                    else if (attrName.toLowerCase() === 'disabled') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        if (typeof element.attr('disabled') !== 'undefined') {
+                            this.options.Locked = true;
+                            let input = element.find('input');
+                            input.prop('disabled', this.options.Locked);
+                            input.closest('label.btn').addClass('disabled');
+                            input.find('input').find('input[type="text"]').removeClass('f-text');
+                            input.off();
+                        }
+                        else {
+                            this.options.Locked = false;
+                            needInit = true;
+                        }
                     }
                     if (needInit) {
                         this.init();

@@ -79,7 +79,7 @@
                     </div>
                      <div class="cell"><i class="flx-icon icon-user"></i>
                         <asp:TextBox ID="UserName" autocomplete="off" placeHolder="User Name" runat="server"></asp:TextBox><asp:RequiredFieldValidator ID="userNameRequired" runat="server" ControlToValidate="UserName" Text="*"></asp:RequiredFieldValidator>
-                       <asp:RegularExpressionValidator ID="RegularExpressionValidatorUserName" runat="server" ControlToValidate="UserName" ErrorMessage="Please enter corect user name" ValidationExpression="^(?=.{4,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$"></asp:RegularExpressionValidator>
+                       <asp:RegularExpressionValidator ID="RegularExpressionValidatorUserName" runat="server" ControlToValidate="UserName" ErrorMessage="Please enter corect user name" ValidationExpression="^[a-z0-9_-]{3,15}$"></asp:RegularExpressionValidator>
                           </div>
                     <asp:LinkButton ID="MainButton" CssClass="mainbutton" CommandName="Register" runat="server" OnClientClick="Progress(event)">Register</asp:LinkButton>
                     <div class="others">

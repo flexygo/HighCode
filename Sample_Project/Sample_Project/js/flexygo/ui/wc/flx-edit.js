@@ -382,7 +382,7 @@ var flexygo;
                     me.html(rendered);
                     me.append('<div style="clear:both"></div>');
                     if (!this.moduleName) {
-                        let btn = $('<button class="btn btn-default bg-info saveButton"> <i class="flx-icon icon-save-2" > </i> <span>Save</span> </button>');
+                        let btn = $('<button class="btn btn-default bg-info saveButton"> <i class="flx-icon icon-save-2" > </i> <span>' + flexygo.localization.translate('flxedit.save') + '</span> </button>');
                         btn.on('click', (ev) => {
                             flexygo.ui.wc.FlxModuleElement.prototype.saveModule(this.objectname, this.objectwhere, $(this), null);
                         });
@@ -394,7 +394,7 @@ var flexygo;
                         reduce = 20;
                     }
                     let cellH = 62 - reduce;
-                    let itm = me.closest('.size-xs,.size-s,.size-m,.size-l');
+                    let itm = me.closest('.size-xs,.size-s,.size-m,.size-l,.no-label');
                     if (itm.length > 0) {
                         if (itm.is('.size-xs')) {
                             cellH = 54 - reduce;
@@ -407,6 +407,9 @@ var flexygo;
                         }
                         else if (itm.is('.size-l')) {
                             cellH = 86 - reduce;
+                        }
+                        if (itm.is('.no-label')) {
+                            cellH -= 18;
                         }
                     }
                     this.processLoadDependencies();
@@ -450,6 +453,18 @@ var flexygo;
                         Lobibox.confirm({
                             title: flexygo.localization.translate('flxedit.areyousuretitle'),
                             msg: flexygo.localization.translate('flxedit.areyousuremsg'),
+                            buttons: {
+                                yes: {
+                                    'class': 'lobibox-btn lobibox-btn-yes',
+                                    text: flexygo.localization.translate('flxedit.areyousuremsgyes'),
+                                    closeOnClick: true
+                                },
+                                no: {
+                                    'class': 'lobibox-btn lobibox-btn-no',
+                                    text: flexygo.localization.translate('flxedit.areyousuremsgno'),
+                                    closeOnClick: true
+                                }
+                            },
                             iconClass: '',
                             callback: (dialog, type, ev) => {
                                 if (type == "yes") {
@@ -588,6 +603,10 @@ var flexygo;
                         else if (!me.attr('ObjectWhere')) {
                             isNew = true;
                         }
+                        //Cambiamos porque en el clone se ejecutan las dependencias y cambia los valores del objeto origen
+                        //} else if (me.attr('isClone') === 'true') {
+                        //    isNew = true;
+                        //}
                         let params = {
                             ObjectName: this.objectname,
                             ProcessName: this.processName,
@@ -772,7 +791,7 @@ var flexygo;
                 * @param {string} str
                 * @return {string}
                 */
-                parseEditString(str) {
+                parseEditString(str, ctx, property) {
                     let me = $(this);
                     let props = me.find('[property]');
                     let obj = new Object();
@@ -801,6 +820,33 @@ var flexygo;
               * @return {string}
               */
                 refreshProperty(itm, prop, lblprop, loadDependency) {
+                    if (itm.changeCustomProperty) {
+                        this.properties[itm.PropertyName] = itm.newCustomProperty;
+                        let element = $(`<${itm.newCustomProperty.WebComponent}/>`);
+                        let EType = element.attr("type");
+                        let attrs = prop[0].attributes;
+                        $.each(attrs, function () {
+                            element.attr(this.name, this.value);
+                        });
+                        element.attr("type", EType);
+                        let cntl = prop[0];
+                        let IObjectName = cntl.options.ObjectName;
+                        let IName = cntl.options.Name;
+                        let IPositionX = cntl.options.PositionX;
+                        let IPositionY = cntl.options.PositionY;
+                        cntl.options = itm.newCustomProperty;
+                        cntl.options.ObjectName = IObjectName;
+                        cntl.options.Name = IName;
+                        cntl.options.PositionX = IPositionX;
+                        cntl.options.PositionY = IPositionY;
+                        cntl.options.DropDownValues = itm.newSqlItems;
+                        prop.replaceWith(element);
+                        prop = element;
+                    }
+                    if (itm.JSCode) {
+                        let func = new Function("ObjectName", "ProcessName", "ReportName", "itm", "prop", itm.JSCode);
+                        func.call(this, this.objectname, this.processName, this.reportName, itm, prop[0]);
+                    }
                     if (itm.changeVisibility) {
                         if (itm.newVisibility) {
                             this.appendStack(prop);
@@ -917,6 +963,44 @@ var flexygo;
                     return page.pagename + '|' + page.objectname + '|' + this.moduleName;
                 }
                 /**
+                * Validate property
+                * @method validateSQLProperty
+                * @param {string} propertyName
+                * @param {Properties}  flexygo.api.edit.KeyValuePair[]
+                */
+                validateSQLProperty(propertyName, Properties) {
+                    //Execute sql validation
+                    let SQLValidatorparams = {
+                        ObjectName: this.objectname,
+                        ProcessName: this.processName,
+                        ReportName: this.reportName,
+                        PropertyName: propertyName,
+                        Properties: Properties
+                    };
+                    flexygo.ajax.syncPost('~/api/Edit', 'ValidateProperty', SQLValidatorparams, (response) => {
+                        //Change attribute value
+                        //Select element depending type of control
+                        let element = $(this).find("[property=" + propertyName + "]");
+                        let prop;
+                        if ((element[0].tagName).toLowerCase() == 'flx-radio') {
+                            prop = element.find("[name=" + SQLValidatorparams.PropertyName + "]:first");
+                        }
+                        else {
+                            prop = element.find("[name=" + SQLValidatorparams.PropertyName + "]");
+                        }
+                        // If the respone is [TRUE] then the validation is correct else is incorrect
+                        if (response) {
+                            prop.attr("sqlvalidator", 1);
+                        }
+                        else {
+                            prop.attr("sqlvalidator", 0);
+                        }
+                        if (element.attr('type') == 'time' || element.attr('type') == 'date' || element.attr('type') == 'datetime-local') {
+                            prop.valid();
+                        }
+                    });
+                }
+                /**
               * Captures property change event
               * @method onPropertyChanged
               * @param {flexygo.events.FlexygoEvent} e
@@ -937,6 +1021,18 @@ var flexygo;
                                         Key: prop.property,
                                         Value: prop.getValue()
                                     });
+                                }
+                                // If control have class [data-msg-sqlvalidator] validation is executed
+                                let elm = me.find("[property=" + propertyName + "]");
+                                if ((elm[0].tagName).toLowerCase() == 'flx-radio') {
+                                    if (typeof elm.find("[name=" + propertyName + "]:first").attr("data-msg-sqlvalidator") !== typeof undefined) {
+                                        this.validateSQLProperty(propertyName, Properties);
+                                    }
+                                }
+                                else {
+                                    if (typeof elm.find("[name=" + propertyName + "].form-control").attr("data-msg-sqlvalidator") !== typeof undefined) {
+                                        this.validateSQLProperty(propertyName, Properties);
+                                    }
                                 }
                                 let params = {
                                     ObjectName: this.objectname,

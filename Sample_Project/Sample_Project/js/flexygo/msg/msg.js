@@ -33,6 +33,18 @@ var flexygo;
                 title: flexygo.localization.translate('msg.confirm'),
                 msg: flexygo.localization.translate(msg),
                 iconClass: 'fa fa-question-circle',
+                buttons: {
+                    yes: {
+                        'class': 'lobibox-btn lobibox-btn-yes',
+                        text: flexygo.localization.translate('flxedit.areyousuremsgyes'),
+                        closeOnClick: true
+                    },
+                    no: {
+                        'class': 'lobibox-btn lobibox-btn-no',
+                        text: flexygo.localization.translate('flxedit.areyousuremsgno'),
+                        closeOnClick: true
+                    }
+                },
                 callback: (dlg, type, ev) => {
                     if (type == "yes") {
                         callback(true);
@@ -180,7 +192,7 @@ var flexygo;
             else {
                 lines = 1;
             }
-            Lobibox.prompt('text', //Any input type will be valid
+            Lobibox.prompt(type, //Any input type will be valid
             {
                 title: title,
                 attrs: {

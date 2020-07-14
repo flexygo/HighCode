@@ -39,6 +39,7 @@ declare namespace flexygo.ui.wc {
         tBody: string;
         tFooter: string;
         tModuleClass: string;
+        fields: object;
         sortAsc: boolean;
         viewList: {
             [name: string]: string;
@@ -81,6 +82,12 @@ declare namespace flexygo.ui.wc {
         startLoading(): void;
         stopLoading(): void;
         render(): void;
+        /**
+        * Sort based on an object .
+        * @method sort
+        * @param  {api.list.PropertyOrder[]} orderInfo
+        */
+        sortByObj(orderInfo: api.list.PropertyOrder[]): void;
         sort(columnItem: Element, property: string, ascMode?: boolean): void;
         loadPager(): void;
         setPreset(presetName: string, presetText: string, presetIcon: string): void;

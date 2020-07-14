@@ -376,7 +376,7 @@ var flexygo;
                     lineWeight = 0.5;
                     inputControlToSave = $("flx-whiteboard[property='" + property + "']").find('input');
                     imgControlToSave = $("flx-whiteboard[property='" + property + "']").find('img');
-                    let pizarraHtml = `<div id="WBContainer" style=z-index:1050;width:100%;height:100%;position:fixed;margin:0px;padding:0px;top:0px;left:0px;background-color:white;text-align:center;">
+                    let pizarraHtml = `<div id="WBContainer" style="z-index:999999;width:100%;height:100%;position:fixed;margin:0px;padding:0px;top:0px;left:0px;background-color:white;text-align:center;">
                <canvas id="WBcanvas"></canvas>               
                    <nav class="WBButtonsContainer">
                   <a href="#" class="WBColorButtons Colours"></a>

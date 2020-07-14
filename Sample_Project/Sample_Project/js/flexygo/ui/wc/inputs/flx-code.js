@@ -230,6 +230,9 @@ var flexygo;
                     }
                 }
                 init() {
+                    if ($('script[ID="jshint"]').length == 0) {
+                        $('head').append('<script ID="jshint" src="./js/plugins/codemirror/jshint.js"></script>');
+                    }
                     let me = $(this);
                     if (me.attr('mode') && me.attr('mode').toLowerCase() == 'view') {
                         this.readonly = true; //'nocursor';
@@ -260,7 +263,7 @@ var flexygo;
                                 this.myCM.toTextArea();
                             }
                         }
-                        this.myCM = CodeMirror.fromTextArea(me.find('textarea')[0], {
+                        let options = {
                             mode: this.getMode(),
                             styleActiveLine: true,
                             matchBrackets: true,
@@ -282,7 +285,12 @@ var flexygo;
                                     me.attr('isFS', 'false');
                                 }
                             }
-                        });
+                        };
+                        if (options.mode == 'javascript') {
+                            options['lint'] = true;
+                            options['gutters'] = ["CodeMirror-lint-markers"];
+                        }
+                        this.myCM = CodeMirror.fromTextArea(me.find('textarea')[0], options);
                         let maxnumofchars = 0;
                         if (this.options && this.options.MaxNumOfChars && this.options.MaxNumOfChars > 0) {
                             maxnumofchars = this.options.MaxNumOfChars;

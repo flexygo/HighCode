@@ -32,10 +32,10 @@ var flexygo;
                 */
                 init(module) {
                     this.module = module;
-                    this.list = module.find('flx-list')[0];
-                    if (this.list.data.length > 0) {
-                        this.fields = Object.keys(this.list.data[0]).sort();
-                    }
+                    this.list = module.find('flx-list, flx-search')[0];
+                    //if (this.list.data.length > 0) {
+                    //    this.fields = Object.keys(this.list.data[0]).sort();
+                    //}
                     this.render();
                 }
                 /**
@@ -86,9 +86,9 @@ var flexygo;
                 </div>
             `);
                     let ul = me.find('.unused');
-                    for (var i = 0; i < this.fields.length; i++) {
-                        if (this.fields[i].toLowerCase() != '_objectname' && this.fields[i].toLowerCase() != '_objectwhere' && this.fields[i].toLowerCase() != '_ot' && this.fields[i].toLowerCase() != '_guid') {
-                            ul.append('<li class="fieldSortItem asc" property="' + this.fields[i] + '"><i style="border-radius:50%" class="sortIcon fa fa-arrows" /> ' + this.fields[i] + '<i class="delbutton fa fa-close pull-right" style="display:none"/> </li>');
+                    for (let key in this.list.fields) {
+                        if (key.toLowerCase() != '_objectname' && key.toLowerCase() != '_objectwhere' && key.toLowerCase() != '_ot' && key.toLowerCase() != '_guid') {
+                            ul.append('<li class="fieldSortItem asc" property="' + key + '"><i style="border-radius:50%" class="sortIcon fa fa-arrows" /> ' + this.list.fields[key] + '<i class="delbutton fa fa-close pull-right" style="display:none"/> </li>');
                         }
                     }
                     me.find('.fieldSortItem').on('click', (ev) => {
@@ -112,6 +112,7 @@ var flexygo;
                         ev.preventDefault();
                     });
                     me.find('.fields').sortable({
+                        zIndex: 999999,
                         connectWith: ".fields",
                         appendTo: document.body,
                         helper: "clone",

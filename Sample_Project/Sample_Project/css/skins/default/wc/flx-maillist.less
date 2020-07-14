@@ -1,0 +1,296 @@
+﻿.mailFilters flx-text > div {
+    margin-bottom: 5px
+}
+
+.childNodes {
+    padding-left: 8px
+}
+
+.mailFolders{font-size:12px;
+             line-height:1.5em;
+}
+
+.mailFolders .nochildren {
+    padding-left: 13px
+}
+
+.mailFolders [folderid] {
+    padding: 2px;
+    cursor: pointer;
+}
+
+.mailFolders [folderid].selected {
+    font-weight: bold;
+    color:dbColor(OutstandingColor);
+}
+
+.mailFolders [folderid]:hover {
+    background-color: rgba(31, 142, 238, 0.19);
+    border: solid 1px #1f8eee;
+}
+
+.mailList .selected {
+    background-color: rgba(31, 142, 238, 0.19);
+
+    //border: solid 1px #1f8eee;
+}
+
+.mailList .nomail {
+}
+.mailList .nomail-data {
+    background-image: ResolveUrl('~/img/mails/empty.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 500px;
+    width: 100%;
+}
+
+.mailList .nosettings-data {
+    background-image: ResolveUrl('~/img/mails/settings.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 500px;
+    width: 100%;
+}
+.mailList .nomail-text, .mailList .nosettings-text {
+    font-size: 34px;
+    color: dbColor(borderModuleColor);
+    text-align: center;
+}
+
+.loadMoreRow .loadMore {
+    text-align: center;
+    color: dbColor(OutstandingColor)
+}
+
+.mailFilters {
+    padding-top: 20px
+}
+
+.mailFilters hr {
+    border-color: dbColor(borderModuleColor);
+}
+.mailFilters a {
+    color: dbColor(borderModuleColor);
+}
+
+.mailToolbar {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid dbColor(borderModuleColor);
+}
+
+.mailToolbar .mail-button-separator {
+    margin-right: 300px;
+    display: block
+}
+
+
+/*Mail template styles*/
+.box-mail-bagbutton {
+    width: 35px;
+    float: left;
+}
+
+.box-mail-bagbutton .btn.btn-default.bagButton {
+    border: none;
+    margin: 6px 0px 4px 4px;
+}
+
+.box-mail-bagbutton .btn.btn-default.bagButton.active {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.box-mail-data {
+    width: ~"calc(100% - 35px)";
+    float: right;
+}
+
+.box-mail {
+    color: lighten(dbColor(PrimaryColor),30);
+    background-color: white;
+    border-left: solid 5px dbColor(OutstandingColor);
+    line-height: 1.2;
+    padding-right: 4px;
+}
+
+.box-mail:hover {
+    background-color: lighten(dbColor(OutstandingColor), 40);
+}
+
+.box-mail .from {
+    font-size: 16px;
+    font-weight: 300;
+    font-weight: bold;
+}
+
+.box-mail .message {
+    display:block;
+    font-size:11px;
+}
+
+.box-mail .subject {
+    line-height: 20px;
+    color: dbColor(OutstandingColor);
+    font-weight: bold;
+}
+
+.box-mail .date {
+    font-size:12px;
+}
+
+.box-mail .icons {
+    font-size: 18px;
+}
+
+.box-mail.seen {
+    border-left: solid 5px darken(white, 10);
+}
+
+.box-mail.seen .subject, .box-mail.seen .date, .box-mail.seen .body, .box-mail.seen .from {
+    font-weight: normal;
+    color: dbColor(PrimaryColor);
+}
+
+.box-mail .btn-default {
+    background-color: transparent;
+}
+
+.box-mail-folders {
+    padding: 10px;
+    line-height: 1.9;
+}
+
+
+flx-mailview > .toolbar > .btn-group > .btn {
+    background-color: transparent;
+    border: none;
+    margin-right: 14px;
+}
+
+
+.mail-viewer {
+    padding: 20px;
+    background-color: white;
+    margin-top: 15px;
+}
+
+.mail-viewer .from {
+    font-size: 16px;
+    color: dbColor(InfoColor);
+    font-weight:bold;
+}
+
+.mail-viewer iframe {
+    border: none;
+    width: 100%;
+    height: 100%;
+}
+
+.mail-viewer hr {
+    margin-top: dbColor(borderModuleColor);
+    //margin-bottom: 6px;
+}
+
+.mail-attachment {
+    box-sizing: border-box;
+    cursor: pointer;
+    display: block;
+    float: left;
+    font-size: 14px;
+    height: 48px;
+    line-height: 20px;
+    margin: 5px;
+    padding: 2px 4px;
+    text-size-adjust: 100%;
+    border: solid 1px dbColor(borderModuleColor);
+}
+
+.mail-attachment:hover {
+    background-color: lighten(dbColor(InfoColor), 40);
+}
+
+
+main[pagename=sysMailBoxPage] {
+    .LeftPosition {
+        width: 125px;
+    }
+
+    .RightPosition {
+        width: ~"calc(100% - 125px)";
+    }
+}
+
+main[pagename=syspage-list-mailobject] {
+    .LeftPosition {
+        width: 125px;
+    }
+
+    .RightPosition {
+        width: ~"calc(100% - 125px)";
+    }
+}
+
+.chatter_shadow() {
+    @box-shadow: 0 2px 2px 0 rgba(0,0,0,0.08), 0 3px 1px -2px rgba(0,0,0,.06), 0 1px 5px 0 rgba(0,0,0,.14);
+    -webkit-box-shadow: @box-shadow;
+    -moz-box-shadow: @box-shadow;
+    box-shadow: @box-shadow;
+}
+
+.mailviewer_transition(@property: all, @duration: .15s, @function: ease-in-out, @delay: 0s) {
+    @transition: @property @duration @function @delay;
+    -webkit-transition: @transition;
+    -moz-transition: @transition;
+    -o-transition: @transition;
+    transition: @transition;
+}
+
+.mail-viewer-attachment {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 6px;
+    background-color: fade(#789A98, 10);
+    color: black;
+    overflow: hidden;
+    .mailviewer_transition();
+    width: 300px;
+    height: 36px;
+    margin: 10px 5px;
+    padding: 0px 10px;
+
+    > div:first-child {
+        max-width: 92%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        > i {
+            margin-right: 6px;
+        }
+
+        > small {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+    .mail-viewer-download {
+        cursor: pointer;
+        opacity: .8;
+        font-weight: bold;
+        .mailviewer_transition();
+        border-radius: 4px;
+        padding: 4px 6px;
+        color: unset;
+        text-decoration: unset;
+
+        &:hover {
+            opacity: 1;
+            background-color: fade(#789A98, 20);
+        }
+    }
+}

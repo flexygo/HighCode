@@ -18,6 +18,7 @@ var flexygo;
                 enabledep: 'Activé',
                 visibledep: 'Visible',
                 requireddep: 'Obligatoire',
+                CustomProperty: 'Propriété personnalisée',
                 save: 'Sauvegarder',
                 addmore: 'Ajouter d’autres propriétés en attente',
                 sqlvalue: 'SQL Valeur',
@@ -34,6 +35,9 @@ var flexygo;
                 notrequiredvalues: 'Valeurs pour non obligatoire',
                 requiredsentence: 'SQL pour obligatoire',
                 description: 'Description',
+                valueApply: 'Valeurs concernées',
+                CusPropertyName: 'Nom du contrôle personnalisé',
+                SQLCustomProperty: 'SQL Propriété personnalisée ',
                 connectionstrings: 'Chaînes de connexion',
                 connStringvalues: 'Valeurs de chaîne de connexion'
             };
@@ -52,8 +56,9 @@ var flexygo;
                 collection: 'Collection',
                 page: 'Page',
                 object: 'Objet',
-                imagemanager: 'Gestion d’images',
-                documentmanager: 'Gestion des documents',
+                imagemanager: 'Paramètres de l\'image',
+                documentmanager: 'Paramètres du document',
+                mailmanager: 'Paramètres de messagerie',
                 viewobject: 'Afficher objet',
                 security: 'Sécurité',
                 objectsecurity: 'Sécurité d’objet',
@@ -108,12 +113,15 @@ var flexygo;
                 close: 'Fermer',
                 areyousuretitle: 'Vous avez des modifications sans enregistrer',
                 areyousuremsg: 'Voulez-vous vraiment fermer cette page?',
+                areyousuremsgyes: 'Oui',
+                areyousuremsgno: 'Non',
                 emptyproperty: 'Propriété vide',
                 addproperties: 'Ajouter des champs',
                 propertyname: 'Nom du champ',
                 propertylabel: 'Étiquette de champ',
                 adddetachedproperty: 'Ajouter un champ déconnecté',
-                selecttable: 'Sélectionnez Tableau'
+                selecttable: 'Sélectionnez Tableau',
+                loadmore: 'Faites défiler pour charger plus',
             };
             frfr.flxeditgrid = {
                 addrow: 'Ajouter ligne',
@@ -121,6 +129,7 @@ var flexygo;
                 hide: 'Masquer',
                 settings: 'Configuration',
                 deleteconfirm: 'Voulez-vous supprimer les éléments sélectionnés?',
+                startinfo: 'Vous devez d\'abord configurer le editgrid',
             };
             frfr.flxfilter = {
                 searchplaceholder: 'Recherche par:',
@@ -256,6 +265,18 @@ var flexygo;
                 selectfilterfirst: 'Sélectionnez d’abord un filtre',
                 save: 'Sauvegarder',
             };
+            frfr.flxmail = {
+                nomails: 'Aucun courrier trouvé ',
+                nosettings: 'Votre compte de messagerie n’a pas été créé.Cliquez pour le configurer.',
+                loadmore: 'Chargez plus ',
+                folders: 'Dossiers',
+                address: 'Adresse',
+                subject: 'Question',
+                body: 'Body',
+                mindate: 'Date minimale',
+                maxdate: 'Date maximale',
+                unseen: 'Il suffit de ne pas lire',
+            };
             frfr.flxmodule = {
                 delete: 'Supprimer',
                 save: 'Sauvegarder',
@@ -371,6 +392,19 @@ var flexygo;
                 error: 'Erreur exportation données :(',
                 exportinglist: 'Exportant liste',
             };
+            frfr.menumanager = {
+                deleteMenu: 'Supprimer menu',
+                deleteMenuquestion: 'Êtes-vous sûr de vouloir supprimer ce menu et tous vos enfants?',
+                empty: 'Erstellen Sie ein neues Menü zum Navigieren!',
+                menus: 'Menus',
+                new: 'Nouveau',
+                refresh: 'Rafraîchir',
+                moreoptions: 'Plus d\'options',
+                delete: 'Supprimer',
+                edit: 'Éditer',
+                submenus: 'Sous-menus',
+                newsubmenu: 'Nouveau sous-menu',
+            };
             frfr.modulemanager = {
                 save: 'Sauvegarder',
                 searchmodules: 'Rechercher modules',
@@ -458,6 +492,7 @@ var flexygo;
                 addplaceholder: 'Ajouter un contrôle de position',
                 save: 'Sauvegarder',
                 close: 'Fermer',
+                hasdefinition: 'Passez en revue la propriété dans le tableau:',
             };
             frfr.flxversioninfo = {
                 currentversion: 'Version actuelle ({{CurrentVersion}}).',
@@ -611,6 +646,17 @@ var flexygo;
                 composerplaceholder: 'Écris quelque chose ...',
                 sendbutton: 'Registre',
                 startinfo: 'Vous devez d\'abord configurer le chatter',
+            };
+            frfr.offline = {
+                createobjecttitle: 'Ajouter un nouvel objet à l\'application',
+                createobjectcontent: 'Vous pouvez créer un nouvel objet ou construire sur un objet existant',
+                createobjectbuttonnew: 'Nouvel article',
+                createobjectbuttonbased: 'Basé sur les objets',
+                enablewebapiconfirmation: 'Pour utiliser l\'application hors ligne, il est nécessaire d\'activer WebApi et de redémarrer l\'application.Voulez - vous redémarrer l\'application maintenant?',
+            };
+            frfr.offlineemulator = {
+                ios: 'Activer le mode iOS',
+                md: 'Activer le mode Android',
             };
         })(frfr = culture.frfr || (culture.frfr = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

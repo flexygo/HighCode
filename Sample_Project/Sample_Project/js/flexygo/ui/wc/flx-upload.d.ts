@@ -60,7 +60,7 @@ declare namespace flexygo.ui.wc {
         * Property Options
         * @property options {any}
         */
-        options: any;
+        options: flexygo.api.ObjectProperty;
         /**
         * Upload Value
         * @property value {string}
@@ -71,6 +71,11 @@ declare namespace flexygo.ui.wc {
         * @property type {JSON}
         */
         type: string;
+        /**
+        * Composer Attachment Template
+        * @property composerAttachmentTemplate {string}
+        */
+        uploadFileTemplate: Function;
         /**
         * Fires when element is attached to DOM
         * @method connectedCallback
@@ -86,6 +91,11 @@ declare namespace flexygo.ui.wc {
         * @method attributeChangedCallback
         */
         attributeChangedCallback(attrName: any, oldVal: any, newVal: any): void;
+        /**
+        * Fires when element is detached to DOM
+        * @method disconnectedCallback
+        */
+        disconnectedCallback(): void;
         /**
         * Init the webcomponent.
         * @method init
@@ -115,7 +125,7 @@ declare namespace flexygo.ui.wc {
         * Get value.
         * @method setValue
         */
-        setValue(value: object): void;
+        setValue(value: object): number;
         /**
         * Get value.
         * @method getValue

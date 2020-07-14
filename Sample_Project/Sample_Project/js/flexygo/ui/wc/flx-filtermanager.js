@@ -58,7 +58,7 @@ var flexygo;
                 refresh() {
                     let me = $(this);
                     me.append('<span class="label">' + flexygo.localization.translate('filtermanager.objectname') + ':</span>');
-                    me.append('<flx-dbcombo objectname="sysObject" viewname="sysCollections" sqlvaluefield="ObjectName" sqldisplayfield="Descrip"></flx-dbcombo>');
+                    me.append('<flx-dbcombo objectname="sysObject" viewname="sysOnlineCollections" sqlvaluefield="ObjectName" sqldisplayfield="Descrip"></flx-dbcombo>');
                     me.append('<span class="label">' + flexygo.localization.translate('filtermanager.choosefilter') + ':</span>');
                     //me.append('<div name="choosebar" class="row input-group"> <span class="input-group-addon clickable newFilter" > <i class="flx-icon icon-plus" /></span><span class="input-group-addon clickable editFilter"><i class="flx-icon icon-report-filters" /> </span><select class="filterCmb form-control"></select> <span class="input-group-addon clickable deleteFilter" > <i class="flx-icon icon-trash" /></span></div> ');
                     me.append('<div name="choosebar" class="row input-group"> <span class="input-group-addon clickable newFilter" > <i class="flx-icon icon-plus" /></span><span class="input-group-addon clickable editFilter"><i class="flx-icon icon-report-filters" /> </span><select class="filterCmb form-control"></select></div> ');

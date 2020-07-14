@@ -504,6 +504,7 @@ var flexygo;
                 toggleBag(objectname, objectwhere, itm) {
                     let obj = new flexygo.obj.Entity(objectname, objectwhere);
                     let bagField = obj.getConfig().UniqueIdentifier;
+                    let eventType = 'check';
                     if (bagField) {
                         obj.read();
                         if (typeof obj.data[bagField] == 'undefined') {
@@ -516,6 +517,7 @@ var flexygo;
                                 itm.closest('tr').addClass('selected');
                             }
                             else {
+                                eventType = 'uncheck';
                                 itm.removeClass('active');
                                 itm.closest('tr').removeClass('selected');
                             }
@@ -526,15 +528,26 @@ var flexygo;
                     }
                     let mod = itm.closest('flx-module');
                     let selectionLength = flexygo.selection.getArray(objectname).length;
+                    let currentFilter;
                     if (mod.find('flx-list').length > 0) {
                         let list = mod.find('flx-list')[0];
                         if (list.moduleButtons) {
                             if (selectionLength == 0) {
-                                mod[0].refreshButtons(list.moduleButtons, list.collectionname, list.processwhere);
+                                currentFilter = list.processwhere;
                             }
-                            else
-                                mod[0].refreshButtons(list.moduleButtons, list.collectionname, flexygo.selection.getFilterString(objectname));
+                            else {
+                                currentFilter = flexygo.selection.getFilterString(objectname);
+                            }
+                            mod[0].refreshButtons(list.moduleButtons, list.collectionname, currentFilter);
                         }
+                        var ev = {
+                            class: "entity",
+                            type: eventType,
+                            sender: this,
+                            masterIdentity: list.collectionname,
+                            detailIdentity: { moduleFilter: currentFilter, selectedItems: flexygo.selection.getArray(objectname) }
+                        };
+                        flexygo.events.trigger(ev);
                     }
                     if (selectionLength > 0) {
                         this.activeBagButtons(mod);
@@ -588,18 +601,24 @@ var flexygo;
                                 else {
                                     flexygo.msg.success(flexygo.localization.translate('flxmodule.deleted'));
                                 }
-                                if (!module) {
-                                    module = $(button).closest('flx-module');
+                                let currentForm = $(button).closest('.ui-dialog');
+                                if (currentForm.length > 0 && objectName == flexygo.history.get(button).objectname) {
+                                    currentForm.remove();
                                 }
-                                //module.find('flx-edit, flx-list, flx-view').data('controller').refresh();
-                                if (module) {
-                                    var edit = module.find("flx-edit").first();
-                                    if (edit.length > 0) {
-                                        edit.attr("objectWhere", "");
+                                else {
+                                    if (!module) {
+                                        module = $(button).closest('flx-module');
                                     }
-                                    let wcModule = module[0];
-                                    if (wcModule) {
-                                        wcModule.refresh();
+                                    //module.find('flx-edit, flx-list, flx-view').data('controller').refresh();
+                                    if (module) {
+                                        var edit = module.find("flx-edit").first();
+                                        if (edit.length > 0) {
+                                            edit.attr("objectWhere", "");
+                                        }
+                                        let wcModule = module[0];
+                                        if (wcModule) {
+                                            wcModule.refresh();
+                                        }
                                     }
                                 }
                                 if (cllbck) {
@@ -709,10 +728,10 @@ var flexygo;
                         else {
                             //edit grid
                             //run through all dirty forms an do a save row
-                            let rowsToSave = $(module).find('flx-list[mode="edit"] tbody tr[objectname].form.dirty');
+                            let rowsToSave = $(module).find('flx-list[mode="edit"] tbody tr[objectname].form.dirty, flx-list[mode="edit"] tfoot tr.rowInsert.dirty');
                             for (let i = 0; i < rowsToSave.length; i++) {
                                 let row = $(rowsToSave[i]);
-                                wc_1.saveRow(row.attr("objectname"), row.attr("objectwhere"), module.find('flx-list'), $(row).find('button.saveRowButton'), false);
+                                wc_1.saveRow(row.attr("objectname") || row.closest('flx-list')[0].objectname, row.attr("objectwhere"), module.find('flx-list'), $(row).find('button.saveRowButton'), false);
                             }
                         }
                     }

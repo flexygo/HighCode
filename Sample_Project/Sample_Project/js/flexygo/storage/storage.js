@@ -231,6 +231,7 @@ var flexygo;
              * @param {string} value - element value.
              */
             function add(key, value) {
+                value = JSON.stringify(value);
                 sessionStorage.setItem(flexygo.profiles.projectName + '-' + key, value);
             }
             session.add = add;
@@ -281,11 +282,132 @@ var flexygo;
                     return null;
                 }
                 else {
-                    return value;
+                    return JSON.parse(value);
                 }
             }
             session.get = get;
         })(session = storage.session || (storage.session = {}));
+    })(storage = flexygo.storage || (flexygo.storage = {}));
+})(flexygo || (flexygo = {}));
+/**
+* Library to call local storage cache functions.
+*
+* @class flexygo.storage.cache
+* @constructor
+*/
+(function (flexygo) {
+    var storage;
+    (function (storage) {
+        var cache;
+        (function (cache) {
+            class cacheResponse {
+            }
+            cache.cacheResponse = cacheResponse;
+            /**
+             * Method to add an element to Session Storage.
+             * @method add
+             * @param {string} key - Element key.
+             * @param {string} filters - filters value.
+             * @param {string} value - element value.
+             */
+            function add(key, filters, value, minutesToExpire) {
+                let tCurrent = moment();
+                let arr = flexygo.storage.session.get(key);
+                let delArray = new Array();
+                let found = false;
+                if (!arr) {
+                    arr = new Array();
+                }
+                for (let i = 0; i < arr.length; i++) {
+                    if (moment(arr[i].expiredDate).diff(tCurrent, 'seconds') < 2) {
+                        delArray.push(i);
+                    }
+                    else if (flexygo.utils.objectsAreEquivalent(arr[i].filters, filters)) {
+                        arr[i].response = value;
+                        arr[i].expiredDate = moment().add('minutes', minutesToExpire);
+                        found = true;
+                    }
+                }
+                for (let i = delArray.length - 1; i >= 0; i--) {
+                    arr.splice(delArray[i]);
+                }
+                if (!found) {
+                    let itm = new cacheResponse();
+                    itm.filters = filters;
+                    itm.response = value;
+                    itm.expiredDate = moment().add('minutes', minutesToExpire);
+                    arr.push(itm);
+                }
+                flexygo.storage.session.add(key, arr);
+            }
+            cache.add = add;
+            /**
+             * Method to remove an element from Session Storage.
+             * @method remove
+             * @param {string} key - Element key.
+             * @param {string} filters - filters value.
+             */
+            function remove(key, filters) {
+                let tCurrent = moment();
+                let arr = flexygo.storage.session.get(key);
+                let delArray = new Array();
+                if (arr && arr.length > 0) {
+                    for (let i = 0; i < arr.length; i++) {
+                        if (moment(arr[i].expiredDate).diff(tCurrent, 'seconds') < 2) {
+                            delArray.push(i);
+                        }
+                        else if (flexygo.utils.objectsAreEquivalent(arr[i].filters, filters)) {
+                            delArray.push(i);
+                            break;
+                        }
+                    }
+                    for (let i = delArray.length - 1; i >= 0; i--) {
+                        arr.splice(delArray[i]);
+                    }
+                    flexygo.storage.session.add(key, arr);
+                }
+            }
+            cache.remove = remove;
+            /**
+             * Method to clear Session Storage.
+             * @method clear
+            * @param {string} key - Element key.
+             */
+            function clear(key) {
+                flexygo.storage.session.remove(key);
+            }
+            cache.clear = clear;
+            /**
+             * Method to get an element from Session Storage.
+             * @method get
+             * @param {string} key - Element key.
+             * @param {string} filters - filters value.
+             */
+            function get(key, filters) {
+                let tCurrent = moment();
+                let arr = flexygo.storage.session.get(key);
+                let ret = null;
+                let delArray = new Array();
+                if (!arr || arr.length == 0) {
+                    return null;
+                }
+                for (let i = 0; i < arr.length; i++) {
+                    if (moment(arr[i].expiredDate).diff(tCurrent, 'seconds') < 2) {
+                        delArray.push(i);
+                    }
+                    else if (flexygo.utils.objectsAreEquivalent(arr[i].filters, filters)) {
+                        ret = arr[i];
+                        break;
+                    }
+                }
+                for (let i = delArray.length - 1; i >= 0; i--) {
+                    arr.splice(delArray[i]);
+                }
+                flexygo.storage.session.add(key, arr);
+                return ret;
+            }
+            cache.get = get;
+        })(cache = storage.cache || (storage.cache = {}));
     })(storage = flexygo.storage || (flexygo.storage = {}));
 })(flexygo || (flexygo = {}));
 //# sourceMappingURL=storage.js.map

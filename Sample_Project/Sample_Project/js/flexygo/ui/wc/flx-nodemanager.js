@@ -18,7 +18,7 @@ var flexygo;
             }
             wc.HierarchicalNode = HierarchicalNode;
             /**
-            * Library for the FlxNodeManagerElement web component.
+            * Library for the FlxMenuManagerElement web component.
             *
             * @class FlxNodeManagerElement
             * @constructor
@@ -41,25 +41,23 @@ var flexygo;
                     this.scrollY = 0;
                     this.sortableList = null;
                     //Nota: para que el metodo toArray del nestedsortable devuelva valores correctamente, los elementos de la lista deben tener un id con _
-                    this.template = '<li id="fgnsli_{{NodeId}}" strType="{{strType}}">'
-                        + '<div>'
-                        + '<i class="{{IconClass}} icon-margin-right" />'
-                        + '<span>{{Title}}</span>'
-                        + '<div class="btn-group pull-right btn-group-sm" role="group" >'
-                        + '<button class="btn btn-default" data-toggle="collapse" data-action="add" data-target="#Node{{NodeId}}"><i class="flx-icon icon-plus"  /></button>'
-                        + '<button class="btn btn-default" data-action="toggle"><i class="flx-icon icon-order-down-2"  /></button>'
-                        + '<button class="btn btn-default" data-action="edit">'
-                        + '<small><a href= "#" class="processType" data-toggle="collapse" data-target="#Node{{NodeId}}">{{strType}}</a></small>'
-                        + '<i class="flx-icon icon-pencil" flx-fw="" />'
-                        + '</button>'
-                        + '<button class="btn btn-default" data-action="del"><i class="flx-icon icon-delete-2 txt-danger"  /></button>'
-                        + '<button class="btn btn-default" data-action="security"><i class="flx-icon icon-lock-1"  /></button>'
-                        + '</div>'
-                        + '</div>'
-                        + '<div class="row collapse editnode" id="Node{{NodeId}}" NodeId="{{NodeId}}">'
-                        + '<div class="editnode"></div>'
-                        + '</div>{{getChildNodes(json)}}'
-                        + '</li>';
+                    this.template = `<li id="fgnsli_{{NodeId}}" strType="{{strType}}">
+            <div>
+                <div>
+                    <i class="flx-icon {{IconClass|isnull:icon-menu,{{IconClass}}}}"/>
+                    <span>{{Title}} <small>({{strType}})</small></span>
+                </div>
+                <div class="btn-panel">
+                        <i class="flx-icon icon-plus" data-action="add"/>
+                        <i class="flx-icon icon-order-down-2" data-action="toggle"/>
+                        <i class="flx-icon icon-pencil" data-action="edit"/>
+                    <i class="flx-icon icon-delete-2" data-action="del"/>
+                    <i class="flx-icon icon-lock-1" data-action="security"/>
+                </div>
+            </div>
+            <div class="row collapse editnode" id="Node{{NodeId}}" NodeId="{{NodeId}}"/>
+            {{getChildNodes(json)}}
+        </li>`;
                 }
                 /**
                * Fires when element is attached to DOM
@@ -76,6 +74,10 @@ var flexygo;
                     }
                     this.init();
                 }
+                /**
+                * Init menu manager
+                * @method init
+                */
                 init() {
                     this.loadNodes();
                 }
@@ -94,7 +96,7 @@ var flexygo;
                     $(this).empty();
                     flexygo.ajax.post('~/api/Navigation', this.method, this.methodParams, (response) => {
                         let arrOrdered = this.sortNodes(flexygo.utils.lowerKeys(response, true), "order");
-                        $(this).html('<div class="nodePnl"></div>');
+                        $(this).html('<div class="managerpanel"></div>');
                         this.loadNodesRet(arrOrdered);
                     });
                 }
@@ -141,13 +143,13 @@ var flexygo;
                             strtype: '',
                         };
                     }
-                    let cnt = flexygo.utils.parser.compile(rootnode, this.template, this);
+                    let cnt = flexygo.utils.parser.recursiveCompile(rootnode, this.template, this);
                     let elem = $('<ul class="sortable" />').html(cnt).first();
-                    me.find('.nodePnl').append(elem);
-                    let btnroot = me.find("#fgnsli_" + this.rootNodeId).find('.btn-group').first();
+                    me.find('.managerpanel').append(elem);
+                    let btnroot = me.find("#fgnsli_" + this.rootNodeId).find('.btn-panel').first();
                     btnroot.find('[data-action="del"]').first().hide();
                     btnroot.find('[data-action="edit"]').first().hide();
-                    btnroot.find('[data-action="toggle"]').first().find("i").first().removeClass('icon-order-down-2').addClass('icon-order-up-2');
+                    btnroot.find('[data-action="toggle"]').first().removeClass('icon-order-down-2').addClass('icon-order-up-2');
                     this.sortableList = me.find('.sortable');
                     this.sortableList.nestedSortable({
                         forcePlaceholderSize: true,
@@ -180,24 +182,37 @@ var flexygo;
                             }
                         }
                     }).disableSelection();
-                    me.find('.processType').on('click', (e) => {
+                    me.find('[data-action="edit"]').on('click', (e) => {
+                        if ($(e.currentTarget).hasClass('active')) {
+                            $(e.currentTarget).removeClass('active');
+                        }
+                        else {
+                            $(e.currentTarget).addClass('active');
+                            me.find('[data-action="add"]').removeClass('active');
+                        }
                         this.showEdit($(e.target).closest('li').children('.editnode'), false);
                     });
                     me.find('[data-action="add"]').on('click', (e) => {
-                        let parent = $(e.target).closest('li').children('.editnode');
-                        this.showEdit(parent, true);
+                        if ($(e.currentTarget).hasClass('active')) {
+                            $(e.currentTarget).removeClass('active');
+                        }
+                        else {
+                            $(e.currentTarget).addClass('active');
+                            me.find('[data-action="edit"]').removeClass('active');
+                        }
+                        this.showEdit($(e.target).closest('li').children('.editnode'), true);
                     });
                     me.find('[data-action="toggle"]').on('click', (e) => {
-                        let icon = $(e.currentTarget).find('i').first();
+                        let icon = $(e.currentTarget);
                         let opened = icon.hasClass('icon-order-up-2');
                         let content = $(e.currentTarget).closest('li').children('ul').first();
                         if (opened) {
                             content.hide();
-                            icon.removeClass('icon-order-up-2').addClass('icon-order-down-2');
+                            icon.removeClass('icon-order-up-2 active').addClass('icon-order-down-2');
                         }
                         else {
                             content.show();
-                            icon.removeClass('icon-order-down-2').addClass('icon-order-up-2');
+                            icon.removeClass('icon-order-down-2').addClass('icon-order-up-2 active');
                         }
                         this.saveNodesState();
                     });
@@ -216,13 +231,16 @@ var flexygo;
                     });
                     me.find('[data-action="security"]').on('click', (e) => {
                         let node = $(e.currentTarget).closest('li').children('.editnode')[0].id.replace("Node", "");
-                        flexygo.nav.openPage('view', 'sysNavigationNode', 'NodeId=\'' + node + '\'', null, 'popup800x600', true, $(e.currentTarget), false);
+                        flexygo.nav.openPage('view', 'sysNavigationNode', 'NodeId=\'' + node + '\'', null, 'modal800x600', true, $(e.currentTarget), false);
                     });
                 }
                 showEdit(placeHolder, isNewNode) {
-                    if (placeHolder.hasClass('in')) {
+                    if (placeHolder.hasClass('in') && placeHolder.attr('isnewnode') === isNewNode.toString()) {
+                        placeHolder.collapse('hide');
+                        placeHolder.closest('li').find('> div:first-child').removeClass('active');
                         this.sortableList.sortable("enable");
                         placeHolder.empty();
+                        placeHolder.removeAttr('isnewnode');
                         //Clear edit module areyousure event handler
                         let btnClose = placeHolder.closest('.ui-dialog').find('.ui-dialog-titlebar-close');
                         if (btnClose.length > 0) {
@@ -232,10 +250,22 @@ var flexygo;
                         return;
                     }
                     else {
+                        placeHolder.closest('li').find('> div:first-child').addClass('active');
+                        placeHolder.collapse('hide');
+                        flexygo.events.off(placeHolder, 'module', 'loaded');
+                        flexygo.events.on(placeHolder, 'module', 'loaded', (e) => {
+                            if (e.context = placeHolder) {
+                                setTimeout(() => {
+                                    placeHolder.collapse('show');
+                                }, 100); /*0*/
+                                flexygo.events.off(placeHolder, 'module', 'loaded');
+                            }
+                        });
                         this.sortableList.sortable("disable");
                         let editModuleName = 'sysmod-edit-generic';
                         let containerTemplate = '<div class="cntBody nopadding size-xs"></div><div class="cntBodyFooter"></div>';
                         let container = $('<flx-module class="nodeEdit"/>').html(containerTemplate).attr('modulename', editModuleName).attr('type', 'flx-edit').addClass('empty');
+                        placeHolder.attr('isnewnode', isNewNode.toString());
                         placeHolder.empty();
                         placeHolder.append(container);
                         let module = null;
@@ -313,7 +343,7 @@ var flexygo;
                     let ret = json.childnodes;
                     if (Object.keys(ret).length > 0) {
                         for (let nKey in ret) {
-                            cnt += flexygo.utils.parser.compile(ret[nKey], this.template, this);
+                            cnt += flexygo.utils.parser.recursiveCompile(ret[nKey], this.template, this);
                         }
                     }
                     let style = "";
@@ -335,7 +365,7 @@ var flexygo;
                     });
                 }
                 saveOpenNode(btn) {
-                    let icon = btn.find('i').first();
+                    let icon = btn;
                     let opened = icon.hasClass('icon-order-up-2');
                     if (opened) {
                         let parent = btn.closest("li");

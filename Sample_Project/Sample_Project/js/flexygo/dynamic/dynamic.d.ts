@@ -30,6 +30,7 @@ declare namespace flexygo.profiles {
     var culture: string;
     var langKey: string;
     var projectName: string;
+    var defaultDropDownRows: number;
 }
 declare namespace flexygo {
     var context: any;

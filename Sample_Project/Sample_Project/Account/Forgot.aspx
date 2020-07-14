@@ -33,7 +33,7 @@
                 <div id="logo" class="logo"></div>
                 <asp:PlaceHolder id="loginForm" runat="server">
                   
-                    <div class="cell"><i class="flx-icon icon-user"></i>
+                    <div class="cell"><i class="flx-icon icon-email-2"></i>
                         <asp:TextBox ID="Email" autocomplete="off" placeHolder="Email" runat="server"></asp:TextBox><asp:RequiredFieldValidator ID="EmailRequired" runat="server" ControlToValidate="Email" Text="*"></asp:RequiredFieldValidator>
                     </div>
                  

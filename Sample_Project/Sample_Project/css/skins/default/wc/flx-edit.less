@@ -15,492 +15,529 @@ flx-edit .item, .flx-edit .item {
     }
 }
 
-    flx-edit .input-group {
-        padding-right: 15px;
+flx-edit .input-group {
+    padding-right: 15px;
+}
+
+
+flx-edit .item > label {
+    display: inline-block;
+    font-size: .8em;
+    font-weight: normal;
+}
+
+.size-xs flx-edit .item > label {
+    font-size: .9em;
+}
+
+flx-edit .item [data-tag=control] .btn {
+    font-size: 14px;
+}
+
+
+// Inputs WC Less Styles
+
+// HTML Editor*
+flx-htmledit .note-editor {
+    height: 90%;
+    overflow: hidden;
+}
+
+flx-htmledit .note-editor .note-editable {
+    height: 90%;
+}
+
+flx-htmledit .note-editor .note-editable.panel-body {
+}
+
+flx-htmledit .note-editor .note-statusbar {
+    display: none;
+}
+
+.grid-stack-item-content .item div[data-tag=control] {
+    height: inherit
+}
+
+flx-htmledit .note-editor.note-frame .note-editing-area {
+    overflow: auto;
+    height: 100%;
+}
+//Text area
+flx-textarea .btn {
+    padding: 0 12px;
+    height: 100%
+}
+
+flx-textarea > div {
+    height: 100%
+}
+
+flx-textarea textarea.form-control {
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 100%;
+}
+
+flx-textarea > div > label {
+    word-break: keep-all;
+    white-space: pre-wrap;
+    min-height: 30px;
+    height: unset !important;
+    max-height: 500px;
+    overflow-x: auto;
+}
+
+flx-textarea {
+    .fullScreenText {
+        position: fixed;
+        z-index: 11;
+        top: 0;
+        left: 0;
+        width: 100% !important;
+        height: 100% !important;
+        resize: none;
+    }
+}
+
+
+//Checbox classes
+flx-check > div {
+    display: inline-block;
+    margin-right: 1em;
+    margin-left: .4em;
+}
+
+flx-check input[type=checkbox] {
+    position: absolute;
+    z-index: -1000;
+    left: -1000px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+}
+
+flx-check input[type=checkbox] + label {
+    height: 1.2em;
+    font-size: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 1px;
+}
+
+flx-check input[type=checkbox]:focus + label {
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+}
+
+
+flx-check input[type=checkbox]:checked + label:before {
+    content: "\f1f0";
+    font-family: 'Flexygo-icons' !important;
+}
+
+input[type=checkbox]:indeterminate + label:before {
+    content: "\ead5";
+    font-family: 'Flexygo-icons' !important;
+}
+
+flx-check label {
+    border: solid 1px dbColor(borderModuleColor);
+    border-radius: 4px;
+    width: 1.2em;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-weight: normal;
+}
+
+flx-check input[type=checkbox][disabled] + label {
+    cursor: no-drop;
+    background-color: #eee;
+}
+
+flx-range .form-control {
+    width: 50%;
+    display: inline
+}
+
+//Radio Classes
+
+
+flx-radio div {
+    padding-top: 6px;
+    height: 100%;
+    overflow: auto;
+}
+
+flx-radio div label {
+    display: block;
+    font-weight: normal;
+}
+
+flx-radio div.inline label {
+    display: inline;
+    margin-right: 1em;
+}
+
+
+//TAGS
+flx-tag div.bootstrap-tagsinput, flx-multicombo div.bootstrap-tagsinput {
+    border-radius: 0;
+    width: 100%
+}
+
+flx-tag div.bootstrap-tagsinput:first-child, flx-multicombo div.bootstrap-tagsinput:first-child {
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+flx-tag div.bootstrap-tagsinput:nth-last-child(2), flx-multicombo div.bootstrap-tagsinput:nth-last-child(2) {
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+flx-filter flx-tag div.bootstrap-tagsinput:nth-last-child(2), flx-filter flx-multicombo div.bootstrap-tagsinput:nth-last-child(2) {
+    height: fit-content;
+    overflow: auto
+}
+
+flx-filter flx-tag div.bootstrap-tagsinput:nth-last-child(2):hover, flx-filter flx-multicombo div.bootstrap-tagsinput:nth-last-child(2):hover {
+    height: auto;
+    overflow: visible;
+}
+
+
+
+
+//DISABLED CONTROLS
+flx-tag[Disabled] > div > div, flx-code[Disabled] > div {
+    background-color: #eee;
+    opacity: 1;
+}
+
+
+
+flx-dbcombo > i, flx-multicombo > i {
+    position: relative;
+    top: -18px;
+    float: right;
+    right: 5px;
+    font-size: .6em;
+}
+
+
+
+flx-dbcombo > ul, flx-multicombo > ul {
+    border-radius: 4px;
+    color: dbColor(txtMenuColor);
+    position: absolute;
+    top: auto;
+    min-height: 22px;
+
+    @media (max-width: dbSize(medium)) {
+        z-index: 999999;
     }
 
+    z-index: 7;
+    list-style-type: none;
+    font-family: 'latoregular';
+    border: 1px solid #e0e0e0;
+    border-left: 4px solid dbColor(OutstandingColor);
+    font-size: 1em;
+    background-color: dbColor(MenuColor);
+    padding: 0!important;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
 
-    flx-edit .item > label {
-        display: inline-block;
-        font-size: .8em;
-        font-weight: normal;
+flx-dbcombo > ul.mobile, flx-multicombo > ul.mobile {
+    padding-top: 30px !important;
+}
+
+flx-dbcombo > ul li, flx-multicombo > ul li {
+    padding: 5px !important;
+    padding-top: 1px !important;
+    padding-bottom: 1px !important;
+}
+
+flx-dbcombo > ul.mobile li, flx-multicombo > ul.mobile li {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+}
+
+flx-dbcombo > ul li:hover, flx-multicombo > ul li:hover {
+    color: dbColor(NavColor);
+    background-color: dbColor(txtNavColor);
+}
+
+flx-dbcombo > ul li.selected {
+    background-color: dbColor(OutstandingColor);
+}
+
+flx-dbcombo > ul li.selected .txt-outstanding {
+    color: dbColor(txtOutstandingColor);
+}
+
+flx-dbcombo div.item-float ~ ul li, flx-multicombo div.item-float ~ ul li {
+    float: left;
+}
+
+flx-dbcombo button.flx-caret, flx-multicombo button.flx-caret {
+    border-left: 0;
+}
+
+flx-dbcombo div.mobilebackground, flx-multicombo div.mobilebackground {
+    position: fixed;
+    background-color: white;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    @media (max-width: dbSize(medium)) {
+        z-index: 999998;
     }
+    z-index: 6;
+    opacity: .7;
+}
 
-    .size-xs flx-edit .item > label {
-        font-size: .9em;
-    }
+flx-dbcombo ul div.mobileinputdiv, flx-multicombo ul div.mobileinputdiv {
+    padding-right: unset;
+    position: fixed;
+    width: 95.5%;
+    top: 4px;
+}
 
-    flx-edit .item [data-tag=control] .btn {
-        font-size: 14px;
-    }
+flx-dbcombo > ul, flx-multicombo > ul {
+    > div.load-more {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50px;
+        margin-bottom: -50px;
+        flex-direction: column;
+        position: sticky;
+        bottom: 0;
+        background: white;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+        clear: both;
 
+        i {
+            animation: scroll ease 2s infinite;
+        }
 
-    // Inputs WC Less Styles
-
-    // HTML Editor*
-    flx-htmledit .note-editor {
-        height: 90%;
-        overflow: hidden;
-    }
-
-    flx-htmledit .note-editor .note-editable {
-        height: 90%;
-    }
-
-    flx-htmledit .note-editor .note-editable.panel-body {
-    }
-
-    flx-htmledit .note-editor .note-statusbar {
-        display: none;
-    }
-
-    .grid-stack-item-content .item div[data-tag=control] {
-        height: inherit
-    }
-
-    flx-htmledit .note-editor.note-frame .note-editing-area {
-        overflow: auto;
-        height: 100%;
-    }
-    //Text area
-    flx-textarea .btn {
-        padding: 0 12px;
-        height: 100%
-    }
-
-    flx-textarea > div {
-        height: 100%
-    }
-
-    flx-textarea textarea.form-control {
-        padding-top: 0;
-        padding-bottom: 0;
-        height: 100%;
-
-      
-    }
-
-    flx-textarea > div > label {
-        word-break: keep-all;
-        white-space: pre-wrap;
-        min-height: 30px;
-        height: unset !important;
-        max-height: 500px;
-        overflow-x: auto;
-
-       
-    }
-
-    flx-textarea {
-        .fullScreenText {
-            position: fixed;
-            z-index: 11;
-            top: 0;
-            left: 0;
-            width: 100% !important;
-            height: 100% !important;
-            resize: none;
+        @media (max-width: dbSize(medium)) {
+            margin-bottom: -100px;
         }
     }
 
+    @keyframes scroll {
+        0% {
+            transform: translateY(0);
+        }
 
-    //Checbox classes
-    flx-check > div {
-        display: inline-block;
-        margin-right: 1em;
-        margin-left: .4em;
+        30% {
+            transform: translateY(5px);
+        }
     }
-
-    flx-check input[type=checkbox] {
-        position: absolute;
-        z-index: -1000;
-        left: -1000px;
-        overflow: hidden;
-        clip: rect(0 0 0 0);
-        height: 1px;
-        width: 1px;
-        margin: -1px;
-        padding: 0;
-        border: 0;
-    }
-
-    flx-check input[type=checkbox] + label {
-        height: 1.2em;
-        font-size: inherit;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        padding: 1px;
-    }
-
-    flx-check input[type=checkbox]:focus + label {
-        outline: 5px auto -webkit-focus-ring-color;
-        outline-offset: -2px;
-    }
-
-
-    flx-check input[type=checkbox]:checked + label:before {
-        content: "\eae4";
-        font-family: 'Flexygo-icons' !important;
-    }
-
-    input[type=checkbox]:indeterminate + label:before {
-        content: "\e90c";
-        font-family: 'Flexygo-icons' !important;
-    }
-
-    flx-check label {
-        border: solid 1px dbColor(borderModuleColor);
-        border-radius: 4px;
-        width: 1.2em;
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        font-weight: normal;
-    }
-
-    flx-check input[type=checkbox][disabled] + label {
-        cursor: no-drop;
-        background-color: #eee;
-    }
-
-    flx-range .form-control {
-        width: 50%;
-        display: inline
-    }
-
-    //Radio Classes
-
-
-    flx-radio div {
-        padding-top: 6px;
-        height:100%;
-        overflow:auto;
-    }
-
-    flx-radio div label {
-        display: block;
-        font-weight: normal;
-    }
-
-    flx-radio div.inline label {
-        display: inline;
-        margin-right: 1em;
-    }
-
-
-    //TAGS
-    flx-tag div.bootstrap-tagsinput, flx-multicombo div.bootstrap-tagsinput {
-        border-radius: 0;
-        width: 100%
-    }
-
-    flx-tag div.bootstrap-tagsinput:first-child, flx-multicombo div.bootstrap-tagsinput:first-child {
-        border-top-left-radius: 3px;
-        border-bottom-left-radius: 3px;
-    }
-
-    flx-tag div.bootstrap-tagsinput:nth-last-child(2), flx-multicombo div.bootstrap-tagsinput:nth-last-child(2) {
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-    }
-
-    flx-filter flx-tag div.bootstrap-tagsinput:nth-last-child(2), flx-filter flx-multicombo div.bootstrap-tagsinput:nth-last-child(2) {
-        height: fit-content;
-        overflow: auto
-    }
-
-    flx-filter flx-tag div.bootstrap-tagsinput:nth-last-child(2):hover, flx-filter flx-multicombo div.bootstrap-tagsinput:nth-last-child(2):hover {
-        height: auto;
-        overflow: visible;
-    }
-
-
-
-
-    //DISABLED CONTROLS
-    flx-tag[Disabled] > div > div, flx-code[Disabled] > div {
-        background-color: #eee;
-        opacity: 1;
-    }
-
-
-
-    flx-dbcombo > i, flx-multicombo > i {
-        position: relative;
-        top: -18px;
-        float: right;
-        right: 5px;
-        font-size: .6em;
-    }
-
-
-
-    flx-dbcombo > ul, flx-multicombo > ul {
-        border-radius: 4px;
-        color: dbColor(txtMenuColor);
-        position: absolute;
-        top: auto;
-        min-height: 22px;
-        z-index: 7;
-        list-style-type: none;
-        font-family: 'latoregular';
-        border: 1px solid #e0e0e0;
-        border-left: 4px solid dbColor(OutstandingColor);
-        font-size: 1em;
-        background-color: dbColor(MenuColor);
-        padding-left: 0;
-        overflow-y: auto;
-        overflow-x: hidden;
-    }
-
-    flx-dbcombo > ul li, flx-multicombo > ul li {
-        padding: 5px !important;
-        padding-top: 1px !important;
-        padding-bottom: 1px !important;
-    }
-
-    flx-dbcombo > ul.mobile li, flx-multicombo > ul.mobile li {
-        padding-top: 10px !important;
-        padding-bottom: 10px !important;
-    }
-
-    flx-dbcombo > ul li:hover, flx-multicombo > ul li:hover {
-        color: dbColor(NavColor);
-        background-color: dbColor(txtNavColor);
-    }
-
-    flx-dbcombo > ul li.selected {
-        background-color: dbColor(OutstandingColor);
-    }
-
-    flx-dbcombo > ul li.selected .txt-outstanding {
-        color: dbColor(txtOutstandingColor);
-    }
-
-    flx-dbcombo div.item-float ~ ul li, flx-multicombo div.item-float ~ ul li {
-        float: left;
-    }
-
-    flx-dbcombo button.flx-caret, flx-multicombo button.flx-caret {
-        border-left: 0;
-    }
-
-    flx-dbcombo div.mobilebackground, flx-multicombo div.mobilebackground {
-        position: fixed;
-        background-color: white;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 6;
-        opacity: .7;
-    }
-
-    flx-dbcombo ul div.mobileinputdiv, flx-multicombo ul div.mobileinputdiv {
-        padding-right: unset;
-        position: fixed;
-        width: 95.5%;
-        top: 4px;
-    }
-
-    //CODE EDITOR
-    flx-edit .CodeMirror {
-        border-radius: 3px;
-        border-color: dbColor(borderModuleColor);
-        border-left: 1px solid dbColor(borderModuleColor);
-    }
-
-    flx-edit .CodeMirror .CodeMirror-gutters {
-        border-left-width: 0;
-    }
-
-    //DEVELOPE MODE
-
-
-
-    flx-edit .grid-stack-item .grid-stack-item-content {
-        height: 100%
-    }
-
-
-
-    .property-toolbar {
-        display: none;
-        float: right;
-        width: auto;
-    }
-
-
-    .develop flx-edit .grid-stack .grid-stack-placeholder > .placeholder-content {
-        background-color: #ffffde;
-    }
-
-    :not(.develop) flx-edit .grid-stack > .grid-stack-item > .grid-stack-item-content {
-        position: static;
-    }
-
-
-    //SWITcHES
-    flx-switch > div {
-        clear: both;
-        //   width:60px;
-        margin: 9px 12px 18px 5px;
-    }
-
-    flx-switch > div.inline {
-        display: inline-block;
-    }
-
-    flx-switch > div.switch-danger .onoffswitch-inner:before {
-        background-color: dbColor(DangerColor);
-    }
-
-    //Swtich without text
-    flx-switch .onoffswitch {
-        position: relative;
-        width: 3.2em;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-    }
-
-    flx-switch .onoffswitch-checkbox {
-        display: none;
-    }
-
-    flx-switch .onoffswitch-label {
-        display: block;
-        overflow: hidden;
-        cursor: pointer;
-        border: 1px solid #999999;
-        border-radius: 50px;
-    }
-
-    flx-switch[disabled] .onoffswitch-label, flx-switch[mode="view"] .onoffswitch-label {
-        cursor: not-allowed;
-    }
-
-    flx-switch .onoffswitch-inner {
-        display: block;
-        width: 200%;
-        margin-left: -100%;
-        transition: margin .3s ease-in 0s;
-    }
-
-    flx-switch .onoffswitch-inner:before, .onoffswitch-inner:after {
-        display: block;
-        float: left;
-        width: 50%;
-        height: .7em;
-        padding: 0;
-        line-height: .7em;
-        font-size: inherit;
-        color: white;
-        font-family: Trebuchet, Arial, sans-serif;
-        font-weight: bold;
-        box-sizing: border-box;
-    }
-
-    flx-switch .onoffswitch-inner:before {
-        content: "";
-        padding-left: 10px;
-        background-color: dbColor(OutstandingColor);
-        color: dbColor(txtOutstandingColor);
-    }
-
-    flx-switch .onoffswitch-inner:after {
-        content: "";
-        padding-right: 10px;
-        background-color: #EEEEEE;
-        color: #999999;
-        text-align: right;
-    }
-
-    flx-switch .onoffswitch-switch {
-        display: block;
-        width: 1.5em;
-        margin: -5px;
-        background: #FFFFFF;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        border: 1px solid #999999;
-        border-radius: 50px;
-        transition: all .3s ease-in 0s;
-    }
-
-    .size-xs flx-switch .onoffswitch-switch, flx-switch.size-xs .onoffswitch-switch {
-        width: 1em;
-    }
-
-    .size-s flx-switch .onoffswitch-switch, flx-switch.size-s .onoffswitch-switch {
-        width: 1.5em
-    }
-
-
-    .size-m flx-switch .onoffswitch-switch, flx-switch.size-m .onoffswitch-switch {
-        width: 1.6em;
-    }
-
-    .size-l flx-switch .onoffswitch-switch, flx-switch.size-l .onoffswitch-switch {
-        width: 1.0em
-    }
-
-
-    flx-switch .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
-        margin-left: 0;
-    }
-
-    flx-switch .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
-        right: 0;
-    }
-    //Swtich with text
-    flx-switch .switch-text.onoffswitch {
-        width: 55px;
-    }
-
-    flx-switch .switch-text .onoffswitch-inner:before, .switch-text .onoffswitch-inner:after {
-        height: inherit;
-        line-height: inherit;
-        font-size: .6em;
-    }
-
-    flx-switch .switch-text .onoffswitch-inner:before {
-        content: "ON";
-        padding-left: 7px;
-    }
-
-    flx-switch .switch-text .onoffswitch-inner:after {
-        content: "OFF";
-        padding-right: 3px;
-    }
-
-    flx-switch .switch-text .onoffswitch-switch {
-        display: block;
-        //width: 20px;
-        margin: -5px;
-        //right: 40px;
-    }
-
-    flx-separator legend {
-        margin-bottom: 0 !important;
-        margin-top: 0 !important;
-    }
-
-    flx-separator legend.placeHolder {
-        color: silver;
-        border: 0 none;
-    }
-
-    flx-separator .spanPlaceHolder {
-        display: none;
-    }
-    // END SWITCH
-    // COMBO*
-flx-dbcombo[disabled] > div > div .flx-caret, flx-multicombo[disabled] > div > div  {
+}
+//CODE EDITOR
+flx-edit .CodeMirror {
+    border-radius: 3px;
+    border-color: dbColor(borderModuleColor);
+    border-left: 1px solid dbColor(borderModuleColor);
+}
+
+flx-edit .CodeMirror .CodeMirror-gutters {
+    border-left-width: 0;
+}
+//DEVELOPE MODE
+flx-edit .grid-stack-item .grid-stack-item-content {
+    height: 100%
+}
+
+
+
+.property-toolbar {
+    display: none;
+    float: right;
+    width: auto;
+}
+
+
+.develop flx-edit .grid-stack .grid-stack-placeholder > .placeholder-content {
+    background-color: #ffffde;
+}
+
+:not(.develop) flx-edit .grid-stack > .grid-stack-item > .grid-stack-item-content {
+    position: static;
+}
+//SWITcHES
+flx-switch > div {
+    clear: both;
+    //   width:60px;
+    margin: 9px 12px 18px 5px;
+}
+
+flx-switch > div.inline {
+    display: inline-block;
+}
+
+flx-switch > div.switch-danger .onoffswitch-inner:before {
+    background-color: dbColor(DangerColor);
+}
+//Swtich without text
+flx-switch .onoffswitch {
+    position: relative;
+    width: 3.2em;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+flx-switch .onoffswitch-checkbox {
+    display: none;
+}
+
+flx-switch .onoffswitch-label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid #999999;
+    border-radius: 50px;
+}
+
+flx-switch[disabled] .onoffswitch-label, flx-switch[mode="view"] .onoffswitch-label {
+    cursor: not-allowed;
+}
+
+flx-switch .onoffswitch-inner {
+    display: block;
+    width: 200%;
+    margin-left: -100%;
+    transition: margin .3s ease-in 0s;
+}
+
+flx-switch .onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block;
+    float: left;
+    width: 50%;
+    height: .7em;
+    padding: 0;
+    line-height: .7em;
+    font-size: inherit;
+    color: white;
+    font-family: Trebuchet, Arial, sans-serif;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+
+flx-switch .onoffswitch-inner:before {
+    content: "";
+    padding-left: 10px;
+    background-color: dbColor(OutstandingColor);
+    color: dbColor(txtOutstandingColor);
+}
+
+flx-switch .onoffswitch-inner:after {
+    content: "";
+    padding-right: 10px;
+    background-color: #EEEEEE;
+    color: #999999;
+    text-align: right;
+}
+
+flx-switch .onoffswitch-switch {
+    display: block;
+    width: 1.5em;
+    margin: -5px;
+    background: #FFFFFF;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    border: 1px solid #999999;
+    border-radius: 50px;
+    transition: all .3s ease-in 0s;
+}
+
+.size-xs flx-switch .onoffswitch-switch, flx-switch.size-xs .onoffswitch-switch {
+    width: 1em;
+}
+
+.size-s flx-switch .onoffswitch-switch, flx-switch.size-s .onoffswitch-switch {
+    width: 1.5em
+}
+
+
+.size-m flx-switch .onoffswitch-switch, flx-switch.size-m .onoffswitch-switch {
+    width: 1.6em;
+}
+
+.size-l flx-switch .onoffswitch-switch, flx-switch.size-l .onoffswitch-switch {
+    width: 1.0em
+}
+
+
+flx-switch .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+
+flx-switch .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0;
+}
+//Swtich with text
+flx-switch .switch-text.onoffswitch {
+    width: 55px;
+}
+
+flx-switch .switch-text .onoffswitch-inner:before, .switch-text .onoffswitch-inner:after {
+    height: inherit;
+    line-height: inherit;
+    font-size: .6em;
+}
+
+flx-switch .switch-text .onoffswitch-inner:before {
+    content: "ON";
+    padding-left: 7px;
+}
+
+flx-switch .switch-text .onoffswitch-inner:after {
+    content: "OFF";
+    padding-right: 3px;
+}
+
+flx-switch .switch-text .onoffswitch-switch {
+    display: block;
+    //width: 20px;
+    margin: -5px;
+    //right: 40px;
+}
+
+flx-separator legend {
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+    display: flex;
+    align-items: center;
+}
+
+flx-separator legend.placeHolder {
+    color: silver;
+    border: 0 none;
+}
+
+flx-separator .spanPlaceHolder {
+    display: none;
+}
+// END SWITCH
+// COMBO*
+flx-dbcombo[disabled] > div > div .flx-caret, flx-multicombo[disabled] > div > div {
     background-color: #eee;
     cursor: not-allowed
 }
@@ -514,164 +551,163 @@ flx-dbcombo[disabled] > div > div .flx-caret:hover {
     cursor: not-allowed;
     border-color: #ccc
 }
-    // END Combo
-    //Image
-    flx-image .cpr-view-container {
-        width: 100%;
-        height: ~"calc(100% - 15px)";
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
+// END Combo
+//Image
+flx-image .cpr-view-container {
+    width: 100%;
+    height: ~"calc(100% - 15px)";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
 
-    flx-image .cpr-subcontainer, .flx-cpr-image .cpr-subcontainer {
-        width: 100%;
-        height: 90%;
-    }
+flx-image .cpr-subcontainer, .flx-cpr-image .cpr-subcontainer {
+    width: 100%;
+    height: 90%;
+}
 
-    flx-image .cpr-heading, .flx-cpr-image .cpr-heading {
-        text-align: center;
-    }
+flx-image .cpr-heading, .flx-cpr-image .cpr-heading {
+    text-align: center;
+}
 
-    flx-image .cpr-btn, .flx-cpr-image .cpr-btn {
-        width: 46px;
-        margin: 2.5px 0 2.5px 0;
-    }
+flx-image .cpr-btn, .flx-cpr-image .cpr-btn {
+    width: 46px;
+    margin: 2.5px 0 2.5px 0;
+}
 
-    flx-image .cpr-panel, .flx-cpr-image .cpr-panel {
-        padding-left: 0;
-        padding-right: 0;
-    }
+flx-image .cpr-panel, .flx-cpr-image .cpr-panel {
+    padding-left: 0;
+    padding-right: 0;
+}
 
-    flx-image .cpr-cropper, .flx-cpr-image .cpr-cropper {
-        height: 600px;
-        display: flex;
-        align-items: center;
-    }
+flx-image .cpr-cropper, .flx-cpr-image .cpr-cropper {
+    height: 600px;
+    display: flex;
+    align-items: center;
+}
 
-    flx-image .cpr-btn-group, .flx-cpr-image .cpr-btn-group {
-        padding-left: 5px;
-        padding-right: 5px;
-    }
+flx-image .cpr-btn-group, .flx-cpr-image .cpr-btn-group {
+    padding-left: 5px;
+    padding-right: 5px;
+}
 
-    flx-image .cpr-btn-save, .flx-cpr-image .cpr-btn-save {
-        margin: 0 auto;
-        width: 49%;
-        float: left;
-    }
+flx-image .cpr-btn-save, .flx-cpr-image .cpr-btn-save {
+    margin: 0 auto;
+    width: 49%;
+    float: left;
+}
 
-    flx-image .cpr-btn-remove, .flx-cpr-image .cpr-btn-remove {
-        margin: 0 auto;
-        width: 49%;
-        float: right;
-    }
+flx-image .cpr-btn-remove, .flx-cpr-image .cpr-btn-remove {
+    margin: 0 auto;
+    width: 49%;
+    float: right;
+}
 
-    flx-image .cpr-btn-browse, .flx-cpr-image .cpr-btn-browse {
-        margin: 8px auto;
-        width: 100%;
-    }
+flx-image .cpr-btn-browse, .flx-cpr-image .cpr-btn-browse {
+    margin: 8px auto;
+    width: 100%;
+}
 
-    flx-image .cpr-span, .flx-cpr-image .cpr-span {
-        position: absolute;
-        width: 97%;
-        text-align: center;
-        font-size: 36px;
-        opacity: .4;
-    }
+flx-image .cpr-span, .flx-cpr-image .cpr-span {
+    position: absolute;
+    width: 97%;
+    text-align: center;
+    font-size: 36px;
+    opacity: .4;
+}
 
-    flx-image .cpr-dragging, .flx-cpr-image .cpr-dragging {
-        filter: blur(3px) grayscale(67%);
-    }
+flx-image .cpr-dragging, .flx-cpr-image .cpr-dragging {
+    filter: blur(3px) grayscale(67%);
+}
 
-    .flx-cpr-image .img-responsive {
-        margin: 0 auto;
-    }
+.flx-cpr-image .img-responsive {
+    margin: 0 auto;
+}
 
-    flx-image .ctl-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: inherit;
-        height: inherit;
-        cursor: pointer;
-        background-color: white;
-        box-shadow: 0 1px 3px rgba(0, 0,0, .12), 0 1px 2px rgba(0, 0, 0, .24);
-        -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0,0, .24);
-        -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
-        overflow: hidden;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
+flx-image .ctl-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: inherit;
+    height: inherit;
+    cursor: pointer;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0, 0,0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0,0, .24);
+    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+    overflow: hidden;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
 
-    flx-image .ctl-image {
-        max-height: 100%;
-    }
+flx-image .ctl-image {
+    max-height: 100%;
+}
 
-    flx-image .ctl-container-locked {
-        cursor: not-allowed !important;
-        background-color: #eee !important;
-    }
+flx-image .ctl-container-locked {
+    cursor: not-allowed !important;
+    background-color: #eee !important;
+}
 
-    flx-image .ctl-image-locked {
-        filter: grayscale(100%);
-    }
+flx-image .ctl-image-locked {
+    filter: grayscale(100%);
+}
 
-    flx-image .ctl-icon {
-        position: absolute;
-        font-size: 35px;
-        z-index: 1;
-        opacity: 0;
-        visibility: hidden;
-        transform: scale(1.5);
-    }
+flx-image .ctl-icon {
+    position: absolute;
+    font-size: 35px;
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.5);
+}
 
-    flx-image div.ctl-hover:hover {
-        box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
-        -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
-        -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
-    }
+flx-image div.ctl-hover:hover {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+    -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+    -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+}
 
-    flx-image div.ctl-hover:hover .ctl-image {
-        opacity: .7;
-        transform: scale(1.1);
-        filter: grayscale(75%);
-    }
+flx-image div.ctl-hover:hover .ctl-image {
+    opacity: .7;
+    transform: scale(1.1);
+    filter: grayscale(75%);
+}
 
-    flx-image div.ctl-hover:hover .ctl-icon {
-        opacity: 1;
-        visibility: visible;
-        transform: scale(1);
-    }
+flx-image div.ctl-hover:hover .ctl-icon {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
 
-    flx-image .ctl-cpr-transition, .flx-cpr-image .ctl-cpr-transition {
-        transition: .3s cubic-bezier(.25, .8, .25, 1);
-        -webkit-transition: all .3s cubic-bezier(.25, .8, .25, 1);
-        -moz-transition: all .3s cubic-bezier(.25, .8, .25, 1);
-        -o-transition: all .3s cubic-bezier(.25, .8, .25, 1);
-    }
+flx-image .ctl-cpr-transition, .flx-cpr-image .ctl-cpr-transition {
+    transition: .3s cubic-bezier(.25, .8, .25, 1);
+    -webkit-transition: all .3s cubic-bezier(.25, .8, .25, 1);
+    -moz-transition: all .3s cubic-bezier(.25, .8, .25, 1);
+    -o-transition: all .3s cubic-bezier(.25, .8, .25, 1);
+}
 
-    flx-image {
-        height: inherit;
-    }
+flx-image {
+    height: inherit;
+}
 
-    flx-image .cpr-btn-save-imagemanager, .flx-cpr-image .cpr-btn-save-imagemanager {
-        width: 100% !important;
-    }
-    //End Image
-    //WhiteBoard
-    flx-whiteboard .cpr-view-container {
-        width: 100%;
-        height: ~"calc(100% - 15px)";
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
-
-    /*flx-whiteboard .cpr-subcontainer, .flx-cpr-image .cpr-subcontainer {
+flx-image .cpr-btn-save-imagemanager, .flx-cpr-image .cpr-btn-save-imagemanager {
+    width: 100% !important;
+}
+//End Image
+//WhiteBoard
+flx-whiteboard .cpr-view-container {
+    width: 100%;
+    height: ~"calc(100% - 15px)";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+/*flx-whiteboard .cpr-subcontainer, .flx-cpr-image .cpr-subcontainer {
     width: 100%;
     height: 90%;
 }
@@ -717,593 +753,708 @@ flx-whiteboard .cpr-btn-browse, .flx-cpr-image .cpr-btn-browse {
     margin: 8px auto;
     width: 100%;
 }*/
+flx-whiteboard .cpr-span, .flx-cpr-image .cpr-span {
+    position: absolute;
+    width: 97%;
+    text-align: center;
+    font-size: 36px;
+    opacity: .4;
+}
 
-    flx-whiteboard .cpr-span, .flx-cpr-image .cpr-span {
-        position: absolute;
-        width: 97%;
-        text-align: center;
-        font-size: 36px;
-        opacity: .4;
-    }
+flx-whiteboard .cpr-dragging, .flx-cpr-image .cpr-dragging {
+    filter: blur(3px) grayscale(67%);
+}
 
-    flx-whiteboard .cpr-dragging, .flx-cpr-image .cpr-dragging {
-        filter: blur(3px) grayscale(67%);
-    }
+.flx-cpr-whiteboard .img-responsive {
+    margin: 0 auto;
+}
 
-    .flx-cpr-whiteboard .img-responsive {
-        margin: 0 auto;
-    }
+flx-whiteboard .ctl-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: inherit;
+    height: inherit;
+    cursor: pointer;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0, 0,0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0,0, .24);
+    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+    overflow: hidden;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
 
-    flx-whiteboard .ctl-container {
+flx-whiteboard .ctl-image {
+    max-height: 100%;
+}
+
+flx-whiteboard .ctl-container-locked {
+    cursor: not-allowed !important;
+    background-color: #eee !important;
+}
+
+flx-whiteboard .ctl-image-locked {
+    filter: grayscale(100%);
+}
+
+flx-whiteboard .ctl-icon {
+    position: absolute;
+    font-size: 35px;
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.5);
+}
+
+flx-whiteboard div.ctl-hover:hover {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+    -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+    -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+}
+
+flx-whiteboard div.ctl-hover:hover .ctl-image {
+    opacity: .7;
+    transform: scale(1.1);
+    filter: grayscale(75%);
+}
+
+flx-whiteboard div.ctl-hover:hover .ctl-icon {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+
+flx-whiteboard .ctl-cpr-transition, .flx-cpr-image .ctl-cpr-transition {
+    transition: .3s cubic-bezier(.25, .8, .25, 1);
+    -webkit-transition: all .3s cubic-bezier(.25, .8, .25, 1);
+    -moz-transition: all .3s cubic-bezier(.25, .8, .25, 1);
+    -o-transition: all .3s cubic-bezier(.25, .8, .25, 1);
+}
+
+flx-whiteboard {
+    height: inherit;
+}
+
+flx-whiteboard .cpr-btn-save-imagemanager, .flx-cpr-image .cpr-btn-save-imagemanager {
+    width: 100% !important;
+}
+//END whiteboard
+//Upload
+flx-upload {
+    .upload-container {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: inherit;
-        height: inherit;
-        cursor: pointer;
         background-color: white;
-        box-shadow: 0 1px 3px rgba(0, 0,0, .12), 0 1px 2px rgba(0, 0, 0, .24);
-        -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0,0, .24);
-        -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
-        overflow: hidden;
-        border: 1px solid #ccc;
+        flex-direction: column;
+        width: 100%;
+        border: solid 1px #ccc;
         border-radius: 4px;
-    }
+        min-height: 110px;
+        height: ~"calc(100% - 30px)";
+        overflow: hidden;
 
-    flx-whiteboard .ctl-image {
-        max-height: 100%;
-    }
+        .upload-btn {
+            background-color: dbColor(OutstandingColor);
+            color: dbColor(txtOutstandingColor);
+            border-radius: unset;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 11px;
+            padding-bottom: 11px;
+            width: 100%;
+            transition: all .15s ease-in-out 0s;
 
-    flx-whiteboard .ctl-container-locked {
-        cursor: not-allowed !important;
-        background-color: #eee !important;
-    }
+            &:hover {
+                background-color: darken(dbColor(OutstandingColor), 10%);
+            }
+        }
 
-    flx-whiteboard .ctl-image-locked {
-        filter: grayscale(100%);
-    }
+        .upload-drag-container {
+            display: flex;
+            flex: 1;
+            align-items: center;
+            justify-content: center;
+            width: ~"calc(100% - 10px)";
+            height: ~"calc(100% - 10px)";
+            margin: 6px;
+            padding: 4px;
+            background-color: white;
+            position: relative;
+            border: 1px dashed transparent;
+            border-radius: 4px;
 
-    flx-whiteboard .ctl-icon {
-        position: absolute;
-        font-size: 35px;
-        z-index: 1;
-        opacity: 0;
-        visibility: hidden;
-        transform: scale(1.5);
-    }
+            &.upload-dragging {
+                border-color: #6f6f6f;
+                opacity: .4;
 
-    flx-whiteboard div.ctl-hover:hover {
-        box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
-        -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
-        -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
-    }
+                span {
+                    opacity: 1;
+                    z-index: 1;
+                }
 
-    flx-whiteboard div.ctl-hover:hover .ctl-image {
-        opacity: .7;
-        transform: scale(1.1);
-        filter: grayscale(75%);
-    }
+                .uploaded-flies {
+                    opacity: .6;
+                }
+            }
 
-    flx-whiteboard div.ctl-hover:hover .ctl-icon {
-        opacity: 1;
-        visibility: visible;
-        transform: scale(1);
-    }
+            span {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%) translateY(-50%);
+                top: 50%;
+                width: 100%;
+                text-align: center;
+                font-size: 1.5em;
+                opacity: .4;
+                transition: all .15s ease-in-out 0s;
+            }
 
-    flx-whiteboard .ctl-cpr-transition, .flx-cpr-image .ctl-cpr-transition {
-        transition: .3s cubic-bezier(.25, .8, .25, 1);
-        -webkit-transition: all .3s cubic-bezier(.25, .8, .25, 1);
-        -moz-transition: all .3s cubic-bezier(.25, .8, .25, 1);
-        -o-transition: all .3s cubic-bezier(.25, .8, .25, 1);
-    }
+            .uploaded-flies {
+                height: 100%;
+                width: 100%;
+                overflow: auto;
+                display: flex;
+                flex-wrap: wrap;
 
-    flx-whiteboard {
-        height: inherit;
-    }
+                .upload-file {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    border-radius: 6px;
+                    background-color: fade(dbColor(OutstandingColor), 10);
+                    color: dbColor(OutstandingColor);
+                    overflow: hidden;
+                    transition: all .15s ease-in-out 0s;
+                    height: 36px;
+                    margin: 4px;
+                    padding: 0px 10px;
+                    flex: 1 1 150px;
+                    backdrop-filter: brightness(10);
+                    -webkit-backdrop-filter: brightness(10);
 
-    flx-whiteboard .cpr-btn-save-imagemanager, .flx-cpr-image .cpr-btn-save-imagemanager {
-        width: 100% !important;
-    }
-    //END whiteboard
-    //Upload
-    flx-upload .upload-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: white;
-        width: 100%;
-        border: solid 1px #c2c2c2;
-    }
+                    > div:first-child {
+                        max-width: 56%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
 
-    flx-upload .upload-drag-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: calc(100% - 10px);
-        margin: 6px;
-        padding: 4px;
-        background-color: white;
-    }
+                        > i {
+                            margin-right: 6px;
+                        }
 
-    flx-upload .upload-dragging {
-        border: 1px dashed #6f6f6f;
-        opacity: .4;
-    }
+                        > small {
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                        }
+                    }
 
-    flx-upload .upload-transition {
-        transition: .3s cubic-bezier(.25, .8, .25, 1);
-        -webkit-transition: all .3s cubic-bezier(.25, .8, .25, 1);
-        -moz-transition: all .3s cubic-bezier(.25, .8, .25, 1);
-        -o-transition: all .3s cubic-bezier(.25, .8, .25, 1);
-    }
-    //END Upload
-    //Image Manager
-    flx-imagemanager .im-transition {
-        transition: all .4s cubic-bezier(.25, .8, .25, 1);
-        -webkit-transition: all .4s cubic-bezier(.25, .8, .25, 1);
-        -moz-transition: all .4s cubic-bezier(.25, .8, .25, 1);
-        -o-transition: all .4s cubic-bezier(.25, .8, .25, 1);
-    }
+                    > div:last-child {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
 
-    flx-imagemanager .im-btn-container {
-        display: flex;
-        position: relative;
-        padding: 5px;
-        align-items: center;
-        box-shadow: 0 7px 9px -7px rgba(0, 0, 0, .5);
-        z-index: 3;
-    }
+                        a {
+                            color: unset;
+                            text-decoration: unset;
+                        }
 
-    flx-imagemanager .im-pry-container {
-        overflow-x: hidden;
-        min-height: 74vh;
-        max-height: 74vh;
-        margin: 0 10px;
+                        i {
+                            cursor: pointer;
+                            opacity: .8;
+                            font-weight: bold;
+                            transition: all .15s ease-in-out 0s;
+                            border-radius: 4px;
+                            padding: 4px 6px;
+                            margin-left: 1px;
+
+                            &:hover {
+                                opacity: 1;
+                                background-color: fade(dbColor(OutstandingColor), 20);
+                            }
+                        }
+
+                        .upload-file-delete {
+                            &:hover {
+                                color: dbColor(DangerColor);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
+}
+//END Upload
+//Image Manager
+flx-imagemanager .im-transition {
+    transition: all .4s cubic-bezier(.25, .8, .25, 1);
+    -webkit-transition: all .4s cubic-bezier(.25, .8, .25, 1);
+    -moz-transition: all .4s cubic-bezier(.25, .8, .25, 1);
+    -o-transition: all .4s cubic-bezier(.25, .8, .25, 1);
+}
+
+flx-imagemanager .im-btn-container {
+    display: flex;
+    position: relative;
+    padding: 5px;
+    align-items: center;
+    box-shadow: 0 7px 9px -7px rgba(0, 0, 0, .5);
+    z-index: 3;
+}
+
+flx-imagemanager .im-pry-container {
+    overflow-x: hidden;
+    min-height: 74vh;
+    max-height: 74vh;
+    margin: 0 10px;
+}
 
 flx-imagemanager[mode=view] .im-pry-container {
     min-height: unset;
     max-height: unset;
-    overflow:hidden;
+    overflow: hidden;
 }
 
-    flx-imagemanager .im-pry-container-single {
-        overflow: hidden;
+flx-imagemanager .im-pry-container-single {
+    overflow: hidden;
+}
+
+flx-imagemanager .im-pry-container-empty {
+    min-height: unset !important;
+    max-height: unset !important;
+    height: unset !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+}
+
+flx-imagemanager .im-pry-container-empty .im-empty {
+    text-align: center;
+    cursor: pointer;
+    z-index: 1;
+    position: relative
+}
+
+flx-imagemanager .im-pry-container-empty .im-empty:hover {
+    opacity: .15;
+    transform: scale(1.15);
+}
+
+flx-imagemanager .im-pry-container-empty .im-empty:hover ~ .im-empty-icon {
+    opacity: 1;
+    transform: scale(1);
+}
+
+flx-imagemanager .im-pry-container-empty:hover {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+}
+
+flx-imagemanager .im-pry-container-empty .im-empty-icon {
+    transform: scale(1.5);
+    opacity: 0;
+    font-size: 48px;
+    position: absolute;
+    top: ~"calc(50% - 24px)";
+    left: ~"calc(50% - 24px)";
+    transition-delay: .25s;
+}
+
+flx-imagemanager .im-btn {
+    width: 100%;
+    margin: 5px;
+}
+
+flx-imagemanager .im-btn-settings {
+    min-width: 36px;
+    max-width: 36px;
+    height: 36px;
+}
+
+@keyframes start {
+    from {
+        transform: scale(0);
     }
 
-    flx-imagemanager .im-pry-container-empty {
-        min-height: unset !important;
-        max-height: unset !important;
-        height: unset !important;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
-    }
-
-    flx-imagemanager .im-pry-container-empty .im-empty {
-        text-align: center;
-        cursor: pointer;
-        z-index: 1;
-        position: relative
-    }
-
-    flx-imagemanager .im-pry-container-empty .im-empty:hover {
-        opacity: .15;
-        transform: scale(1.15);
-    }
-
-    flx-imagemanager .im-pry-container-empty .im-empty:hover ~ .im-empty-icon {
-        opacity: 1;
+    to {
         transform: scale(1);
     }
-
-    flx-imagemanager .im-pry-container-empty:hover {
-        box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
-    }
-
-    flx-imagemanager .im-pry-container-empty .im-empty-icon {
-        transform: scale(1.5);
-        opacity: 0;
-        font-size: 48px;
-        position: absolute;
-        top: ~"calc(50% - 24px)";
-        left: ~"calc(50% - 24px)";
-        transition-delay: .25s;
-    }
-
-    flx-imagemanager .im-btn {
-        width: 100%;
-        margin: 5px;
-    }
-
-    flx-imagemanager .im-btn-settings {
-        min-width: 36px;
-        max-width: 36px;
-        height: 36px;
-    }
-
-    @keyframes start {
-        from {
-            transform: scale(0);
-        }
-
-        to {
-            transform: scale(1);
-        }
-    }
-
-    @-webkit-keyframes start {
-        from {
-            -webkit-transform: scale(0);
-        }
-
-        to {
-            -webkit-transform: scale(1);
-        }
-    }
-
-    flx-imagemanager .im-wall .im-item[data-state="init"] {
-        display: none;
-    }
-
-    flx-imagemanager .im-wall .im-item[data-state="start"] {
-        display: block;
-        animation: start .35s;
-        -webkit-animation: start .35s;
-    }
-
-    flx-imagemanager .im-item {
-        width: 300px;
-        height: 300px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
-        overflow: hidden;
-        cursor: -webkit-grab;
-        margin: 10px 0;
-    }
-
-    flx-imagemanager[mode=view] .im-item {
-        width: 175px;
-        height: 175px;
-    }
-
-    flx-imagemanager .im-item:hover {
-        box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
-        transition: box-shadow .3s cubic-bezier(.25, .8, .25, 1) !important;
-    }
-
-    flx-imagemanager .im-item:hover .im-data {
-        background-color: fade(dbColor(OutstandingColor), 17%);
-    }
-
-    flx-imagemanager .im-item:hover .im-data .im-data-container {
-        opacity: 1;
-    }
-
-    flx-imagemanager .im-item:hover .im-data .im-data-item {
-        transform: scale(1);
-    }
-
-    flx-imagemanager .im-item:hover .im-data .im-data-descrip hr {
-        width: 70%;
-    }
-
-    flx-imagemanager .im-item:hover .im-data .im-mainimage {
-        opacity: 1;
-    }
-
-    flx-imagemanager .im-item:hover .im-data .im-removeimage {
-        opacity: 1;
-    }
-
-    flx-imagemanager .im-item:hover .im-image {
-        opacity: .7;
-        transform: scale(1.1);
-        filter: grayscale(75%);
-        transition-delay: .1s;
-    }
-
-    flx-imagemanager .im-item:active {
-        cursor: -webkit-grabbing;
-    }
-
-    flx-imagemanager .im-item-single {
-        cursor: default !important;
-    }
-
-
-
-    flx-imagemanager .im-image {
-        position: absolute;
-        width: inherit;
-        height: inherit;
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: center;
-    }
-
-    flx-imagemanager .im-data {
-        height: inherit;
-        width: inherit;
-        position: absolute;
-        z-index: 1;
-    }
-
-    flx-imagemanager .im-removeimage {
-        width: 30px;
-        height: 30px;
-        opacity: 0;
-        position: absolute;
-        top: 0;
-        right: 0;
-        text-align: right;
-        padding-top: 4px;
-        padding-right: 8px;
-        z-index: 1;
-    }
-
-    flx-imagemanager .im-removeimage:hover {
-        cursor: pointer;
-        color: dbColor(DangerColor)
-    }
-
-    flx-imagemanager .im-mainimage {
-        width: 60px;
-        height: 25px;
-        opacity: 0;
-    }
-
-    flx-imagemanager .im-mainimage:hover {
-        cursor: pointer;
-    }
-
-    flx-imagemanager .im-mainimage:hover .im-item-corner {
-        border-color: dbColor(OutstandingColor) transparent transparent transparent;
-    }
-
-    flx-imagemanager .im-mainimage:hover .im-mi-item-corner {
-        border-color: dbColor(PrimaryColor) transparent transparent transparent !important;
-    }
-
-    flx-imagemanager .im-mi-mainimage {
-        opacity: 1 !important;
-    }
-
-    flx-imagemanager .im-item-corner {
-        top: 0;
-        left: 0;
-        border-style: solid;
-        border-width: 25px 60px 0 0;
-        border-color: dbColor(PrimaryColor) transparent transparent transparent;
-    }
-
-    flx-imagemanager .im-item-corner-icon {
-        color: white;
-        margin: 5px;
-        position: absolute;
-        z-index: 1;
-        font-size: 10px;
-    }
-
-    flx-imagemanager .im-mi-item-corner {
-        border-color: dbColor(OutstandingColor) transparent transparent transparent !important;
-    }
-
-    flx-imagemanager .im-data-container {
-        opacity: 0;
-    }
-
-    flx-imagemanager .im-data-item {
-        transform: scale(1.4);
-    }
-
-    flx-imagemanager .im-data-descrip {
-        float: none;
-        width: 100%;
-        height: 50%;
-        margin: 0 auto;
-        text-align: center;
-    }
-
-    flx-imagemanager .im-data-descrip-single {
-        margin-top: 25px;
-    }
-
-    flx-imagemanager .im-data-descrip span {
-        display: block;
-        color: white;
-        text-shadow: 1px 1px 6px rgb(120, 120, 120);
-    }
-
-    flx-imagemanager .im-data-descrip hr {
-        display: block;
-        border-top: 1px solid #ccc;
-        margin: 1px auto 8px;
-        width: 0%;
-        transition-delay: .25s;
-        border-color: white;
-    }
-
-
-    flx-imagemanager .im-data-preview {
-        float: left;
-        transition-delay: .15s;
-    }
-
-    flx-imagemanager .im-data-edit {
-        float: right;
-        transition-delay: .15s;
-    }
-
-    flx-imagemanager .im-data-icon {
-        color: white;
-        margin: 0 auto;
-        transition-delay: .22s;
-        text-shadow: 1px 1px 6px rgba(120, 120, 120, .68);
-    }
-
-    flx-imagemanager .im-data-container-action {
-        width: ~"calc(50% - 30px)";
-        height: ~"calc(50% - 55px)";
-        margin: 15px 15px;
-        cursor: pointer;
-        border-radius: 3%;
-        display: flex;
-        align-items: center;
-    }
-
-    flx-imagemanager[mode=view] .im-data-container-action {
-        width: 50%;
-    }
-
-    flx-imagemanager .im-data-container-action:hover {
-        box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
-        background-color: fade(dbColor(OutstandingColor), 25%);
-    }
-    //END Image Manager
-    //File
-    flx-file .f-btn {
-        background-color: dbColor(OutstandingColor);
-        color: white;
-        padding-left: 12px;
-        padding-right: 12px;
-    }
-
-    flx-file .f-text {
-        cursor: default !important;
-        background-color: white !important;
-    }
-    //END File
-    // Separator
-    legend i {
-        margin-right: .5em
-    }
-    // END Separator
-    flx-edit .grid-stack > .grid-stack-item > .grid-stack-item-content, flx-view .grid-stack > .grid-stack-item > .grid-stack-item-content {
-        overflow-x: visible;
-        overflow-y: visible
-    }
-    // FILTER
-    flx-filter > div.item {
-        margin-bottom: .2em;
-    }
-    // TEXT
-    flx-text[mode=view] label, flx-combo[mode=view], flx-dbcombo[mode=view] label {
-        overflow: hidden;
-    }
-    // BOOTSTRAP OVERRIDES
-    input[type=checkbox], input[type=radio] {
-        margin: 0 4px 0 0;
-        line-height: normal;
-        display: inline;
-    }
-
-    .label-info {
-        background-color: dbColor(OutstandingColor) !important;
-    }
-
-    label.required:after {
-        content: "*";
-        color: dbColor(DangerColor);
-    }
-
-    label:hover {
-        color: dbColor(NavColor);
-    }
-
-    label > span.help-icon, legend > span.help-icon {
-        font-size: 12px;
-        color: dbColor(txtNavColor);
-    }
-
-    label:hover > span.help-icon, legend:hover > span.help-icon {
-        cursor: pointer;
-        color: dbColor(OutstandingColor);
-    }
-
-    label > span.help-icon:before, legend > span.help-icon:before {
-        font-family: 'Flexygo-icons';
-        content: "\ea30";
-        margin-left: 5px;
-        position: relative;
-        top: 1px;
-    }
-
-    .btn-group-xs > .btn, .btn-xs {
-        padding: 2px 2px;
-        font-size: 10px;
-        line-height: 1.4;
-    }
-
-    .propertyMenu {
-        min-width: 250px;
-        z-index: 91;
-    }
-
-    .propertyMenu ul {
-        width: 250px;
-        z-index: 91;
-        margin: 0;
-        padding: 0;
-        border: 0;
-        list-style: none;
-        color: dbColor(txtMenuColor);
-        box-sizing: border-box;
-        border: 1px solid #e0e0e0;
-        border-left: 4px solid dbColor(OutstandingColor);
-        font-size: 1em;
-        background-color: dbColor(MenuColor);
-        text-align: left;
-    }
-
-    .propertyMenu li {
-        padding: 5px;
-        padding-left: 10px;
-    }
-
-    .propertyMenu li.separator {
-        border-bottom: solid 1px dbColor(borderModuleColor)
-    }
-
-
-    .propertyMenu .form-actions {
-        text-align: center;
-    }
-
-    .propertyMenu .form-actions .bg-info {
-        margin-right: 10px;
-    }
-
-    .propertyMenu flx-dbcombo li {
-        white-space: nowrap
-    }
-
-    .propertyMenu .btnmenu {
-        border: solid 1px grey;
-        width: 30%;
-        min-width: auto;
-        display: inline-block;
-        text-align: center;
-    }
-
-    .propertyMenu .input-group {
-        padding-right: 4px
-    }
-
-    .propertyMenu ul li > span {
-        display: block;
-    }
-
-    .propertyMenu .addsep {
-        margin-top: 5px;
-        cursor: pointer
-    }
-
-    :not(.develop) .hideControl {
-        display: none;
-    }
-
-    flx-text[type=date] > div > input.form-control {
-        line-height: 1.3;
-    }
+}
+
+@-webkit-keyframes start {
+    from {
+        -webkit-transform: scale(0);
+    }
+
+    to {
+        -webkit-transform: scale(1);
+    }
+}
+
+flx-imagemanager .im-wall .im-item[data-state="init"] {
+    display: none;
+}
+
+flx-imagemanager .im-wall .im-item[data-state="start"] {
+    display: block;
+    animation: start .35s;
+    -webkit-animation: start .35s;
+}
+
+flx-imagemanager .im-item {
+    width: 300px;
+    height: 300px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+    overflow: hidden;
+    cursor: -webkit-grab;
+    margin: 10px 0;
+}
+
+flx-imagemanager[mode=view] .im-item {
+    width: 175px;
+    height: 175px;
+}
+
+flx-imagemanager .im-item:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
+    transition: box-shadow .3s cubic-bezier(.25, .8, .25, 1) !important;
+}
+
+flx-imagemanager .im-item:hover .im-data {
+    background-color: fade(dbColor(OutstandingColor), 17%);
+}
+
+flx-imagemanager .im-item:hover .im-data .im-data-container {
+    opacity: 1;
+}
+
+flx-imagemanager .im-item:hover .im-data .im-data-item {
+    transform: scale(1);
+}
+
+flx-imagemanager .im-item:hover .im-data .im-data-descrip hr {
+    width: 70%;
+}
+
+flx-imagemanager .im-item:hover .im-data .im-mainimage {
+    opacity: 1;
+}
+
+flx-imagemanager .im-item:hover .im-data .im-removeimage {
+    opacity: 1;
+}
+
+flx-imagemanager .im-item:hover .im-image {
+    opacity: .7;
+    transform: scale(1.1);
+    filter: grayscale(75%);
+    transition-delay: .1s;
+}
+
+flx-imagemanager .im-item:active {
+    cursor: -webkit-grabbing;
+}
+
+flx-imagemanager .im-item-single {
+    cursor: default !important;
+}
+
+
+
+flx-imagemanager .im-image {
+    position: absolute;
+    width: inherit;
+    height: inherit;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+flx-imagemanager .im-data {
+    height: inherit;
+    width: inherit;
+    position: absolute;
+    z-index: 1;
+}
+
+flx-imagemanager .im-removeimage {
+    width: 30px;
+    height: 30px;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-align: right;
+    padding-top: 4px;
+    padding-right: 8px;
+    z-index: 1;
+}
+
+flx-imagemanager .im-removeimage:hover {
+    cursor: pointer;
+    color: dbColor(DangerColor)
+}
+
+flx-imagemanager .im-mainimage {
+    width: 60px;
+    height: 25px;
+    opacity: 0;
+}
+
+flx-imagemanager .im-mainimage:hover {
+    cursor: pointer;
+}
+
+flx-imagemanager .im-mainimage:hover .im-item-corner {
+    border-color: dbColor(OutstandingColor) transparent transparent transparent;
+}
+
+flx-imagemanager .im-mainimage:hover .im-mi-item-corner {
+    border-color: dbColor(PrimaryColor) transparent transparent transparent !important;
+}
+
+flx-imagemanager .im-mi-mainimage {
+    opacity: 1 !important;
+}
+
+flx-imagemanager .im-item-corner {
+    top: 0;
+    left: 0;
+    border-style: solid;
+    border-width: 25px 60px 0 0;
+    border-color: dbColor(PrimaryColor) transparent transparent transparent;
+}
+
+flx-imagemanager .im-item-corner-icon {
+    color: white;
+    margin: 5px;
+    position: absolute;
+    z-index: 1;
+    font-size: 10px;
+}
+
+flx-imagemanager .im-mi-item-corner {
+    border-color: dbColor(OutstandingColor) transparent transparent transparent !important;
+}
+
+flx-imagemanager .im-data-container {
+    opacity: 0;
+}
+
+flx-imagemanager .im-data-item {
+    transform: scale(1.4);
+}
+
+flx-imagemanager .im-data-descrip {
+    float: none;
+    width: 100%;
+    height: 50%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+flx-imagemanager .im-data-descrip-single {
+    margin-top: 25px;
+}
+
+flx-imagemanager .im-data-descrip span {
+    display: block;
+    color: white;
+    text-shadow: 1px 1px 6px rgb(120, 120, 120);
+}
+
+flx-imagemanager .im-data-descrip hr {
+    display: block;
+    border-top: 1px solid #ccc;
+    margin: 1px auto 8px;
+    width: 0%;
+    transition-delay: .25s;
+    border-color: white;
+}
+
+
+flx-imagemanager .im-data-preview {
+    float: left;
+    transition-delay: .15s;
+}
+
+flx-imagemanager .im-data-edit {
+    float: right;
+    transition-delay: .15s;
+}
+
+flx-imagemanager .im-data-icon {
+    color: white;
+    margin: 0 auto;
+    transition-delay: .22s;
+    text-shadow: 1px 1px 6px rgba(120, 120, 120, .68);
+}
+
+flx-imagemanager .im-data-container-action {
+    width: ~"calc(50% - 30px)";
+    height: ~"calc(50% - 55px)";
+    margin: 15px 15px;
+    cursor: pointer;
+    border-radius: 3%;
+    display: flex;
+    align-items: center;
+}
+
+flx-imagemanager[mode=view] .im-data-container-action {
+    width: 50%;
+}
+
+flx-imagemanager .im-data-container-action:hover {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+    background-color: fade(dbColor(OutstandingColor), 25%);
+}
+//END Image Manager
+//File
+flx-file .f-btn {
+    background-color: dbColor(OutstandingColor);
+    color: white;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+flx-file .f-text {
+    cursor: default !important;
+    background-color: white !important;
+}
+//END File
+// Separator
+legend i {
+    margin-right: .5em
+}
+// END Separator
+flx-edit .grid-stack > .grid-stack-item > .grid-stack-item-content, flx-view .grid-stack > .grid-stack-item > .grid-stack-item-content {
+    overflow-x: visible;
+    overflow-y: visible
+}
+// FILTER
+flx-filter > div.item {
+    margin-bottom: .2em;
+}
+// TEXT
+flx-text[mode=view] label, flx-combo[mode=view], flx-dbcombo[mode=view] label {
+    overflow: hidden;
+}
+// BOOTSTRAP OVERRIDES
+input[type=checkbox], input[type=radio] {
+    margin: 0 4px 0 0;
+    line-height: normal;
+    display: inline;
+}
+
+.label-info {
+    background-color: dbColor(OutstandingColor) !important;
+}
+
+label.required:after {
+    content: "*";
+    color: dbColor(DangerColor);
+}
+
+label:hover {
+    color: dbColor(NavColor);
+}
+
+label > span.help-icon, legend > span.help-icon {
+    font-size: 12px;
+    color: dbColor(txtNavColor);
+}
+
+label:hover > span.help-icon, legend:hover > span.help-icon {
+    cursor: pointer;
+    color: dbColor(OutstandingColor);
+}
+
+label > span.help-icon:before, legend > span.help-icon:before {
+    font-family: 'Flexygo-icons';
+    content: "\f233";
+    margin-left: 5px;
+    position: relative;
+    top: 1px;
+}
+
+.btn-group-xs > .btn, .btn-xs {
+    padding: 2px 2px;
+    font-size: 10px;
+    line-height: 1.4;
+}
+
+.propertyMenu {
+    min-width: 250px;
+    z-index: 91;
+}
+
+.propertyMenu ul {
+    width: 250px;
+    z-index: 91;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    list-style: none;
+    color: dbColor(txtMenuColor);
+    box-sizing: border-box;
+    border: 1px solid #e0e0e0;
+    border-left: 4px solid dbColor(OutstandingColor);
+    font-size: 1em;
+    background-color: dbColor(MenuColor);
+    text-align: left;
+}
+
+.propertyMenu li {
+    padding: 5px;
+    padding-left: 10px;
+}
+
+.propertyMenu li.separator {
+    border-bottom: solid 1px dbColor(borderModuleColor)
+}
+
+
+.propertyMenu .form-actions {
+    text-align: center;
+}
+
+.propertyMenu .form-actions .bg-info {
+    margin-right: 10px;
+}
+
+.propertyMenu flx-dbcombo li {
+    white-space: nowrap
+}
+
+.propertyMenu .btnmenu {
+    border: solid 1px grey;
+    width: 30%;
+    min-width: auto;
+    display: inline-block;
+    text-align: center;
+}
+
+.propertyMenu .input-group {
+    padding-right: 4px
+}
+
+.propertyMenu ul li > span {
+    display: block;
+}
+
+.propertyMenu .addsep {
+    margin-top: 5px;
+    cursor: pointer
+}
+
+:not(.develop) .hideControl {
+    display: none;
+}
+
+flx-text[type=date] > div > input.form-control {
+    line-height: 1.3;
+}
 
     flx-textarea > div > span.input-group-addon {
         height: 100%;
@@ -1313,3 +1464,33 @@ flx-imagemanager[mode=view] .im-pry-container {
         z-index: unset !important;
         overflow-y: hidden;
     }
+
+flx-edit .lockedCode input {
+    display: block;
+    border-top-width: initial;
+    border-right-width: initial;
+    border-left-width: initial;
+    border-top-color: initial;
+    border-right-color: initial;
+    border-left-color: initial;
+    box-shadow: #fff 0px 0px;
+    height: 35px;
+    line-height: 30px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    text-size-adjust: 100%;
+    width: 100%;
+    text-align: right;
+    border-style: none none solid;
+    border-image: initial;
+    border-radius: 0px;
+    background-color: transparent !important;
+}
+flx-textarea > div > span.input-group-addon {
+    height: 100%;
+}
+//OVERRIDES GRIDSTACK Z-INDEX
+.grid-stack > .grid-stack-item > .grid-stack-item-content {
+    z-index: unset !important;
+    overflow-y: hidden;
+}

@@ -102,7 +102,7 @@ var flexygo;
                     }
                     event.stopPropagation();
                 });
-                let objView = $('<span class="clickable"/>').html('<i class="flx-icon icon-new-ticket icon-margin-right "></i>' + flexygo.localization.translate('develop.viewobject') + '</span>').on('click', (event) => {
+                let objView = $('<span class="clickable"/>').html('<i class="flx-icon icon-cube1 icon-margin-right "></i>' + flexygo.localization.translate('develop.viewobject') + '</span>').on('click', (event) => {
                     let pageContext = flexygo.history.get($('#realMain'));
                     let obj = new flexygo.obj.Entity(pageContext.objectname);
                     if (typeof (pageContext.objectname) != 'undefined') {
@@ -158,6 +158,22 @@ var flexygo;
                     }
                     event.stopPropagation();
                 });
+                let objMailManager = $('<span class="clickable"/>').html('<i class="flx-icon icon-email-settings icon-margin-right "></i>' + flexygo.localization.translate('develop.mailmanager') + '</span>').on('click', (event) => {
+                    let pageContext = flexygo.history.get($('#realMain'));
+                    let obj = new flexygo.obj.Entity(pageContext.objectname);
+                    if (typeof (pageContext.objectname) != 'undefined') {
+                        let cnf = (obj.objectName) ? obj.getConfig() : null;
+                        let defaults = {
+                            'ObjectName': (cnf) ? cnf.ObjectName : '',
+                            'KeyProperty': (cnf) ? (cnf.KeyFields.length === 1) ? cnf.KeyFields[0] : '' : '',
+                        };
+                        flexygo.nav.openPage('edit', 'Mail_Object_Config', (cnf) ? "ObjectName = '" + cnf.ObjectName + "'" : null, defaults, 'modal900x580', false, $(this));
+                    }
+                    else {
+                        flexygo.msg.warning(flexygo.localization.translate('develop.selectobject'));
+                    }
+                    event.stopPropagation();
+                });
                 let objChatter = $('<span class="clickable"/>').html('<i class="flx-icon icon-chats icon-margin-right "></i>' + flexygo.localization.translate('develop.chatter') + '</span>').on('click', (event) => {
                     let pageContext = flexygo.history.get($('#realMain'));
                     let obj = new flexygo.obj.Entity(pageContext.objectname);
@@ -176,7 +192,7 @@ var flexygo;
                 });
                 //add object and collection  options to the pannel
                 let newObjectStr = '<span class="newObject" title="New Object" ><i class="size-m txt-outstanding  flx-icon icon-password icon-margin-right pull-right"></i></span>';
-                panelCtx.add('<span><i class="flx-icon icon-object icon-margin-right"></i>' + flexygo.localization.translate('develop.object') + newObjectStr + '</span>', [objConfig, objView, objWizard, objImageManager, objDocumentManager, objChatter]);
+                panelCtx.add('<span><i class="flx-icon icon-object icon-margin-right"></i>' + flexygo.localization.translate('develop.object') + newObjectStr + '</span>', [objConfig, objView, objWizard, objImageManager, objDocumentManager, objChatter, objMailManager]);
                 $(panelCtx).find('.newObject').on('click', (event) => {
                     flexygo.nav.openPageName('syspage-generic-objectwizard', 'sysObject', '', 'null', 'current', false);
                     event.stopPropagation();
@@ -212,7 +228,7 @@ var flexygo;
                         flexygo.msg.info(flexygo.localization.translate('develop.selectobject'));
                     }
                 });
-                let objPropertySecurity = $('<span class="clickable"/>').html('<i class="flx-icon icon-object-properties icon-margin-right "></i>' + flexygo.localization.translate('develop.objectpropertysecurity') + '</span>').on('click', () => {
+                let objPropertySecurity = $('<span class="clickable"/>').html('<i class="flx-icon icon-object-properties-2 icon-margin-right "></i>' + flexygo.localization.translate('develop.objectpropertysecurity') + '</span>').on('click', () => {
                     let pageContext = flexygo.history.get($('#realMain'));
                     let obj = new flexygo.obj.Entity(pageContext.objectname);
                     if (typeof (pageContext.objectname) != 'undefined') {
@@ -271,7 +287,7 @@ var flexygo;
          * @return {bool} - develop mode enabled
          */
         function isDevelopMode() {
-            if (JSON.parse(flexygo.storage.session.get('DevelopMode'))) {
+            if (flexygo.storage.session.get('DevelopMode')) {
                 return true;
             }
             else {

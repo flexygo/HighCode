@@ -1,4 +1,5 @@
-﻿flx-chatter {
+﻿flx-chatter, .flx-chatter {
+
     .chatter_shadow() {
         @box-shadow: 0 2px 2px 0 rgba(0,0,0,0.08), 0 3px 1px -2px rgba(0,0,0,.06), 0 1px 5px 0 rgba(0,0,0,.14);
         -webkit-box-shadow: @box-shadow;
@@ -6,8 +7,8 @@
         box-shadow: @box-shadow;
     }
 
-    .chatter_transition() {
-        @transition: all .15s ease-in-out;
+    .chatter_transition(@property: all, @duration: .15s, @function: ease-in-out, @delay: 0s) {
+        @transition: @property @duration @function @delay;
         -webkit-transition: @transition;
         -moz-transition: @transition;
         -o-transition: @transition;
@@ -16,6 +17,68 @@
 
     @chatter_containers_border_radius: 6px;
     @chatter_controls_border_radius: 4px;
+
+    &.chatter-popover {
+        max-width: none;
+        border: unset;
+        box-shadow: 0 0px 20px rgba(0, 0, 0, .1);
+
+        .arrow {
+            border-color: transparent !important;
+            filter: drop-shadow(0 0px 20px rgba(0, 0, 0, .1));
+        }
+
+        .chatter_message_document {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: @chatter_containers_border_radius;
+            background-color: fade(dbColor(OutstandingColor), 10);
+            color: dbColor(OutstandingColor);
+            overflow: hidden;
+            .chatter_transition();
+            width: 300px;
+            height: 36px;
+            margin: 10px 0px;
+            padding: 0px 10px;
+
+            > div:first-child {
+                max-width: 92%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                > i {
+                    margin-right: 6px;
+                }
+
+                > small {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+            }
+
+            a {
+                color: unset;
+                text-decoration: unset;
+
+                .chatter_message_download {
+                    cursor: pointer;
+                    opacity: .8;
+                    font-weight: bold;
+                    .chatter_transition();
+                    border-radius: @chatter_controls_border_radius;
+                    padding: 4px 6px;
+
+                    &:hover {
+                        opacity: 1;
+                        background-color: fade(dbColor(OutstandingColor), 20);
+                    }
+                }
+            }
+        }
+    }
 
     .DEVELOPING {
         visibility: hidden !important;
@@ -142,15 +205,15 @@
                     .chatter_composer_input {
                         .chatter_composer_parent_message {
                             border-radius: @chatter_containers_border_radius;
-                            border-left: 2px solid dbColor(OutstandingColor);
+                            border-left: 4px solid dbColor(OutstandingColor);
                             display: flex;
                             align-items: center;
                             justify-content: space-between;
-                            .chatter_shadow();
                             opacity: 0;
                             height: 0;
                             .chatter_transition();
                             overflow: hidden;
+                            background-color: rgba(60, 60, 70, 0.1);
 
                             > div {
                                 max-width: 92%;
@@ -165,10 +228,12 @@
                             .chatter_composer_parent_message_delete {
                                 cursor: pointer;
                                 opacity: .8;
+                                font-weight: bold;
                                 .chatter_transition();
 
                                 &:hover {
                                     opacity: 1;
+                                    color: dbColor(DangerColor);
                                 }
                             }
                         }
@@ -195,12 +260,17 @@
                                 font-size: 18px;
                                 .chatter_transition();
 
-                                &:hover,
-                                &:active {
+                                &:hover:not([disabled]),
+                                &:active:not([disabled]) {
                                     opacity: 1;
                                     color: #666666;
                                     background-color: #e6e6e6;
                                     border-color: #e0e0e0;
+                                }
+
+                                &[disabled] {
+                                    opacity: .3;
+                                    cursor: unset;
                                 }
                             }
 
@@ -235,7 +305,8 @@
                                 align-items: center;
                                 justify-content: space-between;
                                 border-radius: @chatter_containers_border_radius;
-                                background: pink;
+                                background-color: fade(dbColor(OutstandingColor), 10);
+                                color: dbColor(OutstandingColor);
                                 overflow: hidden;
                                 .chatter_transition();
                                 opacity: 0;
@@ -262,10 +333,12 @@
                                 .chatter_composer_attachment_delete {
                                     cursor: pointer;
                                     opacity: .8;
+                                    font-weight: bold;
                                     .chatter_transition();
 
                                     &:hover {
                                         opacity: 1;
+                                        color: dbColor(DangerColor);
                                     }
                                 }
                             }
@@ -289,7 +362,12 @@
                     border-radius: @chatter_controls_border_radius;
                     .chatter_transition();
 
-                    &:hover {
+                    &[disabled] {
+                        opacity: .3;
+                        cursor: unset;
+                    }
+
+                    &:not([disabled]):hover {
                         background-color: darken(dbColor(OutstandingColor),15);
                     }
                 }
@@ -321,10 +399,34 @@
                 display: -webkit-box;
                 display: -webkit-flex;
                 display: flex;
+                flex-wrap: wrap;
                 padding: 8px 16px;
                 margin: 14px 10px;
                 border-radius: @chatter_containers_border_radius;
                 background-color: rgba(60, 60, 70, 0.1);
+                -webkit-transition: background-color 0.8s ease-in-out 1s, opacity 0.15s ease-in-out 0s, height 0.15s ease-in-out 0s, padding 0.15s ease-in-out 0s, margin 0.15s ease-in-out 0s;
+                -moz-transition: background-color 0.8s ease-in-out 1s, opacity 0.15s ease-in-out 0s, height 0.15s ease-in-out 0s, padding 0.15s ease-in-out 0s, margin 0.15s ease-in-out 0s;
+                -o-transition: background-color 0.8s ease-in-out 1s, opacity 0.15s ease-in-out 0s, height 0.15s ease-in-out 0s, padding 0.15s ease-in-out 0s, margin 0.15s ease-in-out 0s;
+                transition: background-color 0.8s ease-in-out 1s, opacity 0.15s ease-in-out 0s, height 0.15s ease-in-out 0s, padding 0.15s ease-in-out 0s, margin 0.15s ease-in-out 0s;
+
+                + div {
+                    .chatter_transition(@property: opacity, @delay: .05s)
+                }
+
+                &.new_message {
+                    background-color: fade(dbColor(OutstandingColor), 60);
+                    opacity: 0;
+                    height: 0;
+                    padding-top: 0;
+                    padding-bottom: 0;
+                    margin-top: 0;
+                    margin-bottom: 0;
+                    overflow: hidden;
+
+                    + div {
+                        opacity: 0;
+                    }
+                }
 
                 .chatter_thread_message_sidebar {
                     -ms-flex: 0 0 40px;
@@ -375,22 +477,27 @@
                                 &:hover {
                                     opacity: 1;
                                 }
+
+                                &[disabled] {
+                                    opacity: .3;
+                                    cursor: unset;
+                                }
+                            }
+
+                            .chatter_thread_message_reply {
+                                transform: rotateY(180deg);
+                                font-size: 20px;
+                                margin: -4px 0;
                             }
 
                             .chatter_thread_message_attachments {
-                                &:after {
-                                    content: "8";
-                                    background: pink;
-                                    border-radius: 50%;
-                                    width: 16px;
-                                    height: 16px;
-                                    position: absolute;
-                                    display: flex;
-                                    justify-content: center;
-                                    align-items: center;
-                                    font-size: 12px;
-                                    margin-top: -24px;
-                                    margin-left: 8px;
+                                background-color: rgba(45, 183, 176, 0.1);
+                                border-radius: 4px;
+                                padding: 4px 6px 4px 5px;
+                                color: var(--outstanding-color);
+
+                                > i {
+                                    margin-right: 4px;
                                 }
                             }
 
@@ -407,6 +514,14 @@
                             white-space: pre-wrap;
                         }
                     }
+                }
+
+                .chatter_thread_message_children {
+                    width: 100%;
+                    background: rgba(255, 255, 255, 0.9);
+                    margin-top: 10px;
+                    margin-bottom: 2px;
+                    border-radius: @chatter_containers_border_radius;
                 }
             }
         }

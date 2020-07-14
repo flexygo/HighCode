@@ -193,6 +193,13 @@ var flexygo;
                     if (additionalWhere && additionalWhere !== '') {
                         this.additionalWhere = additionalWhere;
                     }
+                    let ValidatorMessage = element.attr('ValidatorMessage');
+                    if (ValidatorMessage && ValidatorMessage !== '') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.ValidatorMessage = ValidatorMessage;
+                    }
                     this.init();
                     let Value = element.attr('Value');
                     if (Value && Value !== '') {
@@ -200,7 +207,7 @@ var flexygo;
                     }
                 }
                 static get observedAttributes() {
-                    return ['property', 'required', 'disabled', 'multiple', 'separator', 'requiredmessage', 'style', 'class', 'iconclass', 'helpid', 'hide', 'objectname', 'viewname', 'sqlvaluefield', 'sqldisplayfield', 'pagesize', 'additionalwhere', 'cnnstring'];
+                    return ['property', 'required', 'disabled', 'multiple', 'separator', 'requiredmessage', 'style', 'class', 'iconclass', 'helpid', 'hide', 'objectname', 'viewname', 'sqlvaluefield', 'sqldisplayfield', 'pagesize', 'additionalwhere', 'validatormessage', 'cnnstring'];
                 }
                 attributeChangedCallback(attrName, oldVal, newVal) {
                     let element = $(this);
@@ -439,10 +446,10 @@ var flexygo;
                     let ret = $('<div class="input-group-btn" />');
                     let editCtl = me.closest('flx-edit, flx-list')[0];
                     let icon1;
-                    if (this.options && (this.options.SearchCollection || this.options.SearchFunction)) {
+                    if (this.options && (this.options.SearchCollection || this.options.SearchFunction) && !this.options.Locked) {
                         icon1 = $('<button class="btn btn-default" type="button"><i class="flx-icon icon-search" /></button>').on('click', (e) => {
                             if (this.options.SearchFunction) {
-                                flexygo.utils.execDynamicCode.call(this, editCtl.parseEditString(this.options.SearchFunction));
+                                flexygo.utils.execDynamicCode.call(this, editCtl.parseEditString(this.options.SearchFunction, editCtl, this));
                             }
                             if (this.options.SearchCollection && this.options.SearchCollection !== '') {
                                 flexygo.events.on(this, "entity", "selected", (e) => {
@@ -487,21 +494,21 @@ var flexygo;
                                         }
                                     });
                                 });
-                                flexygo.nav.openPage('search', editCtl.parseEditString(this.options.SearchCollection), editCtl.parseEditString(this.options.SearchWhere), null, 'modal');
+                                flexygo.nav.openPage('search', editCtl.parseEditString(this.options.SearchCollection, editCtl, this), editCtl.parseEditString(this.options.SearchWhere, editCtl, this), null, 'modal');
                             }
                         });
                         ret.append(icon1);
                     }
                     if (this.options && this.options.ObjNameLink && this.options.ObjWhereLink) {
                         icon1 = $('<button class="btn btn-default" type="button"><i class="flx-icon icon-link" /></button>').on('click', (e) => {
-                            flexygo.nav.openPage('view', editCtl.parseEditString(this.options.ObjNameLink), editCtl.parseEditString(this.options.ObjWhereLink), null, this.options.TargetIdLink);
+                            flexygo.nav.openPage('view', editCtl.parseEditString(this.options.ObjNameLink, editCtl, this), editCtl.parseEditString(this.options.ObjWhereLink, editCtl, this), null, this.options.TargetIdLink);
                         });
                         ret.append(icon1);
                     }
                     if (this.options && (this.options.AllowNewFunction || this.options.AllowNewObject) && !this.options.Locked) {
                         icon1 = $('<button class="btn btn-default" type="button"><i class="fa fa-plus " /></button>').on('click', (e) => {
                             if (this.options.AllowNewFunction) {
-                                flexygo.utils.execDynamicCode.call(this, editCtl.parseEditString(this.options.AllowNewFunction));
+                                flexygo.utils.execDynamicCode.call(this, editCtl.parseEditString(this.options.AllowNewFunction, editCtl, this));
                             }
                             else if (this.options.AllowNewObject && this.options.AllowNewObject !== '') {
                                 flexygo.events.on(this, "entity", "inserted", (e) => {
@@ -543,12 +550,13 @@ var flexygo;
                                                     }
                                                     input.append($('<option/>').text(text).val(value));
                                                     this.setValue(value, text);
+                                                    this.triggerDependencies();
                                                 }
                                             }
                                         });
                                     }
                                 });
-                                flexygo.nav.openPage('edit', editCtl.parseEditString(this.options.AllowNewObject), null, null, 'modal');
+                                flexygo.nav.openPage('edit', editCtl.parseEditString(this.options.AllowNewObject, editCtl, this), null, null, 'modal');
                             }
                         });
                         ret.append(icon1);
@@ -657,9 +665,23 @@ var flexygo;
                     if (this.options && this.options.IsRequiredMessage) {
                         input.attr('data-msg-required', this.options.IsRequiredMessage);
                     }
+                    if (this.options && this.options.ValidatorMessage && this.options.ValidatorMessage !== '') {
+                        input.attr('data-msg-sqlvalidator', this.options.ValidatorMessage);
+                    }
                     if (this.options && this.options.CauseRefresh) {
                         input.on('change', () => {
                             //$(document).trigger('refreshProperty', [input.closest('flx-edit'), this.options.Name]);
+                            let ev = {
+                                class: "property",
+                                type: "changed",
+                                sender: this,
+                                masterIdentity: this.property
+                            };
+                            flexygo.events.trigger(ev);
+                        });
+                    }
+                    if (this.options && this.options.SQLValidator != null) {
+                        input.on('change', (e) => {
                             let ev = {
                                 class: "property",
                                 type: "changed",
@@ -683,6 +705,9 @@ var flexygo;
                             return false;
                         });
                     }
+                    input.on('change.combo', (e) => {
+                        me.attr('Value', $(e.currentTarget).val());
+                    });
                 }
                 changeSQLData(newSQL, newOptions) {
                     let me = $(this);

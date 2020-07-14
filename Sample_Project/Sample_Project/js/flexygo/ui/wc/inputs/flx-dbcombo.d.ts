@@ -52,8 +52,8 @@ declare namespace flexygo.ui.wc {
         timer: any;
         showOptions(): void;
         hideOptions(): void;
-        loadValues(page: number, autoselect: boolean, fromvalue?: boolean, value?: string): void;
-        private addComboItems(data, autoselect);
+        loadValues(page: number, autoselect: boolean, fromvalue?: boolean, value?: string, append?: boolean): void;
+        private addComboItems(data, autoselect, append?);
         private getTextByValue(value);
         private getListItem(value, text, template);
         getIconButtons(): JQuery;

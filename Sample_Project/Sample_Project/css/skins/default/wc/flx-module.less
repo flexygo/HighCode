@@ -1,4 +1,4 @@
-﻿
+
 //Default module
 flx-module {
     display: block;
@@ -27,8 +27,9 @@ flx-module .cntHeader {
     text-transform: uppercase;
     line-height: 1.2em;
     box-sizing: border-box;
-    padding: 5px;
+    //padding: 5px;
 }
+
 
 flx-module .cntBodyHeader, flx-module .cntBodyFooter {
     display: flow-root;
@@ -44,7 +45,7 @@ flx-module [fullscreen] {
 }
 
 flx-module .cntHeader i {
-    float: left;
+    //float: left;
     margin-right: 5px;
 }
 
@@ -82,6 +83,36 @@ flx-module.noheader .cntBodyHeader {
 flx-module.noheader flx-chart {
     padding: 10px;
 }
+
+//Clean module
+flx-module.clean:not(.config):not(.fullscreen){
+    padding:20px;
+}
+flx-module.clean:not(.config):not(.fullscreen) .cntHeader {
+    background-color: dbColor(moduleColor);
+    margin-bottom: 14px;
+}
+
+flx-module.clean .cntBodyHeader {
+    background-color: dbColor(moduleColor);
+}
+
+
+flx-module.clean .cntHeader .cntIcon, flx-module.clean .cntHeader .cntTitle {
+    color: dbColor(OutstandingColor);
+    font-size:1.5em;
+    margin: 8px 0px 8px 8px;
+}
+
+flx-module.clean .cntHeader .cntTitle {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+flx-module.clean .cntHeader .cntButtons {
+    color: lighten(dbColor(OutstandingColor),40);
+}
+
 
 
 //Empty Module
@@ -174,7 +205,12 @@ flx-module.empty:not(.config):not(.fullscreen):hover .cntHeader {
 }
 
 flx-module .bagButton.active i:before {
-    content: "\eaff";
+    content: "\eec2";
+}
+
+//Rounded modules
+flx-module.roundBorders .cntBodyHeader, flx-module.roundBorders .cntHeader {
+    border-radius: 10px 10px 0 0;
 }
 
 //GENERIC Module PAGER
@@ -207,22 +243,22 @@ flx-module .cntButtons .pager .nextPage:hover, flx-module .cntButtons .pager .pr
 
 flx-module .cntButtons .pager .prevPage:before {
     font-family: 'flexygo-icons' !important;
-    content: "\e92c";
+    content: "\f305";
 }
 
 flx-module .cntButtons .pager .nextPage:before {
     font-family: 'flexygo-icons' !important;
-    content: "\e92d";
+    content: "\f303";
 }
 
 flx-module .cntButtons .pager .firstPage:before {
     font-family: 'flexygo-icons' !important;
-    content: "\e91d";
+    content: "\eb02";
 }
 
 flx-module .cntButtons .pager .lastPage:before {
     font-family: 'flexygo-icons' !important;
-    content: "\e91c";
+    content: "\eaad";
 }
 
 flx-module .cntButtons .pager .activePage:before {
@@ -250,22 +286,22 @@ flx-module .cntButtons .pager .pBtn.active {
 
 flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .prevPage:before, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .prevPage:before {
     font-family: 'flexygo-icons' !important;
-    content: "\e92c";
+    content: "\f305";
 }
 
 flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .nextPage:before, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .nextPage:before {
     font-family: 'flexygo-icons' !important;
-    content: "\e92d";
+    content: "\f303";
 }
 
 flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .firstPage:before, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .firstPage:before {
     font-family: 'flexygo-icons' !important;
-    content: "\e91d";
+    content: "\eb02";
 }
 
 flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .lastPage:before, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .lastPage:before {
     font-family: 'flexygo-icons' !important;
-    content: "\e91c";
+    content: "\eaad";
 }
 
 
@@ -342,7 +378,7 @@ flx-module .cntBodyHeader .moduleToolbar:empty, flx-module .cntBodyFooter .modul
 }
 
 flx-module .cntBodyHeader .moduleToolbar, flx-module .cntBodyFooter .moduleToolbar {
-    background-color: dbColor(bgColor);
+    //background-color: dbColor(bgColor);
     padding-top: 5px;
     padding-bottom: 5px;
     padding-right: 5px;
@@ -434,24 +470,30 @@ flx-moduletab .nav-pills {
 
 @keyframes loading-spin {
     from {
+        transform-origin: center;
         transform: rotate(0deg);
     }
 
     to {
+        transform-origin: center;
         transform: rotate(360deg);
     }
 }
 
-flx-module[type='flx-orgchart'].loading:after {
-    animation: loading-spin 5000ms linear infinite;
-    content: "";
-    font-size: 40px;
-    width: 50px;
-    height: 50px;
+flx-module[type='flx-orgchart'].loading, flx-module[type='flx-maillist'].loading, .mailViewer.loading {
+    position: relative;
+}
+flx-module[type='flx-orgchart'].loading:after, flx-module[type='flx-maillist'].loading:after, .mailViewer.loading:after {
+    position: fixed;
+    top: 50%;
+    animation: loading-spin 1500ms linear infinite;
+    content: "\eaaf";
+    font: normal normal normal 14px/1 Flexygo-icons;
+    font-family: 'Flexygo-icons' !important;
+    font-size: 50px;
+    color: dbColor(OutstandingColor);
     display: block;
     margin: 0 50%;
-    border: 2px dashed lighten(dbColor(ModuleHeaderColor),40%);
-    background-color: lighten(dbColor(ModuleHeaderColor),70%);
 }
 
 //END EMPTY CLass

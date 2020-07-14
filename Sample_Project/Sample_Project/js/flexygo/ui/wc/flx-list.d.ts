@@ -17,6 +17,7 @@ declare namespace flexygo.ui.wc {
        */
         connected: boolean;
         mode: string;
+        isFocused: boolean;
         objectname: string;
         childname: string;
         collectionname: string;
@@ -28,6 +29,10 @@ declare namespace flexygo.ui.wc {
         tFooter: string;
         tCSSText: string;
         tScriptText: string;
+        fields: object;
+        currentRow: JQuery;
+        prevRow: JQuery;
+        isRowDirty: boolean;
         pager: JQuery;
         pagerConfig: flexygo.api.list.ModulePager;
         additionalWhere: string;
@@ -84,9 +89,9 @@ declare namespace flexygo.ui.wc {
             [key: string]: flexygo.api.PresetSettings;
         };
         /**
-        * Fires when element is attached to DOM
-        * @method connectedCallback
-        */
+       * Fires when element is attached to DOM
+       * @method connectedCallback
+       */
         connectedCallback(): void;
         /**
         * Fires when element is dettached to DOM
@@ -139,6 +144,19 @@ declare namespace flexygo.ui.wc {
         */
         stopLoading(): void;
         /**
+        * Start info Template
+        * @property startInfo {string}
+        */
+        startInfoTemplate(): string;
+        /**
+        * Set main events.
+        * @method setStartInfoEvents
+        */
+        setStartInfoEvents(): void;
+        hasProperties(): boolean;
+        setRowEvents(): void;
+        setRowEvent(el: any): void;
+        /**
         * Starts control rendering.
         * @method render
         */
@@ -163,7 +181,7 @@ declare namespace flexygo.ui.wc {
         * @param {string} str
         * @return {string}
         */
-        parseEditString(str: string): string;
+        parseEditString(str: string, ctx: flexygo.ui.wc.FlxEditElement | flexygo.ui.wc.FlxListElement, property: Element): string;
         /**
         * Captures property change event
         * @method onPropertyChanged

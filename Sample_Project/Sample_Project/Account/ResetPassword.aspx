@@ -15,15 +15,14 @@
             <div class="divlogin">
                 <div id="logo" class="logo"></div>
                 <section id="loginForm">
-                   
-                    <div class="cell"><i class="flx-icon icon-user"></i>
+                    <div class="cell"><i class="flx-icon icon-email-2"></i>
                         <asp:TextBox ID="Email" autocomplete="off" placeHolder="Email" runat="server"></asp:TextBox><asp:RequiredFieldValidator ID="EmailRequired" runat="server" ControlToValidate="Email" Text="*"></asp:RequiredFieldValidator>
                     </div>
-                    <div class="cell"><i class="flx-icon icon-lock"></i>
+                    <div class="cell"><i class="flx-icon icon-password"></i>
                         <asp:TextBox ID="Password" placeHolder="Password" runat="server" TextMode="Password"></asp:TextBox><asp:RequiredFieldValidator ID="PasswordRequired" runat="server" ControlToValidate="Password" Text="*"></asp:RequiredFieldValidator>
                     </div>
 
-                    <div class="cell"><i class="flx-icon icon-lock"></i>
+                    <div class="cell"><i class="flx-icon icon-password"></i>
                         <asp:TextBox ID="ConfirmPassword" placeHolder="ConfirmPassword" runat="server" TextMode="Password"></asp:TextBox><asp:RequiredFieldValidator ID="ConfirmPasswordRequired" runat="server" ControlToValidate="ConfirmPassword" Text="*"></asp:RequiredFieldValidator>
                          <asp:CompareValidator ID="ValidatorPassword" runat="server" ControlToCompare="Password" ControlToValidate="ConfirmPassword"
                     CssClass="text-danger" Display="Dynamic" ErrorMessage="The password and confirmation password do not match."  />

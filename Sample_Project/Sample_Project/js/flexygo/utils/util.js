@@ -21,6 +21,34 @@ var flexygo;
         }
         utils.showQR = showQR;
         /**
+        * Check if two objects are equivalent
+        * @method ObjectsAreEquivalent
+        * @param {object} a - Object a to compare.
+        * @param {object} b - Object b to compare.
+        */
+        function objectsAreEquivalent(a, b) {
+            // Create arrays of property names
+            var aProps = Object.getOwnPropertyNames(a);
+            var bProps = Object.getOwnPropertyNames(b);
+            // If number of properties is different,
+            // objects are not equivalent
+            if (aProps.length != bProps.length) {
+                return false;
+            }
+            for (var i = 0; i < aProps.length; i++) {
+                var propName = aProps[i];
+                // If values of same property are not equal,
+                // objects are not equivalent
+                if (a[propName] !== b[propName]) {
+                    return false;
+                }
+            }
+            // If we made it this far, objects
+            // are considered equivalent
+            return true;
+        }
+        utils.objectsAreEquivalent = objectsAreEquivalent;
+        /**
         * Creates a string function from a param array.
         * @method functionToString
         * @param {string} functionName - The function name.
@@ -183,6 +211,15 @@ var flexygo;
             return check;
         }
         utils.isAgentMobile = isAgentMobile;
+        /**
+       * Says if the agent's navigator comes from Electron.
+       * @method isAgentElectron
+       * @return {boolean} True if agent's navigator comes from Electron, false if not.
+       */
+        function isAgentElectron() {
+            return (navigator.userAgent && (/electron+/gim).test(navigator.userAgent));
+        }
+        utils.isAgentElectron = isAgentElectron;
         /**
         * Transform object into key value pairs array.
         * @param {object} data - Object to transform.
@@ -468,6 +505,167 @@ var flexygo;
             });
         }
         utils.documentViewerEvents = documentViewerEvents;
+        /**
+        * Evaluates if element is in main content.
+        * @param {Element} element - Element to evaluate
+        * @param {number} margin - Respect margin
+        * @method isInMainContent
+        * @return {boolean}
+        */
+        function isInMainContent(element, margin) {
+            const mainContent = $(element).closest('#mainContent')[0];
+            if (!margin) {
+                margin = 0;
+            }
+            const scroll = mainContent.scrollTop; //|| mainContent.offsetTop
+            const boundsTop = (element.getBoundingClientRect().top - mainContent.offsetTop) + scroll;
+            const viewport = {
+                top: scroll + margin,
+                bottom: (scroll + mainContent.offsetHeight) - margin,
+            };
+            const bounds = {
+                top: boundsTop,
+                bottom: boundsTop + element.clientHeight,
+            };
+            return (bounds.bottom >= viewport.top && bounds.bottom <= viewport.bottom)
+                || (bounds.top <= viewport.bottom && bounds.top >= viewport.top);
+        }
+        utils.isInMainContent = isInMainContent;
+        /**
+        * Get file icon.
+        * @method getFileIcon
+        */
+        function getFileIcon(extension) {
+            switch (extension.replace('.', '').toLowerCase()) {
+                case 'txt': {
+                    return 'fa fa-file-text-o';
+                }
+                case 'pdf': {
+                    return 'fa fa-file-pdf-o';
+                }
+                case 'doc':
+                case 'docx': {
+                    return 'fa fa-file-word-o';
+                }
+                case 'xls':
+                case 'xlsx':
+                case 'csv': {
+                    return 'fa fa-file-excel-o';
+                }
+                case 'ppt':
+                case 'pptx': {
+                    return 'fa fa-file-powerpoint-o';
+                }
+                case 'gif':
+                case 'jpg':
+                case 'jpeg':
+                case 'png':
+                case 'bmp':
+                case 'tif': {
+                    return 'fa fa-file-image-o';
+                }
+                case 'zip':
+                case 'zipx':
+                case 'rar':
+                case 'tar':
+                case 'gz':
+                case 'dmg':
+                case 'iso': {
+                    return 'fa fa-file-archive-o';
+                }
+                case 'wav':
+                case 'mp3':
+                case 'fla':
+                case 'ra':
+                case 'rma':
+                case 'aif':
+                case 'aiff':
+                case 'aa':
+                case 'aac':
+                case 'aax':
+                case 'ac3':
+                case 'au':
+                case 'ogg':
+                case 'avr':
+                case '3ga':
+                case 'flac':
+                case 'mid':
+                case 'midi':
+                case 'm4a':
+                case 'mp4a':
+                case 'amz':
+                case 'mka':
+                case 'asx':
+                case 'pcm':
+                case 'm3u':
+                case 'wma':
+                case 'xwma': {
+                    return 'fa fa-file-sound-o';
+                }
+                case 'avi':
+                case 'mpg':
+                case 'mp4':
+                case 'mkv':
+                case 'mov':
+                case 'wmv':
+                case 'vp6':
+                case '264':
+                case 'vid':
+                case 'rv':
+                case 'webm':
+                case 'swf':
+                case 'h264':
+                case 'flv':
+                case 'mk3d':
+                case 'gifv':
+                case 'oggv':
+                case '3gp':
+                case 'm4v':
+                case 'movie':
+                case 'divx': {
+                    return 'fa fa-file-video-o';
+                }
+                case 'css':
+                case 'js':
+                case 'git':
+                case 'py':
+                case 'cpp':
+                case 'h':
+                case 'ini':
+                case 'config':
+                case 'exe':
+                case 'dll':
+                case 'bat':
+                case 'pl':
+                case 'scr':
+                case 'msi':
+                case 'app':
+                case 'deb':
+                case 'apk':
+                case 'jar':
+                case 'vb':
+                case 'prg':
+                case 'sh':
+                case 'html':
+                case 'htm':
+                case 'xhtml':
+                case 'jhtml':
+                case 'php':
+                case 'php3':
+                case 'php4':
+                case 'php5':
+                case 'phtml':
+                case 'asp':
+                case 'aspx':
+                case 'cfm': {
+                    return 'fa fa-file-code-o';
+                }
+                default: {
+                    return 'fa fa-file-o';
+                }
+            }
+        }
+        utils.getFileIcon = getFileIcon;
     })(utils = flexygo.utils || (flexygo.utils = {}));
 })(flexygo || (flexygo = {}));
 (function (flexygo) {
@@ -707,4 +905,239 @@ $(function () {
         return this;
     };
 });
+(function (flexygo) {
+    var mail;
+    (function (mail_1) {
+        /**
+        * Filters mail list Module with folder Name.
+        * @method changeFolder
+        * @param {string} folderId - new folder id.
+        */
+        function changeFolder(folderId, object) {
+            let listMod;
+            //Find list module using id
+            if (object) {
+                listMod = $('#mod-sysmod-mails-object')[0];
+            }
+            else {
+                listMod = $('#mod-sysmod-mails')[0];
+            }
+            //If input  has value apply to additionalWhere
+            if (folderId == '') {
+                listMod.additionalWhere = null;
+            }
+            else {
+                listMod.additionalWhere = 'Mails.FolderId = \'' + folderId + '\'';
+            }
+            //Refresh list module
+            listMod.refresh();
+        }
+        mail_1.changeFolder = changeFolder;
+        function viewLoaded(e, messageId) {
+            $(e).find('iframe').contents().find("body").html($(e).find('.iframe').html());
+            $(e).find('.iframe').remove();
+            $(e).find('.attachments').html(flexygo.environment.getTemplate('sysMailsAttachments', 'Mails_Attachments.MessageId=\'' + messageId + '\'', 'SymailAttachmentList', null));
+        }
+        mail_1.viewLoaded = viewLoaded;
+        function openMail(messageId, objectName, objectId, mail) {
+            let itm = $('<flx-mailview></flx-mailview>');
+            itm.attr('messageid', messageId);
+            itm.attr('mode', 'bd');
+            itm.attr('objectName', objectName);
+            itm.attr('objectId', objectId);
+            let cont = flexygo.targets.createContainer({ targetid: 'popup1280x1024' }, false, $(this));
+            cont.addClass('mailViewer');
+            cont.html(itm);
+            $(mail).parent().addClass('seen');
+        }
+        mail_1.openMail = openMail;
+        /**
+        * Open search dinamically from dbcombo
+        * @method parseJavaString
+        * @param {string} property - name dbcombo property.
+        * @param {HTMLElement} me - search property.
+        */
+        function openSearch(property, me) {
+            let combo = $(me).closest('flx-edit').find('flx-dbcombo[property=' + property + ']');
+            let object = combo[0].getValue();
+            let configObj;
+            let comboObj;
+            let config;
+            let collection;
+            let key;
+            if (object) {
+                //Get entity
+                configObj = new flexygo.obj.Entity('Mail_Object_Config', 'Mails_Objects_Config.ObjectName = \'' + object + '\'');
+                comboObj = new flexygo.obj.Entity(object);
+                //Get collection name from object
+                config = comboObj.getConfig();
+                collection = config.ParentName;
+                //Get key name from mail object config
+                configObj.read();
+                key = configObj.data["KeyProperty"].Value;
+                flexygo.events.on(this, "entity", "selected", (e) => {
+                    flexygo.events.off(this, "entity", "selected");
+                    //Coger del objeto mail_object_config coger el campo para la key
+                    let entity = e.sender;
+                    let value = entity.data[key].Value;
+                    $(me).val(value);
+                    $(document).find('flx-search[objectname="' + collection + '"]').closest(".ui-dialog").remove();
+                });
+                flexygo.nav.openPage('search', collection, null, null, 'modal');
+            }
+        }
+        mail_1.openSearch = openSearch;
+    })(mail = flexygo.mail || (flexygo.mail = {}));
+})(flexygo || (flexygo = {}));
+/**
+ * @namespace flexygo.utils.offline
+ */
+(function (flexygo) {
+    var utils;
+    (function (utils) {
+        var offline;
+        (function (offline) {
+            /**
+           * Init Offline Module.
+           * @method initOfflineModule
+           * @param {Element} moduleElement HTML Element.
+           * @param {boolean} withHorizontalScroll With Horizontal Scroll.
+           * @param {number} visibleElements Visible Elements.
+           * @param {number} respectSpace Respect Space.
+           *  @param {string} scrollContainerSelector Scroll Container Selector.
+           */
+            function initOfflineModule(moduleElement, withHorizontalScroll = false, visibleElements, respectSpace = 5, scrollContainerSelector = '.offline-container-items.horizontal') {
+                $(moduleElement).find('[data-toggle="tooltip"]').tooltip({ container: 'body', trigger: 'hover', delay: { show: 600, hide: 0 } });
+                if (withHorizontalScroll) {
+                    let temporalScrollValue = null;
+                    $(moduleElement).find(scrollContainerSelector).off('mousewheel.offline').on('mousewheel.offline', function (e, delta) {
+                        temporalScrollValue = ((temporalScrollValue === null) ? this.scrollLeft : temporalScrollValue) - delta * (this.offsetWidth / visibleElements + respectSpace);
+                        if (temporalScrollValue > (this.scrollWidth - this.clientWidth)) {
+                            temporalScrollValue = this.scrollWidth - this.clientWidth;
+                        }
+                        else if (temporalScrollValue < 0) {
+                            temporalScrollValue = 0;
+                        }
+                        this.scrollLeft = temporalScrollValue;
+                        e.preventDefault();
+                    });
+                    //Necessary for: "CSS: scroll-behavior: smooth"
+                    let checkScrollEnd = null;
+                    $(moduleElement).find(scrollContainerSelector).off('scroll.offline').on('scroll.offline', function () {
+                        if (checkScrollEnd !== null) {
+                            clearTimeout(checkScrollEnd);
+                        }
+                        checkScrollEnd = setTimeout(function () {
+                            temporalScrollValue = null;
+                        }, 150);
+                    });
+                }
+            }
+            offline.initOfflineModule = initOfflineModule;
+            /**
+            * Show Related Info.
+            * @method showRelatedInfo
+            * @param {Element} triggerElement HTML Element.
+            */
+            function showRelatedInfo(triggerElement) {
+                let jButton = $(triggerElement);
+                let jObject = jButton.closest('[objectname]');
+                let appName = jObject.attr('appname');
+                let objectName = jObject.attr('objectname');
+                let selectors = {
+                    'flx-list#mod-sysofflineApp_Pages': `AppName = '${appName}' AND ObjectName = '${objectName}'`,
+                    'flx-list#mod-sysofflineApp_Toolbars': '',
+                    'flx-list#mod-sysofflineApp_views': `Offline = 1 AND ObjectName = '${objectName}'`,
+                    'flx-list#mod-sysofflineApp_Processes': ''
+                };
+                //Remove and add individuality active class because use a standard template (.box) each object
+                if (jObject.hasClass('active')) {
+                    jObject.removeClass('active');
+                    jButton.closest('[pagename="offline_App_View"]').find(Object.keys(selectors).join(", ")).attr({ objectwhere: '1=0', 'related-objectname': null }).each((index, elem) => { elem.refresh(); });
+                }
+                else {
+                    jObject.addClass('active');
+                    jObject.closest('flx-list').find(`.offline-container > div > [objectname].active:not([objectname="${objectName}"])`).removeClass('active').find('.buttons > .active').removeClass('active');
+                    jButton.closest('[pagename="offline_App_View"]').find(Object.keys(selectors).join(", ")).attr({ 'related-objectname': objectName }).each((index, elem) => { $(elem).attr({ objectwhere: selectors[`flx-list#${elem.id}`] }); });
+                }
+            }
+            offline.showRelatedInfo = showRelatedInfo;
+            /**
+            * Init Tabs Control.
+            * @method initTabsControl
+            * @param {Element} tabSection HTML Element.
+            */
+            function initTabsControl(tabSection) {
+                let respetSpace = '10px';
+                let barWidth = '100%';
+                let jTabSection = $(tabSection);
+                let jTabs = jTabSection.find('> nav > span:not(.separator)');
+                let tabNumber = jTabs.length;
+                let jTabsContent = jTabSection.find('> div.offline-tabs-container > div.offline-tab-content');
+                //TODO: PERFECT ALIGNMENT (More than 2 tabs) If tab is not first or last, 'respetSpace' equal (respetSpace / 2) for '--offline-tab-bar-poistion
+                if (jTabs.hasClass('active')) {
+                    jTabSection[0].style.setProperty('--offline-tab-bar-width', `calc(${barWidth} / ${tabNumber} - ${respetSpace})`);
+                    jTabSection[0].style.setProperty('--offline-tab-bar-poistion', `calc((${barWidth} / ${tabNumber} + ${respetSpace}) * ${jTabs.index(jTabs.filter('.active'))})`);
+                    jTabsContent.css('transform', `translateX(calc(100% * ${jTabs.index(jTabs.filter('.active'))}))`);
+                }
+                jTabs.off('click.offlinetabs').on('click.offlinetabs', (e) => {
+                    if (!$(e.currentTarget).hasClass('active')) {
+                        jTabs.filter('.active').removeClass('active');
+                        $(e.currentTarget).addClass('active');
+                        jTabSection[0].style.setProperty('--offline-tab-bar-width', `calc(${barWidth} / ${tabNumber} - ${respetSpace})`);
+                        jTabSection[0].style.setProperty('--offline-tab-bar-poistion', `calc((${barWidth} / ${tabNumber} + ${respetSpace}) * ${jTabs.index(jTabs.filter('.active'))})`);
+                        jTabsContent.css('transform', `translateX(calc(100% * ${jTabs.index(jTabs.filter('.active'))}))`);
+                        setTimeout(() => {
+                            jTabs.removeClass('rippled').filter(`.active`).addClass('rippled');
+                        }, 500);
+                    }
+                });
+                /***********non-standardizable***********/
+                flexygo.events.off(tabSection, 'module', 'loaded');
+                flexygo.events.on(tabSection, 'module', 'loaded', function (ev) {
+                    let modules = {
+                        'sysofflineApp_Pages': 3,
+                        'sysofflineApp_Toolbars': 1,
+                        'sysofflineApp_views': 2,
+                        'sysofflineApp_Processes': 2
+                    };
+                    if ($(ev.sender).attr('modulename') in modules) {
+                        initOfflineModule(ev.sender, true, modules[$(ev.sender).attr('modulename')]);
+                    }
+                });
+                /***********non-standardizable***********/
+            }
+            offline.initTabsControl = initTabsControl;
+            /**
+            * Get Attribute In Empty Template.
+            * @method getAttributeInEmptyTemplate
+            * @param {Element} element HTML Element.
+            * @param {string} attributeName Attribute Name.
+            * @returns {any} Atribute Value
+            */
+            function getAttributeInEmptyTemplate(element, attributeName) {
+                return $(element).attr(attributeName);
+            }
+            offline.getAttributeInEmptyTemplate = getAttributeInEmptyTemplate;
+            /**
+            * Is Empty Attribute.
+            * @method isEmptyAttribute
+            * @param {Element} element HTML Element.
+            * @param {string} attributeName Attribute Name.
+            * @param {string} is is Value.
+            * @param {string} notIs notIs Value.
+            * @returns {any} Value of "is" or "notIs"
+            */
+            function isEmptyAttribute(element, attributeName, is, notIs) {
+                if (flexygo.utils.isBlank($(element).attr(attributeName))) {
+                    return is;
+                }
+                else {
+                    return notIs;
+                }
+            }
+            offline.isEmptyAttribute = isEmptyAttribute;
+        })(offline = utils.offline || (utils.offline = {}));
+    })(utils = flexygo.utils || (flexygo.utils = {}));
+})(flexygo || (flexygo = {}));
 //# sourceMappingURL=util.js.map

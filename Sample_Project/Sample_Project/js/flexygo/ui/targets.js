@@ -39,7 +39,11 @@ var flexygo;
         function createContainer(histObj, excludeHist, triggerElement, excludeMainframeBtn, buttons) {
             let pageContainer = null;
             if (histObj.targetid && histObj.targetid.indexOf('popup') == 0) {
+                if (triggerElement && triggerElement.closest('.pageContainer').length > 0) {
+                    histObj.opener = $(triggerElement).closest('.pageContainer').attr('id');
+                }
                 pageContainer = $('<main class="pageContainer" />');
+                pageContainer.attr('id', flexygo.utils.uniqueUUID());
                 let relatedPosition = null;
                 if ($('.flx-dialog').length > 0) {
                     relatedPosition = $('.flx-dialog').last();
@@ -84,7 +88,11 @@ var flexygo;
                 });
             }
             else if (histObj.targetid && histObj.targetid.indexOf('modal') == 0) {
+                if (triggerElement && triggerElement.closest('.pageContainer').length > 0) {
+                    histObj.opener = $(triggerElement).closest('.pageContainer').attr('id');
+                }
                 pageContainer = $('<main class="pageContainer" />');
+                pageContainer.attr('id', flexygo.utils.uniqueUUID());
                 let width, height;
                 let size = histObj.targetid.replace('modal', '');
                 if (size.length > 0 && size.indexOf('x') != -1) {
@@ -121,7 +129,11 @@ var flexygo;
                 });
             }
             else if (histObj.targetid && histObj.targetid.indexOf('menu') == 0) {
+                if (triggerElement && triggerElement.closest('.pageContainer').length > 0) {
+                    histObj.opener = $(triggerElement).closest('.pageContainer').attr('id');
+                }
                 pageContainer = $('<main class="pageContainer" />');
+                pageContainer.attr('id', flexygo.utils.uniqueUUID());
                 let width, height;
                 let size = histObj.targetid.replace('menu', '');
                 if (size.length > 0 && size.indexOf('x') != -1) {
@@ -165,6 +177,9 @@ var flexygo;
                 });
             }
             else if (histObj.targetid && histObj.targetid.indexOf('main') == 0) {
+                if (triggerElement && triggerElement.closest('.pageContainer').length > 0) {
+                    histObj.opener = $(triggerElement).closest('.pageContainer').attr('id');
+                }
                 if (!excludeHist) {
                     flexygo.history.set(histObj);
                 }
@@ -173,6 +188,7 @@ var flexygo;
             else if (histObj.targetid && histObj.targetid.indexOf('current') == 0) {
                 if (triggerElement && triggerElement.closest('.pageContainer').length > 0) {
                     pageContainer = triggerElement.closest('.pageContainer');
+                    histObj.opener = $(pageContainer).data('context').opener;
                     if (pageContainer.is($('#realMain'))) {
                         if (!excludeHist) {
                             flexygo.history.set(histObj);
@@ -183,6 +199,15 @@ var flexygo;
                     if (!excludeHist) {
                         flexygo.history.set(histObj);
                     }
+                    pageContainer = $('#realMain');
+                }
+            }
+            else if (histObj.targetid && histObj.targetid.indexOf('opener') == 0) {
+                let openerId = histObj.targetid.split("|")[1];
+                if (openerId) {
+                    pageContainer = $('#' + openerId);
+                }
+                else {
                     pageContainer = $('#realMain');
                 }
             }

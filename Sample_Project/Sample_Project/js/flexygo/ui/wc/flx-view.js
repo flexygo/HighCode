@@ -149,7 +149,7 @@ var flexygo;
                     me.append('<div style="clear:both"></div>');
                     this.setFormValues();
                     let reduce = 0;
-                    if (flexygo.utils.isAgentMobile()) {
+                    if (flexygo.utils.isSizeSmartphone()) {
                         reduce = 20;
                     }
                     let cellH = 62 - reduce;
@@ -320,7 +320,7 @@ var flexygo;
                             if (this.data[propName].WebComponent == 'flx-dbcombo') {
                                 ctl.setValue(this.data[propName].Value, this.data[propName].Text);
                             }
-                            else if ($(ctl).attr('type') && ($(ctl).attr('type').toLowerCase() === 'datetime-local' || $(ctl).attr('type').toLowerCase() === 'date')) {
+                            else if ($(ctl).attr('type') && ($(ctl).attr('type').toLowerCase() === 'datetime-local' || $(ctl).attr('type').toLowerCase() === 'date' || $(ctl).attr('type').toLowerCase() === 'number')) {
                                 ctl.setValue(this.data[propName].Value);
                             }
                             else if ($(ctl).attr('type') && ($(ctl).attr('type').toLowerCase() === 'password')) {

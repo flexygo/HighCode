@@ -12,7 +12,7 @@ declare namespace flexygo {
         * @param {string} objectWhere - Where condition.
         * @return {object} - Process object.
         */
-        constructor(processName: string, objectName: string, objectWhere: string);
+        constructor(processName: string, objectName?: string, objectWhere?: string);
         objectName: string;
         objectWhere: string;
         processName: string;

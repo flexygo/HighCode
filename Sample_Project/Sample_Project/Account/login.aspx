@@ -9,18 +9,27 @@
     <title>Login</title>
     <link rel="manifest" href="../manifest.json" />
     <uc1:Links runat="server" id="Links" />
-   <style>
-    #LineDown {background-color: rgba(0, 0, 0, .8);color: #ba362f;font-size: 3em;display: flex;flex-direction: column;justify-content: center;align-items: center;}
+      <style>
+    #LineDown {background-color: rgb(0, 0, 0);background-color: rgba(0, 0, 0, .8);color: #ba362f;font-size: 3em;display: flex;flex-direction: column;justify-content: center;align-items: center;}
     #LineDown > div {width: 50%;text-align: center;}
     .fullscreen{position:fixed;top:0;left:0;z-index:1050;width:100%!important;height:100%!important}
     </style>
     <script>
      //If browser Internet Explorer Throw Not supported browser
-     $(document).ready(function () {
-            if (navigator.userAgent.search("MSIE") >= 0 || navigator.userAgent.search("IE") >= 0 || navigator.userAgent.search("InternetExplorer") >= 0 || navigator.userAgent.search("Trident") >= 0) {                           
-                $('body').append('<div id="LineDown" class="fullscreen"><div><blink><i class="flx-icon icon-view-in-new-window icon-margin-right"></i> Browser not supported</blink></div></div>');
-            }
-     });
+        if (typeof $ != 'undefined') {
+            $(document).ready(function () {
+                if (navigator.userAgent.search("MSIE") >= 0 || navigator.userAgent.search("IE") >= 0 || navigator.userAgent.search("InternetExplorer") >= 0 || navigator.userAgent.search("Trident") >= 0) {
+                    $('body').append('<div id="LineDown" class="fullscreen"><div><blink><i class="flx-icon icon-view-in-new-window icon-margin-right"></i> Browser not supported</blink></div></div>');
+                }
+            });
+        }
+        else {
+            document.write('<div id="LineDown" class="fullscreen"><div><blink><i class="flx-icon icon-view-in-new-window icon-margin-right"></i> Browser not supported</blink></div></div>');
+        }
+    </script>
+
+    <script>        
+
      function initLoginPage(){
          var isLogout = false;
          sessionStorage.removeItem('DevelopMode');
@@ -72,11 +81,10 @@
 
         function setViewport() {
             $('head meta[name="viewport"]').remove();
-          if(screen.height > screen.width) //Vertical
-          {
-            $('head').append('<meta name="viewport" content="width=500px, user-scalable=no" />');
-          } else 
-          {
+
+          if (window.orientation == 0 || window.orientation == 180) { //Vertical
+            $('head').append('<meta name="viewport" content="width=550px, user-scalable=no" />');
+          } else {
              $('head').append('<meta name="viewport" content="width=1280px, user-scalable=no" />'); 
           }
         }
@@ -99,7 +107,7 @@
 		            </div>
 	            </div>                
                 <section id="loginForm">
-                    <div class="cell"><i class="flx-icon icon-user"></i>
+                    <div class="cell"><i class="flx-icon icon-user-3"></i>
                         <asp:TextBox ID="UserName" autocomplete="off" placeHolder="Username" runat="server"></asp:TextBox><asp:RequiredFieldValidator ID="UserNameRequired" runat="server" ControlToValidate="UserName" Text="*"></asp:RequiredFieldValidator>
                     </div>
                     <div class="cell"><i class="flx-icon icon-lock"></i>

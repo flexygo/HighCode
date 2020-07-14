@@ -35,11 +35,11 @@
 
                 <h1><%: Title %>.</h1>
                      <asp:PlaceHolder runat="server" ID="PassPanel" ViewStateMode="Disabled" Visible="true" >
-                      <div class="cell"><i class="flx-icon icon-lock"></i>
+                      <div class="cell"><i class="flx-icon icon-password"></i>
                         <asp:TextBox ID="Password" placeHolder="Password" runat="server" TextMode="Password"></asp:TextBox><asp:RequiredFieldValidator ID="PasswordRequired" runat="server" ControlToValidate="Password" Text="*"></asp:RequiredFieldValidator>
                     </div>
 
-                    <div class="cell"><i class="flx-icon icon-lock"></i>
+                    <div class="cell"><i class="flx-icon icon-password"></i>
                         <asp:TextBox ID="ConfirmPassword" placeHolder="ConfirmPassword" runat="server" TextMode="Password"></asp:TextBox><asp:RequiredFieldValidator ID="ConfirmPasswordRequired" runat="server" ControlToValidate="ConfirmPassword" Text="*"></asp:RequiredFieldValidator>
                         <asp:CompareValidator ID="ValidatorPassword" runat="server" ControlToCompare="Password" ControlToValidate="ConfirmPassword"  CssClass="text-danger" Display="Dynamic" ErrorMessage="The password and confirmation password do not match."  />
                     </div>
@@ -52,7 +52,7 @@
                
                     <asp:PlaceHolder runat="server" ID="successPanel" ViewStateMode="Disabled" Visible="false" >
                       
-                            <h2><i class="flx-icon icon-user "></i> <asp:Label ID="ThanksMessage" runat="server" Text="Label">Thank you for confirming your account.</asp:Label></h2>
+                            <h2><i class="flx-icon icon-user-3"></i> <asp:Label ID="ThanksMessage" runat="server" Text="Label">Thank you for confirming your account.</asp:Label></h2>
                             <p><asp:HyperLink ID="loginBtn" runat="server" NavigateUrl="~/Account/Login"> Click here to login</asp:HyperLink></p>
                    
                     </asp:PlaceHolder>

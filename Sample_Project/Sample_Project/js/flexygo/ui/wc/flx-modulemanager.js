@@ -265,8 +265,8 @@ var flexygo;
                             let mylist = $(e);
                             let listitems = mylist.children('li').get();
                             listitems.sort((a, b) => {
-                                let compA = $(a).attr('tabOrder');
-                                let compB = $(b).attr('tabOrder');
+                                let compA = parseInt($(a).attr('tabOrder'));
+                                let compB = parseInt($(b).attr('tabOrder'));
                                 return (compA < compB) ? -1 : (compA > compB) ? 1 : 0;
                             });
                             $.each(listitems, (idx, itm) => {
@@ -341,6 +341,7 @@ var flexygo;
                     let me = $(this);
                     itms.sortable({
                         appendTo: "BODY",
+                        zIndex: 999999,
                         helper: "clone",
                         connectWith: ".connectedSortable",
                         stop: (event, ui) => {
