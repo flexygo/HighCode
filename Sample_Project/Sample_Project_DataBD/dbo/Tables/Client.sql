@@ -17,6 +17,7 @@
     [IdEmployee]  INT            NULL,
     [Mailing]     BIT            NULL,
     [LastModif]   SMALLDATETIME  NULL,
+    [ExternalCode] VARCHAR(50) NULL, 
     CONSTRAINT [PK_Client] PRIMARY KEY CLUSTERED ([IdClient] ASC),
     CONSTRAINT [FK_Client_Client_State] FOREIGN KEY ([IdState]) REFERENCES [dbo].[Client_State] ([IdState]),
     CONSTRAINT [FK_Client_Client_Type] FOREIGN KEY ([IdType]) REFERENCES [dbo].[Client_Type] ([IdType]),

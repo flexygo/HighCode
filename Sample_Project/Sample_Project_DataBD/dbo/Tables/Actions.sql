@@ -15,6 +15,7 @@
     [Signature] NVARCHAR(MAX) NULL, 
     [AprovalName] NVARCHAR(50) NULL, 
     [AprovalDoc] NVARCHAR(50) NULL, 
+    [ExternalCode] VARCHAR(50) NULL, 
     CONSTRAINT [PK_Actions] PRIMARY KEY CLUSTERED ([ActionId] ASC),
     CONSTRAINT [FK_Actions_Action_States] FOREIGN KEY ([ActionState]) REFERENCES [dbo].[Action_States] ([State]),
     CONSTRAINT [FK_Actions_Action_Types] FOREIGN KEY ([ActionType]) REFERENCES [dbo].[Action_Types] ([ActionType]),
