@@ -124,6 +124,7 @@
     <None Include="scripts\data\courses.sql" />
     <None Include="scripts\data\steps.sql" />
     <None Include="scripts\data\scripts.sql" />
+    <Build Include="dbo\Stored Procedures\flxoff_learning_v1.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Sample_Project_DataBD.refactorlog" />
