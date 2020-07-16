@@ -131,6 +131,26 @@ USING (VALUES
  ,(96,N'DLL 4ª practica',1,N'~/custom/Courses/Level II/Steps/9/processes.sql',0,'ConfConnectionString')
  ,(97,N'DLL 4ª practica',1,N'~/custom/Courses/Level II/Steps/9/processes_params.sql',0,'ConfConnectionString')
 
+ ,(98,N'Offline 1ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/1/offline_apps.sql',1,N'ConfConnectionString')
+ ,(99,N'Offline 1ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/1/offline_pages.sql',1,N'ConfConnectionString')
+ ,(100,N'Offline 1ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/1/webapi_objects.sql',1,N'ConfConnectionString')
+ ,(101,N'Offline 1ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/1/webapi_processes.sql',1,N'ConfConnectionString')
+ ,(102,N'Offline 1ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/1/webapi_users.sql',1,N'ConfConnectionString')
+
+ ,(103,N'Offline 2ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/2/offline_apps.sql',1,N'ConfConnectionString')
+ ,(104,N'Offline 2ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/2/objects_properties.sql',1,N'ConfConnectionString')
+ ,(105,N'Offline 2ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/2/objects.sql',1,N'ConfConnectionString')
+ ,(106,N'Offline 2ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/2/offline_objects.sql',1,N'ConfConnectionString')
+ ,(107,N'Offline 2ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/2/offline_pages.sql',1,N'ConfConnectionString')
+ 
+ ,(108,N'Offline 3ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/3/offline_apps.sql',1,N'ConfConnectionString')
+ ,(109,N'Offline 3ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/3/offline_menus.sql',1,N'ConfConnectionString')
+ ,(110,N'Offline 3ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/3/offline_objects.sql',1,N'ConfConnectionString')
+ ,(112,N'Offline 3ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/3/offline_pages.sql',1,N'ConfConnectionString')
+ ,(113,N'Offline 3ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/3/offline_styles.sql',1,N'ConfConnectionString')
+
+
+
 ) AS Source ([ScriptId],[StepId],[CourseId],[Script],[Inherit],[ConnStringId])
 ON (Target.[ScriptId] = Source.[ScriptId] AND Target.[StepId] = Source.[StepId] AND Target.[CourseId] = Source.[CourseId])
 WHEN MATCHED AND (

@@ -6,7 +6,8 @@ SET IDENTITY_INSERT [Courses] ON
 
 MERGE INTO [Courses] AS Target
 USING (VALUES
-  (1,N'Level II')
+  (1,N'Develop'),
+  (2,N'Offline')
 ) AS Source ([CourseId],[Course])
 ON (Target.[CourseId] = Source.[CourseId])
 WHEN MATCHED AND (

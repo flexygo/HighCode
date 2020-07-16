@@ -24,7 +24,7 @@ Public Class CoursesProcesses
             dt = dmData.DataTable(String.Format("Select Script, ConnStringId
                                                     From Scripts 
                                                     INNER JOIN Steps ON Scripts.StepId = Steps.StepId AND Steps.CourseId = '{0}'
-                                                    INNER JOIN Steps AS Step ON Steps.[Order] <= Step.[Order] AND Step.StepId = '{1}'
+                                                    INNER JOIN Steps AS Step ON Steps.[Order] <= Step.[Order] AND Step.StepId = '{1}' AND Step.CourseId='{0}'
                                                     WHERE Scripts.[Inherit] = CASE WHEN Scripts.StepId = '{1}' THEN Scripts.[Inherit] ELSE 1 END
                                                     ORDER BY Steps.[Order] ASC", Course, [Step]))
 
