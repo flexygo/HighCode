@@ -1,19 +1,19 @@
 import { r as registerInstance, h, d as getElement } from './index-1ad46950.js';
-import './ionic-global-d77af0d9.js';
-import { s as sql, u as util } from './messages-65fb7542.js';
-import './utils-30f0564d.js';
-import './index-fb0d54fa.js';
-import './helpers-d94a0dba.js';
-import './animation-6c25f42e.js';
-import './index-0cbc1957.js';
-import './ios.transition-e8b1df9c.js';
-import './md.transition-03140845.js';
-import './cubic-bezier-92995175.js';
-import './index-1da44cf3.js';
-import './index-53f14fc6.js';
-import './hardware-back-button-c2d005b0.js';
-import './index-28dab2f8.js';
-import { m as modalController } from './overlays-e769172f.js';
+import './ionic-global-08321e45.js';
+import { s as sql, u as util } from './messages-856fd5dd.js';
+import './utils-ae5eb377.js';
+import './index-9a467e52.js';
+import './helpers-742de4f9.js';
+import './animation-a90ce8fc.js';
+import './index-59819519.js';
+import './ios.transition-f27c75b3.js';
+import './md.transition-0550681d.js';
+import './cubic-bezier-89113939.js';
+import './index-9b41fcc6.js';
+import './index-86d5f3ab.js';
+import './hardware-back-button-b3b61715.js';
+import './index-626f3745.js';
+import { m as modalController } from './overlays-af382aca.js';
 import { j as jquery } from './jquery-4ed57fb2.js';
 
 const flxDbcomboCss = "flx-dbcombo{width:100%}flx-dbcombo ion-input{width:calc(100% - 60px);max-width:calc(100% - 60px);float:left}flx-dbcombo ion-button{width:30px;float:right}";
@@ -43,7 +43,12 @@ class FlxDbcombo {
     }
     load() {
         if (this.sqlsentence) {
-            this.template = `<ion-item lines="full"><ion-label onclick="$(document).trigger('select', ['{{${this.valuefield}|JS}}','{{${this.displayfield}|JS}}']);">{{${this.displayfield}}}</ion-label></ion-item>`;
+            if (jquery(this.me).find('.comboTemplate').length > 0) {
+                this.template = `<ion-item lines="full" onclick="$(document).trigger('select', ['{{${this.valuefield}|JS}}','{{${this.displayfield}|JS}}']);">${jquery(this.me).find('.comboTemplate').html()}</ion-item>`;
+            }
+            else {
+                this.template = `<ion-item lines="full"><ion-label onclick="$(document).trigger('select', ['{{${this.valuefield}|JS}}','{{${this.displayfield}|JS}}']);">{{${this.displayfield}}}</ion-label></ion-item>`;
+            }
             if (this.value != null) {
                 let sentence = sql.addWhere(this.sqlsentence, this.filter);
                 sentence = sql.addWhere(sentence, this.additional);

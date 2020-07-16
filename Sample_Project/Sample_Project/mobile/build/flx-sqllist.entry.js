@@ -1,7 +1,7 @@
 import { r as registerInstance, h, d as getElement } from './index-1ad46950.js';
-import { s as sql, C as ConftokenProvider, u as util } from './messages-65fb7542.js';
+import { s as sql, C as ConftokenProvider, u as util } from './messages-856fd5dd.js';
 import { j as jquery } from './jquery-4ed57fb2.js';
-import { p as parser } from './parser-8823d4d2.js';
+import { p as parser } from './parser-5f51cc8e.js';
 
 const flxSqllistCss = "flx-sqllist{}";
 

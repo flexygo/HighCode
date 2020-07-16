@@ -1,5 +1,5 @@
 import { r as registerInstance, h, H as Host } from './index-1ad46950.js';
-import { g as getIonMode } from './ionic-global-d77af0d9.js';
+import { g as getIonMode } from './ionic-global-08321e45.js';
 
 const footerIosCss = "ion-footer{display:block;position:relative;order:1;width:100%;z-index:10}ion-footer ion-toolbar:last-of-type{padding-bottom:var(--ion-safe-area-bottom, 0)}.footer-ios ion-toolbar:first-of-type{--border-width:0.55px 0 0}@supports (backdrop-filter: blur(0)){.footer-background{left:0;right:0;top:0;bottom:0;position:absolute;backdrop-filter:saturate(180%) blur(20px)}.footer-translucent-ios ion-toolbar{--opacity:.8}}.footer-ios.ion-no-border ion-toolbar:first-of-type{--border-width:0}";
 

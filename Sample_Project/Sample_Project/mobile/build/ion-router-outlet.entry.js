@@ -1,8 +1,8 @@
 import { r as registerInstance, e as createEvent, h, d as getElement } from './index-1ad46950.js';
-import { g as getIonMode, c as config } from './ionic-global-d77af0d9.js';
-import { t as transition } from './index-0cbc1957.js';
-import { g as getTimeGivenProgression } from './cubic-bezier-92995175.js';
-import { a as attachComponent, d as detachComponent } from './framework-delegate-49c6b814.js';
+import { g as getIonMode, c as config } from './ionic-global-08321e45.js';
+import { t as transition } from './index-59819519.js';
+import { g as getTimeGivenProgression } from './cubic-bezier-89113939.js';
+import { a as attachComponent, d as detachComponent } from './framework-delegate-7af2c551.js';
 
 const routeOutletCss = ":host{left:0;right:0;top:0;bottom:0;position:absolute;contain:layout size style;overflow:hidden;z-index:0}";
 
@@ -28,7 +28,7 @@ class RouterOutlet {
         }
     }
     async connectedCallback() {
-        this.gesture = (await __sc_import_app('./swipe-back-1769a8ce.js')).createSwipeBackGesture(this.el, () => !!this.swipeHandler && this.swipeHandler.canStart() && this.animationEnabled, () => this.swipeHandler && this.swipeHandler.onStart(), step => this.ani && this.ani.progressStep(step), (shouldComplete, step, dur) => {
+        this.gesture = (await __sc_import_app('./swipe-back-30c717eb.js')).createSwipeBackGesture(this.el, () => !!this.swipeHandler && this.swipeHandler.canStart() && this.animationEnabled, () => this.swipeHandler && this.swipeHandler.onStart(), step => this.ani && this.ani.progressStep(step), (shouldComplete, step, dur) => {
             if (this.ani) {
                 this.animationEnabled = false;
                 this.ani.onFinish(() => {
@@ -82,10 +82,11 @@ class RouterOutlet {
         return changed;
     }
     /** @internal */
-    async setRouteId(id, params, direction) {
+    async setRouteId(id, params, direction, animation) {
         const changed = await this.setRoot(id, params, {
             duration: direction === 'root' ? 0 : undefined,
             direction: direction === 'back' ? 'back' : 'forward',
+            animationBuilder: animation
         });
         return {
             changed,
@@ -123,13 +124,12 @@ class RouterOutlet {
         const { el, mode } = this;
         const animated = this.animated && config.getBoolean('animated', true);
         const animationBuilder = this.animation || opts.animationBuilder || config.get('navAnimation');
-        await transition(Object.assign({ mode,
+        await transition(Object.assign(Object.assign({ mode,
             animated,
-            animationBuilder,
             enteringEl,
             leavingEl, baseEl: el, progressCallback: (opts.progressAnimation
                 ? ani => this.ani = ani
-                : undefined) }, opts));
+                : undefined) }, opts), { animationBuilder }));
         // emit nav changed event
         this.ionNavDidChange.emit();
         return true;

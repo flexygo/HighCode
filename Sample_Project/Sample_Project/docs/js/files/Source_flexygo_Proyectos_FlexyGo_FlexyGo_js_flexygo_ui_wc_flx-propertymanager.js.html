@@ -1109,7 +1109,7 @@ var flexygo;
                                 MenuLeft = parseInt((btnGroup.offset().left).toFixed());
                             }
                             if (parseInt((btnGroup.offset().top - btnGroup.outerHeight() / 2).toFixed()) &gt; parseInt(($(window).height() / 2).toFixed())) {
-                                MenuTop = btnGroup.offset().top - 460;
+                                MenuTop = btnGroup.offset().top - 375;
                                 MenuShadow = &#x27;0 -6px 20px 4px rgba(0, 0, 0, 0.15), 0 -2px 10px 0px rgba(0, 0, 0, 0.20)&#x27;;
                             }
                             else {
@@ -1147,7 +1147,7 @@ var flexygo;
                     $(&#x27;#&#x27; + btMenuId + &#x27; [name=CSSClass]&#x27;).val(obj.data.CSSClass.Value);
                     //$(&#x27;#&#x27; + btMenuId + &#x27; [name=Style]&#x27;).val(obj.data.Style.Value);
                     $(&#x27;#&#x27; + btMenuId + &#x27; [name=IconName]&#x27;).val(obj.data.IconName.Value);
-                    $(&#x27;#&#x27; + btMenuId + &#x27; [name=TypeId]&#x27;).val(obj.data.TypeId.Value);
+                    //$(&#x27;#&#x27; + btMenuId + &#x27; [name=TypeId]&#x27;).val(obj.data.TypeId.Value);
                     $(&#x27;#&#x27; + btMenuId + &#x27; [name=Locked]&#x27;).val(obj.data.Locked.Value);
                     $(&#x27;#&#x27; + btMenuId + &#x27; [name=IsRequired]&#x27;).val(obj.data.IsRequired.Value);
                     $(&#x27;#&#x27; + btMenuId + &#x27; [name=Hide]&#x27;).val(obj.data.Hide.Value);
@@ -1160,7 +1160,7 @@ var flexygo;
                     btnUl.append(&#x27;&lt;li&gt;&lt;flx-text type=&quot;text&quot; name=&quot;CSSClass&quot; placeholder=&quot;&#x27; + flexygo.localization.translate(&#x27;flxpropertymanager.classname&#x27;) + &#x27;&quot; iconclass=&quot;flx-icon icon-custom&quot; &gt;&lt;/flx-text&gt;&lt;/li&gt;&#x27;);
                     //  btnUl.append(&#x27;&lt;li&gt;&lt;flx-text type=&quot;text&quot; name=&quot;Style&quot; placeholder=&quot;&#x27; + flexygo.localization.translate(&#x27;flxpropertymanager.style&#x27;) + &#x27;&quot; iconclass=&quot;flx-icon icon-brush&quot; &gt;&lt;/flx-text&gt;&lt;/li&gt;&#x27;);
                     btnUl.append(&#x27;&lt;li&gt;&lt;flx-dbcombo name=&quot;IconName&quot; placeholder=&quot;&#x27; + flexygo.localization.translate(&#x27;flxpropertymanager.selecticon&#x27;) + &#x27;&quot; iconclass=&quot;flx-icon icon-image&quot; objectname=&quot;sysObject&quot; viewname=&quot;iconsView&quot; sqlvaluefield=&quot;IconName&quot; sqldisplayfield=&quot;IconName&quot; &gt; &lt;template&gt;&lt;span class=&quot;txt-outstanding&quot;&gt;&lt;i class=&quot;{{CSSClass}} icon-margin-right&quot;&gt;&lt;/i&gt;{{IconName}}&lt;/span&gt;&lt;/template&gt;&lt;/flx-dbcombo&gt;&lt;/li&gt;&#x27;);
-                    btnUl.append(&#x27;&lt;li&gt;&lt;flx-dbcombo name=&quot;TypeId&quot; placeholder=&quot;&#x27; + flexygo.localization.translate(&#x27;flxpropertymanager.selectcontroltype&#x27;) + &#x27;&quot; iconclass=&quot;fa fa-gear&quot; objectname=&quot;sysObject&quot; viewname=&quot;ControlTypes&quot; sqlvaluefield=&quot;TypeId&quot; sqldisplayfield=&quot;Descrip&quot; &gt;&lt;/flx-dbcombo&gt;&lt;/li&gt;&#x27;);
+                    //btnUl.append(&#x27;&lt;li&gt;&lt;flx-dbcombo name=&quot;TypeId&quot; placeholder=&quot;&#x27; + flexygo.localization.translate(&#x27;flxpropertymanager.selectcontroltype&#x27;) + &#x27;&quot; iconclass=&quot;fa fa-gear&quot; objectname=&quot;sysObject&quot; viewname=&quot;ControlTypes&quot; sqlvaluefield=&quot;TypeId&quot; sqldisplayfield=&quot;Descrip&quot; &gt;&lt;/flx-dbcombo&gt;&lt;/li&gt;&#x27;);
                     btnUl.append(&#x27;&lt;li class=&quot;separator&quot;&gt;&lt;/li&gt;&#x27;);
                     btnUl.append(&#x27;&lt;li&gt;&lt;span &gt;&lt;label &gt;&lt;i class=&quot;flx-icon icon-lock-1&quot; &gt;&lt;/i&gt; &#x27; + flexygo.localization.translate(&#x27;flxpropertymanager.locked&#x27;) + &#x27;&lt;/label&gt;&lt;flx-check name=&quot;Locked&quot; class=&quot;pull-right&quot;&gt;&lt;/flx-check&gt;&lt;/span&gt;&lt;/li&gt;&#x27;);
                     btnUl.append(&#x27;&lt;li&gt;&lt;span &gt;&lt;label &gt;&lt;i class=&quot;flx-icon icon-key-2&quot; &gt;&lt;/i&gt; &#x27; + flexygo.localization.translate(&#x27;flxpropertymanager.required&#x27;) + &#x27;&lt;/label&gt;&lt;flx-check name=&quot;IsRequired&quot; class=&quot;pull-right&quot;&gt;&lt;/flx-check&gt;&lt;/span&gt;&lt;/li&gt;&#x27;);
@@ -1220,7 +1220,7 @@ var flexygo;
                         obj.data.CSSClass.Value = elem.closest(&#x27;.propertyMenu&#x27;).find(&#x27;[name=CSSClass]&#x27;).val();
                         //obj.data.Style.Value = elem.closest(&#x27;.propertyMenu&#x27;).find(&#x27;[name=Style]&#x27;).val()
                         obj.data.IconName.Value = elem.closest(&#x27;.propertyMenu&#x27;).find(&#x27;[name=IconName]&#x27;).val();
-                        obj.data.TypeId.Value = elem.closest(&#x27;.propertyMenu&#x27;).find(&#x27;[name=TypeId]&#x27;).val();
+                        //obj.data.TypeId.Value = elem.closest(&#x27;.propertyMenu&#x27;).find(&#x27;[name=TypeId]&#x27;).val()
                         obj.data.Locked.Value = elem.closest(&#x27;.propertyMenu&#x27;).find(&#x27;[name=Locked]&#x27;).val();
                         obj.data.IsRequired.Value = elem.closest(&#x27;.propertyMenu&#x27;).find(&#x27;[name=IsRequired]&#x27;).val();
                         obj.data.Hide.Value = elem.closest(&#x27;.propertyMenu&#x27;).find(&#x27;[name=Hide]&#x27;).val();

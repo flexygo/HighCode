@@ -1,5 +1,5 @@
 import { r as registerInstance, e as createEvent, d as getElement } from './index-1ad46950.js';
-import { e as debounce } from './helpers-d94a0dba.js';
+import { e as debounce } from './helpers-742de4f9.js';
 
 const ROUTER_INTENT_NONE = 'root';
 const ROUTER_INTENT_FORWARD = 'forward';
@@ -112,7 +112,7 @@ const printRedirects = (redirects) => {
     console.groupEnd();
 };
 
-const writeNavState = async (root, chain, direction, index, changed = false) => {
+const writeNavState = async (root, chain, direction, index, changed = false, animation) => {
     try {
         // find next navigation outlet in the DOM
         const outlet = searchNavNode(root);
@@ -122,7 +122,7 @@ const writeNavState = async (root, chain, direction, index, changed = false) => 
         }
         await outlet.componentOnReady();
         const route = chain[index];
-        const result = await outlet.setRouteId(route.id, route.params, direction);
+        const result = await outlet.setRouteId(route.id, route.params, direction, animation);
         // if the outlet changed the page, reset navigation to neutral (no direction)
         // this means nested outlets will not animate
         if (result.changed) {
@@ -130,7 +130,7 @@ const writeNavState = async (root, chain, direction, index, changed = false) => 
             changed = true;
         }
         // recursively set nested outlets
-        changed = await writeNavState(result.element, chain, direction, index + 1, changed);
+        changed = await writeNavState(result.element, chain, direction, index + 1, changed, animation);
         // once all nested outlets are visible let's make the parent visible too,
         // using markVisible prevents flickering
         if (result.markVisible) {
@@ -458,7 +458,7 @@ class Router {
      * @param url The url to navigate to.
      * @param direction The direction of the animation. Defaults to `"forward"`.
      */
-    push(url, direction = 'forward') {
+    push(url, direction = 'forward', animation) {
         if (url.startsWith('.')) {
             url = (new URL(url, window.location.href)).pathname;
         }
@@ -466,7 +466,7 @@ class Router {
         const path = parsePath(url);
         const queryString = url.split('?')[1];
         this.setPath(path, direction, queryString);
-        return this.writeNavStateRoot(path, direction);
+        return this.writeNavStateRoot(path, direction, animation);
     }
     /**
      * Go back to previous page in the window.history.
@@ -523,7 +523,7 @@ class Router {
         const state = win.history.state;
         const lastState = this.lastState;
         this.lastState = state;
-        if (state > lastState) {
+        if (state > lastState || (state >= lastState && lastState > 0)) {
             return ROUTER_INTENT_FORWARD;
         }
         else if (state < lastState) {
@@ -533,7 +533,7 @@ class Router {
             return ROUTER_INTENT_NONE;
         }
     }
-    async writeNavStateRoot(path, direction) {
+    async writeNavStateRoot(path, direction, animation) {
         if (!path) {
             console.error('[ion-router] URL is not part of the routing set');
             return false;
@@ -555,13 +555,13 @@ class Router {
             return false;
         }
         // write DOM give
-        return this.safeWriteNavState(document.body, chain, direction, path, redirectFrom);
+        return this.safeWriteNavState(document.body, chain, direction, path, redirectFrom, 0, animation);
     }
-    async safeWriteNavState(node, chain, direction, path, redirectFrom, index = 0) {
+    async safeWriteNavState(node, chain, direction, path, redirectFrom, index = 0, animation) {
         const unlock = await this.lock();
         let changed = false;
         try {
-            changed = await this.writeNavState(node, chain, direction, path, redirectFrom, index);
+            changed = await this.writeNavState(node, chain, direction, path, redirectFrom, index, animation);
         }
         catch (e) {
             console.error(e);
@@ -578,7 +578,7 @@ class Router {
         }
         return resolve;
     }
-    async writeNavState(node, chain, direction, path, redirectFrom, index = 0) {
+    async writeNavState(node, chain, direction, path, redirectFrom, index = 0, animation) {
         if (this.busy) {
             console.warn('[ion-router] router is busy, transition was cancelled');
             return false;
@@ -589,7 +589,7 @@ class Router {
         if (routeEvent) {
             this.ionRouteWillChange.emit(routeEvent);
         }
-        const changed = await writeNavState(node, chain, direction, index);
+        const changed = await writeNavState(node, chain, direction, index, false, animation);
         this.busy = false;
         if (changed) {
             console.debug('[ion-router] route changed', path);

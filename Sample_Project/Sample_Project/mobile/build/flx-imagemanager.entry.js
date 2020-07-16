@@ -1,22 +1,22 @@
 import { r as registerInstance, h } from './index-1ad46950.js';
-import './ionic-global-d77af0d9.js';
-import { C as ConftokenProvider, s as sql, u as util, m as msg } from './messages-65fb7542.js';
-import './utils-30f0564d.js';
-import './index-fb0d54fa.js';
-import './helpers-d94a0dba.js';
-import './animation-6c25f42e.js';
-import './index-0cbc1957.js';
-import './ios.transition-e8b1df9c.js';
-import './md.transition-03140845.js';
-import './cubic-bezier-92995175.js';
-import './index-1da44cf3.js';
-import './index-53f14fc6.js';
-import './hardware-back-button-c2d005b0.js';
-import './index-28dab2f8.js';
-import './overlays-e769172f.js';
+import './ionic-global-08321e45.js';
+import { C as ConftokenProvider, s as sql, u as util, m as msg } from './messages-856fd5dd.js';
+import './utils-ae5eb377.js';
+import './index-9a467e52.js';
+import './helpers-742de4f9.js';
+import './animation-a90ce8fc.js';
+import './index-59819519.js';
+import './ios.transition-f27c75b3.js';
+import './md.transition-0550681d.js';
+import './cubic-bezier-89113939.js';
+import './index-9b41fcc6.js';
+import './index-86d5f3ab.js';
+import './hardware-back-button-b3b61715.js';
+import './index-626f3745.js';
+import './overlays-af382aca.js';
 import './jquery-4ed57fb2.js';
-import { n as nav } from './navigation-538e1aae.js';
-import { c as cam } from './camera-b5d0744d.js';
+import { n as nav } from './navigation-94cce689.js';
+import { c as cam } from './camera-2a479be4.js';
 
 const flxImagemanagerCss = "flx-imagemanager{}";
 
@@ -51,7 +51,7 @@ class FlxImagemanager {
                 }
             });
         }).catch((err) => {
-            if (err != 'User cancelled photos app') {
+            if (err.toString().toLowerCase() != 'user cancelled photos app' && err.toString().toLowerCase() != 'no image selected') {
                 let image = { "ImageId": util.GUID(), "ObjectName": this.object, "ObjectId": this.objectid, "ObjectGUID": null, "Name": 'Sample.jpg', "Descrip": null, "ImageClassId": null, "MainImage": false, "OrderNumber": null, "URL": null, "B64": this.nocamB64 };
                 cam.savePicture(image).then(() => {
                     let imgs = document.querySelector('flx-imagegallery');
@@ -69,7 +69,7 @@ class FlxImagemanager {
                 imgs.addImage(image);
             });
         }).catch((err) => {
-            if (err != 'User cancelled photos app') {
+            if (err.toString().toLowerCase() != 'user cancelled photos app' && err.toString().toLowerCase() != 'no image selected') {
                 let image = { "ImageId": util.GUID(), "ObjectName": this.object, "ObjectId": this.objectid, "ObjectGUID": null, "Name": 'Sample.jpg', "Descrip": null, "ImageClassId": null, "MainImage": false, "OrderNumber": null, "URL": null, "B64": this.nocamB64 };
                 cam.savePicture(image).then(() => {
                     let imgs = document.querySelector('flx-imagegallery');

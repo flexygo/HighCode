@@ -1,7 +1,7 @@
 import { r as registerInstance, h, H as Host, d as getElement } from './index-1ad46950.js';
-import { g as getIonMode, c as config, a as isPlatform } from './ionic-global-d77af0d9.js';
-import { s as sanitizeDOMString } from './index-53f14fc6.js';
-import { S as SPINNERS } from './spinner-configs-c8da7375.js';
+import { g as getIonMode, c as config, a as isPlatform } from './ionic-global-08321e45.js';
+import { s as sanitizeDOMString } from './index-86d5f3ab.js';
+import { S as SPINNERS } from './spinner-configs-5dd6891e.js';
 
 class RefresherContent {
     constructor(hostRef) {

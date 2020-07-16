@@ -1,20 +1,20 @@
 import { r as registerInstance, h, H as Host, d as getElement } from './index-1ad46950.js';
 
-const navLink = (el, routerDirection, component, componentProps) => {
+const navLink = (el, routerDirection, component, componentProps, routerAnimation) => {
     const nav = el.closest('ion-nav');
     if (nav) {
         if (routerDirection === 'forward') {
             if (component !== undefined) {
-                return nav.push(component, componentProps, { skipIfBusy: true });
+                return nav.push(component, componentProps, { skipIfBusy: true, animationBuilder: routerAnimation });
             }
         }
         else if (routerDirection === 'root') {
             if (component !== undefined) {
-                return nav.setRoot(component, componentProps, { skipIfBusy: true });
+                return nav.setRoot(component, componentProps, { skipIfBusy: true, animationBuilder: routerAnimation });
             }
         }
         else if (routerDirection === 'back') {
-            return nav.pop({ skipIfBusy: true });
+            return nav.pop({ skipIfBusy: true, animationBuilder: routerAnimation });
         }
     }
     return Promise.resolve(false);
@@ -28,7 +28,7 @@ class NavLink {
          */
         this.routerDirection = 'forward';
         this.onClick = () => {
-            return navLink(this.el, this.routerDirection, this.component, this.componentProps);
+            return navLink(this.el, this.routerDirection, this.component, this.componentProps, this.routerAnimation);
         };
     }
     render() {

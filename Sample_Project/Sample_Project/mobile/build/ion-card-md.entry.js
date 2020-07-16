@@ -1,6 +1,6 @@
 import { r as registerInstance, h, H as Host } from './index-1ad46950.js';
-import { g as getIonMode } from './ionic-global-d77af0d9.js';
-import { o as openURL, c as createColorClasses } from './theme-1a9eb2db.js';
+import { g as getIonMode } from './ionic-global-08321e45.js';
+import { o as openURL, c as createColorClasses } from './theme-d8afa044.js';
 
 const cardIosCss = ":host{--ion-safe-area-left:0px;--ion-safe-area-right:0px;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;display:block;position:relative;background:var(--background);color:var(--color);font-family:var(--ion-font-family, inherit);overflow:hidden}:host(.ion-color){background:var(--ion-color-base);color:var(--ion-color-contrast)}:host(.card-disabled){cursor:default;opacity:0.3;pointer-events:none}.card-native{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit;letter-spacing:inherit;text-decoration:inherit;text-indent:inherit;text-overflow:inherit;text-transform:inherit;text-align:inherit;white-space:inherit;color:inherit;padding-left:0;padding-right:0;padding-top:0;padding-bottom:0;margin-left:0;margin-right:0;margin-top:0;margin-bottom:0;display:block;width:100%;min-height:var(--min-height);transition:var(--transition);border-width:var(--border-width);border-style:var(--border-style);border-color:var(--border-color);outline:none;background:inherit}.card-native::-moz-focus-inner{border:0}button,a{cursor:pointer;user-select:none;-webkit-user-drag:none}ion-ripple-effect{color:var(--ripple-color)}:host{--background:var(--ion-item-background, var(--ion-background-color, #fff));--color:var(--ion-color-step-600, #666666);margin-left:16px;margin-right:16px;margin-top:24px;margin-bottom:24px;border-radius:8px;transform:translateZ(0);transition:transform 500ms cubic-bezier(0.12, 0.72, 0.29, 1);font-size:14px;box-shadow:0 4px 16px rgba(0, 0, 0, 0.12)}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){:host{margin-left:unset;margin-right:unset;-webkit-margin-start:16px;margin-inline-start:16px;-webkit-margin-end:16px;margin-inline-end:16px}}:host(.ion-activated){transform:scale3d(0.97, 0.97, 1)}";
 
@@ -8,6 +8,8 @@ const cardMdCss = ":host{--ion-safe-area-left:0px;--ion-safe-area-right:0px;-moz
 
 /**
  * @virtualProp {"ios" | "md"} mode - The mode determines which platform styles to use.
+ *
+ * @part native - The native HTML button, anchor, or div element that wraps all child elements.
  */
 class Card {
     constructor(hostRef) {
@@ -40,7 +42,7 @@ class Card {
                 h("slot", null)
             ];
         }
-        const { href, routerDirection } = this;
+        const { href, routerAnimation, routerDirection } = this;
         const TagType = clickable ? (href === undefined ? 'button' : 'a') : 'div';
         const attrs = (TagType === 'button')
             ? { type: this.type }
@@ -50,7 +52,7 @@ class Card {
                 rel: this.rel,
                 target: this.target
             };
-        return (h(TagType, Object.assign({}, attrs, { class: "card-native", disabled: this.disabled, onClick: (ev) => openURL(href, ev, routerDirection) }), h("slot", null), clickable && mode === 'md' && h("ion-ripple-effect", null)));
+        return (h(TagType, Object.assign({}, attrs, { class: "card-native", part: "native", disabled: this.disabled, onClick: (ev) => openURL(href, ev, routerDirection, routerAnimation) }), h("slot", null), clickable && mode === 'md' && h("ion-ripple-effect", null)));
     }
     render() {
         const mode = getIonMode(this);

@@ -1,6 +1,6 @@
 import { f as readTask, w as writeTask, r as registerInstance, h, H as Host, d as getElement } from './index-1ad46950.js';
-import { g as getIonMode } from './ionic-global-d77af0d9.js';
-import { c as clamp } from './helpers-d94a0dba.js';
+import { g as getIonMode } from './ionic-global-08321e45.js';
+import { c as clamp } from './helpers-742de4f9.js';
 
 const TRANSITION = 'all 0.2s ease-in-out';
 const cloneElement = (tagName) => {
@@ -171,6 +171,12 @@ class Header {
         else if (canCollapse && !this.collapsibleHeaderInitialized) {
             const pageEl = this.el.closest('ion-app,ion-page,.ion-page,page-inner');
             const contentEl = (pageEl) ? pageEl.querySelector('ion-content') : null;
+            // Cloned elements are always needed in iOS transition
+            writeTask(() => {
+                const title = cloneElement('ion-title');
+                title.size = 'large';
+                cloneElement('ion-back-button');
+            });
             await this.setupCollapsibleHeader(contentEl, pageEl);
         }
     }
@@ -228,9 +234,6 @@ class Header {
         this.contentScrollCallback = () => { handleContentScroll(this.scrollEl, scrollHeaderIndex, contentEl); };
         this.scrollEl.addEventListener('scroll', this.contentScrollCallback);
         writeTask(() => {
-            const title = cloneElement('ion-title');
-            title.size = 'large';
-            cloneElement('ion-back-button');
             if (this.collapsibleMainHeader !== undefined) {
                 this.collapsibleMainHeader.classList.add('header-collapse-main');
             }

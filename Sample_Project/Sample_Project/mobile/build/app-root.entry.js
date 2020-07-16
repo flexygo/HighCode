@@ -1,21 +1,21 @@
 import { r as registerInstance, h } from './index-1ad46950.js';
-import './ionic-global-d77af0d9.js';
-import { c as cordova, I as IonicNativePlugin, C as ConftokenProvider, W as Webapi, u as util } from './messages-65fb7542.js';
-import './utils-30f0564d.js';
-import './index-fb0d54fa.js';
-import './helpers-d94a0dba.js';
-import './animation-6c25f42e.js';
-import './index-0cbc1957.js';
-import './ios.transition-e8b1df9c.js';
-import './md.transition-03140845.js';
-import './cubic-bezier-92995175.js';
-import './index-1da44cf3.js';
-import './index-53f14fc6.js';
-import './hardware-back-button-c2d005b0.js';
-import { m as menuController } from './index-28dab2f8.js';
-import './overlays-e769172f.js';
+import './ionic-global-08321e45.js';
+import { c as cordova, I as IonicNativePlugin, C as ConftokenProvider, W as Webapi, u as util } from './messages-856fd5dd.js';
+import './utils-ae5eb377.js';
+import './index-9a467e52.js';
+import './helpers-742de4f9.js';
+import './animation-a90ce8fc.js';
+import './index-59819519.js';
+import './ios.transition-f27c75b3.js';
+import './md.transition-0550681d.js';
+import './cubic-bezier-89113939.js';
+import './index-9b41fcc6.js';
+import './index-86d5f3ab.js';
+import './hardware-back-button-b3b61715.js';
+import { m as menuController } from './index-626f3745.js';
+import './overlays-af382aca.js';
 import './jquery-4ed57fb2.js';
-import { n as nav } from './navigation-538e1aae.js';
+import { n as nav } from './navigation-94cce689.js';
 
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -68,7 +68,7 @@ var MobileAccessibilityOriginal = /** @class */ (function (_super) {
 }(IonicNativePlugin));
 var MobileAccessibility = new MobileAccessibilityOriginal();
 
-const appRootCss = ".icon-inner .flx-icon,.icon-inner .fa{font-size:20px;margin:3px;color:rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.54)}ion-fab-button[data-desc]{position:relative}ion-fab-button[data-desc]::after{position:absolute;content:attr(data-desc);z-index:1;bottom:4px;background-color:var(--ion-color-base);color:var(--ion-color-contrast);padding:9px;border-radius:8px;box-shadow:0 3px 5px -1px rgba(0,0,0,0.2), 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12)}ion-fab[horizontal=end] ion-fab-button[data-desc]::after{right:55px}ion-fab[horizontal=start] ion-fab-button[data-desc]::after{left:55px}.square-container{padding:8px}.square{width:calc(100% / 2);float:left;position:relative}.square .content{width:calc(100% - 16px);max-width:252px;max-height:252px;height:calc(100% - 16px);margin:8px;padding:16px;color:var(--ion-color-outstanding-contrast);background-color:var(--ion-color-outstanding-shade);box-shadow:0 2px 5px rgba(0, 0, 0, 0.26);text-align:center;cursor:pointer}.square .content h6{font-weight:bold}.square:nth-child(odd) .content{float:right}.square .content:hover{background-color:var(--ion-color-outstanding)}.square .content:hover i{background-color:var(--ion-color-outstanding-light-shade)}.square .content i{color:var(--ion-color-outstanding-light-contrast);background-color:var(--ion-color-outstanding-light);border-radius:50%;display:inline-block;font-size:50px;line-height:75px;width:75px;height:75px}";
+const appRootCss = ".icon-inner .flx-icon,.icon-inner .fa{font-size:20px;margin:3px;color:rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.54)}ion-fab-button[data-desc]{position:relative}ion-fab-button[data-desc]::after{position:absolute;content:attr(data-desc);z-index:1;bottom:4px;background-color:var(--ion-color-base);color:var(--ion-color-contrast);padding:9px;border-radius:8px;box-shadow:0 3px 5px -1px rgba(0,0,0,0.2), 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12)}ion-fab[horizontal=end] ion-fab-button[data-desc]::after{right:55px}ion-fab[horizontal=start] ion-fab-button[data-desc]::after{left:55px}.square-container{padding:8px;overflow:auto}.square{width:calc(100% / 2);float:left;position:relative}.square .content{width:calc(100% - 16px);max-width:252px;max-height:252px;height:calc(100% - 16px);margin:8px;padding-bottom:16px;color:var(--ion-color-outstanding-contrast);background-color:var(--ion-color-outstanding-shade);box-shadow:0 2px 5px rgba(0, 0, 0, 0.26);text-align:center;cursor:pointer}.square .content h6{font-weight:bold}.square:nth-child(odd) .content{float:right}.square .content:hover{background-color:var(--ion-color-outstanding)}.square .content:hover i{background-color:var(--ion-color-outstanding-light-shade)}.square .content i{color:var(--ion-color-outstanding-light-contrast);background-color:var(--ion-color-outstanding-light);border-radius:50%;display:inline-block;font-size:50px;line-height:75px;width:75px;height:75px}";
 
 class AppRoot {
     constructor(hostRef) {

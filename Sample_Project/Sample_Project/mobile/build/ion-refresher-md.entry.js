@@ -1,19 +1,9 @@
 import { w as writeTask, r as registerInstance, e as createEvent, f as readTask, h, H as Host, d as getElement } from './index-1ad46950.js';
-import { a as isPlatform, g as getIonMode } from './ionic-global-d77af0d9.js';
-import './utils-30f0564d.js';
-import './index-fb0d54fa.js';
-import { c as clamp, g as getElementRoot, r as raf } from './helpers-d94a0dba.js';
-import { c as createAnimation } from './animation-6c25f42e.js';
-import './index-0cbc1957.js';
-import './ios.transition-e8b1df9c.js';
-import './md.transition-03140845.js';
-import { g as getTimeGivenProgression } from './cubic-bezier-92995175.js';
-import './index-1da44cf3.js';
-import './index-53f14fc6.js';
-import './hardware-back-button-c2d005b0.js';
-import './index-28dab2f8.js';
-import './overlays-e769172f.js';
-import { d as hapticImpact } from './haptic-e8cf4060.js';
+import { a as isPlatform, g as getIonMode } from './ionic-global-08321e45.js';
+import { c as clamp, g as getElementRoot, r as raf } from './helpers-742de4f9.js';
+import { c as createAnimation } from './animation-a90ce8fc.js';
+import { g as getTimeGivenProgression } from './cubic-bezier-89113939.js';
+import { d as hapticImpact } from './haptic-0ea1f445.js';
 
 const getRefresherAnimationType = (contentEl) => {
     const previousSibling = contentEl.previousElementSibling;
@@ -369,7 +359,7 @@ class Refresher {
             });
         };
         this.scrollEl.addEventListener('scroll', this.scrollListenerCallback);
-        this.gesture = (await __sc_import_app('./index-1da44cf3.js')).createGesture({
+        this.gesture = (await __sc_import_app('./index-9b41fcc6.js')).createGesture({
             el: this.scrollEl,
             gestureName: 'refresher',
             gesturePriority: 10,
@@ -410,7 +400,7 @@ class Refresher {
                 refreshingCircle.style.setProperty('animation-delay', '-655ms');
             });
         }
-        this.gesture = (await __sc_import_app('./index-1da44cf3.js')).createGesture({
+        this.gesture = (await __sc_import_app('./index-9b41fcc6.js')).createGesture({
             el: this.scrollEl,
             gestureName: 'refresher',
             gesturePriority: 10,
@@ -509,7 +499,7 @@ class Refresher {
             this.setupNativeRefresher(contentEl);
         }
         else {
-            this.gesture = (await __sc_import_app('./index-1da44cf3.js')).createGesture({
+            this.gesture = (await __sc_import_app('./index-9b41fcc6.js')).createGesture({
                 el: contentEl,
                 gestureName: 'refresher',
                 gesturePriority: 10,

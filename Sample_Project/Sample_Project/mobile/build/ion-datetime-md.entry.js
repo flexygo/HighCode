@@ -1,9 +1,9 @@
 import { r as registerInstance, e as createEvent, h, H as Host, d as getElement } from './index-1ad46950.js';
-import { g as getIonMode } from './ionic-global-d77af0d9.js';
-import { c as clamp, f as findItemLabel, a as renderHiddenInput } from './helpers-d94a0dba.js';
-import './hardware-back-button-c2d005b0.js';
-import { b as pickerController } from './overlays-e769172f.js';
-import { h as hostContext } from './theme-1a9eb2db.js';
+import { g as getIonMode } from './ionic-global-08321e45.js';
+import { c as clamp, f as findItemLabel, a as renderHiddenInput } from './helpers-742de4f9.js';
+import './hardware-back-button-b3b61715.js';
+import { b as pickerController } from './overlays-af382aca.js';
+import { h as hostContext } from './theme-d8afa044.js';
 
 /**
  * Gets a date value given a format
@@ -230,12 +230,13 @@ const getDateTime = (dateString = '', timeZone = '') => {
     }
     /**
      * Ensures that YYYY-MM-DD, YYYY-MM,
-     * YYYY-DD, etc does not get affected
+     * YYYY-DD, YYYY, etc does not get affected
      * by timezones and stays on the day/month
      * that the user provided
      */
     if (dateString.length === 10 ||
-        dateString.length === 7) {
+        dateString.length === 7 ||
+        dateString.length === 4) {
         dateString += ' ';
     }
     const date = (typeof dateString === 'string' && dateString.length > 0) ? new Date(dateString) : new Date();

@@ -1,22 +1,22 @@
 import { r as registerInstance, h, d as getElement } from './index-1ad46950.js';
-import './ionic-global-d77af0d9.js';
-import { C as ConftokenProvider, s as sql, m as msg, u as util } from './messages-65fb7542.js';
-import './utils-30f0564d.js';
-import './index-fb0d54fa.js';
-import './helpers-d94a0dba.js';
-import './animation-6c25f42e.js';
-import './index-0cbc1957.js';
-import './ios.transition-e8b1df9c.js';
-import './md.transition-03140845.js';
-import './cubic-bezier-92995175.js';
-import './index-1da44cf3.js';
-import './index-53f14fc6.js';
-import './hardware-back-button-c2d005b0.js';
-import './index-28dab2f8.js';
-import './overlays-e769172f.js';
+import './ionic-global-08321e45.js';
+import { C as ConftokenProvider, s as sql, m as msg, u as util } from './messages-856fd5dd.js';
+import './utils-ae5eb377.js';
+import './index-9a467e52.js';
+import './helpers-742de4f9.js';
+import './animation-a90ce8fc.js';
+import './index-59819519.js';
+import './ios.transition-f27c75b3.js';
+import './md.transition-0550681d.js';
+import './cubic-bezier-89113939.js';
+import './index-9b41fcc6.js';
+import './index-86d5f3ab.js';
+import './hardware-back-button-b3b61715.js';
+import './index-626f3745.js';
+import './overlays-af382aca.js';
 import { j as jquery } from './jquery-4ed57fb2.js';
-import { n as nav } from './navigation-538e1aae.js';
-import { p as parser } from './parser-8823d4d2.js';
+import { n as nav } from './navigation-94cce689.js';
+import { p as parser } from './parser-5f51cc8e.js';
 
 const flxListCss = "";
 
@@ -26,6 +26,7 @@ class FlxList {
         this.pageElements = 20;
         this.currentPage = 0;
         this.searchValue = '';
+        this.trash = '0';
         this.modal = false;
     }
     watchFilter() {
@@ -38,7 +39,7 @@ class FlxList {
         this.load();
         jquery(window).off('popstate.list').on('popstate.list', async () => {
             if (document.location.href.toLowerCase().indexOf('/list/') > 0 && document.location.href.toLowerCase().indexOf('/' + this.object.toLowerCase() + '/') > 0) {
-                this.load();
+                this.refresh(null);
             }
         });
     }
@@ -51,6 +52,7 @@ class FlxList {
         this.footer = '';
         this.header = '';
         this.title = '';
+        this.currentPage = 0;
         await this.loadData(true);
     }
     filterData(filter) {
@@ -61,6 +63,11 @@ class FlxList {
                 infiniteScroll.disabled = false;
             }
             let sentence = sql.addWhere(this.page.SQLSentence, this.filter);
+            /*if(this.trash=='1'){
+              sentence = sql.addWhere(sentence, this.confObj.tableName + '._isDeleted=1');
+            }else{
+              sentence = sql.addWhere(sentence, this.confObj.tableName + '._isDeleted=0');
+            }*/
             this.currentParams = [];
             if (this.page && this.page.ShowSearchBar && this.page.SQLSearchFilter && this.searchValue) {
                 for (let i = 0; i < this.page.SQLSearchFilter.match(/(@findstring)/gmi).length; i++) {
@@ -107,7 +114,6 @@ class FlxList {
     }
     async loadData(first) {
         try {
-            this.currentPage = 0;
             let infiniteScroll = ((jquery(this.me).find('ion-infinite-scroll').length > 0) ? jquery(this.me).find('ion-infinite-scroll')[0] : null);
             if (infiniteScroll) {
                 infiniteScroll.disabled = false;
@@ -129,6 +135,11 @@ class FlxList {
             }
             this.title = page.title;
             let sentence = sql.addWhere(page.SQLSentence, this.filter);
+            /*if(this.trash=='1'){
+              sentence = sql.addWhere(sentence, this.confObj.tableName + '.`_isDeleted`=1');
+            }else{
+              sentence = sql.addWhere(sentence, this.confObj.tableName + '.`_isDeleted`=0');
+            }*/
             this.currentParams = [];
             if (page && page.ShowSearchBar && page.SQLSearchFilter && this.searchValue) {
                 for (let i = 0; i < page.SQLSearchFilter.match(/(@findstring)/gmi).length; i++) {
@@ -144,7 +155,8 @@ class FlxList {
                 sentence = sql.addOrderBy(sentence, page.SQLOrderBy);
             }
             this.currentSentence = sentence;
-            sentence = sql.addPager(this.currentSentence, this.currentPage, this.pageElements);
+            //Load more elements if currentPage is more than one to allow scroll item in back button
+            sentence = sql.addPager(this.currentSentence, 0, (this.pageElements * (this.currentPage + 1)));
             await sql.getTable(sentence, this.currentParams).then(async (table) => {
                 if (table && table.rows && table.rows.length > 0) {
                     this.title = await parser.recursiveCompile(sql.getRow(table, 0), page.title, confT, this);
@@ -222,6 +234,7 @@ class FlxList {
         else {
             this.searchValue = '';
         }
+        this.currentPage = 0;
         this.refresh(ev);
     }
     getIonItemSliding(innerHTML) {
@@ -237,7 +250,7 @@ class FlxList {
                 ? h("ion-searchbar", { "cancel-button-text": util.translate('msg.cancel'), placeholder: util.translate('list.search'), mode: "ios", debounce: 1000, value: this.searchValue.replace(/^\%+|\%+$/g, ''), onIonClear: (ev) => { this.onSearchChange(ev, ''); }, onIonChange: (ev) => { this.onSearchChange(ev, ev.currentTarget.value.toLowerCase()); }, animated: true, "show-cancel-button": "focus" })
                 : '')),
             h("ion-header", { innerHTML: this.header }),
-            h("ion-content", null, h("ion-refresher", { slot: "fixed", id: "refresher", onIonRefresh: (ev) => { this.refresh(ev); } }, h("ion-refresher-content", { "pulling-icon": "chevron-down-circle-outline", refreshingSpinner: "bubbles" })), h("ion-list", { class: "mainBody" }, this.body), h("ion-infinite-scroll", { threshold: "500px", onIonInfinite: () => { this.loadMore(); } }, h("ion-infinite-scroll-content", { loadingSpinner: "bubbles", loadingText: "Loading..." }))),
+            h("ion-content", null, h("ion-refresher", { slot: "fixed", id: "refresher", onIonRefresh: (ev) => { this.currentPage = 0; this.refresh(ev); } }, h("ion-refresher-content", { "pulling-icon": "chevron-down-circle-outline", refreshingSpinner: "bubbles" })), h("ion-list", { class: "mainBody" }, this.body), h("ion-infinite-scroll", { threshold: "500px", onIonInfinite: () => { this.loadMore(); } }, h("ion-infinite-scroll-content", { loadingSpinner: "bubbles", loadingText: "Loading..." }))),
             h("ion-footer", { innerHTML: this.footer })
         ];
     }

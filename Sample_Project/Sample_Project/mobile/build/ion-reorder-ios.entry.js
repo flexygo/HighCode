@@ -1,12 +1,12 @@
 import { r as registerInstance, h, H as Host } from './index-1ad46950.js';
-import { g as getIonMode } from './ionic-global-d77af0d9.js';
+import { g as getIonMode } from './ionic-global-08321e45.js';
 
 const reorderIosCss = ":host([slot]){display:none;line-height:0;z-index:100}.reorder-icon{display:block;font-size:22px}.reorder-icon{font-size:34px;opacity:0.4}";
 
 const reorderMdCss = ":host([slot]){display:none;line-height:0;z-index:100}.reorder-icon{display:block;font-size:22px}.reorder-icon{font-size:31px;opacity:0.3}";
 
 /**
- * @part icon - The icon of the reorder handle.
+ * @part icon - The icon of the reorder handle (uses ion-icon).
  */
 class Reorder {
     constructor(hostRef) {

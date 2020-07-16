@@ -1,6 +1,6 @@
 import { r as registerInstance, e as createEvent, h, H as Host } from './index-1ad46950.js';
-import { g as getIonMode } from './ionic-global-d77af0d9.js';
-import { GESTURE_CONTROLLER } from './index-1da44cf3.js';
+import { g as getIonMode } from './ionic-global-08321e45.js';
+import { GESTURE_CONTROLLER } from './index-9b41fcc6.js';
 
 const backdropIosCss = ":host{left:0;right:0;top:0;bottom:0;display:block;position:absolute;transform:translateZ(0);contain:strict;cursor:pointer;opacity:0.01;touch-action:none;z-index:2}:host(.backdrop-hide){background:transparent}:host(.backdrop-no-tappable){cursor:auto}:host{background-color:var(--ion-backdrop-color, #000)}";
 

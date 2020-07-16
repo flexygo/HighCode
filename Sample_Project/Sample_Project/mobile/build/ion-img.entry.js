@@ -1,5 +1,5 @@
 import { r as registerInstance, e as createEvent, h, H as Host, d as getElement } from './index-1ad46950.js';
-import { g as getIonMode } from './ionic-global-d77af0d9.js';
+import { g as getIonMode } from './ionic-global-08321e45.js';
 
 const imgCss = ":host{display:block;object-fit:contain}img{display:block;width:100%;height:100%;object-fit:inherit;object-position:inherit}";
 
@@ -29,7 +29,10 @@ class Img {
         if (this.src === undefined) {
             return;
         }
-        if ('IntersectionObserver' in window) {
+        if (typeof window !== 'undefined' &&
+            'IntersectionObserver' in window &&
+            'IntersectionObserverEntry' in window &&
+            'isIntersecting' in window.IntersectionObserverEntry.prototype) {
             this.removeIO();
             this.io = new IntersectionObserver(data => {
                 // because there will only ever be one instance

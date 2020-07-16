@@ -1,6 +1,6 @@
 import { r as registerInstance, h, H as Host } from './index-1ad46950.js';
-import { g as getIonMode } from './ionic-global-d77af0d9.js';
-import { o as openURL, c as createColorClasses } from './theme-1a9eb2db.js';
+import { g as getIonMode } from './ionic-global-08321e45.js';
+import { o as openURL, c as createColorClasses } from './theme-d8afa044.js';
 
 const routerLinkCss = ":host{--background:transparent;--color:var(--ion-color-primary, #3880ff);background:var(--background);color:var(--color)}:host(.ion-color){color:var(--ion-color-base)}a{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit;letter-spacing:inherit;text-decoration:inherit;text-indent:inherit;text-overflow:inherit;text-transform:inherit;text-align:inherit;white-space:inherit;color:inherit}";
 
@@ -13,7 +13,7 @@ class RouterLink {
          */
         this.routerDirection = 'forward';
         this.onClick = (ev) => {
-            openURL(this.href, ev, this.routerDirection);
+            openURL(this.href, ev, this.routerDirection, this.routerAnimation);
         };
     }
     render() {

@@ -1,5 +1,5 @@
 import { r as registerInstance, h } from './index-1ad46950.js';
-import { C as ConftokenProvider } from './messages-65fb7542.js';
+import { C as ConftokenProvider } from './messages-856fd5dd.js';
 
 const flxStylesCss = "flx-styles{}";
 

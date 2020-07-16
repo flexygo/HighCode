@@ -1,9 +1,9 @@
 import { r as registerInstance, e as createEvent, B as Build, h, d as getElement } from './index-1ad46950.js';
-import { g as getIonMode, c as config } from './ionic-global-d77af0d9.js';
-import { b as assert } from './helpers-d94a0dba.js';
-import { l as lifecycle, L as LIFECYCLE_WILL_UNLOAD, a as LIFECYCLE_WILL_LEAVE, b as LIFECYCLE_DID_LEAVE, t as transition, s as setPageHidden } from './index-0cbc1957.js';
-import { g as getTimeGivenProgression } from './cubic-bezier-92995175.js';
-import { a as attachComponent } from './framework-delegate-49c6b814.js';
+import { g as getIonMode, c as config } from './ionic-global-08321e45.js';
+import { b as assert } from './helpers-742de4f9.js';
+import { l as lifecycle, L as LIFECYCLE_WILL_UNLOAD, a as LIFECYCLE_WILL_LEAVE, b as LIFECYCLE_DID_LEAVE, t as transition, s as setPageHidden } from './index-59819519.js';
+import { g as getTimeGivenProgression } from './cubic-bezier-89113939.js';
+import { a as attachComponent } from './framework-delegate-7af2c551.js';
 
 const VIEW_STATE_NEW = 1;
 const VIEW_STATE_ATTACHED = 2;
@@ -137,7 +137,7 @@ class Nav {
     }
     async componentDidLoad() {
         this.rootChanged();
-        this.gesture = (await __sc_import_app('./swipe-back-1769a8ce.js')).createSwipeBackGesture(this.el, this.canStart.bind(this), this.onStart.bind(this), this.onMove.bind(this), this.onEnd.bind(this));
+        this.gesture = (await __sc_import_app('./swipe-back-30c717eb.js')).createSwipeBackGesture(this.el, this.canStart.bind(this), this.onStart.bind(this), this.onMove.bind(this), this.onEnd.bind(this));
         this.swipeGestureChanged();
     }
     componentDidUnload() {
@@ -306,7 +306,7 @@ class Nav {
         }, done);
     }
     /** @internal */
-    setRouteId(id, params, direction) {
+    setRouteId(id, params, direction, animation) {
         const active = this.getActiveSync();
         if (matches(active, id, params)) {
             return Promise.resolve({
@@ -339,13 +339,13 @@ class Nav {
         else {
             const viewController = this.views.find(v => matches(v, id, params));
             if (viewController) {
-                finish = this.popTo(viewController, Object.assign(Object.assign({}, commonOpts), { direction: 'back' }));
+                finish = this.popTo(viewController, Object.assign(Object.assign({}, commonOpts), { direction: 'back', animationBuilder: animation }));
             }
             else if (direction === 'forward') {
-                finish = this.push(id, params, commonOpts);
+                finish = this.push(id, params, Object.assign(Object.assign({}, commonOpts), { animationBuilder: animation }));
             }
             else if (direction === 'back') {
-                finish = this.setRoot(id, params, Object.assign(Object.assign({}, commonOpts), { direction: 'back', animated: true }));
+                finish = this.setRoot(id, params, Object.assign(Object.assign({}, commonOpts), { direction: 'back', animated: true, animationBuilder: animation }));
             }
         }
         return promise;
@@ -507,6 +507,17 @@ class Nav {
             // Needs transition?
             const requiresTransition = (ti.enteringRequiresTransition || ti.leavingRequiresTransition) &&
                 enteringView !== leavingView;
+            if (requiresTransition && ti.opts && leavingView) {
+                const isBackDirection = ti.opts.direction === 'back';
+                /**
+                 * If heading back, use the entering page's animation
+                 * unless otherwise specified by the developer.
+                 */
+                if (isBackDirection) {
+                    ti.opts.animationBuilder = ti.opts.animationBuilder || (enteringView && enteringView.animationBuilder);
+                }
+                leavingView.animationBuilder = ti.opts.animationBuilder;
+            }
             const result = requiresTransition
                 ? await this.transition(enteringView, leavingView, ti)
                 : {

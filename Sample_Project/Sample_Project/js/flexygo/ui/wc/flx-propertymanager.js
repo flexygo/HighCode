@@ -789,7 +789,7 @@ var flexygo;
                                 MenuLeft = parseInt((btnGroup.offset().left).toFixed());
                             }
                             if (parseInt((btnGroup.offset().top - btnGroup.outerHeight() / 2).toFixed()) > parseInt(($(window).height() / 2).toFixed())) {
-                                MenuTop = btnGroup.offset().top - 460;
+                                MenuTop = btnGroup.offset().top - 375;
                                 MenuShadow = '0 -6px 20px 4px rgba(0, 0, 0, 0.15), 0 -2px 10px 0px rgba(0, 0, 0, 0.20)';
                             }
                             else {
@@ -827,7 +827,7 @@ var flexygo;
                     $('#' + btMenuId + ' [name=CSSClass]').val(obj.data.CSSClass.Value);
                     //$('#' + btMenuId + ' [name=Style]').val(obj.data.Style.Value);
                     $('#' + btMenuId + ' [name=IconName]').val(obj.data.IconName.Value);
-                    $('#' + btMenuId + ' [name=TypeId]').val(obj.data.TypeId.Value);
+                    //$('#' + btMenuId + ' [name=TypeId]').val(obj.data.TypeId.Value);
                     $('#' + btMenuId + ' [name=Locked]').val(obj.data.Locked.Value);
                     $('#' + btMenuId + ' [name=IsRequired]').val(obj.data.IsRequired.Value);
                     $('#' + btMenuId + ' [name=Hide]').val(obj.data.Hide.Value);
@@ -840,7 +840,7 @@ var flexygo;
                     btnUl.append('<li><flx-text type="text" name="CSSClass" placeholder="' + flexygo.localization.translate('flxpropertymanager.classname') + '" iconclass="flx-icon icon-custom" ></flx-text></li>');
                     //  btnUl.append('<li><flx-text type="text" name="Style" placeholder="' + flexygo.localization.translate('flxpropertymanager.style') + '" iconclass="flx-icon icon-brush" ></flx-text></li>');
                     btnUl.append('<li><flx-dbcombo name="IconName" placeholder="' + flexygo.localization.translate('flxpropertymanager.selecticon') + '" iconclass="flx-icon icon-image" objectname="sysObject" viewname="iconsView" sqlvaluefield="IconName" sqldisplayfield="IconName" > <template><span class="txt-outstanding"><i class="{{CSSClass}} icon-margin-right"></i>{{IconName}}</span></template></flx-dbcombo></li>');
-                    btnUl.append('<li><flx-dbcombo name="TypeId" placeholder="' + flexygo.localization.translate('flxpropertymanager.selectcontroltype') + '" iconclass="fa fa-gear" objectname="sysObject" viewname="ControlTypes" sqlvaluefield="TypeId" sqldisplayfield="Descrip" ></flx-dbcombo></li>');
+                    //btnUl.append('<li><flx-dbcombo name="TypeId" placeholder="' + flexygo.localization.translate('flxpropertymanager.selectcontroltype') + '" iconclass="fa fa-gear" objectname="sysObject" viewname="ControlTypes" sqlvaluefield="TypeId" sqldisplayfield="Descrip" ></flx-dbcombo></li>');
                     btnUl.append('<li class="separator"></li>');
                     btnUl.append('<li><span ><label ><i class="flx-icon icon-lock-1" ></i> ' + flexygo.localization.translate('flxpropertymanager.locked') + '</label><flx-check name="Locked" class="pull-right"></flx-check></span></li>');
                     btnUl.append('<li><span ><label ><i class="flx-icon icon-key-2" ></i> ' + flexygo.localization.translate('flxpropertymanager.required') + '</label><flx-check name="IsRequired" class="pull-right"></flx-check></span></li>');
@@ -900,7 +900,7 @@ var flexygo;
                         obj.data.CSSClass.Value = elem.closest('.propertyMenu').find('[name=CSSClass]').val();
                         //obj.data.Style.Value = elem.closest('.propertyMenu').find('[name=Style]').val()
                         obj.data.IconName.Value = elem.closest('.propertyMenu').find('[name=IconName]').val();
-                        obj.data.TypeId.Value = elem.closest('.propertyMenu').find('[name=TypeId]').val();
+                        //obj.data.TypeId.Value = elem.closest('.propertyMenu').find('[name=TypeId]').val()
                         obj.data.Locked.Value = elem.closest('.propertyMenu').find('[name=Locked]').val();
                         obj.data.IsRequired.Value = elem.closest('.propertyMenu').find('[name=IsRequired]').val();
                         obj.data.Hide.Value = elem.closest('.propertyMenu').find('[name=Hide]').val();

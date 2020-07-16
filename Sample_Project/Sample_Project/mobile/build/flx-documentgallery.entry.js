@@ -1,5 +1,5 @@
 import { r as registerInstance, h } from './index-1ad46950.js';
-import { s as sql } from './messages-65fb7542.js';
+import { s as sql, u as util } from './messages-856fd5dd.js';
 
 const flxDocumentgalleryCss = ".file{font-size:50px!important}.textFile{width:100px;overflow:hidden;text-overflow:ellipsis;display:block;white-space:nowrap;margin:0 auto}";
 
@@ -109,7 +109,7 @@ class FlxDocumentgallery {
         return ([
             h("ion-grid", null, h("ion-row", null, (this.table.length > 0 ? (this.table.map((row, i) => {
                 return h("ion-col", { class: "ion-text-center" }, h("div", { style: { 'margin-bottom': '10px' } }, h("i", { onClick: () => { this.downloadImg(i); }, class: 'file ' + this.getIcon(row.Name) })), h("span", { class: "textFile" }, row.Name));
-            })) : 'No data found')))
+            })) : util.translate('list.noresults'))))
         ]);
     }
 }

@@ -1,9 +1,9 @@
 import { r as registerInstance, e as createEvent, h, H as Host, d as getElement } from './index-1ad46950.js';
-import { g as getIonMode } from './ionic-global-d77af0d9.js';
-import { f as findItemLabel, a as renderHiddenInput } from './helpers-d94a0dba.js';
-import './hardware-back-button-c2d005b0.js';
-import { c as popoverController, f as actionSheetController, g as alertController } from './overlays-e769172f.js';
-import { h as hostContext } from './theme-1a9eb2db.js';
+import { g as getIonMode } from './ionic-global-08321e45.js';
+import { f as findItemLabel, a as renderHiddenInput } from './helpers-742de4f9.js';
+import './hardware-back-button-b3b61715.js';
+import { c as popoverController, f as actionSheetController, g as alertController } from './overlays-af382aca.js';
+import { h as hostContext } from './theme-d8afa044.js';
 
 const watchForOptions = (containerEl, tagName, onChange) => {
     /* tslint:disable-next-line */
@@ -197,9 +197,13 @@ class Select {
     createActionSheetButtons(data, selectValue) {
         const actionSheetButtons = data.map(option => {
             const value = getOptionValue(option);
+            // Remove hydrated before copying over classes
+            const copyClasses = Array.from(option.classList).filter(cls => cls !== 'hydrated').join(' ');
+            const optClass = `${OPTION_CLASS} ${copyClasses}`;
             return {
                 role: (isOptionSelected(value, selectValue, this.compareWith) ? 'selected' : ''),
                 text: option.textContent,
+                cssClass: optClass,
                 handler: () => {
                     this.value = value;
                 }
@@ -216,31 +220,41 @@ class Select {
         return actionSheetButtons;
     }
     createAlertInputs(data, inputType, selectValue) {
-        return data.map(o => {
-            const value = getOptionValue(o);
+        const alertInputs = data.map(option => {
+            const value = getOptionValue(option);
+            // Remove hydrated before copying over classes
+            const copyClasses = Array.from(option.classList).filter(cls => cls !== 'hydrated').join(' ');
+            const optClass = `${OPTION_CLASS} ${copyClasses}`;
             return {
                 type: inputType,
-                label: o.textContent || '',
+                cssClass: optClass,
+                label: option.textContent || '',
                 value,
                 checked: isOptionSelected(value, selectValue, this.compareWith),
-                disabled: o.disabled
+                disabled: option.disabled
             };
         });
+        return alertInputs;
     }
     createPopoverOptions(data, selectValue) {
-        return data.map(o => {
-            const value = getOptionValue(o);
+        const popoverOptions = data.map(option => {
+            const value = getOptionValue(option);
+            // Remove hydrated before copying over classes
+            const copyClasses = Array.from(option.classList).filter(cls => cls !== 'hydrated').join(' ');
+            const optClass = `${OPTION_CLASS} ${copyClasses}`;
             return {
-                text: o.textContent || '',
+                text: option.textContent || '',
+                cssClass: optClass,
                 value,
                 checked: isOptionSelected(value, selectValue, this.compareWith),
-                disabled: o.disabled,
+                disabled: option.disabled,
                 handler: () => {
                     this.value = value;
                     this.close();
                 }
             };
         });
+        return popoverOptions;
     }
     async openPopover(ev) {
         const interfaceOptions = this.interfaceOptions;
@@ -419,6 +433,7 @@ const textForValue = (opts, value, compareWith) => {
         : null;
 };
 let selectIds = 0;
+const OPTION_CLASS = 'select-interface-option';
 Select.style = {
     /*STENCIL:MODE:ios*/ ios: selectIosCss,
     /*STENCIL:MODE:md*/ md: selectMdCss
