@@ -5,7 +5,6 @@
 @CurrentReference nvarchar (100)
 AS
 
-
 ----------------------------------------------------------------------------------
 --#NAME
 --		flxoff_learning_v2
@@ -86,7 +85,6 @@ DECLARE @Action TABLE (
     [ActionType]  NVARCHAR (5)   NOT NULL,
     [Comment]     NVARCHAR (MAX) NOT NULL,
     [ActionState] INT            NOT NULL,
-    [UserName]    NVARCHAR (256) NOT NULL,
     [IdClient]    INT            NULL,
     [IdEmployee]  INT            NULL,
     [Location] NVARCHAR(256) NULL, 
@@ -120,12 +118,13 @@ WITH (
 	_isUpdated bit '$._isUpdated',
 	_isDeleted bit '$._isDeleted',
 	_rowguid NVARCHAR(max) '$._rowguid')
-	
+
+
 --TABLA IMAGENES
 IF NOT ISNULL(@JSONImages,'')='' BEGIN
-Declare @flxImages table (ImageId nvarchar(max),ObjectName nvarchar(max),ObjectId nvarchar(max),ObjectGUID nvarchar(max),Name nvarchar(max),Descrip nvarchar(max),ImageClassId nvarchar(max),MainImage bit,OrdeNumber int,Url nvarchar(max),B64 nvarchar(max),_isInserted bit,_isUpdated bit,_isDeleted bit)
-Insert into @flxImages (ImageId,ObjectName,ObjectId,ObjectGUID,Name,Descrip,ImageClassId,MainImage,OrdeNumber,Url,B64,_isInserted,_isUpdated,_isDeleted)
-select ImageId,ObjectName,ObjectId,ObjectGUID,Name,Descrip,ImageClassId,MainImage,OrdeNumber,Url,B64,_isInserted,_isUpdated,_isDeleted from 
+Declare @flxImages table (ImageId nvarchar(max),ObjectName nvarchar(max),ObjectId nvarchar(max),ObjectGUID nvarchar(max),Name nvarchar(max),Descrip nvarchar(max),ImageClassId nvarchar(max),MainImage bit,OrderNumber int,Url nvarchar(max),B64 nvarchar(max),_isInserted bit,_isUpdated bit,_isDeleted bit)
+Insert into @flxImages (ImageId,ObjectName,ObjectId,ObjectGUID,Name,Descrip,ImageClassId,MainImage,OrderNumber,Url,B64,_isInserted,_isUpdated,_isDeleted)
+select ImageId,ObjectName,ObjectId,ObjectGUID,Name,Descrip,ImageClassId,MainImage,OrderNumber,Url,B64,_isInserted,_isUpdated,_isDeleted from 
 OPENJSON(@JSONImages,'$.flxImages') 
 WITH ( 
 	ImageId nvarchar(max) '$.ImageId',
@@ -136,7 +135,7 @@ WITH (
 	Descrip nvarchar(max) '$.Descrip',
 	ImageClassId nvarchar(max) '$.ImageClassId',
 	MainImage bit '$.MainImage',
-	OrdeNumber int '$.OrdeNumber',
+	OrderNumber int '$.OrderNumber',
 	Url nvarchar(max) '$.Url',
 	B64 nvarchar(max) '$.B64',
 	_isInserted bit '$._isInserted',
@@ -225,11 +224,10 @@ IF (SELECT count(1) FROM @Client) >0 BEGIN
 
 		UPDATE @flxDocuments SET ObjectName='Cliente' WHERE Objectname='Offline_Cliente'
 		
-		SET @JSONImages = JSON_MODIFY(@JSONImages, '$.flxDocuments',  (SELECT * FROM @flxImages FOR JSON PATH));
+		SET @JSONDocuments = JSON_MODIFY(@JSONDocuments, '$.flxDocuments',  (SELECT * FROM @flxDocuments FOR JSON PATH));
 	END
 
 END
-
 
 ------MTO ACCIONES
 IF (SELECT count(1) FROM @Action) >0 BEGIN		
@@ -243,13 +241,13 @@ IF (SELECT count(1) FROM @Action) >0 BEGIN
 
 	/*Acciones Nuevas*/
 	INSERT INTO Actions ([Date], [Hour], EndDate, [EndHour], Duration, ActionType, Comment, ActionState, UserName, IdClient, IdEmployee, [Location], [Signature], AprovalName, AprovalDoc, ExternalCode)	
-	SELECT [Date], convert(varchar (5),[Date],108), EndDate, convert(varchar (5),EndDate,108), DATEDIFF (MINUTE,[Date],EndDate), ActionType, Comment, ActionState, UserName, IdClient, IdEmployee, [Location], [Signature], AprovalName, AprovalDoc, _rowguid
+	SELECT [Date], convert(varchar (5),[Date],108), EndDate, convert(varchar (5),EndDate,108), DATEDIFF (MINUTE,[Date],EndDate), ActionType, Comment, ActionState, 'dbo', IdClient, IdEmployee, [Location], [Signature], AprovalName, AprovalDoc, _rowguid
 	FROM @Action
 	WHERE _isInserted=1 and _isDeleted=0
 
 	/*Acciones modificadas*/
 	UPDATE b
-	set  B.Date = A.Date , B.Hour = A.Hour , B.EndDate = A.EndDate , B.EndHour = A.EndHour , B.Duration = A.Duration , B.ActionType = A.ActionType , B.Comment = A.Comment , B.ActionState = A.ActionState , B.UserName = A.UserName , B.IdClient = A.IdClient , B.IdEmployee = A.IdEmployee , B.Location = A.Location , B.Signature = A.Signature , B.AprovalName = A.AprovalName , B.AprovalDoc = A.AprovalDoc , B.ExternalCode = A.ExternalCode
+	set  B.Date = A.Date , B.Hour = A.Hour , B.EndDate = A.EndDate , B.EndHour = A.EndHour , B.Duration = A.Duration , B.ActionType = A.ActionType , B.Comment = A.Comment , B.ActionState = A.ActionState , B.IdClient = A.IdClient , B.IdEmployee = A.IdEmployee , B.Location = A.Location , B.Signature = A.Signature , B.AprovalName = A.AprovalName , B.AprovalDoc = A.AprovalDoc , B.ExternalCode = A.ExternalCode
 	FROM @Action a
 	inner join Actions b ON b.ActionId=a.ActionId
 	WHERE a._isUpdated=1 and a._isDeleted=0
@@ -288,16 +286,10 @@ IF (SELECT count(1) FROM @Action) >0 BEGIN
 
 		UPDATE @flxDocuments SET ObjectName='Accion' WHERE Objectname='Offline_Accion'
 		
-		SET @JSONImages = JSON_MODIFY(@JSONImages, '$.flxDocuments',  (SELECT * FROM @flxImages FOR JSON PATH));
+		SET @JSONDocuments = JSON_MODIFY(@JSONDocuments, '$.flxDocuments',  (SELECT * FROM @flxDocuments FOR JSON PATH));
 	END
 
 END
-
-
-
-
-
-
 
 COMMIT TRAN
 RETURN -1

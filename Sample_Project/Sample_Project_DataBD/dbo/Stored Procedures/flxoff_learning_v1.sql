@@ -74,9 +74,9 @@ WITH (
 	
 --TABLA IMAGENES
 IF NOT ISNULL(@JSONImages,'')='' BEGIN
-Declare @flxImages table (ImageId nvarchar(max),ObjectName nvarchar(max),ObjectId nvarchar(max),ObjectGUID nvarchar(max),Name nvarchar(max),Descrip nvarchar(max),ImageClassId nvarchar(max),MainImage bit,OrdeNumber int,Url nvarchar(max),B64 nvarchar(max),_isInserted bit,_isUpdated bit,_isDeleted bit)
-Insert into @flxImages (ImageId,ObjectName,ObjectId,ObjectGUID,Name,Descrip,ImageClassId,MainImage,OrdeNumber,Url,B64,_isInserted,_isUpdated,_isDeleted)
-select ImageId,ObjectName,ObjectId,ObjectGUID,Name,Descrip,ImageClassId,MainImage,OrdeNumber,Url,B64,_isInserted,_isUpdated,_isDeleted from 
+Declare @flxImages table (ImageId nvarchar(max),ObjectName nvarchar(max),ObjectId nvarchar(max),ObjectGUID nvarchar(max),Name nvarchar(max),Descrip nvarchar(max),ImageClassId nvarchar(max),MainImage bit,OrderNumber int,Url nvarchar(max),B64 nvarchar(max),_isInserted bit,_isUpdated bit,_isDeleted bit)
+Insert into @flxImages (ImageId,ObjectName,ObjectId,ObjectGUID,Name,Descrip,ImageClassId,MainImage,OrderNumber,Url,B64,_isInserted,_isUpdated,_isDeleted)
+select ImageId,ObjectName,ObjectId,ObjectGUID,Name,Descrip,ImageClassId,MainImage,OrderNumber,Url,B64,_isInserted,_isUpdated,_isDeleted from 
 OPENJSON(@JSONImages,'$.flxImages') 
 WITH ( 
 	ImageId nvarchar(max) '$.ImageId',
@@ -87,7 +87,7 @@ WITH (
 	Descrip nvarchar(max) '$.Descrip',
 	ImageClassId nvarchar(max) '$.ImageClassId',
 	MainImage bit '$.MainImage',
-	OrdeNumber int '$.OrdeNumber',
+	OrderNumber int '$.OrderNumber',
 	Url nvarchar(max) '$.Url',
 	B64 nvarchar(max) '$.B64',
 	_isInserted bit '$._isInserted',
@@ -168,7 +168,7 @@ IF (SELECT count(1) FROM @Client) >0 BEGIN
 
 		UPDATE @flxDocuments SET ObjectName='Cliente' WHERE Objectname='Offline_Cliente'
 		
-		SET @JSONImages = JSON_MODIFY(@JSONImages, '$.flxDocuments',  (SELECT * FROM @flxImages FOR JSON PATH));
+		SET @JSONDocuments = JSON_MODIFY(@JSONDocuments, '$.flxDocuments',  (SELECT * FROM @flxDocuments FOR JSON PATH));
 	END
 
 END
