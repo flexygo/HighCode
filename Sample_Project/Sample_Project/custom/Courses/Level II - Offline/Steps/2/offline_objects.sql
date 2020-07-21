@@ -26,8 +26,7 @@ WHEN MATCHED AND (
 WHEN NOT MATCHED BY TARGET THEN
  INSERT([AppName],[ObjectName],[BufferSize],[UpdateRelatedPrimaryKeys],[SyncImmediately],[SendData],[GetData],[TableName],[OriginId])
  VALUES(Source.[AppName],Source.[ObjectName],Source.[BufferSize],Source.[UpdateRelatedPrimaryKeys],Source.[SyncImmediately],Source.[SendData],Source.[GetData],Source.[TableName],Source.[OriginId])
-WHEN NOT MATCHED BY SOURCE AND TARGET.OriginId = 1 THEN 
- DELETE
+
 ;
 END TRY
 BEGIN CATCH

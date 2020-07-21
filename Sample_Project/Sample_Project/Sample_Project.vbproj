@@ -467,6 +467,7 @@
     <Content Include="custom\Courses\Level II - Offline\Steps\3\offline_objects.sql" />
     <Content Include="custom\Courses\Level II - Offline\Steps\3\offline_pages.sql" />
     <Content Include="custom\Courses\Level II - Offline\Steps\3\offline_styles.sql" />
+    <Content Include="custom\Courses\Level II - Offline\Steps\3\webapi_objects.sql" />
     <Content Include="custom\Courses\Level II - Offline\Steps\4\documents_objects_config.sql" />
     <Content Include="custom\Courses\Level II - Offline\Steps\4\objects.sql" />
     <Content Include="custom\Courses\Level II - Offline\Steps\4\objects_images_settings.sql" />

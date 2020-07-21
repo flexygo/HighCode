@@ -16,8 +16,7 @@ WHEN MATCHED AND (
 WHEN NOT MATCHED BY TARGET THEN
  INSERT([UserId],[isAuthorized],[OriginId])
  VALUES(Source.[UserId],Source.[isAuthorized],Source.[OriginId])
-WHEN NOT MATCHED BY SOURCE AND TARGET.OriginId = 1 THEN 
- DELETE
+
 ;
 END TRY
 BEGIN CATCH

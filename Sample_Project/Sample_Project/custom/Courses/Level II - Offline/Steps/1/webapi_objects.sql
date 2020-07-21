@@ -26,8 +26,7 @@ WHEN MATCHED AND (
 WHEN NOT MATCHED BY TARGET THEN
  INSERT([ObjectName],[CanView],[CanViewCollection],[CanInsert],[CanEdit],[CanDelete],[CanPrint],[OriginId])
  VALUES(Source.[ObjectName],Source.[CanView],Source.[CanViewCollection],Source.[CanInsert],Source.[CanEdit],Source.[CanDelete],Source.[CanPrint],Source.[OriginId])
-WHEN NOT MATCHED BY SOURCE AND TARGET.OriginId = 1 THEN 
- DELETE
+
 ;
 END TRY
 BEGIN CATCH

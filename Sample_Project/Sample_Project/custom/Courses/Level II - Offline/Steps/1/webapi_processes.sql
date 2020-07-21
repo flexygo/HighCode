@@ -19,8 +19,7 @@ WHEN MATCHED AND (
 WHEN NOT MATCHED BY TARGET THEN
  INSERT([ProcessName],[CanView],[OriginId])
  VALUES(Source.[ProcessName],Source.[CanView],Source.[OriginId])
-WHEN NOT MATCHED BY SOURCE AND TARGET.OriginId = 1 THEN 
- DELETE
+
 ;
 END TRY
 BEGIN CATCH

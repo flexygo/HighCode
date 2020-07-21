@@ -28,8 +28,7 @@ WHEN MATCHED AND (
 WHEN NOT MATCHED BY TARGET THEN
  INSERT([AppName],[Title],[Descrip],[IconName],[APKUrl],[APKWebService],[SyncDataProcessName],[Active],[OriginId])
  VALUES(Source.[AppName],Source.[Title],Source.[Descrip],Source.[IconName],Source.[APKUrl],Source.[APKWebService],Source.[SyncDataProcessName],Source.[Active],Source.[OriginId])
-WHEN NOT MATCHED BY SOURCE AND TARGET.OriginId = 1 THEN 
- DELETE
+
 ;
 END TRY
 BEGIN CATCH
