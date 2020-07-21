@@ -103,6 +103,11 @@ INNER JOIN Client c on c.IdClient=Actions.IdClient
 INNER JOIN Action_States s on s.State=Actions.ActionState
 WHERE Actions.ActionState in (1,2,3)
 ',NULL,NULL,1,0,2)
+ ,(N'LearningApp',N'Offline_Cliente_Edit',N'Offline_Cliente',N'edit',N'Editar Cliente',N'{{getProperties(json)}}',NULL,N'<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+ <ion-fab-button onclick="flexygo.forms.save(this,event).then(() => {flexygo.nav.transferView(''Offline_Cliente'',''Offline_Cliente_View'',''Client.IdClient=\''''+' + convert(nvarchar(max),NCHAR(36)) + N'(this).closest(''flx-edit'').find(''[property=IdClient]'').val()+''\'''')}).catch(err => {flexygo.msg.showError(err)});">
+   <i class="flx-icon icon-save-21"></i>
+ </ion-fab-button>
+</ion-fab>',NULL,NULL,NULL,NULL,1,0,2)
  ,(N'LearningApp',N'Offline_Cliente_List',N'Offline_Cliente',N'list',N'Clientes',N'
 <ion-item lines="full" onclick="flexygo.nav.goView(''Offline_Cliente'',''Offline_Cliente_View'',''{{objIdent|JS}}'')">
   <ion-chip color="dark">
@@ -158,12 +163,19 @@ WHERE Actions.ActionState in (1,2,3)
     <ion-label color="success"><i class="flx-icon icon-document3 icon-margin-right"></i>Finalizadas</ion-label>
     <ion-badge slot="end" color="success">{{flexygo.sql.getCount(''Actions'', ''Actions.IdClient=? AND (Actions.ActionState = 3)'',[''{{IdClient}}''])}}</ion-badge>
   </ion-item>
-</ion-list>',NULL,N'<ion-fab vertical="bottom" horizontal="end" slot="fixed">
-  <ion-fab-button onclick="flexygo.nav.goEdit(''Offline_Cliente'',null,''{{objIdent|JS}}'')">
-    <ion-icon name="create-outline"></ion-icon>
+</ion-list>',NULL,N'<ion-fab vertical="bottom" horizontal="end" slot="fixed" >
+  <ion-fab-button color="primary" >
+    <ion-icon name="ellipsis-vertical"></ion-icon>
   </ion-fab-button>
-</ion-fab>
-',NULL,NULL,NULL,NULL,1,0,2)
+  <ion-fab-list side="top">
+    <ion-fab-button  onclick="flexygo.nav.goInsert(''Offline_Accion'',null,''{IdClient:\''{{IdClient}}\''}'')" data-desc="{{translate|Nueva tarea}}">
+      <ion-icon class="flx-icon icon-document3"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button  onclick="flexygo.nav.goEdit(''Offline_Cliente'',null,''{{objIdent|JS}}'')" data-desc="{{translate|Editar cliente}}">
+      <ion-icon name="create-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab-list>
+</ion-fab>',NULL,NULL,NULL,NULL,1,0,2)
 ) AS Source ([AppName],[PageName],[ObjectName],[TypeId],[Title],[Body],[Header],[Footer],[Empty],[SQLSentence],[SQLOrderBy],[SQLSearchFilter],[IsDefault],[ShowSearchBar],[OriginId])
 ON (Target.[AppName] = Source.[AppName] AND Target.[PageName] = Source.[PageName])
 WHEN MATCHED AND (
