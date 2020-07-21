@@ -16,7 +16,8 @@ USING (VALUES
  ,(N'DLL 4ª practica',1,N'',8)
  ,(N'Offline 1ª practica',2,N'',1)
  ,(N'Offline 2ª practica',2,N'',2)
- ,(N'Offline 3ª practica',2,N' ',3)
+ ,(N'Offline 3ª practica',2,N'',3)
+ ,(N'Offline 4ª practica',2,N'',4)
 ) AS Source ([StepId],[CourseId],[Descrip],[Order])
 ON (Target.[StepId] = Source.[StepId] AND Target.[CourseId] = Source.[CourseId])
 WHEN MATCHED AND (

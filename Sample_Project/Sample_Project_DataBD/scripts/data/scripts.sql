@@ -149,6 +149,23 @@ USING (VALUES
  ,(112,N'Offline 3ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/3/offline_pages.sql',1,N'ConfConnectionString')
  ,(113,N'Offline 3ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/3/offline_styles.sql',1,N'ConfConnectionString')
 
+ ,(114,N'Offline 4ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/2/documents_objects_config.sql',0,N'ConfConnectionString')
+ ,(115,N'Offline 4ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/2/objects.sql',0,N'ConfConnectionString')
+ ,(116,N'Offline 4ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/2/objects_images_settings.sql',0,N'ConfConnectionString')
+ ,(117,N'Offline 4ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/2/objects_objects.sql',0,N'ConfConnectionString')
+ ,(118,N'Offline 4ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/2/objects_properties.sql',0,N'ConfConnectionString')
+ ,(119,N'Offline 4ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/2/objects_properties_templates.sql',0,N'ConfConnectionString')
+ ,(120,N'Offline 4ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/2/objects_views.sql',0,N'ConfConnectionString')
+ ,(121,N'Offline 4ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/2/offline_apps.sql',0,N'ConfConnectionString')
+ ,(122,N'Offline 4ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/2/offline_menus.sql',0,N'ConfConnectionString')
+ ,(123,N'Offline 4ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/2/offline_objects.sql',0,N'ConfConnectionString')
+ ,(124,N'Offline 4ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/2/offline_pages.sql',0,N'ConfConnectionString')
+ ,(125,N'Offline 4ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/2/offline_styles.sql',0,N'ConfConnectionString')
+ ,(126,N'Offline 4ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/2/webapi_objects.sql',0,N'ConfConnectionString')
+ ,(127,N'Offline 4ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/2/webapi_processes.sql',0,N'ConfConnectionString')
+ ,(128,N'Offline 4ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/2/webapi_users.sql',0,N'ConfConnectionString')
+ ,(129,N'Offline 4ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/2/webapi_views.sql',0,N'ConfConnectionString')
+
 
 
 ) AS Source ([ScriptId],[StepId],[CourseId],[Script],[Inherit],[ConnStringId])
