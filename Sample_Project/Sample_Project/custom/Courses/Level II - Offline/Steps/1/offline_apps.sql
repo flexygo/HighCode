@@ -1,4 +1,4 @@
-﻿
+﻿UPDATE Settings set SettingValue = 'true' where SettingName = 'WebAPI_Enabled'
 
 BEGIN TRY
 
