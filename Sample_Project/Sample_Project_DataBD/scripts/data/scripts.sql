@@ -185,13 +185,12 @@ USING (VALUES
  ,(145,N'Offline 5ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/5/webapi_users.sql',0,N'ConfConnectionString')
  ,(146,N'Offline 5ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/5/webapi_views.sql',0,N'ConfConnectionString')
 
-
  ,(150,N'Offline 6ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/6/offline_scripts.sql',0,N'ConfConnectionString')
  ,(151,N'Offline 6ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/6/documents_objects_config.sql',0,N'ConfConnectionString')
  ,(152,N'Offline 6ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/6/objects.sql',0,N'ConfConnectionString')
  ,(153,N'Offline 6ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/6/objects_images_settings.sql',0,N'ConfConnectionString')
  ,(154,N'Offline 6ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/6/objects_objects.sql',0,N'ConfConnectionString')
- ,(156,N'Offline 6ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/6/objects_properties.sql',0,N'ConfConnectionString')
+ ,(155,N'Offline 6ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/6/objects_properties.sql',0,N'ConfConnectionString')
  ,(156,N'Offline 6ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/6/objects_properties_templates.sql',0,N'ConfConnectionString')
  ,(157,N'Offline 6ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/6/objects_views.sql',0,N'ConfConnectionString')
  ,(158,N'Offline 6ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/6/offline_apps.sql',0,N'ConfConnectionString')
@@ -204,6 +203,7 @@ USING (VALUES
  ,(165,N'Offline 6ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/6/webapi_users.sql',0,N'ConfConnectionString')
  ,(166,N'Offline 6ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/6/webapi_views.sql',0,N'ConfConnectionString')
  ,(167,N'Offline 6ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/6/offline_files.sql',0,N'ConfConnectionString')
+
 
 
 
