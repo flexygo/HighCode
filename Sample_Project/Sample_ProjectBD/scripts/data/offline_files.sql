@@ -4,7 +4,7 @@ BEGIN TRY
 
 MERGE INTO [Offline_Files] AS Target
 USING (VALUES
-  (N'portada_learningapp.jpg',N'LearningApp',N'~\custom\LearningApp\portada_learningapp.jpg','2020-07-22T13:22:00',1,2)
+  (N'portada_learningapp_1.jpg',N'LearningApp',N'~\custom\LearningApp\portada_learningapp_1.jpg','2020-07-22T13:22:00',1,2)
 ) AS Source ([FileName],[AppName],[FilePath],[FileDate],[Enabled],[OriginID])
 ON (Target.[FileName] = Source.[FileName])
 WHEN MATCHED AND (

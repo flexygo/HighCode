@@ -23,7 +23,7 @@ USING (VALUES
  }
 
 
-flx-home #mainBody{background-image: url("{{portada_learningapp_1.jpg|file}}"); height:100%;background-size:cover;background-position:center; }
+flx-home #mainBody{background-image: url("{{portada_learningapp.jpg|file}}"); height:100%;background-size:cover;background-position:center; }
 
 .square .content {
   opacity: 90%;

@@ -662,6 +662,7 @@
     <Content Include="custom\images\Projects\Resuinsa.png" />
     <Content Include="custom\images\sergio.png" />
     <Content Include="custom\images\Employees\sergio.png" />
+    <Content Include="custom\LearningApp\portada_learningapp.jpg" />
     <Content Include="custom\Readme.txt" />
     <Content Include="docs\js\api.js" />
     <Content Include="docs\js\assets\css\custom.css" />

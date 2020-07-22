@@ -4,7 +4,20 @@ BEGIN TRY
 
 MERGE INTO [Offline_Pages] AS Target
 USING (VALUES
-  (N'LearningApp',N'homepage',NULL,N'generic',N'Home Page',N'<h1>Welcome to Learning app</h1>',NULL,NULL,NULL,NULL,NULL,NULL,1,0,2)
+  (N'LearningApp',N'homepage',NULL,N'generic',N'Home Page',N'<div class="ion-padding-vertical">
+  <div class="square-container">
+    <div class="square">
+      <div class="content" onclick="flexygo.nav.goList(''Offline_Cliente'',''Offline_Cliente_List'');">
+        <i class="flx-icon icon-client"></i><h6>{{translate|Clientes}} {{flexygo.sql.getCount(''Client'')}}</h6>
+      </div>
+    </div>
+    <div class="square" >
+      <div class="content" onclick="flexygo.nav.goList(''Offline_Accion'',''Offline_Accion_List'');">
+        <i class="flx-icon icon-accounting-operations"></i><h6>{{translate|Tareas}} {{flexygo.sql.getCount(''Actions'')}}</h6>
+      </div>
+    </div>    
+  </div>
+</div>',NULL,NULL,NULL,NULL,NULL,NULL,1,0,2)
  ,(N'LearningApp',N'Offline_Accion_List',N'Offline_Accion',N'list',N'Tareas',N'<ion-item detail lines="full" onclick="flexygo.nav.goView(''Offline_Accion'',''Offline_Accion_View'',''{{objIdent|JS}}'')"> 
   <ion-label>
     <ion-text >{{comment|isnull:Sin descripción}}</ion-text >
