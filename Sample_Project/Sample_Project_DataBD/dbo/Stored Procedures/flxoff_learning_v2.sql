@@ -25,6 +25,9 @@ AS
 -- 		15/07/2020 - Daniel Lutz
 ----------------------------------------------------------------------------------
 BEGIN
+
+
+
 BEGIN TRAN
 BEGIN TRY
 
@@ -143,20 +146,21 @@ WITH (
 	_isDeleted bit '$._isDeleted')
 END
 
+
 --TABLA DOCUMENTOS
-DECLARE @flxDocuments TABLE (DocGuid nvarchar(1000), ObjectName nvarchar(1000), ObjectId nvarchar(1000), ObjectGUID nvarchar(1000), DocName nvarchar(1000), Descrip nvarchar(1000)
-, CategoryId nvarchar(1000), DocURL nvarchar(max), B64  nvarchar(max), rowGUID nvarchar(1000))
+DECLARE @flxDocuments TABLE (DocGuid nvarchar(1000), ObjectName nvarchar(1000), ObjectId nvarchar(1000), ObjectGUID nvarchar(1000), [Name] nvarchar(1000), [Description] nvarchar(1000)
+, CategoryId nvarchar(1000), DocURL nvarchar(max), B64  nvarchar(max), rowGUID nvarchar(1000),_isInserted bit,_isUpdated bit,_isDeleted bit)
 IF LEN (@JSONDocuments)>0 BEGIN
-INSERT INTO @flxDocuments (DocGuid, ObjectName, ObjectId, ObjectGUID, DocName, Descrip, CategoryId, DocURL, B64, rowGUID)
-SELECT DocGuid, ObjectName, ObjectId, ObjectGUID, DocName, Descrip, CategoryId, DocURL, B64, cast(_rowguid as nvarchar(max))
+INSERT INTO @flxDocuments (DocGuid, ObjectName, ObjectId, ObjectGUID, [Name], [Description], CategoryId, DocURL, B64, rowGUID,_isInserted ,_isUpdated ,_isDeleted )
+SELECT DocGuid, ObjectName, ObjectId, ObjectGUID, [Name], [Description], CategoryId, DocURL, B64, cast(_rowguid as nvarchar(max)),_isInserted ,_isUpdated ,_isDeleted 
 FROM OPENJSON(@JSONDocuments,'$.flxDocuments') 
 WITH ( 
 	DocGuid nvarchar(1000) '$.DocGuid',
 	ObjectName nvarchar(1000) '$.ObjectName',
 	ObjectId nvarchar(1000) '$.ObjectId',
 	ObjectGUID nvarchar(1000)'$.ObjectGUID',
-	DocName nvarchar(1000) '$.Name',
-	Descrip nvarchar(1000) '$.Description',	
+	[Name] nvarchar(1000) '$.Name',
+	[Description] nvarchar(1000) '$.Description',	
 	CreationDate nvarchar(1000) '$.CreationDate',	
 	CategoryId nvarchar(1000) '$.CategoryId',
 	DocURL nvarchar(max) '$.URL',
@@ -166,6 +170,7 @@ WITH (
 	_isDeleted bit '$._isDeleted',
 	_rowguid NVARCHAR(max) '$._rowguid')
 END
+
 
 ------MTO CLIENTES
 IF (SELECT count(1) FROM @Client) >0 BEGIN		
@@ -209,25 +214,28 @@ IF (SELECT count(1) FROM @Client) >0 BEGIN
 		UPDATE I SET ObjectId=A.IdClientNew
 		FROM @flxImages I 
 		INNER JOIN @Client A ON I.ObjectId=A.IdClient AND I.Objectname='Offline_Cliente'
-		WHERE A._isInserted=1
-
-		UPDATE @flxImages SET ObjectName='Cliente' WHERE Objectname='Offline_Cliente'
-		
-		SET @JSONImages = JSON_MODIFY(@JSONImages, '$.flxImages',  (SELECT * FROM @flxImages FOR JSON PATH));
+		WHERE A._isInserted=1		
 	END
 
 	IF (SELECT COUNT(1) FROM @flxDocuments)>0 BEGIN
 		UPDATE I SET ObjectId=A.IdClientNew
 		FROM @flxDocuments I 
 		INNER JOIN @Client A ON I.ObjectId=A.IdClient AND I.Objectname='Offline_Cliente'
-		WHERE A._isInserted=1
-
-		UPDATE @flxDocuments SET ObjectName='Cliente' WHERE Objectname='Offline_Cliente'
-		
-		SET @JSONDocuments = JSON_MODIFY(@JSONDocuments, '$.flxDocuments',  (SELECT * FROM @flxDocuments FOR JSON PATH));
+		WHERE A._isInserted=1		
 	END
 
 END
+--Pasamos los documentos y las imágenes a los objetos online
+IF (SELECT COUNT(1) FROM @flxImages) >0 BEGIN
+	UPDATE @flxImages SET ObjectName='Cliente' WHERE Objectname='Offline_Cliente'		
+	SET @JSONImages = JSON_MODIFY(@JSONImages, '$.flxImages',  (SELECT * FROM @flxImages FOR JSON PATH));
+END
+IF (SELECT COUNT(1) FROM @flxDocuments)>0 BEGIN
+	UPDATE @flxDocuments SET ObjectName='Cliente' WHERE Objectname='Offline_Cliente'		
+	SET @JSONDocuments = JSON_MODIFY(@JSONDocuments, '$.flxDocuments',  (SELECT * FROM @flxDocuments FOR JSON PATH));
+END
+
+
 
 ------MTO ACCIONES
 IF (SELECT count(1) FROM @Action) >0 BEGIN		
@@ -267,28 +275,31 @@ IF (SELECT count(1) FROM @Action) >0 BEGIN
 		WHERE b._isInserted=1 and b._isDeleted=0
 	END
 
-	IF (SELECT COUNT(1) FROM @flxImages) >0 BEGIN
-		UPDATE I SET ObjectId=A.ActionIdNew
-		FROM @flxImages I 
-		INNER JOIN @Action A ON I.ObjectId=A.ActionId AND I.Objectname='Offline_Accion'
-		WHERE A._isInserted=1
+END
 
-		UPDATE @flxImages SET ObjectName='Accion' WHERE Objectname='Offline_Accion'
+IF (SELECT COUNT(1) FROM @flxImages) >0 BEGIN
+
+	UPDATE I SET ObjectId=A.ActionIdNew
+	FROM @flxImages I 
+	INNER JOIN @Action A ON I.ObjectId=A.ActionId AND I.Objectname='Offline_Accion'
+	WHERE A._isInserted=1
+
+	UPDATE @flxImages SET ObjectName='Accion' WHERE Objectname='Offline_Accion'
 		
-		SET @JSONImages = JSON_MODIFY(@JSONImages, '$.flxImages',  (SELECT * FROM @flxImages FOR JSON PATH));
-	END
+	SET @JSONImages = JSON_MODIFY(@JSONImages, '$.flxImages',  (SELECT * FROM @flxImages FOR JSON PATH));
+	
+END
 
-	IF (SELECT COUNT(1) FROM @flxDocuments)>0 BEGIN
-		UPDATE I SET ObjectId=A.ActionIdNew
-		FROM @flxDocuments I 
-		INNER JOIN @Action A ON I.ObjectId=A.ActionId AND I.Objectname='Offline_Accion'
-		WHERE A._isInserted=1
+IF (SELECT COUNT(1) FROM @flxDocuments)>0 BEGIN
+	UPDATE I SET ObjectId=A.ActionIdNew
+	FROM @flxDocuments I 
+	INNER JOIN @Action A ON I.ObjectId=A.ActionId AND I.Objectname='Offline_Accion'
+	WHERE A._isInserted=1
 
-		UPDATE @flxDocuments SET ObjectName='Accion' WHERE Objectname='Offline_Accion'
-		
-		SET @JSONDocuments = JSON_MODIFY(@JSONDocuments, '$.flxDocuments',  (SELECT * FROM @flxDocuments FOR JSON PATH));
-	END
+	UPDATE @flxDocuments SET ObjectName='Accion' WHERE Objectname='Offline_Accion'
+	SELECT * FROM @flxDocuments FOR JSON PATH
 
+	SET @JSONDocuments = JSON_MODIFY(@JSONDocuments, '$.flxDocuments',  (SELECT * FROM @flxDocuments FOR JSON PATH));
 END
 
 COMMIT TRAN
@@ -298,7 +309,6 @@ BEGIN CATCH
 	IF @@TRANCOUNT >0 BEGIN
 		ROLLBACK TRAN 
 	END
-	print ERROR_MESSAGE()
 	DECLARE @CatchError NVARCHAR(MAX)
 	SET @CatchError=ERROR_MESSAGE()
 	RAISERROR(@CatchError,12,1)
