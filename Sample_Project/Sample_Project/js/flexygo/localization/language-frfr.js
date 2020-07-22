@@ -39,7 +39,8 @@ var flexygo;
                 CusPropertyName: 'Nom du contrôle personnalisé',
                 SQLCustomProperty: 'SQL Propriété personnalisée ',
                 connectionstrings: 'Chaînes de connexion',
-                connStringvalues: 'Valeurs de chaîne de connexion'
+                connStringvalues: 'Valeurs de chaîne de connexion',
+                view: 'regarder',
             };
             frfr.develop = {
                 developer: 'Développeur',

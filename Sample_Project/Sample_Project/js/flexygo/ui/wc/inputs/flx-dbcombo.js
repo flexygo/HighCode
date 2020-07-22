@@ -807,7 +807,8 @@ var flexygo;
                                 Value: value,
                                 Page: 0,
                                 //PageSize: 1,                       
-                                AdditionalWhere: this.additionalWhere
+                                AdditionalWhere: this.additionalWhere,
+                                SQLValueField: this.options.SQLValueField
                             };
                             flexygo.ajax.syncPost('~/api/Edit', 'GetComboText', params, (response) => {
                                 if (response) {

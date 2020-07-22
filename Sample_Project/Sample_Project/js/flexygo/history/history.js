@@ -203,7 +203,7 @@ var flexygo;
                 }
                 historyObj.icon = icon + ' icon-margin-right';
                 historyObj.description = description;
-                var indexInArray = flexygo.utils.indexOfObject(list, historyObj);
+                var indexInArray = flexygo.utils.indexOfObject(list, historyObj, ["filtersValues"]);
                 if (indexInArray > -1) {
                     var newArr = new Array();
                     for (var i = 0; i < list.length; i++) {

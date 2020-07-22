@@ -244,12 +244,24 @@ var flexygo;
                                 <i method="download" value= "" class="flx-icon icon-download txt-primary dtc-hover dtc-transition dtc-i-btn" flx- fw="" > </i>
                             </a>
                             <i method="remove" value="` + docGuid + `" class="flx-icon icon-delete-2 txt-danger dtc-hover dtc-transition dtc-i-btn" flx- fw="" > </i>
-                            <i method="link" value="` + docGuid + `" class="flx-icon icon-link txt-primary dtc-hover dtc-transition dtc-i-btn" flx- fw="" > </i>
-                          </div>`;
+                            <i method="link" value="` + docGuid + `" class="flx-icon icon-link txt-primary dtc-hover dtc-transition dtc-i-btn" flx- fw="" > </i>`;
+                        if (extension == ".pdf") {
+                            subcontainerbuttons = subcontainerbuttons + `<i method="view" value= "` + flexygo.utils.resolveUrl(downloadLink) + `&mode=view" download= "` + name + extension + `" class="flx-icon icon-eye txt-primary dtc-hover dtc-transition dtc-i-btn" flx- fw="" > </i>
+                        </div>`;
+                        }
+                        else {
+                            subcontainerbuttons = subcontainerbuttons + `<i class="flx-icon icon-eye text-muted dtc-i-btn"></i></div>`;
+                        }
                         if (this.type.toLowerCase() == "view") {
                             subcontainerbuttons = `<a class="dtc-a" href="` + flexygo.utils.resolveUrl(downloadLink) + `" download="` + name + extension + `">
                                 <i method="download" value= "" class="flx-icon icon-download txt-primary dtc-hover dtc-transition dtc-i-btn" flx- fw="" > </i>
                             </a>`;
+                            if (extension == ".pdf") {
+                                subcontainerbuttons = subcontainerbuttons + `< i method= "view" value= "` + flexygo.utils.resolveUrl(downloadLink) + `&mode=view" download= "` + name + extension + `" class="flx-icon icon-eye txt-primary dtc-hover dtc-transition dtc-i-btn" flx- fw="" > </i>`;
+                            }
+                            else {
+                                subcontainerbuttons = subcontainerbuttons + `<i class="flx-icon icon-eye text-muted dtc-i-btn"></i>`;
+                            }
                         }
                         date = new Date(parseInt(creationDate.substr(6)));
                         rendered = `<div id="` + docGuid + `" documenttype="` + documentType + `" class="dtc-container dtc-transition">
@@ -309,6 +321,7 @@ var flexygo;
                         me.find('i[method="download"]').tooltip({ title: flexygo.localization.translate('documentmanager.download'), placement: 'bottom', trigger: 'hover' });
                         me.find('i[method="remove"]').tooltip({ title: flexygo.localization.translate('documentmanager.remove'), placement: 'bottom', trigger: 'hover' });
                         me.find('i[method="link"]').tooltip({ title: flexygo.localization.translate('documentmanager.link'), placement: 'bottom', trigger: 'hover' });
+                        me.find('i[method="view"]').tooltip({ title: flexygo.localization.translate('documentmanager.view'), placement: 'bottom', trigger: 'hover' });
                         /* Temporal */
                         me.find('div#' + docGuid).find('i[method="link"]').removeClass('dtc-hover').addClass('dtc-disabled');
                     }
@@ -829,12 +842,14 @@ var flexygo;
                             var method;
                             var value;
                             var Guid;
+                            var filename;
                             var permissionLink;
                             var defaults;
                             element = $(e.currentTarget);
                             method = element.attr('method');
                             value = element.attr('value');
                             Guid = element.closest('div.dtc-container').attr('id');
+                            filename = element.attr('download');
                             switch (method) {
                                 case 'remove':
                                     this.removeDocument(value);
@@ -848,12 +863,28 @@ var flexygo;
                                 case 'return':
                                     this.editReturn(Guid);
                                     break;
+                                case 'view':
+                                    this.viewDocument(value, filename);
+                                    break;
                             }
                         });
                     }
                     catch (ex) {
                         console.log(ex);
                     }
+                }
+                /**
+                * View document.
+                * @method viewDocument
+                * @param {string } Content.
+                */
+                viewDocument(content, filename) {
+                    let histObj = new flexygo.nav.FlexygoHistory();
+                    histObj.targetid = 'modal';
+                    let modal = flexygo.targets.createContainer(histObj, true, null, true, null);
+                    modal.empty();
+                    modal.closest('.ui-dialog').find('.ui-dialog-title').html(filename);
+                    modal.append('<embed style="height:100%;width:100%" src="' + content + '"></embed>');
                 }
                 /**
                 * Remove document.

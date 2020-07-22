@@ -362,6 +362,7 @@ var flexygo;
                 settings: 'Ajustes',
                 permissionerror: 'Lo sentimos, no tienes permisos',
                 documentempty: 'Documento vacío',
+                view: 'Ver',
             };
             eses.imagemanager = {
                 upload: 'Subir',

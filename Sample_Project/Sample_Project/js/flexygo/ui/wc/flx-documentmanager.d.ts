@@ -209,6 +209,12 @@ declare namespace flexygo.ui.wc {
         */
         documentEvents(): void;
         /**
+        * View document.
+        * @method viewDocument
+        * @param {string } Content.
+        */
+        viewDocument(content: string, filename: string): void;
+        /**
         * Remove document.
         * @method removeDocument
         * @param {string} Document ID.

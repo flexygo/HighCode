@@ -792,7 +792,7 @@ var flexygo;
                 * @return {string}
                 */
                 parseEditString(str, ctx, property) {
-                    let me = $(this);
+                    let me = $(ctx);
                     let props = me.find('[property]');
                     let obj = new Object();
                     for (let i = 0; i < props.length; i++) {

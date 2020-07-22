@@ -361,6 +361,7 @@ var flexygo;
                 settings: 'Configuració',
                 permissionerror: 'Ho sentim, no teniu permisos',
                 documentempty: 'Document buit',
+                view: 'veure',
             };
             caes.imagemanager = {
                 upload: 'Carregar',

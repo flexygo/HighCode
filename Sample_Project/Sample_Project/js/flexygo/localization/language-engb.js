@@ -363,6 +363,7 @@ var flexygo;
                 settings: 'Settings',
                 permissionerror: 'Sorry, you do not have permissions',
                 documentempty: 'Document empty',
+                view: 'View',
             };
             engb.imagemanager = {
                 upload: 'Upload',

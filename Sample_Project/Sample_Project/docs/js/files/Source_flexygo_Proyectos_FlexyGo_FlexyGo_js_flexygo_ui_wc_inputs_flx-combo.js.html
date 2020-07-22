@@ -790,7 +790,8 @@ var flexygo;
                                         CryptedFilter: this.options.SQLFilter,
                                         Value: value,
                                         Page: 0,
-                                        AdditionalWhere: null
+                                        AdditionalWhere: null,
+                                        SQLValueField: this.options.SQLValueField
                                     };
                                     let method = &#x27;GetComboText&#x27;;
                                     let input = me.find(&#x27;select&#x27;);
@@ -851,7 +852,8 @@ var flexygo;
                                             &quot;CryptedFilter&quot;: this.options.SQLFilter,
                                             &quot;Value&quot;: value,
                                             &quot;Page&quot;: 0,
-                                            &quot;AdditionalWhere&quot;: null
+                                            &quot;AdditionalWhere&quot;: null,
+                                            &quot;SQLValueField&quot;: this.options.SQLValueField
                                         };
                                         let method = &#x27;GetComboText&#x27;;
                                         let input = me.find(&#x27;select&#x27;);

@@ -360,6 +360,7 @@ var flexygo;
                 settings: 'Einstellungen',
                 permissionerror: 'Entschuldigung, Sie haben keine Berechtigung',
                 documentempty: 'Dokument leer',
+                view: 'sehen',
             };
             dede.imagemanager = {
                 upload: 'Hochladen',

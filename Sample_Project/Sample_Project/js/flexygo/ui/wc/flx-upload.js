@@ -281,7 +281,6 @@ var flexygo;
                                                 path: response.path,
                                                 name: name,
                                                 extension: extension,
-                                                base64: reader.result,
                                             });
                                             if (ctx.options && ctx.options.CauseRefresh) {
                                                 let ev = {

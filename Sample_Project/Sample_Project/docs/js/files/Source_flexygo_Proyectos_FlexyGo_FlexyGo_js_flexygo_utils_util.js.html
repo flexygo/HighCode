@@ -569,15 +569,18 @@ var flexygo;
         * @method indexOfObject
         * @return {number} Item index if found, -1 if not.
         */
-        function indexOfObject(arr, itm) {
+        function indexOfObject(arr, itm, excludes) {
             try {
+                if (excludes == undefined)
+                    excludes = [];
                 var esItem = true;
                 for (var i = 0; i &lt; arr.length; i++) {
                     esItem = true;
                     var key;
                     for (key in itm) {
                         if (itm[key] != arr[i][key]) {
-                            esItem = false;
+                            if (excludes.indexOf(key) == -1)
+                                esItem = false;
                         }
                     }
                     if (esItem) {

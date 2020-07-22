@@ -836,6 +836,7 @@ var flexygo;
                     };
                     history.filtersValues[module.moduleName] = histElem;
                     flexygo.history.replace(history, me, false);
+                    flexygo.history.historyLog.add(&#x27;&#x27;, history.description, history);
                 }
                 /**
              * Clears filter values.

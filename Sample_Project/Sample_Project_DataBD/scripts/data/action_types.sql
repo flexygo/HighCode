@@ -8,6 +8,7 @@ USING (VALUES
  ,(N'ICALL',N'Incoming call',N'flx-icon icon-phone')
  ,(N'OCALL',N'Outgoing call',N'flx-icon icon-phone-2')
  ,(N'SALE',N'Sale',N'flx-icon icon-money')
+ ,(N'OTHER',N'Other',N'flx-icon icon-money')
 ) AS Source ([ActionType],[Descrip],[CssClass])
 ON (Target.[ActionType] = Source.[ActionType])
 WHEN MATCHED AND (

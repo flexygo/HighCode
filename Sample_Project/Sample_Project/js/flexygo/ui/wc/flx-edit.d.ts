@@ -160,7 +160,7 @@ declare namespace flexygo.ui.wc {
         * @param {string} str
         * @return {string}
         */
-        parseEditString(str: string, ctx?: flexygo.ui.wc.FlxEditElement | flexygo.ui.wc.FlxListElement, property?: Element): string;
+        parseEditString(str: string, ctx: flexygo.ui.wc.FlxEditElement | flexygo.ui.wc.FlxListElement, property?: Element): string;
         /**
        *Translates string
        * @method translate

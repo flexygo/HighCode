@@ -523,7 +523,7 @@ var flexygo;
                 }
                 historyObj.icon = icon + &#x27; icon-margin-right&#x27;;
                 historyObj.description = description;
-                var indexInArray = flexygo.utils.indexOfObject(list, historyObj);
+                var indexInArray = flexygo.utils.indexOfObject(list, historyObj, [&quot;filtersValues&quot;]);
                 if (indexInArray &gt; -1) {
                     var newArr = new Array();
                     for (var i = 0; i &lt; list.length; i++) {

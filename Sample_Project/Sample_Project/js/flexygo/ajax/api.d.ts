@@ -1051,6 +1051,7 @@ declare namespace flexygo.api.edit {
         Value: string;
         Page: number;
         AdditionalWhere: string;
+        SQLValueField: string;
     }
     /**
    * api for getComboDataParams

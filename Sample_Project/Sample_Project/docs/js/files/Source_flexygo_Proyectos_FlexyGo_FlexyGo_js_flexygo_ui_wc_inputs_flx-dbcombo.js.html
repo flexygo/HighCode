@@ -1127,7 +1127,8 @@ var flexygo;
                                 Value: value,
                                 Page: 0,
                                 //PageSize: 1,                       
-                                AdditionalWhere: this.additionalWhere
+                                AdditionalWhere: this.additionalWhere,
+                                SQLValueField: this.options.SQLValueField
                             };
                             flexygo.ajax.syncPost(&#x27;~/api/Edit&#x27;, &#x27;GetComboText&#x27;, params, (response) =&gt; {
                                 if (response) {

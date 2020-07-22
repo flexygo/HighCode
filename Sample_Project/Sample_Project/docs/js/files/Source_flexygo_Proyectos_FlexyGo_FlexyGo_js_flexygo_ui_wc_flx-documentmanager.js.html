@@ -564,12 +564,24 @@ var flexygo;
                                 &lt;i method=&quot;download&quot; value= &quot;&quot; class=&quot;flx-icon icon-download txt-primary dtc-hover dtc-transition dtc-i-btn&quot; flx- fw=&quot;&quot; &gt; &lt;/i&gt;
                             &lt;/a&gt;
                             &lt;i method=&quot;remove&quot; value=&quot;&#x60; + docGuid + &#x60;&quot; class=&quot;flx-icon icon-delete-2 txt-danger dtc-hover dtc-transition dtc-i-btn&quot; flx- fw=&quot;&quot; &gt; &lt;/i&gt;
-                            &lt;i method=&quot;link&quot; value=&quot;&#x60; + docGuid + &#x60;&quot; class=&quot;flx-icon icon-link txt-primary dtc-hover dtc-transition dtc-i-btn&quot; flx- fw=&quot;&quot; &gt; &lt;/i&gt;
-                          &lt;/div&gt;&#x60;;
+                            &lt;i method=&quot;link&quot; value=&quot;&#x60; + docGuid + &#x60;&quot; class=&quot;flx-icon icon-link txt-primary dtc-hover dtc-transition dtc-i-btn&quot; flx- fw=&quot;&quot; &gt; &lt;/i&gt;&#x60;;
+                        if (extension == &quot;.pdf&quot;) {
+                            subcontainerbuttons = subcontainerbuttons + &#x60;&lt;i method=&quot;view&quot; value= &quot;&#x60; + flexygo.utils.resolveUrl(downloadLink) + &#x60;&amp;mode=view&quot; download= &quot;&#x60; + name + extension + &#x60;&quot; class=&quot;flx-icon icon-eye txt-primary dtc-hover dtc-transition dtc-i-btn&quot; flx- fw=&quot;&quot; &gt; &lt;/i&gt;
+                        &lt;/div&gt;&#x60;;
+                        }
+                        else {
+                            subcontainerbuttons = subcontainerbuttons + &#x60;&lt;i class=&quot;flx-icon icon-eye text-muted dtc-i-btn&quot;&gt;&lt;/i&gt;&lt;/div&gt;&#x60;;
+                        }
                         if (this.type.toLowerCase() == &quot;view&quot;) {
                             subcontainerbuttons = &#x60;&lt;a class=&quot;dtc-a&quot; href=&quot;&#x60; + flexygo.utils.resolveUrl(downloadLink) + &#x60;&quot; download=&quot;&#x60; + name + extension + &#x60;&quot;&gt;
                                 &lt;i method=&quot;download&quot; value= &quot;&quot; class=&quot;flx-icon icon-download txt-primary dtc-hover dtc-transition dtc-i-btn&quot; flx- fw=&quot;&quot; &gt; &lt;/i&gt;
                             &lt;/a&gt;&#x60;;
+                            if (extension == &quot;.pdf&quot;) {
+                                subcontainerbuttons = subcontainerbuttons + &#x60;&lt; i method= &quot;view&quot; value= &quot;&#x60; + flexygo.utils.resolveUrl(downloadLink) + &#x60;&amp;mode=view&quot; download= &quot;&#x60; + name + extension + &#x60;&quot; class=&quot;flx-icon icon-eye txt-primary dtc-hover dtc-transition dtc-i-btn&quot; flx- fw=&quot;&quot; &gt; &lt;/i&gt;&#x60;;
+                            }
+                            else {
+                                subcontainerbuttons = subcontainerbuttons + &#x60;&lt;i class=&quot;flx-icon icon-eye text-muted dtc-i-btn&quot;&gt;&lt;/i&gt;&#x60;;
+                            }
                         }
                         date = new Date(parseInt(creationDate.substr(6)));
                         rendered = &#x60;&lt;div id=&quot;&#x60; + docGuid + &#x60;&quot; documenttype=&quot;&#x60; + documentType + &#x60;&quot; class=&quot;dtc-container dtc-transition&quot;&gt;
@@ -629,6 +641,7 @@ var flexygo;
                         me.find(&#x27;i[method=&quot;download&quot;]&#x27;).tooltip({ title: flexygo.localization.translate(&#x27;documentmanager.download&#x27;), placement: &#x27;bottom&#x27;, trigger: &#x27;hover&#x27; });
                         me.find(&#x27;i[method=&quot;remove&quot;]&#x27;).tooltip({ title: flexygo.localization.translate(&#x27;documentmanager.remove&#x27;), placement: &#x27;bottom&#x27;, trigger: &#x27;hover&#x27; });
                         me.find(&#x27;i[method=&quot;link&quot;]&#x27;).tooltip({ title: flexygo.localization.translate(&#x27;documentmanager.link&#x27;), placement: &#x27;bottom&#x27;, trigger: &#x27;hover&#x27; });
+                        me.find(&#x27;i[method=&quot;view&quot;]&#x27;).tooltip({ title: flexygo.localization.translate(&#x27;documentmanager.view&#x27;), placement: &#x27;bottom&#x27;, trigger: &#x27;hover&#x27; });
                         /* Temporal */
                         me.find(&#x27;div#&#x27; + docGuid).find(&#x27;i[method=&quot;link&quot;]&#x27;).removeClass(&#x27;dtc-hover&#x27;).addClass(&#x27;dtc-disabled&#x27;);
                     }
@@ -1149,12 +1162,14 @@ var flexygo;
                             var method;
                             var value;
                             var Guid;
+                            var filename;
                             var permissionLink;
                             var defaults;
                             element = $(e.currentTarget);
                             method = element.attr(&#x27;method&#x27;);
                             value = element.attr(&#x27;value&#x27;);
                             Guid = element.closest(&#x27;div.dtc-container&#x27;).attr(&#x27;id&#x27;);
+                            filename = element.attr(&#x27;download&#x27;);
                             switch (method) {
                                 case &#x27;remove&#x27;:
                                     this.removeDocument(value);
@@ -1168,12 +1183,28 @@ var flexygo;
                                 case &#x27;return&#x27;:
                                     this.editReturn(Guid);
                                     break;
+                                case &#x27;view&#x27;:
+                                    this.viewDocument(value, filename);
+                                    break;
                             }
                         });
                     }
                     catch (ex) {
                         console.log(ex);
                     }
+                }
+                /**
+                * View document.
+                * @method viewDocument
+                * @param {string } Content.
+                */
+                viewDocument(content, filename) {
+                    let histObj = new flexygo.nav.FlexygoHistory();
+                    histObj.targetid = &#x27;modal&#x27;;
+                    let modal = flexygo.targets.createContainer(histObj, true, null, true, null);
+                    modal.empty();
+                    modal.closest(&#x27;.ui-dialog&#x27;).find(&#x27;.ui-dialog-title&#x27;).html(filename);
+                    modal.append(&#x27;&lt;embed style=&quot;height:100%;width:100%&quot; src=&quot;&#x27; + content + &#x27;&quot;&gt;&lt;/embed&gt;&#x27;);
                 }
                 /**
                 * Remove document.

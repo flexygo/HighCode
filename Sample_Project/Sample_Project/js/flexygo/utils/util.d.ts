@@ -90,7 +90,7 @@ declare namespace flexygo.utils {
     * @method indexOfObject
     * @return {number} Item index if found, -1 if not.
     */
-    function indexOfObject(arr: any, itm: any): number;
+    function indexOfObject(arr: any, itm: any, excludes?: any): number;
     /**
     * Sorts an object's array by specified properties.
     * @param {object} obj - Object to order.
