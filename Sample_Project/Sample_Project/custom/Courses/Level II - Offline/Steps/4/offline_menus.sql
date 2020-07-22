@@ -5,7 +5,7 @@ BEGIN TRY
 MERGE INTO [Offline_Menus] AS Target
 USING (VALUES
   (N'5AEE8AFB-8B92-4621-A2C4-0E9AEF4B4DB7',N'LearningApp',NULL,0,N'Clientes',N'client',N'Clientes',N'object',NULL,NULL,N'list',NULL,N'Offline_Cliente',NULL,1,NULL,2)
- ,(N'34BA639C-5E39-4529-B669-10A230447D94',N'LearningApp',NULL,0,N'Acciones',N'task-manager-4',N'Acciones',N'object',NULL,NULL,N'list',NULL,N'Offline_Accion',NULL,1,NULL,2)
+ ,(N'34BA639C-5E39-4529-B669-10A230447D94',N'LearningApp',NULL,0,N'Tareas',N'accounting-operations',N'Tareas',N'object',NULL,NULL,N'list',NULL,N'Offline_Accion',NULL,1,NULL,2)
 ) AS Source ([MenuId],[AppName],[ParentMenuId],[Order],[Title],[IconName],[Descrip],[TypeId],[Url],[ProcessName],[PageTypeId],[PageName],[ObjectName],[ObjectWhere],[Enabled],[cssClass],[OriginID])
 ON (Target.[MenuId] = Source.[MenuId])
 WHEN MATCHED AND (
