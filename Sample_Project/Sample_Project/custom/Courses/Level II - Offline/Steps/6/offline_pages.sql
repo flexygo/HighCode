@@ -47,7 +47,7 @@ USING (VALUES
 from Actions
 INNER JOIN Client c on c.IdClient=Actions.IdClient
 INNER JOIN Action_States s on s.State=Actions.ActionState
-WHERE Actions.ActionState in (1,2,3)',NULL,N'comment like @findstring or c.Name like @findstring',1,1,2)
+WHERE Actions.ActionState in (1,2,3) and Actions._IsDeleted=0',NULL,N'comment like @findstring or c.Name like @findstring',1,1,2)
  ,(N'LearningApp',N'Offline_Accion_View',N'Offline_Accion',N'view',N'Tarea',N'  <ion-item lines="none" color="{{ActionState|switch:[0:warning, 1:danger, 2:warning, 3:success, 4:success]}}">
     <ion-chip slot="start">
       <ion-label color="light"><i class="flx-icon {{ActionType|switch:[ICALL:icon-call11,OCALL:icon-phone-2,EMAIL:icon-email1,SALE:icon-dollar,else:icon-accounting-operations]}}"></i> </ion-label>
