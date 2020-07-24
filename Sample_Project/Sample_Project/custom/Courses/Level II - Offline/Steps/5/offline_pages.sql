@@ -34,7 +34,7 @@ USING (VALUES
 from Actions
 INNER JOIN Client c on c.IdClient=Actions.IdClient
 INNER JOIN Action_States s on s.State=Actions.ActionState
-WHERE Actions.ActionState in (1,2,3)',NULL,N'comment like @findstring or c.Name like @findstring',1,1,2)
+WHERE Actions.ActionState in (1,2,3) and Actions._IsDeleted=0',NULL,N'comment like @findstring or c.Name like @findstring',1,1,2)
  ,(N'LearningApp',N'Offline_Accion_View',N'Offline_Accion',N'view',N'Tarea',N'  <ion-item lines="none" color="{{ActionState|switch:[0:warning, 1:danger, 2:warning, 3:success, 4:success]}}">
     <ion-chip slot="start">
       <ion-label color="light"><i class="flx-icon {{ActionType|switch:[ICALL:icon-call11,OCALL:icon-phone-2,EMAIL:icon-email1,SALE:icon-dollar,else:icon-accounting-operations]}}"></i> </ion-label>
@@ -92,10 +92,18 @@ WHERE Actions.ActionState in (1,2,3)',NULL,N'comment like @findstring or c.Name 
   </ion-list>
 
 ',NULL,N'<ion-fab vertical="bottom" horizontal="end" slot="fixed">
-  <ion-fab-button onclick="flexygo.nav.goEdit(''Offline_Accion'',null,''{{objIdent|JS}}'')">
-    <ion-icon name="create-outline"></ion-icon>
+  <ion-fab-button color="primary" >
+    <ion-icon name="ellipsis-vertical"></ion-icon>
   </ion-fab-button>
-</ion-fab> ',NULL,N'Select Actions.* 
+  <ion-fab-list side="top">
+    <ion-fab-button color="dark" onclick="flexygo.nav.goEdit(''Offline_Accion'',null,''{{objIdent|JS}}'')" data-desc="{{translate|Editar}}">
+      <ion-icon color="white" name="create-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button color="danger" onclick="LearningApp.Tareas.BorrarTarea(''{{ActionId}}'',' + convert(nvarchar(max),NCHAR(36)) + N'(this))" data-desc="{{translate|Borrar tarea}}">
+      <ion-icon color="" name="close-circle-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab-list>
+</ion-fab>',NULL,N'Select Actions.* 
 ,c.Name, c.Phone, c.Mail, c.Address, c.Province, c.PostCode
 ,s.CssClass, s.Descrip as State
 from Actions
