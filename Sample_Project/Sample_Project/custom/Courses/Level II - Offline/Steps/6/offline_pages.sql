@@ -105,10 +105,18 @@ WHERE Actions.ActionState in (1,2,3)',NULL,N'comment like @findstring or c.Name 
   </ion-list>
 
 ',NULL,N'<ion-fab vertical="bottom" horizontal="end" slot="fixed">
-  <ion-fab-button onclick="flexygo.nav.goEdit(''Offline_Accion'',null,''{{objIdent|JS}}'')">
-    <ion-icon name="create-outline"></ion-icon>
+  <ion-fab-button color="primary" >
+    <ion-icon name="ellipsis-vertical"></ion-icon>
   </ion-fab-button>
-</ion-fab> ',NULL,N'Select Actions.* 
+  <ion-fab-list side="top">
+    <ion-fab-button color="dark" onclick="flexygo.nav.goEdit(''Offline_Accion'',null,''{{objIdent|JS}}'')" data-desc="{{translate|Editar}}">
+      <ion-icon color="white" name="create-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button color="danger" onclick="LearningApp.Tareas.BorrarTarea(''{{ActionId}}'',' + convert(nvarchar(max),NCHAR(36)) + N'(this))" data-desc="{{translate|Borrar tarea}}">
+      <ion-icon color="" name="close-circle-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab-list>
+</ion-fab>',NULL,N'Select Actions.* 
 ,c.Name, c.Phone, c.Mail, c.Address, c.Province, c.PostCode
 ,s.CssClass, s.Descrip as State
 from Actions

@@ -16,26 +16,14 @@ var LearningApp=LearningApp || {};
 LearningApp.Tareas = LearningApp.Tareas || {};
 
 /**
-* Says hello world And returns the sum of two parameters.
-* @method myFunction
-* @param {number} param1 - The first param for the sum.
-* @param {number} param2 - The second param for the sum.
-* @return {number} - The sum of two params.
+* Finaliza una tarea.
+* @method Finalizar
+* @param {number} IdTarea - Identificador de tarea/acción.
+* @param {number} e - El elemento html.
+* @return {bit} - true or false.
 */
-LearningApp.Tareas.Finalizar = async function (IdTarea,e){
-  var  count = await  flexygo.sql.getCount(''actions'', ''signature is null and actionid=?'',[IdTarea]) ;
-  if(count==0){ 
-    flexygo.sql.execSQL(''update actions set actionstate=3, _isupdated=1 where actionid=?'', [IdTarea]).then(() => {
-    e.closest(''flx-view'')[0].refresh();    
-  }).catch((err) => {
-    flexygo.msg.showError(err);
-  });    
-  }else{
-      flexygo.msg.showError("Debe firmar antes la tarea");
-  }  
-};
 
-LearningApp.Tareas.FinalizarSinComprobar = function (IdTarea, e){
+LearningApp.Tareas.Finalizar = function (IdTarea, e){
   return flexygo.sql.execSQL(''update actions set actionstate=3, _isupdated=1 where actionid=?'', [IdTarea]).then(() => {
     e.closest(''flx-view'')[0].refresh();    
   }).catch((err) => {
@@ -43,6 +31,33 @@ LearningApp.Tareas.FinalizarSinComprobar = function (IdTarea, e){
   });
 };
 
+/**
+* Finaliza una tarea, comprobando que si es una venta, ésta esté firmada.
+* @method FinalizarYComprobar
+* @param {number} IdTarea - Identificador de tarea/acción.
+* @param {number} e - El elemento html.
+* @return {bit} - true or false.
+*/
+LearningApp.Tareas.FinalizarYComprobar = async function (IdTarea,e){
+  var  count = await  flexygo.sql.getCount(''actions'', ''actionType=? AND signature is null and actionid=?'',[''SALE'',IdTarea]) ;
+  if(count==0){ 
+    flexygo.sql.execSQL(''update actions set actionstate=3, _isupdated=1 where actionid=?'', [IdTarea]).then(() => {
+    e.closest(''flx-view'')[0].refresh();    
+  }).catch((err) => {
+    flexygo.msg.showError(err);
+  });    
+  }else{
+      flexygo.msg.showError("Debe firmar antes la tarea.");
+  }  
+};
+
+/**
+* Finaliza una tarea, guardando la localización.
+* @method FinalizarYComprobar
+* @param {number} IdTarea - Identificador de tarea/acción.
+* @param {number} e - El elemento html.
+* @return {bit} - true or false.
+*/
 LearningApp.Tareas.FinalizarYLocalizar = async function (IdTarea, e){ 
   var latlong="";
   var location = await flexygo.gps.getCoords(1000,10);
@@ -54,7 +69,32 @@ LearningApp.Tareas.FinalizarYLocalizar = async function (IdTarea, e){
   });
 };
 
-',1,0,'2020-07-22T00:00:00',2)
+/**
+* Elimina una tarea.
+* @method BorrarTarea
+* @IdTarea {number} param1 - Número de tarea
+* @e {object} param2 - Elemento
+*/
+LearningApp.Tareas.BorrarTarea = async function (IdTarea, e){ 
+  return flexygo.msg.confirm("Atención","¿Confirma que desea borrar la tarea?").then(async()=>{
+    var sql = "delete from Actions where ActionId=?";
+    var sqlU = "update Actions set _isdeleted=1 where ActionId=?";    
+    var count = await flexygo.sql.getCount(''Actions'', ''actionState>2 AND ActionId=?'',[IdTarea]);  
+    if (count==0) {
+      var isnew = await flexygo.sql.getValue(''select _isinserted from Actions where ActionId=?'', [IdTarea]);
+      if(isnew!==1){sql=sqlU;} 
+      flexygo.sql.execSQL(sql,[IdTarea]).then(() => {      
+        flexygo.msg.success("La tarea se ha borrado con éxito");
+        flexygo.nav.goList(''Offline_Accion'',null,null);
+      }).catch((err) => {
+        flexygo.msg.showError(err);
+      });
+    } 
+    else {
+      flexygo.msg.warning("El estado de la tarea impide borrarla.");
+    }
+  });  
+};',1,0,'2020-07-24T00:00:00',2)
 ) AS Source ([AppName],[Name],[JSScript],[Enabled],[Order],[LastChange],[OriginId])
 ON (Target.[AppName] = Source.[AppName] AND Target.[Name] = Source.[Name])
 WHEN MATCHED AND (
