@@ -1,6 +1,6 @@
-import { r as registerInstance, e as createEvent } from './index-1ad46950.js';
+import { r as registerInstance, l as createEvent } from './index-e5ff2de3.js';
 
-class RouteRedirect {
+const RouteRedirect = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.ionRouteRedirectChanged = createEvent(this, "ionRouteRedirectChanged", 7);
@@ -15,6 +15,6 @@ class RouteRedirect {
         "from": ["propDidChange"],
         "to": ["propDidChange"]
     }; }
-}
+};
 
 export { RouteRedirect as ion_route_redirect };

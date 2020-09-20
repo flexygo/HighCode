@@ -1,5 +1,5 @@
-import { r as registerInstance, h } from './index-1ad46950.js';
-import { P as Plugins, s as sql, F as FilesystemDirectory, m as msg, u as util } from './messages-856fd5dd.js';
+import { r as registerInstance, j as h } from './index-e5ff2de3.js';
+import { P as Plugins, s as sql, F as FilesystemDirectory, m as msg, u as util } from './messages-cbb766b7.js';
 import { c as createCommonjsModule, a as commonjsGlobal, j as jquery } from './jquery-4ed57fb2.js';
 
 var FileSaver_min = createCommonjsModule(function (module, exports) {
@@ -12,7 +12,7 @@ const flxImagegalleryCss = "ion-thumbnail{--size:150px;display:inline-block}.mod
 
 const { Filesystem } = Plugins;
 const { Share } = Plugins;
-class FlxImagegallery {
+const FlxImagegallery = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
     }
@@ -100,7 +100,7 @@ class FlxImagegallery {
             })) : util.translate('list.noresults'))))
         ]);
     }
-}
+};
 FlxImagegallery.style = flxImagegalleryCss;
 
 export { FlxImagegallery as flx_imagegallery };

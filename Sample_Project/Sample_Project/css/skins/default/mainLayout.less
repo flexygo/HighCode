@@ -362,6 +362,10 @@ h1, h2, h3, h4, h5 {
     display: table;
 }
 
+.show-empty-column:empty:after {
+    content: "\00a0";
+}
+
 // Scrollbar
 //IE
 body {

@@ -169,10 +169,20 @@ var flexygo;
                                 else if (typeF == 'decimal') {
                                     if (rValue && rValue != '' && $.isNumeric(rValue)) {
                                         if (strFormat && strFormat != '') {
-                                            rValue = parseFloat(parseFloat(rValue).toFixed(strFormat)).toLocaleString(flexygo.profiles.culture, { minimumFractionDigits: strFormat });
+                                            if (flexygo.profiles.culture == 'es-ES') {
+                                                rValue = parseFloat(parseFloat(rValue).toFixed(strFormat)).toLocaleString('ca-ES', { minimumFractionDigits: strFormat });
+                                            }
+                                            else {
+                                                rValue = parseFloat(parseFloat(rValue).toFixed(strFormat)).toLocaleString(flexygo.profiles.culture, { minimumFractionDigits: strFormat });
+                                            }
                                         }
                                         else {
-                                            rValue = parseFloat(rValue).toLocaleString();
+                                            if (flexygo.profiles.culture == 'es-ES') {
+                                                rValue = parseFloat(rValue).toLocaleString('ca-ES');
+                                            }
+                                            else {
+                                                rValue = parseFloat(rValue).toLocaleString(flexygo.profiles.culture);
+                                            }
                                         }
                                     }
                                 }

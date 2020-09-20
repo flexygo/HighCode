@@ -1,26 +1,26 @@
-import { r as registerInstance, h } from './index-1ad46950.js';
-import './ionic-global-08321e45.js';
-import { C as ConftokenProvider, s as sql, u as util, m as msg } from './messages-856fd5dd.js';
-import './utils-ae5eb377.js';
-import './index-9a467e52.js';
-import './helpers-742de4f9.js';
-import './animation-a90ce8fc.js';
-import './index-59819519.js';
-import './ios.transition-f27c75b3.js';
-import './md.transition-0550681d.js';
-import './cubic-bezier-89113939.js';
-import './index-9b41fcc6.js';
-import './index-86d5f3ab.js';
-import './hardware-back-button-b3b61715.js';
-import './index-626f3745.js';
-import './overlays-af382aca.js';
+import { r as registerInstance, j as h } from './index-e5ff2de3.js';
+import './ionic-global-e5feb32d.js';
+import { C as ConftokenProvider, s as sql, u as util, m as msg } from './messages-cbb766b7.js';
+import './utils-8c7561fa.js';
+import './index-a78b1497.js';
+import './helpers-d94a0dba.js';
+import './animation-625503e5.js';
+import './index-77ad4b44.js';
+import './ios.transition-5093371a.js';
+import './md.transition-42e45fee.js';
+import './cubic-bezier-92995175.js';
+import './index-1da44cf3.js';
+import './index-53f14fc6.js';
+import './hardware-back-button-c2d005b0.js';
+import './index-dbdc5ddf.js';
+import './overlays-e386d27e.js';
 import './jquery-4ed57fb2.js';
-import { n as nav } from './navigation-94cce689.js';
-import { c as cam } from './camera-2a479be4.js';
+import { n as nav } from './navigation-b90acdd2.js';
+import { c as cam } from './camera-1f4f6cf0.js';
 
 const flxImagemanagerCss = "flx-imagemanager{}";
 
-class FlxImagemanager {
+const FlxImagemanager = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.hasGallery = false;
@@ -87,7 +87,7 @@ class FlxImagemanager {
                 h("ion-fab-list", { side: "start" }, h("ion-fab-button", { color: "dark", onClick: () => { this.getGalleryPicture(); } }, h("ion-icon", { name: "image" }))) : ''))
         ];
     }
-}
+};
 FlxImagemanager.style = flxImagemanagerCss;
 
 export { FlxImagemanager as flx_imagemanager };

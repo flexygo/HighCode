@@ -1000,14 +1000,16 @@
             },
 
             errorsFor: function (element) {
-                var name = this.escapeCssMeta(this.idOrName(element)),
-                    describer = $(element).attr("aria-describedby"),
-                    selector = "label[for='" + name + "'], label[for='" + name + "'] *";
+                if(this.idOrName(element)){
+                    var name = this.escapeCssMeta(this.idOrName(element)),
+                        describer = $(element).attr("aria-describedby"),
+                        selector = "label[for='" + name + "'], label[for='" + name + "'] *";
 
-                // 'aria-describedby' should directly reference the error element
-                if (describer) {
-                    selector = selector + ", #" + this.escapeCssMeta(describer)
-                        .replace(/\s+/g, ", #");
+                    // 'aria-describedby' should directly reference the error element
+                    if (describer) {
+                        selector = selector + ", #" + this.escapeCssMeta(describer)
+                            .replace(/\s+/g, ", #");
+                    }
                 }
 
                 return this

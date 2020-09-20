@@ -1,5 +1,5 @@
-import { r as registerInstance, i as forceUpdate, h, H as Host } from './index-1ad46950.js';
-import { g as getIonMode } from './ionic-global-08321e45.js';
+import { r as registerInstance, o as forceUpdate, j as h, n as Host } from './index-e5ff2de3.js';
+import { g as getIonMode } from './ionic-global-e5feb32d.js';
 
 const SIZE_TO_MEDIA = {
     'xs': '(min-width: 0px)',
@@ -27,7 +27,7 @@ const colCss = ":host{padding-left:var(--ion-grid-column-padding-xs, var(--ion-g
 const win = window;
 const SUPPORTS_VARS = !!(win.CSS && win.CSS.supports && win.CSS.supports('--a: 0'));
 const BREAKPOINTS = ['', 'xs', 'sm', 'md', 'lg', 'xl'];
-class Col {
+const Col = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
     }
@@ -108,7 +108,7 @@ class Col {
                 [mode]: true
             }, style: Object.assign(Object.assign(Object.assign(Object.assign({}, this.calculateOffset(isRTL)), this.calculatePull(isRTL)), this.calculatePush(isRTL)), this.calculateSize()) }, h("slot", null)));
     }
-}
+};
 Col.style = colCss;
 
 export { Col as ion_col };

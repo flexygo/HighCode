@@ -1,5 +1,5 @@
-import { r as registerInstance, e as createEvent, d as getElement } from './index-1ad46950.js';
-import { e as debounce } from './helpers-742de4f9.js';
+import { r as registerInstance, l as createEvent, k as getElement } from './index-e5ff2de3.js';
+import { e as debounce } from './helpers-d94a0dba.js';
 
 const ROUTER_INTENT_NONE = 'root';
 const ROUTER_INTENT_FORWARD = 'forward';
@@ -399,9 +399,11 @@ const flattenNode = (chain, routes, node) => {
     }
 };
 
-class Router {
+const Router = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.ionRouteWillChange = createEvent(this, "ionRouteWillChange", 7);
+        this.ionRouteDidChange = createEvent(this, "ionRouteDidChange", 7);
         this.previousPath = null;
         this.busy = false;
         this.state = 0;
@@ -427,8 +429,6 @@ class Router {
          * By default, this property is `true`, change to `false` to allow hash-less URLs.
          */
         this.useHash = true;
-        this.ionRouteWillChange = createEvent(this, "ionRouteWillChange", 7);
-        this.ionRouteDidChange = createEvent(this, "ionRouteDidChange", 7);
     }
     async componentWillLoad() {
         console.debug('[ion-router] router will load');
@@ -622,6 +622,6 @@ class Router {
         };
     }
     get el() { return getElement(this); }
-}
+};
 
 export { Router as ion_router };

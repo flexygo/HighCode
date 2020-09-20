@@ -1,9 +1,9 @@
-import { r as registerInstance, f as readTask, w as writeTask, h, H as Host, d as getElement } from './index-1ad46950.js';
-import { g as getIonMode } from './ionic-global-08321e45.js';
+import { r as registerInstance, m as readTask, f as writeTask, j as h, n as Host, k as getElement } from './index-e5ff2de3.js';
+import { g as getIonMode } from './ionic-global-e5feb32d.js';
 
 const rippleEffectCss = ":host{left:0;right:0;top:0;bottom:0;position:absolute;contain:strict;pointer-events:none}:host(.unbounded){contain:layout size style}.ripple-effect{border-radius:50%;position:absolute;background-color:currentColor;color:inherit;contain:strict;opacity:0;animation:225ms rippleAnimation forwards, 75ms fadeInAnimation forwards;will-change:transform, opacity;pointer-events:none}.fade-out{transform:translate(var(--translate-end)) scale(var(--final-scale, 1));animation:150ms fadeOutAnimation forwards}@keyframes rippleAnimation{from{animation-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transform:scale(1)}to{transform:translate(var(--translate-end)) scale(var(--final-scale, 1))}}@keyframes fadeInAnimation{from{animation-timing-function:linear;opacity:0}to{opacity:0.16}}@keyframes fadeOutAnimation{from{animation-timing-function:linear;opacity:0.16}to{opacity:0}}";
 
-class RippleEffect {
+const RippleEffect = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         /**
@@ -75,7 +75,7 @@ class RippleEffect {
             } }));
     }
     get el() { return getElement(this); }
-}
+};
 const removeRipple = (ripple) => {
     ripple.classList.add('fade-out');
     setTimeout(() => {

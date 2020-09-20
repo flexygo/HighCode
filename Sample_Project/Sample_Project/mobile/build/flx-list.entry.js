@@ -1,42 +1,47 @@
-import { r as registerInstance, h, d as getElement } from './index-1ad46950.js';
-import './ionic-global-08321e45.js';
-import { C as ConftokenProvider, s as sql, m as msg, u as util } from './messages-856fd5dd.js';
-import './utils-ae5eb377.js';
-import './index-9a467e52.js';
-import './helpers-742de4f9.js';
-import './animation-a90ce8fc.js';
-import './index-59819519.js';
-import './ios.transition-f27c75b3.js';
-import './md.transition-0550681d.js';
-import './cubic-bezier-89113939.js';
-import './index-9b41fcc6.js';
-import './index-86d5f3ab.js';
-import './hardware-back-button-b3b61715.js';
-import './index-626f3745.js';
-import './overlays-af382aca.js';
+import { r as registerInstance, j as h, k as getElement } from './index-e5ff2de3.js';
+import './ionic-global-e5feb32d.js';
+import { u as util, C as ConftokenProvider, s as sql, m as msg } from './messages-cbb766b7.js';
+import './utils-8c7561fa.js';
+import './index-a78b1497.js';
+import './helpers-d94a0dba.js';
+import './animation-625503e5.js';
+import './index-77ad4b44.js';
+import './ios.transition-5093371a.js';
+import './md.transition-42e45fee.js';
+import './cubic-bezier-92995175.js';
+import './index-1da44cf3.js';
+import './index-53f14fc6.js';
+import './hardware-back-button-c2d005b0.js';
+import './index-dbdc5ddf.js';
+import './overlays-e386d27e.js';
 import { j as jquery } from './jquery-4ed57fb2.js';
-import { n as nav } from './navigation-94cce689.js';
-import { p as parser } from './parser-5f51cc8e.js';
+import { n as nav } from './navigation-b90acdd2.js';
+import { p as parser } from './parser-d662b563.js';
 
 const flxListCss = "";
 
-class FlxList {
+const FlxList = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.pageElements = 20;
         this.currentPage = 0;
         this.searchValue = '';
-        this.trash = '0';
         this.modal = false;
     }
     watchFilter() {
+        this.body = new Array();
         this.filterData();
     }
     watchOrderby() {
+        this.body = new Array();
         this.filterData();
     }
     componentWillLoad() {
-        this.load();
+        this.load().then(() => {
+            if (this.page && this.page.JSAfterLoad) {
+                util.execDynamicCode(this.page.JSAfterLoad);
+            }
+        });
         jquery(window).off('popstate.list').on('popstate.list', async () => {
             if (document.location.href.toLowerCase().indexOf('/list/') > 0 && document.location.href.toLowerCase().indexOf('/' + this.object.toLowerCase() + '/') > 0) {
                 this.refresh(null);
@@ -63,11 +68,6 @@ class FlxList {
                 infiniteScroll.disabled = false;
             }
             let sentence = sql.addWhere(this.page.SQLSentence, this.filter);
-            /*if(this.trash=='1'){
-              sentence = sql.addWhere(sentence, this.confObj.tableName + '._isDeleted=1');
-            }else{
-              sentence = sql.addWhere(sentence, this.confObj.tableName + '._isDeleted=0');
-            }*/
             this.currentParams = [];
             if (this.page && this.page.ShowSearchBar && this.page.SQLSearchFilter && this.searchValue) {
                 for (let i = 0; i < this.page.SQLSearchFilter.match(/(@findstring)/gmi).length; i++) {
@@ -75,7 +75,12 @@ class FlxList {
                 }
                 sentence = sql.addWhere(sentence, this.page.SQLSearchFilter.replace(/(@findstring)/gmi, '?'));
             }
-            sentence = sql.addWhere(sentence, this.additional);
+            if (this.additional) {
+                sentence = sql.addWhere(sentence, this.additional);
+            }
+            else if (this.page.AdditionalWhere) {
+                sentence = sql.addWhere(sentence, this.page.AdditionalWhere);
+            }
             sentence = sql.addWhere(sentence, filter);
             if (this.orderby) {
                 sentence = sql.addOrderBy(sentence, this.orderby);
@@ -91,6 +96,7 @@ class FlxList {
         });
     }
     async refresh(ev) {
+        this.body = new Array();
         this.loadData(false).then(() => {
             if (ev && ev.target && ev.target.complete) {
                 ev.target.complete();
@@ -135,11 +141,6 @@ class FlxList {
             }
             this.title = page.title;
             let sentence = sql.addWhere(page.SQLSentence, this.filter);
-            /*if(this.trash=='1'){
-              sentence = sql.addWhere(sentence, this.confObj.tableName + '.`_isDeleted`=1');
-            }else{
-              sentence = sql.addWhere(sentence, this.confObj.tableName + '.`_isDeleted`=0');
-            }*/
             this.currentParams = [];
             if (page && page.ShowSearchBar && page.SQLSearchFilter && this.searchValue) {
                 for (let i = 0; i < page.SQLSearchFilter.match(/(@findstring)/gmi).length; i++) {
@@ -147,7 +148,12 @@ class FlxList {
                 }
                 sentence = sql.addWhere(sentence, page.SQLSearchFilter.replace(/(@findstring)/gmi, '?'));
             }
-            sentence = sql.addWhere(sentence, this.additional);
+            if (this.additional) {
+                sentence = sql.addWhere(sentence, this.additional);
+            }
+            else if (page.AdditionalWhere) {
+                sentence = sql.addWhere(sentence, page.AdditionalWhere);
+            }
             if (this.orderby) {
                 sentence = sql.addOrderBy(sentence, this.orderby);
             }
@@ -247,7 +253,7 @@ class FlxList {
         return [
             h("ion-header", null, h("ion-toolbar", { color: "header", class: "ion-text-center" }, h("ion-buttons", { slot: "start" }, (this.modal ? null : h("ion-menu-button", { color: "outstanding" }))), h("ion-buttons", { slot: "end" }, h("ion-button", { color: "outstanding", onClick: () => { nav.goBack(this.me); } }, h("ion-icon", { slot: "icon-only", name: "arrow-undo-outline" }))), h("ion-title", null, h("span", { id: "menuTitle" }, this.title)))),
             h("ion-header", null, ((this.page && this.page.ShowSearchBar && this.page.SQLSearchFilter)
-                ? h("ion-searchbar", { "cancel-button-text": util.translate('msg.cancel'), placeholder: util.translate('list.search'), mode: "ios", debounce: 1000, value: this.searchValue.replace(/^\%+|\%+$/g, ''), onIonClear: (ev) => { this.onSearchChange(ev, ''); }, onIonChange: (ev) => { this.onSearchChange(ev, ev.currentTarget.value.toLowerCase()); }, animated: true, "show-cancel-button": "focus" })
+                ? h("ion-searchbar", { "cancel-button-text": util.translate('msg.cancel'), placeholder: util.translate('list.search'), mode: "ios", debounce: 1000, value: this.searchValue.replace(/^\%+|\%+$/g, ''), onIonClear: (ev) => { this.onSearchChange(ev, ''); }, onIonChange: (ev) => { this.onSearchChange(ev, ev.currentTarget.value); }, animated: true, "show-cancel-button": "focus" })
                 : '')),
             h("ion-header", { innerHTML: this.header }),
             h("ion-content", null, h("ion-refresher", { slot: "fixed", id: "refresher", onIonRefresh: (ev) => { this.currentPage = 0; this.refresh(ev); } }, h("ion-refresher-content", { "pulling-icon": "chevron-down-circle-outline", refreshingSpinner: "bubbles" })), h("ion-list", { class: "mainBody" }, this.body), h("ion-infinite-scroll", { threshold: "500px", onIonInfinite: () => { this.loadMore(); } }, h("ion-infinite-scroll-content", { loadingSpinner: "bubbles", loadingText: "Loading..." }))),
@@ -259,7 +265,7 @@ class FlxList {
         "additional": ["watchFilter"],
         "orderby": ["watchOrderby"]
     }; }
-}
+};
 FlxList.style = flxListCss;
 
 export { FlxList as flx_list };

@@ -1,4 +1,4 @@
-import { r as registerInstance, h, H as Host, d as getElement } from './index-1ad46950.js';
+import { r as registerInstance, j as h, n as Host, k as getElement } from './index-e5ff2de3.js';
 
 const navLink = (el, routerDirection, component, componentProps, routerAnimation) => {
     const nav = el.closest('ion-nav');
@@ -20,7 +20,7 @@ const navLink = (el, routerDirection, component, componentProps, routerAnimation
     return Promise.resolve(false);
 };
 
-class NavLink {
+const NavLink = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         /**
@@ -35,6 +35,6 @@ class NavLink {
         return (h(Host, { onClick: this.onClick }));
     }
     get el() { return getElement(this); }
-}
+};
 
 export { NavLink as ion_nav_link };

@@ -716,6 +716,16 @@ var flexygo;
                             if (htmlBTN.attr(&#x27;title&#x27;))
                                 htmlBTN.tooltip({ title: htmlBTN.attr(&#x27;title&#x27;), placement: &#x27;bottom&#x27; });
                             break;
+                        case &#x27;report&#x27;:
+                            if (btn.ReportHasParams) {
+                                htmlBTN.attr(&#x27;onclick&#x27;, flexygo.utils.functionToString(&#x27;flexygo.nav.openReportsParams&#x27;, [btn.ReportName, reportwhere, objectname, objectwhere, objectdefaults, btn.TargetId, false], [&#x27;$(this)&#x27;]));
+                            }
+                            else {
+                                htmlBTN.attr(&#x27;onclick&#x27;, flexygo.utils.functionToString(&#x27;flexygo.nav.viewReport&#x27;, [btn.ReportName, reportwhere, objectname, objectwhere, objectdefaults, null, btn.TargetId, false]));
+                            }
+                            if (htmlBTN.attr(&#x27;title&#x27;))
+                                htmlBTN.tooltip({ title: htmlBTN.attr(&#x27;title&#x27;), placement: &#x27;bottom&#x27; });
+                            break;
                         case &#x27;processmenu&#x27;:
                             htmlBTN.append(&#x27;&lt;span class=&quot;caret&quot;&gt;&lt;/span&gt;&#x27;);
                             htmlBTN.attr(&#x27;onclick&#x27;, flexygo.utils.functionToString(&#x27;flexygo.nav.getObjectMenu&#x27;, [objectname, objectwhere, objectdefaults], [&#x27;$(this)&#x27;, null, &quot;&#x27;processes&#x27;&quot;]));

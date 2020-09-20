@@ -1,11 +1,12 @@
-import { r as registerInstance, e as createEvent, w as writeTask, f as readTask, h, H as Host, d as getElement } from './index-1ad46950.js';
-import { g as getIonMode } from './ionic-global-08321e45.js';
+import { r as registerInstance, l as createEvent, f as writeTask, m as readTask, j as h, n as Host, k as getElement } from './index-e5ff2de3.js';
+import { g as getIonMode } from './ionic-global-e5feb32d.js';
 
 const infiniteScrollCss = "ion-infinite-scroll{display:none;width:100%}.infinite-scroll-enabled{display:block}";
 
-class InfiniteScroll {
+const InfiniteScroll = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.ionInfinite = createEvent(this, "ionInfinite", 7);
         this.thrPx = 0;
         this.thrPc = 0;
         this.didFire = false;
@@ -66,7 +67,6 @@ class InfiniteScroll {
             }
             return 4;
         };
-        this.ionInfinite = createEvent(this, "ionInfinite", 7);
     }
     thresholdChanged() {
         const val = this.threshold;
@@ -196,7 +196,7 @@ class InfiniteScroll {
         "threshold": ["thresholdChanged"],
         "disabled": ["disabledChanged"]
     }; }
-}
+};
 InfiniteScroll.style = infiniteScrollCss;
 
 export { InfiniteScroll as ion_infinite_scroll };

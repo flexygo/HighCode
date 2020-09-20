@@ -270,7 +270,7 @@ var flexygo;
                                         <i method="preview" class="` + iconClass + ` dtc-icon" flx-fw=""></i> <!--dtc-hover dtc-transition-->
                                     <!--</a>-->
                                     <div class="dtc-containertext">
-                                        <span class="size-l dtc-name">` + name + `</span>
+                                        <span class="size-l dtc-name" title="` + name + `">` + name + `</span>
                                         <span class="size-xs"><em><small>` + origin + `</small></em></span>
                                     </div>
                                 </div>

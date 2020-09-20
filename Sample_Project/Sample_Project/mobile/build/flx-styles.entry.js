@@ -1,9 +1,9 @@
-import { r as registerInstance, h } from './index-1ad46950.js';
-import { C as ConftokenProvider } from './messages-856fd5dd.js';
+import { r as registerInstance, j as h } from './index-e5ff2de3.js';
+import { C as ConftokenProvider } from './messages-cbb766b7.js';
 
 const flxStylesCss = "flx-styles{}";
 
-class FlxStyles {
+const FlxStyles = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
     }
@@ -50,7 +50,7 @@ class FlxStyles {
         }
         return htmlCode;
     }
-}
+};
 FlxStyles.style = flxStylesCss;
 
 export { FlxStyles as flx_styles };

@@ -1,9 +1,9 @@
-import { r as registerInstance, h, H as Host, d as getElement } from './index-1ad46950.js';
-import { g as getIonMode, c as config, a as isPlatform } from './ionic-global-08321e45.js';
-import { s as sanitizeDOMString } from './index-86d5f3ab.js';
-import { S as SPINNERS } from './spinner-configs-5dd6891e.js';
+import { r as registerInstance, j as h, n as Host, k as getElement } from './index-e5ff2de3.js';
+import { g as getIonMode, c as config, a as isPlatform } from './ionic-global-e5feb32d.js';
+import { s as sanitizeDOMString } from './index-53f14fc6.js';
+import { S as SPINNERS } from './spinner-configs-c8da7375.js';
 
-class RefresherContent {
+const RefresherContent = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
     }
@@ -31,6 +31,6 @@ class RefresherContent {
             h("div", { class: "refresher-refreshing-text", innerHTML: sanitizeDOMString(this.refreshingText) }))));
     }
     get el() { return getElement(this); }
-}
+};
 
 export { RefresherContent as ion_refresher_content };

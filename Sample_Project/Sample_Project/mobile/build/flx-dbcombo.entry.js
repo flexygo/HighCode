@@ -1,24 +1,24 @@
-import { r as registerInstance, h, d as getElement } from './index-1ad46950.js';
-import './ionic-global-08321e45.js';
-import { s as sql, u as util } from './messages-856fd5dd.js';
-import './utils-ae5eb377.js';
-import './index-9a467e52.js';
-import './helpers-742de4f9.js';
-import './animation-a90ce8fc.js';
-import './index-59819519.js';
-import './ios.transition-f27c75b3.js';
-import './md.transition-0550681d.js';
-import './cubic-bezier-89113939.js';
-import './index-9b41fcc6.js';
-import './index-86d5f3ab.js';
-import './hardware-back-button-b3b61715.js';
-import './index-626f3745.js';
-import { m as modalController } from './overlays-af382aca.js';
+import { r as registerInstance, j as h, k as getElement } from './index-e5ff2de3.js';
+import './ionic-global-e5feb32d.js';
+import { s as sql, u as util } from './messages-cbb766b7.js';
+import './utils-8c7561fa.js';
+import './index-a78b1497.js';
+import './helpers-d94a0dba.js';
+import './animation-625503e5.js';
+import './index-77ad4b44.js';
+import './ios.transition-5093371a.js';
+import './md.transition-42e45fee.js';
+import './cubic-bezier-92995175.js';
+import './index-1da44cf3.js';
+import './index-53f14fc6.js';
+import './hardware-back-button-c2d005b0.js';
+import './index-dbdc5ddf.js';
+import { m as modalController } from './overlays-e386d27e.js';
 import { j as jquery } from './jquery-4ed57fb2.js';
 
-const flxDbcomboCss = "flx-dbcombo{width:100%}flx-dbcombo ion-input{width:calc(100% - 60px);max-width:calc(100% - 60px);float:left}flx-dbcombo ion-button{width:30px;float:right}";
+const flxDbcomboCss = "flx-dbcombo{width:100%}flx-dbcombo ion-input{width:calc(100% - 60px);max-width:calc(100% - 60px);float:left}flx-dbcombo ion-button{width:30px;float:right}flx-dbcombo ion-button.ios{--padding-start:0px;--padding-end:0px}";
 
-class FlxDbcombo {
+const FlxDbcombo = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.table = [];
@@ -44,7 +44,7 @@ class FlxDbcombo {
     load() {
         if (this.sqlsentence) {
             if (jquery(this.me).find('.comboTemplate').length > 0) {
-                this.template = `<ion-item lines="full" onclick="$(document).trigger('select', ['{{${this.valuefield}|JS}}','{{${this.displayfield}|JS}}']);">${jquery(this.me).find('.comboTemplate').html()}</ion-item>`;
+                this.template = `<ion-item lines="full" onclick="$(document).trigger('select', ['{{${this.valuefield}|JS}}','{{${this.displayfield}|JS}}']);">${jquery('<div>' + jquery(this.me).find('.comboTemplate').html() + '</div>').html()}</ion-item>`;
             }
             else {
                 this.template = `<ion-item lines="full"><ion-label onclick="$(document).trigger('select', ['{{${this.valuefield}|JS}}','{{${this.displayfield}|JS}}']);">{{${this.displayfield}}}</ion-label></ion-item>`;
@@ -80,6 +80,7 @@ class FlxDbcombo {
         const modal = await modalController.create({
             component: 'ion-content'
         });
+        modal.style.top = 'var(--ion-safe-area-top)';
         await modal.present();
         jquery(modal).find('.ion-page').html(component);
         let list = document.createElement('flx-sqllist');
@@ -121,7 +122,7 @@ class FlxDbcombo {
     }
     render() {
         return ([h("ion-input", { type: "text", readonly: true, value: this.text, onClick: () => { this.showItems(); } }),
-            h("ion-button", { onClick: () => { this.value = null; this.text = null; }, shape: "round", slot: "end", color: "light" }, "x")
+            h("ion-button", { onClick: () => { this.value = null; this.text = null; jquery(this.me).trigger('change'); }, shape: "round", slot: "end", color: "light" }, "x")
         ]);
     }
     get me() { return getElement(this); }
@@ -131,7 +132,7 @@ class FlxDbcombo {
         "filter": ["filterlHandler"],
         "value": ["valueHandler"]
     }; }
-}
+};
 FlxDbcombo.style = flxDbcomboCss;
 
 export { FlxDbcombo as flx_dbcombo };

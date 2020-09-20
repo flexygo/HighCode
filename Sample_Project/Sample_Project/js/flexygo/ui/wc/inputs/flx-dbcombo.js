@@ -648,6 +648,13 @@ var flexygo;
                         else {
                             this.loadValues(0, false);
                         }
+                        // Envolver el componente flx-dbcombo en un div posicionado relativamente para que el menú se despliegue correctamente.
+                        let parentAttr = me.parent().attr('data-tag');
+                        let padIzq = me.find('.input-group').first().css('padding-left');
+                        if (typeof parentAttr === typeof undefined || !parentAttr || parentAttr !== 'control') {
+                            me.wrap("<div data-tag='control' class='fixdbcombo' style='position:relative'></div>");
+                            this.datalist.css({ left: padIzq });
+                        }
                     }
                 }
                 showOptions() {
@@ -657,6 +664,7 @@ var flexygo;
                             let winHeight;
                             let dialogTop;
                             let headerHeight;
+                            let padBottom = me.find('.input-group').first().css('padding-bottom');
                             if (!me.closest('div.ui-dialog').length) {
                                 winHeight = $(window).height();
                                 dialogTop = 0;
@@ -669,9 +677,13 @@ var flexygo;
                             }
                             if (parseInt((this.input.offset().top - dialogTop + this.input.outerHeight() / 2 - headerHeight / 2).toFixed()) > parseInt((winHeight / 2).toFixed())) {
                                 this.datalist.css({ bottom: parseInt((this.input.outerHeight() + 1).toFixed()), width: parseInt((me.children('div').width()).toFixed()), 'max-height': parseInt((this.input.offset().top - dialogTop - headerHeight).toFixed()), 'box-shadow': '0 -6px 20px 4px rgba(0, 0, 0, 0.15), 0 -2px 10px 0px rgba(0, 0, 0, 0.20)' });
+                                if (me.parent().hasClass("fixdbcombo"))
+                                    this.datalist.css('margin-bottom', padBottom);
                             }
                             else {
                                 this.datalist.css({ bottom: 'auto', width: parseInt((me.children('div').width()).toFixed()), 'max-height': parseInt((winHeight - (this.input.offset().top - dialogTop) - 60).toFixed()), 'box-shadow': '0 6px 20px 4px rgba(0, 0, 0, 0.15), 0 2px 10px 0px rgba(0, 0, 0, 0.20)' });
+                                if (me.parent().hasClass("fixdbcombo"))
+                                    this.datalist.css('transform', 'translateY(-' + padBottom + ')');
                             }
                             this.datalist.slideDown(250);
                         }

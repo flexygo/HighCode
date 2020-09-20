@@ -1,10 +1,10 @@
-import { r as registerInstance, h, d as getElement } from './index-1ad46950.js';
-import { s as sql } from './messages-856fd5dd.js';
+import { r as registerInstance, j as h, k as getElement } from './index-e5ff2de3.js';
+import { s as sql } from './messages-cbb766b7.js';
 import { j as jquery } from './jquery-4ed57fb2.js';
 
 const flxComboCss = "flx-combo{width:100%}flx-combo ion-select{width:100%;max-width:100%}";
 
-class FlxCombo {
+const FlxCombo = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.table = [];
@@ -72,7 +72,7 @@ class FlxCombo {
         "additional": ["additionalHandler"],
         "filter": ["filterlHandler"]
     }; }
-}
+};
 FlxCombo.style = flxComboCss;
 
 export { FlxCombo as flx_combo };

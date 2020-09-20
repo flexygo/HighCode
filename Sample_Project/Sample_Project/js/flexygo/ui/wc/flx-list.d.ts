@@ -188,6 +188,10 @@ declare namespace flexygo.ui.wc {
         * @param {flexygo.events.FlexygoEvent} e
         */
         onPropertyChanged(e: flexygo.events.FlexygoEvent): void;
+        addLock(): void;
+        removeLock(): void;
+        loadingDependencies: number;
+        pendingSaveButton: JQuery;
         _resizeGridProps(): void;
         /**
         * Establish webcomponent settings

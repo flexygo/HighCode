@@ -968,6 +968,13 @@ var flexygo;
                         else {
                             this.loadValues(0, false);
                         }
+                        // Envolver el componente flx-dbcombo en un div posicionado relativamente para que el menú se despliegue correctamente.
+                        let parentAttr = me.parent().attr(&#x27;data-tag&#x27;);
+                        let padIzq = me.find(&#x27;.input-group&#x27;).first().css(&#x27;padding-left&#x27;);
+                        if (typeof parentAttr === typeof undefined || !parentAttr || parentAttr !== &#x27;control&#x27;) {
+                            me.wrap(&quot;&lt;div data-tag=&#x27;control&#x27; class=&#x27;fixdbcombo&#x27; style=&#x27;position:relative&#x27;&gt;&lt;/div&gt;&quot;);
+                            this.datalist.css({ left: padIzq });
+                        }
                     }
                 }
                 showOptions() {
@@ -977,6 +984,7 @@ var flexygo;
                             let winHeight;
                             let dialogTop;
                             let headerHeight;
+                            let padBottom = me.find(&#x27;.input-group&#x27;).first().css(&#x27;padding-bottom&#x27;);
                             if (!me.closest(&#x27;div.ui-dialog&#x27;).length) {
                                 winHeight = $(window).height();
                                 dialogTop = 0;
@@ -989,9 +997,13 @@ var flexygo;
                             }
                             if (parseInt((this.input.offset().top - dialogTop + this.input.outerHeight() / 2 - headerHeight / 2).toFixed()) &gt; parseInt((winHeight / 2).toFixed())) {
                                 this.datalist.css({ bottom: parseInt((this.input.outerHeight() + 1).toFixed()), width: parseInt((me.children(&#x27;div&#x27;).width()).toFixed()), &#x27;max-height&#x27;: parseInt((this.input.offset().top - dialogTop - headerHeight).toFixed()), &#x27;box-shadow&#x27;: &#x27;0 -6px 20px 4px rgba(0, 0, 0, 0.15), 0 -2px 10px 0px rgba(0, 0, 0, 0.20)&#x27; });
+                                if (me.parent().hasClass(&quot;fixdbcombo&quot;))
+                                    this.datalist.css(&#x27;margin-bottom&#x27;, padBottom);
                             }
                             else {
                                 this.datalist.css({ bottom: &#x27;auto&#x27;, width: parseInt((me.children(&#x27;div&#x27;).width()).toFixed()), &#x27;max-height&#x27;: parseInt((winHeight - (this.input.offset().top - dialogTop) - 60).toFixed()), &#x27;box-shadow&#x27;: &#x27;0 6px 20px 4px rgba(0, 0, 0, 0.15), 0 2px 10px 0px rgba(0, 0, 0, 0.20)&#x27; });
+                                if (me.parent().hasClass(&quot;fixdbcombo&quot;))
+                                    this.datalist.css(&#x27;transform&#x27;, &#x27;translateY(-&#x27; + padBottom + &#x27;)&#x27;);
                             }
                             this.datalist.slideDown(250);
                         }

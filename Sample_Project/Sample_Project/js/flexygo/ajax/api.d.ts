@@ -435,6 +435,7 @@ declare namespace flexygo.api {
         ImagePath?: string;
         ObjectName?: string;
         ObjectWhere?: string;
+        ReportHasParams?: boolean;
     }
     /**
     * api for TemplateGroupCollection

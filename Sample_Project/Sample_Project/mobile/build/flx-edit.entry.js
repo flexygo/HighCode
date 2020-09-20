@@ -1,30 +1,30 @@
-import { r as registerInstance, h, d as getElement } from './index-1ad46950.js';
-import './ionic-global-08321e45.js';
-import { s as sql, m as msg, C as ConftokenProvider, u as util } from './messages-856fd5dd.js';
-import './utils-ae5eb377.js';
-import './index-9a467e52.js';
-import './helpers-742de4f9.js';
-import './animation-a90ce8fc.js';
-import './index-59819519.js';
-import './ios.transition-f27c75b3.js';
-import './md.transition-0550681d.js';
-import './cubic-bezier-89113939.js';
-import './index-9b41fcc6.js';
-import './index-86d5f3ab.js';
-import './hardware-back-button-b3b61715.js';
-import './index-626f3745.js';
-import './overlays-af382aca.js';
+import { r as registerInstance, j as h, k as getElement } from './index-e5ff2de3.js';
+import './ionic-global-e5feb32d.js';
+import { s as sql, u as util, m as msg, C as ConftokenProvider } from './messages-cbb766b7.js';
+import './utils-8c7561fa.js';
+import './index-a78b1497.js';
+import './helpers-d94a0dba.js';
+import './animation-625503e5.js';
+import './index-77ad4b44.js';
+import './ios.transition-5093371a.js';
+import './md.transition-42e45fee.js';
+import './cubic-bezier-92995175.js';
+import './index-1da44cf3.js';
+import './index-53f14fc6.js';
+import './hardware-back-button-c2d005b0.js';
+import './index-dbdc5ddf.js';
+import './overlays-e386d27e.js';
 import { j as jquery } from './jquery-4ed57fb2.js';
-import { n as nav } from './navigation-94cce689.js';
-import { p as parser } from './parser-5f51cc8e.js';
+import { n as nav } from './navigation-b90acdd2.js';
+import { p as parser } from './parser-d662b563.js';
 
 var dependencies;
 (function (dependencies) {
-    function processAllDependencies(isNew, form, props, conf) {
+    async function processAllDependencies(isNew, form, props, conf) {
         if (form.length > 0 && props) {
             for (let i = 0; i < props.length; i++) {
                 if (props[i].DependingProperties.length > 0) {
-                    processPropDependency(isNew, form, props[i], conf);
+                    await processPropDependency(isNew, form, props[i], conf);
                 }
             }
         }
@@ -81,10 +81,10 @@ var dependencies;
         if (dep.SQLRequired || (dep.RequiredValues && dep.RequiredValues.length > 0) || (dep.NotRequiredValues && dep.NotRequiredValues.length > 0)) {
             //Required property.
             if (await booleanDependency(dep.PropertyName, dep.SQLRequired, dep.RequiredValues, dep.NotRequiredValues, form, tokens)) {
-                form.find('[property=' + dep.DependantPropertyName + ']').prop('required', false);
+                form.find('[property=' + dep.DependantPropertyName + ']').attr('required', true);
             }
             else {
-                form.find('[property=' + dep.DependantPropertyName + ']').prop('required', true);
+                form.find('[property=' + dep.DependantPropertyName + ']').removeAttr('required');
             }
         }
     }
@@ -1779,7 +1779,7 @@ $.validator.methods.step = function (value, element, param) {
 
 const flxEditCss = "label.error{color:red;float:right;position:absolute;bottom:0px;right:0px}";
 
-class FlxEdit {
+const FlxEdit = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.modal = false;
@@ -1795,8 +1795,16 @@ class FlxEdit {
         });
     }
     componentDidRender() {
-        dependencies.processAllDependencies((this.filter ? false : true), jquery(this.me).find('form'), this.obj.properties, this.cToken);
-        jquery(this.me).find('[property]').on('change', (ev) => {
+        dependencies.processAllDependencies((this.filter ? false : true), jquery(this.me).find('form'), this.obj.properties, this.cToken).then(() => {
+            if (this.page && this.page.JSAfterLoad) {
+                util.execDynamicCode(this.page.JSAfterLoad);
+            }
+        });
+        jquery(this.me).find('ion-datetime[property]').on('ionChange', (ev) => {
+            let PropertyName = jquery(ev.currentTarget).attr('property');
+            dependencies.processPropDependency(true, jquery(this.me).find('form'), this.obj.properties.filter((itm) => { return itm.PropertyName == PropertyName; })[0], this.cToken);
+        });
+        jquery(this.me).find('[property]').not('ion-datetime').on('change', (ev) => {
             let PropertyName = jquery(ev.currentTarget).attr('property');
             dependencies.processPropDependency(true, jquery(this.me).find('form'), this.obj.properties.filter((itm) => { return itm.PropertyName == PropertyName; })[0], this.cToken);
         });
@@ -1813,7 +1821,7 @@ class FlxEdit {
     async loadData() {
         this.cToken = await ConftokenProvider.config();
         this.obj = this.cToken.objectConfig[this.object];
-        let page = parser.findTemplate(this.obj, 'edit', this.pageName);
+        this.page = parser.findTemplate(this.obj, 'edit', this.pageName);
         if (!this.obj) {
             throw 'Object doesn\'t exists.';
         }
@@ -1824,30 +1832,30 @@ class FlxEdit {
                 if (table && table.rows && table.rows.length > 0) {
                     let row = sql.getRow(table, 0);
                     row['_isNew'] = 0;
-                    if (page) {
+                    if (this.page) {
                         let def = null;
                         if (this.defaults) {
                             def = util.parseJSON(this.defaults);
                         }
-                        this.title = await parser.recursiveCompile(row, page.title, this.cToken, this);
-                        if (page.body) {
-                            let body = page.body;
+                        this.title = await parser.recursiveCompile(row, this.page.title, this.cToken, this);
+                        if (this.page.body) {
+                            let body = this.page.body;
                             body = await parser.recursiveCompile(row, body, this.cToken, this);
                             if (def) {
                                 body = await parser.recursiveCompile(def, body, this.cToken, this);
                             }
                             this.body = body;
                         }
-                        if (page.header) {
-                            let header = page.header;
+                        if (this.page.header) {
+                            let header = this.page.header;
                             header = await parser.recursiveCompile(row, header, this.cToken, this);
                             if (def) {
                                 header = await parser.recursiveCompile(def, header, this.cToken, this);
                             }
                             this.header = header;
                         }
-                        if (page.footer) {
-                            let footer = page.footer;
+                        if (this.page.footer) {
+                            let footer = this.page.footer;
                             footer = await parser.recursiveCompile(row, footer, this.cToken, this);
                             if (def) {
                                 footer = await parser.recursiveCompile(def, footer, this.cToken, this);
@@ -1907,16 +1915,16 @@ class FlxEdit {
                 }
             }
             values['_isNew'] = 1;
-            if (page) {
-                this.title = await parser.recursiveCompile(values, page.title, this.cToken, this);
-                if (page.body) {
-                    this.body = await parser.recursiveCompile(values, page.body, this.cToken, this);
+            if (this.page) {
+                this.title = await parser.recursiveCompile(values, this.page.title, this.cToken, this);
+                if (this.page.body) {
+                    this.body = await parser.recursiveCompile(values, this.page.body, this.cToken, this);
                 }
-                if (page.footer) {
-                    this.footer = await parser.recursiveCompile(values, page.footer, this.cToken, this);
+                if (this.page.footer) {
+                    this.footer = await parser.recursiveCompile(values, this.page.footer, this.cToken, this);
                 }
-                if (page.header) {
-                    this.header = await parser.recursiveCompile(values, page.header, this.cToken, this);
+                if (this.page.header) {
+                    this.header = await parser.recursiveCompile(values, this.page.header, this.cToken, this);
                 }
             }
             else {
@@ -1981,6 +1989,7 @@ class FlxEdit {
                         if (values[propName] == 1 || values[propName] == 'true' || values[propName] == '1') {
                             jquery(prop).attr('checked', true);
                         }
+                        itm.classList.add('item-has-value');
                     }
                     else {
                         prop.setAttribute('value', values[propName]);
@@ -2022,8 +2031,8 @@ class FlxEdit {
     getProperty(prop) {
         let input = jquery('<' + prop.WebComponent + ' />')[0];
         if (jquery(input).is('ion-datetime')) {
-            input.setAttribute('msg-text', util.translate('confirm.ok'));
-            input.setAttribute('msg-text', util.translate('confirm.cancel'));
+            input.setAttribute('done-text', util.translate('msg.ok'));
+            input.setAttribute('cancel-text', util.translate('msg.cancel'));
             if (prop.ControlType.toLowerCase() == 'date') {
                 input.setAttribute('display-format', moment.localeData(this.cToken.user.currentUserCultureId).longDateFormat('L'));
             }
@@ -2095,7 +2104,7 @@ class FlxEdit {
             input.setAttribute('sqlsentence', sentence);
         }
         if (prop.Template) {
-            jquery(input).append(jquery('<script class="comboTemplate" type="text/template"></script>').text(prop.Template));
+            jquery(input).append(jquery('<script class="comboTemplate" type="text/template"></script>').text(prop.Template.replace(/{/g, "&#123;").replace(/}/g, "&#125;")));
         }
         if (prop.DecimalPlaces && prop.DecimalPlaces > 0) {
             let step = '0.';
@@ -2120,7 +2129,7 @@ class FlxEdit {
         ];
     }
     get me() { return getElement(this); }
-}
+};
 FlxEdit.style = flxEditCss;
 
 export { FlxEdit as flx_edit };

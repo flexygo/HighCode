@@ -1,23 +1,20 @@
-import { r as registerInstance, e as createEvent, h, H as Host, d as getElement } from './index-1ad46950.js';
-import { g as getIonMode } from './ionic-global-08321e45.js';
+import { r as registerInstance, l as createEvent, j as h, n as Host, k as getElement } from './index-e5ff2de3.js';
+import { g as getIonMode } from './ionic-global-e5feb32d.js';
 
 const imgCss = ":host{display:block;object-fit:contain}img{display:block;width:100%;height:100%;object-fit:inherit;object-position:inherit}";
 
-/**
- * @part image - The inner `img` element.
- */
-class Img {
+const Img = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.ionImgWillLoad = createEvent(this, "ionImgWillLoad", 7);
+        this.ionImgDidLoad = createEvent(this, "ionImgDidLoad", 7);
+        this.ionError = createEvent(this, "ionError", 7);
         this.onLoad = () => {
             this.ionImgDidLoad.emit();
         };
         this.onError = () => {
             this.ionError.emit();
         };
-        this.ionImgWillLoad = createEvent(this, "ionImgWillLoad", 7);
-        this.ionImgDidLoad = createEvent(this, "ionImgDidLoad", 7);
-        this.ionError = createEvent(this, "ionError", 7);
     }
     srcChanged() {
         this.addIO();
@@ -68,7 +65,7 @@ class Img {
     static get watchers() { return {
         "src": ["srcChanged"]
     }; }
-}
+};
 Img.style = imgCss;
 
 export { Img as ion_img };

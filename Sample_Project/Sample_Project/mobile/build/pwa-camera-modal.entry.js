@@ -1,8 +1,8 @@
-import { r as registerInstance, e as createEvent, h } from './index-1ad46950.js';
+import { r as registerInstance, l as createEvent, j as h } from './index-e5ff2de3.js';
 
 const cameraModalCss = ":host{z-index:1000;position:fixed;top:0;left:0;width:100%;height:100%;display:flex;contain:strict}.wrapper{flex:1;display:flex;align-items:center;justify-content:center;background-color:rgba(0, 0, 0, 0.15)}.content{box-shadow:0px 0px 5px rgba(0, 0, 0, 0.2);width:600px;height:600px}";
 
-class PWACameraModal {
+const PWACameraModal = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.onPhoto = createEvent(this, "onPhoto", 7);
@@ -29,7 +29,7 @@ class PWACameraModal {
     render() {
         return (h("div", null));
     }
-}
+};
 PWACameraModal.style = cameraModalCss;
 
 export { PWACameraModal as pwa_camera_modal };

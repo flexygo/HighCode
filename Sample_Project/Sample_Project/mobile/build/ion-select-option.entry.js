@@ -1,9 +1,9 @@
-import { r as registerInstance, h, H as Host, d as getElement } from './index-1ad46950.js';
-import { g as getIonMode } from './ionic-global-08321e45.js';
+import { r as registerInstance, j as h, n as Host, k as getElement } from './index-e5ff2de3.js';
+import { g as getIonMode } from './ionic-global-e5feb32d.js';
 
 const selectOptionCss = ":host{display:none}";
 
-class SelectOption {
+const SelectOption = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.inputId = `ion-selopt-${selectOptionIds++}`;
@@ -16,7 +16,7 @@ class SelectOption {
         return (h(Host, { role: "option", id: this.inputId, class: getIonMode(this) }));
     }
     get el() { return getElement(this); }
-}
+};
 let selectOptionIds = 0;
 SelectOption.style = selectOptionCss;
 

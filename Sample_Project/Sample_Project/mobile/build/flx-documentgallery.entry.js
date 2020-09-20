@@ -1,9 +1,9 @@
-import { r as registerInstance, h } from './index-1ad46950.js';
-import { s as sql, u as util } from './messages-856fd5dd.js';
+import { r as registerInstance, j as h } from './index-e5ff2de3.js';
+import { s as sql, u as util } from './messages-cbb766b7.js';
 
 const flxDocumentgalleryCss = ".file{font-size:50px!important}.textFile{width:100px;overflow:hidden;text-overflow:ellipsis;display:block;white-space:nowrap;margin:0 auto}";
 
-class FlxDocumentgallery {
+const FlxDocumentgallery = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
     }
@@ -112,7 +112,7 @@ class FlxDocumentgallery {
             })) : util.translate('list.noresults'))))
         ]);
     }
-}
+};
 FlxDocumentgallery.style = flxDocumentgalleryCss;
 
 export { FlxDocumentgallery as flx_documentgallery };

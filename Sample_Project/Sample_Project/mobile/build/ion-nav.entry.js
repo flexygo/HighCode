@@ -1,9 +1,9 @@
-import { r as registerInstance, e as createEvent, B as Build, h, d as getElement } from './index-1ad46950.js';
-import { g as getIonMode, c as config } from './ionic-global-08321e45.js';
-import { b as assert } from './helpers-742de4f9.js';
-import { l as lifecycle, L as LIFECYCLE_WILL_UNLOAD, a as LIFECYCLE_WILL_LEAVE, b as LIFECYCLE_DID_LEAVE, t as transition, s as setPageHidden } from './index-59819519.js';
-import { g as getTimeGivenProgression } from './cubic-bezier-89113939.js';
-import { a as attachComponent } from './framework-delegate-7af2c551.js';
+import { r as registerInstance, l as createEvent, h as Build, j as h, k as getElement } from './index-e5ff2de3.js';
+import { g as getIonMode, c as config } from './ionic-global-e5feb32d.js';
+import { b as assert } from './helpers-d94a0dba.js';
+import { l as lifecycle, L as LIFECYCLE_WILL_UNLOAD, a as LIFECYCLE_WILL_LEAVE, b as LIFECYCLE_DID_LEAVE, t as transition, s as setPageHidden } from './index-77ad4b44.js';
+import { g as getTimeGivenProgression } from './cubic-bezier-92995175.js';
+import { a as attachComponent } from './framework-delegate-49c6b814.js';
 
 const VIEW_STATE_NEW = 1;
 const VIEW_STATE_ATTACHED = 2;
@@ -92,9 +92,12 @@ const convertToViews = (pages) => {
 
 const navCss = ":host{left:0;right:0;top:0;bottom:0;position:absolute;contain:layout size style;overflow:hidden;z-index:0}";
 
-class Nav {
+const Nav = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.ionNavWillLoad = createEvent(this, "ionNavWillLoad", 7);
+        this.ionNavWillChange = createEvent(this, "ionNavWillChange", 3);
+        this.ionNavDidChange = createEvent(this, "ionNavDidChange", 3);
         this.transInstr = [];
         this.animationEnabled = true;
         this.useRouter = false;
@@ -105,9 +108,6 @@ class Nav {
          * If `true`, the nav should animate the transition of components.
          */
         this.animated = true;
-        this.ionNavWillLoad = createEvent(this, "ionNavWillLoad", 7);
-        this.ionNavWillChange = createEvent(this, "ionNavWillChange", 3);
-        this.ionNavDidChange = createEvent(this, "ionNavDidChange", 3);
     }
     swipeGestureChanged() {
         if (this.gesture) {
@@ -137,7 +137,7 @@ class Nav {
     }
     async componentDidLoad() {
         this.rootChanged();
-        this.gesture = (await __sc_import_app('./swipe-back-30c717eb.js')).createSwipeBackGesture(this.el, this.canStart.bind(this), this.onStart.bind(this), this.onMove.bind(this), this.onEnd.bind(this));
+        this.gesture = (await __sc_import_app('./swipe-back-1769a8ce.js')).createSwipeBackGesture(this.el, this.canStart.bind(this), this.onStart.bind(this), this.onMove.bind(this), this.onEnd.bind(this));
         this.swipeGestureChanged();
     }
     componentDidUnload() {
@@ -817,7 +817,7 @@ class Nav {
         "swipeGesture": ["swipeGestureChanged"],
         "root": ["rootChanged"]
     }; }
-}
+};
 Nav.style = navCss;
 
 export { Nav as ion_nav };

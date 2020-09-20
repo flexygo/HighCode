@@ -1,9 +1,9 @@
-import { r as registerInstance, h } from './index-1ad46950.js';
-import { C as ConftokenProvider } from './messages-856fd5dd.js';
+import { r as registerInstance, j as h } from './index-e5ff2de3.js';
+import { C as ConftokenProvider } from './messages-cbb766b7.js';
 
 const flxScriptsCss = "flx-scripts{}";
 
-class FlxScripts {
+const FlxScripts = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
     }
@@ -25,7 +25,7 @@ class FlxScripts {
             return h("script", { id: itm.name, innerHTML: itm.jsCode + '\n\n' + '//# sourceURL=' + itm.name + '.js' });
         });
     }
-}
+};
 FlxScripts.style = flxScriptsCss;
 
 export { FlxScripts as flx_scripts };

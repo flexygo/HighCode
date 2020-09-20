@@ -1,11 +1,11 @@
-import { r as registerInstance, h, d as getElement } from './index-1ad46950.js';
-import { s as sql, C as ConftokenProvider, u as util } from './messages-856fd5dd.js';
+import { r as registerInstance, j as h, k as getElement } from './index-e5ff2de3.js';
+import { s as sql, C as ConftokenProvider, u as util } from './messages-cbb766b7.js';
 import { j as jquery } from './jquery-4ed57fb2.js';
-import { p as parser } from './parser-5f51cc8e.js';
+import { p as parser } from './parser-d662b563.js';
 
 const flxSqllistCss = "flx-sqllist{}";
 
-class FlxSqllist {
+const FlxSqllist = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.currentPage = 0;
@@ -121,7 +121,7 @@ class FlxSqllist {
         ];
     }
     get me() { return getElement(this); }
-}
+};
 FlxSqllist.style = flxSqllistCss;
 
 export { FlxSqllist as flx_sqllist };

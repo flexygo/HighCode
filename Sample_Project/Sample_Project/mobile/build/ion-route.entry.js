@@ -1,8 +1,9 @@
-import { r as registerInstance, e as createEvent } from './index-1ad46950.js';
+import { r as registerInstance, l as createEvent } from './index-e5ff2de3.js';
 
-class Route {
+const Route = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.ionRouteDataChanged = createEvent(this, "ionRouteDataChanged", 7);
         /**
          * Relative path that needs to match in order for this route to apply.
          *
@@ -10,7 +11,6 @@ class Route {
          * in the url /foo/:bar where bar would be available in incoming props.
          */
         this.url = '';
-        this.ionRouteDataChanged = createEvent(this, "ionRouteDataChanged", 7);
     }
     onUpdate(newValue) {
         this.ionRouteDataChanged.emit(newValue);
@@ -40,6 +40,6 @@ class Route {
         "component": ["onUpdate"],
         "componentProps": ["onComponentProps"]
     }; }
-}
+};
 
 export { Route as ion_route };

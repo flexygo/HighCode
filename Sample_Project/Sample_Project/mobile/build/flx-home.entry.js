@@ -1,11 +1,11 @@
-import { r as registerInstance, h } from './index-1ad46950.js';
-import { C as ConftokenProvider, s as sql } from './messages-856fd5dd.js';
+import { r as registerInstance, j as h } from './index-e5ff2de3.js';
+import { u as util, C as ConftokenProvider, s as sql } from './messages-cbb766b7.js';
 import { j as jquery } from './jquery-4ed57fb2.js';
-import { p as parser } from './parser-5f51cc8e.js';
+import { p as parser } from './parser-d662b563.js';
 
 const flxHomeCss = "";
 
-class FlxHome {
+const FlxHome = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
     }
@@ -14,7 +14,11 @@ class FlxHome {
         this.body = '';
         this.header = '';
         this.footer = '';
-        this.loadData();
+        this.loadData().then(() => {
+            if (this.page && this.page.JSAfterLoad) {
+                util.execDynamicCode(this.page.JSAfterLoad);
+            }
+        });
         jquery(window).off('popstate.home').on('popstate.home', () => {
             if (document.location.href.toLowerCase().indexOf('/home') > 0) {
                 this.loadData();
@@ -26,6 +30,9 @@ class FlxHome {
             if (ev) {
                 ev.target.complete();
             }
+            if (this.page && this.page.JSAfterLoad) {
+                util.execDynamicCode(this.page.JSAfterLoad);
+            }
         });
     }
     loadData() {
@@ -35,27 +42,27 @@ class FlxHome {
             this.header = '';
             this.footer = '';
             if (cnf && cnf.homePage) {
-                let page = cnf.homePage;
-                if (page.SQLSentence) {
-                    let sentence = page.SQLSentence;
-                    sentence = sql.addOrderBy(sentence, page.SQLOrderBy);
+                this.page = cnf.homePage;
+                if (this.page.SQLSentence) {
+                    let sentence = this.page.SQLSentence;
+                    sentence = sql.addOrderBy(sentence, this.page.SQLOrderBy);
                     sql.getTable(sentence).then(async (table) => {
                         if (table && table.rows && table.rows.length > 0) {
-                            this.title = await parser.recursiveCompile(sql.getRow(table, 0), page.title, cnf, this);
+                            this.title = await parser.recursiveCompile(sql.getRow(table, 0), this.page.title, cnf, this);
                         }
-                        this.body = await this.getRows(page, table, null, this, cnf);
+                        this.body = await this.getRows(this.page, table, null, this, cnf);
                     });
                 }
                 else {
-                    this.title = await parser.recursiveCompile(null, page.title, cnf, this);
-                    if (page.header) {
-                        this.header = await parser.recursiveCompile(null, page.header, cnf, this);
+                    this.title = await parser.recursiveCompile(null, this.page.title, cnf, this);
+                    if (this.page.header) {
+                        this.header = await parser.recursiveCompile(null, this.page.header, cnf, this);
                     }
-                    if (page.body) {
-                        this.body = await parser.recursiveCompile(null, page.body, cnf, this);
+                    if (this.page.body) {
+                        this.body = await parser.recursiveCompile(null, this.page.body, cnf, this);
                     }
-                    if (page.footer) {
-                        this.footer = await parser.recursiveCompile(null, page.footer, cnf, this);
+                    if (this.page.footer) {
+                        this.footer = await parser.recursiveCompile(null, this.page.footer, cnf, this);
                     }
                 }
             }
@@ -92,7 +99,7 @@ class FlxHome {
             h("ion-content", null, h("ion-refresher", { slot: "fixed", id: "refresher", onIonRefresh: (ev) => { this.refresh(ev); } }, h("ion-refresher-content", null)), h("div", { id: "mainHeader", innerHTML: this.header }), h("div", { id: "mainBody", innerHTML: this.body }), h("div", { id: "mainHeader", innerHTML: this.footer }))
         ];
     }
-}
+};
 FlxHome.style = flxHomeCss;
 
 export { FlxHome as flx_home };

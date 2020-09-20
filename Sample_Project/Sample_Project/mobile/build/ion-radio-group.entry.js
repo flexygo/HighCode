@@ -1,9 +1,10 @@
-import { r as registerInstance, e as createEvent, h, H as Host, d as getElement } from './index-1ad46950.js';
-import { g as getIonMode } from './ionic-global-08321e45.js';
+import { r as registerInstance, l as createEvent, j as h, n as Host, k as getElement } from './index-e5ff2de3.js';
+import { g as getIonMode } from './ionic-global-e5feb32d.js';
 
-class RadioGroup {
+const RadioGroup = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.ionChange = createEvent(this, "ionChange", 7);
         this.inputId = `ion-rg-${radioGroupIds++}`;
         this.labelId = `${this.inputId}-lbl`;
         /**
@@ -27,7 +28,6 @@ class RadioGroup {
                 }
             }
         };
-        this.ionChange = createEvent(this, "ionChange", 7);
     }
     valueChanged(value) {
         this.ionChange.emit({ value });
@@ -51,7 +51,7 @@ class RadioGroup {
     static get watchers() { return {
         "value": ["valueChanged"]
     }; }
-}
+};
 let radioGroupIds = 0;
 
 export { RadioGroup as ion_radio_group };

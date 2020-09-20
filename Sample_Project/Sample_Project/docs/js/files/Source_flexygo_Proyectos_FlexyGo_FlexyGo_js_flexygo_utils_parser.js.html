@@ -489,10 +489,20 @@ var flexygo;
                                 else if (typeF == &#x27;decimal&#x27;) {
                                     if (rValue &amp;&amp; rValue != &#x27;&#x27; &amp;&amp; $.isNumeric(rValue)) {
                                         if (strFormat &amp;&amp; strFormat != &#x27;&#x27;) {
-                                            rValue = parseFloat(parseFloat(rValue).toFixed(strFormat)).toLocaleString(flexygo.profiles.culture, { minimumFractionDigits: strFormat });
+                                            if (flexygo.profiles.culture == &#x27;es-ES&#x27;) {
+                                                rValue = parseFloat(parseFloat(rValue).toFixed(strFormat)).toLocaleString(&#x27;ca-ES&#x27;, { minimumFractionDigits: strFormat });
+                                            }
+                                            else {
+                                                rValue = parseFloat(parseFloat(rValue).toFixed(strFormat)).toLocaleString(flexygo.profiles.culture, { minimumFractionDigits: strFormat });
+                                            }
                                         }
                                         else {
-                                            rValue = parseFloat(rValue).toLocaleString();
+                                            if (flexygo.profiles.culture == &#x27;es-ES&#x27;) {
+                                                rValue = parseFloat(rValue).toLocaleString(&#x27;ca-ES&#x27;);
+                                            }
+                                            else {
+                                                rValue = parseFloat(rValue).toLocaleString(flexygo.profiles.culture);
+                                            }
                                         }
                                     }
                                 }

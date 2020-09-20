@@ -396,6 +396,16 @@ var flexygo;
                             if (htmlBTN.attr('title'))
                                 htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
                             break;
+                        case 'report':
+                            if (btn.ReportHasParams) {
+                                htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.nav.openReportsParams', [btn.ReportName, reportwhere, objectname, objectwhere, objectdefaults, btn.TargetId, false], ['$(this)']));
+                            }
+                            else {
+                                htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.nav.viewReport', [btn.ReportName, reportwhere, objectname, objectwhere, objectdefaults, null, btn.TargetId, false]));
+                            }
+                            if (htmlBTN.attr('title'))
+                                htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
+                            break;
                         case 'processmenu':
                             htmlBTN.append('<span class="caret"></span>');
                             htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.nav.getObjectMenu', [objectname, objectwhere, objectdefaults], ['$(this)', null, "'processes'"]));

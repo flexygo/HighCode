@@ -1,14 +1,14 @@
-import { r as registerInstance, h, H as Host } from './index-1ad46950.js';
-import { g as getIonMode } from './ionic-global-08321e45.js';
-import './helpers-742de4f9.js';
-import './animation-a90ce8fc.js';
-import './hardware-back-button-b3b61715.js';
-import { m as menuController } from './index-626f3745.js';
-import { u as updateVisibility } from './menu-toggle-util-d79fb804.js';
+import { r as registerInstance, j as h, n as Host } from './index-e5ff2de3.js';
+import { g as getIonMode } from './ionic-global-e5feb32d.js';
+import './helpers-d94a0dba.js';
+import './animation-625503e5.js';
+import './hardware-back-button-c2d005b0.js';
+import { m as menuController } from './index-dbdc5ddf.js';
+import { u as updateVisibility } from './menu-toggle-util-b07c353e.js';
 
 const menuToggleCss = ":host(.menu-toggle-hidden){display:none}";
 
-class MenuToggle {
+const MenuToggle = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.visible = false;
@@ -37,7 +37,7 @@ class MenuToggle {
                 'menu-toggle-hidden': hidden,
             } }, h("slot", null)));
     }
-}
+};
 MenuToggle.style = menuToggleCss;
 
 export { MenuToggle as ion_menu_toggle };

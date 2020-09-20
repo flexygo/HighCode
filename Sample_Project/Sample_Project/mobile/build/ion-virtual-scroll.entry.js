@@ -1,4 +1,4 @@
-import { r as registerInstance, f as readTask, w as writeTask, i as forceUpdate, h, H as Host, d as getElement } from './index-1ad46950.js';
+import { r as registerInstance, m as readTask, f as writeTask, o as forceUpdate, j as h, n as Host, k as getElement } from './index-e5ff2de3.js';
 
 const CELL_TYPE_ITEM = 'item';
 const CELL_TYPE_HEADER = 'header';
@@ -253,7 +253,7 @@ const positionForIndex = (index, cells, heightIndex) => {
 
 const virtualScrollCss = "ion-virtual-scroll{display:block;position:relative;width:100%;contain:strict;user-select:none}ion-virtual-scroll>.virtual-loading{opacity:0}ion-virtual-scroll>.virtual-item{position:absolute !important;top:0 !important;right:0 !important;left:0 !important;transition-duration:0ms;will-change:transform}";
 
-class VirtualScroll {
+const VirtualScroll = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.range = { offset: 0, length: 0 };
@@ -522,7 +522,7 @@ class VirtualScroll {
         "footerHeight": ["itemsChanged"],
         "items": ["itemsChanged"]
     }; }
-}
+};
 const VirtualProxy = ({ dom }, children, utils) => {
     return utils.map(children, (child, i) => {
         const node = dom[i];

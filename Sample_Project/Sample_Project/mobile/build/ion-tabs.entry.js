@@ -1,15 +1,13 @@
-import { r as registerInstance, e as createEvent, h, H as Host, d as getElement } from './index-1ad46950.js';
+import { r as registerInstance, l as createEvent, j as h, n as Host, k as getElement } from './index-e5ff2de3.js';
 
 const tabsCss = ":host{left:0;right:0;top:0;bottom:0;display:flex;position:absolute;flex-direction:column;width:100%;height:100%;contain:layout size style;z-index:0}.tabs-inner{position:relative;flex:1;contain:layout size style}";
 
-/**
- * @slot - Content is placed between the named slots if provided without a slot.
- * @slot top - Content is placed at the top of the screen.
- * @slot bottom - Content is placed at the bottom of the screen.
- */
-class Tabs {
+const Tabs = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.ionNavWillLoad = createEvent(this, "ionNavWillLoad", 7);
+        this.ionTabsWillChange = createEvent(this, "ionTabsWillChange", 3);
+        this.ionTabsDidChange = createEvent(this, "ionTabsDidChange", 3);
         this.transitioning = false;
         /** @internal */
         this.useRouter = false;
@@ -25,9 +23,6 @@ class Tabs {
                 this.select(tab);
             }
         };
-        this.ionNavWillLoad = createEvent(this, "ionNavWillLoad", 7);
-        this.ionTabsWillChange = createEvent(this, "ionTabsWillChange", 3);
-        this.ionTabsDidChange = createEvent(this, "ionTabsDidChange", 3);
     }
     async componentWillLoad() {
         if (!this.useRouter) {
@@ -141,7 +136,7 @@ class Tabs {
         return (h(Host, { onIonTabButtonClick: this.onTabClicked }, h("slot", { name: "top" }), h("div", { class: "tabs-inner" }, h("slot", null)), h("slot", { name: "bottom" })));
     }
     get el() { return getElement(this); }
-}
+};
 const getTab = (tabs, tab) => {
     const tabEl = (typeof tab === 'string')
         ? tabs.find(t => t.tab === tab)

@@ -3899,6 +3899,15 @@ module.exports = function(Chart) {
 				return me;
 			}
 
+            /* (20/08/2020) Javier Alcolea: Si las nuevas medidas de la gráfica (newWidth o newHeight) son superiores al alto o el ancho de la ventana del dispositivo se corrije. */
+            if (newWidth > $(window).width()) {
+                newWidth = $(window).width();
+            }
+            if (newWidth > $(window).height() - 50) {
+                newHeight = $(window).height() - 50;
+            }
+            /*********** fin **********/
+
 			canvas.width = chart.width = newWidth;
 			canvas.height = chart.height = newHeight;
 

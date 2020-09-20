@@ -24,6 +24,21 @@ $(function () {
         e.preventDefault();
     });
     window.addEventListener('resize', resizeMain);
+    //bug uidialog modal jquery, ticket 3192
+    // --https://stackoverflow.com/questions/33196044/maximum-call-stack-size-exceeded-in-dialog-open
+    $.ui.dialog.prototype._createOverlay = function () {
+        if (!this.options.modal) {
+            return;
+        }
+        var isOpening = true;
+        this._delay(function () {
+            isOpening = false;
+        });
+        this.overlay = $("<div>")
+            .addClass("ui-widget-overlay ui-front")
+            .appendTo(this._appendTo());
+        this.document.data("ui-dialog-overlays", (this.document.data("ui-dialog-overlays") || 0) + 1);
+    };
 });
 /**
 * Init App.

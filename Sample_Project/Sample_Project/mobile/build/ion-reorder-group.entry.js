@@ -1,12 +1,13 @@
-import { r as registerInstance, e as createEvent, h, H as Host, d as getElement } from './index-1ad46950.js';
-import { g as getIonMode } from './ionic-global-08321e45.js';
-import { h as hapticSelectionStart, a as hapticSelectionChanged, b as hapticSelectionEnd } from './haptic-0ea1f445.js';
+import { r as registerInstance, l as createEvent, j as h, n as Host, k as getElement } from './index-e5ff2de3.js';
+import { g as getIonMode } from './ionic-global-e5feb32d.js';
+import { h as hapticSelectionStart, a as hapticSelectionChanged, b as hapticSelectionEnd } from './haptic-b0c7a7ae.js';
 
 const reorderGroupCss = ".reorder-list-active>*{transition:transform 300ms;will-change:transform}.reorder-enabled{user-select:none}.reorder-enabled ion-reorder{display:block;cursor:grab;pointer-events:all;touch-action:none}.reorder-selected,.reorder-selected ion-reorder{cursor:grabbing}.reorder-selected{position:relative;transition:none !important;box-shadow:0 0 10px rgba(0, 0, 0, 0.4);opacity:0.8;z-index:100}.reorder-visible ion-reorder .reorder-icon{transform:translate3d(0,  0,  0)}";
 
-class ReorderGroup {
+const ReorderGroup = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.ionItemReorder = createEvent(this, "ionItemReorder", 7);
         this.lastToIndex = -1;
         this.cachedHeights = [];
         this.scrollElTop = 0;
@@ -19,7 +20,6 @@ class ReorderGroup {
          * If `true`, the reorder will be hidden.
          */
         this.disabled = true;
-        this.ionItemReorder = createEvent(this, "ionItemReorder", 7);
     }
     disabledChanged() {
         if (this.gesture) {
@@ -31,7 +31,7 @@ class ReorderGroup {
         if (contentEl) {
             this.scrollEl = await contentEl.getScrollElement();
         }
-        this.gesture = (await __sc_import_app('./index-9b41fcc6.js')).createGesture({
+        this.gesture = (await __sc_import_app('./index-1da44cf3.js')).createGesture({
             el: this.el,
             gestureName: 'reorder',
             gesturePriority: 110,
@@ -248,7 +248,7 @@ class ReorderGroup {
     static get watchers() { return {
         "disabled": ["disabledChanged"]
     }; }
-}
+};
 const indexForItem = (element) => {
     return element['$ionIndex'];
 };

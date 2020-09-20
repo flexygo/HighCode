@@ -1,9 +1,9 @@
-import { r as registerInstance, B as Build, h, H as Host, d as getElement } from './index-1ad46950.js';
-import { a as attachComponent } from './framework-delegate-7af2c551.js';
+import { r as registerInstance, h as Build, j as h, n as Host, k as getElement } from './index-e5ff2de3.js';
+import { a as attachComponent } from './framework-delegate-49c6b814.js';
 
 const tabCss = ":host(.tab-hidden){display:none !important}";
 
-class Tab {
+const Tab = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.loaded = false;
@@ -56,7 +56,7 @@ class Tab {
     static get watchers() { return {
         "active": ["changeActive"]
     }; }
-}
+};
 Tab.style = tabCss;
 
 export { Tab as ion_tab };

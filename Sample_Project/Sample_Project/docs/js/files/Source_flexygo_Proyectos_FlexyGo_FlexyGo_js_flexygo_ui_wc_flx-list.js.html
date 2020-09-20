@@ -396,6 +396,8 @@ var flexygo;
                     this.templateKey = &#x27;&#x27;;
                     this.searcher = null;
                     this.refreshing = null; //Set by FlxGenericSearchElement
+                    this.loadingDependencies = 0;
+                    this.pendingSaveButton = null;
                 }
                 /**
                * Fires when element is attached to DOM
@@ -1170,6 +1172,7 @@ var flexygo;
                                 &quot;PropertyName&quot;: propertyName,
                                 &quot;Properties&quot;: Properties
                             };
+                            this.loadingDependencies += 1;
                             flexygo.ajax.post(&#x27;~/api/Edit&#x27;, &#x27;ProcessDependencies&#x27;, params, (response) =&gt; {
                                 if (response) {
                                     for (let i = 0; i &lt; response.length; i++) {
@@ -1180,9 +1183,23 @@ var flexygo;
                                         }
                                     }
                                 }
+                                this.loadingDependencies -= 1;
+                                if (this.pendingSaveButton &amp;&amp; this.loadingDependencies &lt;= 0) {
+                                    this.pendingSaveButton.click();
+                                    this.removeLock();
+                                    this.pendingSaveButton = null;
+                                }
                             });
                         }
                     }
+                }
+                addLock() {
+                    $(this).append(&#x27;&lt;div style=&quot;position:absolute;z-index:60;top:0px;bottom:0px;left:0px;right:0px;background-color:rgba(255,255,255,0.5);&quot; class=&quot;lockDiv&quot;&gt;&amp;nbsp;&lt;/div&gt;&#x27;);
+                    $(this).closest(&#x27;.cntBody&#x27;).css(&#x27;position&#x27;, &#x27;relative&#x27;);
+                }
+                removeLock() {
+                    $(this).closest(&#x27;.cntBody&#x27;).css(&#x27;position&#x27;, &#x27;&#x27;);
+                    $(this).find(&#x27;.lockDiv&#x27;).remove();
                 }
                 _resizeGridProps() {
                     let me = $(this);
@@ -1863,6 +1880,11 @@ var flexygo;
             }
             wc_1.clearRow = clearRow;
             function saveRow(objectName, objectWhere, list, btn, msg = true) {
+                if (list[0].loadingDependencies &gt; 0) {
+                    list[0].pendingSaveButton = btn;
+                    list[0].addLock();
+                    return;
+                }
                 let tr = btn.closest(&#x27;tr&#x27;);
                 if (tr.valid()) {
                     if (objectName) {
