@@ -39,6 +39,11 @@ declare namespace flexygo.ui.wc {
         */
         objectWhere: string;
         /**
+        * Component Object Where
+        * @property objectWhere {string}
+        */
+        AdditionalWhere: string;
+        /**
         * Init the webcomponent. REQUIRED.
         * @method init
         */

@@ -279,6 +279,10 @@ var flexygo;
                 mindate: 'Mindestdatum',
                 maxdate: 'Maximales Datum',
                 unseen: 'Nur nicht lesen',
+                sync: 'Synchronisieren',
+                waitsync: 'Warten Sie, bis die Synchronisierung abgeschlossen ist.',
+                nomail: 'Mail nicht gefunden.',
+                nomailalert: 'Die Mail wurde nicht auf dem Server gefunden.',
             };
             dede.flxmodule = {
                 delete: 'Löschen',
@@ -361,6 +365,8 @@ var flexygo;
                 permissionerror: 'Entschuldigung, Sie haben keine Berechtigung',
                 documentempty: 'Dokument leer',
                 view: 'sehen',
+                downloadall: 'Alle Dokumente herunterladen',
+                nodocuments: 'Keine Dokumente zum Herunterladen',
             };
             dede.imagemanager = {
                 upload: 'Hochladen',

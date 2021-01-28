@@ -88,7 +88,23 @@
              $('head').append('<meta name="viewport" content="width=1280px, user-scalable=no" />'); 
           }
         }
-</script>
+    </script>
+
+    <script>
+        function viewPassword(){
+            var passwordInput = document.getElementById('Password');
+            var passStatus = document.getElementById('pass-status');
+ 
+            if (passwordInput.type == 'password'){
+                passwordInput.type='text';
+                passStatus.className='fa fa-eye-slash';
+            }
+            else{
+                passwordInput.type='password';
+                passStatus.className='fa fa-eye';
+            }
+        }
+    </script>
    
 </head>
 <body>
@@ -112,6 +128,7 @@
                     </div>
                     <div class="cell"><i class="flx-icon icon-lock"></i>
                         <asp:TextBox ID="Password" placeHolder="Password" runat="server" TextMode="Password"></asp:TextBox><asp:RequiredFieldValidator ID="PasswordRequired" runat="server" ControlToValidate="Password" Text="*"></asp:RequiredFieldValidator>
+                        <span class="fa fa-eye" id="pass-status" onclick="viewPassword()"></span> 
                     </div>
                     <asp:LinkButton ID="MainButton" CssClass="mainbutton" CommandName="LogIn" runat="server" OnClientClick="Progress(event)">Login</asp:LinkButton>
                     <div class="others">
@@ -125,9 +142,9 @@
                         <asp:HyperLink runat="server" ID="ForgotPasswordHyperLink" ViewStateMode="Disabled">Forgot your password?</asp:HyperLink>
                     </div>
                 </section>
-                
             </div>
         </div>
     </form>
+
 </body>
 </html>

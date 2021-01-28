@@ -64,6 +64,10 @@
             <footer></footer>
         </div>
     </div>
+
+    <script>
+        configureFirebase()
+    </script>
 </body>
      <%= Me.getMissingFiles()%>
      <%= Me.getDatabaseScriptJobErrors()%>

@@ -281,6 +281,10 @@ var flexygo;
                 mindate: 'Min Date',
                 maxdate: 'Max Date',
                 unseen: 'Only unseen',
+                sync: 'Synchronizing',
+                waitsync: 'Wait for the synchronization to finish.',
+                nomail: 'Mail not found.',
+                nomailalert: 'The mail was not found on the server.',
             };
             engb.flxmodule = {
                 delete: 'Delete',
@@ -364,6 +368,8 @@ var flexygo;
                 permissionerror: 'Sorry, you do not have permissions',
                 documentempty: 'Document empty',
                 view: 'View',
+                downloadall: 'Download all documents',
+                nodocuments: 'No documents to download',
             };
             engb.imagemanager = {
                 upload: 'Upload',

@@ -915,8 +915,8 @@ button.bg-white {
             color: dbColor(OutstandingColor);
         }
 
-        .title{
-            font-weight:bold;
+        .title {
+            font-weight: bold;
         }
     }
 
@@ -955,7 +955,15 @@ button.bg-white {
             font-size: 12px;
             color: #bec6cc;
         }
+
+        > .text {
+            font-size: 11px;
+            width: ~"calc(100% - 11px)";
+            position: relative;
+            color: #bec6cc;
+        }
     }
+
 
     > .buttons {
         opacity: 0;
@@ -1051,10 +1059,13 @@ button.bg-white {
     .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
         color: dbColor(OutstandingColor);
     }
-    // flxIcons overloads
-    .icon-border {
-        border: solid .08em dbColor(borderModuleColor);
-    }
+
+ 
+
+// flxIcons overloads
+.icon-border {
+    border: solid .08em dbColor(borderModuleColor);
+}
 
     .lobibox, .lobibox-notify-wrapper {
         z-index: 1000001!important;
@@ -1227,5 +1238,8 @@ button.bg-white {
             animation-duration: 2s;
             animation-iteration-count: infinite;
         }
+
+        /* for printing*/
+.htmlreport{background-color:white;height:100%;}
 
 

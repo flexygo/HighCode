@@ -88,7 +88,15 @@ function initPage() {
             }
         });
     }
-    hist = getUrlObject();
+    let param = flexygo.utils.querystring.getParamValue(document.location.href, 'u');
+    if (param) {
+        let dataObj = flexygo.history.Base64.decode(param);
+        hist = JSON.parse(dataObj);
+        window.history.replaceState(hist, null, flexygo.utils.resolveUrl('~/Index') + '#' + param);
+    }
+    else {
+        hist = getUrlObject();
+    }
     if (hist) {
         if (typeof hist.hideNavbar !== 'undefined' && hist.hideNavbar === true) {
             $('#mainNav').hide().attr('minimized', 'True');

@@ -19,6 +19,14 @@ declare namespace flexygo.security.roles {
     function init(el: Element): void;
 }
 /**
+* Security Faculties.
+*
+* @class security.Faculties
+*/
+declare namespace flexygo.security.faculties {
+    function init(el: Element): void;
+}
+/**
 * Security users.
 *
 * @class security.users

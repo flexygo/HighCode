@@ -2,7 +2,7 @@
  * @namespace flexygo.ui.wc
  */
 declare namespace flexygo.ui.wc {
-    type navbuttonTypes = "openpage" | "openpagename" | "execprocess" | "openprocessparams" | "openreportsparams" | "viewreport" | "openhelpid";
+    type navbuttonTypes = "home" | "openpage" | "openpagename" | "execprocess" | "openprocessparams" | "openreportsparams" | "viewreport" | "openhelpid" | "externalhome" | "externalopenpage" | "externalopenpagename";
     /**
     * Library for the FlxSampleWcElement
     *
@@ -22,6 +22,11 @@ declare namespace flexygo.ui.wc {
         * @property connected {boolean}
         */
         connected: boolean;
+        /**
+        * External App Name
+        * @property appname {string}
+        */
+        appname: string;
         /**
        * Type
        * @property type {navbuttonTypes}

@@ -151,6 +151,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "flexygo.events.flexygo.history",
         "flexygo.obj.Entity",
         "flexygo.security",
+        "flexygo.security.Faculties",
         "flexygo.security.roles",
         "flexygo.security.users",
         "flexygo.ui.wc.FlxAccordionElement",

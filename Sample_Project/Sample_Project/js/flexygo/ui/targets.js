@@ -28,6 +28,34 @@ var flexygo;
         }
         targets.openNewWindow = openNewWindow;
         /**
+        * Opens a page in a new window
+        * @method openNewWindow
+        * @param {flexygo.nav.FlexygoHistory} objectPage - Page information
+        * @param {string} target - additional target info
+       */
+        function openExternalNewWindow(url, authToken, objectPage) {
+            let width, height;
+            let options = 'scrollbars=yes,status=yes,titlebar=yes,resizable=yes';
+            let target = objectPage.targetid;
+            target = target.replace('new', '').replace('current', '').replace('main', '').replace('menu', '').replace('modal', '').replace('popup', '');
+            if (target.length > 0 && target.indexOf('x') != -1) {
+                width = target.split('x')[0];
+                height = target.split('x')[1];
+                if (width && height) {
+                    options += ',height=' + height + ',width=' + width;
+                }
+            }
+            objectPage.targetid = 'current';
+            objectPage.hideNavbar = true;
+            objectPage.hideMenuBar = true;
+            if (!url.endsWith('/')) {
+                url += '/';
+            }
+            url += 'Index?u' + flexygo.history.Base64.encode(JSON.stringify(objectPage)) + '&=access_token=' + authToken;
+            window.open(url, flexygo.utils.uniqueId(), options);
+        }
+        targets.openExternalNewWindow = openExternalNewWindow;
+        /**
          * Creates a pgae container
          * @method createContainer
          * @param {flexygo.nav.FlexygoHistory} histObj - Page information

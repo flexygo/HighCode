@@ -129,3 +129,10 @@ a {
 .confirm, .confirm h1, .confirm h2 {
     text-align: center;
 }
+
+#pass-status {
+   position: relative;
+   float: right;
+   top: -20px;
+   left: -10px;
+}

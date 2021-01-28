@@ -8,6 +8,13 @@ declare namespace flexygo.targets {
     */
     function openNewWindow(objectPage: flexygo.nav.FlexygoHistory, target: string): void;
     /**
+    * Opens a page in a new window
+    * @method openNewWindow
+    * @param {flexygo.nav.FlexygoHistory} objectPage - Page information
+    * @param {string} target - additional target info
+   */
+    function openExternalNewWindow(url: string, authToken: string, objectPage: flexygo.nav.FlexygoHistory): void;
+    /**
      * Creates a pgae container
      * @method createContainer
      * @param {flexygo.nav.FlexygoHistory} histObj - Page information

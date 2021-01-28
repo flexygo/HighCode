@@ -88,7 +88,7 @@ var flexygo;
                                     tr = $('<tr/>').appendTo(table.find('tbody'));
                                     for (let cell in row) {
                                         if (cell.toLowerCase() !== '_objectname' && cell.toLowerCase() !== '_objectwhere' && cell.toLowerCase() !== '_guid' && cell.toLowerCase() !== '_ot') {
-                                            tr.append('<td>' + ((row[cell] === null) ? (format === "pdf" || format === "excel" || format === "xls" || format === "doc") ? '' : null : (format !== "json" && row[cell].toString().startsWith('/Date(') && row[cell].toString().endsWith(')/')) ? moment(row[cell]).format('L') + ((moment(row[cell]).format('HH:mm:ss') !== "00:00:00") ? ' ' + moment(row[cell]).format('LTS') : '') : ((typeof row[cell] == 'number') ? row[cell].toString().replace('.', ',') : row[cell])) + '</td>');
+                                            tr.append('<td>' + ((row[cell] === null) ? (format === "pdf" || format === "excel" || format === "xls" || format === "doc") ? '' : null : (format !== "json" && row[cell].toString().startsWith('/Date(') && row[cell].toString().endsWith(')/')) ? moment.utc(row[cell]).locale(flexygo.profiles.culture).format('L') + ((moment.utc(row[cell]).locale(flexygo.profiles.culture).format('HH:mm:ss') !== "00:00:00") ? ' ' + moment.utc(row[cell]).locale(flexygo.profiles.culture).format('LTS') : '') : ((typeof row[cell] == 'number') ? row[cell].toString().replace('.', ',') : row[cell])) + '</td>');
                                         }
                                     }
                                 }

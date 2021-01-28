@@ -64,248 +64,251 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Antlr3.Runtime.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Antlr3.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Castle.Core.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Common.Logging.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Common.Logging.dll</HintPath>
     </Reference>
     <Reference Include="Common.Logging.Core, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Common.Logging.Core.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Common.Logging.Core.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.ReportAppServer.CommLayer, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\CrystalDecisions.ReportAppServer.CommLayer.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\CrystalDecisions.ReportAppServer.CommLayer.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="CrystalDecisions.ReportAppServer.CommonObjectModel, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\CrystalDecisions.ReportAppServer.CommonObjectModel.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\CrystalDecisions.ReportAppServer.CommonObjectModel.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="CrystalDecisions.ReportAppServer.CubeDefModel, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\CrystalDecisions.ReportAppServer.CubeDefModel.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\CrystalDecisions.ReportAppServer.CubeDefModel.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="CrystalDecisions.ReportAppServer.DataSetConversion, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\CrystalDecisions.ReportAppServer.DataSetConversion.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\CrystalDecisions.ReportAppServer.DataSetConversion.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.ReportAppServer.ObjectFactory, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\CrystalDecisions.ReportAppServer.ObjectFactory.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\CrystalDecisions.ReportAppServer.ObjectFactory.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="CrystalDecisions.ReportAppServer.Prompting, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\CrystalDecisions.ReportAppServer.Prompting.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\CrystalDecisions.ReportAppServer.Prompting.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="CrystalDecisions.ReportAppServer.ReportDefModel, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\CrystalDecisions.ReportAppServer.ReportDefModel.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\CrystalDecisions.ReportAppServer.ReportDefModel.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="CrystalDecisions.ReportAppServer.XmlSerialize, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\CrystalDecisions.ReportAppServer.XmlSerialize.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\CrystalDecisions.ReportAppServer.XmlSerialize.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="CrystalDecisions.ReportSource, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\CrystalDecisions.ReportSource.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\CrystalDecisions.ReportSource.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.Shared, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\CrystalDecisions.Shared.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\CrystalDecisions.Shared.dll</HintPath>
     </Reference>
     <Reference Include="dotless.Core, Version=1.5.2.0, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\dotless.Core.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\dotless.Core.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Flexygo, Version=2.15.0.4, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Flexygo.dll</HintPath>
+    <Reference Include="Flexygo, Version=2.21.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Flexygo.dll</HintPath>
     </Reference>
-    <Reference Include="flxAccount, Version=2.15.0.4, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\flxAccount.dll</HintPath>
+    <Reference Include="flxAccount, Version=2.21.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\flxAccount.dll</HintPath>
     </Reference>
-    <Reference Include="flxControls, Version=2.15.0.4, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\flxControls.dll</HintPath>
+    <Reference Include="flxControls, Version=2.21.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\flxControls.dll</HintPath>
     </Reference>
-    <Reference Include="flxDataManager, Version=2.15.0.4, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\flxDataManager.dll</HintPath>
+    <Reference Include="flxDataManager, Version=2.21.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\flxDataManager.dll</HintPath>
     </Reference>
-    <Reference Include="flxEncoder, Version=2.15.0.4, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\flxEncoder.dll</HintPath>
+    <Reference Include="flxEncoder, Version=2.21.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\flxEncoder.dll</HintPath>
     </Reference>
-    <Reference Include="flxEntity, Version=2.15.0.4, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\flxEntity.dll</HintPath>
+    <Reference Include="flxEntity, Version=2.21.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\flxEntity.dll</HintPath>
     </Reference>
-    <Reference Include="flxEnvironment, Version=2.15.0.4, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\flxEnvironment.dll</HintPath>
+    <Reference Include="flxEnvironment, Version=2.21.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\flxEnvironment.dll</HintPath>
     </Reference>
-    <Reference Include="flxGlobals, Version=2.15.0.4, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\flxGlobals.dll</HintPath>
+    <Reference Include="flxGlobals, Version=2.21.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\flxGlobals.dll</HintPath>
     </Reference>
-    <Reference Include="flxLocalization, Version=2.15.0.4, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\flxLocalization.dll</HintPath>
+    <Reference Include="flxLocalization, Version=2.21.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\flxLocalization.dll</HintPath>
     </Reference>
-    <Reference Include="flxMail, Version=2.15.0.4, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\flxMail.dll</HintPath>
+    <Reference Include="flxMail, Version=2.21.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\flxMail.dll</HintPath>
     </Reference>
-    <Reference Include="flxMock, Version=2.15.0.4, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\flxMock.dll</HintPath>
+    <Reference Include="flxMock, Version=2.21.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\flxMock.dll</HintPath>
     </Reference>
-    <Reference Include="flxObjectConfig, Version=2.15.0.4, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\flxObjectConfig.dll</HintPath>
+    <Reference Include="flxObjectConfig, Version=2.21.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\flxObjectConfig.dll</HintPath>
     </Reference>
-    <Reference Include="flxPlugins, Version=2.15.0.4, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\flxPlugins.dll</HintPath>
+    <Reference Include="flxPlugins, Version=2.21.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\flxPlugins.dll</HintPath>
     </Reference>
-    <Reference Include="flxPowerBI, Version=2.15.0.4, Culture=neutral, PublicKeyToken=59fa6f3044588661, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\flxPowerBI.dll</HintPath>
+    <Reference Include="flxPowerBI, Version=2.21.0.1, Culture=neutral, PublicKeyToken=59fa6f3044588661, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\flxPowerBI.dll</HintPath>
     </Reference>
-    <Reference Include="flxSearch, Version=2.15.0.4, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\flxSearch.dll</HintPath>
+    <Reference Include="flxSearch, Version=2.21.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\flxSearch.dll</HintPath>
     </Reference>
-    <Reference Include="flxSecurity, Version=2.15.0.4, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\flxSecurity.dll</HintPath>
+    <Reference Include="flxSecurity, Version=2.21.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\flxSecurity.dll</HintPath>
     </Reference>
-    <Reference Include="flxSession, Version=2.15.0.4, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\flxSession.dll</HintPath>
+    <Reference Include="flxSession, Version=2.21.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\flxSession.dll</HintPath>
     </Reference>
-    <Reference Include="flxSettings, Version=2.15.0.4, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\flxSettings.dll</HintPath>
+    <Reference Include="flxSettings, Version=2.21.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\flxSettings.dll</HintPath>
     </Reference>
-    <Reference Include="flxSignalR, Version=2.15.0.4, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\flxSignalR.dll</HintPath>
+    <Reference Include="flxSignalR, Version=2.21.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\flxSignalR.dll</HintPath>
     </Reference>
-    <Reference Include="flxSysProcess, Version=2.15.0.4, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\flxSysProcess.dll</HintPath>
+    <Reference Include="flxSysProcess, Version=2.21.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\flxSysProcess.dll</HintPath>
     </Reference>
-    <Reference Include="flxUI, Version=2.15.0.4, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\flxUI.dll</HintPath>
+    <Reference Include="flxUI, Version=2.21.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\flxUI.dll</HintPath>
     </Reference>
-    <Reference Include="flxUtilities, Version=2.15.0.4, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\flxUtilities.dll</HintPath>
+    <Reference Include="flxUtilities, Version=2.21.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\flxUtilities.dll</HintPath>
     </Reference>
     <Reference Include="Google.Apis, Version=1.27.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Google.Apis.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Google.Apis.dll</HintPath>
     </Reference>
     <Reference Include="Google.Apis.Core, Version=1.27.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Google.Apis.Core.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Google.Apis.Core.dll</HintPath>
     </Reference>
     <Reference Include="Google.Apis.Translate.v2, Version=1.27.1.875, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Google.Apis.Translate.v2.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Google.Apis.Translate.v2.dll</HintPath>
     </Reference>
     <Reference Include="Mail, Version=3.0.19134.1431, Culture=neutral, PublicKeyToken=6dc438ab78a525b3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Mail.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Mail.dll</HintPath>
     </Reference>
     <Reference Include="MailChimp.Net, Version=4.2.1.0, Culture=neutral, PublicKeyToken=37d26d538413c581, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\MailChimp.Net.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\MailChimp.Net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.FriendlyUrls, Version=1.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Microsoft.AspNet.FriendlyUrls.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Microsoft.AspNet.FriendlyUrls.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Microsoft.AspNet.Identity.Owin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Microsoft.AspNet.SignalR.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Data.Tools.Schema.Sql, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Microsoft.Data.Tools.Schema.Sql.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Microsoft.Data.Tools.Schema.Sql.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Data.Tools.Utilities, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Microsoft.Data.Tools.Utilities.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Microsoft.Data.Tools.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.OpenApi, Version=1.0.1.0, Culture=neutral, PublicKeyToken=3f5743946376f042, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Microsoft.OpenApi.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Microsoft.OpenApi.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.OpenApi.Readers, Version=1.0.1.0, Culture=neutral, PublicKeyToken=3f5743946376f042, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Microsoft.OpenApi.Readers.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Microsoft.OpenApi.Readers.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Microsoft.Owin.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Microsoft.Owin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Cors, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Microsoft.Owin.Cors.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Microsoft.Owin.Cors.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Microsoft.Owin.Security.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Microsoft.Owin.Security.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Security.Cookies, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Microsoft.Owin.Security.Cookies.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Microsoft.Owin.Security.Cookies.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Security.OAuth, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Microsoft.Owin.Security.OAuth.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Microsoft.Owin.Security.OAuth.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.PowerBI.Api, Version=3.11.0.20084, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Microsoft.PowerBI.Api.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Microsoft.PowerBI.Api.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Rest.ClientRuntime, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Microsoft.Rest.ClientRuntime.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Microsoft.Rest.ClientRuntime.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SqlServer.Dac, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Microsoft.SqlServer.Dac.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Microsoft.SqlServer.Dac.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SqlServer.Dac.Extensions, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Microsoft.SqlServer.Dac.Extensions.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Microsoft.SqlServer.Dac.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SqlServer.TransactSql.ScriptDom, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Microsoft.SqlServer.TransactSql.ScriptDom.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Microsoft.SqlServer.TransactSql.ScriptDom.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SqlServer.Types, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Microsoft.SqlServer.Types.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Microsoft.SqlServer.Types.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Microsoft.Web.Infrastructure.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="Moq, Version=4.7.8.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Moq.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Moq.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data, Version=6.10.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\MySql.Data.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Oracle.ManagedDataAccess, Version=4.122.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Oracle.ManagedDataAccess.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Oracle.ManagedDataAccess.dll</HintPath>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Owin.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Owin.dll</HintPath>
     </Reference>
     <Reference Include="Quartz, Version=2.6.1.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\Quartz.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\Quartz.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.11.4.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="SharpYaml, Version=1.6.1.0, Culture=neutral, PublicKeyToken=1ced8108e942bc02, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\SharpYaml.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\SharpYaml.dll</HintPath>
     </Reference>
     <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\stdole.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\stdole.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
@@ -313,25 +316,25 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\System.Net.Http.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\System.Net.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.Formatting, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\System.Net.Http.Formatting.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Cryptography.Algorithms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\System.Security.Cryptography.Algorithms.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\System.Security.Cryptography.X509Certificates.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Cors, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\System.Web.Cors.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\System.Web.Cors.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.DynamicData" />
@@ -340,51 +343,51 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\System.Web.Helpers.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\System.Web.Helpers.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\System.Web.Http.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\System.Web.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.Cors, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\System.Web.Http.Cors.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\System.Web.Http.Cors.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.Owin, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\System.Web.Http.Owin.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\System.Web.Http.Owin.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\System.Web.Http.WebHost.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\System.Web.Mvc.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\System.Web.Optimization.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\System.Web.Optimization.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Optimization.Less, Version=1.3.0.0, Culture=neutral, PublicKeyToken=9b7581e0240fe480, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\System.Web.Optimization.Less.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\System.Web.Optimization.Less.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\System.Web.Razor.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\System.Web.WebPages.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\System.Web.WebPages.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\System.Web.WebPages.Deployment.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\System.Web.WebPages.Deployment.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\System.Web.WebPages.Razor.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="UnitTest, Version=2.15.0.4, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\UnitTest.dll</HintPath>
+    <Reference Include="UnitTest, Version=2.21.0.1, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\UnitTest.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.2.15.0.4\lib\net46\WebGrease.dll</HintPath>
+      <HintPath>..\packages\Flexygo.2.21.0.1\lib\net46\WebGrease.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -411,6 +414,7 @@
     <Import Include="System.Web.UI.HtmlControls" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Account\Authorize.aspx" />
     <Content Include="Account\Confirm.aspx" />
     <Content Include="Account\Forgot.aspx" />
     <Content Include="Account\Links.ascx" />
@@ -840,6 +844,7 @@
     <Content Include="docs\js\classes\flexygo.events.FlexygoEvent.html" />
     <Content Include="docs\js\classes\flexygo.events.GenericKeyValueObject.html" />
     <Content Include="docs\js\classes\flexygo.obj.Entity.html" />
+    <Content Include="docs\js\classes\flexygo.security.Faculties.html" />
     <Content Include="docs\js\classes\flexygo.security.html" />
     <Content Include="docs\js\classes\flexygo.security.roles.html" />
     <Content Include="docs\js\classes\flexygo.security.users.html" />
@@ -1043,10 +1048,13 @@
     <Content Include="docs\vb\FillNode.php" />
     <Content Include="docs\vb\html\.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.AjaxError.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Authentication.Identity.AccessTokenProvider.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Authentication.Identity.ApplicationDbContext.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Authentication.Identity.ApplicationSignInManager.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Authentication.Identity.ApplicationUser.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Authentication.Identity.ApplicationUserManager.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Authentication.Identity.AspNetUsers_Token.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Authentication.Identity.AspNetUsers_Tokens.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Authentication.Identity.AuthContext.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Authentication.Identity.AuthRepository.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Authentication.Identity.BasicAuthorizationProvider.htm" />
@@ -1058,6 +1066,7 @@
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Authentication.Identity.SmsService.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Authentication.Identity.Startup.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Authentication.LoginService.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Authorize.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.BlackList.CheckData.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.BlackList.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.BlacklistCheckAttribute.htm" />
@@ -1205,6 +1214,7 @@
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Mails.MailHeader.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Mails.MailItem.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Mails.MailObjectSettings.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Mails.Mails.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Mails.Processes.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Mails.Reception.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Mails.Sending.htm" />
@@ -1258,6 +1268,29 @@
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Objects.Settings.TemplatesCollection.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Objects.Settings.UserSavedSearches.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Objects.Settings.ViewProperty.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Office.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.OfficeResourceTypes.Attendee.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.OfficeResourceTypes.Contact.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.OfficeResourceTypes.DateTimeTimeZone.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.OfficeResourceTypes.EmailAddress.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.OfficeResourceTypes.ItemBody.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.OfficeResourceTypes.Location.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.OfficeResourceTypes.OfficeEvent.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.OfficeResourceTypes.OfficeHeader.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.OfficeResourceTypes.OfficeRequestContact.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.OfficeResourceTypes.OfficeRequestEvent.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.OfficeResourceTypes.OnlineMeetingInfo.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.OfficeResourceTypes.OutlookGeoCoordinates.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.OfficeResourceTypes.PatternedRecurrence.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.OfficeResourceTypes.Phone.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.OfficeResourceTypes.PhysicalAddress.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.OfficeResourceTypes.Recipient.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.OfficeResourceTypes.RecurrencePattern.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.OfficeResourceTypes.RecurrenceRange.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.OfficeResourceTypes.requestBatchContactBody.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.OfficeResourceTypes.requestBatchEventBody.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.OfficeResourceTypes.ResponseStatus.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.OfficeResourceTypes.TimeSlot.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Offline.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Offline.MobileDocument.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Offline.MobileImage.htm" />
@@ -1271,6 +1304,9 @@
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Processing.ProcessManager.FormSender.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Processing.ProcessManager.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.Processing.ProcessManager.ProcessHelper.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.PushService.AhoraPushServiceFCMClient.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.PushService.IAhoraPushServiceFCM.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.PushService.returnClass.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.QuartzSheduler.JobScheduler.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.QuartzSheduler.ProcessJob.CachedConfToken.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.QuartzSheduler.ProcessJob.htm" />
@@ -1343,16 +1379,20 @@
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.WebApiControllers.WA_ApiDefinitionController.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.WebApiControllers.WA_EntityController.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.WebApiControllers.WA_EntityController.ObjectSchemaHelper.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.WebApiControllers.WA_EntityController.OnAuthorization.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.WebApiControllers.WA_EntityController.WebApiHelper.htm" />
     <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.WebApiControllers.WA_EntityController.WebApiPropertyHelper.htm" />
+    <Content Include="docs\vb\html\AllMembers.T-FLEXYGO.WebHooksControllers.WHController.htm" />
     <Content Include="docs\vb\html\E-FLEXYGO.FlexyGoServices.AutoUpdaterCheckInfo.PropertyChanged.htm" />
     <Content Include="docs\vb\html\E-FLEXYGO.FlexyGoServices.AutoUpdaterUpdateInfo.PropertyChanged.htm" />
     <Content Include="docs\vb\html\E-FLEXYGO.FlexyGoServices.VersionInfo.PropertyChanged.htm" />
     <Content Include="docs\vb\html\E-FLEXYGO.Gipe.GipeExecution.WorkflowExecutionFinished.htm" />
+    <Content Include="docs\vb\html\E-FLEXYGO.PushService.returnClass.PropertyChanged.htm" />
     <Content Include="docs\vb\html\Events.T-FLEXYGO.FlexyGoServices.AutoUpdaterCheckInfo.htm" />
     <Content Include="docs\vb\html\Events.T-FLEXYGO.FlexyGoServices.AutoUpdaterUpdateInfo.htm" />
     <Content Include="docs\vb\html\Events.T-FLEXYGO.FlexyGoServices.VersionInfo.htm" />
     <Content Include="docs\vb\html\Events.T-FLEXYGO.Gipe.GipeExecution.htm" />
+    <Content Include="docs\vb\html\Events.T-FLEXYGO.PushService.returnClass.htm" />
     <Content Include="docs\vb\html\F-FLEXYGO.AjaxError.EajaxExceptionType.ErrorMsg.htm" />
     <Content Include="docs\vb\html\F-FLEXYGO.AjaxError.EajaxExceptionType.SecurityMsg.htm" />
     <Content Include="docs\vb\html\F-FLEXYGO.AjaxError.EajaxExceptionType.WarningMsg.htm" />
@@ -1477,6 +1517,7 @@
     <Content Include="docs\vb\html\F-FLEXYGO.Environment.ModuleDefinition.PageSize.htm" />
     <Content Include="docs\vb\html\F-FLEXYGO.Environment.ModuleDefinition.Params.htm" />
     <Content Include="docs\vb\html\F-FLEXYGO.Environment.ModuleDefinition.Path.htm" />
+    <Content Include="docs\vb\html\F-FLEXYGO.Environment.ModuleDefinition.PresetName.htm" />
     <Content Include="docs\vb\html\F-FLEXYGO.Environment.ModuleDefinition.RefreshButton.htm" />
     <Content Include="docs\vb\html\F-FLEXYGO.Environment.ModuleDefinition.SchedulerName.htm" />
     <Content Include="docs\vb\html\F-FLEXYGO.Environment.ModuleDefinition.ScriptText.htm" />
@@ -1549,6 +1590,9 @@
     <Content Include="docs\vb\html\F-FLEXYGO.Environment.PageModule.Order.htm" />
     <Content Include="docs\vb\html\F-FLEXYGO.Environment.PageModule.PageName.htm" />
     <Content Include="docs\vb\html\F-FLEXYGO.Environment.PageModule.Params.htm" />
+    <Content Include="docs\vb\html\F-FLEXYGO.Environment.PageModule.PresetIcon.htm" />
+    <Content Include="docs\vb\html\F-FLEXYGO.Environment.PageModule.PresetName.htm" />
+    <Content Include="docs\vb\html\F-FLEXYGO.Environment.PageModule.PresetText.htm" />
     <Content Include="docs\vb\html\F-FLEXYGO.Environment.PageModule.RelationWhere.htm" />
     <Content Include="docs\vb\html\F-FLEXYGO.Environment.PageModule.ShowWhenNew.htm" />
     <Content Include="docs\vb\html\F-FLEXYGO.Environment.PageModule.SQLEnabled.htm" />
@@ -1870,6 +1914,8 @@
     <Content Include="docs\vb\html\F-FLEXYGO.Objects.Settings.ViewProperty.ObjectPropertyName.htm" />
     <Content Include="docs\vb\html\F-FLEXYGO.Objects.Settings.ViewProperty.Order.htm" />
     <Content Include="docs\vb\html\F-FLEXYGO.Objects.Settings.ViewProperty.PropertyName.htm" />
+    <Content Include="docs\vb\html\F-FLEXYGO.OfficeResourceTypes.requestBatchContactBody.requests.htm" />
+    <Content Include="docs\vb\html\F-FLEXYGO.OfficeResourceTypes.requestBatchEventBody.requests.htm" />
     <Content Include="docs\vb\html\F-FLEXYGO.Offline.MobileObjectSchema.ObjectName.htm" />
     <Content Include="docs\vb\html\F-FLEXYGO.Offline.MobileObjectSchema.Table.htm" />
     <Content Include="docs\vb\html\F-FLEXYGO.Offline.MobileObjectSchema.Views.htm" />
@@ -2145,6 +2191,8 @@
     <Content Include="docs\vb\html\Fields.T-FLEXYGO.Objects.Settings.TemplateGroup.htm" />
     <Content Include="docs\vb\html\Fields.T-FLEXYGO.Objects.Settings.UserSavedSearches.htm" />
     <Content Include="docs\vb\html\Fields.T-FLEXYGO.Objects.Settings.ViewProperty.htm" />
+    <Content Include="docs\vb\html\Fields.T-FLEXYGO.OfficeResourceTypes.requestBatchContactBody.htm" />
+    <Content Include="docs\vb\html\Fields.T-FLEXYGO.OfficeResourceTypes.requestBatchEventBody.htm" />
     <Content Include="docs\vb\html\Fields.T-FLEXYGO.Offline.MobileObjectSchema.htm" />
     <Content Include="docs\vb\html\Fields.T-FLEXYGO.Offline.MobilePropertySchema.htm" />
     <Content Include="docs\vb\html\Fields.T-FLEXYGO.Offline.MobileTableSchema.htm" />
@@ -2179,6 +2227,10 @@
     <Content Include="docs\vb\html\M-FLEXYGO.AjaxError.AjaxGenericException.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.AjaxError.AjaxSecurityException.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.AjaxError.AjaxWarning.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Authentication.Identity.AccessTokenProvider.Create.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Authentication.Identity.AccessTokenProvider.CreateAsync.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Authentication.Identity.AccessTokenProvider.Receive.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Authentication.Identity.AccessTokenProvider.ReceiveAsync.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Authentication.Identity.ApplicationDbContext.-ctor.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Authentication.Identity.ApplicationDbContext.Create.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Authentication.Identity.ApplicationSignInManager.-ctor.htm" />
@@ -2191,6 +2243,9 @@
     <Content Include="docs\vb\html\M-FLEXYGO.Authentication.Identity.ApplicationUserManager.-ctor.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Authentication.Identity.ApplicationUserManager.Create.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Authentication.Identity.ApplicationUserManager.FindByEmailOrUserName.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Authentication.Identity.AspNetUsers_Tokens.InsertToken.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Authentication.Identity.AspNetUsers_Tokens.RemoveTokenFromRefresh.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Authentication.Identity.AspNetUsers_Tokens.UpdateRefreshToken.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Authentication.Identity.AuthContext.-ctor.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Authentication.Identity.AuthRepository.-ctor.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Authentication.Identity.AuthRepository.Dispose.htm" />
@@ -2230,6 +2285,9 @@
     <Content Include="docs\vb\html\M-FLEXYGO.Authentication.LoginService.NewUser.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Authentication.LoginService.PasswordSignIn.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Authentication.LoginService.ResendConfirmationToken.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Authorize.LaunchError.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Authorize.TranslateLogin.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Authorize.TranslateLoginMessages.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.BlackList.-ctor.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.BlackList.Check.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.BlackList.CheckData.-ctor.htm" />
@@ -2267,6 +2325,7 @@
     <Content Include="docs\vb\html\M-FLEXYGO.Controlers.UI.ChatterController.GetMessages.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Controlers.UI.ChatterController.SetMessage.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Controlers.UI.DocumentManagerController.AppendToDocument.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Controlers.UI.DocumentManagerController.DownloadAllDocuments.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Controlers.UI.DocumentManagerController.GetCategories.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Controlers.UI.DocumentManagerController.GetConfig.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Controlers.UI.DocumentManagerController.GetDocument.htm" />
@@ -2341,11 +2400,13 @@
     <Content Include="docs\vb\html\M-FLEXYGO.Controlers.UI.ListController.GetPageList.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Controlers.UI.ListController.GetSearch.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Controlers.UI.ListController.LoadFilters.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Controlers.UI.MailController.DownloadMails.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Controlers.UI.MailController.GetMail.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Controlers.UI.MailController.GetMailBadgeValue.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Controlers.UI.MailController.GetMailConfig.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Controlers.UI.MailController.GetMailFolders.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Controlers.UI.MailController.GetMailHeaders.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Controlers.UI.MailController.GetMails.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Controlers.UI.MapController.GetHTML.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Controlers.UI.MasterTableController.Delete.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Controlers.UI.MasterTableController.GetSettings.htm" />
@@ -2370,6 +2431,7 @@
     <Content Include="docs\vb\html\M-FLEXYGO.Controlers.UI.NotifyController.SetNoticeIsRead.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Controlers.UI.ObjectsRelationsController.GetHTML.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Controlers.UI.OrgChartController.GetNodes.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Controlers.UI.PageController.GetExternalAuth.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Controlers.UI.PageController.GetHelpById.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Controlers.UI.PageController.GetModuleManagerModules.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Controlers.UI.PageController.GetPageByName.htm" />
@@ -2651,14 +2713,17 @@
     <Content Include="docs\vb\html\M-FLEXYGO.FlexyGoServices.IAutoUpdaterService.UpdateNewVersion.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.FlexyGoServices.IAutoUpdaterService.UpdateNewVersionAsync.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.FlxController.Json.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.FlxMailChimp.AddContactToList.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.FlxMailChimp.ChangeMailChimpAccount.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.FlxMailChimp.DeleteCampaign.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.FlxMailChimp.DeleteContactFromList.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.FlxMailChimp.DeleteList.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.FlxMailChimp.DeleteTemplate.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.FlxMailChimp.EditCampaign.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.FlxMailChimp.EditList.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.FlxMailChimp.EditTemplate.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.FlxMailChimp.GeneratePotentialContacts.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.FlxMailChimp.GetContactsFromMailChimp.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.FlxMailChimp.InsertObjectContact.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.FlxMailChimp.LaunchActionCampaign.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.FlxMailChimp.MailChimpIntegration.htm" />
@@ -2878,26 +2943,39 @@
     <Content Include="docs\vb\html\M-FLEXYGO.Mails.Mail.SendTemplateMail_2.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Mails.Mail.SendTemplateMail_3.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Mails.Mail.SendTemplateMail_4.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Mails.Mail.SendTemplateMail_5.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Mails.MailItem.-ctor.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Mails.MailItem.-ctor_1.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Mails.Processes.DeleteEmail.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Mails.Processes.DeleteMailAccount.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Mails.Processes.DownloadAttachment.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Mails.Processes.ForwardEmail.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Mails.Processes.InsertMailAccount.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Mails.Processes.LinkEmails.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Mails.Processes.NewFolder.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Mails.Processes.ReplyAllEmail.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Mails.Processes.ReplyEmail.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Mails.Processes.SendEmail.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Mails.Processes.SetFolders.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Mails.Processes.SetUserMailAccount.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Mails.Processes.UpdateMailAccount.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Mails.Reception.DownloadAttachments.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Mails.Reception.DownloadEmail.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Mails.Reception.DownloadMails.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Mails.Reception.GetEmail.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Mails.Reception.GetFoldersSQL.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Mails.Reception.GetUnreadMails.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Mails.Reception.LinkEmail.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Mails.Reception.LinkEmail_1.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Mails.Reception.ListEmails.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Mails.Reception.ListFolders.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Mails.Reception.ListMails.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Mails.Reception.MarkMessageSeen.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Mails.Reception.SyncDownloadMails.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Mails.Reception.TestGetUnreadMails.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Mails.Sending.DeleteAttachments.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Mails.Sending.DeleteEmail.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Mails.Sending.DeleteMailImap.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Mails.Sending.DownloadAttachmentBD.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Mails.Sending.DownloadAttachmentImap.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Mails.Sending.ForwardEmail.htm" />
@@ -2986,6 +3064,7 @@
     <Content Include="docs\vb\html\M-FLEXYGO.Objects.EntityObject.InsertProcess.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Objects.EntityObject.LogView.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Objects.EntityObject.NavigationNodes.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Objects.EntityObject.ParseDefaultValues.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Objects.EntityObject.ParseString.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Objects.EntityObject.ParseValue.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Objects.EntityObject.ProcessCollection.htm" />
@@ -3115,9 +3194,19 @@
     <Content Include="docs\vb\html\M-FLEXYGO.Objects.Settings.TemplatesCollection.Add.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Objects.Settings.TemplatesCollection.Contains.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Objects.Settings.TemplatesCollection.Remove.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Office.AddRedirectURIs.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Office.GetConsent.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Office.GetOfficeCalendar.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Office.GetOfficeContacts.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Office.GetOfficePath.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Office.ReadToken.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Office.SendOfficeContacts.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Office.SendOfficeEvents.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Offline.GetAppConfig.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Offline.GetAPPDataSchema.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Offline.GetAPPFileResource.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Offline.SendAllPushMessages.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Offline.SendPushMessage.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Offline.SetDefaultJSFunction.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Offline.SyncData.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.PaymentsProcess.RedsysPayment.htm" />
@@ -3133,6 +3222,15 @@
     <Content Include="docs\vb\html\M-FLEXYGO.Processing.ProcessManager.ProcessHelper.ToXML.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Processing.ProcessManager.ProcessHelper.WriteXml.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Processing.ProcessManager.run.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.PushService.AhoraPushServiceFCMClient.-ctor.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.PushService.AhoraPushServiceFCMClient.-ctor_1.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.PushService.AhoraPushServiceFCMClient.-ctor_2.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.PushService.AhoraPushServiceFCMClient.-ctor_3.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.PushService.AhoraPushServiceFCMClient.-ctor_4.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.PushService.AhoraPushServiceFCMClient.SendMessageFCM.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.PushService.AhoraPushServiceFCMClient.SendMessageFCMAsync.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.PushService.IAhoraPushServiceFCM.SendMessageFCM.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.PushService.IAhoraPushServiceFCM.SendMessageFCMAsync.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.QuartzSheduler.JobScheduler.ClearJob.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.QuartzSheduler.JobScheduler.CreateJob.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.QuartzSheduler.JobScheduler.CreateScheduler.htm" />
@@ -3211,6 +3309,7 @@
     <Content Include="docs\vb\html\M-FLEXYGO.Security.UserSecurityConfig.GetObjectData.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Security.UserSecurityConfig.GetObjectViewFilterx.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Security.UserSecurityConfig.ParseDefaultVars.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Security.UserSecurityConfig.Reload.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Security.UserSecurityConfig.ReplaceVars.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Security.UserSecurityConfig.SetSecurity.htm" />
     <Content Include="docs\vb\html\M-FlexyGo.SignalR.Events.EventHelper.-ctor.htm" />
@@ -3229,6 +3328,8 @@
     <Content Include="docs\vb\html\M-FlexyGo.SignalR.Events.EventHelper.eEventType.ToString.htm" />
     <Content Include="docs\vb\html\M-FlexyGo.SignalR.Events.FireGenericAllUserEvent.htm" />
     <Content Include="docs\vb\html\M-FlexyGo.SignalR.Events.FireGenericUserEvent.htm" />
+    <Content Include="docs\vb\html\M-FlexyGo.SignalR.Events.FireGenericUserIDEvent.htm" />
+    <Content Include="docs\vb\html\M-FlexyGo.SignalR.Events._getUserName.htm" />
     <Content Include="docs\vb\html\M-FlexyGo.SignalR.genericHub.allUsersMessage.htm" />
     <Content Include="docs\vb\html\M-FlexyGo.SignalR.genericHub.Connect.htm" />
     <Content Include="docs\vb\html\M-FlexyGo.SignalR.genericHub.OnDisconnected.htm" />
@@ -3240,6 +3341,7 @@
     <Content Include="docs\vb\html\M-FLEXYGO.SysProcess.AfterLogoffERPAhoraFreeware.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.SysProcess.ChangeAdminProfile.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.SysProcess.ChangeCurrentUserLang.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.SysProcess.ChangePhoto.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.SysProcess.CreateProcessParameters.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.SysProcess.DownloadDataToExcel.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.SysProcess.EditStoredProcedure.htm" />
@@ -3253,6 +3355,9 @@
     <Content Include="docs\vb\html\M-FLEXYGO.SysProcess.ProcessDependeciesConnString.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.SysProcess.ProcessDependeciesTimeline.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.SysProcess.ReloadCache.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.SysProcess.RemoveDocument.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.SysProcess.RemoveImage.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.SysProcess.SaveFlexygoAuth.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.SysProcess.ScriptDatabase.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.SysProcess.SendMail.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.SysProcess.TestSignalRProcess.htm" />
@@ -3261,6 +3366,7 @@
     <Content Include="docs\vb\html\M-FLEXYGO.SysProcess.UnlockKeyFieldsLoadProcess.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.SysProcess.UpdateImage.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.SysProcess.UpdateObj.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.SysProcess.UpdateUser.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.SysProcess.WebApiIsEnabled.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Testing.BasicTests.TestBasicInsertDelete.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Testing.BasicTests.TestBasicUpdate.htm" />
@@ -3274,6 +3380,7 @@
     <Content Include="docs\vb\html\M-FLEXYGO.Testing.BasicTests.TestMissingTranslations.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Testing.BasicTests.TestMovement.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Testing.BasicTests.TestNodes.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.Testing.BasicTests.TestObjectSecurity.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Testing.BasicTests.TestUserProfile.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Testing.BasicTests.TestUserProfileInterfaceMenus.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.Testing.BasicTests.TestVars.htm" />
@@ -3461,12 +3568,18 @@
     <Content Include="docs\vb\html\M-FLEXYGO.WebApiControllers.WA_EntityController.GetView.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.WebApiControllers.WA_EntityController.GetViewSchema.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.WebApiControllers.WA_EntityController.InsertEntity.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.WebApiControllers.WA_EntityController.OnAuthorization.OnAuthorization.htm" />
     <Content Include="docs\vb\html\M-FLEXYGO.WebApiControllers.WA_EntityController.UpdateEntity.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.WebHooksControllers.WHController.GuestWebHook.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.WebHooksControllers.WHController.LaunchError.htm" />
+    <Content Include="docs\vb\html\M-FLEXYGO.WebHooksControllers.WHController.SecureWebHook.htm" />
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.AjaxError.htm" />
+    <Content Include="docs\vb\html\Methods.T-FLEXYGO.Authentication.Identity.AccessTokenProvider.htm" />
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.Authentication.Identity.ApplicationDbContext.htm" />
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.Authentication.Identity.ApplicationSignInManager.htm" />
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.Authentication.Identity.ApplicationUser.htm" />
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.Authentication.Identity.ApplicationUserManager.htm" />
+    <Content Include="docs\vb\html\Methods.T-FLEXYGO.Authentication.Identity.AspNetUsers_Tokens.htm" />
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.Authentication.Identity.AuthRepository.htm" />
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.Authentication.Identity.BasicAuthorizationProvider.htm" />
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.Authentication.Identity.BasicRefreshTokenProvider.htm" />
@@ -3477,6 +3590,7 @@
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.Authentication.Identity.SmsService.htm" />
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.Authentication.Identity.Startup.htm" />
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.Authentication.LoginService.htm" />
+    <Content Include="docs\vb\html\Methods.T-FLEXYGO.Authorize.htm" />
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.BlackList.CheckData.htm" />
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.BlackList.htm" />
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.BlacklistCheckAttribute.htm" />
@@ -3610,11 +3724,14 @@
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.Objects.Settings.SystemObjectSettings.htm" />
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.Objects.Settings.Template.htm" />
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.Objects.Settings.TemplatesCollection.htm" />
+    <Content Include="docs\vb\html\Methods.T-FLEXYGO.Office.htm" />
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.Offline.htm" />
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.PaymentsProcess.htm" />
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.Plugins.Less.LessPluginsCollection.htm" />
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.Processing.ProcessManager.htm" />
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.Processing.ProcessManager.ProcessHelper.htm" />
+    <Content Include="docs\vb\html\Methods.T-FLEXYGO.PushService.AhoraPushServiceFCMClient.htm" />
+    <Content Include="docs\vb\html\Methods.T-FLEXYGO.PushService.IAhoraPushServiceFCM.htm" />
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.QuartzSheduler.JobScheduler.htm" />
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.QuartzSheduler.ProcessJob.htm" />
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.RedsysAPI.htm" />
@@ -3670,6 +3787,8 @@
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.WebApiConfig.htm" />
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.WebApiControllers.WA_ApiDefinitionController.htm" />
     <Content Include="docs\vb\html\Methods.T-FLEXYGO.WebApiControllers.WA_EntityController.htm" />
+    <Content Include="docs\vb\html\Methods.T-FLEXYGO.WebApiControllers.WA_EntityController.OnAuthorization.htm" />
+    <Content Include="docs\vb\html\Methods.T-FLEXYGO.WebHooksControllers.WHController.htm" />
     <Content Include="docs\vb\html\N-FLEXYGO.Authentication.htm" />
     <Content Include="docs\vb\html\N-FLEXYGO.Authentication.Identity.htm" />
     <Content Include="docs\vb\html\N-FLEXYGO.Caching.htm" />
@@ -3688,8 +3807,10 @@
     <Content Include="docs\vb\html\N-FLEXYGO.Objects.htm" />
     <Content Include="docs\vb\html\N-FLEXYGO.Objects.Security.htm" />
     <Content Include="docs\vb\html\N-FLEXYGO.Objects.Settings.htm" />
+    <Content Include="docs\vb\html\N-FLEXYGO.OfficeResourceTypes.htm" />
     <Content Include="docs\vb\html\N-FLEXYGO.Plugins.Less.htm" />
     <Content Include="docs\vb\html\N-FLEXYGO.Processing.htm" />
+    <Content Include="docs\vb\html\N-FLEXYGO.PushService.htm" />
     <Content Include="docs\vb\html\N-FLEXYGO.QuartzSheduler.htm" />
     <Content Include="docs\vb\html\N-FLEXYGO.Reporting.htm" />
     <Content Include="docs\vb\html\N-FLEXYGO.Security.htm" />
@@ -3703,6 +3824,7 @@
     <Content Include="docs\vb\html\N-FLEXYGO.Web.htm" />
     <Content Include="docs\vb\html\N-FLEXYGO.Web.UI.htm" />
     <Content Include="docs\vb\html\N-FLEXYGO.WebApiControllers.htm" />
+    <Content Include="docs\vb\html\N-FLEXYGO.WebHooksControllers.htm" />
     <Content Include="docs\vb\html\Operators.T-FLEXYGO.Gipe.eGipeParameterOrigin.htm" />
     <Content Include="docs\vb\html\Operators.T-FLEXYGO.Objects.Settings.ObjectSettings.eUpdateType.htm" />
     <Content Include="docs\vb\html\Operators.T-FlexyGo.SignalR.Events.EventHelper.eEventClass.htm" />
@@ -3805,6 +3927,7 @@
     <Content Include="docs\vb\html\Overload-FLEXYGO.Objects.Settings.SystemObjectSettings.Collections.htm" />
     <Content Include="docs\vb\html\Overload-FLEXYGO.Objects.Settings.SystemObjectSettings.Objects.htm" />
     <Content Include="docs\vb\html\Overload-FLEXYGO.Objects.Settings.SystemObjectSettings.Reload.htm" />
+    <Content Include="docs\vb\html\Overload-FLEXYGO.PushService.AhoraPushServiceFCMClient.-ctor.htm" />
     <Content Include="docs\vb\html\Overload-FLEXYGO.QuartzSheduler.ProcessJob.CachedConfToken.-ctor.htm" />
     <Content Include="docs\vb\html\Overload-FLEXYGO.Security.Impersonate.startImpersonation.htm" />
     <Content Include="docs\vb\html\Overload-FLEXYGO.Security.UserMasterTableSecurityCollection.Remove.htm" />
@@ -3838,6 +3961,16 @@
     <Content Include="docs\vb\html\P-FLEXYGO.Authentication.Identity.ApplicationUser.RoleId.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Authentication.Identity.ApplicationUser.SubReference.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Authentication.Identity.ApplicationUser.SurName.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Authentication.Identity.AspNetUsers_Token.AccessToken.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Authentication.Identity.AspNetUsers_Token.AppName.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Authentication.Identity.AspNetUsers_Token.ExpiryDate.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Authentication.Identity.AspNetUsers_Token.InsertedDate.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Authentication.Identity.AspNetUsers_Token.RefreshData.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Authentication.Identity.AspNetUsers_Token.RefreshToken.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Authentication.Identity.AspNetUsers_Token.Scope.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Authentication.Identity.AspNetUsers_Token.TokenType.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Authentication.Identity.AspNetUsers_Token.userId.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Authentication.Identity.AspNetUsers_Tokens.Items.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.CachedTestUsers.CacheTimeOut.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.CachedTestUsers.IsCacheable.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.CachedTestUsers.ShareDBLogonInfo.htm" />
@@ -4120,7 +4253,12 @@
     <Content Include="docs\vb\html\P-FLEXYGO.Mails.MailFolder.Folders.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Mails.MailFolder.ImapName.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Mails.MailFolder.IsInbox.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.MailFolder.IsOutbox.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.MailFolder.IsSent.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Mails.MailFolder.Name.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.MailFolder.Parent.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.MailFolder.Sync.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.MailFolder.SyncError.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Mails.MailHeader.BodyText.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Mails.MailHeader.FromAddress.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Mails.MailHeader.FromName.htm" />
@@ -4136,12 +4274,41 @@
     <Content Include="docs\vb\html\P-FLEXYGO.Mails.MailHeader.MessageId.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Mails.MailHeader.Seen.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Mails.MailHeader.Subject.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.MailHeader.Uid.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Mails.MailItem.Attachments.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Mails.MailItem.BodyHTML.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Mails.MailItem.Images.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Mails.MailObjectSettings.DomainFilter.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Mails.MailObjectSettings.EmailField.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Mails.MailObjectSettings.KeyProperty.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.BodyHtml.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.BodyRtf.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.BodyText.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.FolderId.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.FromAddress.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.FromName.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.HasAttachments.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.HeaderMessageId.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.Importance.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.InReplyTo.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.IsEncrypted.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.IsForward.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.IsLinked.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.IsPartial.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.IsReply.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.IsSigned.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.MailAccountId.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.MailCC.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.MailDate.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.MailTo.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.MessageId.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.MimeVersion.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.PartialId.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.RcptTo.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.ReturnPath.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.Seen.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.Subject.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Mails.Mails.Uid.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Objects.EntityCollection.CanDelete.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Objects.EntityCollection.CanInsert.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Objects.EntityCollection.CanUpdate.htm" />
@@ -4285,6 +4452,7 @@
     <Content Include="docs\vb\html\P-FLEXYGO.Objects.Settings.ObjectAditionalTableSettings.UpdateProcessName.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Objects.Settings.ObjectAditionalTableSettings.UpdateType.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Objects.Settings.ObjectProcess.HasParameters.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.Objects.Settings.ObjectProperty.AllowNewDefaults.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Objects.Settings.ObjectProperty.AllowNewFunction.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Objects.Settings.ObjectProperty.AllowNewObject.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Objects.Settings.ObjectProperty.AllowNewReturnFields.htm" />
@@ -4468,6 +4636,149 @@
     <Content Include="docs\vb\html\P-FLEXYGO.Objects.Settings.Template.ScriptText.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Objects.Settings.TemplateGroup.Footer.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Objects.Settings.TemplateGroup.Header.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Attendee.emailAddress.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Attendee.proposedNewTime.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Attendee.status.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Attendee.type.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.assistantName.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.birthday.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.businessAddress.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.businessHomePage.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.businessPhones.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.categories.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.changeKey.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.children.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.companyName.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.createdDateTime.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.department.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.displayName.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.emailAddresses.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.fileAs.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.generation.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.givenName.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.homeAddress.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.homePhones.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.id.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.imAddresses.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.initials.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.jobTitle.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.lastModifiedDateTime.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.manager.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.middleName.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.mobilePhone.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.nickName.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.officeLocation.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.otherAddress.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.parentFolderId.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.personalNotes.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.profession.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.spouseName.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.surname.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.title.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.yomiCompanyName.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.yomiGivenName.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Contact.yomiSurname.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.DateTimeTimeZone.dateTime.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.DateTimeTimeZone.timeZone.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.EmailAddress.address.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.EmailAddress.name.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.ItemBody.content.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.ItemBody.contentType.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Location.address.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Location.coordinates.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Location.displayName.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Location.locationEmailAddress.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Location.locationType.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Location.locationUri.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Location.uniqueId.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Location.uniqueIdType.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.allowNewTimeProposals.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.attendees.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.body.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.bodyPreview.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.categories.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.changeKey.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.createdDateTime.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.end.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.hasAttachments.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.iCalUId.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.id.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.importance.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.isAllDay.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.isCancelled.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.isOnlineMeeting.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.isOrganizer.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.isReminderOn.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.lastModifiedDateTime.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.location.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.locations.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.onlineMeeting.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.onlineMeetingProvider.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.onlineMeetingUrl.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.organizer.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.originalEndTimeZone.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.originalStart.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.originalStartTimeZone.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.recurrence.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.reminderMinutesBeforeStart.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.responseRequested.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.responseStatus.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.sensitivity.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.seriesMasterId.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.showAs.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.start.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.subject.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.transactionId.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.type.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeEvent.webLink.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeHeader.ContentType.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeRequestContact.body.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeRequestContact.headers.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeRequestContact.id.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeRequestContact.method.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeRequestContact.url.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeRequestEvent.body.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeRequestEvent.headers.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeRequestEvent.id.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeRequestEvent.method.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OfficeRequestEvent.url.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OnlineMeetingInfo.joinUrl.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OnlineMeetingInfo.onferenceId.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OnlineMeetingInfo.phones.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OnlineMeetingInfo.quickDial.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OnlineMeetingInfo.tollFreeNumbers.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OnlineMeetingInfo.tollNumber.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OutlookGeoCoordinates.accuracy.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OutlookGeoCoordinates.altitude.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OutlookGeoCoordinates.altitudeAccuracy.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OutlookGeoCoordinates.latitude.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.OutlookGeoCoordinates.longitude.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.PatternedRecurrence.pattern.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.PatternedRecurrence.range.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Phone.number.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Phone.type.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.PhysicalAddress.city.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.PhysicalAddress.countryOrRegion.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.PhysicalAddress.postalCode.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.PhysicalAddress.state.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.PhysicalAddress.street.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.Recipient.emailAddress.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.RecurrencePattern.dayOfMonth.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.RecurrencePattern.daysOfWeek.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.RecurrencePattern.firstDayOfWeek.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.RecurrencePattern.index.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.RecurrencePattern.interval.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.RecurrencePattern.month.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.RecurrencePattern.type.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.RecurrenceRange.endDate.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.RecurrenceRange.numberOfOccurrences.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.RecurrenceRange.recurrenceTimeZone.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.RecurrenceRange.startDate.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.RecurrenceRange.type.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.ResponseStatus.response.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.ResponseStatus.time.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.TimeSlot.end.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.OfficeResourceTypes.TimeSlot.start.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Offline.MobileDocument.B64.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Offline.MobileDocument.CategoryId.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Offline.MobileDocument.CreationDate.htm" />
@@ -4509,6 +4820,11 @@
     <Content Include="docs\vb\html\P-FLEXYGO.Offline.MobileImage._rowguid.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Offline.MobileImage._syncDate.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Offline.MobileImage._updatedDate.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.PushService.returnClass.CanSend.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.PushService.returnClass.ErrorMsg.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.PushService.returnClass.ExtensionData.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.PushService.returnClass.IsSent.htm" />
+    <Content Include="docs\vb\html\P-FLEXYGO.PushService.returnClass.Response.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Security.EmailAccount.Account.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Security.EmailAccount.MailAccountId.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Security.EmailAccount.MailPassword.htm" />
@@ -4583,6 +4899,8 @@
     <Content Include="docs\vb\html\P-FLEXYGO.Web.Utilities.BrowserInfo.Name.htm" />
     <Content Include="docs\vb\html\P-FLEXYGO.Web.Utilities.BrowserInfo.Version.htm" />
     <Content Include="docs\vb\html\Properties.T-FLEXYGO.Authentication.Identity.ApplicationUser.htm" />
+    <Content Include="docs\vb\html\Properties.T-FLEXYGO.Authentication.Identity.AspNetUsers_Token.htm" />
+    <Content Include="docs\vb\html\Properties.T-FLEXYGO.Authentication.Identity.AspNetUsers_Tokens.htm" />
     <Content Include="docs\vb\html\Properties.T-FLEXYGO.CachedTestUsers.htm" />
     <Content Include="docs\vb\html\Properties.T-FLEXYGO.Configuration.Tokens.ConfToken.htm" />
     <Content Include="docs\vb\html\Properties.T-FLEXYGO.context.htm" />
@@ -4643,6 +4961,7 @@
     <Content Include="docs\vb\html\Properties.T-FLEXYGO.Mails.MailHeader.htm" />
     <Content Include="docs\vb\html\Properties.T-FLEXYGO.Mails.MailItem.htm" />
     <Content Include="docs\vb\html\Properties.T-FLEXYGO.Mails.MailObjectSettings.htm" />
+    <Content Include="docs\vb\html\Properties.T-FLEXYGO.Mails.Mails.htm" />
     <Content Include="docs\vb\html\Properties.T-FLEXYGO.Objects.EntityCollection.htm" />
     <Content Include="docs\vb\html\Properties.T-FLEXYGO.Objects.EntityObject.htm" />
     <Content Include="docs\vb\html\Properties.T-FLEXYGO.Objects.Enumerator.htm" />
@@ -4662,8 +4981,29 @@
     <Content Include="docs\vb\html\Properties.T-FLEXYGO.Objects.Settings.SystemObjectSettings.htm" />
     <Content Include="docs\vb\html\Properties.T-FLEXYGO.Objects.Settings.Template.htm" />
     <Content Include="docs\vb\html\Properties.T-FLEXYGO.Objects.Settings.TemplateGroup.htm" />
+    <Content Include="docs\vb\html\Properties.T-FLEXYGO.OfficeResourceTypes.Attendee.htm" />
+    <Content Include="docs\vb\html\Properties.T-FLEXYGO.OfficeResourceTypes.Contact.htm" />
+    <Content Include="docs\vb\html\Properties.T-FLEXYGO.OfficeResourceTypes.DateTimeTimeZone.htm" />
+    <Content Include="docs\vb\html\Properties.T-FLEXYGO.OfficeResourceTypes.EmailAddress.htm" />
+    <Content Include="docs\vb\html\Properties.T-FLEXYGO.OfficeResourceTypes.ItemBody.htm" />
+    <Content Include="docs\vb\html\Properties.T-FLEXYGO.OfficeResourceTypes.Location.htm" />
+    <Content Include="docs\vb\html\Properties.T-FLEXYGO.OfficeResourceTypes.OfficeEvent.htm" />
+    <Content Include="docs\vb\html\Properties.T-FLEXYGO.OfficeResourceTypes.OfficeHeader.htm" />
+    <Content Include="docs\vb\html\Properties.T-FLEXYGO.OfficeResourceTypes.OfficeRequestContact.htm" />
+    <Content Include="docs\vb\html\Properties.T-FLEXYGO.OfficeResourceTypes.OfficeRequestEvent.htm" />
+    <Content Include="docs\vb\html\Properties.T-FLEXYGO.OfficeResourceTypes.OnlineMeetingInfo.htm" />
+    <Content Include="docs\vb\html\Properties.T-FLEXYGO.OfficeResourceTypes.OutlookGeoCoordinates.htm" />
+    <Content Include="docs\vb\html\Properties.T-FLEXYGO.OfficeResourceTypes.PatternedRecurrence.htm" />
+    <Content Include="docs\vb\html\Properties.T-FLEXYGO.OfficeResourceTypes.Phone.htm" />
+    <Content Include="docs\vb\html\Properties.T-FLEXYGO.OfficeResourceTypes.PhysicalAddress.htm" />
+    <Content Include="docs\vb\html\Properties.T-FLEXYGO.OfficeResourceTypes.Recipient.htm" />
+    <Content Include="docs\vb\html\Properties.T-FLEXYGO.OfficeResourceTypes.RecurrencePattern.htm" />
+    <Content Include="docs\vb\html\Properties.T-FLEXYGO.OfficeResourceTypes.RecurrenceRange.htm" />
+    <Content Include="docs\vb\html\Properties.T-FLEXYGO.OfficeResourceTypes.ResponseStatus.htm" />
+    <Content Include="docs\vb\html\Properties.T-FLEXYGO.OfficeResourceTypes.TimeSlot.htm" />
     <Content Include="docs\vb\html\Properties.T-FLEXYGO.Offline.MobileDocument.htm" />
     <Content Include="docs\vb\html\Properties.T-FLEXYGO.Offline.MobileImage.htm" />
+    <Content Include="docs\vb\html\Properties.T-FLEXYGO.PushService.returnClass.htm" />
     <Content Include="docs\vb\html\Properties.T-FLEXYGO.Security.EmailAccount.htm" />
     <Content Include="docs\vb\html\Properties.T-FLEXYGO.Security.UserMasterTableSecurity.htm" />
     <Content Include="docs\vb\html\Properties.T-FLEXYGO.Security.UserModuleSecurity.htm" />
@@ -4686,11 +5026,14 @@
     <Content Include="docs\vb\html\Properties.T-FLEXYGO.Web.Utilities.BrowserInfo.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.AjaxError.EajaxExceptionType.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.AjaxError.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.Authentication.Identity.AccessTokenProvider.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.Authentication.Identity.ApplicationDbContext.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.Authentication.Identity.ApplicationSignInManager.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.Authentication.Identity.ApplicationSignInManager.LoginType.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.Authentication.Identity.ApplicationUser.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.Authentication.Identity.ApplicationUserManager.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.Authentication.Identity.AspNetUsers_Token.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.Authentication.Identity.AspNetUsers_Tokens.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.Authentication.Identity.AuthContext.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.Authentication.Identity.AuthRepository.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.Authentication.Identity.BasicAuthorizationProvider.htm" />
@@ -4702,6 +5045,7 @@
     <Content Include="docs\vb\html\T-FLEXYGO.Authentication.Identity.SmsService.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.Authentication.Identity.Startup.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.Authentication.LoginService.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.Authorize.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.BlackList.CheckData.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.BlackList.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.BlacklistCheckAttribute.htm" />
@@ -4710,6 +5054,7 @@
     <Content Include="docs\vb\html\T-FLEXYGO.CompressAttribute.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.Configuration.Tokens.ConfToken.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.Confirm.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.ContactsToken.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.context.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.Controlers.UI.ChartController.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.Controlers.UI.ChatterController.htm" />
@@ -4872,6 +5217,7 @@
     <Content Include="docs\vb\html\T-FLEXYGO.Mails.MailHeader.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.Mails.MailItem.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.Mails.MailObjectSettings.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.Mails.Mails.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.Mails.Processes.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.Mails.Reception.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.Mails.Sending.htm" />
@@ -4940,6 +5286,29 @@
     <Content Include="docs\vb\html\T-FLEXYGO.Objects.Settings.UserSavedSearchesCollection.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.Objects.Settings.ViewProperty.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.Objects.Settings.ViewPropertyCollection.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.Office.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.OfficeResourceTypes.Attendee.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.OfficeResourceTypes.Contact.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.OfficeResourceTypes.DateTimeTimeZone.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.OfficeResourceTypes.EmailAddress.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.OfficeResourceTypes.ItemBody.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.OfficeResourceTypes.Location.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.OfficeResourceTypes.OfficeEvent.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.OfficeResourceTypes.OfficeHeader.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.OfficeResourceTypes.OfficeRequestContact.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.OfficeResourceTypes.OfficeRequestEvent.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.OfficeResourceTypes.OnlineMeetingInfo.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.OfficeResourceTypes.OutlookGeoCoordinates.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.OfficeResourceTypes.PatternedRecurrence.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.OfficeResourceTypes.Phone.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.OfficeResourceTypes.PhysicalAddress.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.OfficeResourceTypes.Recipient.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.OfficeResourceTypes.RecurrencePattern.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.OfficeResourceTypes.RecurrenceRange.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.OfficeResourceTypes.requestBatchContactBody.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.OfficeResourceTypes.requestBatchEventBody.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.OfficeResourceTypes.ResponseStatus.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.OfficeResourceTypes.TimeSlot.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.Offline.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.Offline.MobileDocument.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.Offline.MobileImage.htm" />
@@ -4956,6 +5325,10 @@
     <Content Include="docs\vb\html\T-FLEXYGO.Processing.ProcessManager.FormSender.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.Processing.ProcessManager.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.Processing.ProcessManager.ProcessHelper.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.PushService.AhoraPushServiceFCMClient.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.PushService.IAhoraPushServiceFCM.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.PushService.IAhoraPushServiceFCMChannel.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.PushService.returnClass.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.QuartzSheduler.JobScheduler.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.QuartzSheduler.ProcessJob.CachedConfToken.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.QuartzSheduler.ProcessJob.htm" />
@@ -5039,8 +5412,10 @@
     <Content Include="docs\vb\html\T-FLEXYGO.WebApiControllers.WA_ApiDefinitionController.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.WebApiControllers.WA_EntityController.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.WebApiControllers.WA_EntityController.ObjectSchemaHelper.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.WebApiControllers.WA_EntityController.OnAuthorization.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.WebApiControllers.WA_EntityController.WebApiHelper.htm" />
     <Content Include="docs\vb\html\T-FLEXYGO.WebApiControllers.WA_EntityController.WebApiPropertyHelper.htm" />
+    <Content Include="docs\vb\html\T-FLEXYGO.WebHooksControllers.WHController.htm" />
     <Content Include="docs\vb\icons\adm.gif" />
     <Content Include="docs\vb\icons\adm_arch.gif" />
     <Content Include="docs\vb\icons\adm_dev.gif" />
@@ -5218,6 +5593,8 @@
     <Content Include="img\Emulators\tablet-landscape.png" />
     <Content Include="img\Emulators\tablet-portrait.png" />
     <Content Include="img\Help\Chatter\chatter-example.png" />
+    <Content Include="img\Help\Controls\CustomContDepSelect.png" />
+    <Content Include="img\Help\Controls\CustomContDepValues.png" />
     <Content Include="img\Help\Custom_DLL\CollectionStored.PNG" />
     <Content Include="img\Help\Custom_DLL\Custom_DLL.png" />
     <Content Include="img\Help\Custom_DLL\ObjectStored.PNG" />
@@ -5234,6 +5611,8 @@
     <Content Include="img\Help\Filters\propertyFilters_2.JPG" />
     <Content Include="img\Help\Filters\textFilters.jpg" />
     <Content Include="img\Help\Filters\textFilters_2.jpg" />
+    <Content Include="img\Help\FlexygoConnector\AuthorizedApps.PNG" />
+    <Content Include="img\Help\FlexygoConnector\ConnectedFlexygo.PNG" />
     <Content Include="img\Help\Funnel\Funnel_1.png" />
     <Content Include="img\Help\GoogleAPIKey\Api_1.png" />
     <Content Include="img\Help\GoogleAPIKey\Api_2.png" />
@@ -5390,6 +5769,10 @@
     <Content Include="img\Help\OffLine\Wizzard2.png" />
     <Content Include="img\Help\OffLine\Wizzard3.png" />
     <Content Include="img\Help\OffLine\Wizzard4.png" />
+    <Content Include="img\Help\PowerBI\powerbi1.png" />
+    <Content Include="img\Help\PowerBI\powerbi2.png" />
+    <Content Include="img\Help\Push\Push_1.PNG" />
+    <Content Include="img\Help\Push\Push_2.PNG" />
     <Content Include="img\Help\Scheduller\Calendar_2.jpg" />
     <Content Include="img\Help\Scheduller\Scheduller_conf.PNG" />
     <Content Include="img\Help\Scheduller\Scheduller_conf_objt.PNG" />
@@ -5775,6 +6158,14 @@
     <Content Include="js\plugins\fancybox\jquery.fancybox.pack.min.js" />
     <Content Include="js\plugins\filedrop\filedrop-min.js" />
     <Content Include="js\plugins\filedrop\filedrop.css" />
+    <Content Include="js\plugins\firebase\firebase-app.js" />
+    <Content Include="js\plugins\firebase\firebase-app.min.js" />
+    <Content Include="js\plugins\firebase\firebase-init.js" />
+    <Content Include="js\plugins\firebase\firebase-init.min.js" />
+    <Content Include="js\plugins\firebase\firebase-messaging-sw.js" />
+    <Content Include="js\plugins\firebase\firebase-messaging-sw.min.js" />
+    <Content Include="js\plugins\firebase\firebase-messaging.js" />
+    <Content Include="js\plugins\firebase\firebase-messaging.min.js" />
     <Content Include="js\plugins\FreeWall\FreeWall.js" />
     <Content Include="js\plugins\FreeWall\FreeWall.min.js" />
     <Content Include="js\plugins\fullcalendar\fullcalendar.min.css" />
@@ -6684,13 +7075,13 @@
     <Content Include="mobile\assets\img\sync-data.png" />
     <Content Include="mobile\assets\img\sync-templates.png" />
     <Content Include="mobile\build\animation-625503e5.js" />
-    <Content Include="mobile\build\app-globals-fd81b31e.js" />
+    <Content Include="mobile\build\app-globals-0309c2f5.js" />
     <Content Include="mobile\build\app-root.entry.js" />
     <Content Include="mobile\build\app.css" />
     <Content Include="mobile\build\app.esm.js" />
     <Content Include="mobile\build\app.js" />
-    <Content Include="mobile\build\button-active-0bab674c.js" />
-    <Content Include="mobile\build\camera-1f4f6cf0.js" />
+    <Content Include="mobile\build\button-active-f7c9ffeb.js" />
+    <Content Include="mobile\build\camera-75f70a4d.js" />
     <Content Include="mobile\build\css-shim-0d35df9f.js" />
     <Content Include="mobile\build\cubic-bezier-92995175.js" />
     <Content Include="mobile\build\dom-99c5763a.js" />
@@ -6706,6 +7097,7 @@
     <Content Include="mobile\build\flx-login.entry.js" />
     <Content Include="mobile\build\flx-navbutton.entry.js" />
     <Content Include="mobile\build\flx-scripts.entry.js" />
+    <Content Include="mobile\build\flx-segment.entry.js" />
     <Content Include="mobile\build\flx-sqllist.entry.js" />
     <Content Include="mobile\build\flx-styles.entry.js" />
     <Content Include="mobile\build\flx-sync.entry.js" />
@@ -6723,12 +7115,12 @@
     <Content Include="mobile\build\icons\flash-on.svg" />
     <Content Include="mobile\build\icons\retake.svg" />
     <Content Include="mobile\build\icons\reverse-camera.svg" />
+    <Content Include="mobile\build\index-023098c3.js" />
     <Content Include="mobile\build\index-1da44cf3.js" />
+    <Content Include="mobile\build\index-20a23da0.js" />
     <Content Include="mobile\build\index-53f14fc6.js" />
-    <Content Include="mobile\build\index-77ad4b44.js" />
-    <Content Include="mobile\build\index-a78b1497.js" />
-    <Content Include="mobile\build\index-dbdc5ddf.js" />
-    <Content Include="mobile\build\index-e5ff2de3.js" />
+    <Content Include="mobile\build\index-725f2a8a.js" />
+    <Content Include="mobile\build\index-76f52202.js" />
     <Content Include="mobile\build\index.esm.js" />
     <Content Include="mobile\build\input-shims-53e7741f.js" />
     <Content Include="mobile\build\ion-action-sheet.entry.js" />
@@ -6819,16 +7211,16 @@
     <Content Include="mobile\build\ion-toggle.entry.js" />
     <Content Include="mobile\build\ion-toolbar.entry.js" />
     <Content Include="mobile\build\ion-virtual-scroll.entry.js" />
-    <Content Include="mobile\build\ionic-global-e5feb32d.js" />
-    <Content Include="mobile\build\ios.transition-5093371a.js" />
+    <Content Include="mobile\build\ionic-global-693c5dc1.js" />
+    <Content Include="mobile\build\ios.transition-267ba16c.js" />
     <Content Include="mobile\build\jquery-4ed57fb2.js" />
     <Content Include="mobile\build\keyboard-e6b2ad8d.js" />
-    <Content Include="mobile\build\md.transition-42e45fee.js" />
-    <Content Include="mobile\build\menu-toggle-util-b07c353e.js" />
-    <Content Include="mobile\build\messages-cbb766b7.js" />
-    <Content Include="mobile\build\navigation-b90acdd2.js" />
-    <Content Include="mobile\build\overlays-e386d27e.js" />
-    <Content Include="mobile\build\parser-d662b563.js" />
+    <Content Include="mobile\build\md.transition-15ebc2b8.js" />
+    <Content Include="mobile\build\menu-toggle-util-4d1ecc6e.js" />
+    <Content Include="mobile\build\messages-50a67881.js" />
+    <Content Include="mobile\build\navigation-c87efa5b.js" />
+    <Content Include="mobile\build\overlays-39d86a31.js" />
+    <Content Include="mobile\build\parser-90867b5f.js" />
     <Content Include="mobile\build\pwa-action-sheet.entry.js" />
     <Content Include="mobile\build\pwa-camera-modal-instance.entry.js" />
     <Content Include="mobile\build\pwa-camera-modal.entry.js" />
@@ -6836,7 +7228,7 @@
     <Content Include="mobile\build\pwa-toast.entry.js" />
     <Content Include="mobile\build\shadow-css-bde4ad6c.js" />
     <Content Include="mobile\build\spinner-configs-c8da7375.js" />
-    <Content Include="mobile\build\status-tap-af083fd5.js" />
+    <Content Include="mobile\build\status-tap-b51d4845.js" />
     <Content Include="mobile\build\svg\add-circle-outline.svg" />
     <Content Include="mobile\build\svg\add-circle-sharp.svg" />
     <Content Include="mobile\build\svg\add-circle.svg" />
@@ -8078,11 +8470,12 @@
     <Content Include="mobile\build\swiper\swiper.js" />
     <Content Include="mobile\build\tap-click-99d67819.js" />
     <Content Include="mobile\build\theme-86cb12f9.js" />
-    <Content Include="mobile\build\utils-8c7561fa.js" />
+    <Content Include="mobile\build\utils-67a6e57b.js" />
     <Content Include="mobile\build\whiteboard-6fe6c589.js" />
     <Content Include="mobile\capacitor.js" />
     <Content Include="mobile\index.html" />
     <Content Include="sample_project\js\plugins\jR3DCarousel.min.js" />
+    <Content Include="Webhooks\OfficeToken.aspx" />
     <Content Include="xsl\ExcelColors.xsl" />
     <Content Include="xsl\Generic.xsl" />
     <Content Include="xsl\Rss.xsl" />

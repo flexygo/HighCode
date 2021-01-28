@@ -280,6 +280,10 @@ var flexygo;
                 mindate: 'Data  mínima',
                 maxdate: 'Data  máxima',
                 unseen: 'Només no llegits',
+                sync: 'Sincronitzant',
+                waitsync: 'Espereu que finalitzi la sincronització.',
+                nomail: 'No s’ha trobat el correu.',
+                nomailalert: 'No s’ha trobat el correu al servidor.',
             };
             caes.flxmodule = {
                 delete: 'Esborrar',
@@ -362,6 +366,8 @@ var flexygo;
                 permissionerror: 'Ho sentim, no teniu permisos',
                 documentempty: 'Document buit',
                 view: 'veure',
+                downloadall: 'Descarrega&#39;t tots els documents',
+                nodocuments: 'No hi ha documents per descarregar',
             };
             caes.imagemanager = {
                 upload: 'Carregar',

@@ -129,6 +129,11 @@ declare namespace flexygo.ui.wc {
         * @property rObjectId {string}
         */
         rObjectId: any;
+        /**
+        * Additional document filter
+        * @property additionalWhere {string}
+        */
+        additionalWhere: any;
         managerMode: string;
         type: string;
         constructor();
@@ -232,6 +237,13 @@ declare namespace flexygo.ui.wc {
         * @param {string}  action
         */
         setCloudDocument(base64: string, documentName: string, documentType: string, cloudId: string, cloudLink: string, downloadLink: string, action: string, multi: boolean): void;
+        /**
+      * Downloads all documents.
+      * @method downloadAllDocuments
+      * @param {string} objectName.
+      * @param {string} objectId.
+      */
+        downloadAllDocuments(objectName: string, objectId: string): void;
         /**
         * Start editing.
         * @method editStartDocument

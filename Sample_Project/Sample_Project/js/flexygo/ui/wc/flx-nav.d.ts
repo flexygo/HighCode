@@ -2,7 +2,7 @@
  * @namespace flexygo.ui.wc
  */
 declare namespace flexygo.ui.wc {
-    type FlxNavMode = 'nav' | 'menu' | 'panel' | 'box' | 'network';
+    type FlxNavMode = 'nav' | 'menu' | 'panel' | 'box' | 'network' | 'mobile';
     interface FlxNavNode extends vis.Node {
         navnode: flexygo.api.navigation.NavigationNode;
         expanded: boolean;

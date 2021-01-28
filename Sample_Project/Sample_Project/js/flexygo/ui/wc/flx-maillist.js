@@ -8,7 +8,7 @@ var flexygo;
         var wc;
         (function (wc) {
             /**
-            * Library for the FlxKanban
+            * Library for the FlxMailList
             *
             * @class FlxKanban
             * @constructor
@@ -23,7 +23,7 @@ var flexygo;
                     * @property connected {boolean}
                     */
                     this.connected = false;
-                    this.page = 0;
+                    this.uid = 0;
                     this.pageSize = 50;
                     this.noMailTemplate = `
 <div class="nomail">
@@ -35,7 +35,7 @@ var flexygo;
   <div class="nosettings-data"></div>
   <div class="nosettings-text clickable">` + flexygo.localization.translate('flxmail.nosettings') + `</div></div>`;
                     this.template = `
-<div messageId="{{MessageId}}" class="row row-line box-mail {{seen|bool:seen}} pull-right">
+<div messageId="{{MessageId}}" uid="{{Uid}}" class="row row-line box-mail {{seen|bool:seen}} pull-right">
   <div class="box-mail-bagbutton">
     <button class="btn btn-default bagButton" title="Bag" data-type="bag"><i class="flx-icon icon-non-check-2"></i> </button>
   </div>
@@ -58,7 +58,7 @@ var flexygo;
 <flx-text name="MailDateMax" type="date" placeholder="` + flexygo.localization.translate('flxmail.maxdate') + `"></flx-text>
 <div><flx-check name="Seen" class="size-s" label="only unseen"></flx-check><label class="control-label" >` + flexygo.localization.translate('flxmail.unseen') + `</label><button class="btn btn-outstanding searchbtn pull-right"><i class="flx-icon icon-search icon-margin-right"></i>Search</btn></div>
 <hr/>  
-<h3><i class="flx-icon icon-folder icon-margin-right"></i>` + flexygo.localization.translate('flxmail.folders') + `<span class="pull-right nosettings clickable"><i class="flx-icon icon-email-settings icon-margin-right"></i></span></h3>
+<h3><i class="flx-icon icon-folder-add-2 icon-margin-right newFolder clickable"></i>` + flexygo.localization.translate('flxmail.folders') + `<span class="pull-right nosettings clickable"><i class="flx-icon icon-email-settings icon-margin-right"></i></span></h3>
 <div class="mailFolders"></div>
 </div>
 <div class="col-10">
@@ -86,37 +86,88 @@ var flexygo;
                     me.removeAttr('manualInit');
                     me.empty();
                     me.append(this.structure);
-                    me.find('.searchbtn').on('click', () => { this.page = 0; this.load(); });
+                    me.find('.searchbtn').on('click', () => {
+                        if ($(this).find('.mailList').find('.box-mail-sync').length > 0) {
+                            flexygo.msg.warning(flexygo.localization.translate('flxmail.waitsync'));
+                        }
+                        else {
+                            this.uid = 0;
+                            this.load(false);
+                        }
+                    });
                     me.find('.loadMore').on('click', (ev) => {
-                        $(ev.currentTarget).parent().find('i').addClass('icon-spin');
-                        this.startLoading();
-                        this.loadMore();
+                        if ($(this).find('.mailList').find('.box-mail-sync').length > 0) {
+                            flexygo.msg.warning(flexygo.localization.translate('flxmail.waitsync'));
+                        }
+                        else {
+                            $(ev.currentTarget).parent().find('i').addClass('icon-spin');
+                            this.startLoading();
+                            this.loadMore();
+                        }
                     });
                     flexygo.nav.hideNavBar();
                     this.loadConfig();
+                    flexygo.events.on(this, 'process', 'executed', (e) => {
+                        if (e.sender.processName == "sysImapNewFolders") {
+                            flexygo.ajax.post('~/api/Mail', 'GetMailFolders', null, (response) => {
+                                if (response) {
+                                    response.sort(function (a, b) { return b.IsInbox - a.IsInbox; });
+                                    $(this).find('.mailFolders').html(this.renderFolders(response, null));
+                                    if (this.folder) {
+                                        $(this).find('[folderid="' + this.folder + '"]').addClass('selected');
+                                    }
+                                    else {
+                                        $(this).find('[isinbox="true"]:first').addClass('selected');
+                                    }
+                                    $(this).find('[folderid]').on('click', (evt) => { this.folderClick($(evt.currentTarget)); });
+                                }
+                            });
+                        }
+                    });
                 }
-                load() {
+                load(sync) {
                     let Filters = this.getFilters();
-                    flexygo.ajax.post('~/api/Mail', 'GetMailHeaders', Filters, (response) => {
-                        let mails = this.render(response);
+                    let firstSync = false;
+                    flexygo.ajax.post('~/api/Mail', 'GetMails', Filters, (response) => {
+                        let mails = this.render(response, false);
                         let mailItems = $(this).find('.mailList');
                         if (mails && mails.children().length > 0) {
-                            if (this.page == 0) {
+                            if (this.uid == 0) {
                                 mailItems.html(mails.children());
                             }
                             else {
                                 mailItems.append(mails.children());
                             }
                         }
-                        else if (this.page == 0) {
+                        else if (this.uid == 0) {
+                            firstSync = true;
                             mailItems.html(this.noMailTemplate);
                         }
                         this.stopLoading();
+                        if (sync) {
+                            mailItems.prepend('<div class="row-line box-mail-sync"><div class="sync-content"><div class="sync"><p>' + flexygo.localization.translate('flxmail.sync') + '</p><span></span></div></div></div>');
+                            flexygo.ajax.post('~/api/Mail', 'DownloadMails', { "Folder": Filters.Folder, "PageSize": Filters.PageSize }, (response) => {
+                                if (response.length > 0) {
+                                    if (firstSync) {
+                                        this.uid = 0;
+                                        this.load(false);
+                                        $(this).find('[folderid="' + Filters.Folder + '"]').find('i').removeClass('hide');
+                                    }
+                                    else {
+                                        let mails = this.render(response, true);
+                                        if (mails && mails.children().length > 0) {
+                                            mailItems.prepend(mails.children());
+                                        }
+                                    }
+                                }
+                                $(this).find('.mailList').find('.box-mail-sync').remove();
+                            }, (error) => { flexygo.exceptions.httpShow(error); $(this).find('.mailList').find('.box-mail-sync').remove(); });
+                        }
                     }, (error) => { flexygo.exceptions.httpShow(error); this.stopLoading(); }, null, () => { this.startLoading(); });
                 }
                 loadMore() {
-                    this.page += 1;
-                    this.load();
+                    this.uid = parseInt($(this).find('.mailList [uid]').last().attr('uid'));
+                    this.load(false);
                 }
                 loadConfig() {
                     let me = $(this);
@@ -139,13 +190,19 @@ var flexygo;
                                 this.toolbar = response.Toolbar;
                                 this.renderToolbar(JSON.stringify({ ObjectName: this.linkObj, ObjectId: this.linkKey }));
                                 me.find('[name="MailAddress"]').val(response.EmailFilter);
-                                this.load();
                                 $(this).find('.mailFolders').html(this.renderFolders(response.Folders, null));
                                 $(this).find('[isinbox="true"]:first').addClass('selected');
                                 $(this).find('[folderid]').on('click', (evt) => { this.folderClick($(evt.currentTarget)); });
                                 $(this).find('.nosettings').on('click', (evt) => { this.settingsClick($(evt.currentTarget)); });
+                                $(this).find('.newFolder').on('click', (evt) => { this.newFolderClick($(evt.currentTarget)); });
+                                this.load(true);
                             }
                         }
+                    }, (error) => {
+                        flexygo.exceptions.httpShow(error);
+                        let mailItems = $(this).find('.mailList');
+                        mailItems.html(this.noSettingsTemplate);
+                        $(this).find('.nosettings').on('click', (evt) => { this.settingsClick($(evt.currentTarget)); });
                     });
                 }
                 renderToolbar(defaults) {
@@ -186,12 +243,31 @@ var flexygo;
                     }
                 }
                 folderClick(itm) {
-                    $(this).find('[folderid]').removeClass('selected');
-                    itm.addClass('selected');
-                    this.load();
+                    if ($(this).find('.mailList').find('.box-mail-sync').length > 0) {
+                        flexygo.msg.warning(flexygo.localization.translate('flxmail.waitsync'));
+                    }
+                    else {
+                        $(this).find('[folderid]').removeClass('selected');
+                        itm.addClass('selected');
+                        this.folder = $(itm).attr('folderid');
+                        this.load(true);
+                    }
                 }
                 settingsClick(itm) {
-                    flexygo.nav.execProcess("SetUserMailAccount", "sysUser", null, null, null, "modal800x600", true, itm);
+                    if ($(this).find('.mailList').find('.box-mail-sync').length > 0) {
+                        flexygo.msg.warning(flexygo.localization.translate('flxmail.waitsync'));
+                    }
+                    else {
+                        flexygo.nav.execProcess("SetUserMailAccount", "sysUser", null, null, null, "modal800x600", true, itm);
+                    }
+                }
+                newFolderClick(itm) {
+                    if ($(this).find('.mailList').find('.box-mail-sync').length > 0) {
+                        flexygo.msg.warning(flexygo.localization.translate('flxmail.waitsync'));
+                    }
+                    else {
+                        flexygo.nav.execProcess("sysImapNewFolders", "sysUser", null, null, null, "modal800x600", true, itm);
+                    }
                 }
                 viewMail(mailID, subject) {
                     let itm = $('<flx-mailview></flx-mailview>');
@@ -214,8 +290,15 @@ var flexygo;
                     }
                     for (let i = 0; i < obj.length; i++) {
                         let li;
+                        let spin = 'flx-icon icon-sincronize-1 icon-spin txt-outstanding';
+                        if (!obj[i].Sync) {
+                            spin += ' hide';
+                        }
+                        if (obj[i].SyncError) {
+                            spin = 'flx-icon icon-error1 txt-danger';
+                        }
                         if (obj[i].CanSelect) {
-                            li = $('<div><a class="collapsed" data-toggle="collapse" data-target="#' + flexygo.utils.parser.replaceAll(obj[i].Name, ' ', '') + '" aria-expanded="false"><i class="flx-icon ' + (obj[i].Folders ? obj[i].Folders.length > 0 ? 'tree-icon-toggle' : '' : '') + '"></i></a><span class="clickable" isinbox="' + obj[i].IsInbox + '" folderid="' + obj[i].ImapName + '">' + obj[i].Name + '</span></div>');
+                            li = $('<div><a class="collapsed" data-toggle="collapse" data-target="#' + flexygo.utils.parser.replaceAll(obj[i].Name, ' ', '') + '" aria-expanded="false"><i class="flx-icon ' + (obj[i].Folders ? obj[i].Folders.length > 0 ? 'tree-icon-toggle' : '' : '') + '"></i></a><span class="clickable" isinbox="' + obj[i].IsInbox + '" folderid="' + obj[i].ImapName + '">' + obj[i].Name + ' <i class="' + spin + '"></i></span></div>');
                         }
                         else {
                             li = $('<div><a class="collapsed" data-toggle="collapse" data-target="#' + flexygo.utils.parser.replaceAll(obj[i].Name, ' ', '') + '" aria-expanded="false"><i class="flx-icon ' + (obj[i].Folders ? obj[i].Folders.length > 0 ? 'tree-icon-toggle' : '' : '') + '"></i></a><span>' + obj[i].Name + '</span></div>');
@@ -243,7 +326,7 @@ var flexygo;
                 getFilters() {
                     let me = $(this);
                     let ret = new flexygo.api.mail.MailFilters();
-                    ret.Page = this.page;
+                    ret.Uid = this.uid;
                     ret.PageSize = this.pageSize;
                     ret.Folder = 'inbox';
                     ret.Seen = ((me.find('[name="Seen"]').val() == false) ? 'true' : 'false');
@@ -303,29 +386,30 @@ var flexygo;
                 * Refresh de webcomponent. REQUIRED.
                 * @method refresh
                 */
-                refresh(ret) {
+                refresh() {
                     if ($(this).attr('manualInit') != 'true') {
-                        this.load();
+                        this.load(true);
                     }
                 }
                 /**
                 * Render HTML data.
                 * @method render
                 */
-                render(ret) {
+                render(ret, sync) {
                     if (ret) {
                         let mailItems = $('<div></div>');
                         for (var i = 0; i < ret.length; i++) {
                             mailItems.append(flexygo.utils.parser.recursiveCompile(ret[i], this.template, null, null, true));
                         }
-                        //Se muestra el bot�n o se oculta y se quita la animaci�n
-                        let loadMore = $(this).find('.loadMoreRow');
-                        if (ret.length < this.pageSize) {
-                            loadMore.hide();
-                        }
-                        else {
-                            loadMore.find('.icon-spin').removeClass('icon-spin');
-                            loadMore.show();
+                        if (!sync) {
+                            let loadMore = $(this).find('.loadMoreRow');
+                            if (ret.length < this.pageSize) {
+                                loadMore.hide();
+                            }
+                            else {
+                                loadMore.find('.icon-spin').removeClass('icon-spin');
+                                loadMore.show();
+                            }
                         }
                         if ($(this).find('[folderid].selected').attr('isinbox') == 'true') {
                             mailItems.find('.mailto').addClass('hidden');

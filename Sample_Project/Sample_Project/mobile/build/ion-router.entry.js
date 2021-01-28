@@ -1,4 +1,4 @@
-import { r as registerInstance, l as createEvent, k as getElement } from './index-e5ff2de3.js';
+import { r as registerInstance, m as createEvent, k as getElement } from './index-76f52202.js';
 import { e as debounce } from './helpers-d94a0dba.js';
 
 const ROUTER_INTENT_NONE = 'root';

@@ -31,7 +31,7 @@ var flexygo;
                 * @property observedAttributes {Array}
                 */
                 static get observedAttributes() {
-                    return ['ObjectName', 'ObjectWhere', 'ModuleName'];
+                    return ['ObjectName', 'ObjectWhere', 'additionalwhere', ''];
                 }
                 /**
                 * Init the webcomponent. REQUIRED.
@@ -45,6 +45,7 @@ var flexygo;
                         ObjectName: me.attr('ObjectName'),
                         ObjectWhere: me.attr('ObjectWhere'),
                         ModuleName: me.attr('ModuleName'),
+                        AdditionalWhere: this.AdditionalWhere,
                         PageName: flexygo.history.getPageName(me)
                     };
                     flexygo.ajax.post('~/api/Funnel', 'GetHTML', params, (response) => {
@@ -145,6 +146,7 @@ var flexygo;
                     this.objectName = element.attr("ObjectName");
                     this.objectWhere = element.attr("ObjectWhere");
                     this.moduleName = element.attr("ModuleName");
+                    this.AdditionalWhere = element.attr("additionalwhere");
                     if (element.attr('manualInit') != 'true') {
                         this.init();
                     }
@@ -165,6 +167,10 @@ var flexygo;
                     }
                     else if (attrName.toLowerCase() == 'objectwhere' && newVal && newVal != '') {
                         this.objectWhere = newVal;
+                        needInit = true;
+                    }
+                    else if (attrName.toLowerCase() == 'additionalwhere' && newVal && newVal != '') {
+                        this.AdditionalWhere = newVal;
                         needInit = true;
                     }
                     if (this.connected && needInit) {

@@ -172,6 +172,16 @@ declare namespace flexygo.nav {
    */
     function openHelpId(helpid: string, targetid?: string, excludeHist?: boolean, triggerElement?: JQuery): void;
     /**
+    * Opens a print page
+    * @method openPrintPage
+    * @param {string} objectName - Object Name
+    * @param {string} objectWhere - Object Where
+    * @param {string} templateId - TemplateId
+    * @param {string} filter - Object or collection filter
+    * @param {string} targetid - Target to open the window
+   */
+    function openPrintPage(objectName: string, objectWhere: string, templateId: string, targetid: string, filter?: string): void;
+    /**
    * Gets help content
    * @method GetHelpContent
    * @param {string} helpid - Identifier of the help page
@@ -205,4 +215,38 @@ declare namespace flexygo.nav {
     function toggleNavBar(): void;
     function hideNavBar(): void;
     function toggleFlxnav(menuNav: JQuery): void;
+}
+declare namespace flexygo.nav.external {
+    /**
+    * Navigate to default page
+    * @method goHome
+    * @param {string} appname - External app project name
+    * @param {string} targetid - Target to open the window
+    */
+    function goHome(appname: string, targetid: string): void;
+    /**
+     * Opens the default object page
+     * @method openPage
+     * @param {string} appname - External app project name
+     * @param {string} pagetypeid - Type of the page
+     * @param {string} objectname - Name of the collection or entity
+     * @param {string} objectwhere - Where of the collection or entity
+     * @param {string} defaults - Defaults to be added to the page
+     * @param {string} targetid - Target to open the window
+     * @param {JQuery} triggerElement - Relative element to open the page
+    */
+    function openPage(appname: string, pagetypeid: string, objectname: string, objectwhere: string, defaults: any, targetid: string, triggerElement?: JQuery): void;
+    /**
+     * Opens a page by its name
+     * @method openPageName
+     * @param {string} pagename - Identifier of the page
+     * @param {string} appname - External app project name
+     * @param {string} objectname - Name of the collection or entity
+     * @param {string} objectwhere - Where of the collection or entity
+     * @param {string} defaults - Defaults to be added to the page
+     * @param {string} targetid - Target to open the window
+     * @param {JQuery} triggerElement - Relative element to open the page
+    */
+    function openPageName(appname: string, pagename: string, objectname: string, objectwhere: string, defaults: string, targetid: string, triggerElement?: JQuery): void;
+    function externalTarget(appname: string, objectPage: FlexygoHistory): void;
 }

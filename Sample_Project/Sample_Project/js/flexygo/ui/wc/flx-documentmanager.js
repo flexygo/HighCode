@@ -24,6 +24,11 @@ var flexygo;
                     * @property connected {boolean}
                     */
                     this.connected = false;
+                    /**
+                    * Additional document filter
+                    * @property additionalWhere {string}
+                    */
+                    this.additionalWhere = null;
                     this.managerMode = 'flexygo';
                     this.type = 'edit';
                 }
@@ -117,6 +122,12 @@ var flexygo;
                             this.rObjectName = (this.objectName && this.objectId) ? this.objectName : (defObject) ? defObject.Tabla : (wcModule.objectdefaults) ? wcModule.objectdefaults.Tabla : '';
                             this.rObjectId = (this.objectName && this.objectId) ? this.objectId : (defObject) ? defObject.IdDoc : (wcModule.objectdefaults) ? wcModule.objectdefaults.IdDoc : '';
                         }
+                        if (defObject && defObject.additionalWhere) {
+                            this.additionalWhere = defObject.additionalWhere;
+                        }
+                        else if (wcModule.objectdefaults && wcModule.objectdefaults.additionalWhere) {
+                            this.additionalWhere = wcModule.objectdefaults.additionalWhere;
+                        }
                         this.getConfig();
                         this.getCategories();
                     }
@@ -171,6 +182,9 @@ var flexygo;
                                 <button type="button" method="opensettings" value="settings" class="btn btn-default dtc-btn dtc-btn-settings develop-only" data-original-title="" title="">
                                     <i class="flx-icon icon-settings" flx-fw="" ></i>
                                 </button>
+                                 <button type="button" method="downloadall" value="downloadall" class="btn btn-default dtc-btn dtc-btn-settings" data-original-title="" title="">
+                                    <i class="flx-icon icon-download"  ></i>
+                                </button>
                             </div>
                             <div class="dtc-pry-container">
                            </div></div>`;
@@ -196,6 +210,7 @@ var flexygo;
                         }
                         me.find('div.dtc-filter').tooltip({ title: flexygo.localization.translate('documentmanager.filter'), placement: 'bottom', trigger: 'hover' });
                         me.find('button[method="opensettings"][value="settings"]').tooltip({ title: flexygo.localization.translate('documentmanager.settings'), placement: 'bottom', trigger: 'hover' });
+                        me.find('button[method="downloadall"][value="downloadall"]').tooltip({ title: flexygo.localization.translate('documentmanager.downloadall'), placement: 'bottom', trigger: 'hover' });
                         if (!(this.type.toLocaleLowerCase() === 'view')) {
                             this.mainEvents();
                         }
@@ -539,6 +554,17 @@ var flexygo;
                                 var client_id = '300930594896-aos8bnjfgtg9q8e2rhiauhr0sdji4c81.apps.googleusercontent.com';
                                 var access_type = 'offline';
                                 window.location.href = encodeURI('https://accounts.google.com/o/oauth2/v2/auth?scope=' + scope + '&redirect_uri=' + redirect_uri + '&response_type=' + response_type + '&client_id=' + client_id + '&access_type=' + access_type);
+                            }
+                            //ojo
+                            if ($(this).find('div.dtc-container').length <= 0 && (method === 'downloadall')) {
+                                flexygo.msg.warning('documentmanager.nodocuments');
+                            }
+                            else {
+                                if (method === 'downloadall' && value === 'downloadall') {
+                                    if (this.rObjectName && !flexygo.utils.isBlank(this.rObjectId)) {
+                                        this.downloadAllDocuments(this.rObjectName, this.rObjectId);
+                                    }
+                                }
                             }
                         });
                         //Moved to onEntityUpdate
@@ -980,6 +1006,38 @@ var flexygo;
                     }
                 }
                 /**
+              * Downloads all documents.
+              * @method downloadAllDocuments
+              * @param {string} objectName.
+              * @param {string} objectId.
+              */
+                downloadAllDocuments(objectName, objectId) {
+                    try {
+                        let me = $(this);
+                        var params;
+                        params = {
+                            'ObjectName': objectName,
+                            'ObjectId': objectId,
+                        };
+                        flexygo.ajax.post('~/api/DocumentManager', 'DownloadAllDocuments', params, (response) => {
+                            if (response && !response.imageError) {
+                                flexygo.utils.execDynamicCode(response.javacode);
+                            }
+                            else {
+                                if (!response.permissionError) {
+                                    flexygo.msg.error('imagemanager.errordownload');
+                                }
+                                else {
+                                    flexygo.msg.warning('imagemanager.permissionerror');
+                                }
+                            }
+                        });
+                    }
+                    catch (ex) {
+                        console.log(ex);
+                    }
+                }
+                /**
                 * Start editing.
                 * @method editStartDocument
                 * @param {string} Document ID.
@@ -1108,6 +1166,7 @@ var flexygo;
                                 'ObjectId': this.rObjectId,
                                 'ObjectName': this.rObjectName,
                                 'DocGuid': docGuid,
+                                'AdditionalWhere': this.additionalWhere
                             };
                             flexygo.ajax.post('~/api/DocumentManager', 'GetDocument', params, (response) => {
                                 if (response[0] && !response[0].documentError) {

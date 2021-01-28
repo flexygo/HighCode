@@ -1413,3 +1413,30 @@ flx-nodemanager > .btnPnl {
     padding: 5px;
     border-top: solid 1px dbColor(borderModuleColor);
 }
+
+flx-nav[mode=mobile] li {
+    width: 100%;
+    text-align: center;
+    border-style: none;
+    color: dbColor(NavColor);
+    background-color: lighten(dbColor(txtNavColor),30);
+    font-size: 1.5rem;
+    height: 5rem;
+    line-height: 5rem;
+    margin: 0.2em 0;
+    border-radius: 25px;
+    border: unset;
+    box-shadow: 0 7px 14px 0 rgba(148, 159, 169, 0.12), 0 3px 6px 0 rgba(181, 169, 169, 0.12);
+    font-weight: bold;
+}
+
+flx-nav[mode=mobile] li:hover {
+    background-color: dbColor(OutstandingColor);
+    color: dbColor(txtOutstandingColor);
+}
+
+flx-nav[mode=mobile] li i {
+    font-size: 1.2em;
+    margin-right: 8px;
+    margin-left: 8px;
+}

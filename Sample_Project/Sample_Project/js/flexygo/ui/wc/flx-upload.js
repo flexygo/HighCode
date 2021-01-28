@@ -154,7 +154,7 @@ var flexygo;
                             </div>
                                
                              ${(this.options && this.options.Locked) ? '' : `<label class="btn upload-btn">
-                               <i class="fa fa-search"></i><input type="file" class="hide" multiple/>
+                               <i class="fa fa-search"></i><input type="file" accept="${(this.options && this.options.RegExp) ? this.options.RegExp : ''}" class="hide" multiple/>
                                    </label>`}
                         </div>
                         ${(this.customScript) ? `<script>` + this.customScript + `</script>` : ``}`;

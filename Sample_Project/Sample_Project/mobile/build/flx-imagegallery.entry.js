@@ -1,5 +1,5 @@
-import { r as registerInstance, j as h } from './index-e5ff2de3.js';
-import { P as Plugins, s as sql, F as FilesystemDirectory, m as msg, u as util } from './messages-cbb766b7.js';
+import { r as registerInstance, j as h } from './index-76f52202.js';
+import { P as Plugins, s as sql, F as FilesystemDirectory, m as msg, u as util } from './messages-50a67881.js';
 import { c as createCommonjsModule, a as commonjsGlobal, j as jquery } from './jquery-4ed57fb2.js';
 
 var FileSaver_min = createCommonjsModule(function (module, exports) {
@@ -70,8 +70,17 @@ const FlxImagegallery = class {
             }
         }
     }
+    deleteImg(index) {
+        if (this.table[index]._isInserted == 1) {
+            let sentence = 'delete from flxImages Where ImageId = \'' + this.table[index].ImageId + '\'';
+            return sql.execSQL(sentence).then(() => { msg.success(util.translate('msg.deleted')); this.refresh(); jquery(document).find('ion-fab-button.close').click(); }).catch(err => { throw err; });
+        }
+        else {
+            return msg.warning(util.translate('image.warning'));
+        }
+    }
     zoomGalery(currentSlide) {
-        let content = jquery('<ion-content fullscreen scroll-y="false"><ion-fab vertical="top" horizontal="start" slot="fixed"><ion-fab-button class="download"><ion-icon name="download"></ion-icon></ion-fab-button></ion-fab><ion-fab vertical="top" horizontal="end" slot="fixed"><ion-fab-button class="close"><ion-icon name="close"></ion-icon></ion-fab-button></ion-fab></ion-content>')[0];
+        let content = jquery('<ion-content fullscreen scroll-y="false"><ion-fab vertical="top" horizontal="start" slot="fixed"><ion-fab-button class="download"><ion-icon name="download"></ion-icon></ion-fab-button><ion-fab-button color="danger" class="delete ion-margin-top"><ion-icon name="trash"></ion-icon></ion-fab-button></ion-fab><ion-fab vertical="top" horizontal="end" slot="fixed"><ion-fab-button class="close"><ion-icon name="close"></ion-icon></ion-fab-button></ion-fab></ion-content>')[0];
         let slider = document.createElement('ion-slides');
         slider.pager = true;
         slider.options = {
@@ -89,6 +98,9 @@ const FlxImagegallery = class {
         jquery(content).find('ion-fab-button.close').on('click', () => { modalElement.dismiss(); });
         jquery(content).find('ion-fab-button.download').on('click', async () => {
             this.downloadImg(await slider.getActiveIndex());
+        });
+        jquery(content).find('ion-fab-button.delete').on('click', async () => {
+            msg.confirm(util.translate('image.delete'), util.translate('image.msg')).then(async () => { this.deleteImg(await slider.getActiveIndex()); });
         });
         document.body.appendChild(modalElement);
         return modalElement.present();

@@ -23,6 +23,7 @@ var flexygo;
                    */
                     this.connected = false;
                     this.moduleName = null;
+                    this.additionalWhere = '';
                     this.data = null;
                 }
                 /**
@@ -34,6 +35,7 @@ var flexygo;
                     this.connected = true;
                     this.moduleName = element.attr("modulename");
                     this.data = element.attr('value');
+                    this.additionalWhere = element.attr('additionalwhere');
                     if (element.attr('manualInit') != 'true') {
                         this.init();
                     }
@@ -43,7 +45,7 @@ var flexygo;
                 * @property observedAttributes {Array}
                 */
                 static get observedAttributes() {
-                    return ['modulename', 'value'];
+                    return ['modulename', 'value', 'additionalwhere'];
                 }
                 /**
                 * Fires when the attribute value of the element is changed.
@@ -65,6 +67,10 @@ var flexygo;
                             this.refresh();
                         }
                     }
+                    if (attrName.toLowerCase() == 'additionalwhere' && newVal && newVal != '') {
+                        this.additionalWhere = newVal;
+                        this.refresh();
+                    }
                 }
                 /**
                 * Refresh de webcomponent.
@@ -75,6 +81,7 @@ var flexygo;
                     let params = {
                         ObjectName: (me.attr('ObjectName') ? me.attr('ObjectName') : null),
                         ObjectWhere: (me.attr('ObjectWhere') ? me.attr('ObjectWhere') : null),
+                        AdditionalWhere: this.additionalWhere,
                         ModuleName: me.attr('ModuleName'),
                         PageName: flexygo.history.getPageName(me)
                     };
@@ -107,6 +114,7 @@ var flexygo;
                     let params = {
                         ObjectName: (me.attr('ObjectName') ? me.attr('ObjectName') : null),
                         ObjectWhere: (me.attr('ObjectWhere') ? me.attr('ObjectWhere') : null),
+                        AdditionalWhere: this.additionalWhere,
                         ModuleName: me.attr('ModuleName'),
                         PageName: flexygo.history.getPageName(me)
                     };

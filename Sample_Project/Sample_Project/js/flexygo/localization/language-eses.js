@@ -281,6 +281,10 @@ var flexygo;
                 mindate: 'Fecha mínima',
                 maxdate: 'Fecha máxima',
                 unseen: 'Solo no leidos',
+                sync: 'Sincronizando',
+                waitsync: 'Espere a que finalice la sincronización.',
+                nomail: 'Correo no encontrado.',
+                nomailalert: 'No se encontró el correo en el servidor.',
             };
             eses.flxmodule = {
                 delete: 'Eliminar',
@@ -363,6 +367,8 @@ var flexygo;
                 permissionerror: 'Lo sentimos, no tienes permisos',
                 documentempty: 'Documento vacío',
                 view: 'Ver',
+                downloadall: 'Descargar todos los documentos',
+                nodocuments: 'No hay documentos para descargar',
             };
             eses.imagemanager = {
                 upload: 'Subir',

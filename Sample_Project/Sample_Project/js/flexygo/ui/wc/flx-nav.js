@@ -114,6 +114,9 @@ var flexygo;
                         headerTemplate = '<div class="graphcontainer"></div>';
                         itemTemplate = ';';
                     }
+                    else if (this.mode == 'mobile') {
+                        itemTemplate = '<li typeid="{{type}}" class="{{cssClass}}" onClick="{{getTreeNavigate(json)}}">{{getIcon(IconClass,IconPath)}} &nbsp;{{Title}}</li>';
+                    }
                     this.wcTemplate = '<li typeid="{{type}}" title="{{Title}}" class="{{cssClass}}"><span>{{WebComponent}}</span></li>';
                     if (!navBar.attr('original-mode')) {
                         navBar.attr('original-mode', this.mode);
@@ -140,7 +143,7 @@ var flexygo;
                         else {
                             this.method = 'GetNodesById';
                             this.methodParams = { ParentId: initNode, HideAutoSQLNodes: false };
-                            if ((this.mode === 'panel') || (this.mode === 'box')) {
+                            if (((this.mode == 'panel')) || (this.mode === 'box') || (this.mode === 'mobile')) {
                                 this.template = itemTemplate;
                             }
                         }
@@ -182,7 +185,7 @@ var flexygo;
                     let me = $(this);
                     let cnt = '';
                     let firstEscape = false;
-                    if (this.mode && ((this.mode === 'panel') || (this.mode === 'box'))) {
+                    if (this.mode && ((this.mode === 'panel') || (this.mode === 'box') || (this.mode === 'mobile'))) {
                         firstEscape = true;
                     }
                     this.setAdditionalButtons(this.mode);

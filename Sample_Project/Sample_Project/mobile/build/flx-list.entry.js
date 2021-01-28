@@ -1,22 +1,22 @@
-import { r as registerInstance, j as h, k as getElement } from './index-e5ff2de3.js';
-import './ionic-global-e5feb32d.js';
-import { u as util, C as ConftokenProvider, s as sql, m as msg } from './messages-cbb766b7.js';
-import './utils-8c7561fa.js';
-import './index-a78b1497.js';
+import { r as registerInstance, j as h, k as getElement } from './index-76f52202.js';
+import './ionic-global-693c5dc1.js';
+import { u as util, C as ConftokenProvider, s as sql, m as msg } from './messages-50a67881.js';
+import { j as jquery } from './jquery-4ed57fb2.js';
+import './utils-67a6e57b.js';
+import './index-023098c3.js';
 import './helpers-d94a0dba.js';
 import './animation-625503e5.js';
-import './index-77ad4b44.js';
-import './ios.transition-5093371a.js';
-import './md.transition-42e45fee.js';
+import './index-20a23da0.js';
+import './ios.transition-267ba16c.js';
+import './md.transition-15ebc2b8.js';
 import './cubic-bezier-92995175.js';
 import './index-1da44cf3.js';
 import './index-53f14fc6.js';
 import './hardware-back-button-c2d005b0.js';
-import './index-dbdc5ddf.js';
-import './overlays-e386d27e.js';
-import { j as jquery } from './jquery-4ed57fb2.js';
-import { n as nav } from './navigation-b90acdd2.js';
-import { p as parser } from './parser-d662b563.js';
+import './index-725f2a8a.js';
+import './overlays-39d86a31.js';
+import { n as nav } from './navigation-c87efa5b.js';
+import { p as parser } from './parser-90867b5f.js';
 
 const flxListCss = "";
 
@@ -154,6 +154,9 @@ const FlxList = class {
             else if (page.AdditionalWhere) {
                 sentence = sql.addWhere(sentence, page.AdditionalWhere);
             }
+            for (let i = 0; i < page.groups.length; i++) {
+                sentence = sql.addOrderBy(sentence, page.groups[i].field + ' ' + page.groups[i].type);
+            }
             if (this.orderby) {
                 sentence = sql.addOrderBy(sentence, this.orderby);
             }
@@ -191,13 +194,33 @@ const FlxList = class {
                 }
             }
             if (page.body && page.body != '') {
+                let lastItem = null;
                 for (let i = 0; i < table.rows.length; i++) {
                     let rendered = '';
                     let row = sql.getRow(table, i);
                     row['objIdent'] = util.getPrimaryKeysFilter(confObj, row);
+                    /*Add render groups*/
+                    if (!lastItem) {
+                        let arr = await this.paintGroupHeader(row, page.groups, cnf, ctx);
+                        if (arr.length > 0) {
+                            newItems = newItems.concat(arr);
+                        }
+                    }
+                    let arr = await this.controlGroup(lastItem, row, page.groups, cnf, ctx);
+                    if (arr.length) {
+                        newItems = newItems.concat(arr);
+                    }
                     rendered = await parser.recursiveCompile(row, page.body, cnf, ctx);
                     rendered = await parser.recursiveCompile(defaults, rendered, cnf, ctx);
+                    lastItem = row;
+                    /*add render with groups*/
                     newItems.push(this.getIonItemSliding(rendered));
+                }
+                if (lastItem) {
+                    let arr = await this.paintGroupFooter(sql.getRow(table, table.rows.length - 1), page.groups, cnf, ctx);
+                    if (arr.length) {
+                        newItems = newItems.concat(arr);
+                    }
                 }
             }
             if (first && page.footer && page.footer != '') {
@@ -233,6 +256,55 @@ const FlxList = class {
         }
         return newItems;
     }
+    async paintGroupHeader(item, groups, cnf, ctx) {
+        let arr = new Array();
+        for (let i = 0; i < groups.length; i++) {
+            let key = groups[i].field;
+            if (typeof item[key] != 'undefined' && groups[i].header) {
+                arr.push(this.getIonItemGroup(await parser.recursiveCompile(item, groups[i].header, cnf, ctx)));
+            }
+        }
+        return arr;
+    }
+    async paintGroupFooter(item, groups, cnf, ctx) {
+        let arr = new Array();
+        for (let i = groups.length - 1; i >= 0; i--) {
+            let key = groups[i].field;
+            if (typeof item[key] != 'undefined' && groups[i].footer) {
+                arr.push(this.getIonItemGroup(await parser.recursiveCompile(item, groups[i].footer, cnf, ctx)));
+            }
+        }
+        return arr;
+    }
+    async controlGroup(prev, item, groups, cnf, ctx) {
+        let arr = new Array();
+        let lvl = -1;
+        //Finding deep level.
+        for (let i = 0; i < groups.length; i++) {
+            let key = groups[i].field;
+            if (typeof item[key] != 'undefined' && prev != null && typeof prev[key] != 'undefined') {
+                if (prev[key] != item[key]) {
+                    lvl = i;
+                    break;
+                }
+            }
+        }
+        if (lvl > -1) {
+            //Append footer templates from inside to found deep level.
+            for (let i = groups.length - 1; i >= lvl; i--) {
+                if (groups[i].footer) {
+                    arr.push(this.getIonItemGroup(await parser.recursiveCompile(item, groups[i].footer, cnf, ctx)));
+                }
+            }
+            //Append header templates from deep level to last header.
+            for (let i = lvl; i < groups.length; i++) {
+                if (groups[i].header) {
+                    arr.push(this.getIonItemGroup(await parser.recursiveCompile(item, groups[i].header, cnf, ctx)));
+                }
+            }
+        }
+        return arr;
+    }
     async onSearchChange(ev, value) {
         if (value) {
             this.searchValue = '%' + value + '%';
@@ -248,6 +320,9 @@ const FlxList = class {
     }
     getIonItem(innerHTML) {
         return h("ion-item", { innerHTML: innerHTML });
+    }
+    getIonItemGroup(innerHTML) {
+        return h("ion-item-group", { innerHTML: innerHTML });
     }
     render() {
         return [

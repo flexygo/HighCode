@@ -130,6 +130,7 @@ declare namespace flexygo.api {
         AllowNewObject: string;
         AllowNewFunction: string;
         AllowNewReturnFields: string;
+        AllowNewDefaults: string;
         ObjNameLink: string;
         ObjWhereLink: string;
         TargetIdLink: string;
@@ -224,6 +225,7 @@ declare namespace flexygo.api {
         allownewobject: string;
         allownewfunction: string;
         allownewreturnfields: string;
+        allownewdefaults: string;
         objnamelink: string;
         objwherelink: string;
         targetidlink: string;
@@ -556,6 +558,7 @@ declare namespace flexygo.api.chart {
         ObjectName: string;
         ObjectWhere: string;
         ModuleName: string;
+        AdditionalWhere: string;
         PageName: string;
     }
     /**
@@ -783,7 +786,9 @@ declare namespace flexygo.api.timeline {
         ItemVisibleFrameTemplate: string;
         OnMovingFunction: string;
         OnDropObjectOnItemFunction: string;
+        OnDeleteFunction: string;
         CustomOptions: string;
+        DefaultTime: number;
     }
     /**
    * api for timelineRanges
@@ -1098,6 +1103,7 @@ declare namespace flexygo.api.edit {
         ObjectWhere: string;
         Title: string;
         RunButtonText: string;
+        JSforParams: string;
     }
     /**
    * api for getReportParamsTemplateParams
@@ -1422,7 +1428,7 @@ declare namespace flexygo.api.mail {
     * @return {MailFilters} .
     */
     class MailFilters {
-        Page: number;
+        Uid: number;
         PageSize: number;
         Folder: string;
         Seen: string;
@@ -2447,6 +2453,9 @@ declare namespace flexygo.api.pages {
         InitHidden: boolean;
         ManualInit: boolean;
         ModuleObjectName: string;
+        PresetName: string;
+        PresetText: string;
+        PresetIcon: string;
         Events: {
             [name: string]: ModuleEvent;
         };

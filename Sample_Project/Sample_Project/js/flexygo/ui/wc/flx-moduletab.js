@@ -232,6 +232,7 @@ var flexygo;
                         me.append(rendered);
                     }
                     /*Add module to body*/
+                    module.is("flx-list[mode=list]") ? me.find(".modulediv").addClass("overflowx") : me.find(".modulediv").removeClass("overflowx");
                     let cont = me.children('.modulediv');
                     me.parents('flx-module').each((i, e) => {
                         e.objectdefaults = this.activeModule.ObjectDefaults;

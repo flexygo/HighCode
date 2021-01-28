@@ -90,12 +90,12 @@ var flexygo;
                             let jKeyUp;
                             let propFormat;
                             if (auxMarker.toLowerCase().startsWith("flxpath") && auxMarker.split('|').length >= 3) {
-                                jKeyUp = auxMarker.split('|').slice(0, 3).join('|');
-                                propFormat = auxMarker.split('|').slice(3).join('|');
+                                jKeyUp = auxMarker.split('|').slice(0, 3).join('|').trim();
+                                propFormat = auxMarker.split('|').slice(3).join('|').trim();
                             }
                             else {
-                                jKeyUp = auxMarker.split('|')[0];
-                                propFormat = auxMarker.split('|')[1];
+                                jKeyUp = auxMarker.split('|')[0].trim();
+                                propFormat = auxMarker.split('|')[1].trim();
                             }
                             jKey = jKeyUp.toLowerCase();
                             if ((json && typeof json[jKey] != 'undefined') || (contextVars && typeof contextVars[jKey] != 'undefined') || (contextFunctions && typeof contextFunctions[jKeyUp] != 'undefined') || (jKey == 'currentdatetime') || (jKey == 'currentdate')) {
@@ -117,8 +117,8 @@ var flexygo;
                                 let typeF = propFormat.toLowerCase();
                                 let strFormat = '';
                                 if (typeF.indexOf(':') != -1) {
-                                    typeF = propFormat.substring(propFormat.indexOf(':'), 0).toLowerCase();
-                                    strFormat = propFormat.substring(propFormat.indexOf(':') + 1);
+                                    typeF = propFormat.substring(propFormat.indexOf(':'), 0).toLowerCase().trim();
+                                    strFormat = propFormat.substring(propFormat.indexOf(':') + 1).trim();
                                 }
                                 if (typeF == 'date') {
                                     if (strFormat == '') {
@@ -169,7 +169,7 @@ var flexygo;
                                 else if (typeF == 'decimal') {
                                     if (rValue && rValue != '' && $.isNumeric(rValue)) {
                                         if (strFormat && strFormat != '') {
-                                            if (flexygo.profiles.culture == 'es-ES') {
+                                            if (flexygo.profiles.culture.toLowerCase() == 'es-es') {
                                                 rValue = parseFloat(parseFloat(rValue).toFixed(strFormat)).toLocaleString('ca-ES', { minimumFractionDigits: strFormat });
                                             }
                                             else {
@@ -177,7 +177,7 @@ var flexygo;
                                             }
                                         }
                                         else {
-                                            if (flexygo.profiles.culture == 'es-ES') {
+                                            if (flexygo.profiles.culture.toLowerCase() == 'es-es') {
                                                 rValue = parseFloat(rValue).toLocaleString('ca-ES');
                                             }
                                             else {
@@ -244,7 +244,7 @@ var flexygo;
                                         rValue = arrFormat[0];
                                     }
                                     else if (arrFormat.length > 1) {
-                                        rValue = arrFormat[1];
+                                        rValue = strFormat.substring(strFormat.indexOf(',') + 1);
                                     }
                                 }
                                 else if (typeF == 'bool') {

@@ -152,7 +152,7 @@ declare namespace flexygo.ui.wc {
         * @method buildVisItem
         * @param {object} data Data item.
         */
-        buildVisItem(data: {}): flexygo.api.timeline.visTimelineItem | flexygo.api.timeline.visDataItem;
+        buildVisItem(data: {}, isNew?: boolean): flexygo.api.timeline.visTimelineItem | flexygo.api.timeline.visDataItem;
         /**
         * Build Vis Group.
         * @method buildVisGroup

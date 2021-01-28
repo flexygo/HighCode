@@ -1,5 +1,5 @@
-import { r as registerInstance, j as h, k as getElement } from './index-e5ff2de3.js';
-import { s as sql } from './messages-cbb766b7.js';
+import { r as registerInstance, j as h, k as getElement } from './index-76f52202.js';
+import { u as util, s as sql } from './messages-50a67881.js';
 import { j as jquery } from './jquery-4ed57fb2.js';
 
 const flxComboCss = "flx-combo{width:100%}flx-combo ion-select{width:100%;max-width:100%}";
@@ -7,30 +7,52 @@ const flxComboCss = "flx-combo{width:100%}flx-combo ion-select{width:100%;max-wi
 const FlxCombo = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.autorefresh = true;
         this.table = [];
+        this.rendering = false;
+        this.pendingOpen = false;
     }
     componentWillLoad() {
+        if (((typeof this.multiple != 'undefined')) && this.value && this.value.toString().startsWith('[')) {
+            this.value = util.execDynamicCode(this.value);
+        }
         this.load();
     }
     sqlsentenceHandler() {
-        this.load();
+        if (this.autorefresh) {
+            this.load();
+        }
     }
     additionalHandler() {
-        this.load();
+        if (this.autorefresh) {
+            this.load();
+        }
     }
     filterlHandler() {
-        this.load();
+        if (this.autorefresh) {
+            this.load();
+        }
     }
     async refresh() {
         return this.load();
     }
     componentDidRender() {
+        this.rendering = false;
         if (this.value != null) {
             jquery(this.me).find('ion-select')[0].forceUpdate();
         }
+        if (this.pendingOpen == true) {
+            this.pendingOpen = false;
+            jquery(this.me).find('ion-select')[0].open();
+        }
     }
     async open() {
-        jquery(this.me).find('ion-select')[0].open();
+        if (this.rendering == true) {
+            this.pendingOpen = true;
+        }
+        else {
+            jquery(this.me).find('ion-select')[0].open();
+        }
     }
     load() {
         if (this.sqlsentence) {
@@ -43,15 +65,18 @@ const FlxCombo = class {
                     arr.push(sql.getRow(table, i));
                 }
                 this.table = arr;
+                this.rendering = true;
             });
         }
     }
     compare(itm1, itm2) {
+        itm1 = ((typeof itm1 == 'undefined') ? '' : itm1);
+        itm2 = ((typeof itm2 == 'undefined') ? '' : itm2);
         if (itm2 && typeof itm2 == 'object') {
             return itm2.includes(itm1);
         }
         else {
-            return (itm1 == itm2);
+            return (itm1.toString() == itm2.toString());
         }
     }
     valueChange(ev) {

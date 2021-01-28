@@ -1,7 +1,7 @@
-import { r as registerInstance, l as createEvent, h as Build, j as h, k as getElement } from './index-e5ff2de3.js';
-import { g as getIonMode, c as config } from './ionic-global-e5feb32d.js';
+import { r as registerInstance, m as createEvent, h as Build, j as h, k as getElement } from './index-76f52202.js';
+import { g as getIonMode, c as config } from './ionic-global-693c5dc1.js';
 import { b as assert } from './helpers-d94a0dba.js';
-import { l as lifecycle, L as LIFECYCLE_WILL_UNLOAD, a as LIFECYCLE_WILL_LEAVE, b as LIFECYCLE_DID_LEAVE, t as transition, s as setPageHidden } from './index-77ad4b44.js';
+import { l as lifecycle, L as LIFECYCLE_WILL_UNLOAD, a as LIFECYCLE_WILL_LEAVE, b as LIFECYCLE_DID_LEAVE, t as transition, s as setPageHidden } from './index-20a23da0.js';
 import { g as getTimeGivenProgression } from './cubic-bezier-92995175.js';
 import { a as attachComponent } from './framework-delegate-49c6b814.js';
 

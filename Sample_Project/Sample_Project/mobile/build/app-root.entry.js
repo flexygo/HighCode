@@ -1,21 +1,21 @@
-import { r as registerInstance, j as h } from './index-e5ff2de3.js';
-import './ionic-global-e5feb32d.js';
-import { c as cordova, I as IonicNativePlugin, C as ConftokenProvider, W as Webapi, u as util } from './messages-cbb766b7.js';
-import './utils-8c7561fa.js';
-import './index-a78b1497.js';
+import { r as registerInstance, j as h } from './index-76f52202.js';
+import './ionic-global-693c5dc1.js';
+import { c as cordova, I as IonicNativePlugin, k as flxPush, C as ConftokenProvider, W as Webapi, u as util } from './messages-50a67881.js';
+import './jquery-4ed57fb2.js';
+import './utils-67a6e57b.js';
+import './index-023098c3.js';
 import './helpers-d94a0dba.js';
 import './animation-625503e5.js';
-import './index-77ad4b44.js';
-import './ios.transition-5093371a.js';
-import './md.transition-42e45fee.js';
+import './index-20a23da0.js';
+import './ios.transition-267ba16c.js';
+import './md.transition-15ebc2b8.js';
 import './cubic-bezier-92995175.js';
 import './index-1da44cf3.js';
 import './index-53f14fc6.js';
 import './hardware-back-button-c2d005b0.js';
-import { m as menuController } from './index-dbdc5ddf.js';
-import './overlays-e386d27e.js';
-import './jquery-4ed57fb2.js';
-import { n as nav } from './navigation-b90acdd2.js';
+import { m as menuController } from './index-725f2a8a.js';
+import './overlays-39d86a31.js';
+import { n as nav } from './navigation-c87efa5b.js';
 
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -80,6 +80,7 @@ const AppRoot = class {
     }
     componentWillLoad() {
         MobileAccessibility.setTextZoom(100);
+        flxPush.config();
         this.loadMenus();
     }
     refresh() {
@@ -131,7 +132,7 @@ const AppRoot = class {
     }
     render() {
         return ([
-            h("ion-app", null, h("ion-menu", { "content-id": "menu-content" }, h("ion-header", null, h("ion-toolbar", { color: "header" }, h("ion-title", null, util.translate('menu.menu')))), h("ion-content", null, h("ion-list", null, h("ion-item", { onClick: () => nav.goHome() }, h("ion-label", null, util.translate('menu.home')), h("ion-icon", { name: "home" })), this.menuItems.map((item) => h("ion-item", { onClick: () => this.menuClick(item) }, h("ion-label", null, item.title), h("div", { class: "icon-inner" }, h("i", { class: item.iconClass })))), h("ion-item", { onClick: () => nav.goSync() }, h("ion-label", null, util.translate('menu.sync')), h("ion-icon", { name: "repeat" })), h("ion-item", { onClick: () => nav.goLogin() }, h("ion-label", null, util.translate('menu.logout')), h("ion-icon", { name: "exit" }))))), h("ion-content", { id: "menu-content" }, h("ion-router", { useHash: true, onIonRouteWillChange: ev => this.controllMenu(ev) }, h("ion-route", { url: "/", component: "flx-home" }), h("ion-route", { url: "/home", component: "flx-home" }), h("ion-route", { url: "/login", component: "flx-login" }), h("ion-route", { url: "/sync", component: "flx-sync" }), h("ion-route", { url: "/list/:object", component: "flx-list" }), h("ion-route", { url: "/list/:object/page/:pageName/", component: "flx-list" }), h("ion-route", { url: "/list/:object/page/:pageName/filter/:filter/", component: "flx-list" }), h("ion-route", { url: "/list/:object/page/:pageName/defaults/:defaults", component: "flx-list" }), h("ion-route", { url: "/list/:object/page/:pageName/filter/:filter/defaults/:defaults", component: "flx-list" }), h("ion-route", { url: "/list/:object/filter/:filter", component: "flx-list" }), h("ion-route", { url: "/list/:object/filter/:filter/defaults/:defaults", component: "flx-list" }), h("ion-route", { url: "/list/:object/defaults/:defaults", component: "flx-list" }), h("ion-route", { url: "/view/:object", component: "flx-view" }), h("ion-route", { url: "/view/:object/page/:pageName/", component: "flx-view" }), h("ion-route", { url: "/view/:object/page/:pageName/filter/:filter/", component: "flx-view" }), h("ion-route", { url: "/view/:object/page/:pageName/defaults/:defaults", component: "flx-view" }), h("ion-route", { url: "/view/:object/page/:pageName/filter/:filter/defaults/:defaults", component: "flx-view" }), h("ion-route", { url: "/view/:object/filter/:filter", component: "flx-view" }), h("ion-route", { url: "/view/:object/filter/:filter/defaults/:defaults", component: "flx-view" }), h("ion-route", { url: "/view/:object/defaults/:defaults", component: "flx-view" }), h("ion-route", { url: "/edit/:object", component: "flx-edit" }), h("ion-route", { url: "/edit/:object/page/:pageName/", component: "flx-edit" }), h("ion-route", { url: "/edit/:object/page/:pageName/filter/:filter/", component: "flx-edit" }), h("ion-route", { url: "/edit/:object/page/:pageName/defaults/:defaults", component: "flx-edit" }), h("ion-route", { url: "/edit/:object/page/:pageName/filter/:filter/defaults/:defaults", component: "flx-edit" }), h("ion-route", { url: "/edit/:object/filter/:filter", component: "flx-edit" }), h("ion-route", { url: "/edit/:object/filter/:filter/defaults/:defaults", component: "flx-edit" }), h("ion-route", { url: "/edit/:object/defaults/:defaults", component: "flx-edit" }), h("ion-route", { url: "/gallery/", component: "flx-imagemanager" }), h("ion-route", { url: "/gallery/:object/:objectid", component: "flx-imagemanager" }), h("ion-route", { url: "/documents/", component: "flx-imagemanager" }), h("ion-route", { url: "/documents/:object/:objectid", component: "flx-documentmanager" })), h("ion-nav", null)))
+            h("ion-app", null, h("ion-menu", { "content-id": "menu-content" }, h("ion-header", null, h("ion-toolbar", { color: "header" }, h("ion-title", null, util.translate('menu.menu')))), h("ion-content", null, h("ion-list", null, h("ion-item", { onClick: () => nav.goHome() }, h("ion-label", null, util.translate('menu.home')), h("ion-icon", { name: "home" })), this.menuItems.map((item) => h("ion-item", { onClick: () => this.menuClick(item) }, h("ion-label", null, item.title), h("div", { class: "icon-inner" }, h("i", { class: item.iconClass })))), h("ion-item", { onClick: () => nav.goSync() }, h("ion-label", null, util.translate('menu.sync')), h("ion-icon", { name: "repeat" })), h("ion-item", { onClick: () => nav.goLogin() }, h("ion-label", null, util.translate('menu.logout')), h("ion-icon", { name: "exit" }))))), h("ion-content", { id: "menu-content" }, h("ion-router", { useHash: true, onIonRouteWillChange: ev => this.controllMenu(ev) }, h("ion-route", { url: "/", component: "flx-home" }), h("ion-route", { url: "/home", component: "flx-home" }), h("ion-route", { url: "/login", component: "flx-login" }), h("ion-route", { url: "/sync", component: "flx-sync" }), h("ion-route", { url: "/list/:object", component: "flx-list" }), h("ion-route", { url: "/list/:object/page/:pageName/", component: "flx-list" }), h("ion-route", { url: "/list/:object/page/:pageName/filter/:filter/", component: "flx-list" }), h("ion-route", { url: "/list/:object/page/:pageName/defaults/:defaults", component: "flx-list" }), h("ion-route", { url: "/list/:object/page/:pageName/filter/:filter/defaults/:defaults", component: "flx-list" }), h("ion-route", { url: "/list/:object/filter/:filter", component: "flx-list" }), h("ion-route", { url: "/list/:object/filter/:filter/defaults/:defaults", component: "flx-list" }), h("ion-route", { url: "/list/:object/defaults/:defaults", component: "flx-list" }), h("ion-route", { url: "/view/:object", component: "flx-view" }), h("ion-route", { url: "/view/:object/page/:pageName/", component: "flx-view" }), h("ion-route", { url: "/view/:object/page/:pageName/filter/:filter/", component: "flx-view" }), h("ion-route", { url: "/view/:object/page/:pageName/defaults/:defaults", component: "flx-view" }), h("ion-route", { url: "/view/:object/page/:pageName/filter/:filter/defaults/:defaults", component: "flx-view" }), h("ion-route", { url: "/view/:object/filter/:filter", component: "flx-view" }), h("ion-route", { url: "/view/:object/filter/:filter/defaults/:defaults", component: "flx-view" }), h("ion-route", { url: "/view/:object/defaults/:defaults", component: "flx-view" }), h("ion-route", { url: "/edit/:object", component: "flx-edit" }), h("ion-route", { url: "/edit/:object/page/:pageName/", component: "flx-edit" }), h("ion-route", { url: "/edit/:object/page/:pageName/filter/:filter/", component: "flx-edit" }), h("ion-route", { url: "/edit/:object/page/:pageName/defaults/:defaults", component: "flx-edit" }), h("ion-route", { url: "/edit/:object/page/:pageName/filter/:filter/defaults/:defaults", component: "flx-edit" }), h("ion-route", { url: "/edit/:object/filter/:filter", component: "flx-edit" }), h("ion-route", { url: "/edit/:object/filter/:filter/defaults/:defaults", component: "flx-edit" }), h("ion-route", { url: "/edit/:object/defaults/:defaults", component: "flx-edit" }), h("ion-route", { url: "/gallery/", component: "flx-imagemanager" }), h("ion-route", { url: "/gallery/:object/:objectid", component: "flx-imagemanager" }), h("ion-route", { url: "/gallery/:object/:objectid/defaults/:defaults", component: "flx-imagemanager" }), h("ion-route", { url: "/documents/", component: "flx-imagemanager" }), h("ion-route", { url: "/documents/:object/:objectid", component: "flx-documentmanager" })), h("ion-nav", null)))
         ]);
     }
 };

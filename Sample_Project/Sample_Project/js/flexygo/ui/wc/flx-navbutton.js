@@ -39,7 +39,7 @@ var flexygo;
                 * @property observedAttributes {Array}
                 */
                 static get observedAttributes() {
-                    return ['type', 'objectname', 'objectwhere', 'defaults', 'targetid', 'excludehist', 'pagename', 'pagetypeid', 'callback', 'processname', 'processparams', 'reportname', 'reportwhere', 'reportparams', 'helpid', 'showProgress'];
+                    return ['appname', 'type', 'objectname', 'objectwhere', 'defaults', 'targetid', 'excludehist', 'pagename', 'pagetypeid', 'callback', 'processname', 'processparams', 'reportname', 'reportwhere', 'reportparams', 'helpid', 'showProgress'];
                 }
                 /**
                * Fires when element is attached to DOM
@@ -51,6 +51,7 @@ var flexygo;
                     this.objectname = element.attr("objectname") || null;
                     this.objectwhere = element.attr("objectwhere") || null;
                     this.defaults = element.attr("defaults") || null;
+                    this.appname = element.attr("appname") || null;
                     this.targetid = element.attr("targetid") || 'current';
                     if (element.attr("excludehist")) {
                         this.excludehist = (element.attr("excludehist").toLowerCase() == 'true');
@@ -78,6 +79,10 @@ var flexygo;
                     let needInit = false;
                     if (attrName.toLowerCase() == 'type' && newVal && newVal != '') {
                         this.type = newVal;
+                        needInit = true;
+                    }
+                    else if (attrName.toLowerCase() == 'appname' && newVal && newVal != '') {
+                        this.appname = newVal;
                         needInit = true;
                     }
                     else if (attrName.toLowerCase() == 'objectname' && newVal && newVal != '') {
@@ -164,6 +169,8 @@ var flexygo;
                         ev.stopPropagation();
                         ev.preventDefault();
                         switch (this.type.toLocaleLowerCase()) {
+                            case "home":
+                                flexygo.nav.goHome();
                             case "openpage":
                                 flexygo.nav.openPage(this.pagetypeid, this.objectname, this.objectwhere, this.defaults, this.targetid, this.excludehist, me);
                                 break;
@@ -190,6 +197,14 @@ var flexygo;
                                 break;
                             case "openhelpid":
                                 flexygo.nav.openHelpId(this.helpid, this.targetid, this.excludehist, me);
+                                break;
+                            case "externalhome":
+                                flexygo.nav.external.goHome(this.appname, this.targetid);
+                            case "externalopenpage":
+                                flexygo.nav.external.openPage(this.appname, this.pagetypeid, this.objectname, this.objectwhere, this.defaults, this.targetid, me);
+                                break;
+                            case "externalopenpagename":
+                                flexygo.nav.external.openPageName(this.appname, this.pagename, this.objectname, this.objectwhere, this.defaults, this.targetid, me);
                                 break;
                             default:
                                 alert('type not implemented');

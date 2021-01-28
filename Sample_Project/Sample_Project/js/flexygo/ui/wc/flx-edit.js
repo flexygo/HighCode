@@ -33,6 +33,7 @@ var flexygo;
                     this.tFooter = null;
                     this.templateId = null;
                     this.defaults = null;
+                    this.JSforParams = null;
                     this.dependenciesLoaded = false;
                 }
                 /**
@@ -330,6 +331,7 @@ var flexygo;
                             this.tBody = template.Body;
                             this.tFooter = template.Footer;
                             this.properties = response.Properties;
+                            this.JSforParams = response.JSforParams;
                             this.render();
                             this.initValidate();
                             if (response.RunButtonText) {
@@ -468,6 +470,12 @@ var flexygo;
                             iconClass: '',
                             callback: (dialog, type, ev) => {
                                 if (type == "yes") {
+                                    let ev = {
+                                        class: "dialog",
+                                        type: "closed",
+                                        sender: dlg.data('context')
+                                    };
+                                    flexygo.events.trigger(ev);
                                     dlg.dialog('destroy').remove();
                                 }
                             }
@@ -897,6 +905,34 @@ var flexygo;
                     }
                     if (itm.changeValue) {
                         prop[0].setValue(itm.newValue);
+                        let me = $(this);
+                        let props = me.find('[property]');
+                        let propertyName = prop.attr('property');
+                        let wc = prop.closest('flx-edit');
+                        if (wc.length > 0) {
+                            if (props.length > 0) {
+                                let Properties = [];
+                                for (let i = 0; i < props.length; i++) {
+                                    let prop = $(props[i])[0];
+                                    Properties.push({
+                                        Key: prop.property,
+                                        Value: prop.getValue()
+                                    });
+                                }
+                                // If control have class [data-msg-sqlvalidator] validation is executed
+                                let elm = me.find("[property=" + propertyName + "]");
+                                if ((elm[0].tagName).toLowerCase() == 'flx-radio') {
+                                    if (typeof elm.find("[name=" + propertyName + "]:first").attr("data-msg-sqlvalidator") !== typeof undefined) {
+                                        this.validateSQLProperty(propertyName, Properties);
+                                    }
+                                }
+                                else {
+                                    if (typeof elm.find("[name=" + propertyName + "].form-control").attr("data-msg-sqlvalidator") !== typeof undefined) {
+                                        this.validateSQLProperty(propertyName, Properties);
+                                    }
+                                }
+                            }
+                        }
                         if (itm.cascadeDependencies) {
                             prop[0].triggerDependencies();
                         }

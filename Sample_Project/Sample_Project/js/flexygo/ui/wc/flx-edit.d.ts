@@ -33,6 +33,7 @@ declare namespace flexygo.ui.wc {
             [name: string]: flexygo.api.ObjectProperty;
         };
         data: any;
+        JSforParams: string;
         constructor();
         /**
         * Fires when element is attached to DOM

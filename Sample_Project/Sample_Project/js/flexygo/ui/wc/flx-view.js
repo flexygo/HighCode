@@ -215,7 +215,7 @@ var flexygo;
                             }
                         }
                         let params = {
-                            ObjectName: me.attr('ObjectName'),
+                            ObjectName: (this.objectname ? this.objectname : me.attr('ObjectName')),
                             IsNew: false,
                             IsView: true,
                             Properties: Properties

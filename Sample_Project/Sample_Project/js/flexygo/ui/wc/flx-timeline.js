@@ -465,7 +465,7 @@ var flexygo;
                     }
                     else {
                         for (const item of visItems) {
-                            let visItemData = this.buildVisItem(item);
+                            let visItemData = this.buildVisItem(item, true);
                             $((`<div class="item ${!flexygo.utils.isBlank(visItemData.className) ? visItemData.className : ''}" ${!flexygo.utils.isBlank(visItemData.style) ? `style="${visItemData.style}"` : ''} draggable= "true"> 
                                                                                         ${(this.timelineSetting.ItemContentTemplate) ? flexygo.utils.parser.recursiveCompile(item, this.timelineSetting.ItemContentTemplate) : item[(this.timelineSetting.Advanced) ? this.timelineSetting.ItemDescripField : this.timelineSetting.PropertyDescrip]} 
                                                                                      </div>`)).appendTo($(this).find('#timeline_container > #items_without_group > #items-container'))[0].visItemData = visItemData;
@@ -669,11 +669,11 @@ var flexygo;
                 * @method buildVisItem
                 * @param {object} data Data item.
                 */
-                buildVisItem(data) {
+                buildVisItem(data, isNew = false) {
                     if (data) {
                         let id = new Array;
                         this.timelineSetting.EntityConfiguration.ObjectKeys.forEach((key) => id.push({ [key]: data[key] }));
-                        return {
+                        let item = {
                             id: JSON.stringify(id),
                             group: data[(this.timelineSetting.Advanced) ? this.timelineSetting.ItemGroupField : this.timelineSetting.PropertyGroup],
                             content: (this.timelineSetting.ItemContentTemplate) ? flexygo.utils.parser.recursiveCompile(data, this.timelineSetting.ItemContentTemplate) : (data[(this.timelineSetting.Advanced) ? this.timelineSetting.ItemDescripField : this.timelineSetting.PropertyDescrip]) ? data[(this.timelineSetting.Advanced) ? this.timelineSetting.ItemDescripField : this.timelineSetting.PropertyDescrip] : flexygo.localization.translate('flxtimeline.withoutDescription'),
@@ -685,8 +685,13 @@ var flexygo;
                             className: (this.timelineSetting.Advanced) ? data[this.timelineSetting.ItemClassNameField] : null,
                             style: (this.timelineSetting.Advanced) ? data[this.timelineSetting.ItemStyleField] : null,
                             type: (this.timelineSetting.Advanced && data[this.timelineSetting.ItemTypeField]) ? data[this.timelineSetting.ItemTypeField].trim().toLowerCase() : null,
-                            data: data,
+                            data: data
                         };
+                        if (isNew) {
+                            item.start = null;
+                            item.end = null;
+                        }
+                        return item;
                     }
                     else {
                         return null;
@@ -728,6 +733,10 @@ var flexygo;
                                 case 'insert':
                                 case 'edit':
                                 case 'update':
+                                    if (!(object.end)) {
+                                        object.end = moment(object.start).add(this.timelineSetting.DefaultTime, 'minutes').format("YYYY-MM-DD HH:mm");
+                                    }
+                                    ;
                                     if ((action === 'insert' && this.timelineSetting.OnInsertOpenNewWithDefaults) || action === 'edit') {
                                         this.openObjectEdit(object, objectEntity).then(function (data) { resolve(data); }, function (error) { throw error; });
                                     }
@@ -750,7 +759,13 @@ var flexygo;
                                 case 'delete':
                                     flexygo.msg.confirm(flexygo.localization.translate('flxeditgrid.deleteconfirm'), (result) => {
                                         if (result) {
-                                            resolve((objectEntity.delete()) ? object : null);
+                                            if (this.timelineSetting.OnDeleteFunction) {
+                                                let delFun = new Function("entity", "timeline", this.timelineSetting.OnDeleteFunction);
+                                                resolve((delFun.call(objectEntity, objectEntity, this)) ? object : null);
+                                            }
+                                            else {
+                                                resolve((objectEntity.delete()) ? object : null);
+                                            }
                                         }
                                     });
                                     break;

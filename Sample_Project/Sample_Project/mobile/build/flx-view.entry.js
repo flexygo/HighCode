@@ -1,22 +1,22 @@
-import { r as registerInstance, j as h, k as getElement } from './index-e5ff2de3.js';
-import './ionic-global-e5feb32d.js';
-import { u as util, C as ConftokenProvider, s as sql, m as msg } from './messages-cbb766b7.js';
-import './utils-8c7561fa.js';
-import './index-a78b1497.js';
+import { r as registerInstance, j as h, k as getElement } from './index-76f52202.js';
+import './ionic-global-693c5dc1.js';
+import { u as util, C as ConftokenProvider, s as sql, m as msg } from './messages-50a67881.js';
+import { j as jquery } from './jquery-4ed57fb2.js';
+import './utils-67a6e57b.js';
+import './index-023098c3.js';
 import './helpers-d94a0dba.js';
 import './animation-625503e5.js';
-import './index-77ad4b44.js';
-import './ios.transition-5093371a.js';
-import './md.transition-42e45fee.js';
+import './index-20a23da0.js';
+import './ios.transition-267ba16c.js';
+import './md.transition-15ebc2b8.js';
 import './cubic-bezier-92995175.js';
 import './index-1da44cf3.js';
 import './index-53f14fc6.js';
 import './hardware-back-button-c2d005b0.js';
-import './index-dbdc5ddf.js';
-import './overlays-e386d27e.js';
-import { j as jquery } from './jquery-4ed57fb2.js';
-import { n as nav } from './navigation-b90acdd2.js';
-import { p as parser } from './parser-d662b563.js';
+import './index-725f2a8a.js';
+import './overlays-39d86a31.js';
+import { n as nav } from './navigation-c87efa5b.js';
+import { p as parser } from './parser-90867b5f.js';
 
 const flxViewCss = "";
 
@@ -35,7 +35,7 @@ const FlxView = class {
                 util.execDynamicCode(this.page.JSAfterLoad);
             }
         });
-        jquery(window).off('popstate.view').on('popstate.view', () => {
+        jquery(window).off('popstate.view.' + this.pageName).on('popstate.view.' + this.pageName, () => {
             if (document.location.href.toLowerCase().indexOf('/view/') > 0) {
                 this.loadData();
             }
@@ -87,7 +87,7 @@ const FlxView = class {
                 if (defaults) {
                     header = await parser.recursiveCompile(defaults, header, cnf, ctx);
                 }
-                rendered += header;
+                this.header = header;
             }
             if (page.body && page.body != '') {
                 let body = page.body;
@@ -95,7 +95,7 @@ const FlxView = class {
                 if (defaults) {
                     body = await parser.recursiveCompile(defaults, body, cnf, ctx);
                 }
-                rendered += body;
+                rendered = body;
             }
             if (page.footer && page.footer != '') {
                 let footer = page.footer;
@@ -103,7 +103,7 @@ const FlxView = class {
                 if (defaults) {
                     footer = await parser.recursiveCompile(defaults, footer, cnf, ctx);
                 }
-                rendered += footer;
+                this.footer = footer;
             }
         }
         else {
@@ -119,7 +119,9 @@ const FlxView = class {
     render() {
         return [
             h("ion-header", null, h("ion-toolbar", { color: "header", class: "ion-text-center" }, h("ion-buttons", { slot: "start" }, (this.modal ? null : h("ion-menu-button", { color: "outstanding" }))), h("ion-buttons", { slot: "end" }, h("ion-button", { color: "outstanding", onClick: () => { nav.goBack(this.me); } }, h("ion-icon", { slot: "icon-only", name: "arrow-undo-outline" }))), h("ion-title", null, h("span", { id: "menuTitle" }, this.title)))),
-            h("ion-content", null, h("ion-refresher", { slot: "fixed", id: "refresher", onIonRefresh: (ev) => { this.refresh(ev); } }, h("ion-refresher-content", null)), h("div", { id: "mainBody", innerHTML: this.body }))
+            h("ion-header", { innerHTML: this.header }),
+            h("ion-content", null, h("ion-refresher", { slot: "fixed", id: "refresher", onIonRefresh: (ev) => { this.refresh(ev); } }, h("ion-refresher-content", null)), h("div", { id: "mainBody", innerHTML: this.body })),
+            h("ion-footer", { innerHTML: this.footer })
         ];
     }
     get me() { return getElement(this); }

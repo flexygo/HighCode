@@ -86,6 +86,14 @@ var flexygo;
                     }
                 }, (error) => {
                     flexygo.exceptions.httpShow(error);
+                    let ev = {
+                        class: "page",
+                        type: "loaded",
+                        sender: histObj,
+                        masterIdentity: objectname,
+                        detailIdentity: objectwhere
+                    };
+                    flexygo.events.trigger(ev);
                 });
             }
         }
@@ -165,6 +173,14 @@ var flexygo;
                     flexygo.history.historyLog.add(ret.IconCssClass, ret.Descrip, histObj);
                 }, (error) => {
                     flexygo.exceptions.httpShow(error);
+                    let ev = {
+                        class: "page",
+                        type: "loaded",
+                        sender: histObj,
+                        masterIdentity: objectname,
+                        detailIdentity: objectwhere
+                    };
+                    flexygo.events.trigger(ev);
                 });
             }
         }
@@ -282,6 +298,9 @@ var flexygo;
                     }
                     let container = $('<flx-module></flx-module>');
                     container.html(mod.ContainerTemplate).attr('modulename', mod.ModuleName).attr('type', mod.WebComponent.split(' ')[0]).addClass(mod.ContainerClass);
+                    if (mod.PresetName) {
+                        container.html(mod.ContainerTemplate).attr('presetname', mod.PresetName).attr('presettext', mod.PresetText).attr('preseticon', mod.PresetIcon);
+                    }
                     if (flexygo.utils.isSizeMobile() && modules.length == 1) {
                         container.find('.cntHeader').hide();
                     }
@@ -496,17 +515,28 @@ var flexygo;
             if (typeof event != 'undefined') {
                 event.preventDefault();
             }
-            var callParams;
-            callParams = 'ObjectName=' + objectname + '&ObjectWhere=' + objectwhere + '&ReportName=' + reportname;
-            //came from param form
-            if (params)
-                callParams += '&Params=' + JSON.stringify(params);
-            //report definition has a report where
-            if (reportwhere)
-                callParams += '&Filter=' + reportwhere;
-            //put it all into one encoded id
-            callParams = 'id=' + flexygo.history.Base64.encode(callParams);
-            flexygo.nav.openURL('~/forms/Reports.aspx', callParams);
+            let reportConfig = new flexygo.obj.Entity('Sysreport', 'reportName=\'' + reportname + '\'');
+            reportConfig.read();
+            //html report
+            if (reportConfig.data.TypeId.Value == 'html') {
+                let templateId = reportConfig.data.TemplateId.Value;
+                let filter = reportConfig.data.FilterSentence.Value;
+                flexygo.nav.openPrintPage(objectname, objectwhere, templateId, targetid, filter);
+            }
+            else {
+                //crystal report
+                var callParams;
+                callParams = 'ObjectName=' + objectname + '&ObjectWhere=' + objectwhere + '&ReportName=' + reportname;
+                //came from param form
+                if (params)
+                    callParams += '&Params=' + JSON.stringify(params);
+                //report definition has a report where
+                if (reportwhere)
+                    callParams += '&Filter=' + reportwhere;
+                //put it all into one encoded id
+                callParams = 'id=' + flexygo.history.Base64.encode(callParams);
+                flexygo.nav.openURL('~/forms/Reports.aspx', callParams);
+            }
         }
         nav.viewReport = viewReport;
         /**
@@ -676,6 +706,41 @@ var flexygo;
         }
         nav.openHelpId = openHelpId;
         /**
+        * Opens a print page
+        * @method openPrintPage
+        * @param {string} objectName - Object Name
+        * @param {string} objectWhere - Object Where
+        * @param {string} templateId - TemplateId
+        * @param {string} filter - Object or collection filter
+        * @param {string} targetid - Target to open the window
+       */
+        function openPrintPage(objectName, objectWhere, templateId, targetid, filter) {
+            //Hide menu when page loaded
+            if (!flexygo.utils.isSizeMobile()) {
+                $('#mainMenu').find('.item-opened').parent().find('ul').slideUp(flexygo.utils.animationTime);
+                $('#mainMenu').find('.item-opened').addClass("item-closed").removeClass("item-opened");
+            }
+            ////no estoy usando el targetId
+            //var height = ($(window).height()) * 0.95;
+            //var width = (height * 0.707).toFixed(0);
+            //var targetid = "modal" + width + "x" + height;
+            //if (flexygo.utils.isSizeMobile() && targetid.indexOf('modal') != 0) { targetid = "current"; }
+            //else if (flexygo.utils.isSizeMobile() && targetid.indexOf('modal') == 0) { targetid = "modal"; }
+            //var histObj = {
+            //    targetid: targetid
+            //}
+            //var pageContainer = flexygo.targets.createContainer(histObj, true, null);
+            var htmlText = '<div class="htmlreport">' + flexygo.environment.getTemplate(objectName, objectWhere, templateId, null, filter) + '</div>';
+            //var repbody = '<div class="htmlreport"><div class="header">'
+            //    repbody +='<button class="btn bg-info" onclick="$(this).closest(\'.htmlreport\').find(\'.report\').print()"><i class="flx-icon icon-print icon-margin-right clickable"></i>Print</button>'
+            //   /* repbody +='<button class="btn bg-info" onclick= "$(this).closest(\'.htmlreport\').find(\'.report\').print()" > <i class="flx-icon icon-settings-2 icon-margin-right clickable" > </i>Settings</button> */
+            //    repbody +='</div><div class="report" ></div > </div>'
+            //    pageContainer.html(repbody);
+            //    pageContainer.find('.report').html(htmlText);
+            $(htmlText).print();
+        }
+        nav.openPrintPage = openPrintPage;
+        /**
        * Gets help content
        * @method GetHelpContent
        * @param {string} helpid - Identifier of the help page
@@ -831,6 +896,104 @@ var flexygo;
             flexygo.events.trigger(ev);
         }
         nav.toggleFlxnav = toggleFlxnav;
+    })(nav = flexygo.nav || (flexygo.nav = {}));
+})(flexygo || (flexygo = {}));
+(function (flexygo) {
+    var nav;
+    (function (nav) {
+        var external;
+        (function (external) {
+            /**
+            * Navigate to default page
+            * @method goHome
+            * @param {string} appname - External app project name
+            * @param {string} targetid - Target to open the window
+            */
+            function goHome(appname, targetid) {
+                if (typeof event != 'undefined') {
+                    event.preventDefault();
+                }
+                var histObj = {
+                    targetid: targetid
+                };
+                externalTarget(appname, histObj);
+            }
+            external.goHome = goHome;
+            /**
+             * Opens the default object page
+             * @method openPage
+             * @param {string} appname - External app project name
+             * @param {string} pagetypeid - Type of the page
+             * @param {string} objectname - Name of the collection or entity
+             * @param {string} objectwhere - Where of the collection or entity
+             * @param {string} defaults - Defaults to be added to the page
+             * @param {string} targetid - Target to open the window
+             * @param {JQuery} triggerElement - Relative element to open the page
+            */
+            function openPage(appname, pagetypeid, objectname, objectwhere, defaults, targetid, triggerElement) {
+                if (typeof event != 'undefined') {
+                    event.preventDefault();
+                }
+                var histObj = {
+                    targetid: targetid,
+                    navigateFun: 'openpage',
+                    objectname: objectname,
+                    objectwhere: objectwhere,
+                    defaults: defaults,
+                    pagetypeid: pagetypeid
+                };
+                externalTarget(appname, histObj);
+            }
+            external.openPage = openPage;
+            /**
+             * Opens a page by its name
+             * @method openPageName
+             * @param {string} pagename - Identifier of the page
+             * @param {string} appname - External app project name
+             * @param {string} objectname - Name of the collection or entity
+             * @param {string} objectwhere - Where of the collection or entity
+             * @param {string} defaults - Defaults to be added to the page
+             * @param {string} targetid - Target to open the window
+             * @param {JQuery} triggerElement - Relative element to open the page
+            */
+            function openPageName(appname, pagename, objectname, objectwhere, defaults, targetid, triggerElement) {
+                if (typeof event != 'undefined') {
+                    event.preventDefault();
+                }
+                var histObj = {
+                    navigateFun: 'openpagename',
+                    targetid: targetid,
+                    objectname: objectname,
+                    objectwhere: objectwhere,
+                    defaults: defaults,
+                    pagename: pagename,
+                };
+                externalTarget(appname, histObj);
+            }
+            external.openPageName = openPageName;
+            function externalTarget(appname, objectPage) {
+                flexygo.ajax.post('~/api/Page', 'GetExternalAuth', { "AppName": appname }, (ret) => {
+                    let url = ret.Url;
+                    if (ret && ret.length > 0 && ret[0].AccessToken) {
+                        flexygo.targets.openExternalNewWindow(url, ret.AccessToken, objectPage);
+                    }
+                    else {
+                        if (!url.endsWith('/')) {
+                            url += '/';
+                        }
+                        url += 'Account/Authorize?AppName=' + ret.ProjectName + '&Id=' + flexygo.context.currentUserId;
+                        window.open(url, flexygo.utils.uniqueId(), 'scrollbars=no,status=yes,titlebar=no,resizable=no,width=800,height=600');
+                        flexygo.events.on(this, 'process', 'info', (e) => {
+                            if (e.masterIdentity == 'authorizedPage' && e.sender.AppName == appname) {
+                                flexygo.events.off(this, 'process', 'info');
+                                flexygo.targets.openExternalNewWindow(url, e.sender.AccessToken, objectPage);
+                            }
+                        });
+                    }
+                });
+            }
+            external.externalTarget = externalTarget;
+        })(external = nav.external || (nav.external = {}));
     })(nav = flexygo.nav || (flexygo.nav = {}));
 })(flexygo || (flexygo = {}));
 //# sourceMappingURL=navigation.js.map

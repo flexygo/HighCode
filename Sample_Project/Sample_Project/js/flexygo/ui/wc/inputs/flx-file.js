@@ -63,7 +63,7 @@ var flexygo;
                     var rendered;
                     if (this.mode !== 'view') {
                         rendered = `<div class="input-group">
-                                <input type="text" class="form-control f-text" disabled placeholder="Upload File">
+                                <input type="text" class="form-control f-text" readonly placeholder="Upload File">
                                 <label class="input-group-btn">
                                     <label class="btn f-btn">
                                        <i class="fa fa-search"></i><input type="file" class="hide"/>

@@ -143,6 +143,12 @@ var flexygo;
                             isDirty = true;
                         }
                     }
+                    if (this && attrName.toLowerCase() == 'presetname' && newVal && newVal != '') {
+                        this.presetId = newVal;
+                        if (this.objectwhere) {
+                            isDirty = true;
+                        }
+                    }
                     if (this.connected === true && (isDirty === true)) {
                         this.init();
                     }
@@ -182,6 +188,11 @@ var flexygo;
                     this.filterValues = null;
                     this.activeFilter = null;
                     this.orderObj = null;
+                    if ($(module).attr("presetname")) {
+                        this.presetId = $(module).attr("presetname");
+                        this.presetText = $(module).attr("presettext");
+                        this.presetIcon = $(module).attr("preseticon");
+                    }
                     if (history && history.filtersValues && history.filtersValues[module.moduleName]) {
                         let state = history.filtersValues[module.moduleName];
                         if (state.activeFilter) {
@@ -1401,6 +1412,9 @@ var flexygo;
                                 if (row[key + '_flxtext']) {
                                     input.attr('text', row[key + '_flxtext']);
                                 }
+                                else if (row['flxpath|' + this.objectname.toLowerCase() + '|' + key]) {
+                                    input.attr('text', row['flxpath|' + this.objectname.toLowerCase() + '|' + key]);
+                                }
                                 td.html(input);
                                 tr.append(td);
                                 if (this.propArr[i].Hide) {
@@ -1686,7 +1700,7 @@ $(document).on('click.dirty', (e) => {
         let me = $(lists[i]);
         let listItem = me[0];
         this.isFocused = true;
-        if (!me.find('table').is(e.target) && !$.contains(me.find('table')[0], e.target)) {
+        if (!me.find('table').is(e.target) && me.find('table').length > 0 && !$.contains(me.find('table')[0], e.target)) {
             //focusout
             if (listItem.isRowDirty && listItem.prevRow) {
                 listItem.isRowDirty = false;

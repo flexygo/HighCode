@@ -32,6 +32,7 @@ declare namespace flexygo.ui.wc {
         */
         attributeChangedCallback(attrName: any, oldVal: any, newVal: any): void;
         moduleName: string;
+        additionalWhere: string;
         data: any;
         dataColum: string;
         settings: {

@@ -930,7 +930,7 @@ $(function () {
                 listMod.additionalWhere = null;
             }
             else {
-                listMod.additionalWhere = 'Mails.FolderId = \'' + folderId + '\'';
+                listMod.additionalWhere = 'Mails_Objects.FolderId = \'' + folderId + '\'';
             }
             //Refresh list module
             listMod.refresh();

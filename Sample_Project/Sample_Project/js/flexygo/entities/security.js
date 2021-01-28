@@ -99,6 +99,53 @@ var flexygo;
     })(security = flexygo.security || (flexygo.security = {}));
 })(flexygo || (flexygo = {}));
 /**
+* Security Faculties.
+*
+* @class security.Faculties
+*/
+(function (flexygo) {
+    var security;
+    (function (security) {
+        var faculties;
+        (function (faculties) {
+            function init(el) {
+                let id = $(el).find('flx-list').attr('id');
+                let divlist = $("#" + id + ">div>div");
+                divlist.each((i, e) => {
+                    let dataField = $(e).attr('data-field');
+                    let dataKey = $(e).attr('data-key');
+                    let dataField2 = $(e).attr('data-field2');
+                    let dataKey2 = $(e).attr('data-key2');
+                    let dataFaculty = $(e).attr('data-security-id');
+                    let dataSecurity = $(e).attr('data-security');
+                    let def = '\'' + dataField + '\':\'' + dataKey + '\',\'FacultyId\':\'' + dataFaculty + '\'';
+                    if (dataField2) {
+                        def = def + ',\'' + dataField2 + '\':\'' + dataKey2 + '\'';
+                    }
+                    //first columns take to edit mode
+                    $(e).children(':first').each((j, f) => {
+                        $(f).css('cursor', 'pointer');
+                        $(f).off();
+                        $(f).on('click', (ev) => {
+                            let objectwhere = flexygo.security.getObjectKey(dataSecurity, dataKey, dataKey2); //, function (response) {
+                            flexygo.nav.openPage('edit', dataSecurity, objectwhere + " and FacultyId='" + dataFaculty + "'", '{' + def + '}', 'popup', true);
+                        });
+                    });
+                    // element columns handle click on icon
+                    $(e).children('[data-element]').each((j, f) => {
+                        $(f).find('i:first').css('cursor', 'pointer');
+                        $(f).off();
+                        $(f).on("click", (ev) => {
+                            flexygo.security.set($(ev.currentTarget), dataSecurity, dataKey, $(ev.currentTarget).attr("data-element"), $(ev.currentTarget).attr("data-value"), dataFaculty, dataKey2);
+                        });
+                    });
+                });
+            }
+            faculties.init = init;
+        })(faculties = security.faculties || (security.faculties = {}));
+    })(security = flexygo.security || (flexygo.security = {}));
+})(flexygo || (flexygo = {}));
+/**
 * Security users.
 *
 * @class security.users

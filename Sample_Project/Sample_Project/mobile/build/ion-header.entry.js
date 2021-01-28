@@ -1,5 +1,5 @@
-import { m as readTask, f as writeTask, r as registerInstance, j as h, n as Host, k as getElement } from './index-e5ff2de3.js';
-import { g as getIonMode } from './ionic-global-e5feb32d.js';
+import { n as readTask, f as writeTask, r as registerInstance, j as h, l as Host, k as getElement } from './index-76f52202.js';
+import { g as getIonMode } from './ionic-global-693c5dc1.js';
 import { c as clamp } from './helpers-d94a0dba.js';
 
 const TRANSITION = 'all 0.2s ease-in-out';

@@ -303,6 +303,7 @@ var flexygo;
                         prop.Locked = false;
                         prop.AllowNewFunction = "";
                         prop.AllowNewObject = "";
+                        prop.AllowNewDefaults = "";
                         prop.ObjNameLink = "";
                         prop.SearchCollection = e.Config.SearchCollection;
                         prop.SearchFunction = e.Config.SearchFunction;

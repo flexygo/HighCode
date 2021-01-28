@@ -1,12 +1,12 @@
-import { r as registerInstance, l as createEvent, f as writeTask, j as h, n as Host, k as getElement } from './index-e5ff2de3.js';
-import { g as getIonMode, c as config } from './ionic-global-e5feb32d.js';
+import { r as registerInstance, m as createEvent, f as writeTask, j as h, l as Host, k as getElement } from './index-76f52202.js';
+import { g as getIonMode, c as config } from './ionic-global-693c5dc1.js';
 import { c as clamp } from './helpers-d94a0dba.js';
 import { c as createAnimation } from './animation-625503e5.js';
-import { d as deepReady } from './index-77ad4b44.js';
+import { d as deepReady } from './index-20a23da0.js';
 import { g as getTimeGivenProgression } from './cubic-bezier-92995175.js';
 import { createGesture } from './index-1da44cf3.js';
 import './hardware-back-button-c2d005b0.js';
-import { B as BACKDROP, p as prepareOverlay, a as present, h as activeAnimations, d as dismiss, e as eventMethod } from './overlays-e386d27e.js';
+import { B as BACKDROP, a as prepareOverlay, b as present, h as activeAnimations, d as dismiss, e as eventMethod } from './overlays-39d86a31.js';
 import { g as getClassMap } from './theme-86cb12f9.js';
 import { a as attachComponent, d as detachComponent } from './framework-delegate-49c6b814.js';
 

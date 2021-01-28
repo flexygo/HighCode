@@ -45,5 +45,34 @@ flx-nav[mode=menu] > ul > li[typeid="10"][class*="userwc"] > span {
     min-width:800px;
 }
 
+.userphoto {
+    position: relative;
+    width: 25%;
+}
 
+.userphoto .image {
+    opacity: 1;
+    height: auto;
+    transition: .5s ease;
+    backface-visibility: hidden;
+}
+
+.userphoto .middle {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.userphoto:hover .image {
+    opacity: 0.5;
+}
+
+.userphoto:hover .middle {
+    opacity: 1;
+}
 

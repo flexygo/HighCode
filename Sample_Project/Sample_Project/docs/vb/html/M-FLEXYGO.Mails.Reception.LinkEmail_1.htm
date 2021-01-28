@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="save" content="history" />
-    <title>LinkEmail Method (String, String, String, DataManager)</title>
+    <title>LinkEmail Method (String, String, String, String, DataManager)</title>
     <link rel="stylesheet" type="text/css" href="../styles/lightweight.css" xmlns:MSHelp="http://msdn.microsoft.com/mshelp" xmlns:mshelp="http://msdn.microsoft.com/mshelp" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:msxsl="urn:schemas-microsoft-com:xslt" />
     <link rel="stylesheet" type="text/css" href="../styles/lw-code.css" xmlns:MSHelp="http://msdn.microsoft.com/mshelp" xmlns:mshelp="http://msdn.microsoft.com/mshelp" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:msxsl="urn:schemas-microsoft-com:xslt" />
     <script type="text/javascript" xmlns:MSHelp="http://msdn.microsoft.com/mshelp" xmlns:mshelp="http://msdn.microsoft.com/mshelp" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:msxsl="urn:schemas-microsoft-com:xslt" src="../scripts/languageSelector.js"> </script>
@@ -11,10 +11,10 @@
     <meta name="file" content="M-FLEXYGO.Mails.Reception.LinkEmail_1" xmlns:MSHelp="http://msdn.microsoft.com/mshelp" xmlns:mshelp="http://msdn.microsoft.com/mshelp" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:msxsl="urn:schemas-microsoft-com:xslt" />
     <meta name="guid" content="M-FLEXYGO.Mails.Reception.LinkEmail_1" xmlns:MSHelp="http://msdn.microsoft.com/mshelp" xmlns:mshelp="http://msdn.microsoft.com/mshelp" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:msxsl="urn:schemas-microsoft-com:xslt" />
     <xml xmlns:MSHelp="http://msdn.microsoft.com/mshelp" xmlns:mshelp="http://msdn.microsoft.com/mshelp" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
-      <MSHelp:Attr Name="AssetID" Value="M:FLEXYGO.Mails.Reception.LinkEmail(System.String,System.String,System.String,DataManager)" />
-      <MSHelp:TOCTitle Title="LinkEmail Method (String, String, String, DataManager)" />
-      <MSHelp:RLTitle Title="Reception.LinkEmail Method (String, String, String, DataManager) (FLEXYGO.Mails)" />
-      <MSHelp:Keyword Index="A" Term="M:FLEXYGO.Mails.Reception.LinkEmail(System.String,System.String,System.String,DataManager)" />
+      <MSHelp:Attr Name="AssetID" Value="M:FLEXYGO.Mails.Reception.LinkEmail(System.String,System.String,System.String,System.String,DataManager)" />
+      <MSHelp:TOCTitle Title="LinkEmail Method (String, String, String, String, DataManager)" />
+      <MSHelp:RLTitle Title="Reception.LinkEmail Method (String, String, String, String, DataManager) (FLEXYGO.Mails)" />
+      <MSHelp:Keyword Index="A" Term="M:FLEXYGO.Mails.Reception.LinkEmail(System.String,System.String,System.String,System.String,DataManager)" />
       <MSHelp:Attr Name="APIType" Value="Managed" />
       <MSHelp:Attr Name="APILocation" Value="flxMail.dll" />
       <MSHelp:Attr Name="APIName" Value="FLEXYGO.Mails.Reception.LinkEmail" />
@@ -44,7 +44,7 @@
         <div class="topicContainer">
           <div class="topic">
             <p class="majorTitle" />
-            <h1 class="title">Reception<span class="languageSpecificText"><span class="cs">.</span><span class="vb">.</span><span class="cpp">::</span><span class="nu">.</span><span class="fs">.</span></span>LinkEmail Method (String, String, String, DataManager)</h1>
+            <h1 class="title">Reception<span class="languageSpecificText"><span class="cs">.</span><span class="vb">.</span><span class="cpp">::</span><span class="nu">.</span><span class="fs">.</span></span>LinkEmail Method (String, String, String, String, DataManager)</h1>
             <div id="mainSection">
               <div id="mainBody">
                 <p />
@@ -55,13 +55,15 @@
 	<a href="http://msdn.microsoft.com/en-us/library/system.string.aspx" target="_blank">string</a> <span class="parameter">MessageId</span>,
 	<a href="http://msdn.microsoft.com/en-us/library/system.string.aspx" target="_blank">string</a> <span class="parameter">Objectname</span>,
 	<a href="http://msdn.microsoft.com/en-us/library/system.string.aspx" target="_blank">string</a> <span class="parameter">ObjectId</span>,
+	<a href="http://msdn.microsoft.com/en-us/library/system.string.aspx" target="_blank">string</a> <span class="parameter">FolderId</span>,
 	<a href="T-FLEXYGO.Data.DataManager.htm">DataManager</a> <span class="parameter">dm</span>
 )</pre></div><div class="CodeSnippetContainerCode VisualBasicCode"><pre xml:space="preserve" class="libCScode"><span class="keyword">Public</span> <span class="keyword">Shared</span> <span class="keyword">Function</span> <span class="identifier">LinkEmail</span> ( _
 	<span class="parameter">MessageId</span> <span class="keyword">As</span> <a href="http://msdn.microsoft.com/en-us/library/system.string.aspx" target="_blank">String</a>, _
 	<span class="parameter">Objectname</span> <span class="keyword">As</span> <a href="http://msdn.microsoft.com/en-us/library/system.string.aspx" target="_blank">String</a>, _
 	<span class="parameter">ObjectId</span> <span class="keyword">As</span> <a href="http://msdn.microsoft.com/en-us/library/system.string.aspx" target="_blank">String</a>, _
+	<span class="parameter">FolderId</span> <span class="keyword">As</span> <a href="http://msdn.microsoft.com/en-us/library/system.string.aspx" target="_blank">String</a>, _
 	<span class="parameter">dm</span> <span class="keyword">As</span> <a href="T-FLEXYGO.Data.DataManager.htm">DataManager</a> _
-) <span class="keyword">As</span> <a href="http://msdn.microsoft.com/en-us/library/system.object.aspx" target="_blank">Object</a></pre></div></div></div><div id="parameters"><h4 class="subHeading">Parameters</h4><dl paramName="MessageId"><dt><span class="parameterItalic">MessageId</span></dt><dd>Type: <a href="http://msdn.microsoft.com/en-us/library/system.string.aspx" target="_blank">String</a><br /></dd></dl><dl paramName="Objectname"><dt><span class="parameterItalic">Objectname</span></dt><dd>Type: <a href="http://msdn.microsoft.com/en-us/library/system.string.aspx" target="_blank">String</a><br /></dd></dl><dl paramName="ObjectId"><dt><span class="parameterItalic">ObjectId</span></dt><dd>Type: <a href="http://msdn.microsoft.com/en-us/library/system.string.aspx" target="_blank">String</a><br /></dd></dl><dl paramName="dm"><dt><span class="parameterItalic">dm</span></dt><dd>Type: <a href="T-FLEXYGO.Data.DataManager.htm">FLEXYGO.Data<span class="languageSpecificText"><span class="cs">.</span><span class="vb">.</span><span class="cpp">::</span><span class="nu">.</span><span class="fs">.</span></span>DataManager</a><br /></dd></dl></div></div><div class="LW_CollapsibleArea_Container"><div class="LW_CollapsibleArea_TitleDiv"><h2 class="LW_CollapsibleArea_Title">See Also</h2><div class="LW_CollapsibleArea_HrDiv"><hr class="LW_CollapsibleArea_Hr" /></div></div><a id="seeAlsoSection"><!----></a><div class="seeAlsoStyle"><a href="T-FLEXYGO.Mails.Reception.htm">Reception Class</a></div><div class="seeAlsoStyle"><a href="Overload-FLEXYGO.Mails.Reception.LinkEmail.htm">LinkEmail Overload</a></div><div class="seeAlsoStyle"><a href="N-FLEXYGO.Mails.htm">FLEXYGO.Mails Namespace</a></div></div></div>
+) <span class="keyword">As</span> <a href="http://msdn.microsoft.com/en-us/library/system.object.aspx" target="_blank">Object</a></pre></div></div></div><div id="parameters"><h4 class="subHeading">Parameters</h4><dl paramName="MessageId"><dt><span class="parameterItalic">MessageId</span></dt><dd>Type: <a href="http://msdn.microsoft.com/en-us/library/system.string.aspx" target="_blank">String</a><br /></dd></dl><dl paramName="Objectname"><dt><span class="parameterItalic">Objectname</span></dt><dd>Type: <a href="http://msdn.microsoft.com/en-us/library/system.string.aspx" target="_blank">String</a><br /></dd></dl><dl paramName="ObjectId"><dt><span class="parameterItalic">ObjectId</span></dt><dd>Type: <a href="http://msdn.microsoft.com/en-us/library/system.string.aspx" target="_blank">String</a><br /></dd></dl><dl paramName="FolderId"><dt><span class="parameterItalic">FolderId</span></dt><dd>Type: <a href="http://msdn.microsoft.com/en-us/library/system.string.aspx" target="_blank">String</a><br /></dd></dl><dl paramName="dm"><dt><span class="parameterItalic">dm</span></dt><dd>Type: <a href="T-FLEXYGO.Data.DataManager.htm">FLEXYGO.Data<span class="languageSpecificText"><span class="cs">.</span><span class="vb">.</span><span class="cpp">::</span><span class="nu">.</span><span class="fs">.</span></span>DataManager</a><br /></dd></dl></div></div><div class="LW_CollapsibleArea_Container"><div class="LW_CollapsibleArea_TitleDiv"><h2 class="LW_CollapsibleArea_Title">See Also</h2><div class="LW_CollapsibleArea_HrDiv"><hr class="LW_CollapsibleArea_Hr" /></div></div><a id="seeAlsoSection"><!----></a><div class="seeAlsoStyle"><a href="T-FLEXYGO.Mails.Reception.htm">Reception Class</a></div><div class="seeAlsoStyle"><a href="Overload-FLEXYGO.Mails.Reception.LinkEmail.htm">LinkEmail Overload</a></div><div class="seeAlsoStyle"><a href="N-FLEXYGO.Mails.htm">FLEXYGO.Mails Namespace</a></div></div></div>
             </div>
           </div>
         </div>

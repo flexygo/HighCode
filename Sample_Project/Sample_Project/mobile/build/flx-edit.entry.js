@@ -1,22 +1,22 @@
-import { r as registerInstance, j as h, k as getElement } from './index-e5ff2de3.js';
-import './ionic-global-e5feb32d.js';
-import { s as sql, u as util, m as msg, C as ConftokenProvider } from './messages-cbb766b7.js';
-import './utils-8c7561fa.js';
-import './index-a78b1497.js';
+import { r as registerInstance, j as h, k as getElement } from './index-76f52202.js';
+import './ionic-global-693c5dc1.js';
+import { s as sql, u as util, m as msg, C as ConftokenProvider } from './messages-50a67881.js';
+import { j as jquery } from './jquery-4ed57fb2.js';
+import './utils-67a6e57b.js';
+import './index-023098c3.js';
 import './helpers-d94a0dba.js';
 import './animation-625503e5.js';
-import './index-77ad4b44.js';
-import './ios.transition-5093371a.js';
-import './md.transition-42e45fee.js';
+import './index-20a23da0.js';
+import './ios.transition-267ba16c.js';
+import './md.transition-15ebc2b8.js';
 import './cubic-bezier-92995175.js';
 import './index-1da44cf3.js';
 import './index-53f14fc6.js';
 import './hardware-back-button-c2d005b0.js';
-import './index-dbdc5ddf.js';
-import './overlays-e386d27e.js';
-import { j as jquery } from './jquery-4ed57fb2.js';
-import { n as nav } from './navigation-b90acdd2.js';
-import { p as parser } from './parser-d662b563.js';
+import './index-725f2a8a.js';
+import './overlays-39d86a31.js';
+import { n as nav } from './navigation-c87efa5b.js';
+import { p as parser } from './parser-90867b5f.js';
 
 var dependencies;
 (function (dependencies) {
@@ -46,7 +46,7 @@ var dependencies;
         //Required dependencies
         execRequiredDependency(form, dep, tokens);
         //Combo Items dependencies
-        execComboDependency(form, dep, tokens);
+        execComboDependency(form, dep, tokens, withValue);
         //withValue Value dependencies
         if (withValue) {
             execValueDependency(form, dep, tokens);
@@ -88,13 +88,16 @@ var dependencies;
             }
         }
     }
-    async function execComboDependency(form, dep, tokens) {
+    async function execComboDependency(form, dep, tokens, withValue) {
         if (dep.SQLComboSentence || dep.SQLComboFilter) {
             if (dep.SQLComboSentence) {
                 form.find('[property=' + dep.DependantPropertyName + ']').attr('sqlsentence', parseSQLdependency(dep.SQLComboSentence, form, tokens));
             }
             else if (dep.SQLComboFilter) {
                 form.find('[property=' + dep.DependantPropertyName + ']').attr('filter', parseSQLdependency(dep.SQLComboFilter, form, tokens));
+            }
+            if (withValue) {
+                form.find('[property=' + dep.DependantPropertyName + ']').val(null);
             }
         }
     }
@@ -123,7 +126,7 @@ var dependencies;
         }
         else if (positiveValues && positiveValues.length > 0) {
             dependencyReturn = false;
-            let currentValue = form.find('[property=' + propertyName + ']').val(); //Get Property value
+            let currentValue = getCurrentValue(form.find('[property=' + propertyName + ']')); //Get Property value
             for (let i = 0; i < positiveValues.length; i++) {
                 if (currentValue == positiveValues[i].toString().toLowerCase()) {
                     dependencyReturn = true;
@@ -133,7 +136,7 @@ var dependencies;
         }
         else if (negativeValues && negativeValues.length > 0) {
             dependencyReturn = true;
-            let currentValue = form.find('[property=' + propertyName + ']').val();
+            let currentValue = getCurrentValue(form.find('[property=' + propertyName + ']'));
             for (let i = 0; i < negativeValues.length; i++) {
                 if (currentValue == negativeValues[i].toString().toLowerCase()) {
                     dependencyReturn = false;
@@ -154,16 +157,26 @@ var dependencies;
                 else {
                     let prop = form.find('[property=' + param + ']');
                     if (prop.length > 0) {
-                        let val = prop.val();
-                        if (!val) {
-                            val = 'null';
-                        }
+                        let val = getCurrentValue(prop);
                         sentence = sentence.replace(params[i], val);
                     }
                 }
             }
         }
         return sentence.replace(/('null')/gmi, 'null');
+    }
+    function getCurrentValue(prop) {
+        let val;
+        if (prop.is('ion-toggle, ion-checkbox')) {
+            val = (prop[0].checked ? '1' : '0');
+        }
+        else {
+            val = prop.val();
+            if (!val) {
+                val = 'null';
+            }
+        }
+        return val;
     }
 })(dependencies || (dependencies = {}));
 
@@ -1800,11 +1813,11 @@ const FlxEdit = class {
                 util.execDynamicCode(this.page.JSAfterLoad);
             }
         });
-        jquery(this.me).find('ion-datetime[property]').on('ionChange', (ev) => {
+        jquery(this.me).find('ion-datetime[property], ion-toggle[property], ion-checkbox[property]').on('ionChange', (ev) => {
             let PropertyName = jquery(ev.currentTarget).attr('property');
             dependencies.processPropDependency(true, jquery(this.me).find('form'), this.obj.properties.filter((itm) => { return itm.PropertyName == PropertyName; })[0], this.cToken);
         });
-        jquery(this.me).find('[property]').not('ion-datetime').on('change', (ev) => {
+        jquery(this.me).find('[property]').not('ion-datetime, ion-toggle, ion-checkbox').on('change', (ev) => {
             let PropertyName = jquery(ev.currentTarget).attr('property');
             dependencies.processPropDependency(true, jquery(this.me).find('form'), this.obj.properties.filter((itm) => { return itm.PropertyName == PropertyName; })[0], this.cToken);
         });
@@ -1959,26 +1972,36 @@ const FlxEdit = class {
     async getProperties(values) {
         let form = document.createElement('form');
         jquery(form).addClass('form');
-        for (let i = 0; i < this.obj.properties.length; i++) {
-            if (this.obj.properties[i].ControlType == 'separator') {
+        let properties = parser.sortObject(this.obj.properties, 'PositionY', 'PositionX');
+        let row;
+        let posY = -1;
+        for (let i = 0; i < properties.length; i++) {
+            if (properties[i].PositionY != posY) {
+                posY = properties[i].PositionY;
+                row = document.createElement('ion-row');
+                form.appendChild(row);
+            }
+            let column = document.createElement('ion-col');
+            column.setAttribute('size', properties[i].Width);
+            if (properties[i].ControlType == 'separator') {
                 let itm = document.createElement('ion-item-divider');
-                itm.setAttribute('container', this.obj.properties[i].PropertyName);
-                if (this.obj.properties[i].Hide) {
+                itm.setAttribute('container', properties[i].PropertyName);
+                if (properties[i].Hide) {
                     itm.setAttribute('style', 'display:none');
                 }
-                itm.appendChild(this.getLabel(this.obj.properties[i], false));
+                itm.appendChild(this.getLabel(properties[i], false));
                 form.appendChild(itm);
             }
-            else {
+            else if (properties[i].ControlType != 'placeholder') {
                 let itm = document.createElement('ion-item');
-                itm.setAttribute('container', this.obj.properties[i].PropertyName);
-                if (this.obj.properties[i].Hide) {
+                itm.setAttribute('container', properties[i].PropertyName);
+                if (properties[i].Hide) {
                     itm.setAttribute('style', 'display:none');
                 }
-                let prop = this.getProperty(this.obj.properties[i]);
-                let propName = this.obj.properties[i].PropertyName.toLowerCase();
-                if (this.obj.properties[i].PersistDefaultValue) {
-                    let def = this.obj.properties[i].DefaultValue;
+                let prop = this.getProperty(properties[i]);
+                let propName = properties[i].PropertyName.toLowerCase();
+                if (properties[i].PersistDefaultValue) {
+                    let def = properties[i].DefaultValue;
                     if (def != null && def != '') {
                         prop.setAttribute('value', await parser.recursiveCompile(null, def, this.cToken));
                         itm.classList.add('item-has-value');
@@ -1989,16 +2012,19 @@ const FlxEdit = class {
                         if (values[propName] == 1 || values[propName] == 'true' || values[propName] == '1') {
                             jquery(prop).attr('checked', true);
                         }
-                        itm.classList.add('item-has-value');
                     }
                     else {
                         prop.setAttribute('value', values[propName]);
-                        itm.classList.add('item-has-value');
                     }
+                    itm.classList.add('item-has-value');
                 }
-                itm.appendChild(this.getLabel(this.obj.properties[i], true));
+                else if (jquery(prop).is('ion-checkbox, ion-toggle')) {
+                    itm.classList.add('item-has-value');
+                }
+                itm.appendChild(this.getLabel(properties[i], true));
                 itm.appendChild(prop);
-                form.appendChild(itm);
+                column.appendChild(itm);
+                row.appendChild(column);
             }
         }
         return form.outerHTML;

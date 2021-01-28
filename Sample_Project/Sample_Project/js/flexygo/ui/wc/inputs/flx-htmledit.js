@@ -82,13 +82,6 @@ var flexygo;
                         element.attr('Control-Class', this.options.CssClass);
                         element.attr('Class', '');
                     }
-                    let PlaceHolder = element.attr('PlaceHolder');
-                    if (PlaceHolder && PlaceHolder !== '') {
-                        if (!this.options) {
-                            this.options = new flexygo.api.ObjectProperty();
-                        }
-                        this.options.PlaceHolder = PlaceHolder;
-                    }
                     let IconClass = element.attr('IconClass');
                     if (IconClass && IconClass !== '') {
                         if (!this.options) {
@@ -142,7 +135,7 @@ var flexygo;
                * @property observedAttributes {Array}
                */
                 static get observedAttributes() {
-                    return ['type', 'property', 'required', 'disabled', 'requiredmessage', 'class', 'placeholder', 'iconclass', 'helpid', 'hide'];
+                    return ['type', 'property', 'required', 'disabled', 'requiredmessage', 'class', 'iconclass', 'helpid', 'hide'];
                 }
                 attributeChangedCallback(attrName, oldVal, newVal) {
                     let element = $(this);
@@ -211,13 +204,6 @@ var flexygo;
                             element.attr('Class', '');
                             this.refresh();
                         }
-                        if (attrName.toLowerCase() === 'placeholder' && newVal && newVal !== '') {
-                            if (!this.options) {
-                                this.options = new flexygo.api.ObjectProperty();
-                            }
-                            this.options.PlaceHolder = newVal;
-                            this.refresh();
-                        }
                         if (attrName.toLowerCase() === 'iconclass' && newVal && newVal !== '') {
                             if (!this.options) {
                                 this.options = new flexygo.api.ObjectProperty();
@@ -275,9 +261,6 @@ var flexygo;
                     }
                     if (this.options && this.options.Locked) {
                         this.readonly = this.options.Locked;
-                    }
-                    if (this.options && this.options.PlaceHolder) {
-                        me.attr('placeholder', this.options.PlaceHolder);
                     }
                     setTimeout(() => {
                         me.find(".summernote").summernote("code", me.find('textarea')[0].value);

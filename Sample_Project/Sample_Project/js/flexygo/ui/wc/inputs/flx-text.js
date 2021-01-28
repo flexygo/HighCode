@@ -817,6 +817,11 @@ var flexygo;
                         }
                         else {
                             input.on('change', (e) => {
+                                if (this.options && this.options.ControlType == 'decimal' && this.getValue()) {
+                                    let oldValue = input[0].value;
+                                    input.val('');
+                                    input.val(parseFloat(oldValue));
+                                }
                                 let ev = {
                                     class: "property",
                                     type: "changed",
@@ -901,7 +906,10 @@ var flexygo;
                     this.value = value;
                     let input = $(this).find('label');
                     if (this.type === 'number' && $.isNumeric(value) && this.options && this.options.DecimalPlaces && this.options.DecimalPlaces.toString() !== '' && (this.options.DecimalPlaces > 0) && value !== null) {
-                        value = parseFloat(value).toFixed(this.options.DecimalPlaces);
+                        if (this.options.ControlType.toLowerCase() === 'decimal') {
+                            let decimalSeparator = 1.1.toLocaleString().substring(1, 2);
+                            value = parseFloat(value).toFixed(this.options.DecimalPlaces).toString().replace(/[.,]/g, decimalSeparator);
+                        }
                     }
                     else if (this.type === 'date' && value !== null) {
                         value = moment.utc(value).locale(flexygo.profiles.culture).format('L');

@@ -558,7 +558,7 @@ var flexygo;
                                         });
                                     }
                                 });
-                                flexygo.nav.openPage('edit', editCtl.parseEditString(this.options.AllowNewObject, editCtl, this), null, null, 'modal');
+                                flexygo.nav.openPage('edit', editCtl.parseEditString(this.options.AllowNewObject, editCtl, this), null, editCtl.parseEditString(this.options.AllowNewDefaults, editCtl, this), 'modal');
                             }
                         });
                         ret.append(icon1);

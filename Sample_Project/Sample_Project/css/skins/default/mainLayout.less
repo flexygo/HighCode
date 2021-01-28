@@ -2546,8 +2546,7 @@ legend {
     border-bottom: 1px solid dbColor(borderModuleColor);
 }
 
-
-input[type=number] {
+input[type=number], flx-text[type=number] label.input-view {
     text-align: right;
 }
 
@@ -3187,8 +3186,8 @@ input[type='search']::-webkit-search-cancel-button {
         }
     }
 
-    [modulename="sysmod-mailchimp-campaignsbycontact"], [modulename="sysmod-mailchimp-contactsbycampaign"] {
-        i.icon-email-2, i.flx-icon.icon-man {
+    [modulename="sysmod-mailchimp-campaignsbycontact"], [modulename="sysmod-mailchimp-contactsbycampaign"], [modulename="sysmod-mailchimp-contactsbylist"], [modulename="sysmod-mailchimp-listsbycontact"] {
+        i.icon-email-2, i.flx-icon.icon-man, i.flx-icon.icon-clients {
             color: #c1bfbd;
             font-size: 24px;
         }

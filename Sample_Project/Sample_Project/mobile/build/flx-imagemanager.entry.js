@@ -1,22 +1,22 @@
-import { r as registerInstance, j as h } from './index-e5ff2de3.js';
-import './ionic-global-e5feb32d.js';
-import { C as ConftokenProvider, s as sql, u as util, m as msg } from './messages-cbb766b7.js';
-import './utils-8c7561fa.js';
-import './index-a78b1497.js';
+import { r as registerInstance, j as h } from './index-76f52202.js';
+import './ionic-global-693c5dc1.js';
+import { C as ConftokenProvider, s as sql, u as util, m as msg } from './messages-50a67881.js';
+import './jquery-4ed57fb2.js';
+import './utils-67a6e57b.js';
+import './index-023098c3.js';
 import './helpers-d94a0dba.js';
 import './animation-625503e5.js';
-import './index-77ad4b44.js';
-import './ios.transition-5093371a.js';
-import './md.transition-42e45fee.js';
+import './index-20a23da0.js';
+import './ios.transition-267ba16c.js';
+import './md.transition-15ebc2b8.js';
 import './cubic-bezier-92995175.js';
 import './index-1da44cf3.js';
 import './index-53f14fc6.js';
 import './hardware-back-button-c2d005b0.js';
-import './index-dbdc5ddf.js';
-import './overlays-e386d27e.js';
-import './jquery-4ed57fb2.js';
-import { n as nav } from './navigation-b90acdd2.js';
-import { c as cam } from './camera-1f4f6cf0.js';
+import './index-725f2a8a.js';
+import './overlays-39d86a31.js';
+import { n as nav } from './navigation-c87efa5b.js';
+import { c as cam } from './camera-75f70a4d.js';
 
 const flxImagemanagerCss = "flx-imagemanager{}";
 
@@ -31,6 +31,14 @@ const FlxImagemanager = class {
         this.objConf = (await ConftokenProvider.config()).objectConfig[this.object];
         this.objectGUID = await sql.getValue('select _rowguid from `' + this.objConf.tableName + '` where `' + this.objConf.imageConfig.objectPK + '`=?', [this.objectid]);
         this.lastOrder = await sql.getValue('select max(OrderNumber) from `flxImages` where ObjectName=\'' + this.object + '\' and ObjectId=\'' + this.objectid + '\'');
+        this.defaults = (this.defaults) ? decodeURIComponent(this.defaults) : null;
+        let def = null;
+        if (this.defaults) {
+            def = util.parseJSON(this.defaults);
+            if (def.ImageClassId != undefined) {
+                this.imageClassId = def.ImageClassId;
+            }
+        }
         if (!this.lastOrder) {
             this.lastOrder = 0;
         }
@@ -41,7 +49,7 @@ const FlxImagemanager = class {
     }
     getPicture(multi = false) {
         cam.getPicture().then((b64) => {
-            let image = { "ImageId": util.GUID(), "ObjectName": this.object, "ObjectId": this.objectid, "ObjectGUID": this.objectGUID, "Name": this.object + ' ' + this.lastOrder, "Descrip": null, "ImageClassId": this.objConf.imageConfig.defaultCategoryId, "MainImage": (this.lastOrder == 0 ? true : false), "OrderNumber": this.lastOrder, "URL": null, "B64": b64 };
+            let image = { "ImageId": util.GUID(), "ObjectName": this.object, "ObjectId": this.objectid, "ObjectGUID": this.objectGUID, "Name": this.object + ' ' + this.lastOrder, "Descrip": null, "ImageClassId": (this.imageClassId == null ? this.objConf.imageConfig.defaultCategoryId : this.imageClassId), "MainImage": (this.lastOrder == 0 ? true : false), "OrderNumber": this.lastOrder, "URL": null, "B64": b64, "_isInserted": 1 };
             cam.savePicture(image).then(() => {
                 let imgs = document.querySelector('flx-imagegallery');
                 imgs.addImage(image);
@@ -52,7 +60,7 @@ const FlxImagemanager = class {
             });
         }).catch((err) => {
             if (err.toString().toLowerCase() != 'user cancelled photos app' && err.toString().toLowerCase() != 'no image selected') {
-                let image = { "ImageId": util.GUID(), "ObjectName": this.object, "ObjectId": this.objectid, "ObjectGUID": null, "Name": 'Sample.jpg', "Descrip": null, "ImageClassId": null, "MainImage": false, "OrderNumber": null, "URL": null, "B64": this.nocamB64 };
+                let image = { "ImageId": util.GUID(), "ObjectName": this.object, "ObjectId": this.objectid, "ObjectGUID": null, "Name": 'Sample.jpg', "Descrip": null, "ImageClassId": null, "MainImage": false, "OrderNumber": null, "URL": null, "B64": this.nocamB64, "_isInserted": 1 };
                 cam.savePicture(image).then(() => {
                     let imgs = document.querySelector('flx-imagegallery');
                     imgs.addImage(image);
@@ -63,14 +71,14 @@ const FlxImagemanager = class {
     }
     getGalleryPicture() {
         cam.getGalleryPicture().then((b64) => {
-            let image = { "ImageId": util.GUID(), "ObjectName": this.object, "ObjectId": this.objectid, "ObjectGUID": null, "Name": this.object + ' ' + this.lastOrder, "Descrip": null, "ImageClassId": this.objConf.imageConfig.defaultCategoryId, "MainImage": (this.lastOrder == 0 ? true : false), "OrderNumber": this.lastOrder, "URL": null, "B64": b64 };
+            let image = { "ImageId": util.GUID(), "ObjectName": this.object, "ObjectId": this.objectid, "ObjectGUID": null, "Name": this.object + ' ' + this.lastOrder, "Descrip": null, "ImageClassId": (this.imageClassId == null ? this.objConf.imageConfig.defaultCategoryId : this.imageClassId), "MainImage": (this.lastOrder == 0 ? true : false), "OrderNumber": this.lastOrder, "URL": null, "B64": b64, "_isInserted": 1 };
             cam.savePicture(image).then(() => {
                 let imgs = document.querySelector('flx-imagegallery');
                 imgs.addImage(image);
             });
         }).catch((err) => {
             if (err.toString().toLowerCase() != 'user cancelled photos app' && err.toString().toLowerCase() != 'no image selected') {
-                let image = { "ImageId": util.GUID(), "ObjectName": this.object, "ObjectId": this.objectid, "ObjectGUID": null, "Name": 'Sample.jpg', "Descrip": null, "ImageClassId": null, "MainImage": false, "OrderNumber": null, "URL": null, "B64": this.nocamB64 };
+                let image = { "ImageId": util.GUID(), "ObjectName": this.object, "ObjectId": this.objectid, "ObjectGUID": null, "Name": 'Sample.jpg', "Descrip": null, "ImageClassId": null, "MainImage": false, "OrderNumber": null, "URL": null, "B64": this.nocamB64, "_isInserted": 1 };
                 cam.savePicture(image).then(() => {
                     let imgs = document.querySelector('flx-imagegallery');
                     imgs.addImage(image);
@@ -82,7 +90,7 @@ const FlxImagemanager = class {
     render() {
         return [
             h("ion-header", null, h("ion-toolbar", { color: "header", class: "ion-text-center" }, h("ion-buttons", { slot: "start" }, h("ion-menu-button", { color: "outstanding" })), h("ion-buttons", { slot: "end" }, h("ion-button", { color: "outstanding", onClick: () => { nav.goBack(); } }, h("ion-icon", { slot: "icon-only", name: "arrow-undo-outline" }))), h("ion-title", null, h("span", { id: "menuTitle" }, "Gallery")))),
-            h("ion-content", null, h("ion-refresher", { slot: "fixed", id: "refresher", onIonRefresh: (ev) => { this.refresh(ev); } }, h("ion-refresher-content", { "pulling-icon": "chevron-down-circle-outline", refreshingSpinner: "bubbles" })), h("flx-imagegallery", { object: this.object, filter: 'ObjectName=\'' + this.object + '\' and ObjectId=\'' + this.objectid + '\'' })),
+            h("ion-content", null, h("ion-refresher", { slot: "fixed", id: "refresher", onIonRefresh: (ev) => { this.refresh(ev); } }, h("ion-refresher-content", { "pulling-icon": "chevron-down-circle-outline", refreshingSpinner: "bubbles" })), h("flx-imagegallery", { object: this.object, filter: 'ObjectName=\'' + this.object + '\' and ObjectId=\'' + this.objectid + '\'' + (this.imageClassId == null ? '' : ' and ImageClassId=\'' + this.imageClassId + '\'') })),
             h("ion-fab", { vertical: "bottom", horizontal: "end", slot: "fixed" }, h("ion-fab-button", null, h("ion-icon", { name: "apps-outline" })), h("ion-fab-list", { side: "top" }, h("ion-fab-button", { color: "dark", onClick: () => { this.getPicture(false); } }, h("ion-icon", { name: "camera" })), h("ion-fab-button", { color: "dark", onClick: () => { this.getPicture(true); } }, h("ion-icon", { name: "refresh-outline" }))), ((this.hasGallery) ?
                 h("ion-fab-list", { side: "start" }, h("ion-fab-button", { color: "dark", onClick: () => { this.getGalleryPicture(); } }, h("ion-icon", { name: "image" }))) : ''))
         ];

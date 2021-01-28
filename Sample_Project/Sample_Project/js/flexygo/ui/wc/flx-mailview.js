@@ -68,26 +68,36 @@ var flexygo;
                     });
                 }
                 load() {
+                    let me = this;
                     let params = { MessageId: this.messageid, Mode: this.mode };
                     if (this.mode == 'imap') {
                         flexygo.ajax.post('~/api/Mail', 'GetMail', params, (response) => {
                             if (response) {
-                                let defaultsToolbar = {};
-                                defaultsToolbar.MessageIds = this.messageid;
-                                defaultsToolbar.To = response.Mail.FromAddress;
-                                defaultsToolbar.Subject = response.Mail.Subject;
-                                defaultsToolbar.ToAll = response.Mail.MailTo;
-                                defaultsToolbar.CC = response.Mail.MailCC;
-                                defaultsToolbar.Mode = "imap";
-                                defaultsToolbar.ObjectName = this.objectName;
-                                defaultsToolbar.ObjectId = this.objectId;
-                                $(this).html('<div class="toolbar" ></div><div class="mailItem"></div>');
-                                this.toolbar = response.Toolbar;
-                                this.renderToolbar(JSON.stringify(defaultsToolbar));
-                                this.render(response.Mail);
+                                if (!response.Mail) {
+                                    let mailList = $(me).closest('body').find('flx-maillist');
+                                    $(this).html(flexygo.localization.translate('flxmail.nomail'));
+                                    flexygo.msg.alert(flexygo.localization.translate('flxmail.nomailalert'));
+                                    $(me).closest('.ui-dialog').find('.ui-dialog-titlebar-close').click();
+                                    mailList[0].refresh();
+                                }
+                                else {
+                                    let defaultsToolbar = {};
+                                    defaultsToolbar.MessageIds = this.messageid;
+                                    defaultsToolbar.To = response.Mail.FromAddress;
+                                    defaultsToolbar.Subject = response.Mail.Subject;
+                                    defaultsToolbar.ToAll = response.Mail.MailTo;
+                                    defaultsToolbar.CC = response.Mail.MailCC;
+                                    defaultsToolbar.Mode = "imap";
+                                    defaultsToolbar.ObjectName = this.objectName;
+                                    defaultsToolbar.ObjectId = this.objectId;
+                                    $(this).html('<div class="toolbar" ></div><div class="mailItem"></div>');
+                                    this.toolbar = response.Toolbar;
+                                    this.renderToolbar(JSON.stringify(defaultsToolbar));
+                                    this.render(response.Mail);
+                                }
                             }
                             else {
-                                $(this).html('Mail not found');
+                                $(this).html(flexygo.localization.translate('flxmail.nomail'));
                             }
                             this.stopLoading();
                         }, (error) => { flexygo.exceptions.httpShow(error); this.stopLoading(); }, null, () => { this.startLoading(); });

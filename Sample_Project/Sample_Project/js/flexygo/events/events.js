@@ -175,7 +175,7 @@ var flexygo;
                                 switch (event.class) {
                                     case "entity":
                                         let entity = event.sender;
-                                        if (ee.ObjectFilter === "" || ee.ObjectFilter.toLowerCase() === entity.objectName.toLowerCase()) {
+                                        if (ee.ObjectFilter === "" || (entity && entity.objectName && ee.ObjectFilter.toLowerCase() === entity.objectName.toLowerCase())) {
                                             catched = true;
                                         }
                                         break;

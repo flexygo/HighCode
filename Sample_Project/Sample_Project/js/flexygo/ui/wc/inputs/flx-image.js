@@ -328,7 +328,6 @@ var flexygo;
                     if (Value && Value !== '') {
                         this.setValue(Value, me.attr('text'));
                     }
-                    this.setValue(this.getValue());
                     me.off('click').on('click', () => {
                         this.openDialog();
                     });

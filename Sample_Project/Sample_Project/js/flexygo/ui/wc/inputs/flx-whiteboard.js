@@ -188,6 +188,7 @@ var flexygo;
                             else {
                                 element.find('.note-editable').attr('contenteditable', 'true');
                             }
+                            this.refresh();
                         }
                         if (attrName.toLowerCase() === 'requiredmessage' && newVal && newVal !== '') {
                             if (!this.options) {

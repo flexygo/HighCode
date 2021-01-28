@@ -193,14 +193,22 @@ var flexygo;
                     //TODO_TS: wc es un WebControl
                     let me = $(this);
                     let jsAF = '';
-                    if (this.JSAfterLoad && this.JSAfterLoad != '') {
+                    if (this.JSAfterLoad) {
                         jsAF = this.JSAfterLoad;
                     }
                     if ((me.attr('type').toLowerCase() == 'flx-moduletab') || (me.attr('type').toLowerCase() == 'flx-buttontab')) {
                         let tab = me.find('flx-moduletab:last')[0];
                         let cnf = tab.activeModule;
-                        if (cnf.JSAfterLoad && cnf.JSAfterLoad != '') {
+                        if (cnf.JSAfterLoad) {
                             jsAF = cnf.JSAfterLoad;
+                        }
+                    }
+                    if ((me.attr('type').toLowerCase() == 'flx-edit') && (jsAF == '')) {
+                        let edit = me.find('flx-edit:last')[0];
+                        if (edit.mode.toLowerCase() == 'process') {
+                            if (edit.JSforParams) {
+                                jsAF = edit.JSforParams;
+                            }
                         }
                     }
                     if (jsAF != '') {
@@ -318,7 +326,12 @@ var flexygo;
                     let htmlBTN = $('<button class="btn btn-default" />');
                     htmlBTN.attr('ButtonId', btn.ButtonId);
                     if (!btn.HideText) {
+                        //if (type == 'presets') {
+                        //    htmlBTN.html('<span>' + $(this).attr('presetname') + '</span>');
+                        //}
+                        //else {
                         htmlBTN.html('<span>' + btn.Text + '</span>');
+                        //}
                     }
                     if (btn.CssClass) {
                         htmlBTN.addClass(btn.CssClass);

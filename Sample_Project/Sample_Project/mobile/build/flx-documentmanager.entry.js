@@ -1,21 +1,21 @@
-import { r as registerInstance, j as h } from './index-e5ff2de3.js';
-import './ionic-global-e5feb32d.js';
-import { C as ConftokenProvider, s as sql, m as msg, u as util } from './messages-cbb766b7.js';
-import './utils-8c7561fa.js';
-import './index-a78b1497.js';
+import { r as registerInstance, j as h } from './index-76f52202.js';
+import './ionic-global-693c5dc1.js';
+import { C as ConftokenProvider, s as sql, m as msg, u as util } from './messages-50a67881.js';
+import { j as jquery } from './jquery-4ed57fb2.js';
+import './utils-67a6e57b.js';
+import './index-023098c3.js';
 import './helpers-d94a0dba.js';
 import './animation-625503e5.js';
-import './index-77ad4b44.js';
-import './ios.transition-5093371a.js';
-import './md.transition-42e45fee.js';
+import './index-20a23da0.js';
+import './ios.transition-267ba16c.js';
+import './md.transition-15ebc2b8.js';
 import './cubic-bezier-92995175.js';
 import './index-1da44cf3.js';
 import './index-53f14fc6.js';
 import './hardware-back-button-c2d005b0.js';
-import './index-dbdc5ddf.js';
-import './overlays-e386d27e.js';
-import { j as jquery } from './jquery-4ed57fb2.js';
-import { n as nav } from './navigation-b90acdd2.js';
+import './index-725f2a8a.js';
+import './overlays-39d86a31.js';
+import { n as nav } from './navigation-c87efa5b.js';
 
 const flxDocumentmanagerCss = "flx-documentmanager{}";
 
@@ -38,7 +38,7 @@ const FlxDocumentmanager = class {
                 msg.danger('File ' + files[i].name + ' exceeds 10MB maxium size.');
             }
             else {
-                let doc = { "DocGuid": util.GUID(), "ObjectName": this.object, "ObjectId": this.objectid, "ObjectGUID": this.objectGUID, "Name": files[i].name, "Description": null, "CategoryId": this.objConf.documentConfig.defaultCategoryId, "URL": null, "B64": null, "CreationDate": util.currentDateTime() };
+                let doc = { "DocGuid": util.GUID(), "ObjectName": this.object, "ObjectId": this.objectid, "ObjectGUID": this.objectGUID, "Name": files[i].name, "Description": null, "CategoryId": this.objConf.documentConfig.defaultCategoryId, "URL": null, "B64": null, "CreationDate": util.currentDateTime(), "_isInserted": 1 };
                 this.saveDocument(files[i], doc);
             }
         }
