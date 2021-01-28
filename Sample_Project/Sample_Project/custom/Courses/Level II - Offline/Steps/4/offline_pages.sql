@@ -34,7 +34,7 @@ USING (VALUES
 from Actions
 INNER JOIN Client c on c.IdClient=Actions.IdClient
 INNER JOIN Action_States s on s.State=Actions.ActionState
-WHERE Actions.ActionState in (1,2,3)',N'(Actions.ActionState =2)',NULL,N'comment like @findstring or c.Name like @findstring',1,1,NULL,2)
+WHERE Actions.ActionState in (1,2,3)',N'(Actions.ActionState =2)',N'Actions.ActionState DESC, Actions.Date ASC',N'comment like @findstring or c.Name like @findstring',1,1,NULL,2)
  ,(N'LearningApp',N'Offline_Accion_List_All',N'Offline_Accion',N'list',N'Tareas',N'<ion-item detail lines="full" onclick="flexygo.nav.goView(''Offline_Accion'',''Offline_Accion_View'',''{{objIdent|JS}}'')"> 
   <ion-label>
     <ion-text >{{comment|isnull:Sin descripción}}</ion-text >
