@@ -39,7 +39,6 @@ LearningApp.Tareas.Finalizar = function (IdTarea, e){
 * @return {bit} - true or false.
 */
 LearningApp.Tareas.FinalizarYComprobar = async function (IdTarea,e){
-  debugger; 
   var  count = await  flexygo.sql.getCount(''actions'', ''actionType=? AND signature is null and actionid=?'',[''SALE'',IdTarea]) ;
   if(count==0){ 
     flexygo.sql.execSQL(''update actions set actionstate=3, _isupdated=1 where actionid=?'', [IdTarea]).then(() => {
@@ -95,7 +94,7 @@ LearningApp.Tareas.BorrarTarea = async function (IdTarea, e){
       flexygo.msg.warning("El estado de la tarea impide borrarla.");
     }
   });  
-};',1,0,'2020-07-24T00:00:00',2)
+};',1,0,'2021-01-28T00:00:00',2)
 ) AS Source ([AppName],[Name],[JSScript],[Enabled],[Order],[LastChange],[OriginId])
 ON (Target.[AppName] = Source.[AppName] AND Target.[Name] = Source.[Name])
 WHEN MATCHED AND (

@@ -1,5 +1,4 @@
 ﻿
-select * from [Offline_Menus]
 BEGIN TRY
 
 MERGE INTO [Offline_Menus] AS Target

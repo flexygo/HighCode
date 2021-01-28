@@ -4,7 +4,7 @@ BEGIN TRY
 
 MERGE INTO [Offline_Pages] AS Target
 USING (VALUES
-  (N'LearningApp',N'homepage',NULL,N'generic',N'Home Page',N'<h1>Welcome to Learning app</h1>',NULL,NULL,NULL,NULL,NULL,NULL,1,0,2)
+  (N'LearningApp',N'homepage',NULL,N'generic',N'Home Page',N'<h1>Welcome to Learning app</h1>',NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,0,NULL,2)
  ,(N'LearningApp',N'Offline_Accion_List',N'Offline_Accion',N'list',N'Tareas',N'<ion-item detail lines="full" onclick="flexygo.nav.goView(''Offline_Accion'',''Offline_Accion_View'',''{{objIdent|JS}}'')"> 
   <ion-label>
     <ion-text >{{comment|isnull:Sin descripción}}</ion-text >
@@ -14,14 +14,14 @@ USING (VALUES
   <ion-chip color="{{ActionState|switch:[0:warning, 1:danger, 2:warning, 3:success, 4:success]}}" class="icon-margin-right">
     <i class="flx-icon {{ActionType|switch:[ICALL:icon-call11,OCALL:icon-phone-2,EMAIL:icon-email1,SALE:icon-dollar,else:icon-accounting-operations]}}"></i>            
   </ion-chip>
-</ion-item>',N'<ion-segment value="Todos">
-  <ion-segment-button  value="All" onclick="' + convert(nvarchar(max),NCHAR(36)) + N'(''flx-list:first'').attr(''additional'',''(Actions.ActionState <> 4)'')">
-    <ion-label>Todas</ion-label>
+</ion-item>',N'<ion-segment value="InProgress">
+  <ion-segment-button value="InProgress" onclick="' + convert(nvarchar(max),NCHAR(36)) + N'(''flx-list:first'').attr(''additional'',''(Actions.ActionState =2)'')">
+    <ion-label>Activas</ion-label>
   </ion-segment-button>
-  <ion-segment-button value="ToDo"  onclick="' + convert(nvarchar(max),NCHAR(36)) + N'(''flx-list:first'').attr(''additional'',''(Actions.ActionState in (1,2))'')">
+  <ion-segment-button value="ToDo"  onclick="' + convert(nvarchar(max),NCHAR(36)) + N'(''flx-list:first'').attr(''additional'',''(Actions.ActionState =1)'')">
     <ion-label>A realizar</ion-label>
   </ion-segment-button>
-  <ion-segment-button  value="Finish" onclick="' + convert(nvarchar(max),NCHAR(36)) + N'(''flx-list:first'').attr(''additional'',''(Actions.ActionState in (3,4))'')">
+  <ion-segment-button  value="Finish" onclick="' + convert(nvarchar(max),NCHAR(36)) + N'(''flx-list:first'').attr(''additional'',''(Actions.ActionState =3)'')">
     <ion-label>Finalizadas</ion-label>
   </ion-segment-button>
 </ion-segment>',N'<ion-fab vertical="bottom" horizontal="end" slot="fixed">
@@ -34,7 +34,29 @@ USING (VALUES
 from Actions
 INNER JOIN Client c on c.IdClient=Actions.IdClient
 INNER JOIN Action_States s on s.State=Actions.ActionState
-WHERE Actions.ActionState in (1,2,3) and Actions._IsDeleted=0',NULL,N'comment like @findstring or c.Name like @findstring',1,1,2)
+WHERE Actions.ActionState in (1,2,3)  and Actions._IsDeleted=0',N'(Actions.ActionState =2)',N'Actions.ActionState DESC, Actions.Date ASC',N'comment like @findstring or c.Name like @findstring',1,1,NULL,2)
+ ,(N'LearningApp',N'Offline_Accion_List_All',N'Offline_Accion',N'list',N'Tareas',N'<ion-item detail lines="full" onclick="flexygo.nav.goView(''Offline_Accion'',''Offline_Accion_View'',''{{objIdent|JS}}'')"> 
+  <ion-label>
+    <ion-text >{{comment|isnull:Sin descripción}}</ion-text >
+    <ion-text color="medium"><h3><i class="flx-icon icon-man-4 icon-margin-right" ></i>{{Name}}</h3></ion-text>    
+    <ion-text color="medium"><h5 ><i class="flx-icon icon-calendar-day icon-margin-right " ></i>{{Date|date:DD/MM/YYYY}}</h5></ion-text>
+  </ion-label>
+  <ion-chip color="{{ActionState|switch:[0:warning, 1:danger, 2:warning, 3:success, 4:success]}}" class="icon-margin-right">
+    <i class="flx-icon {{ActionType|switch:[ICALL:icon-call11,OCALL:icon-phone-2,EMAIL:icon-email1,SALE:icon-dollar,else:icon-accounting-operations]}}"></i>            
+  </ion-chip>
+</ion-item>
+',NULL,N'<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button onclick="flexygo.nav.goInsert(''Offline_Accion'')">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+',NULL,N'Select Actions.* 
+,c.Name, c.Phone, c.Mail, c.Address, c.Province, c.PostCode
+,s.CssClass, s.Descrip as State
+from Actions
+INNER JOIN Client c on c.IdClient=Actions.IdClient
+INNER JOIN Action_States s on s.State=Actions.ActionState
+',NULL,N'Actions.ActionState DESC, Actions.Date ASC',N'comment like @findstring or c.Name like @findstring',0,1,NULL,2)
  ,(N'LearningApp',N'Offline_Accion_View',N'Offline_Accion',N'view',N'Tarea',N'  <ion-item lines="none" color="{{ActionState|switch:[0:warning, 1:danger, 2:warning, 3:success, 4:success]}}">
     <ion-chip slot="start">
       <ion-label color="light"><i class="flx-icon {{ActionType|switch:[ICALL:icon-call11,OCALL:icon-phone-2,EMAIL:icon-email1,SALE:icon-dollar,else:icon-accounting-operations]}}"></i> </ion-label>
@@ -89,9 +111,7 @@ WHERE Actions.ActionState in (1,2,3) and Actions._IsDeleted=0',NULL,N'comment li
       <ion-label><i class="fa fa-file-text-o icon-margin-right"></i> {{translate|Documentos}}</ion-label>
       <ion-badge slot="end" color="">{{flexygo.sql.getCount(''flxDocuments'', ''ObjectId=? AND ObjectName=?'',[''{{ActionId}}'',''Offline_Accion''])}}</ion-badge>
     </ion-item>   
-  </ion-list>
-
-',NULL,N'<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  </ion-list>',NULL,N'<ion-fab vertical="bottom" horizontal="end" slot="fixed">
   <ion-fab-button color="primary" >
     <ion-icon name="ellipsis-vertical"></ion-icon>
   </ion-fab-button>
@@ -110,12 +130,12 @@ from Actions
 INNER JOIN Client c on c.IdClient=Actions.IdClient
 INNER JOIN Action_States s on s.State=Actions.ActionState
 WHERE Actions.ActionState in (1,2,3)
-',NULL,NULL,1,0,2)
+',NULL,NULL,NULL,1,0,NULL,2)
  ,(N'LearningApp',N'Offline_Cliente_Edit',N'Offline_Cliente',N'edit',N'Editar Cliente',N'{{getProperties(json)}}',NULL,N'<ion-fab vertical="bottom" horizontal="end" slot="fixed">
  <ion-fab-button onclick="flexygo.forms.save(this,event).then(() => {flexygo.nav.transferView(''Offline_Cliente'',''Offline_Cliente_View'',''Client.IdClient=\''''+' + convert(nvarchar(max),NCHAR(36)) + N'(this).closest(''flx-edit'').find(''[property=IdClient]'').val()+''\'''')}).catch(err => {flexygo.msg.showError(err)});">
    <i class="flx-icon icon-save-21"></i>
  </ion-fab-button>
-</ion-fab>',NULL,NULL,NULL,NULL,1,0,2)
+</ion-fab>',NULL,NULL,NULL,NULL,NULL,1,0,NULL,2)
  ,(N'LearningApp',N'Offline_Cliente_List',N'Offline_Cliente',N'list',N'Clientes',N'
 <ion-item lines="full" onclick="flexygo.nav.goView(''Offline_Cliente'',''Offline_Cliente_View'',''{{objIdent|JS}}'')">
   <ion-chip color="dark">
@@ -134,7 +154,7 @@ WHERE Actions.ActionState in (1,2,3)
 		<i class="flx-icon icon-client" ></i>
 	</ion-chip>
   <ion-label color="danger">{{translate|No hay clientes}}</ion-label> 
-</ion-item>',NULL,N'Name',N'(Name like @FindString)',1,1,2)
+</ion-item>',NULL,NULL,N'Name',N'(Name like @FindString)',1,1,NULL,2)
  ,(N'LearningApp',N'Offline_Cliente_View',N'Offline_Cliente',N'view',N'Cliente',N'
 <ion-card>
   <ion-grid>
@@ -162,12 +182,12 @@ WHERE Actions.ActionState in (1,2,3)
       Tareas
     </ion-label>
   </ion-item-divider>
-  <ion-item lines="full" button onClick="flexygo.nav.goList(''Offline_Accion'',null,''Actions.IdClient={{IdClient}} AND (Actions.ActionState = 1 or Actions.ActionState=2)'')">
+  <ion-item lines="full" button onClick="flexygo.nav.goList(''Offline_Accion'',''Offline_Accion_List_All'',''Actions.IdClient={{IdClient}} AND (Actions.ActionState = 1 or Actions.ActionState=2)'')">
     <ion-label color="danger"> <i class="flx-icon icon-document3 icon-margin-right"></i>Pendientes</ion-label>
     <ion-badge slot="end" color="danger">{{flexygo.sql.getCount(''Actions'', ''Actions.IdClient=? AND (Actions.ActionState = 1 OR Actions.ActionState=2)'',[''{{IdClient}}''])}}</ion-badge>
   </ion-item>
 
-  <ion-item lines="full" button onClick="flexygo.nav.goList(''Offline_Accion'',null,''Actions.IdClient={{IdClient}} AND (Actions.ActionState = 3)'')">
+  <ion-item lines="full" button onClick="flexygo.nav.goList(''Offline_Accion'',''Offline_Accion_List_All'',''Actions.IdClient={{IdClient}} AND (Actions.ActionState = 3)'')">
     <ion-label color="success"><i class="flx-icon icon-document3 icon-margin-right"></i>Finalizadas</ion-label>
     <ion-badge slot="end" color="success">{{flexygo.sql.getCount(''Actions'', ''Actions.IdClient=? AND (Actions.ActionState = 3)'',[''{{IdClient}}''])}}</ion-badge>
   </ion-item>
@@ -183,8 +203,8 @@ WHERE Actions.ActionState in (1,2,3)
       <ion-icon name="create-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab-list>
-</ion-fab>',NULL,NULL,NULL,NULL,1,0,2)
-) AS Source ([AppName],[PageName],[ObjectName],[TypeId],[Title],[Body],[Header],[Footer],[Empty],[SQLSentence],[SQLOrderBy],[SQLSearchFilter],[IsDefault],[ShowSearchBar],[OriginId])
+</ion-fab>',NULL,NULL,NULL,NULL,NULL,1,0,NULL,2)
+) AS Source ([AppName],[PageName],[ObjectName],[TypeId],[Title],[Body],[Header],[Footer],[Empty],[SQLSentence],[SQLAdditionalWhere],[SQLOrderBy],[SQLSearchFilter],[IsDefault],[ShowSearchBar],[JSAfterLoad],[OriginId])
 ON (Target.[AppName] = Source.[AppName] AND Target.[PageName] = Source.[PageName])
 WHEN MATCHED AND (
 	NULLIF(Source.[ObjectName], Target.[ObjectName]) IS NOT NULL OR NULLIF(Target.[ObjectName], Source.[ObjectName]) IS NOT NULL OR 
@@ -195,10 +215,12 @@ WHEN MATCHED AND (
 	NULLIF(Source.[Footer], Target.[Footer]) IS NOT NULL OR NULLIF(Target.[Footer], Source.[Footer]) IS NOT NULL OR 
 	NULLIF(Source.[Empty], Target.[Empty]) IS NOT NULL OR NULLIF(Target.[Empty], Source.[Empty]) IS NOT NULL OR 
 	NULLIF(Source.[SQLSentence], Target.[SQLSentence]) IS NOT NULL OR NULLIF(Target.[SQLSentence], Source.[SQLSentence]) IS NOT NULL OR 
+	NULLIF(Source.[SQLAdditionalWhere], Target.[SQLAdditionalWhere]) IS NOT NULL OR NULLIF(Target.[SQLAdditionalWhere], Source.[SQLAdditionalWhere]) IS NOT NULL OR 
 	NULLIF(Source.[SQLOrderBy], Target.[SQLOrderBy]) IS NOT NULL OR NULLIF(Target.[SQLOrderBy], Source.[SQLOrderBy]) IS NOT NULL OR 
 	NULLIF(Source.[SQLSearchFilter], Target.[SQLSearchFilter]) IS NOT NULL OR NULLIF(Target.[SQLSearchFilter], Source.[SQLSearchFilter]) IS NOT NULL OR 
 	NULLIF(Source.[IsDefault], Target.[IsDefault]) IS NOT NULL OR NULLIF(Target.[IsDefault], Source.[IsDefault]) IS NOT NULL OR 
 	NULLIF(Source.[ShowSearchBar], Target.[ShowSearchBar]) IS NOT NULL OR NULLIF(Target.[ShowSearchBar], Source.[ShowSearchBar]) IS NOT NULL OR 
+	NULLIF(Source.[JSAfterLoad], Target.[JSAfterLoad]) IS NOT NULL OR NULLIF(Target.[JSAfterLoad], Source.[JSAfterLoad]) IS NOT NULL OR 
 	NULLIF(Source.[OriginId], Target.[OriginId]) IS NOT NULL OR NULLIF(Target.[OriginId], Source.[OriginId]) IS NOT NULL) THEN
  UPDATE SET
   [ObjectName] = Source.[ObjectName], 
@@ -209,14 +231,16 @@ WHEN MATCHED AND (
   [Footer] = Source.[Footer], 
   [Empty] = Source.[Empty], 
   [SQLSentence] = Source.[SQLSentence], 
+  [SQLAdditionalWhere] = Source.[SQLAdditionalWhere], 
   [SQLOrderBy] = Source.[SQLOrderBy], 
   [SQLSearchFilter] = Source.[SQLSearchFilter], 
   [IsDefault] = Source.[IsDefault], 
   [ShowSearchBar] = Source.[ShowSearchBar], 
+  [JSAfterLoad] = Source.[JSAfterLoad], 
   [OriginId] = Source.[OriginId]
 WHEN NOT MATCHED BY TARGET THEN
- INSERT([AppName],[PageName],[ObjectName],[TypeId],[Title],[Body],[Header],[Footer],[Empty],[SQLSentence],[SQLOrderBy],[SQLSearchFilter],[IsDefault],[ShowSearchBar],[OriginId])
- VALUES(Source.[AppName],Source.[PageName],Source.[ObjectName],Source.[TypeId],Source.[Title],Source.[Body],Source.[Header],Source.[Footer],Source.[Empty],Source.[SQLSentence],Source.[SQLOrderBy],Source.[SQLSearchFilter],Source.[IsDefault],Source.[ShowSearchBar],Source.[OriginId])
+ INSERT([AppName],[PageName],[ObjectName],[TypeId],[Title],[Body],[Header],[Footer],[Empty],[SQLSentence],[SQLAdditionalWhere],[SQLOrderBy],[SQLSearchFilter],[IsDefault],[ShowSearchBar],[JSAfterLoad],[OriginId])
+ VALUES(Source.[AppName],Source.[PageName],Source.[ObjectName],Source.[TypeId],Source.[Title],Source.[Body],Source.[Header],Source.[Footer],Source.[Empty],Source.[SQLSentence],Source.[SQLAdditionalWhere],Source.[SQLOrderBy],Source.[SQLSearchFilter],Source.[IsDefault],Source.[ShowSearchBar],Source.[JSAfterLoad],Source.[OriginId])
 WHEN NOT MATCHED BY SOURCE AND TARGET.OriginId = 2 THEN 
  DELETE
 ;
