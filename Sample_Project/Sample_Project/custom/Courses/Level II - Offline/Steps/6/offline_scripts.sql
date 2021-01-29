@@ -94,7 +94,7 @@ LearningApp.Tareas.BorrarTarea = async function (IdTarea, e){
       flexygo.msg.warning("El estado de la tarea impide borrarla.");
     }
   });  
-};',1,0,'2020-07-24T00:00:00',2)
+};',1,0,'2021-01-28T00:00:00',2)
 ) AS Source ([AppName],[Name],[JSScript],[Enabled],[Order],[LastChange],[OriginId])
 ON (Target.[AppName] = Source.[AppName] AND Target.[Name] = Source.[Name])
 WHEN MATCHED AND (
