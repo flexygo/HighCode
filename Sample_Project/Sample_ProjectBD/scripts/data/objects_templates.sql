@@ -25,12 +25,12 @@ USING (VALUES
     </div>
   </div>
 </div>
-</div>',NULL,NULL,NULL,NULL,NULL,NULL,0,0,1)
+</div>',NULL,NULL,NULL,NULL,NULL,NULL,0,0,1,1)
  ,(N'cliente_resumen_ventas',N'Cliente',N'generic',N'Cliente resumen ventas',N'<div class="col-12">
   <div class="col-4"><span class="txt-outstanding">{{Name}}</span></div>
   <div class="col-5"><span class="txt-muted">{{Descrip}}</span></div>
   <div class="col-3"><span class="txt-warning">{{Amount}}</span></div>
-</div>',N'cliente_resumen_ventas',NULL,N'<legend class="txt-outstanding"> <i class="fa fa-opencart"></i>Sale Summary</legend>',N'<legend class="txt-outstanding"> </legend> ',N'<div><span class="txt-outstanding">No results</span></div>',NULL,0,0,1)
+</div>',N'cliente_resumen_ventas',NULL,N'<legend class="txt-outstanding"> <i class="fa fa-opencart"></i>Sale Summary</legend>',N'<legend class="txt-outstanding"> </legend> ',N'<div><span class="txt-outstanding">No results</span></div>',NULL,0,0,1,1)
  ,(N'ClienteDefaultList',N'Cliente',N'list',N'Fichas de clientes',N'<div class="col-6 col-l-6 col-m-12 padding-l">
 	
     	<div class="col-1 col-l-1 col-m-1 col-s-1">
@@ -60,9 +60,9 @@ USING (VALUES
   .ahoraBlue{
   color: #3fbedf;
   }
-</style>',NULL,NULL,NULL,1,0,1)
+</style>',NULL,NULL,NULL,1,0,1,1)
  ,(N'Client-map',N'Cliente',N'list',N'Mapa de cliente',N'<marker address="{{address}},{{postcode}} {{city}}, {{province}}" title="{{Name}}"><small class="btn-group">{{editButton}}{{viewButton}}</small></marker>
-',NULL,NULL,N'<flx-map width="auto" height="600" cluster="true" color="retro"> ',N'</flx-map>',NULL,NULL,0,0,1)
+',NULL,NULL,N'<flx-map width="auto" height="600" cluster="true" color="retro"> ',N'</flx-map>',NULL,NULL,0,0,1,1)
  ,(N'ContactoDefaultList',N'Contacto',N'list',N'Contacto Default List',N'<div class="col-4 col-l-4 col-m-12 mod-expand">
   
   <div class="row">
@@ -86,11 +86,11 @@ USING (VALUES
     </div>	
 	<div class="col-2 col-m-2 col-s-2">{{objectmenu}}</div>
   </div>
-</div>',N'Contact_ExtendProperties',NULL,N'<legend class="padding-left-m">Contact List</legend>',NULL,N'<legend class="padding-left-m">No hay contactos para este cliente</legend>',NULL,1,0,1)
+</div>',N'Contact_ExtendProperties',NULL,N'<legend class="padding-left-m">Contact List</legend>',NULL,N'<legend class="padding-left-m">No hay contactos para este cliente</legend>',NULL,1,0,1,1)
  ,(N'Course_StepDefaultView',N'Course_Step',N'view',N'Course_Step Default View',N'<div class="margin-xl text-center">
 <h1 class="margin-xl">{{StepId}}</h1>
 <button class="btn btn-default btn-lg btn-outstanding" onclick="flexygo.nav.execProcess(''ApplyStep'',null,null,null,[{ ''Key'': ''Course'', ''Value'': ''{{CourseId}}'' },{ ''Key'': ''Step'', ''Value'': ''{{StepId}}'' }], ''modal'',false, ' + convert(nvarchar(max),NCHAR(36)) + N'(this),null,true);">Apply Step</button>
-</div>',N'Course_StepDefaultList',NULL,NULL,NULL,NULL,NULL,1,0,1)
+</div>',N'Course_StepDefaultList',NULL,NULL,NULL,NULL,NULL,1,0,1,1)
  ,(N'EquipoDefaultList',N'Equipo',N'list',N'Equipo Default List',N'<div class="col-6 col-l-6 col-m-12 padding-l">
 	
     	<div class="col-1 col-l-1 col-m-1 col-s-1">
@@ -112,7 +112,7 @@ USING (VALUES
           <div class="btn-group">{{objectmenu}}</div>
       	</div>
  
-</div>',NULL,NULL,NULL,NULL,NULL,NULL,1,0,1)
+</div>',NULL,NULL,NULL,NULL,NULL,NULL,1,0,1,1)
  ,(N'lista_ventas_template',N'Venta',N'list',N'lista ventas template',N'<div class="col-12 col-l-12 col-m-12 col-s-12 nopadding mod-expand">  
   <flx-navbutton type="openpage" pagetypeid="edit" objectname="Venta" objectwhere="(Sale.IdSale=''{{IdSale}}'')" defaults="" targetid="current" excludehist="false">  
      <div class="row row-line clickable txt-outstanding">
@@ -141,7 +141,7 @@ USING (VALUES
     <div class="col-2 col-l-2 nopadding text-center bg-outstanding ">Moneda<br/></div>
   </div>
 </div>
-',NULL,NULL,NULL,0,0,1)
+',NULL,NULL,NULL,0,0,1,1)
  ,(N'ListEmpleados',N'Employee',N'list',N'Lista empleados',N'<div class="col-4 col-l-4 col-m-12 mod-expand">
   <div class="row">
     <div class="col-2 col-m-2 col-s-3 text-center" title={{IdEmployee}}>
@@ -160,12 +160,12 @@ USING (VALUES
     </div>	
 	<div class="col-2 col-m-2 col-s-0">{{objectmenu}}</div>
   </div>
-</div>',NULL,NULL,NULL,NULL,NULL,NULL,1,0,1)
+</div>',NULL,NULL,NULL,NULL,NULL,NULL,1,0,1,1)
  ,(N'venta_totales',N'Venta',N'generic',N'venta totales',N'<div class="col-12 col-l-12 col-m-12 col-s-12 nopadding mod-expand">  
   <div class="ellipsis" title="{{Total}}"><span>TOTAL</span><h1><strong>{{Total}} </strong></h1>
     <flx-easyinfo  color="red"  iconclass="flx-icon icon-lock" size="l"  value="{{Total}}"  label="TOTAL"  symbol="€"> </flx-easyinfo>
   </div>
-</div>',N'Total_de_ventas',NULL,NULL,NULL,NULL,NULL,0,0,1)
+</div>',N'Total_de_ventas',NULL,NULL,NULL,NULL,NULL,0,0,1,1)
  ,(N'ventas_lista_template',N'Venta',N'generic',N'ventas lista template',N'<div class="col-12 col-l-12 col-m-12 col-s-12 nopadding mod-expand">  
   <flx-navbutton type="openpage" pagetypeid="edit" objectname="Venta" objectwhere="(Sale.IdSale=''{{IdSale}}'')" defaults="" targetid="current" excludehist="false">  
      <div class="row row-line clickable txt-outstanding">
@@ -185,8 +185,8 @@ USING (VALUES
       </div>
     </div>
   </flx-navbutton>
-</div>',N'VentaDefaultList',NULL,NULL,NULL,NULL,NULL,0,0,1)
-) AS Source ([TemplateId],[ObjectName],[TypeId],[Descrip],[Body],[ViewName],[WhereSentence],[Header],[Footer],[Empty],[ModuleClass],[IsDefault],[Offline],[OriginId])
+</div>',N'VentaDefaultList',NULL,NULL,NULL,NULL,NULL,0,0,1,1)
+) AS Source ([TemplateId],[ObjectName],[TypeId],[Descrip],[Body],[ViewName],[WhereSentence],[Header],[Footer],[Empty],[ModuleClass],[IsDefault],[Offline],[Active],[OriginId])
 ON (Target.[TemplateId] = Source.[TemplateId])
 WHEN MATCHED AND (
 	NULLIF(Source.[ObjectName], Target.[ObjectName]) IS NOT NULL OR NULLIF(Target.[ObjectName], Source.[ObjectName]) IS NOT NULL OR 
@@ -201,6 +201,7 @@ WHEN MATCHED AND (
 	NULLIF(Source.[ModuleClass], Target.[ModuleClass]) IS NOT NULL OR NULLIF(Target.[ModuleClass], Source.[ModuleClass]) IS NOT NULL OR 
 	NULLIF(Source.[IsDefault], Target.[IsDefault]) IS NOT NULL OR NULLIF(Target.[IsDefault], Source.[IsDefault]) IS NOT NULL OR 
 	NULLIF(Source.[Offline], Target.[Offline]) IS NOT NULL OR NULLIF(Target.[Offline], Source.[Offline]) IS NOT NULL OR 
+	NULLIF(Source.[Active], Target.[Active]) IS NOT NULL OR NULLIF(Target.[Active], Source.[Active]) IS NOT NULL OR 
 	NULLIF(Source.[OriginId], Target.[OriginId]) IS NOT NULL OR NULLIF(Target.[OriginId], Source.[OriginId]) IS NOT NULL) THEN
  UPDATE SET
   [ObjectName] = Source.[ObjectName], 
@@ -215,10 +216,11 @@ WHEN MATCHED AND (
   [ModuleClass] = Source.[ModuleClass], 
   [IsDefault] = Source.[IsDefault], 
   [Offline] = Source.[Offline], 
+  [Active] = Source.[Active], 
   [OriginId] = Source.[OriginId]
 WHEN NOT MATCHED BY TARGET THEN
- INSERT([TemplateId],[ObjectName],[TypeId],[Descrip],[Body],[ViewName],[WhereSentence],[Header],[Footer],[Empty],[ModuleClass],[IsDefault],[Offline],[OriginId])
- VALUES(Source.[TemplateId],Source.[ObjectName],Source.[TypeId],Source.[Descrip],Source.[Body],Source.[ViewName],Source.[WhereSentence],Source.[Header],Source.[Footer],Source.[Empty],Source.[ModuleClass],Source.[IsDefault],Source.[Offline],Source.[OriginId])
+ INSERT([TemplateId],[ObjectName],[TypeId],[Descrip],[Body],[ViewName],[WhereSentence],[Header],[Footer],[Empty],[ModuleClass],[IsDefault],[Offline],[Active],[OriginId])
+ VALUES(Source.[TemplateId],Source.[ObjectName],Source.[TypeId],Source.[Descrip],Source.[Body],Source.[ViewName],Source.[WhereSentence],Source.[Header],Source.[Footer],Source.[Empty],Source.[ModuleClass],Source.[IsDefault],Source.[Offline],Source.[Active],Source.[OriginId])
 WHEN NOT MATCHED BY SOURCE AND TARGET.OriginId = 1 THEN 
  DELETE
 ;

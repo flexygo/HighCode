@@ -23,6 +23,7 @@ AS
 --
 --#CHANGES
 -- 		15/07/2020 - Daniel Lutz
+-- 		01/02/2021 - Daniel Lutz - Control de notificaciones para que el empleado no reciba alertas sobre las tareas que él mismo modifica
 ----------------------------------------------------------------------------------
 BEGIN
 
@@ -32,6 +33,15 @@ BEGIN TRAN
 BEGIN TRY
 
 SET @CurrentReference = case when @CurrentReference=0 then 1 else @CurrentReference end
+declare @EmployeeSendNotices bit
+Select @EmployeeSendNotices = isnull(SendNotices,0) from Employee where IdEmployee=@CurrentReference
+--Desactivamos envío de notificaciones al empleado
+IF @EmployeeSendNotices = 1 BEGIN
+	UPDATE Employee set SendNotices = 0 where IdEmployee=@CurrentReference
+END
+
+
+
 
 --TABLA CLIENTES
 DECLARE @Client TABLE (
@@ -301,6 +311,12 @@ IF (SELECT COUNT(1) FROM @flxDocuments)>0 BEGIN
 
 	SET @JSONDocuments = JSON_MODIFY(@JSONDocuments, '$.flxDocuments',  (SELECT * FROM @flxDocuments FOR JSON PATH));
 END
+
+--Volvemos a establecer el envío de notificaciones al empleado
+IF @EmployeeSendNotices = 1 BEGIN
+	UPDATE Employee set SendNotices = 1 where IdEmployee=@CurrentReference
+END
+
 
 COMMIT TRAN
 RETURN -1

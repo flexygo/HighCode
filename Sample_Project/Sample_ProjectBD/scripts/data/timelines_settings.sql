@@ -21,7 +21,7 @@ USING (VALUES
   </div>
 </div>',N'<flx-timeline-progressbar color="{{PercentageColor}}" percentage="{{Percentage}}"> 
    <i class="fa fa-clock-o"></i> {{CompletedHours}} / {{EstimatedHours}} h
-</flx-timeline-progressbar>',NULL,NULL,NULL,1)
+</flx-timeline-progressbar>',NULL,NULL,NULL,NULL,60,1)
  ,(N'Timeline_AdvancedWithGroups',N'Advanced With Groups',N'Task',1,1,1,1,N'Unassigned Tasks',N'Left',N'Week',1,1,N'Name',N'StartDate',N'EndDate',N'IdEmployee',N'AdvancedGroups_Timeline',N'IdEmployee',N'Name',NULL,N'Style',N'<div class="row" style="display: flex;align-items: center; margin: 5px 15px;">
   <img class="img-responsive" style="width: 60px;margin-right: 10px;" src="{{Image|url}}" />
   <div class="ep-parent-container-start">
@@ -54,7 +54,7 @@ USING (VALUES
   	</div>
 </div>',N'<flx-timeline-progressbar color="{{PercentageColor}}" percentage="{{Percentage}}"> 
    <i class="fa fa-clock-o"></i> {{CompletedHours}} / {{EstimatedHours}} h
-</flx-timeline-progressbar>',NULL,NULL,NULL,1)
+</flx-timeline-progressbar>',NULL,NULL,NULL,NULL,60,1)
  ,(N'Timeline_Basic',N'Basic',N'Task',0,1,0,0,NULL,N'Left',N'Week',1,1,N'Name',N'StartDate',N'EndDate',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,N'<div class="ep-parent-container-start">
 	<div class="ep-container-start">
       <span title="{{IdState_flxtext}}" class="ep-flag ep-flag-{{IdState|switch:[1:red,2:yellow,3:green,4:blue,else:grey]}}"></span>
@@ -73,7 +73,7 @@ USING (VALUES
         <i class="flx-icon icon-man" style="font-size: 12px;margin-left: 20px;"></i> {{IdEmployee_flxtext|isnull: Not Assigned}}
       </span>
   </div>
-</div>',NULL,NULL,NULL,NULL,1)
+</div>',NULL,NULL,NULL,NULL,NULL,60,1)
  ,(N'Timeline_BasicWithGroups',N'Basic With Groups',N'Task',0,1,1,1,N'Unassigned Tasks',N'Left',N'Week',1,1,N'Name',N'StartDate',N'EndDate',N'IdEmployee',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,N'<div class="ep-parent-container-start">
 	<div class="ep-container-start">
       <span title="{{IdState_flxtext}}"  class="ep-flag ep-flag-{{IdState|switch:[1:red,2:yellow,3:green,4:blue,else:grey]}}"></span>
@@ -89,8 +89,8 @@ USING (VALUES
         <i class="flx-icon icon-ppt-2" style="font-size: 12px;margin-left: 20px;"></i> {{IdProject_flxtext}}
       </span>
   </div>
-</div>',NULL,NULL,NULL,NULL,1)
-) AS Source ([TimelineSettingName],[TimelineSettingDescrip],[ObjectName],[Advanced],[Editable],[WithGroups],[ShowItemsWithoutGroup],[TitleItemsWithoutGroup],[LayoutName],[DefaultRangeName],[ShowControls],[OnInsertOpenNewWithDefaults],[PropertyDescrip],[PropertyStartDate],[PropertyEndDate],[PropertyGroup],[GroupViewName],[GroupIdField],[GroupDescripField],[GroupClassNameField],[GroupStyleField],[GroupContentTemplate],[ItemViewName],[ItemDescripField],[ItemStartDateField],[ItemEndDateField],[ItemGroupField],[ItemEditableField],[ItemClassNameField],[ItemStyleField],[ItemTypeField],[ItemContentTemplate],[ItemVisibleFrameTemplate],[OnMovingFunction],[OnDropObjectOnItemFunction],[CustomOptions],[OriginId])
+</div>',NULL,NULL,NULL,NULL,NULL,60,1)
+) AS Source ([TimelineSettingName],[TimelineSettingDescrip],[ObjectName],[Advanced],[Editable],[WithGroups],[ShowItemsWithoutGroup],[TitleItemsWithoutGroup],[LayoutName],[DefaultRangeName],[ShowControls],[OnInsertOpenNewWithDefaults],[PropertyDescrip],[PropertyStartDate],[PropertyEndDate],[PropertyGroup],[GroupViewName],[GroupIdField],[GroupDescripField],[GroupClassNameField],[GroupStyleField],[GroupContentTemplate],[ItemViewName],[ItemDescripField],[ItemStartDateField],[ItemEndDateField],[ItemGroupField],[ItemEditableField],[ItemClassNameField],[ItemStyleField],[ItemTypeField],[ItemContentTemplate],[ItemVisibleFrameTemplate],[OnMovingFunction],[OnDropObjectOnItemFunction],[OnDeleteFunction],[CustomOptions],[DefaultTime],[OriginId])
 ON (Target.[TimelineSettingName] = Source.[TimelineSettingName])
 WHEN MATCHED AND (
 	NULLIF(Source.[TimelineSettingDescrip], Target.[TimelineSettingDescrip]) IS NOT NULL OR NULLIF(Target.[TimelineSettingDescrip], Source.[TimelineSettingDescrip]) IS NOT NULL OR 
@@ -127,7 +127,9 @@ WHEN MATCHED AND (
 	NULLIF(Source.[ItemVisibleFrameTemplate], Target.[ItemVisibleFrameTemplate]) IS NOT NULL OR NULLIF(Target.[ItemVisibleFrameTemplate], Source.[ItemVisibleFrameTemplate]) IS NOT NULL OR 
 	NULLIF(Source.[OnMovingFunction], Target.[OnMovingFunction]) IS NOT NULL OR NULLIF(Target.[OnMovingFunction], Source.[OnMovingFunction]) IS NOT NULL OR 
 	NULLIF(Source.[OnDropObjectOnItemFunction], Target.[OnDropObjectOnItemFunction]) IS NOT NULL OR NULLIF(Target.[OnDropObjectOnItemFunction], Source.[OnDropObjectOnItemFunction]) IS NOT NULL OR 
+	NULLIF(Source.[OnDeleteFunction], Target.[OnDeleteFunction]) IS NOT NULL OR NULLIF(Target.[OnDeleteFunction], Source.[OnDeleteFunction]) IS NOT NULL OR 
 	NULLIF(Source.[CustomOptions], Target.[CustomOptions]) IS NOT NULL OR NULLIF(Target.[CustomOptions], Source.[CustomOptions]) IS NOT NULL OR 
+	NULLIF(Source.[DefaultTime], Target.[DefaultTime]) IS NOT NULL OR NULLIF(Target.[DefaultTime], Source.[DefaultTime]) IS NOT NULL OR 
 	NULLIF(Source.[OriginId], Target.[OriginId]) IS NOT NULL OR NULLIF(Target.[OriginId], Source.[OriginId]) IS NOT NULL) THEN
  UPDATE SET
   [TimelineSettingDescrip] = Source.[TimelineSettingDescrip], 
@@ -164,11 +166,13 @@ WHEN MATCHED AND (
   [ItemVisibleFrameTemplate] = Source.[ItemVisibleFrameTemplate], 
   [OnMovingFunction] = Source.[OnMovingFunction], 
   [OnDropObjectOnItemFunction] = Source.[OnDropObjectOnItemFunction], 
+  [OnDeleteFunction] = Source.[OnDeleteFunction], 
   [CustomOptions] = Source.[CustomOptions], 
+  [DefaultTime] = Source.[DefaultTime], 
   [OriginId] = Source.[OriginId]
 WHEN NOT MATCHED BY TARGET THEN
- INSERT([TimelineSettingName],[TimelineSettingDescrip],[ObjectName],[Advanced],[Editable],[WithGroups],[ShowItemsWithoutGroup],[TitleItemsWithoutGroup],[LayoutName],[DefaultRangeName],[ShowControls],[OnInsertOpenNewWithDefaults],[PropertyDescrip],[PropertyStartDate],[PropertyEndDate],[PropertyGroup],[GroupViewName],[GroupIdField],[GroupDescripField],[GroupClassNameField],[GroupStyleField],[GroupContentTemplate],[ItemViewName],[ItemDescripField],[ItemStartDateField],[ItemEndDateField],[ItemGroupField],[ItemEditableField],[ItemClassNameField],[ItemStyleField],[ItemTypeField],[ItemContentTemplate],[ItemVisibleFrameTemplate],[OnMovingFunction],[OnDropObjectOnItemFunction],[CustomOptions],[OriginId])
- VALUES(Source.[TimelineSettingName],Source.[TimelineSettingDescrip],Source.[ObjectName],Source.[Advanced],Source.[Editable],Source.[WithGroups],Source.[ShowItemsWithoutGroup],Source.[TitleItemsWithoutGroup],Source.[LayoutName],Source.[DefaultRangeName],Source.[ShowControls],Source.[OnInsertOpenNewWithDefaults],Source.[PropertyDescrip],Source.[PropertyStartDate],Source.[PropertyEndDate],Source.[PropertyGroup],Source.[GroupViewName],Source.[GroupIdField],Source.[GroupDescripField],Source.[GroupClassNameField],Source.[GroupStyleField],Source.[GroupContentTemplate],Source.[ItemViewName],Source.[ItemDescripField],Source.[ItemStartDateField],Source.[ItemEndDateField],Source.[ItemGroupField],Source.[ItemEditableField],Source.[ItemClassNameField],Source.[ItemStyleField],Source.[ItemTypeField],Source.[ItemContentTemplate],Source.[ItemVisibleFrameTemplate],Source.[OnMovingFunction],Source.[OnDropObjectOnItemFunction],Source.[CustomOptions],Source.[OriginId])
+ INSERT([TimelineSettingName],[TimelineSettingDescrip],[ObjectName],[Advanced],[Editable],[WithGroups],[ShowItemsWithoutGroup],[TitleItemsWithoutGroup],[LayoutName],[DefaultRangeName],[ShowControls],[OnInsertOpenNewWithDefaults],[PropertyDescrip],[PropertyStartDate],[PropertyEndDate],[PropertyGroup],[GroupViewName],[GroupIdField],[GroupDescripField],[GroupClassNameField],[GroupStyleField],[GroupContentTemplate],[ItemViewName],[ItemDescripField],[ItemStartDateField],[ItemEndDateField],[ItemGroupField],[ItemEditableField],[ItemClassNameField],[ItemStyleField],[ItemTypeField],[ItemContentTemplate],[ItemVisibleFrameTemplate],[OnMovingFunction],[OnDropObjectOnItemFunction],[OnDeleteFunction],[CustomOptions],[DefaultTime],[OriginId])
+ VALUES(Source.[TimelineSettingName],Source.[TimelineSettingDescrip],Source.[ObjectName],Source.[Advanced],Source.[Editable],Source.[WithGroups],Source.[ShowItemsWithoutGroup],Source.[TitleItemsWithoutGroup],Source.[LayoutName],Source.[DefaultRangeName],Source.[ShowControls],Source.[OnInsertOpenNewWithDefaults],Source.[PropertyDescrip],Source.[PropertyStartDate],Source.[PropertyEndDate],Source.[PropertyGroup],Source.[GroupViewName],Source.[GroupIdField],Source.[GroupDescripField],Source.[GroupClassNameField],Source.[GroupStyleField],Source.[GroupContentTemplate],Source.[ItemViewName],Source.[ItemDescripField],Source.[ItemStartDateField],Source.[ItemEndDateField],Source.[ItemGroupField],Source.[ItemEditableField],Source.[ItemClassNameField],Source.[ItemStyleField],Source.[ItemTypeField],Source.[ItemContentTemplate],Source.[ItemVisibleFrameTemplate],Source.[OnMovingFunction],Source.[OnDropObjectOnItemFunction],Source.[OnDeleteFunction],Source.[CustomOptions],Source.[DefaultTime],Source.[OriginId])
 WHEN NOT MATCHED BY SOURCE AND TARGET.OriginId = 1 THEN 
  DELETE
 ;

@@ -8,10 +8,13 @@ USING (VALUES
   <flx-navbutton type="openpage" pagetypeid="view" objectname="Accion" objectwhere="(Actions.ActionId={{ActionId}})" defaults="" targetid="popup" excludehist="false">
     <div class="clickable ellipsis size-m"> <i class="fa fa-sun-o icon-margin-right" alt="{{ActionId}}" style="color:{{CssClass}}"></i> <span><b>{{Comment}}</b></span></div>
   </flx-navbutton>
-  <flx-navbutton type="openpage" pagetypeid="view" objectname="Client" objectwhere="(Client.IdClient={{IdClient}})" defaults="" targetid="popup" excludehist="false">
-    <div class="clickable ellipsis size-m"><i class="flx-icon icon-man icon-margin-right"></i><a href="#">{{NameCli}}</a></div>
+  <flx-navbutton title="Client {{NameCli|isnull:without client}}" type="openpage" pagetypeid="view" objectname="Client" objectwhere="(Client.IdClient=''{{IdClient}}'')" defaults="" targetid="popup" excludehist="false">
+    <div class="clickable ellipsis size-m"><i class="flx-icon icon-man icon-margin-right"></i><a href="#">{{NameCli|isnull:without client}}</a></div>
   </flx-navbutton>
-</div>',N'pPers_ActionKanbanChangeColumn',NULL,N'4',NULL,N'Archive',N'archive',NULL,1)
+  <flx-navbutton title="Employee {{NameEmp|isnull:not asigned}}" type="openpage" pagetypeid="view" objectname="Employee" objectwhere="(Employee.IdEmployee=''{{IdEmployee}}'')" defaults="" targetid="popup" excludehist="false">
+    <div class="clickable ellipsis size-m"><i class="flx-icon icon-user icon-margin-right"></i><a href="#">{{NameEmp|isnull:not asigned}}</a></div>
+  </flx-navbutton>
+</div>',NULL,NULL,N'4',NULL,N'Archive',N'archive',NULL,1)
  ,(N'Kanban',N'<i class="fa fa-tasks"></i> Tasks Kanban',NULL,N'Equipo',N'Kanban_States',N'Description',N'IdState',NULL,NULL,N'Task',N'Kanban',N'IdTask',N'IdState',N'Name',N'<div class="ep-parent-container-start" style="width: 100%;">
 	<div class="ep-container-start">
       <span title="{{StateDescription}}" class="ep-flag ep-flag-{{IdState|switch:[1:red,2:yellow,3:green,4:blue,else:grey]}}" style="margin-bottom: 2px;"></span>
