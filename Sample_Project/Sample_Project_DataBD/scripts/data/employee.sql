@@ -1,4 +1,6 @@
-﻿MERGE INTO [employee] AS Target
+﻿BEGIN TRY
+
+MERGE INTO [employee] AS Target
 USING (VALUES
   (0,N'Alberto Criado',N'+34 600 00 10',N'alberto@flexygo.es',N'~/Custom/images/Employees/alberto.png',NULL,1,0)
  ,(1,N'David Miralpeix',N'+34 600 00 11',N'david@flexygo.es',N'~/Custom/images/Employees/david.png',NULL,1,0)
