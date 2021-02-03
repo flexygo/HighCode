@@ -6,6 +6,7 @@ MERGE INTO [WebAPI_Processes] AS Target
 USING (VALUES
   (N'GetAppConfig',1,2)
  ,(N'GetAPPFileResource',1,2)
+ ,(N'RegisterToken',1,2)
  ,(N'SyncData',1,2)
  ,(N'sysOfflineSendTable',1,2)
 ) AS Source ([ProcessName],[CanView],[OriginId])
@@ -19,7 +20,8 @@ WHEN MATCHED AND (
 WHEN NOT MATCHED BY TARGET THEN
  INSERT([ProcessName],[CanView],[OriginId])
  VALUES(Source.[ProcessName],Source.[CanView],Source.[OriginId])
-
+WHEN NOT MATCHED BY SOURCE AND TARGET.OriginId = 2 THEN 
+ DELETE
 ;
 END TRY
 BEGIN CATCH

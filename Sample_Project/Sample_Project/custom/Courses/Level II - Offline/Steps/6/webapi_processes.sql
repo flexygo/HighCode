@@ -6,6 +6,7 @@ MERGE INTO [WebAPI_Processes] AS Target
 USING (VALUES
   (N'GetAppConfig',1,2)
  ,(N'GetAPPFileResource',1,2)
+ ,(N'RegisterToken',1,2)
  ,(N'SyncData',1,2)
  ,(N'sysOfflineSendTable',1,2)
 ) AS Source ([ProcessName],[CanView],[OriginId])
