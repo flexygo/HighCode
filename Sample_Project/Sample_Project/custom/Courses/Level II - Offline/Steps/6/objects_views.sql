@@ -6,7 +6,7 @@ MERGE INTO [Objects_Views] AS Target
 USING (VALUES
   (N'Offline_Accion',N'action_states',N'Action states',N'DataConnectionString',N'select State, Descrip, CssClass from Action_States ',1,0,1,0,0,N'Descrip',1,N'State',N'State',2)
  ,(N'Offline_Accion',N'action_types',N'Action types',N'DataConnectionString',N'select ActionType, Descrip, CssClass from Action_Types',1,0,1,0,0,N'Descrip',1,N'ActionType',N'ActionType',2)
- ,(N'Offline_Accion',N'Employee',N'Employees offline',N'DataConnectionString',N'Select IdEmployee, Name from Employee',0,0,1,0,0,N'Name',1,N'IdEmployee',N'IdEmployee|name',2)
+ ,(N'Offline_Accion',N'Employee',N'Employees offline',N'DataConnectionString',N'Select IdEmployee, Name from Employee',1,0,1,0,0,N'Name',1,N'IdEmployee',N'IdEmployee|name',2)
 ) AS Source ([ObjectName],[ViewName],[Descrip],[ConnStringId],[SQLSentence],[NoFilter],[ShowAsGrid],[Active],[System],[IsDefault],[OrderBy],[Offline],[PrimaryKeys],[IndexFields],[OriginId])
 ON (Target.[ObjectName] = Source.[ObjectName] AND Target.[ViewName] = Source.[ViewName])
 WHEN MATCHED AND (

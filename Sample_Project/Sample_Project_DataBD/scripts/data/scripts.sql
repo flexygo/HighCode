@@ -203,6 +203,7 @@ USING (VALUES
  ,(165,N'Offline 6ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/6/webapi_users.sql',0,N'ConfConnectionString')
  ,(166,N'Offline 6ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/6/webapi_views.sql',0,N'ConfConnectionString')
  ,(167,N'Offline 6ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/6/offline_files.sql',0,N'ConfConnectionString')
+ ,(168,N'Offline 6ª practica',2,N'~/custom/Courses/Level II - Offline/Steps/6/security_objects_roles.sql',0,N'ConfConnectionString')
 
 
 
