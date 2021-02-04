@@ -9,12 +9,14 @@ EXEC sp_MSforeachtable 'ALTER TABLE ? DISABLE TRIGGER all'
 --Application data
 :r .\data\documents_objects_config.sql
 :r .\data\help.sql
+:r .\data\jobs.sql
 :r .\data\kanban_settings.sql
 :r .\data\menus.sql
 :r .\data\modules.sql
 :r .\data\modules_events.sql
 :r .\data\modules_types.sql
 :r .\data\navigation_nodes.sql
+:r .\data\notices_sentences.sql
 :r .\data\objects.sql
 :r .\data\objects_images_settings.sql
 :r .\data\objects_objects.sql

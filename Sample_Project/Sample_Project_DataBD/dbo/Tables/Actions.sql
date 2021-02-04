@@ -33,7 +33,7 @@ IF EXISTS(SELECT 1 FROM inserted) BEGIN
 /**************************************************************************************************************************
 	Notify new actions
 ***************************************************************************************************************************/
-	INSERT INTO Notices (Descrip, EmployeId, ActionId)
+	INSERT INTO Notices (Descrip, EmployeeId, ActionId)
 	SELECT 'New task (' + cast(i.ActionId as varchar) + '): ' + i.Comment,i.IdEmployee, i.ActionId
 	FROM inserted i
 	inner join Employee e on e.IdEmployee=i.IdEmployee
@@ -51,7 +51,7 @@ IF EXISTS(SELECT 1 FROM inserted) BEGIN
 /**************************************************************************************************************************
 	Notify updated actions
 ***************************************************************************************************************************/
-	INSERT INTO Notices (Descrip, EmployeId, ActionId)
+	INSERT INTO Notices (Descrip, EmployeeId, ActionId)
 	SELECT 
 	'Updated Task (' + cast(i.ActionId as varchar) + '): ' + i.Comment,i.IdEmployee, i.ActionId
 	FROM inserted i
@@ -65,7 +65,7 @@ IF EXISTS(SELECT 1 FROM inserted) BEGIN
 /**************************************************************************************************************************
 	Notify unnasigned actions
 ***************************************************************************************************************************/
-	INSERT INTO Notices (Descrip, EmployeId, ActionId)
+	INSERT INTO Notices (Descrip, EmployeeId, ActionId)
 	SELECT 
 	'They have taken you off the task (' + cast(i.ActionId as varchar) + '): ' + i.Comment,d.IdEmployee, i.ActionId
 	FROM inserted i
@@ -77,7 +77,7 @@ IF EXISTS(SELECT 1 FROM inserted) BEGIN
 /**************************************************************************************************************************
 	Notify assigned actions
 ***************************************************************************************************************************/
-	INSERT INTO Notices (Descrip, EmployeId, ActionId)
+	INSERT INTO Notices (Descrip, EmployeeId, ActionId)
 	SELECT 
 	'You have been assigned to the task (' + cast(i.ActionId as varchar) + '): ' + i.Comment,i.IdEmployee, i.ActionId
 	FROM inserted i
@@ -101,7 +101,7 @@ IF EXISTS(SELECT 1 FROM deleted) BEGIN
 /**************************************************************************************************************************
 	Notify deleted actions
 ***************************************************************************************************************************/
-	INSERT INTO Notices (Descrip, EmployeId, ActionId)
+	INSERT INTO Notices (Descrip, EmployeeId, ActionId)
 	SELECT 	'Task ' +	'(' + cast(d.ActionId as varchar) + ') has been deleted. Descrip: ' + d.Comment, d.IdEmployee, d.ActionId
 	FROM deleted d 
 	inner join Employee e on e.IdEmployee=d.IdEmployee
