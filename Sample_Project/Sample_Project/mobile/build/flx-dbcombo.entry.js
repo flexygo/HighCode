@@ -1,20 +1,21 @@
 import { r as registerInstance, j as h, k as getElement } from './index-76f52202.js';
-import './ionic-global-693c5dc1.js';
-import { s as sql, u as util } from './messages-50a67881.js';
+import './ionic-global-53d785f3.js';
+import { s as sql, u as util } from './messages-1e55a1f4.js';
 import { j as jquery } from './jquery-4ed57fb2.js';
-import './utils-67a6e57b.js';
-import './index-023098c3.js';
-import './helpers-d94a0dba.js';
-import './animation-625503e5.js';
-import './index-20a23da0.js';
-import './ios.transition-267ba16c.js';
-import './md.transition-15ebc2b8.js';
-import './cubic-bezier-92995175.js';
-import './index-1da44cf3.js';
-import './index-53f14fc6.js';
-import './hardware-back-button-c2d005b0.js';
-import './index-725f2a8a.js';
-import { m as modalController } from './overlays-39d86a31.js';
+import './utils-30827fbd.js';
+import './index-38aae3ff.js';
+import './helpers-742de4f9.js';
+import './animation-a90ce8fc.js';
+import './index-a6178d25.js';
+import './ios.transition-bfe5eada.js';
+import './md.transition-e49d1536.js';
+import './cubic-bezier-89113939.js';
+import './index-9b41fcc6.js';
+import './index-86d5f3ab.js';
+import './hardware-back-button-b3b61715.js';
+import './index-c940ddb6.js';
+import { m as modalController } from './overlays-3fb58ad8.js';
+import { p as parser } from './parser-8fd0ea5d.js';
 
 const flxDbcomboCss = "flx-dbcombo{width:100%}flx-dbcombo ion-input{width:calc(100% - 60px);max-width:calc(100% - 60px);float:left;text-overflow:ellipsis;white-space:nowrap;overflow:hidden}flx-dbcombo[clearbutton=\"false\"] ion-input{width:100%;max-width:100%;float:left}flx-dbcombo ion-button{width:30px;float:right}flx-dbcombo ion-button.ios{--padding-start:0px;--padding-end:0px}";
 
@@ -28,6 +29,9 @@ const FlxDbcombo = class {
         this.load();
     }
     sqlsentenceHandler() {
+        this.load();
+    }
+    sqlfilterHandler() {
         this.load();
     }
     additionalHandler() {
@@ -104,8 +108,14 @@ const FlxDbcombo = class {
         let mBar = jquery(modal).find('ion-searchbar');
         mBar.off('ionChange').on('ionChange', (ev) => {
             if (mBar.val()) {
-                list.params = ['%' + mBar.val() + '%'];
-                list.additional = `\`${this.displayfield}\` like ? `;
+                if (this.sqlfilter) {
+                    list.params = [];
+                    list.additional = parser.replaceAll(this.sqlfilter, '@FindString', '\'%' + mBar.val() + '%\'');
+                }
+                else {
+                    list.params = ['%' + mBar.val() + '%'];
+                    list.additional = `\`${this.displayfield}\` like ? `;
+                }
             }
             else {
                 list.params = [];
@@ -144,6 +154,7 @@ const FlxDbcombo = class {
     get me() { return getElement(this); }
     static get watchers() { return {
         "sqlsentence": ["sqlsentenceHandler"],
+        "sqlfilter": ["sqlfilterHandler"],
         "additional": ["additionalHandler"],
         "filter": ["filterlHandler"],
         "value": ["valueHandler"]

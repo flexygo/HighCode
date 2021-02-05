@@ -1,5 +1,5 @@
 import { r as registerInstance, j as h, l as Host, k as getElement } from './index-76f52202.js';
-import { g as getIonMode } from './ionic-global-693c5dc1.js';
+import { g as getIonMode } from './ionic-global-53d785f3.js';
 
 const selectOptionCss = ":host{display:none}";
 

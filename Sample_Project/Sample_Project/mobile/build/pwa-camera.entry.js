@@ -236,7 +236,7 @@ const CameraPWA = class {
     }
     async initPhotoCapabilities(imageCapture) {
         const c = await imageCapture.getPhotoCapabilities();
-        if (c.fillLightMode.length > 1) {
+        if (c.fillLightMode && c.fillLightMode.length > 1) {
             this.flashModes = c.fillLightMode.map(m => m);
             // Try to recall the current flash mode
             if (this.flashMode) {

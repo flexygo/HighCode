@@ -474,20 +474,18 @@ ion-button[color] > .flx-icon {
 }
 /*TREE*/
 .collapsed > .tree-icon-toggle:before {
-    font-family: 'FontAwesome';
-    content: "\f196";
+    content: "\ebc4";
     display: block;
     cursor: pointer;
-   /*transform: rotate(0deg) scale(1);*/
+    transform: rotate(0deg) scale(1);
     transition: 0.3s linear;
 }
 
 .tree-icon-toggle:before {
-    font-family: 'FontAwesome';
-    content: "\f147";
+    content: "\ebc4";
     display: block;
     cursor: pointer;
-    /*transform: rotate(90deg) scale(1);*/
+    transform: rotate(90deg) scale(1);
     transition: 0.3s linear;
 }
 /*TREE END*/

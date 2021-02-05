@@ -990,6 +990,61 @@ var flexygo;
             }
         }
         utils.getFileIcon = getFileIcon;
+        utils.colors = [
+            &quot;#63b598&quot;, &quot;#ce7d78&quot;, &quot;#ea9e70&quot;, &quot;#a48a9e&quot;, &quot;#c6e1e8&quot;, &quot;#648177&quot;, &quot;#0d5ac1&quot;,
+            &quot;#f205e6&quot;, &quot;#1c0365&quot;, &quot;#14a9ad&quot;, &quot;#4ca2f9&quot;, &quot;#a4e43f&quot;, &quot;#d298e2&quot;, &quot;#6119d0&quot;,
+            &quot;#d2737d&quot;, &quot;#c0a43c&quot;, &quot;#f2510e&quot;, &quot;#651be6&quot;, &quot;#79806e&quot;, &quot;#61da5e&quot;, &quot;#cd2f00&quot;,
+            &quot;#9348af&quot;, &quot;#01ac53&quot;, &quot;#c5a4fb&quot;, &quot;#996635&quot;, &quot;#b11573&quot;, &quot;#4bb473&quot;, &quot;#75d89e&quot;,
+            &quot;#2f3f94&quot;, &quot;#2f7b99&quot;, &quot;#da967d&quot;, &quot;#34891f&quot;, &quot;#b0d87b&quot;, &quot;#ca4751&quot;, &quot;#7e50a8&quot;,
+            &quot;#c4d647&quot;, &quot;#e0eeb8&quot;, &quot;#11dec1&quot;, &quot;#289812&quot;, &quot;#566ca0&quot;, &quot;#ffdbe1&quot;, &quot;#2f1179&quot;,
+            &quot;#935b6d&quot;, &quot;#916988&quot;, &quot;#513d98&quot;, &quot;#aead3a&quot;, &quot;#9e6d71&quot;, &quot;#4b5bdc&quot;, &quot;#0cd36d&quot;,
+            &quot;#250662&quot;, &quot;#cb5bea&quot;, &quot;#228916&quot;, &quot;#ac3e1b&quot;, &quot;#df514a&quot;, &quot;#539397&quot;, &quot;#880977&quot;,
+            &quot;#f697c1&quot;, &quot;#ba96ce&quot;, &quot;#679c9d&quot;, &quot;#c6c42c&quot;, &quot;#5d2c52&quot;, &quot;#48b41b&quot;, &quot;#e1cf3b&quot;,
+            &quot;#5be4f0&quot;, &quot;#57c4d8&quot;, &quot;#a4d17a&quot;, &quot;#225b8&quot;, &quot;#be608b&quot;, &quot;#96b00c&quot;, &quot;#088baf&quot;,
+            &quot;#f158bf&quot;, &quot;#e145ba&quot;, &quot;#ee91e3&quot;, &quot;#05d371&quot;, &quot;#5426e0&quot;, &quot;#4834d0&quot;, &quot;#802234&quot;,
+            &quot;#6749e8&quot;, &quot;#0971f0&quot;, &quot;#8fb413&quot;, &quot;#b2b4f0&quot;, &quot;#c3c89d&quot;, &quot;#c9a941&quot;, &quot;#41d158&quot;,
+            &quot;#fb21a3&quot;, &quot;#51aed9&quot;, &quot;#5bb32d&quot;, &quot;#807fb&quot;, &quot;#21538e&quot;, &quot;#89d534&quot;, &quot;#d36647&quot;,
+            &quot;#7fb411&quot;, &quot;#0023b8&quot;, &quot;#3b8c2a&quot;, &quot;#986b53&quot;, &quot;#f50422&quot;, &quot;#983f7a&quot;, &quot;#ea24a3&quot;,
+            &quot;#79352c&quot;, &quot;#521250&quot;, &quot;#c79ed2&quot;, &quot;#d6dd92&quot;, &quot;#e33e52&quot;, &quot;#b2be57&quot;, &quot;#fa06ec&quot;,
+            &quot;#1bb699&quot;, &quot;#6b2e5f&quot;, &quot;#64820f&quot;, &quot;#1c271&quot;, &quot;#21538e&quot;, &quot;#89d534&quot;, &quot;#d36647&quot;,
+            &quot;#7fb411&quot;, &quot;#0023b8&quot;, &quot;#3b8c2a&quot;, &quot;#986b53&quot;, &quot;#f50422&quot;, &quot;#983f7a&quot;, &quot;#ea24a3&quot;,
+            &quot;#79352c&quot;, &quot;#521250&quot;, &quot;#c79ed2&quot;, &quot;#d6dd92&quot;, &quot;#e33e52&quot;, &quot;#b2be57&quot;, &quot;#fa06ec&quot;,
+            &quot;#1bb699&quot;, &quot;#6b2e5f&quot;, &quot;#64820f&quot;, &quot;#1c271&quot;, &quot;#9cb64a&quot;, &quot;#996c48&quot;, &quot;#9ab9b7&quot;,
+            &quot;#06e052&quot;, &quot;#e3a481&quot;, &quot;#0eb621&quot;, &quot;#fc458e&quot;, &quot;#b2db15&quot;, &quot;#aa226d&quot;, &quot;#792ed8&quot;,
+            &quot;#73872a&quot;, &quot;#520d3a&quot;, &quot;#cefcb8&quot;, &quot;#a5b3d9&quot;, &quot;#7d1d85&quot;, &quot;#c4fd57&quot;, &quot;#f1ae16&quot;,
+            &quot;#8fe22a&quot;, &quot;#ef6e3c&quot;, &quot;#243eeb&quot;, &quot;#1dc18&quot;, &quot;#dd93fd&quot;, &quot;#3f8473&quot;, &quot;#e7dbce&quot;,
+            &quot;#421f79&quot;, &quot;#7a3d93&quot;, &quot;#635f6d&quot;, &quot;#93f2d7&quot;, &quot;#9b5c2a&quot;, &quot;#15b9ee&quot;, &quot;#0f5997&quot;,
+            &quot;#409188&quot;, &quot;#911e20&quot;, &quot;#1350ce&quot;, &quot;#10e5b1&quot;, &quot;#fff4d7&quot;, &quot;#cb2582&quot;, &quot;#ce00be&quot;,
+            &quot;#32d5d6&quot;, &quot;#17232&quot;, &quot;#608572&quot;, &quot;#c79bc2&quot;, &quot;#00f87c&quot;, &quot;#77772a&quot;, &quot;#6995ba&quot;,
+            &quot;#fc6b57&quot;, &quot;#f07815&quot;, &quot;#8fd883&quot;, &quot;#060e27&quot;, &quot;#96e591&quot;, &quot;#21d52e&quot;, &quot;#d00043&quot;,
+            &quot;#b47162&quot;, &quot;#1ec227&quot;, &quot;#4f0f6f&quot;, &quot;#1d1d58&quot;, &quot;#947002&quot;, &quot;#bde052&quot;, &quot;#e08c56&quot;,
+            &quot;#28fcfd&quot;, &quot;#bb09b&quot;, &quot;#36486a&quot;, &quot;#d02e29&quot;, &quot;#1ae6db&quot;, &quot;#3e464c&quot;, &quot;#a84a8f&quot;,
+            &quot;#911e7e&quot;, &quot;#3f16d9&quot;, &quot;#0f525f&quot;, &quot;#ac7c0a&quot;, &quot;#b4c086&quot;, &quot;#c9d730&quot;, &quot;#30cc49&quot;,
+            &quot;#3d6751&quot;, &quot;#fb4c03&quot;, &quot;#640fc1&quot;, &quot;#62c03e&quot;, &quot;#d3493a&quot;, &quot;#88aa0b&quot;, &quot;#406df9&quot;,
+            &quot;#615af0&quot;, &quot;#4be47&quot;, &quot;#2a3434&quot;, &quot;#4a543f&quot;, &quot;#79bca0&quot;, &quot;#a8b8d4&quot;, &quot;#00efd4&quot;,
+            &quot;#7ad236&quot;, &quot;#7260d8&quot;, &quot;#1deaa7&quot;, &quot;#06f43a&quot;, &quot;#823c59&quot;, &quot;#e3d94c&quot;, &quot;#dc1c06&quot;,
+            &quot;#f53b2a&quot;, &quot;#b46238&quot;, &quot;#2dfff6&quot;, &quot;#a82b89&quot;, &quot;#1a8011&quot;, &quot;#436a9f&quot;, &quot;#1a806a&quot;,
+            &quot;#4cf09d&quot;, &quot;#c188a2&quot;, &quot;#67eb4b&quot;, &quot;#b308d3&quot;, &quot;#fc7e41&quot;, &quot;#af3101&quot;, &quot;#ff065&quot;,
+            &quot;#71b1f4&quot;, &quot;#a2f8a5&quot;, &quot;#e23dd0&quot;, &quot;#d3486d&quot;, &quot;#00f7f9&quot;, &quot;#474893&quot;, &quot;#3cec35&quot;,
+            &quot;#1c65cb&quot;, &quot;#5d1d0c&quot;, &quot;#2d7d2a&quot;, &quot;#ff3420&quot;, &quot;#5cdd87&quot;, &quot;#a259a4&quot;, &quot;#e4ac44&quot;,
+            &quot;#1bede6&quot;, &quot;#8798a4&quot;, &quot;#d7790f&quot;, &quot;#b2c24f&quot;, &quot;#de73c2&quot;, &quot;#d70a9c&quot;, &quot;#25b67&quot;,
+            &quot;#88e9b8&quot;, &quot;#c2b0e2&quot;, &quot;#86e98f&quot;, &quot;#ae90e2&quot;, &quot;#1a806b&quot;, &quot;#436a9e&quot;, &quot;#0ec0ff&quot;,
+            &quot;#f812b3&quot;, &quot;#b17fc9&quot;, &quot;#8d6c2f&quot;, &quot;#d3277a&quot;, &quot;#2ca1ae&quot;, &quot;#9685eb&quot;, &quot;#8a96c6&quot;,
+            &quot;#dba2e6&quot;, &quot;#76fc1b&quot;, &quot;#608fa4&quot;, &quot;#20f6ba&quot;, &quot;#07d7f6&quot;, &quot;#dce77a&quot;, &quot;#77ecca&quot;
+        ];
+        function hexToRgbA(hex, opacity) {
+            var c;
+            if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
+                c = hex.substring(1).split(&#x27;&#x27;);
+                if (c.length == 3) {
+                    c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+                }
+                c = &#x27;0x&#x27; + c.join(&#x27;&#x27;);
+                return &#x27;rgba(&#x27; + [(c &gt;&gt; 16) &amp; 255, (c &gt;&gt; 8) &amp; 255, c &amp; 255].join(&#x27;,&#x27;) + &#x27;,&#x27; + opacity + &#x27;)&#x27;;
+            }
+            throw new Error(&#x27;Bad Hex&#x27;);
+        }
+        utils.hexToRgbA = hexToRgbA;
     })(utils = flexygo.utils || (flexygo.utils = {}));
 })(flexygo || (flexygo = {}));
 (function (flexygo) {

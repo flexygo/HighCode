@@ -1,5 +1,5 @@
 import { r as registerInstance, j as h, l as Host } from './index-76f52202.js';
-import { g as getIonMode } from './ionic-global-693c5dc1.js';
+import { g as getIonMode } from './ionic-global-53d785f3.js';
 
 const itemGroupIosCss = "ion-item-group{display:block}";
 

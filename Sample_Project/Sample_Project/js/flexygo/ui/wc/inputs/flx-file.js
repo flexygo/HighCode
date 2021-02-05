@@ -150,8 +150,15 @@ var flexygo;
                         });
                     }
                     else if (this.type === 'base64') {
-                        this.setValue(base64);
-                        flexygo.msg.success('file.saved');
+                        let extns = this.options.Extensions.toLowerCase().split("|");
+                        let fileExtension = name.substring(name.lastIndexOf(".")).toLowerCase();
+                        if (extns.indexOf(fileExtension) > -1 || this.options.ExtensionId == 'sysAll') {
+                            this.setValue(base64);
+                            flexygo.msg.success('file.saved');
+                        }
+                        else {
+                            flexygo.msg.error('file.extension');
+                        }
                     }
                 }
                 /**
@@ -199,8 +206,15 @@ var flexygo;
                             me.find('div').first().addClass('input-group');
                         }
                     }
-                    if (this.options && this.options.RegExp) {
-                        input.attr('accept', this.options.RegExp);
+                    if ((this.options && this.options.RegExp) || (this.options && this.options.Extensions)) {
+                        if (this.options.RegExp) {
+                            input.attr('accept', this.options.RegExp);
+                        }
+                        else if (this.options.Extensions) {
+                            if (this.options.ExtensionId != 'sysAll') {
+                                input.attr('accept', flexygo.utils.parser.replaceAll(this.options.Extensions, '|', ','));
+                            }
+                        }
                     }
                 }
                 /**

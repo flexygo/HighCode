@@ -75,6 +75,11 @@ declare namespace flexygo.ui.wc {
         * Composer Attachment Template
         * @property composerAttachmentTemplate {string}
         */
+        /**
+        * Control Mode
+        * @property type {string}
+        */
+        mode: string;
         uploadFileTemplate: Function;
         /**
         * Fires when element is attached to DOM

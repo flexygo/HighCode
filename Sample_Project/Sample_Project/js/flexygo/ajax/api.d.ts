@@ -171,6 +171,8 @@ declare namespace flexygo.api {
         ImageCompressionType: number;
         ImageMaxWidth: number;
         ImageMaxHeight: number;
+        ExtensionId: string;
+        Extensions: string;
         ObjectPath?: string;
         Type?: string;
         AllowNull?: boolean;
@@ -265,6 +267,8 @@ declare namespace flexygo.api {
         imagecompressiontype: number;
         imagemaxwidth: number;
         imagemaxheight: number;
+        extensionid: string;
+        extensions: string;
         objectpath?: string;
         type?: string;
         allownull?: boolean;

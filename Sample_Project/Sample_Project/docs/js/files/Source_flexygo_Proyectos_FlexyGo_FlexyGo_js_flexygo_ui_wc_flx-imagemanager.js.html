@@ -513,7 +513,7 @@ var flexygo;
                         iconEdit = (this.singleImage &amp;&amp; mainImage) ? &#x27;fa fa-image&#x27; : &#x27;flx-icon icon-pencil&#x27;;
                         rendered = &#x60;&lt;div imageId=&quot;&#x60; + imageId + &#x60;&quot; order=&quot;&#x60; + orderNumber + &#x60;&quot; class=&quot;im-item im-transition&quot; style=&quot;${this.mode.toLowerCase() == &quot;view&quot; ? &#x27;cursor: initial&#x27; : &#x27;&#x27;}&quot;&gt;
                                 &lt;div method=&quot;&quot; class=&quot;im-data im-transition&quot;&gt;
-                                    &lt;div method=&quot;mainimage&quot; value=&quot;&#x60; + mainImage + &#x60;&quot; class=&quot;ignore-drag im-mainimage im-transition&quot;&gt;
+                                    &lt;div method=&quot;mainimage&quot; value=&quot;&#x60; + (mainImage ? mainImage : &#x27;&#x27;) + &#x60;&quot; class=&quot;ignore-drag im-mainimage im-transition ${this.mode.toLowerCase() == &quot;recognition&quot; ? &#x27;hidden&#x27; : &#x27;&#x27;}&quot;&gt;
                                         &lt;i class=&quot;flx-icon icon-star im-item-corner-icon im-transition&quot; flx-fw=&quot;&quot;&gt;&lt;/i&gt;
                                         &lt;div class=&quot;im-item-corner im-transition&quot;&gt;&lt;/div&gt;
                                     &lt;/div&gt;
@@ -523,15 +523,15 @@ var flexygo;
                                     &lt;div class=&quot;im-data-container im-data-descrip im-transition&quot;&gt;
                                         &lt;span class=&quot;im-name im-data-item im-data-name im-transition size-l&quot;&gt;&#x60; + name.toUpperCase() + &#x60;&lt;/span&gt;
                                         &lt;hr class=&quot;im-transition&quot;&gt;
-                                        &lt;span class=&quot;im-descrip im-data-item im-transition size-xs&quot;&gt;&lt;small&gt;&#x60; + classDescrip.toUpperCase() + &#x60;&lt;/small&gt;&lt;/span&gt;
+                                        &lt;span class=&quot;im-descrip im-data-item im-transition size-xs&quot;&gt;&lt;small&gt;&#x60; + (classDescrip ? classDescrip.toUpperCase() : &#x27;&#x27;) + &#x60;&lt;/small&gt;&lt;/span&gt;
                                     &lt;/div&gt;
                                     &lt;div  method=&quot;preview&quot; class=&quot;ignore-drag im-data-container im-data-container-action im-data-preview im-transition&quot;
-                                    ${this.mode.toLowerCase() == &quot;view&quot; ? &#x27;style=&quot;margin: 15px calc(25%)&quot;&#x27; : &#x27;&#x27;}
-                                     data-src=&quot;&#x60; + flexygo.utils.resolveUrl(path) + &#x60;&quot; data-sub-html=&quot;&lt;h3&gt;&#x60; + name.toUpperCase() + &#x60;&lt;/h3&gt;&lt;p&gt;&#x60; + descrip + &#x60;&lt;/p&gt;&quot; &gt;
+                                    ${this.mode.toLowerCase() == &quot;view&quot; || this.mode.toLowerCase() == &quot;recognition&quot; ? &#x27;style=&quot;margin: 15px calc(25%)&quot;&#x27; : &#x27;&#x27;}
+                                     data-src=&quot;&#x60; + flexygo.utils.resolveUrl(path) + &#x60;&quot; data-sub-html=&quot;&lt;h3&gt;&#x60; + name.toUpperCase() + &#x60;&lt;/h3&gt;&lt;p&gt;&#x60; + (descrip ? descrip : &#x27;&#x27;) + &#x60;&lt;/p&gt;&quot; &gt;
                                         &lt;img style=&quot;display:none;&quot; src=&quot;&#x60; + flexygo.utils.resolveUrl(path) + &#x60;&quot; /&gt;
                                         &lt;i class=&quot;flx-icon icon-eye &#x60; + iconSize + &#x60; im-transition im-data-icon im-data-item&quot; flx-fw=&quot;&quot;&gt;&lt;/i&gt;
                                     &lt;/div&gt;
-                                    &lt;div  method=&quot;edit&quot; class=&quot;ignore-drag im-data-container im-data-container-action im-data-edit im-transition ${this.mode.toLowerCase() == &quot;view&quot; ? &#x27;hidden&#x27; : &#x27;&#x27;}&quot;&gt;
+                                    &lt;div  method=&quot;edit&quot; class=&quot;ignore-drag im-data-container im-data-container-action im-data-edit im-transition ${this.mode.toLowerCase() == &quot;view&quot; || this.mode.toLowerCase() == &quot;recognition&quot; ? &#x27;hidden&#x27; : &#x27;&#x27;}&quot;&gt;
                                         &lt;i class=&quot;&#x60; + iconEdit + &#x60; &#x60; + iconSize + &#x60; im-transition im-data-icon im-data-item&quot; flx-fw=&quot;&quot;&gt;&lt;/i&gt;
                                     &lt;/div&gt;
                                 &lt;/div&gt;
@@ -658,7 +658,12 @@ var flexygo;
                             value = $(element).attr(&#x27;value&#x27;);
                             if (method === &#x27;opensettings&#x27; &amp;&amp; value === &#x27;settings&#x27;) {
                                 if (this.rObjectName) {
-                                    flexygo.nav.openPage(&#x27;edit&#x27;, &#x27;sysObjectImageSetting&#x27;, &quot;ObjectName = &#x27;&quot; + this.rObjectName + &quot;&#x27;&quot;, null, &#x27;modal900x500&#x27;, false, me);
+                                    if (this.mode == &#x27;recognition&#x27;) {
+                                        flexygo.nav.openPage(&#x27;edit&#x27;, &#x27;sysObjectImageRecognitionSetting&#x27;, &quot;ObjectName = &#x27;&quot; + this.rObjectName + &quot;&#x27;&quot;, null, &#x27;modal900x500&#x27;, false, me);
+                                    }
+                                    else {
+                                        flexygo.nav.openPage(&#x27;edit&#x27;, &#x27;sysObjectImageSetting&#x27;, &quot;ObjectName = &#x27;&quot; + this.rObjectName + &quot;&#x27;&quot;, null, &#x27;modal900x500&#x27;, false, me);
+                                    }
                                 }
                             }
                             if ($(this).find(&#x27;div[imageid]&#x27;).length &lt;= 0 &amp;&amp; (method === &#x27;downloadall&#x27; || method === &#x27;deleteall&#x27;)) {
@@ -708,7 +713,11 @@ var flexygo;
                                     &#x27;ObjectId&#x27;: this.rObjectId,
                                     &#x27;ObjectName&#x27;: this.rObjectName,
                                 };
-                                flexygo.ajax.post(&#x27;~/api/ImageManager&#x27;, &#x27;GetImages&#x27;, params, (response) =&gt; {
+                                let url = &#x27;~/api/ImageManager&#x27;;
+                                if (this.mode == &#x27;recognition&#x27;) {
+                                    url = &#x27;~/api/ImageRecognitionManager&#x27;;
+                                }
+                                flexygo.ajax.post(url, &#x27;GetImages&#x27;, params, (response) =&gt; {
                                     if (response[0] &amp;&amp; !response[0].imageError) {
                                         for (let image of response) {
                                             me.find(&#x27;div[imageid=&quot;&#x27; + image.imageId + &#x27;&quot;]&#x27;).attr(&#x27;order&#x27;, image.orderNumber);
@@ -827,7 +836,11 @@ var flexygo;
                                 &#x27;Name&#x27;: name,
                                 &#x27;Base64&#x27;: base64,
                             };
-                            flexygo.ajax.post(&#x27;~/api/ImageManager&#x27;, &#x27;SetImage&#x27;, params, (response) =&gt; {
+                            let url = &#x27;~/api/ImageManager&#x27;;
+                            if (this.mode == &#x27;recognition&#x27;) {
+                                url = &#x27;~/api/ImageRecognitionManager&#x27;;
+                            }
+                            flexygo.ajax.post(url, &#x27;SetImage&#x27;, params, (response) =&gt; {
                                 if (response &amp;&amp; !response.imageError) {
                                     this.renderImage(response.imageId, response.name, response.descrip, response.classId, response.classDescrip, response.mainImage, response.orderNumber, response.path);
                                     flexygo.msg.success(&#x27;imagemanager.uploaded&#x27;);
@@ -862,7 +875,11 @@ var flexygo;
                                 &#x27;ObjectName&#x27;: this.rObjectName,
                                 &#x27;ImageId&#x27;: imageId,
                             };
-                            flexygo.ajax.post(&#x27;~/api/ImageManager&#x27;, &#x27;GetImages&#x27;, params, (response) =&gt; {
+                            let url = &#x27;~/api/ImageManager&#x27;;
+                            if (this.mode == &#x27;recognition&#x27;) {
+                                url = &#x27;~/api/ImageRecognitionManager&#x27;;
+                            }
+                            flexygo.ajax.post(url, &#x27;GetImages&#x27;, params, (response) =&gt; {
                                 if (response[0] &amp;&amp; !response[0].imageError) {
                                     for (let image of response) {
                                         this.renderImage(image.imageId, image.name, image.descrip, image.classId, image.classDescrip, image.mainImage, image.orderNumber, image.path);
@@ -914,7 +931,11 @@ var flexygo;
                             &#x27;OrderNumber&#x27;: orderNumber,
                             &#x27;ObjectName&#x27;: objectName,
                         };
-                        flexygo.ajax.post(&#x27;~/api/ImageManager&#x27;, &#x27;UpdateImage&#x27;, params, (response) =&gt; {
+                        let url = &#x27;~/api/ImageManager&#x27;;
+                        if (this.mode == &#x27;recognition&#x27;) {
+                            url = &#x27;~/api/ImageRecognitionManager&#x27;;
+                        }
+                        flexygo.ajax.post(url, &#x27;UpdateImage&#x27;, params, (response) =&gt; {
                             if (response &amp;&amp; !response.imageError) {
                                 me.find(&#x27;div.im-item div.im-data div.im-mainimage&#x27;).attr(&#x27;value&#x27;, &#x27;false&#x27;).removeClass(&#x27;im-mi-mainimage&#x27;).find(&#x27;div.im-item-corner&#x27;).removeClass(&#x27;im-mi-item-corner&#x27;);
                                 me.find(&#x27;div[imageid=&quot;&#x27; + response.imageId + &#x27;&quot;]&#x27;).find(&#x27;div.im-data div.im-mainimage&#x27;).attr(&#x27;value&#x27;, &#x27;true&#x27;).addClass(&#x27;im-mi-mainimage&#x27;).find(&#x27;div.im-item-corner&#x27;).addClass(&#x27;im-mi-item-corner&#x27;);
@@ -985,7 +1006,11 @@ var flexygo;
                             &#x27;ImageId&#x27;: imageId,
                             &#x27;ObjectName&#x27;: objectName,
                         };
-                        flexygo.ajax.post(&#x27;~/api/ImageManager&#x27;, &#x27;RemoveImage&#x27;, params, (response) =&gt; {
+                        let url = &#x27;~/api/ImageManager&#x27;;
+                        if (this.mode == &#x27;recognition&#x27;) {
+                            url = &#x27;~/api/ImageRecognitionManager&#x27;;
+                        }
+                        flexygo.ajax.post(url, &#x27;RemoveImage&#x27;, params, (response) =&gt; {
                             if (response &amp;&amp; !response.imageError) {
                                 me.find(&#x27;div[imageid=&quot;&#x27; + imageId + &#x27;&quot;]&#x27;).remove();
                                 this.wall.fitWidth();
@@ -1026,7 +1051,11 @@ var flexygo;
                             &#x27;ObjectName&#x27;: objectName,
                             &#x27;ObjectId&#x27;: objectId,
                         };
-                        flexygo.ajax.post(&#x27;~/api/ImageManager&#x27;, &#x27;RemoveAllImages&#x27;, params, (response) =&gt; {
+                        let url = &#x27;~/api/ImageManager&#x27;;
+                        if (this.mode == &#x27;recognition&#x27;) {
+                            url = &#x27;~/api/ImageRecognitionManager&#x27;;
+                        }
+                        flexygo.ajax.post(url, &#x27;RemoveAllImages&#x27;, params, (response) =&gt; {
                             if (response &amp;&amp; !response.imageError) {
                                 me.find(&#x27;div[class=&quot;im-pry-container&quot;]&#x27;).empty();
                                 this.wall.fitWidth();
@@ -1067,7 +1096,11 @@ var flexygo;
                             &#x27;ObjectName&#x27;: objectName,
                             &#x27;ObjectId&#x27;: objectId,
                         };
-                        flexygo.ajax.post(&#x27;~/api/ImageManager&#x27;, &#x27;DownloadAllImages&#x27;, params, (response) =&gt; {
+                        let url = &#x27;~/api/ImageManager&#x27;;
+                        if (this.mode == &#x27;recognition&#x27;) {
+                            url = &#x27;~/api/ImageRecognitionManager&#x27;;
+                        }
+                        flexygo.ajax.post(url, &#x27;DownloadAllImages&#x27;, params, (response) =&gt; {
                             if (response &amp;&amp; !response.imageError) {
                                 flexygo.utils.execDynamicCode(response.javacode);
                             }
@@ -1143,6 +1176,70 @@ var flexygo;
                     catch (ex) {
                         console.log(ex);
                     }
+                }
+                /**
+                * Find faces in picture and try yo recognice it with known faces.
+                * @method showFaces
+                * @param {string} file.
+                * @param {string} objectname.
+                * @param {number} tolerance.
+                * @param {string} filterids.
+                * @param {boolean} isb64.
+                * @param {Jquery} e.
+                */
+                showFaces(file, objectname, tolerance, filterids, isb64, e) {
+                    let processName = &#x27;FindFaces&#x27;;
+                    if (isb64) {
+                        processName = &#x27;FindFacesB64&#x27;;
+                    }
+                    let p = new flexygo.Process(processName);
+                    let params = [];
+                    params.push({ Key: &#x27;File&#x27;, Value: file });
+                    params.push({ Key: &#x27;ObjectName&#x27;, Value: objectname });
+                    params.push({ Key: &#x27;Tolerance&#x27;, Value: tolerance });
+                    params.push({ Key: &#x27;FilterIds&#x27;, Value: filterids });
+                    p.run(params, (r) =&gt; {
+                        let histObj = new flexygo.nav.FlexygoHistory();
+                        histObj.targetid = &#x27;popup&#x27;;
+                        let modal = flexygo.targets.createContainer(histObj, true, e);
+                        modal.empty();
+                        modal.closest(&#x27;.ui-dialog&#x27;).find(&#x27;.ui-dialog-title&#x27;).html(r.Data.Faces.length + &#x27; faces found.&#x27;);
+                        let canvas = $(&#x27;&lt;canvas&gt;&lt;/canvas&gt;&#x27;)[0];
+                        let context = canvas.getContext(&#x27;2d&#x27;);
+                        var img = new Image;
+                        img.onload = function () {
+                            canvas.width = img.width;
+                            canvas.height = img.height;
+                            context.drawImage(img, 0, 0);
+                            let colorIndex = 0;
+                            r.Data.Faces.forEach(function (face) {
+                                if (colorIndex &gt;= flexygo.utils.colors.length) {
+                                    colorIndex = 0;
+                                }
+                                context.strokeStyle = flexygo.utils.hexToRgbA(flexygo.utils.colors[colorIndex], &#x27;1&#x27;);
+                                context.lineWidth = 3;
+                                context.strokeRect(face.Left, face.Top, face.Right - face.Left, face.Bottom - face.Top);
+                                context.fillStyle = flexygo.utils.hexToRgbA(flexygo.utils.colors[colorIndex], &#x27;0.6&#x27;);
+                                context.fillRect(face.Left, face.Top, face.Right - face.Left, face.Bottom - face.Top);
+                                let faceItm = $(&#x27;&lt;div style=&quot;float:left;margin-right:10px;&quot;/&gt;&#x27;);
+                                faceItm.css(&#x27;border&#x27;, &#x27;solid 2px &#x27; + flexygo.utils.hexToRgbA(flexygo.utils.colors[colorIndex], &#x27;1&#x27;));
+                                faceItm.css(&#x27;background-color&#x27;, flexygo.utils.hexToRgbA(flexygo.utils.colors[colorIndex], &#x27;0.6&#x27;));
+                                faceItm.data(face);
+                                if (face.MostPosibleObject) {
+                                    faceItm.html(face.MostPosibleObject.ObjectName + &#x27; &#x27; + face.MostPosibleObject.ObjectId + &#x27;&lt;br/&gt; Dist: &#x27; + face.MostPosibleObject.Distance);
+                                }
+                                else {
+                                    faceItm.html(&#x27;Unknown&#x27;);
+                                }
+                                modal.append(faceItm);
+                                colorIndex += 1;
+                            });
+                            let imgH = $(&#x27;&lt;img style=&quot;width:100%;margin-top:10px&quot;/&gt;&#x27;);
+                            imgH.attr(&#x27;src&#x27;, canvas.toDataURL());
+                            modal.append(imgH);
+                        };
+                        img.src = flexygo.utils.resolveUrl(file);
+                    });
                 }
             }
             wc.FlxImageManagerElement = FlxImageManagerElement;

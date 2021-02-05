@@ -125,6 +125,16 @@ declare namespace flexygo.ui.wc {
         */
         ERPObjectName: string;
         /**
+        * Config extensionId
+        * @property extensionId {string}
+        */
+        extensionId: string;
+        /**
+        * Config extensions
+        * @property extensions {string}
+        */
+        extensions: string;
+        /**
         * Related object id
         * @property rObjectId {string}
         */

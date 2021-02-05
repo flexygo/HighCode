@@ -349,6 +349,7 @@ var flexygo;
                     this.moduleName = null;
                     this.TypeMode = null;
                     this.fileName = null;
+                    this.name = null;
                     /**
                     * Control Mode
                     * @property type {string}
@@ -806,7 +807,8 @@ var flexygo;
                                 FileName: this.fileName,
                                 Base64: result.split(&#x27;,&#x27;)[1],
                                 CurrentValue: me.attr(&#x27;value&#x27;),
-                                FormValues: formValues
+                                FormValues: formValues,
+                                Name: this.name
                             };
                             flexygo.ajax.post(&#x27;~/api/Image&#x27;, &#x27;SaveFile&#x27;, params, (ret) =&gt; {
                                 if (ret.Value != &#x27;errorrootpath&#x27;)
@@ -820,7 +822,14 @@ var flexygo;
                             }
                         }
                         else if (this.TypeMode === &#x27;base64&#x27;) {
-                            this.setValue(result);
+                            let extns = this.options.Extensions.toLowerCase().split(&quot;|&quot;);
+                            let fileExtension = this.name.substring(this.name.lastIndexOf(&quot;.&quot;)).toLowerCase();
+                            if (extns.indexOf(fileExtension) &gt; -1 || this.options.ExtensionId == &#x27;sysAll&#x27;) {
+                                this.setValue(result);
+                            }
+                            else {
+                                flexygo.msg.error(&#x27;image.extension&#x27;);
+                            }
                         }
                     }
                     catch (err) {
@@ -833,6 +842,17 @@ var flexygo;
                     let imageElement;
                     let image;
                     let rounded;
+                    let accept = &#x27;&#x27;;
+                    if ((this.options &amp;&amp; this.options.RegExp) || (this.options &amp;&amp; this.options.Extensions)) {
+                        if (this.options.RegExp) {
+                            accept = this.options.RegExp;
+                        }
+                        else if (this.options.Extensions) {
+                            if (this.options.ExtensionId != &#x27;sysAll&#x27;) {
+                                accept = flexygo.utils.parser.replaceAll(this.options.Extensions, &#x27;|&#x27;, &#x27;,&#x27;);
+                            }
+                        }
+                    }
                     image = me.find(&#x27;img&#x27;).attr(&quot;src&quot;);
                     if (this.TypeMode === &#x27;file&#x27;) {
                         this.fileName = this.getFileName(image);
@@ -915,7 +935,7 @@ var flexygo;
                                                     &lt;/div&gt;
                                                 &lt;/div&gt;
                                                 &lt;label class=&quot;btn btn-default btn-file bg-outstanding cpr-btn-browse&quot;&gt;&#x60;
-                        + flexygo.localization.translate(&#x27;image.browsebutton&#x27;) + &#x60;&lt;input type=&quot;file&quot; class=&quot;hide&quot; accept=&quot;image/*&quot;/&gt;
+                        + flexygo.localization.translate(&#x27;image.browsebutton&#x27;) + &#x60;&lt;input type=&quot;file&quot; class=&quot;hide&quot; accept=&quot;${accept}&quot;/&gt;
                                                 &lt;/label&gt;
                                                 &lt;button type=&quot;button&quot; method=&quot;save&quot; value=&quot;&quot; class=&quot;btn btn-default bg-info cpr-btn-save&quot; data-original-title=&quot;&quot; title=&quot;&quot;&gt;
                                                     &lt;i class=&quot;flx-icon icon-save-2&quot; flx-fw=&quot;&quot;&gt;&lt;/i&gt; &#x60; + flexygo.localization.translate(&#x27;image.savebutton&#x27;) +
@@ -1093,6 +1113,7 @@ var flexygo;
                         if (element.attr(&#x27;type&#x27;) === &#x27;file&#x27;) {
                             if (element[0].files &amp;&amp; element[0].files[0]) {
                                 if (this.options.ObjectName != &#x27;sysObjectImage&#x27;) {
+                                    this.name = element[0].files[0].name;
                                     let reader = new FileReader();
                                     reader.onload = (e) =&gt; {
                                         let options = null;

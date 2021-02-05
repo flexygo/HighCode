@@ -1,5 +1,5 @@
 import { r as registerInstance, h as Build, j as h, l as Host, k as getElement } from './index-76f52202.js';
-import { i as isStr, g as getUrl, a as getName } from './utils-67a6e57b.js';
+import { i as isStr, g as getUrl, a as getName } from './utils-30827fbd.js';
 
 const validateContent = (svgContent) => {
     if (svgContent && typeof document !== 'undefined') {

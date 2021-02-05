@@ -359,10 +359,16 @@ var flexygo;
                         var diskFilePermission;
                         var driveFilePermission;
                         var dropboxFilePermission;
+                        var accept = '';
+                        if (this.extensions) {
+                            if (this.extensionId != 'sysAll') {
+                                accept = flexygo.utils.parser.replaceAll(this.extensions, '|', ',');
+                            }
+                        }
                         if (dialogType === 'upload') {
                             renderedDiskbutton = `<div class="btn-group dtc-btn dtc-btn-group-disk">
                                                <label value="disk" type="file" class="btn btn-default btn-file dtc-btn-disk">
-                                                    <i class="fa fa-file-o txt-outstanding" flx-fw=""></i><input method="` + dialogType + `" value="disk" type="file" multiple class="hide"/>
+                                                    <i class="fa fa-file-o txt-outstanding" flx-fw=""></i><input method="` + dialogType + `" value="disk" type="file" accept="${accept}" multiple class="hide"/>
                                               </label>
                                               <label value="disk" type="directory" class="btn btn-default btn-file dtc-btn-disk">
                                                     <i class="fa fa-folder-o txt-outstanding" flx-fw=""></i><input method="` + dialogType + `" value="disk" type="file" webkitdirectory multiple class="hide"/>
@@ -1234,6 +1240,8 @@ var flexygo;
                                     this.diskFileCreate = response.diskFileCreate;
                                     this.diskFileLink = response.diskFileLink;
                                     this.ERPObjectName = response.ERPObjectName;
+                                    this.extensionId = response.ExtensionId;
+                                    this.extensions = response.Extensions;
                                     this.render();
                                 }
                             });
@@ -1442,10 +1450,10 @@ var flexygo;
                         return;
                     }
                     if (this.file.size == 0) {
-                        if (this.documentId != '') {
+                        if (this.documentId != '' && this.documentId != null) {
                             this.removeDocument();
                         }
-                        this.documentContainer.find('.dtc-progresstext').html('Error uploading document.');
+                        flexygo.msg.warning('documentmanager.documentempty');
                         return;
                     }
                     if (this.file.size > this.bufferSize) {

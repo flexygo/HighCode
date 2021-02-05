@@ -907,8 +907,20 @@ var flexygo;
                     let input = $(this).find('label');
                     if (this.type === 'number' && $.isNumeric(value) && this.options && this.options.DecimalPlaces && this.options.DecimalPlaces.toString() !== '' && (this.options.DecimalPlaces > 0) && value !== null) {
                         if (this.options.ControlType.toLowerCase() === 'decimal') {
-                            let decimalSeparator = 1.1.toLocaleString().substring(1, 2);
-                            value = parseFloat(value).toFixed(this.options.DecimalPlaces).toString().replace(/[.,]/g, decimalSeparator);
+                            if (flexygo.profiles.culture.toLowerCase() == 'es-es') {
+                                value = parseFloat(value).toLocaleString('ca-ES', { minimumFractionDigits: this.options.DecimalPlaces, maximumFractionDigits: this.options.DecimalPlaces });
+                            }
+                            else {
+                                value = parseFloat(value).toLocaleString(flexygo.profiles.culture, { minimumFractionDigits: this.options.DecimalPlaces, maximumFractionDigits: this.options.DecimalPlaces });
+                            }
+                        }
+                        else {
+                            if (flexygo.profiles.culture.toLowerCase() == 'es-es') {
+                                value = parseInt(value).toLocaleString('ca-ES');
+                            }
+                            else {
+                                value = parseInt(value).toLocaleString(flexygo.profiles.culture);
+                            }
                         }
                     }
                     else if (this.type === 'date' && value !== null) {

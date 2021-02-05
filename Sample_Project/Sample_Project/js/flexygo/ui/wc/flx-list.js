@@ -545,7 +545,9 @@ var flexygo;
                                             rendered += flexygo.utils.parser.paintGroupHeader(this.data[i], this.groups, this);
                                         }
                                         rendered += flexygo.utils.parser.controlGroup(lastItem, this.data[i], this.groups, this);
-                                        rendered += flexygo.utils.parser.recursiveCompile(this.data[i], this.tBody, this);
+                                        let render = flexygo.utils.parser.recursiveCompile(this.data[i], this.tBody, this);
+                                        render = flexygo.utils.parser.recursiveCompile(def, render, this);
+                                        rendered += render;
                                         lastItem = this.data[i];
                                     }
                                 }
@@ -1432,7 +1434,13 @@ var flexygo;
                                     td.css('max-width', gridSizes[ident][key] + 'px');
                                 }
                                 if (typeof val == 'number') {
-                                    val = val.toLocaleString();
+                                    if (flexygo.profiles.culture.toLowerCase() == 'es-es') {
+                                        val = val.toLocaleString('ca-ES');
+                                    }
+                                    else {
+                                        val = val.toLocaleString(flexygo.profiles.culture);
+                                    }
+                                    td.css('text-align', 'right');
                                 }
                                 let title = $("<b/>").html(key);
                                 td.html(title).append(val);
@@ -1558,6 +1566,8 @@ var flexygo;
             wc_1.FlxListElement = FlxListElement;
             function clearRow(list, btn) {
                 let cells = list.find('tfoot > tr > td');
+                let focus = false;
+                let input;
                 cells.each((i, e) => {
                     let cell = $(e);
                     let ctl = cell.find('[property]')[0];
@@ -1565,6 +1575,29 @@ var flexygo;
                         ctl.init();
                         if (!flexygo.utils.isBlank(cell.attr('def-value')) || !flexygo.utils.isBlank(cell.attr('def-text'))) {
                             ctl.setValue(cell.attr('def-value') || null, cell.attr('def-text') || null);
+                        }
+                        if (!$(ctl).hasClass('hideControl') && !focus) {
+                            if ($(ctl).is('flx-combo')) {
+                                input = $(ctl).find('select');
+                                if (input && !$(input).prop('disabled')) {
+                                    $(input).focus();
+                                    focus = true;
+                                }
+                            }
+                            else if ($(ctl).is('flx-textarea')) {
+                                input = $(ctl).find('textarea');
+                                if (input && !$(input).prop('disabled')) {
+                                    $(input).focus();
+                                    focus = true;
+                                }
+                            }
+                            else {
+                                input = $(ctl).find('input');
+                                if (input && !$(input).prop('disabled')) {
+                                    $(input).focus();
+                                    focus = true;
+                                }
+                            }
                         }
                     }
                 });

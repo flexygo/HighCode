@@ -340,6 +340,7 @@ var flexygo;
                 infotostart: 'Browse or drag an image to start',
                 errorfilename: 'The image has not got name',
                 errorrootpath: 'Root Path',
+                extension: 'File extension not accepted.',
             };
             engb.documentmanager = {
                 upload: 'Upload',
@@ -394,11 +395,13 @@ var flexygo;
                 uploaded: 'Uploaded',
                 error: 'Upload error',
                 info: 'Drag to upload',
+                extension: 'File extension not accepted.',
             };
             engb.file = {
                 saved: 'File saved ;)',
                 errorsaving: 'Error saving file :(',
                 resultbase64: '1 file in base64',
+                extension: 'File extension not accepted.',
             };
             engb._export = {
                 success: 'Success exporting data ;)',

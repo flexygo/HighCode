@@ -1228,8 +1228,20 @@ var flexygo;
                     let input = $(this).find(&#x27;label&#x27;);
                     if (this.type === &#x27;number&#x27; &amp;&amp; $.isNumeric(value) &amp;&amp; this.options &amp;&amp; this.options.DecimalPlaces &amp;&amp; this.options.DecimalPlaces.toString() !== &#x27;&#x27; &amp;&amp; (this.options.DecimalPlaces &gt; 0) &amp;&amp; value !== null) {
                         if (this.options.ControlType.toLowerCase() === &#x27;decimal&#x27;) {
-                            let decimalSeparator = 1.1.toLocaleString().substring(1, 2);
-                            value = parseFloat(value).toFixed(this.options.DecimalPlaces).toString().replace(/[.,]/g, decimalSeparator);
+                            if (flexygo.profiles.culture.toLowerCase() == &#x27;es-es&#x27;) {
+                                value = parseFloat(value).toLocaleString(&#x27;ca-ES&#x27;, { minimumFractionDigits: this.options.DecimalPlaces, maximumFractionDigits: this.options.DecimalPlaces });
+                            }
+                            else {
+                                value = parseFloat(value).toLocaleString(flexygo.profiles.culture, { minimumFractionDigits: this.options.DecimalPlaces, maximumFractionDigits: this.options.DecimalPlaces });
+                            }
+                        }
+                        else {
+                            if (flexygo.profiles.culture.toLowerCase() == &#x27;es-es&#x27;) {
+                                value = parseInt(value).toLocaleString(&#x27;ca-ES&#x27;);
+                            }
+                            else {
+                                value = parseInt(value).toLocaleString(flexygo.profiles.culture);
+                            }
                         }
                     }
                     else if (this.type === &#x27;date&#x27; &amp;&amp; value !== null) {

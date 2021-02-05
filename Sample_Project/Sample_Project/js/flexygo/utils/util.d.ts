@@ -187,6 +187,8 @@ declare namespace flexygo.utils {
     * @method getFileIcon
     */
     function getFileIcon(extension: string): string;
+    var colors: string[];
+    function hexToRgbA(hex: any, opacity: any): string;
 }
 declare namespace flexygo.utils.querystring {
     function getParamValue(url: string, paramName: string): string;

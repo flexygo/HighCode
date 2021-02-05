@@ -335,6 +335,8 @@ var flexygo;
                 errorfilenumber: 'Sólo acepta una imagen',
                 infotostart: 'Rechercher ou faire glisser une image pour démarrer',
                 errorfilename: 'L’image n’a pas de nom',
+                errorrootpath: 'Chemin racine',
+                extension: 'Extension de fichier non acceptée.',
             };
             frfr.documentmanager = {
                 upload: 'Télécharger',
@@ -388,11 +390,13 @@ var flexygo;
                 uploaded: 'Téléchargé',
                 error: 'Erreur de téléchargement',
                 info: 'Faire glisser pour télécharger',
+                extension: 'Extension de fichier non acceptée.',
             };
             frfr.file = {
                 saved: 'Fichier sauvegardé ;)',
                 errorsaving: 'Erreur en enregistrant fichier :(',
                 resultbase64: '1 fichier en base64',
+                extension: 'Extension de fichier non acceptée.',
             };
             frfr._export = {
                 success: 'Succès exportation données ;)',

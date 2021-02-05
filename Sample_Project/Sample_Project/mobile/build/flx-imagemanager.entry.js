@@ -1,22 +1,22 @@
 import { r as registerInstance, j as h } from './index-76f52202.js';
-import './ionic-global-693c5dc1.js';
-import { C as ConftokenProvider, s as sql, u as util, m as msg } from './messages-50a67881.js';
+import './ionic-global-53d785f3.js';
+import { C as ConftokenProvider, s as sql, u as util, m as msg } from './messages-1e55a1f4.js';
 import './jquery-4ed57fb2.js';
-import './utils-67a6e57b.js';
-import './index-023098c3.js';
-import './helpers-d94a0dba.js';
-import './animation-625503e5.js';
-import './index-20a23da0.js';
-import './ios.transition-267ba16c.js';
-import './md.transition-15ebc2b8.js';
-import './cubic-bezier-92995175.js';
-import './index-1da44cf3.js';
-import './index-53f14fc6.js';
-import './hardware-back-button-c2d005b0.js';
-import './index-725f2a8a.js';
-import './overlays-39d86a31.js';
-import { n as nav } from './navigation-c87efa5b.js';
-import { c as cam } from './camera-75f70a4d.js';
+import './utils-30827fbd.js';
+import './index-38aae3ff.js';
+import './helpers-742de4f9.js';
+import './animation-a90ce8fc.js';
+import './index-a6178d25.js';
+import './ios.transition-bfe5eada.js';
+import './md.transition-e49d1536.js';
+import './cubic-bezier-89113939.js';
+import './index-9b41fcc6.js';
+import './index-86d5f3ab.js';
+import './hardware-back-button-b3b61715.js';
+import './index-c940ddb6.js';
+import './overlays-3fb58ad8.js';
+import { n as nav } from './navigation-8af3d3e3.js';
+import { c as cam } from './camera-2080aea3.js';
 
 const flxImagemanagerCss = "flx-imagemanager{}";
 
@@ -89,7 +89,7 @@ const FlxImagemanager = class {
     }
     render() {
         return [
-            h("ion-header", null, h("ion-toolbar", { color: "header", class: "ion-text-center" }, h("ion-buttons", { slot: "start" }, h("ion-menu-button", { color: "outstanding" })), h("ion-buttons", { slot: "end" }, h("ion-button", { color: "outstanding", onClick: () => { nav.goBack(); } }, h("ion-icon", { slot: "icon-only", name: "arrow-undo-outline" }))), h("ion-title", null, h("span", { id: "menuTitle" }, "Gallery")))),
+            h("ion-header", null, h("ion-toolbar", { color: "header", class: "ion-text-center" }, h("ion-buttons", { slot: "start" }, h("ion-menu-button", { color: "outstanding" })), h("ion-buttons", { slot: "end" }, h("ion-button", { color: "outstanding", onClick: () => { nav.goBack(); } }, h("ion-icon", { slot: "icon-only", name: "arrow-undo-outline" }))), h("ion-title", null, h("span", { id: "menuTitle" }, util.translate('image.title'))))),
             h("ion-content", null, h("ion-refresher", { slot: "fixed", id: "refresher", onIonRefresh: (ev) => { this.refresh(ev); } }, h("ion-refresher-content", { "pulling-icon": "chevron-down-circle-outline", refreshingSpinner: "bubbles" })), h("flx-imagegallery", { object: this.object, filter: 'ObjectName=\'' + this.object + '\' and ObjectId=\'' + this.objectid + '\'' + (this.imageClassId == null ? '' : ' and ImageClassId=\'' + this.imageClassId + '\'') })),
             h("ion-fab", { vertical: "bottom", horizontal: "end", slot: "fixed" }, h("ion-fab-button", null, h("ion-icon", { name: "apps-outline" })), h("ion-fab-list", { side: "top" }, h("ion-fab-button", { color: "dark", onClick: () => { this.getPicture(false); } }, h("ion-icon", { name: "camera" })), h("ion-fab-button", { color: "dark", onClick: () => { this.getPicture(true); } }, h("ion-icon", { name: "refresh-outline" }))), ((this.hasGallery) ?
                 h("ion-fab-list", { side: "start" }, h("ion-fab-button", { color: "dark", onClick: () => { this.getGalleryPicture(); } }, h("ion-icon", { name: "image" }))) : ''))

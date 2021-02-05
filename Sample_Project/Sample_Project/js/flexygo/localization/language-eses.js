@@ -339,6 +339,8 @@ var flexygo;
                 errorfilenumber: 'Sólo acepta una imagen',
                 infotostart: 'Busca o arrastra una imagen para comenzar',
                 errorfilename: 'La imagen no tiene nombre',
+                errorrootpath: 'Ruta raíz',
+                extension: 'Extensión de fichero no aceptado.',
             };
             eses.documentmanager = {
                 upload: 'Subir',
@@ -393,11 +395,13 @@ var flexygo;
                 uploaded: 'Subido',
                 error: 'Error de subida',
                 info: 'Arrastra para subir',
+                extension: 'Extensión de fichero no aceptado.',
             };
             eses.file = {
                 saved: 'Fichero guardado ;)',
                 errorsaving: 'Error guardando fichero :(',
                 resultbase64: 'Fichero subido con éxito',
+                extension: 'Extensión de fichero no aceptado.',
             };
             eses._export = {
                 success: 'Exito exportado datos ;)',

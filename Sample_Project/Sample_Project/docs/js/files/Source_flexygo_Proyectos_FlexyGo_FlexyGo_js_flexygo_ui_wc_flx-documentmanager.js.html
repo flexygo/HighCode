@@ -680,10 +680,16 @@ var flexygo;
                         var diskFilePermission;
                         var driveFilePermission;
                         var dropboxFilePermission;
+                        var accept = &#x27;&#x27;;
+                        if (this.extensions) {
+                            if (this.extensionId != &#x27;sysAll&#x27;) {
+                                accept = flexygo.utils.parser.replaceAll(this.extensions, &#x27;|&#x27;, &#x27;,&#x27;);
+                            }
+                        }
                         if (dialogType === &#x27;upload&#x27;) {
                             renderedDiskbutton = &#x60;&lt;div class=&quot;btn-group dtc-btn dtc-btn-group-disk&quot;&gt;
                                                &lt;label value=&quot;disk&quot; type=&quot;file&quot; class=&quot;btn btn-default btn-file dtc-btn-disk&quot;&gt;
-                                                    &lt;i class=&quot;fa fa-file-o txt-outstanding&quot; flx-fw=&quot;&quot;&gt;&lt;/i&gt;&lt;input method=&quot;&#x60; + dialogType + &#x60;&quot; value=&quot;disk&quot; type=&quot;file&quot; multiple class=&quot;hide&quot;/&gt;
+                                                    &lt;i class=&quot;fa fa-file-o txt-outstanding&quot; flx-fw=&quot;&quot;&gt;&lt;/i&gt;&lt;input method=&quot;&#x60; + dialogType + &#x60;&quot; value=&quot;disk&quot; type=&quot;file&quot; accept=&quot;${accept}&quot; multiple class=&quot;hide&quot;/&gt;
                                               &lt;/label&gt;
                                               &lt;label value=&quot;disk&quot; type=&quot;directory&quot; class=&quot;btn btn-default btn-file dtc-btn-disk&quot;&gt;
                                                     &lt;i class=&quot;fa fa-folder-o txt-outstanding&quot; flx-fw=&quot;&quot;&gt;&lt;/i&gt;&lt;input method=&quot;&#x60; + dialogType + &#x60;&quot; value=&quot;disk&quot; type=&quot;file&quot; webkitdirectory multiple class=&quot;hide&quot;/&gt;
@@ -1555,6 +1561,8 @@ var flexygo;
                                     this.diskFileCreate = response.diskFileCreate;
                                     this.diskFileLink = response.diskFileLink;
                                     this.ERPObjectName = response.ERPObjectName;
+                                    this.extensionId = response.ExtensionId;
+                                    this.extensions = response.Extensions;
                                     this.render();
                                 }
                             });
@@ -1763,10 +1771,10 @@ var flexygo;
                         return;
                     }
                     if (this.file.size == 0) {
-                        if (this.documentId != &#x27;&#x27;) {
+                        if (this.documentId != &#x27;&#x27; &amp;&amp; this.documentId != null) {
                             this.removeDocument();
                         }
-                        this.documentContainer.find(&#x27;.dtc-progresstext&#x27;).html(&#x27;Error uploading document.&#x27;);
+                        flexygo.msg.warning(&#x27;documentmanager.documentempty&#x27;);
                         return;
                     }
                     if (this.file.size &gt; this.bufferSize) {

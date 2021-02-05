@@ -1,5 +1,5 @@
 import { r as registerInstance, j as h } from './index-76f52202.js';
-import { P as Plugins, s as sql, F as FilesystemDirectory, m as msg, u as util } from './messages-50a67881.js';
+import { P as Plugins, s as sql, F as FilesystemDirectory, m as msg, u as util } from './messages-1e55a1f4.js';
 import { c as createCommonjsModule, a as commonjsGlobal, j as jquery } from './jquery-4ed57fb2.js';
 
 var FileSaver_min = createCommonjsModule(function (module, exports) {
@@ -108,7 +108,7 @@ const FlxImagegallery = class {
     render() {
         return ([
             h("ion-grid", null, h("ion-row", null, (this.table.length > 0 ? (this.table.map((row, i) => {
-                return h("ion-col", { class: "ion-text-center" }, h("ion-thumbnail", { onClick: () => { this.zoomGalery(i + 1); } }, h("ion-img", { class: "img-wrapper", src: (row.URL ? row.URL : row.B64) })));
+                return h("ion-col", { class: "ion-text-center" }, h("ion-thumbnail", { onClick: () => { this.zoomGalery(i); } }, h("ion-img", { class: "img-wrapper", src: (row.URL ? row.URL : row.B64) })));
             })) : util.translate('list.noresults'))))
         ]);
     }

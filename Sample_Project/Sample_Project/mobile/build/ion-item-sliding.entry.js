@@ -1,6 +1,6 @@
 import { r as registerInstance, m as createEvent, j as h, l as Host, k as getElement } from './index-76f52202.js';
-import { g as getIonMode } from './ionic-global-693c5dc1.js';
-import { i as isEndSide } from './helpers-d94a0dba.js';
+import { g as getIonMode } from './ionic-global-53d785f3.js';
+import { i as isEndSide } from './helpers-742de4f9.js';
 
 const itemSlidingCss = "ion-item-sliding{display:block;position:relative;width:100%;overflow:hidden;user-select:none}ion-item-sliding .item{user-select:none}.item-sliding-active-slide .item{position:relative;transition:transform 500ms cubic-bezier(0.36, 0.66, 0.04, 1);opacity:1;z-index:2;pointer-events:none;will-change:transform}.item-sliding-active-swipe-end .item-options-end .item-option-expandable{padding-left:100%;order:1;transition-duration:0.6s;transition-property:padding-left}[dir=rtl] .item-sliding-active-swipe-end .item-options-end .item-option-expandable,:host-context([dir=rtl]) .item-sliding-active-swipe-end .item-options-end .item-option-expandable{order:-1}.item-sliding-active-swipe-start .item-options-start .item-option-expandable{padding-right:100%;order:-1;transition-duration:0.6s;transition-property:padding-right}[dir=rtl] .item-sliding-active-swipe-start .item-options-start .item-option-expandable,:host-context([dir=rtl]) .item-sliding-active-swipe-start .item-options-start .item-option-expandable{order:1}";
 
@@ -32,7 +32,7 @@ const ItemSliding = class {
     async connectedCallback() {
         this.item = this.el.querySelector('ion-item');
         await this.updateOptions();
-        this.gesture = (await __sc_import_app('./index-1da44cf3.js')).createGesture({
+        this.gesture = (await __sc_import_app('./index-9b41fcc6.js')).createGesture({
             el: this.el,
             gestureName: 'item-swipe',
             gesturePriority: 100,

@@ -338,6 +338,7 @@ var flexygo;
                 infotostart: 'Explora o arrossega una imatge per iniciar',
                 errorfilename: 'La imatge no té nom',
                 errorrootpath: 'Root Path',
+                extension: 'No s’accepta l’extensió de fitxer.',
             };
             caes.documentmanager = {
                 upload: 'Carregar',
@@ -392,11 +393,13 @@ var flexygo;
                 uploaded: 'Carregat',
                 error: 'Error de càrrega ',
                 info: 'Arrossegueu per carregar',
+                extension: 'No s’accepta l’extensió de fitxer.',
             };
             caes.file = {
                 saved: 'S&#39;ha desat el fitxer ;)',
                 errorsaving: 'Error en desar el fitxer :(',
                 resultbase64: '1 fitxer a base64',
+                extension: 'No s’accepta l’extensió de fitxer.',
             };
             caes._export = {
                 success: 'S&#39;ha exportat correctament les dades ;)',

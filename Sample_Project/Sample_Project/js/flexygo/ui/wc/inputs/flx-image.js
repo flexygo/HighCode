@@ -28,6 +28,7 @@ var flexygo;
                     this.moduleName = null;
                     this.TypeMode = null;
                     this.fileName = null;
+                    this.name = null;
                     /**
                     * Control Mode
                     * @property type {string}
@@ -485,7 +486,8 @@ var flexygo;
                                 FileName: this.fileName,
                                 Base64: result.split(',')[1],
                                 CurrentValue: me.attr('value'),
-                                FormValues: formValues
+                                FormValues: formValues,
+                                Name: this.name
                             };
                             flexygo.ajax.post('~/api/Image', 'SaveFile', params, (ret) => {
                                 if (ret.Value != 'errorrootpath')
@@ -499,7 +501,14 @@ var flexygo;
                             }
                         }
                         else if (this.TypeMode === 'base64') {
-                            this.setValue(result);
+                            let extns = this.options.Extensions.toLowerCase().split("|");
+                            let fileExtension = this.name.substring(this.name.lastIndexOf(".")).toLowerCase();
+                            if (extns.indexOf(fileExtension) > -1 || this.options.ExtensionId == 'sysAll') {
+                                this.setValue(result);
+                            }
+                            else {
+                                flexygo.msg.error('image.extension');
+                            }
                         }
                     }
                     catch (err) {
@@ -512,6 +521,17 @@ var flexygo;
                     let imageElement;
                     let image;
                     let rounded;
+                    let accept = '';
+                    if ((this.options && this.options.RegExp) || (this.options && this.options.Extensions)) {
+                        if (this.options.RegExp) {
+                            accept = this.options.RegExp;
+                        }
+                        else if (this.options.Extensions) {
+                            if (this.options.ExtensionId != 'sysAll') {
+                                accept = flexygo.utils.parser.replaceAll(this.options.Extensions, '|', ',');
+                            }
+                        }
+                    }
                     image = me.find('img').attr("src");
                     if (this.TypeMode === 'file') {
                         this.fileName = this.getFileName(image);
@@ -594,7 +614,7 @@ var flexygo;
                                                     </div>
                                                 </div>
                                                 <label class="btn btn-default btn-file bg-outstanding cpr-btn-browse">`
-                        + flexygo.localization.translate('image.browsebutton') + `<input type="file" class="hide" accept="image/*"/>
+                        + flexygo.localization.translate('image.browsebutton') + `<input type="file" class="hide" accept="${accept}"/>
                                                 </label>
                                                 <button type="button" method="save" value="" class="btn btn-default bg-info cpr-btn-save" data-original-title="" title="">
                                                     <i class="flx-icon icon-save-2" flx-fw=""></i> ` + flexygo.localization.translate('image.savebutton') +
@@ -772,6 +792,7 @@ var flexygo;
                         if (element.attr('type') === 'file') {
                             if (element[0].files && element[0].files[0]) {
                                 if (this.options.ObjectName != 'sysObjectImage') {
+                                    this.name = element[0].files[0].name;
                                     let reader = new FileReader();
                                     reader.onload = (e) => {
                                         let options = null;

@@ -31,6 +31,11 @@ var flexygo;
                     * Composer Attachment Template
                     * @property composerAttachmentTemplate {string}
                     */
+                    /**
+                    * Control Mode
+                    * @property type {string}
+                    */
+                    this.mode = 'object';
                     this.uploadFileTemplate = (fileId, name, extension, base64) => `<div class="upload-file" upload-file-id="${fileId}">
                                                                                                                                     <div>
                                                                                                                                         <i class="size-l fa ${flexygo.utils.getFileIcon(extension)}"/>
@@ -62,6 +67,9 @@ var flexygo;
                         let parentCtl = element.closest('flx-edit,flx-list,flx-propertymanager,flx-view,flx-filter');
                         if (parentCtl && parentCtl.length > 0) {
                             this.options = jQuery.extend(true, {}, parentCtl[0].properties[this.property]);
+                            if (parentCtl[0].mode) {
+                                this.mode = parentCtl[0].mode;
+                            }
                         }
                     }
                     if (element.attr('manualInit') != 'true') {
@@ -143,6 +151,17 @@ var flexygo;
                 */
                 render() {
                     var rendered;
+                    let accept = '';
+                    if ((this.options && this.options.RegExp) || (this.options && this.options.Extensions)) {
+                        if (this.options.RegExp) {
+                            accept = this.options.RegExp;
+                        }
+                        else if (this.options.Extensions) {
+                            if (this.options.ExtensionId != 'sysAll') {
+                                accept = flexygo.utils.parser.replaceAll(this.options.Extensions, '|', ',');
+                            }
+                        }
+                    }
                     rendered = `${(this.customCSS) ? `<style>${this.customCSS}</style>` : ``}
                         <div class="upload-container" style="${(this.options && this.options.Locked) ? 'cursor: no-drop' : ''}">
                             <div class="upload-drag-container">
@@ -154,7 +173,7 @@ var flexygo;
                             </div>
                                
                              ${(this.options && this.options.Locked) ? '' : `<label class="btn upload-btn">
-                               <i class="fa fa-search"></i><input type="file" accept="${(this.options && this.options.RegExp) ? this.options.RegExp : ''}" class="hide" multiple/>
+                               <i class="fa fa-search"></i><input type="file" accept="${accept}" class="hide" multiple/>
                                    </label>`}
                         </div>
                         ${(this.customScript) ? `<script>` + this.customScript + `</script>` : ``}`;
@@ -263,10 +282,19 @@ var flexygo;
                                     else {
                                         path = ctx.rootPath + path;
                                     }
+                                    let objectName = null;
+                                    let propertyName = null;
+                                    if (ctx.options) {
+                                        objectName = ctx.options.ProcessName || ctx.options.ReportName || ctx.options.ObjectName;
+                                        propertyName = ctx.options.Name;
+                                    }
                                     params = {
                                         Base64: reader.result.split(',')[1],
                                         Name: file.name,
                                         Path: path,
+                                        Mode: ctx.mode,
+                                        ObjectName: objectName,
+                                        PropertyName: propertyName,
                                     };
                                     flexygo.ajax.post('~/api/Upload', 'Upload', params, (response) => {
                                         if (response && !response.uploadError) {
@@ -299,20 +327,26 @@ var flexygo;
                                     });
                                 }
                                 else if (ctx.type === 'base64') {
-                                    flexygo.msg.success('upload.uploaded');
-                                    fileId = ctx.setValue({
-                                        type: ctx.type,
-                                        moduleName: ctx.moduleName,
-                                        objectName: ctx.objectName,
-                                        objectWhere: ctx.objectWhere,
-                                        processName: ctx.processName,
-                                        property: ctx.property,
-                                        path: path,
-                                        name: name,
-                                        extension: extension,
-                                        base64: reader.result,
-                                    });
-                                    me.trigger('upload', [fileId - 1, ctx.type, ctx.moduleName, ctx.objectName, ctx.objectWhere, ctx.processName, ctx.property, path, name, extension, reader.result]);
+                                    let extns = ctx.options.Extensions.toLowerCase().split("|");
+                                    if (extns.indexOf(extension) > -1 || ctx.options.ExtensionId == 'sysAll') {
+                                        flexygo.msg.success('upload.uploaded');
+                                        fileId = ctx.setValue({
+                                            type: ctx.type,
+                                            moduleName: ctx.moduleName,
+                                            objectName: ctx.objectName,
+                                            objectWhere: ctx.objectWhere,
+                                            processName: ctx.processName,
+                                            property: ctx.property,
+                                            path: path,
+                                            name: name,
+                                            extension: extension,
+                                            base64: reader.result,
+                                        });
+                                        me.trigger('upload', [fileId - 1, ctx.type, ctx.moduleName, ctx.objectName, ctx.objectWhere, ctx.processName, ctx.property, path, name, extension, reader.result]);
+                                    }
+                                    else {
+                                        flexygo.msg.error('upload.extension');
+                                    }
                                 }
                             };
                             reader.readAsDataURL(file);

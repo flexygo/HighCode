@@ -1,14 +1,14 @@
 import { r as registerInstance, m as createEvent, f as writeTask, j as h, l as Host, k as getElement } from './index-76f52202.js';
-import { g as getIonMode, c as config } from './ionic-global-693c5dc1.js';
-import { c as clamp } from './helpers-d94a0dba.js';
-import { c as createAnimation } from './animation-625503e5.js';
-import { d as deepReady } from './index-20a23da0.js';
-import { g as getTimeGivenProgression } from './cubic-bezier-92995175.js';
-import { createGesture } from './index-1da44cf3.js';
-import './hardware-back-button-c2d005b0.js';
-import { B as BACKDROP, a as prepareOverlay, b as present, h as activeAnimations, d as dismiss, e as eventMethod } from './overlays-39d86a31.js';
-import { g as getClassMap } from './theme-86cb12f9.js';
-import { a as attachComponent, d as detachComponent } from './framework-delegate-49c6b814.js';
+import { g as getIonMode, c as config } from './ionic-global-53d785f3.js';
+import { c as clamp } from './helpers-742de4f9.js';
+import { c as createAnimation } from './animation-a90ce8fc.js';
+import { d as deepReady } from './index-a6178d25.js';
+import { g as getTimeGivenProgression } from './cubic-bezier-89113939.js';
+import { createGesture } from './index-9b41fcc6.js';
+import './hardware-back-button-b3b61715.js';
+import { B as BACKDROP, a as prepareOverlay, b as present, h as activeAnimations, d as dismiss, e as eventMethod } from './overlays-3fb58ad8.js';
+import { g as getClassMap } from './theme-d8afa044.js';
+import { a as attachComponent, d as detachComponent } from './framework-delegate-7af2c551.js';
 
 // Defaults for the card swipe animation
 const SwipeToCloseDefaults = {

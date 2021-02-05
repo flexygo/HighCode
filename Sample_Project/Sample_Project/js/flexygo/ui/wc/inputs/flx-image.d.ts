@@ -22,6 +22,7 @@ declare namespace flexygo.ui.wc {
         moduleName: string;
         TypeMode: string;
         fileName: string;
+        name: string;
         /**
         * Control Mode
         * @property type {string}

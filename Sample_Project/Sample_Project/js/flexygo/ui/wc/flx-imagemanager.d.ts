@@ -194,5 +194,16 @@ declare namespace flexygo.ui.wc {
        * @method setGallery
        */
         setGallery(): void;
+        /**
+        * Find faces in picture and try yo recognice it with known faces.
+        * @method showFaces
+        * @param {string} file.
+        * @param {string} objectname.
+        * @param {number} tolerance.
+        * @param {string} filterids.
+        * @param {boolean} isb64.
+        * @param {Jquery} e.
+        */
+        showFaces(file: any, objectname: any, tolerance: any, filterids: any, isb64: any, e: any): void;
     }
 }

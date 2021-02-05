@@ -471,8 +471,15 @@ var flexygo;
                         });
                     }
                     else if (this.type === &#x27;base64&#x27;) {
-                        this.setValue(base64);
-                        flexygo.msg.success(&#x27;file.saved&#x27;);
+                        let extns = this.options.Extensions.toLowerCase().split(&quot;|&quot;);
+                        let fileExtension = name.substring(name.lastIndexOf(&quot;.&quot;)).toLowerCase();
+                        if (extns.indexOf(fileExtension) &gt; -1 || this.options.ExtensionId == &#x27;sysAll&#x27;) {
+                            this.setValue(base64);
+                            flexygo.msg.success(&#x27;file.saved&#x27;);
+                        }
+                        else {
+                            flexygo.msg.error(&#x27;file.extension&#x27;);
+                        }
                     }
                 }
                 /**
@@ -520,8 +527,15 @@ var flexygo;
                             me.find(&#x27;div&#x27;).first().addClass(&#x27;input-group&#x27;);
                         }
                     }
-                    if (this.options &amp;&amp; this.options.RegExp) {
-                        input.attr(&#x27;accept&#x27;, this.options.RegExp);
+                    if ((this.options &amp;&amp; this.options.RegExp) || (this.options &amp;&amp; this.options.Extensions)) {
+                        if (this.options.RegExp) {
+                            input.attr(&#x27;accept&#x27;, this.options.RegExp);
+                        }
+                        else if (this.options.Extensions) {
+                            if (this.options.ExtensionId != &#x27;sysAll&#x27;) {
+                                input.attr(&#x27;accept&#x27;, flexygo.utils.parser.replaceAll(this.options.Extensions, &#x27;|&#x27;, &#x27;,&#x27;));
+                            }
+                        }
                     }
                 }
                 /**

@@ -337,6 +337,7 @@ var flexygo;
                 infotostart: 'Suchen oder ziehen Sie ein bild hinein um zu starten',
                 errorfilename: 'Das Bild hat keinen Namen',
                 errorrootpath: 'Wurzelpfad',
+                extension: 'Dateierweiterung nicht akzeptiert.',
             };
             dede.documentmanager = {
                 upload: 'Hochladen',
@@ -391,11 +392,13 @@ var flexygo;
                 uploaded: 'Hochgeladen',
                 error: 'Fehler beim Hochladen',
                 info: 'Hineinziehen zum Hochladen',
+                extension: 'Dateierweiterung nicht akzeptiert.',
             };
             dede.file = {
                 saved: 'Datei gespeichert ;)',
                 errorsaving: 'Fehler beim Speichern der Datei :(',
                 resultbase64: '1 Datei in base64',
+                extension: 'Dateierweiterung nicht akzeptiert.',
             };
             dede._export = {
                 success: 'Dateien erfolgreich exportiert ;)',

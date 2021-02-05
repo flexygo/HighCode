@@ -1,6 +1,6 @@
 import { r as registerInstance, j as h, l as Host } from './index-76f52202.js';
-import { g as getIonMode } from './ionic-global-693c5dc1.js';
-import { c as createColorClasses } from './theme-86cb12f9.js';
+import { g as getIonMode } from './ionic-global-53d785f3.js';
+import { c as createColorClasses } from './theme-d8afa044.js';
 
 const cardTitleIosCss = ":host{display:block;position:relative;color:var(--color)}:host(.ion-color){color:var(--ion-color-base)}:host{--color:var(--ion-text-color, #000);margin-left:0;margin-right:0;margin-top:0;margin-bottom:0;padding-left:0;padding-right:0;padding-top:0;padding-bottom:0;font-size:28px;font-weight:700;line-height:1.2}";
 
