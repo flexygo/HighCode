@@ -20,6 +20,7 @@ USING (VALUES
  ,(N'Offline 4ª practica',2,N'',4)
  ,(N'Offline 5ª practica',2,N'',5)
  ,(N'Offline 6ª practica',2,N'',6)
+ ,(N'Offline 7ª practica',2,N'',7)
 ) AS Source ([StepId],[CourseId],[Descrip],[Order])
 ON (Target.[StepId] = Source.[StepId] AND Target.[CourseId] = Source.[CourseId])
 WHEN MATCHED AND (
