@@ -2,14 +2,14 @@
 
 MERGE INTO [employee] AS Target
 USING (VALUES
-  (0,N'Alberto Criado',N'+34 600 00 10',N'alberto@flexygo.es',N'~/Custom/images/Employees/alberto.png',NULL,1,0)
+  (0,N'Daniel Lutz',N'+34 600 00 17',N'daniel@flexygo.es',N'~/Custom/images/Employees/dani.png',NULL,1,0)
  ,(1,N'David Miralpeix',N'+34 600 00 11',N'david@flexygo.es',N'~/Custom/images/Employees/david.png',NULL,1,0)
  ,(2,N'Rubén Pardo',N'+34 600 00 12',N'ruben@flexygo.es',N'~/Custom/images/Employees/ruben.png',NULL,1,0)
  ,(3,N'Sergio Vera',N'+34 600 00 13',N'sergio@flexygo.es',N'~/Custom/images/Employees/sergio.png',NULL,1,0)
  ,(4,N'Aitor Torres',N'+34 600 00 14',N'aitor@flexygo.es',N'~/Custom/images/Employees/Aitor.png',NULL,1,0)
  ,(5,N'Cristina Gomez',N'+34 600 00 15',N'cristina@flexygo.es',N'~/Custom/images/Employees/cristina.png',NULL,1,0)
  ,(6,N'Carmen Martin',N'+34 600 00 16',N'carmen@flexygo.es',N'~/Custom/images/Employees/carmen.png',NULL,NULL,0)
- ,(7,N'Daniel Lutz',N'+34 600 00 17',N'daniel@flexygo.es',N'~/Custom/images/Employees/dani.png',NULL,1,0)
+ ,(7,N'Alberto Criado',N'+34 600 00 10',N'alberto@flexygo.es',N'~/Custom/images/Employees/alberto.png',NULL,1,0)
 ) AS Source ([IdEmployee],[Name],[Tel],[Email],[Image],[Signature],[IdTeam],[SendNotices])
 ON (Target.[IdEmployee] = Source.[IdEmployee])
 WHEN MATCHED AND (
