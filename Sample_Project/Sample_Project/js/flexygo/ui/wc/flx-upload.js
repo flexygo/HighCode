@@ -284,7 +284,18 @@ var flexygo;
                                     }
                                     let objectName = null;
                                     let propertyName = null;
+                                    let formValues = [];
                                     if (ctx.options) {
+                                        let module = $(ctx).closest('flx-edit');
+                                        if (module.length > 0) {
+                                            let props = module.find('[property]');
+                                            if (props.length > 0) {
+                                                for (var i = 0; i < props.length; i++) {
+                                                    let prop = $(props[i])[0];
+                                                    formValues.push({ "key": prop.property, "value": prop.getValue() });
+                                                }
+                                            }
+                                        }
                                         objectName = ctx.options.ProcessName || ctx.options.ReportName || ctx.options.ObjectName;
                                         propertyName = ctx.options.Name;
                                     }
@@ -295,6 +306,7 @@ var flexygo;
                                         Mode: ctx.mode,
                                         ObjectName: objectName,
                                         PropertyName: propertyName,
+                                        FormValues: formValues,
                                     };
                                     flexygo.ajax.post('~/api/Upload', 'Upload', params, (response) => {
                                         if (response && !response.uploadError) {

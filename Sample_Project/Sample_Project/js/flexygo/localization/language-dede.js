@@ -254,6 +254,7 @@ var flexygo;
             };
             dede.sortmanager = {
                 sort: 'Sortieren',
+                fields: 'Felder',
                 apply: 'Sich bewerben',
                 clean: 'Reinigen',
             };
@@ -291,6 +292,8 @@ var flexygo;
                 edit: 'Bearbeiten',
                 view: 'Anzeigen',
                 print: 'Drucken',
+                printpage: 'Seite drucken',
+                printmodule: 'Druckmodul',
                 help: 'Hilfe',
                 settings: 'Einstellungen',
                 process: 'Prozess',
@@ -659,6 +662,7 @@ var flexygo;
                 composerplaceholder: 'Schreibe etwas',
                 sendbutton: 'Registrieren',
                 startinfo: 'Sie müssen zuerst das chatter konfigurieren',
+                deleteconfirm: '¿Sind Sie sicher, die Nachricht zu löschen?',
             };
             dede.offline = {
                 createobjecttitle: 'Fügen Sie der App ein neues Objekt hinzu',

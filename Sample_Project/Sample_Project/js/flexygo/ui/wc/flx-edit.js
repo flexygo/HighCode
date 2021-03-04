@@ -149,8 +149,13 @@ var flexygo;
                     }
                     else {
                         let histObj = flexygo.history.get(me);
-                        if (typeof histObj != 'undefined' && histObj.defaults && histObj.defaults != '') {
-                            objDef = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
+                        if (typeof histObj != 'undefined' && histObj.defaults) {
+                            if (typeof histObj.defaults == 'string') {
+                                objDef = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
+                            }
+                            else {
+                                objDef = histObj.defaults;
+                            }
                         }
                         if (objDef == null) {
                             let wcMod = me.closest('flx-module')[0];

@@ -403,6 +403,10 @@ var flexygo;
                         }
                         if (response.JSCode) {
                             var func = new Function(&#x27;processname&#x27;, &#x27;objectname&#x27;, &#x27;objectwhere&#x27;, &#x27;targetid&#x27;, &#x27;excludeHist&#x27;, &#x27;triggerElement&#x27;, response.JSCode);
+                            let el = this;
+                            if (triggerElement &amp;&amp; triggerElement[0]) {
+                                el = triggerElement[0];
+                            }
                             func.call(triggerElement[0], this.processName, this.objectName, this.objectWhere, targetid, excludeHist, triggerElement);
                         }
                         if (response.LastException &amp;&amp; response.LastException.Message) {

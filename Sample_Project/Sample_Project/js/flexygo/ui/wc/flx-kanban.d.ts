@@ -59,6 +59,7 @@ declare namespace flexygo.ui.wc {
             [key: string]: flexygo.api.SavedSearch;
         };
         filterobjectname: string;
+        additionalWhere: string;
         filterValues: FlxFilterInfo[];
         activeFilter: string;
         moduleButtons: flexygo.api.Toolbar;

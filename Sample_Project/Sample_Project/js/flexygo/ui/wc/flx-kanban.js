@@ -25,6 +25,7 @@ var flexygo;
                     this.connected = false;
                     this.sorting = false;
                     this.sortingFrom = null;
+                    this.additionalWhere = '';
                     this.filterValues = null;
                     this.activeFilter = null;
                     this.moduleButtons = null;
@@ -34,7 +35,7 @@ var flexygo;
                 * @property observedAttributes {Array}
                 */
                 static get observedAttributes() {
-                    return ['ObjectName', 'ObjectWhere', 'ModuleName'];
+                    return ['ObjectName', 'ObjectWhere', 'ModuleName', 'AdditionalWhere'];
                 }
                 /**
                 * Init the webcomponent. REQUIRED.
@@ -321,6 +322,7 @@ var flexygo;
                         ObjectName: me.attr('ObjectName'),
                         ObjectWhere: me.attr('ObjectWhere'),
                         ModuleName: this.moduleName,
+                        AdditionalWhere: this.additionalWhere,
                         searchId: this.activeFilter,
                         filterValues: this.filterValues
                     };
@@ -405,6 +407,7 @@ var flexygo;
                     this.objectName = element.attr("ObjectName");
                     this.objectWhere = element.attr("ObjectWhere");
                     this.moduleName = element.attr("ModuleName");
+                    this.additionalWhere = element.attr("AdditionalWhere");
                     if (element.attr('manualInit') != 'true') {
                         this.init();
                     }
@@ -433,6 +436,10 @@ var flexygo;
                     }
                     else if (attrName.toLowerCase() == 'objectwhere' && newVal && newVal != '') {
                         this.objectWhere = newVal;
+                        needInit = true;
+                    }
+                    else if (attrName.toLowerCase() == 'additionalwhere' && newVal && newVal != '') {
+                        this.additionalWhere = newVal;
                         needInit = true;
                     }
                     if (this.connected && needInit) {

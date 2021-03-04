@@ -82,6 +82,10 @@ var flexygo;
                         }
                         if (response.JSCode) {
                             var func = new Function('processname', 'objectname', 'objectwhere', 'targetid', 'excludeHist', 'triggerElement', response.JSCode);
+                            let el = this;
+                            if (triggerElement && triggerElement[0]) {
+                                el = triggerElement[0];
+                            }
                             func.call(triggerElement[0], this.processName, this.objectName, this.objectWhere, targetid, excludeHist, triggerElement);
                         }
                         if (response.LastException && response.LastException.Message) {

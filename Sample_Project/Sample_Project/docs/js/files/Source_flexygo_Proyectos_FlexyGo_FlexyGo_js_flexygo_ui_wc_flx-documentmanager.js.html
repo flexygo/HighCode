@@ -581,7 +581,8 @@ var flexygo;
                             &lt;/a&gt;
                             &lt;i method=&quot;remove&quot; value=&quot;&#x60; + docGuid + &#x60;&quot; class=&quot;flx-icon icon-delete-2 txt-danger dtc-hover dtc-transition dtc-i-btn&quot; flx- fw=&quot;&quot; &gt; &lt;/i&gt;
                             &lt;i method=&quot;link&quot; value=&quot;&#x60; + docGuid + &#x60;&quot; class=&quot;flx-icon icon-link txt-primary dtc-hover dtc-transition dtc-i-btn&quot; flx- fw=&quot;&quot; &gt; &lt;/i&gt;&#x60;;
-                        if (extension == &quot;.pdf&quot;) {
+                        if (extension == &quot;.pdf&quot; || extension == &quot;.jpeg&quot; || extension == &quot;.jpg&quot; || extension == &quot;.pjp&quot; || extension == &quot;.svgz&quot; || extension == &quot;.tif&quot; || extension == &quot;.xbm&quot; || extension == &quot;.tiff&quot; || extension == &quot;.ico&quot; ||
+                            extension == &quot;.gif&quot; || extension == &quot;.svg&quot; || extension == &quot;.jfif&quot; || extension == &quot;.webp&quot; || extension == &quot;.png&quot; || extension == &quot;.bmp&quot; || extension == &quot;.pjpeg&quot; || extension == &quot;.avif&quot;) {
                             subcontainerbuttons = subcontainerbuttons + &#x60;&lt;i method=&quot;view&quot; value= &quot;&#x60; + flexygo.utils.resolveUrl(downloadLink) + &#x60;&amp;mode=view&quot; download= &quot;&#x60; + name + extension + &#x60;&quot; class=&quot;flx-icon icon-eye txt-primary dtc-hover dtc-transition dtc-i-btn&quot; flx- fw=&quot;&quot; &gt; &lt;/i&gt;
                         &lt;/div&gt;&#x60;;
                         }

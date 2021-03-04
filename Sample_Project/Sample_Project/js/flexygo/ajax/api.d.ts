@@ -655,6 +655,7 @@ declare namespace flexygo.api.kanban {
         ObjectName: string;
         ObjectWhere: string;
         ModuleName: string;
+        AdditionalWhere: string;
         searchId: string;
         filterValues: flexygo.ui.wc.FlxFilterInfo[];
     }
@@ -2621,6 +2622,7 @@ declare namespace flexygo.api.Chatter {
         content: string;
         parentMessage: string;
         attachmentsCount: number;
+        userOwner: string;
     };
 }
 /**

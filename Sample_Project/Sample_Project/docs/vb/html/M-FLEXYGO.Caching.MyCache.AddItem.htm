@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="save" content="history" />
-    <title>AddItem Method (String, Object)</title>
+    <title>AddItem Method (String, Object, Int32)</title>
     <link rel="stylesheet" type="text/css" href="../styles/lightweight.css" xmlns:MSHelp="http://msdn.microsoft.com/mshelp" xmlns:mshelp="http://msdn.microsoft.com/mshelp" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:msxsl="urn:schemas-microsoft-com:xslt" />
     <link rel="stylesheet" type="text/css" href="../styles/lw-code.css" xmlns:MSHelp="http://msdn.microsoft.com/mshelp" xmlns:mshelp="http://msdn.microsoft.com/mshelp" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:msxsl="urn:schemas-microsoft-com:xslt" />
     <script type="text/javascript" xmlns:MSHelp="http://msdn.microsoft.com/mshelp" xmlns:mshelp="http://msdn.microsoft.com/mshelp" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:msxsl="urn:schemas-microsoft-com:xslt" src="../scripts/languageSelector.js"> </script>
@@ -11,10 +11,10 @@
     <meta name="file" content="M-FLEXYGO.Caching.MyCache.AddItem" xmlns:MSHelp="http://msdn.microsoft.com/mshelp" xmlns:mshelp="http://msdn.microsoft.com/mshelp" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:msxsl="urn:schemas-microsoft-com:xslt" />
     <meta name="guid" content="M-FLEXYGO.Caching.MyCache.AddItem" xmlns:MSHelp="http://msdn.microsoft.com/mshelp" xmlns:mshelp="http://msdn.microsoft.com/mshelp" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:msxsl="urn:schemas-microsoft-com:xslt" />
     <xml xmlns:MSHelp="http://msdn.microsoft.com/mshelp" xmlns:mshelp="http://msdn.microsoft.com/mshelp" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
-      <MSHelp:Attr Name="AssetID" Value="M:FLEXYGO.Caching.MyCache.AddItem(System.String,System.Object)" />
-      <MSHelp:TOCTitle Title="AddItem Method (String, Object)" />
-      <MSHelp:RLTitle Title="MyCache.AddItem Method (String, Object) (FLEXYGO.Caching)" />
-      <MSHelp:Keyword Index="A" Term="M:FLEXYGO.Caching.MyCache.AddItem(System.String,System.Object)" />
+      <MSHelp:Attr Name="AssetID" Value="M:FLEXYGO.Caching.MyCache.AddItem(System.String,System.Object,System.Int32)" />
+      <MSHelp:TOCTitle Title="AddItem Method (String, Object, Int32)" />
+      <MSHelp:RLTitle Title="MyCache.AddItem Method (String, Object, Int32) (FLEXYGO.Caching)" />
+      <MSHelp:Keyword Index="A" Term="M:FLEXYGO.Caching.MyCache.AddItem(System.String,System.Object,System.Int32)" />
       <MSHelp:Attr Name="APIType" Value="Managed" />
       <MSHelp:Attr Name="APILocation" Value="flxSession.dll" />
       <MSHelp:Attr Name="APIName" Value="FLEXYGO.Caching.MyCache.AddItem" />
@@ -45,7 +45,7 @@
         <div class="topicContainer">
           <div class="topic">
             <p class="majorTitle" />
-            <h1 class="title">MyCache<span class="languageSpecificText"><span class="cs">.</span><span class="vb">.</span><span class="cpp">::</span><span class="nu">.</span><span class="fs">.</span></span>AddItem Method (String, Object)</h1>
+            <h1 class="title">MyCache<span class="languageSpecificText"><span class="cs">.</span><span class="vb">.</span><span class="cpp">::</span><span class="nu">.</span><span class="fs">.</span></span>AddItem Method (String, Object, Int32)</h1>
             <div id="mainSection">
               <div id="mainBody">
                 <div class="summary">
@@ -57,11 +57,13 @@
     <b>Assembly:</b>
    <span sdata="assembly">flxSession</span> (in flxSession.dll)<div class="LW_CollapsibleArea_Container"><div class="LW_CollapsibleArea_TitleDiv"><h2 class="LW_CollapsibleArea_Title">Syntax</h2><div class="LW_CollapsibleArea_HrDiv"><hr class="LW_CollapsibleArea_Hr" /></div></div><a id="syntaxSection"><!----></a><div class="CodeSnippetContainer"><div class="CodeSnippetContainerTabs"><div class="CodeSnippetContainerTabLeft"><!----></div><div class="CodeSnippetContainerTabFirst CSharpTab" id="CSharpTabId" style="background:white;border-bottom-color:white"><a href="javascript:setActiveTab('CodeSnippetContainerCode','CSharpCode','CSharpTabId');" title="C#">C#</a></div><div class="CodeSnippetContainerTab VisualBasicTab" id="VisualBasicTabId"><a href="javascript:setActiveTab('CodeSnippetContainerCode','VisualBasicCode','VisualBasicTabId');" title="Visual Basic">VB</a></div><div class="CodeSnippetContainerTabRight"><!----></div></div><div class="CodeSnippetContainerCodeCollection"><div class="CodeSnippetToolBar"><div class="CodeSnippetToolBarText" /></div><div class="CodeSnippetContainerCode CSharpCode"><pre xml:space="preserve" class="libCScode"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="identifier">AddItem</span>(
 	<a href="http://msdn.microsoft.com/en-us/library/system.string.aspx" target="_blank">string</a> <span class="parameter">key</span>,
-	<a href="http://msdn.microsoft.com/en-us/library/system.object.aspx" target="_blank">Object</a> <span class="parameter">item</span>
+	<a href="http://msdn.microsoft.com/en-us/library/system.object.aspx" target="_blank">Object</a> <span class="parameter">item</span>,
+	<a href="http://msdn.microsoft.com/en-us/library/system.int32.aspx" target="_blank">int</a> <span class="parameter">MinutesToExpire</span>
 )</pre></div><div class="CodeSnippetContainerCode VisualBasicCode"><pre xml:space="preserve" class="libCScode"><span class="keyword">Public</span> <span class="keyword">Shared</span> <span class="keyword">Sub</span> <span class="identifier">AddItem</span> ( _
 	<span class="parameter">key</span> <span class="keyword">As</span> <a href="http://msdn.microsoft.com/en-us/library/system.string.aspx" target="_blank">String</a>, _
-	<span class="parameter">item</span> <span class="keyword">As</span> <a href="http://msdn.microsoft.com/en-us/library/system.object.aspx" target="_blank">Object</a> _
-)</pre></div></div></div><div id="parameters"><h4 class="subHeading">Parameters</h4><dl paramName="key"><dt><span class="parameterItalic">key</span></dt><dd>Type: <a href="http://msdn.microsoft.com/en-us/library/system.string.aspx" target="_blank">String</a><br />The item key.</dd></dl><dl paramName="item"><dt><span class="parameterItalic">item</span></dt><dd>Type: <a href="http://msdn.microsoft.com/en-us/library/system.object.aspx" target="_blank">Object</a><br />The item.</dd></dl></div></div><div class="LW_CollapsibleArea_Container"><div class="LW_CollapsibleArea_TitleDiv"><h2 class="LW_CollapsibleArea_Title">See Also</h2><div class="LW_CollapsibleArea_HrDiv"><hr class="LW_CollapsibleArea_Hr" /></div></div><a id="seeAlsoSection"><!----></a><div class="seeAlsoStyle"><a href="T-FLEXYGO.Caching.MyCache.htm">MyCache Class</a></div><div class="seeAlsoStyle"><a href="Overload-FLEXYGO.Caching.MyCache.AddItem.htm">AddItem Overload</a></div><div class="seeAlsoStyle"><a href="N-FLEXYGO.Caching.htm">FLEXYGO.Caching Namespace</a></div></div></div>
+	<span class="parameter">item</span> <span class="keyword">As</span> <a href="http://msdn.microsoft.com/en-us/library/system.object.aspx" target="_blank">Object</a>, _
+	<span class="parameter">MinutesToExpire</span> <span class="keyword">As</span> <a href="http://msdn.microsoft.com/en-us/library/system.int32.aspx" target="_blank">Integer</a> _
+)</pre></div></div></div><div id="parameters"><h4 class="subHeading">Parameters</h4><dl paramName="key"><dt><span class="parameterItalic">key</span></dt><dd>Type: <a href="http://msdn.microsoft.com/en-us/library/system.string.aspx" target="_blank">String</a><br />The item key.</dd></dl><dl paramName="item"><dt><span class="parameterItalic">item</span></dt><dd>Type: <a href="http://msdn.microsoft.com/en-us/library/system.object.aspx" target="_blank">Object</a><br />The item.</dd></dl><dl paramName="MinutesToExpire"><dt><span class="parameterItalic">MinutesToExpire</span></dt><dd>Type: <a href="http://msdn.microsoft.com/en-us/library/system.int32.aspx" target="_blank">Int32</a><br /></dd></dl></div></div><div class="LW_CollapsibleArea_Container"><div class="LW_CollapsibleArea_TitleDiv"><h2 class="LW_CollapsibleArea_Title">See Also</h2><div class="LW_CollapsibleArea_HrDiv"><hr class="LW_CollapsibleArea_Hr" /></div></div><a id="seeAlsoSection"><!----></a><div class="seeAlsoStyle"><a href="T-FLEXYGO.Caching.MyCache.htm">MyCache Class</a></div><div class="seeAlsoStyle"><a href="Overload-FLEXYGO.Caching.MyCache.AddItem.htm">AddItem Overload</a></div><div class="seeAlsoStyle"><a href="N-FLEXYGO.Caching.htm">FLEXYGO.Caching Namespace</a></div></div></div>
             </div>
           </div>
         </div>

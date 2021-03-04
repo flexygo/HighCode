@@ -260,7 +260,8 @@ var flexygo;
                             </a>
                             <i method="remove" value="` + docGuid + `" class="flx-icon icon-delete-2 txt-danger dtc-hover dtc-transition dtc-i-btn" flx- fw="" > </i>
                             <i method="link" value="` + docGuid + `" class="flx-icon icon-link txt-primary dtc-hover dtc-transition dtc-i-btn" flx- fw="" > </i>`;
-                        if (extension == ".pdf") {
+                        if (extension == ".pdf" || extension == ".jpeg" || extension == ".jpg" || extension == ".pjp" || extension == ".svgz" || extension == ".tif" || extension == ".xbm" || extension == ".tiff" || extension == ".ico" ||
+                            extension == ".gif" || extension == ".svg" || extension == ".jfif" || extension == ".webp" || extension == ".png" || extension == ".bmp" || extension == ".pjpeg" || extension == ".avif") {
                             subcontainerbuttons = subcontainerbuttons + `<i method="view" value= "` + flexygo.utils.resolveUrl(downloadLink) + `&mode=view" download= "` + name + extension + `" class="flx-icon icon-eye txt-primary dtc-hover dtc-transition dtc-i-btn" flx- fw="" > </i>
                         </div>`;
                         }

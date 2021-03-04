@@ -255,6 +255,12 @@ var flexygo;
                 save: 'Sauvegarder',
                 delete: 'Supprimer',
             };
+            frfr.sortmanager = {
+                sort: 'Ordre',
+                fields: 'Champs',
+                apply: 'Appliquer',
+                clean: 'Nettoyer',
+            };
             frfr.flxlist = {
                 noentriesfound: 'Sans résultat.',
                 warning: 'Le module n’a pas de modèle mais possède une chaîne HTML spécifique.affichage de la configuration du module.',
@@ -289,6 +295,8 @@ var flexygo;
                 edit: 'Modifier',
                 view: 'Afficher',
                 print: 'Imprimer',
+                printpage: 'Imprimer la page',
+                printmodule: 'Module dimpression',
                 help: 'Aide',
                 settings: 'Configuration',
                 process: 'Processus',
@@ -657,6 +665,7 @@ var flexygo;
                 composerplaceholder: 'Écris quelque chose ...',
                 sendbutton: 'Registre',
                 startinfo: 'Vous devez d\'abord configurer le chatter',
+                deleteconfirm: '¿Êtes-vous sûr de vouloir supprimer le message?',
             };
             frfr.offline = {
                 createobjecttitle: 'Ajouter un nouvel objet à l\'application',

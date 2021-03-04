@@ -70,7 +70,7 @@ var flexygo;
                     me.html(`
                 <div class="col-6 padding-l" style="padding-bottom:0px">
                     <div class="box">
-                        <span class="textLabel">Fields</span>
+                        <span class="textLabel">${flexygo.localization.translate('sortmanager.fields')}</span>
                         <div class="sortContainer">
                             <ul class="fields unused"></ul>
                         </div>
@@ -78,7 +78,7 @@ var flexygo;
                 </div>
                 <div class="col-6 padding-l" style="padding-bottom:0px">
                     <div class="box">
-                        <span class="textLabel">Sort</span>
+                        <span class="textLabel">${flexygo.localization.translate('sortmanager.sort')}</span>
                         <div class="sortContainer">
                             <ul class="fields used"></ul>
                         </div>

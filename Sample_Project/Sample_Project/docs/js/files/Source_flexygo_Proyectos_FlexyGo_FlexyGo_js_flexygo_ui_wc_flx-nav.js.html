@@ -797,12 +797,22 @@ var flexygo;
                     if (json.defaults &amp;&amp; json.defaults !== &#x27;&#x27;) {
                         objDef = json.defaults;
                         if (typeof objDef == &#x27;object&#x27;) {
+                            for (let key in objDef) {
+                                if (objDef != null &amp;&amp; objDef[key].toString().indexOf(&#x27;/Date(&#x27;) != -1) {
+                                    objDef[key] = moment(moment.utc(objDef[key]).toDate()).format(&#x27;YYYY-MM-DDTHH:mm:ss&#x27;);
+                                }
+                            }
                             objDef = JSON.stringify(objDef);
                         }
                     }
                     else if (json.objectdefaults) {
                         objDef = json.objectdefaults;
                         if (typeof objDef == &#x27;object&#x27;) {
+                            for (let key in objDef) {
+                                if (objDef != null &amp;&amp; objDef[key].toString().indexOf(&#x27;/Date(&#x27;) != -1) {
+                                    objDef[key] = moment(moment.utc(objDef[key]).toDate()).format(&#x27;YYYY-MM-DDTHH:mm:ss&#x27;);
+                                }
+                            }
                             objDef = JSON.stringify(objDef);
                         }
                     }

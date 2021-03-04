@@ -135,8 +135,8 @@ var flexygo;
                     let menuUl;
                     var myObj = $(document).find('flx-nav')[0];
                     menuUl = $('<ul/>');
-                    menuUl.append('<li method="print" value="page"><span><i class="flx-icon icon-print" style="margin-right: 6px;"/>' + 'Print Page' + '</span></li>');
-                    menuUl.append('<li method="print" value="module"><span><i class="flx-icon icon-print" style="margin-right: 6px;"/>' + 'Print Module' + '</span></li>');
+                    menuUl.append('<li method="print" value="page"><span><i class="flx-icon icon-print" style="margin-right: 6px;"/>' + flexygo.localization.translate('flxmodule.printpage') + '</span></li>');
+                    menuUl.append('<li method="print" value="module"><span><i class="flx-icon icon-print" style="margin-right: 6px;"/>' + flexygo.localization.translate('flxmodule.printmodule') + '</span></li>');
                     let proc = new flexygo.obj.Entity(objectname, objectwhere).processes();
                     if (proc.ReportLink && Object.keys(proc.ReportLink.ChildNodes).length > 0) {
                         if (defaults) {

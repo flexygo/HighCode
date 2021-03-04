@@ -256,6 +256,7 @@ var flexygo;
             };
             engb.sortmanager = {
                 sort: 'Sort',
+                fields: 'Fields',
                 apply: 'Apply',
                 clean: 'Clean',
             };
@@ -293,6 +294,8 @@ var flexygo;
                 edit: 'Edit',
                 view: 'View',
                 print: 'Print',
+                printpage: 'Print page',
+                printmodule: 'Print module',
                 help: 'Help',
                 settings: 'Settings',
                 process: 'Process',
@@ -662,6 +665,7 @@ var flexygo;
                 composerplaceholder: 'Type something',
                 sendbutton: 'Register',
                 startinfo: 'You must first configure the chatter',
+                deleteconfirm: 'Are you sure to delete the message?',
             };
             engb.offline = {
                 createobjecttitle: 'Add new object to App',

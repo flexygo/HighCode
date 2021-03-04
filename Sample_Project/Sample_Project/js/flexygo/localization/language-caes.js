@@ -255,6 +255,7 @@ var flexygo;
             };
             caes.sortmanager = {
                 sort: 'Ordenar',
+                fields: 'Camps',
                 apply: 'Aplicar',
                 clean: 'Netejar',
             };
@@ -292,6 +293,8 @@ var flexygo;
                 edit: 'Editar',
                 view: 'Vista',
                 print: 'Imprimir',
+                printpage: 'Imprimir pàgina',
+                printmodule: 'Imprimir mòdul',
                 help: 'Ajuda',
                 settings: 'Configuració',
                 process: 'Procés',
@@ -660,6 +663,7 @@ var flexygo;
                 composerplaceholder: 'Escriu alguna cosa',
                 sendbutton: 'Registrar',
                 startinfo: 'Primer ha de configurar el chatter',
+                deleteconfirm: '¿Està segur d\'eliminar el missatge?',
             };
             caes.offline = {
                 createobjecttitle: 'Afegeix un nou objecte a l\'App',

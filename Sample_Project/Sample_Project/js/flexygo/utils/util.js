@@ -20,6 +20,13 @@ var flexygo;
             qrcode.makeCode(text);
         }
         utils.showQR = showQR;
+        function generateQR(text, size = 400) {
+            let elm = $('<div style="width:' + size + 'px;height:' + size + 'px;margin: 0 auto;" />');
+            let qrcode = new QRCode(elm[0], { width: size, height: size });
+            qrcode.makeCode(text);
+            return elm.find('canvas')[0].toDataURL();
+        }
+        utils.generateQR = generateQR;
         /**
         * Check if two objects are equivalent
         * @method ObjectsAreEquivalent

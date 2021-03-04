@@ -130,6 +130,7 @@ var flexygo;
                                                                                                                 <i disabled class="hide fa fa-lg chatter_thread_icon chatter_thread_message_favorite fa-star-o" chatter-message-favorite="false"/>
                                                                                                                 ${(messageData.attachmentsCount) ? `<span class="chatter_thread_icon chatter_thread_message_attachments" chatter-message-documents-loaded="false"><i class="fa fa-lg fa-paperclip"/>${messageData.attachmentsCount}</span>` : ''}
                                                                                                             </span>
+                                                                                                            ${(messageData.userOwner == flexygo.profiles.userid) ? '<button class="btn button_delete_message flx-icon icon-delete-1 icon-lg right" tabindex="5" type="button"/>' : ''}
                                                                                                         </p>
                                                                                                         <div class="chatter_thread_message_content">
                                                                                                             <p>${messageData.content}</p>
@@ -345,6 +346,20 @@ var flexygo;
                             }
                         });
                         DEVELOPING END: Favorite message */
+                        /*Delete message*/
+                        me.find('.button_delete_message').off('click.chatter').on('click.chatter', function () {
+                            let resultCallback = (result) => {
+                                if (result) {
+                                    let response = new Boolean(false);
+                                    let parentId = $(this).closest('.chatter_thread_message');
+                                    let id = parentId.attr('chatter-message-id');
+                                    response = me[0].deleteMessage(id);
+                                    if (response == true)
+                                        parentId.remove();
+                                }
+                            };
+                            flexygo.msg.confirm(flexygo.localization.translate('chatter.deleteconfirm'), resultCallback);
+                        });
                         /*Add parent message*/
                         message.find('.chatter_thread_message_reply').off('click.chatter').on('click.chatter', function () {
                             let message = $(this).closest('.chatter_thread_message');
@@ -485,6 +500,22 @@ var flexygo;
                     }
                 }
                 /**
+                * Delete message.
+                * @method deleteMessage
+                */
+                deleteMessage(IdMessage) {
+                    //Instance sysTmpTest Object with ID 1
+                    var obj = new flexygo.obj.Entity('sysChatter', 'Chatters.MessageId=\'' + IdMessage + '\'');
+                    //Delete data and capture success or fail
+                    if (obj.delete()) {
+                        $('#sysLog').append('<p>Delete ok!</p>');
+                        return true;
+                    }
+                    else {
+                        $('#sysLog').append('<p class="txt-danger">Delete fail :(</p>');
+                    }
+                }
+                /**
                 * Clean composer.
                 * @method cleanComposer
                 */
@@ -493,7 +524,7 @@ var flexygo;
                         $(this).find('textarea.chatter_composer_textarea').val('');
                         $(this).find('.chatter_composer_parent_message_delete').click();
                         $(this).find('.chatter_composer_attachment_delete').click();
-                        $(this).find('.chatter_composer_button_send ').prop('disabled', true);
+                        $(this).find('.chatter_composer_button_send').prop('disabled', true);
                     }
                     catch (ex) {
                         console.log(ex);

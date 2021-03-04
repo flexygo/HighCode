@@ -476,12 +476,22 @@ var flexygo;
                     if (json.defaults && json.defaults !== '') {
                         objDef = json.defaults;
                         if (typeof objDef == 'object') {
+                            for (let key in objDef) {
+                                if (objDef != null && objDef[key].toString().indexOf('/Date(') != -1) {
+                                    objDef[key] = moment(moment.utc(objDef[key]).toDate()).format('YYYY-MM-DDTHH:mm:ss');
+                                }
+                            }
                             objDef = JSON.stringify(objDef);
                         }
                     }
                     else if (json.objectdefaults) {
                         objDef = json.objectdefaults;
                         if (typeof objDef == 'object') {
+                            for (let key in objDef) {
+                                if (objDef != null && objDef[key].toString().indexOf('/Date(') != -1) {
+                                    objDef[key] = moment(moment.utc(objDef[key]).toDate()).format('YYYY-MM-DDTHH:mm:ss');
+                                }
+                            }
                             objDef = JSON.stringify(objDef);
                         }
                     }

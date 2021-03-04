@@ -451,6 +451,7 @@ var flexygo;
                                                                                                                 &lt;i disabled class=&quot;hide fa fa-lg chatter_thread_icon chatter_thread_message_favorite fa-star-o&quot; chatter-message-favorite=&quot;false&quot;/&gt;
                                                                                                                 ${(messageData.attachmentsCount) ? &#x60;&lt;span class=&quot;chatter_thread_icon chatter_thread_message_attachments&quot; chatter-message-documents-loaded=&quot;false&quot;&gt;&lt;i class=&quot;fa fa-lg fa-paperclip&quot;/&gt;${messageData.attachmentsCount}&lt;/span&gt;&#x60; : &#x27;&#x27;}
                                                                                                             &lt;/span&gt;
+                                                                                                            ${(messageData.userOwner == flexygo.profiles.userid) ? &#x27;&lt;button class=&quot;btn button_delete_message flx-icon icon-delete-1 icon-lg right&quot; tabindex=&quot;5&quot; type=&quot;button&quot;/&gt;&#x27; : &#x27;&#x27;}
                                                                                                         &lt;/p&gt;
                                                                                                         &lt;div class=&quot;chatter_thread_message_content&quot;&gt;
                                                                                                             &lt;p&gt;${messageData.content}&lt;/p&gt;
@@ -666,6 +667,20 @@ var flexygo;
                             }
                         });
                         DEVELOPING END: Favorite message */
+                        /*Delete message*/
+                        me.find(&#x27;.button_delete_message&#x27;).off(&#x27;click.chatter&#x27;).on(&#x27;click.chatter&#x27;, function () {
+                            let resultCallback = (result) =&gt; {
+                                if (result) {
+                                    let response = new Boolean(false);
+                                    let parentId = $(this).closest(&#x27;.chatter_thread_message&#x27;);
+                                    let id = parentId.attr(&#x27;chatter-message-id&#x27;);
+                                    response = me[0].deleteMessage(id);
+                                    if (response == true)
+                                        parentId.remove();
+                                }
+                            };
+                            flexygo.msg.confirm(flexygo.localization.translate(&#x27;chatter.deleteconfirm&#x27;), resultCallback);
+                        });
                         /*Add parent message*/
                         message.find(&#x27;.chatter_thread_message_reply&#x27;).off(&#x27;click.chatter&#x27;).on(&#x27;click.chatter&#x27;, function () {
                             let message = $(this).closest(&#x27;.chatter_thread_message&#x27;);
@@ -806,6 +821,22 @@ var flexygo;
                     }
                 }
                 /**
+                * Delete message.
+                * @method deleteMessage
+                */
+                deleteMessage(IdMessage) {
+                    //Instance sysTmpTest Object with ID 1
+                    var obj = new flexygo.obj.Entity(&#x27;sysChatter&#x27;, &#x27;Chatters.MessageId=\&#x27;&#x27; + IdMessage + &#x27;\&#x27;&#x27;);
+                    //Delete data and capture success or fail
+                    if (obj.delete()) {
+                        $(&#x27;#sysLog&#x27;).append(&#x27;&lt;p&gt;Delete ok!&lt;/p&gt;&#x27;);
+                        return true;
+                    }
+                    else {
+                        $(&#x27;#sysLog&#x27;).append(&#x27;&lt;p class=&quot;txt-danger&quot;&gt;Delete fail :(&lt;/p&gt;&#x27;);
+                    }
+                }
+                /**
                 * Clean composer.
                 * @method cleanComposer
                 */
@@ -814,7 +845,7 @@ var flexygo;
                         $(this).find(&#x27;textarea.chatter_composer_textarea&#x27;).val(&#x27;&#x27;);
                         $(this).find(&#x27;.chatter_composer_parent_message_delete&#x27;).click();
                         $(this).find(&#x27;.chatter_composer_attachment_delete&#x27;).click();
-                        $(this).find(&#x27;.chatter_composer_button_send &#x27;).prop(&#x27;disabled&#x27;, true);
+                        $(this).find(&#x27;.chatter_composer_button_send&#x27;).prop(&#x27;disabled&#x27;, true);
                     }
                     catch (ex) {
                         console.log(ex);

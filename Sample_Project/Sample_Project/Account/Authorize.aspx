@@ -110,55 +110,65 @@
                 let originalValue = $('#MainButton').html();
                 $('#MainButton').html('Loading...');
                 drawLoading();
-                
-                let url = document.location.href.replace(new RegExp("/Account/Authorize", "ig"), "/Token");;
 
-                $.ajax({
-                    type: 'POST',
-                    url: url,
-                    data: { grant_type: 'password' },
-                    success: function (response) {
+                if(document.location.toString().toLowerCase().indexOf('response_type=code')!=-1){
+                    WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions("MainButton", "", true, "", "", false, true));
+                } else {
 
-                        let sender = flexygo.utils.querystring.getParamObject(document.location.href);
-                        for (let i = 0; i < sender.length; i++) {
-                            response['sender_' + sender[i].key] = sender[i].value;
-                        }
+                    let url = document.location.href.replace(new RegExp("/Account/Authorize", "ig"), "/Token");
 
-                        $.ajax({
-                            type: 'POST',
-                            url: $('#hidReturnUrl').val(),
-                            data: response,
-                            success: function (response) {
-                                $('#lblSuccess').show();
-                                $('#UserName').closest('.cell').hide();
-                                $('#Password').closest('.cell').hide();
-                                $('#lblTitle').hide();
-                                $('#MainButton').hide();
-                                window.close();
-                            },
-                            error: function (error, error2) {
-                                $('#MainButton').textillate().stop();
-                                $('#MainButton').html(originalValue);
-                                flexygo.msg.error((error.responseText ? error.responseText : error));
+                    $.ajax({
+                        type: 'POST',
+                        url: url,
+                        data: { grant_type: 'password' },
+                        success: function (response) {
+
+                            $('#hidJSONResponse').val(JSON.stringify(response));
+
+                            WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions("MainButton", "", true, "", "", false, true));
+
+                            /*let sender = flexygo.utils.querystring.getParamObject(document.location.href);
+                            for (let i = 0; i < sender.length; i++) {
+                                response['sender_' + sender[i].key] = sender[i].value;
                             }
-                        });
+    
+                            $.ajax({
+                                type: 'POST',
+                                url: $('#hidReturnUrl').val(),
+                                data: response,
+                                success: function (response) {
+                                    $('#lblSuccess').show();
+                                    $('#UserName').closest('.cell').hide();
+                                    $('#Password').closest('.cell').hide();
+                                    $('#lblTitle').hide();
+                                    $('#MainButton').hide();
+                                    window.close();
+                                },
+                                error: function (error, error2) {
+                                    $('#MainButton').textillate().stop();
+                                    $('#MainButton').html(originalValue);
+                                    flexygo.msg.error((error.responseText ? error.responseText : error));
+                                }
+                            });*/
 
-                    },
-                    error: function (error, error2) {
-                        $('#MainButton').textillate().stop();
-                        $('#MainButton').html(originalValue);
-                        if (error && error.responseJSON && error.responseJSON.error_description) {
-                            flexygo.msg.error(error.responseJSON.error_description);
-                        } else {
-                            flexygo.msg.error(error);
+                        },
+                        error: function (error, error2) {
+                            $('#MainButton').textillate().stop();
+                            $('#MainButton').html(originalValue);
+                            if (error && error.responseJSON && error.responseJSON.error_description) {
+                                flexygo.msg.error(error.responseJSON.error_description);
+                            } else {
+                                flexygo.msg.error(error);
+                            }
+
+                        },
+                        beforeSend: function (xhr, settings) {
+                            xhr.setRequestHeader('Authorization', 'Basic ' + btoa($('#UserName').val() + ':' + $('#Password').val()));
+                            xhr.setRequestHeader('AppName', 'MyApp');
                         }
-                            
-                    },
-                    beforeSend: function (xhr, settings) {
-                        xhr.setRequestHeader('Authorization', 'Basic ' + btoa($('#UserName').val() + ':' + $('#Password').val()));
-                        xhr.setRequestHeader('AppName', 'MyApp');
-                    }
-                });
+                    });
+
+                }
 
             }
 
@@ -186,15 +196,18 @@
                         <asp:Label ID="lblTitle" Text="<b>{0}</b> requests authorization to use his credentials:" runat="server"></asp:Label>
                         <asp:Label ID="lblSuccess" Text="Successfull Authorization, now you can close the window." Style="display:none" runat="server"></asp:Label>
                         <asp:HiddenField ID="hidReturnUrl" runat="server" />
+                        <asp:HiddenField ID="hidJSONResponse" runat="server" />
                     </div>
                     <div class="cell"><i class="flx-icon icon-user-3"></i>
                         <asp:TextBox ID="UserName" autocomplete="off" placeHolder="Username" runat="server"></asp:TextBox><asp:RequiredFieldValidator ID="UserNameRequired" runat="server" ControlToValidate="UserName" Text="*"></asp:RequiredFieldValidator>
                     </div>
-                    <div class="cell"><i class="flx-icon icon-lock"></i>
+                    <asp:Panel ID="pnlPassword" runat="server" CssClass="cell">
+                        <i class="flx-icon icon-lock"></i>
                         <asp:TextBox ID="Password" placeHolder="Password" runat="server" TextMode="Password"></asp:TextBox><asp:RequiredFieldValidator ID="PasswordRequired" runat="server" ControlToValidate="Password" Text="*"></asp:RequiredFieldValidator>
                         <span class="fa fa-eye" id="pass-status" onclick="viewPassword()"></span> 
-                    </div>
+                    </asp:Panel>
                     <asp:LinkButton ID="MainButton" CssClass="mainbutton" CommandName="LogIn" runat="server" OnClientClick="testAuth(event)">Authorize</asp:LinkButton>
+                    <asp:LinkButton ID="btnAuthorize" Visible="False" CssClass="mainbutton" runat="server" >Authorize</asp:LinkButton>
                 </section>
             </div>
         </div>

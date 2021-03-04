@@ -8,6 +8,7 @@ declare namespace flexygo.utils {
      * @param {string} text - The text to include in QR, by default current location page.
      */
     function showQR(text: string): void;
+    function generateQR(text: string, size?: number): string;
     /**
     * Check if two objects are equivalent
     * @method ObjectsAreEquivalent

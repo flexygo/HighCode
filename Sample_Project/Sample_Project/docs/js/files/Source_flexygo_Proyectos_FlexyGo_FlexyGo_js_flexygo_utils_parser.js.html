@@ -596,6 +596,14 @@ var flexygo;
                                 else if (typeF == &#x27;sql&#x27;) {
                                     rValue = escapeSqltring(rValue);
                                 }
+                                else if (typeF == &#x27;qr&#x27;) {
+                                    if (strFormat &amp;&amp; !isNaN(strFormat) &amp;&amp; !isNaN(parseFloat(strFormat))) {
+                                        rValue = flexygo.utils.generateQR(rValue, parseFloat(strFormat));
+                                    }
+                                    else {
+                                        rValue = flexygo.utils.generateQR(rValue);
+                                    }
+                                }
                             }
                             else {
                                 skipReplace = true;

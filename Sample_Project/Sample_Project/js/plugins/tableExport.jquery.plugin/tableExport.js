@@ -707,7 +707,8 @@
                     trData += ' rowspan="' + $(cell).attr('rowspan') + '"';
 
                   if ( typeof tdvalue === 'string' && tdvalue != '' )
-                    tdvalue = tdvalue.replace(/\n/g, '<br>');
+                      tdvalue = flexygo.utils.parser.replaceAll(tdvalue.replace(/\n/g, '<br>'), '<', '&lt;');
+                      tdvalue = flexygo.utils.parser.replaceAll(tdvalue, '>', '&gt;');
 
                   trData += '>' + tdvalue + '</td>';
                 }

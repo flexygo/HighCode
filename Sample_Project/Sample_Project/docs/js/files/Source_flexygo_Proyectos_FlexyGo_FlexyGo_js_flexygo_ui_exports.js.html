@@ -456,8 +456,8 @@ var flexygo;
                     let menuUl;
                     var myObj = $(document).find(&#x27;flx-nav&#x27;)[0];
                     menuUl = $(&#x27;&lt;ul/&gt;&#x27;);
-                    menuUl.append(&#x27;&lt;li method=&quot;print&quot; value=&quot;page&quot;&gt;&lt;span&gt;&lt;i class=&quot;flx-icon icon-print&quot; style=&quot;margin-right: 6px;&quot;/&gt;&#x27; + &#x27;Print Page&#x27; + &#x27;&lt;/span&gt;&lt;/li&gt;&#x27;);
-                    menuUl.append(&#x27;&lt;li method=&quot;print&quot; value=&quot;module&quot;&gt;&lt;span&gt;&lt;i class=&quot;flx-icon icon-print&quot; style=&quot;margin-right: 6px;&quot;/&gt;&#x27; + &#x27;Print Module&#x27; + &#x27;&lt;/span&gt;&lt;/li&gt;&#x27;);
+                    menuUl.append(&#x27;&lt;li method=&quot;print&quot; value=&quot;page&quot;&gt;&lt;span&gt;&lt;i class=&quot;flx-icon icon-print&quot; style=&quot;margin-right: 6px;&quot;/&gt;&#x27; + flexygo.localization.translate(&#x27;flxmodule.printpage&#x27;) + &#x27;&lt;/span&gt;&lt;/li&gt;&#x27;);
+                    menuUl.append(&#x27;&lt;li method=&quot;print&quot; value=&quot;module&quot;&gt;&lt;span&gt;&lt;i class=&quot;flx-icon icon-print&quot; style=&quot;margin-right: 6px;&quot;/&gt;&#x27; + flexygo.localization.translate(&#x27;flxmodule.printmodule&#x27;) + &#x27;&lt;/span&gt;&lt;/li&gt;&#x27;);
                     let proc = new flexygo.obj.Entity(objectname, objectwhere).processes();
                     if (proc.ReportLink &amp;&amp; Object.keys(proc.ReportLink.ChildNodes).length &gt; 0) {
                         if (defaults) {

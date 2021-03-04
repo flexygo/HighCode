@@ -256,6 +256,7 @@ var flexygo;
             };
             eses.sortmanager = {
                 sort: 'Ordenar',
+                fields: 'Campos',
                 apply: 'Aceptar',
                 clean: 'Limpiar',
             };
@@ -293,6 +294,8 @@ var flexygo;
                 edit: 'Editar',
                 view: 'Ver',
                 print: 'Imprimir',
+                printpage: 'Imprimir página',
+                printmodule: 'Imprimir módulo',
                 help: 'Ayuda',
                 settings: 'Configuración',
                 process: 'Proceso',
@@ -662,6 +665,7 @@ var flexygo;
                 composerplaceholder: 'Escriba algo',
                 sendbutton: 'Registrar',
                 startinfo: 'Primero debe configurar el chatter',
+                deleteconfirm: '¿Está seguro de eliminar el mensaje?',
             };
             eses.offline = {
                 createobjecttitle: 'Añade un nuevo objeto a la App',

@@ -346,6 +346,7 @@ var flexygo;
                     this.connected = false;
                     this.sorting = false;
                     this.sortingFrom = null;
+                    this.additionalWhere = &#x27;&#x27;;
                     this.filterValues = null;
                     this.activeFilter = null;
                     this.moduleButtons = null;
@@ -355,7 +356,7 @@ var flexygo;
                 * @property observedAttributes {Array}
                 */
                 static get observedAttributes() {
-                    return [&#x27;ObjectName&#x27;, &#x27;ObjectWhere&#x27;, &#x27;ModuleName&#x27;];
+                    return [&#x27;ObjectName&#x27;, &#x27;ObjectWhere&#x27;, &#x27;ModuleName&#x27;, &#x27;AdditionalWhere&#x27;];
                 }
                 /**
                 * Init the webcomponent. REQUIRED.
@@ -642,6 +643,7 @@ var flexygo;
                         ObjectName: me.attr(&#x27;ObjectName&#x27;),
                         ObjectWhere: me.attr(&#x27;ObjectWhere&#x27;),
                         ModuleName: this.moduleName,
+                        AdditionalWhere: this.additionalWhere,
                         searchId: this.activeFilter,
                         filterValues: this.filterValues
                     };
@@ -726,6 +728,7 @@ var flexygo;
                     this.objectName = element.attr(&quot;ObjectName&quot;);
                     this.objectWhere = element.attr(&quot;ObjectWhere&quot;);
                     this.moduleName = element.attr(&quot;ModuleName&quot;);
+                    this.additionalWhere = element.attr(&quot;AdditionalWhere&quot;);
                     if (element.attr(&#x27;manualInit&#x27;) != &#x27;true&#x27;) {
                         this.init();
                     }
@@ -754,6 +757,10 @@ var flexygo;
                     }
                     else if (attrName.toLowerCase() == &#x27;objectwhere&#x27; &amp;&amp; newVal &amp;&amp; newVal != &#x27;&#x27;) {
                         this.objectWhere = newVal;
+                        needInit = true;
+                    }
+                    else if (attrName.toLowerCase() == &#x27;additionalwhere&#x27; &amp;&amp; newVal &amp;&amp; newVal != &#x27;&#x27;) {
+                        this.additionalWhere = newVal;
                         needInit = true;
                     }
                     if (this.connected &amp;&amp; needInit) {
