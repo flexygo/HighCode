@@ -134,7 +134,7 @@ LearningApp.Tareas.ScanCode = async  function (IdTarea,e){
   var scancode = await flexygo.camera.scanCode();
   var code=scancode.text
   alert(code);
-  return flexygo.sql.execSQL(''update Actions set externalcode=?, _isupdated=1 where ActionId=?'', [code,IdTarea]).then(() => {
+  return flexygo.sql.execSQL(''update Actions set scancode=?, _isupdated=1 where ActionId=?'', [code,IdTarea]).then(() => {
     e.closest(''flx-view'')[0].refresh();    
   }).catch((err) => {
     flexygo.msg.showError(err);

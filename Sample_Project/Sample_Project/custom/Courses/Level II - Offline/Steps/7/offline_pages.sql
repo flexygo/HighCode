@@ -180,7 +180,7 @@ left join Employee e on e.IdEmployee=Actions.IdEmployee
       <ion-badge slot="end" color="">{{flexygo.sql.getCount(''flxDocuments'', ''ObjectId=? AND ObjectName=?'',[''{{ActionId}}'',''Offline_Accion''])}}</ion-badge>
     </ion-item> 
     <ion-item lines="full" >
-      <ion-label color="{{ExternalCode|isnull:danger,success}}"><i class="flx-icon icon-barcode-2 icon-margin-right"></i>{{ExternalCode|isnull:{{translate|Sin referencia}}}}</ion-label>      
+      <ion-label color="{{ScanCode|isnull:danger,success}}"><i class="flx-icon icon-barcode-2 icon-margin-right"></i>{{ScanCode|isnull:{{translate|Sin referencia}}}}</ion-label>      
     </ion-item>
   </ion-list>',NULL,N'<ion-fab vertical="bottom" horizontal="end" slot="fixed">
   <ion-fab-button color="primary" >
