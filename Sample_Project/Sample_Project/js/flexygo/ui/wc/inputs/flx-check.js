@@ -30,7 +30,6 @@ var flexygo;
                 */
                 connectedCallback() {
                     let element = $(this);
-                    this.connected = true;
                     let isFilter = false;
                     let propName = element.attr('property');
                     if (propName && flexygo.utils.isBlank(this.options)) {
@@ -140,6 +139,7 @@ var flexygo;
                             }
                         }
                     }
+                    this.connected = true;
                 }
                 /**
                 * Array of observed attributes.

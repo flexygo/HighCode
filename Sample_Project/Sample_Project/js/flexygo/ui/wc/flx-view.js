@@ -33,6 +33,7 @@ var flexygo;
                     this.tEmpty = null;
                     this.tCSSText = null;
                     this.tScriptText = null;
+                    this.TemplateToolbarCollection = null;
                 }
                 /**
                 * Fires when element is attached to DOM
@@ -79,6 +80,7 @@ var flexygo;
                 init() {
                     let me = $(this);
                     me.removeAttr('manualInit');
+                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
                     me.html('');
                     flexygo.ui.templates.setDefaultTemplate(this);
                     //let loadRet = this.loadRet;
@@ -102,6 +104,7 @@ var flexygo;
                             this.tCSSText = response.Template.CSSText;
                             this.templateId = response.Template.Id;
                             this.isNew = response.IsNew;
+                            this.TemplateToolbarCollection = response.TemplateToolbarCollection;
                             if (response.TemplateList) {
                                 this.templateList = response.TemplateList;
                             }
@@ -144,6 +147,9 @@ var flexygo;
                     if (this.tScriptText && this.tScriptText !== '') {
                         let render = flexygo.utils.parser.recursiveCompile(def, flexygo.utils.parser.recursiveCompile(this.data, this.tScriptText, this), this);
                         rendered += '<script>' + render + '</script>';
+                    }
+                    if (this.objectname === "sysOfflineApp") {
+                        rendered += `<div id="monete" class="clickable" onclick="flexygo.nav.openHelpId('syshelp-AppOflineAccess','current',false,$(this))">${flexygo.localization.translate('develop.help').toUpperCase()} 🙊</div>`;
                     }
                     me.html(rendered);
                     me.append('<div style="clear:both"></div>');
@@ -317,7 +323,7 @@ var flexygo;
                         let propName = $(controls[i]).attr('property');
                         let ctl = $(controls[i])[0];
                         if (ctl && ctl.setValue) {
-                            if (this.data[propName].WebComponent == 'flx-dbcombo') {
+                            if (this.data[propName].WebComponent == 'flx-dbcombo' || this.data[propName].WebComponent.includes('flx-radio')) {
                                 ctl.setValue(this.data[propName].Value, this.data[propName].Text);
                             }
                             else if ($(ctl).attr('type') && ($(ctl).attr('type').toLowerCase() === 'datetime-local' || $(ctl).attr('type').toLowerCase() === 'date' || $(ctl).attr('type').toLowerCase() === 'number')) {

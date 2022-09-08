@@ -1,5 +1,5 @@
-import { r as registerInstance, j as h, l as Host } from './index-76f52202.js';
-import { g as getIonMode } from './ionic-global-53d785f3.js';
+import { r as registerInstance, j as h, l as Host } from './index-86ac49ff.js';
+import { g as getIonMode } from './ionic-global-0f98fe97.js';
 
 const rowCss = ":host{display:flex;flex-wrap:wrap}";
 

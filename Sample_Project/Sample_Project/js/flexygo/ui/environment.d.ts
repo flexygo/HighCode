@@ -18,13 +18,15 @@ declare namespace flexygo.environment {
     * @method setSkinVar
     * @param {string} name - Name of the variable
     * @param {string} value - Value of the variable
+    * @param {string} skinId - Skin id
    */
-    function setSkinVar(name: string, value: string): void;
+    function setSkinVar(name: string, value: string, skinId?: string): void;
     /**
     * Stores the values of the skin variables into database
+    * @param {string} skinId - Id of the skin
     * @method saveSkinVars
    */
-    function saveSkinVars(): void;
+    function saveSkinVars(skinId?: string): void;
     /**
     * Resets the values of the skin variables into database
     * @method resetSkinVars

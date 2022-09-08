@@ -53,12 +53,12 @@
     <form id="form1" runat="server" DefaultButton="MainButton">
         <div id="login" class="login">
             <div class="divlogin">
-                <div class="flip-card" style="margin:0 auto;width: 320px;height:100px;" onclick="$(this).toggleClass('flip-card-reverse');">
+                <div class="flip-card"  onclick="$(this).toggleClass('flip-card-reverse');">
 		            <div class="flip-card-flipper">
 			            <div class="flip-card-front" >
-				            <div id="trademark" class="trademark" style="width: 320px;height:100px;">flexygo</div>
+				            <div id="trademark" class="trademark" >flexygo</div>
 			            </div>
-			            <div class="flip-card-back" style="width: 320px;height:100px;">
+			            <div class="flip-card-back" >
 				            <div id="logo" class="logo"></div>
 			            </div>
 		            </div>

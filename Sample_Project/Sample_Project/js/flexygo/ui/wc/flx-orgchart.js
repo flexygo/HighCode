@@ -98,6 +98,7 @@ var flexygo;
                 init() {
                     let me = $(this);
                     me.removeAttr('manualInit');
+                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
                     me.empty();
                     this.options = { chart: { connectors: { type: 'step' }, node: { HTMLclass: 'orgchartnode' }, hideRootNode: true, animteOnInit: true } };
                     if (this.moduleName) {
@@ -139,12 +140,37 @@ var flexygo;
                             rendered += render;
                         }
                         let uniqueId = flexygo.utils.uniqueId();
-                        rendered += '<div class="flx-orgchart" id="' + uniqueId + '"></div>';
+                        rendered += `<div class="zoomElements">
+                                <i class="flx-icon icon-zoomout  icon-zoom-115 zoom-ic minusZoom"></i>
+                                <input class="sliderZoom"  min="0.1" max= "2" value= "1" step= "0.05"  type= "range"></input>
+                                <i class="flx-icon icon-zoom-1 icon-zoom-115 zoom-ic plusZoom" ></i>
+                                <i class="flx-icon icon-focus icon-zoom-115 zoom-ic fitZoom"></i>
+                            </div>
+                            <div class="flx-orgchart margintoporgchart" id="` + uniqueId + `"></div>`;
                         if (this.tFooter && this.tFooter !== '') {
                             let render = flexygo.utils.parser.recursiveCompile(this.data[0], this.tFooter, this);
                             rendered += render;
                         }
                         me.html(rendered);
+                        //zoom
+                        let slider = me.find(".sliderZoom");
+                        slider.on("change", function () {
+                            me.find(".flx-orgchart").css({ "zoom": $(this).val() });
+                        });
+                        me.find(".plusZoom").on("click", function () {
+                            slider.val(parseFloat(slider.val()) + parseFloat(slider.attr('step')));
+                            slider.change();
+                        });
+                        me.find(".minusZoom").on("click", function () {
+                            slider.val(parseFloat(slider.val()) - parseFloat(slider.attr('step')));
+                            slider.change();
+                        });
+                        me.find(".fitZoom").on("click", function () {
+                            if (parseFloat(me.find("svg").attr("width")) != 0) {
+                                slider.val($('.cntBody').width() / parseFloat(me.find("svg").attr("width")));
+                                slider.change();
+                            }
+                        });
                         let initialNode = new flexygo.api.orgchart.Node();
                         initialNode.children = new Array();
                         if (this.tBody && this.tBody !== '') {
@@ -161,7 +187,7 @@ var flexygo;
                         }
                         this.options.chart.container = "#" + uniqueId;
                         this.options.chart.callback = {
-                            onTreeLoaded: () => { this.stopLoading(); }
+                            onTreeLoaded: () => { this.stopLoading(); this.setInitialZoom(); this.dragScroll(); }
                         };
                         this.options.nodeStructure = initialNode;
                         this.tree = new Treant(this.options);
@@ -216,6 +242,55 @@ var flexygo;
                     if ($(this).parents('flx-module').length > 0) {
                         $(this).parents('flx-module')[0].stopLoading();
                     }
+                }
+                /**
+               * Set initial zoom to view all content of orgchart.
+               * @method setInitialZoom
+               */
+                setInitialZoom() {
+                    let me = $(this);
+                    if (parseFloat(me.find("svg").attr("width")) != 0) {
+                        let initialZoom = $('.cntBody').width() / parseFloat(me.find("svg").attr("width"));
+                        me.find(".sliderZoom").val(initialZoom);
+                        me.find(".sliderZoom").change();
+                    }
+                }
+                /**
+               * Drag scroll.
+               * @method dragScroll
+               */
+                dragScroll() {
+                    const eleX = $(document).find('flx-orgchart .flx-orgchart')[0];
+                    const eleY = $(document).find('#mainContent')[0];
+                    let pos = { top: 0, left: 0, x: 0, y: 0 };
+                    const mouseDownHandler = function (e) {
+                        eleX.style.cursor = 'grabbing';
+                        eleX.style.userSelect = 'none';
+                        pos = {
+                            left: eleX.scrollLeft,
+                            top: eleY.scrollTop,
+                            // Get the current mouse position
+                            x: e.clientX,
+                            y: e.clientY,
+                        };
+                        document.addEventListener('mousemove', mouseMoveHandler);
+                        document.addEventListener('mouseup', mouseUpHandler);
+                    };
+                    const mouseMoveHandler = function (e) {
+                        // How far the mouse has been moved
+                        const dx = e.clientX - pos.x;
+                        const dy = e.clientY - pos.y;
+                        // Scroll the element
+                        eleY.scrollTop = pos.top - dy;
+                        eleX.scrollLeft = pos.left - dx;
+                    };
+                    const mouseUpHandler = function () {
+                        eleX.style.cursor = 'grab';
+                        eleX.style.removeProperty('user-select');
+                        document.removeEventListener('mousemove', mouseMoveHandler);
+                        document.removeEventListener('mouseup', mouseUpHandler);
+                    };
+                    eleX.addEventListener('mousedown', mouseDownHandler);
                 }
             }
             wc.FlxOrgChartElement = FlxOrgChartElement;

@@ -13,23 +13,28 @@ var flexygo;
                     ObjectName: objectname
                 };
                 flexygo.ajax.post('~/api/Sys', 'searchObjects', params, (res) => {
-                    let response = flexygo.utils.sortObject(res, 'Order');
-                    $.each(response, (key, item) => {
-                        let container = $('<flx-module class="resultMod"/>').html(containerTemplate).attr('modulename', listModuleName).attr('type', 'flx-list').addClass('default');
-                        placeHolder.append(container);
-                        let module = $('<flx-list />').attr('ObjectName', item.CollectionName).attr('ObjectWhere', item.Filter).attr('modulename', listModuleName);
-                        container.find('.cntBody').append(module);
-                        let ctrl = container[0];
-                        ctrl.moduleName = listModuleName;
-                        ctrl.moduleTitle = item.Descrip;
-                        ctrl.icon = item.IconClass;
-                        ctrl.canCollapse = true;
-                        ctrl.canEnlarge = true;
-                        ctrl.canRefresh = true;
-                        //ctrl.canClose = false;
-                        ctrl.canConfig = false;
-                        ctrl.init();
-                    });
+                    if (Object.keys(res).length > 0) {
+                        let response = flexygo.utils.sortObject(res, 'Order');
+                        $.each(response, (key, item) => {
+                            let container = $('<flx-module class="resultMod"/>').html(containerTemplate).attr('modulename', listModuleName).attr('type', 'flx-list').addClass('default');
+                            placeHolder.append(container);
+                            let module = $('<flx-list />').attr('ObjectName', item.CollectionName).attr('ObjectWhere', item.Filter).attr('modulename', listModuleName);
+                            container.find('.cntBody').append(module);
+                            let ctrl = container[0];
+                            ctrl.moduleName = listModuleName;
+                            ctrl.moduleTitle = item.Descrip;
+                            ctrl.icon = item.IconClass;
+                            ctrl.canCollapse = true;
+                            ctrl.canEnlarge = true;
+                            ctrl.canRefresh = true;
+                            //ctrl.canClose = false;
+                            ctrl.canConfig = false;
+                            ctrl.init();
+                        });
+                    }
+                    else {
+                        flexygo.msg.warning(flexygo.localization.translate('flxsearch.pleaseobject'));
+                    }
                 });
             }
         }

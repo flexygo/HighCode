@@ -1,22 +1,21 @@
-import { r as registerInstance, j as h, k as getElement } from './index-76f52202.js';
-import './ionic-global-53d785f3.js';
-import { u as util, C as ConftokenProvider, s as sql, m as msg } from './messages-1e55a1f4.js';
-import { j as jquery } from './jquery-4ed57fb2.js';
-import './utils-30827fbd.js';
-import './index-38aae3ff.js';
-import './helpers-742de4f9.js';
-import './animation-a90ce8fc.js';
-import './index-a6178d25.js';
-import './ios.transition-bfe5eada.js';
-import './md.transition-e49d1536.js';
-import './cubic-bezier-89113939.js';
-import './index-9b41fcc6.js';
-import './index-86d5f3ab.js';
-import './hardware-back-button-b3b61715.js';
-import './index-c940ddb6.js';
-import './overlays-3fb58ad8.js';
-import { n as nav } from './navigation-8af3d3e3.js';
-import { p as parser } from './parser-8fd0ea5d.js';
+import { r as registerInstance, j as h, k as getElement } from './index-86ac49ff.js';
+import './ionic-global-0f98fe97.js';
+import './webapi-7959a2b6.js';
+import { i as flxSync, u as util, C as ConftokenProvider, s as sql, m as msg, n as nav } from './conftoken-bd0cce07.js';
+import { j as jquery } from './jquery-ad132f97.js';
+import './utils-16079bfd.js';
+import './helpers-719f4c54.js';
+import './animation-10ea33c3.js';
+import './index-7173f7a2.js';
+import './ios.transition-95375ac9.js';
+import './md.transition-6d74e584.js';
+import './cubic-bezier-93f47170.js';
+import './index-7fe827c3.js';
+import './index-b40d441b.js';
+import './hardware-back-button-aacf3d12.js';
+import './index-50651ccc.js';
+import './overlays-5302658e.js';
+import { p as parser } from './parser-0c2e5f94.js';
 
 const flxViewCss = "";
 
@@ -25,7 +24,12 @@ const FlxView = class {
         registerInstance(this, hostRef);
         this.modal = false;
     }
+    componentDidLoad() {
+        jquery('#loadingSpinnerModule').css('visibility', 'hidden');
+        flxSync.checkSendErrors();
+    }
     componentWillLoad() {
+        jquery('#loadingSpinnerModule').css('visibility', 'visible');
         this.object = (this.object) ? decodeURIComponent(this.object) : null;
         this.pageName = (this.pageName) ? decodeURIComponent(this.pageName) : null;
         this.filter = (this.filter) ? decodeURIComponent(this.filter) : null;
@@ -122,7 +126,7 @@ const FlxView = class {
     }
     render() {
         return [
-            h("ion-header", null, h("ion-toolbar", { color: "header", class: "ion-text-center" }, h("ion-buttons", { slot: "start" }, (this.modal ? null : h("ion-menu-button", { color: "outstanding" }))), h("ion-buttons", { slot: "end" }, h("ion-button", { color: "outstanding", onClick: () => { nav.goBack(this.me); } }, h("ion-icon", { slot: "icon-only", name: "arrow-undo-outline" }))), h("ion-title", null, h("span", { id: "menuTitle" }, this.title)))),
+            h("ion-header", null, h("ion-toolbar", { color: "header", class: "ion-text-center" }, h("ion-buttons", { slot: "start" }, (this.modal ? null : h("ion-menu-button", { color: "outstanding" })), (this.modal ? null : h("ion-icon", { name: "alert-circle", color: "danger", class: "stack sendError hide" }))), h("ion-buttons", { slot: "end" }, h("ion-button", { color: "outstanding", onClick: () => { nav.goBack(this.me); } }, h("ion-icon", { slot: "icon-only", name: "arrow-undo-outline" }))), h("ion-title", null, h("span", { id: "menuTitle" }, this.title)))),
             h("ion-header", { innerHTML: this.header }),
             h("ion-content", null, h("ion-refresher", { slot: "fixed", id: "refresher", onIonRefresh: (ev) => { this.refresh(ev); } }, h("ion-refresher-content", null)), h("div", { id: "mainBody", innerHTML: this.body })),
             h("ion-footer", { innerHTML: this.footer })

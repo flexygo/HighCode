@@ -32,7 +32,6 @@ var flexygo;
                * @method connectedCallback
                */
                 connectedCallback() {
-                    this.connected = true;
                     let element = $(this);
                     this.type = element.attr('type') || 'text';
                     let propName = element.attr('property');
@@ -109,6 +108,7 @@ var flexygo;
                     if (Value && Value != '') {
                         this.setValue(Value);
                     }
+                    this.connected = true;
                 }
                 /**
                * Array of observed attributes.

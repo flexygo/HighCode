@@ -64,6 +64,7 @@ var flexygo;
                 */
                 init() {
                     $(this).removeAttr('manualInit');
+                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
                     this.uuid = flexygo.utils.uniqueUUID();
                     let navBar = $(this);
                     navBar.empty();

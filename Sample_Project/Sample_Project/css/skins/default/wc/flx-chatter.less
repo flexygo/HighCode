@@ -282,6 +282,10 @@
                                 color: dbColor(OutstandingColor) !important;
                             }
 
+                            .chatter_composer_button_save {
+                                color: dbColor(OutstandingColor) !important;
+                            }
+
                             .chatter_composer_button_emoji {
                             }
 
@@ -301,6 +305,7 @@
                             overflow: hidden;
 
                             .chatter_composer_attachment {
+                                width: 92%;
                                 display: flex;
                                 align-items: center;
                                 justify-content: space-between;
@@ -348,7 +353,7 @@
             }
 
             .chatter_composer_send {
-                margin-top: 10px;
+
 
                 .chatter_composer_button_send {
                     text-transform: uppercase;
@@ -453,6 +458,132 @@
                     max-width: 100%;
                     word-wrap: break-word;
 
+                    .shadow_thread {
+                        box-shadow: 0 0 26px 0px rgba(0, 0, 0, 0.12);
+                        padding: 6px;
+                        background-color: white;
+                        border-radius: 6px;
+                    }
+
+                    .chatter_composer_attachments_edit {
+                        overflow: hidden;
+
+                        .chatter_composer_attachment_edit {
+                            width: 90%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            border-radius: @chatter_containers_border_radius;
+                            background-color: fade(dbColor(OutstandingColor), 10);
+                            color: dbColor(OutstandingColor);
+                            overflow: hidden;
+                            .chatter_transition();
+                            opacity: 0;
+                            height: 0;
+                            margin: 0; /*10px 0px;*/
+                            padding: 0; /*8px 6px;*/
+                            > div:first-child {
+                                max-width: 92%;
+                                display: flex;
+                                align-items: center;
+                                justify-content: space-between;
+
+                                > i {
+                                    margin-right: 6px;
+                                }
+
+                                > small {
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap;
+                                }
+                            }
+
+                            .chatter_composer_attachment_delete {
+                                cursor: pointer;
+                                opacity: .8;
+                                font-weight: bold;
+                                .chatter_transition();
+
+                                &:hover {
+                                    opacity: 1;
+                                    color: dbColor(DangerColor);
+                                }
+                            }
+                        }
+                    }
+
+                    .chatter_composer_tools_edit {
+                        border-top: 1px solid #e5e5e5;
+                        background-color: white;
+                        border-radius: 0px 0px 6px 6px;
+
+                        > button {
+                            opacity: 0.8;
+                            border: none;
+                            color: #666666;
+                            background-color: #ffffff;
+                            border-radius: @chatter_controls_border_radius;
+                            font-size: 18px;
+                            .chatter_transition();
+
+                            &:hover:not([disabled]),
+                            &:active:not([disabled]) {
+                                opacity: 1;
+                                color: #666666;
+                                background-color: #e6e6e6;
+                                border-color: #e0e0e0;
+                            }
+
+                            &[disabled] {
+                                opacity: .3;
+                                cursor: unset;
+                            }
+                        }
+
+                        .chatter_avatar_mini {
+                            width: 26px;
+                        }
+
+                        .chatter_composer_button_send {
+                            color: dbColor(OutstandingColor) !important;
+                        }
+
+                        .chatter_composer_button_save {
+                            color: dbColor(OutstandingColor) !important;
+                        }
+
+                        .chatter_composer_button_emoji {
+                        }
+
+                        .chatter_composer_button_add_attachment {
+                        }
+
+                        .chatter_composer_button_full_composer {
+                            position: absolute;
+                            top: auto;
+                            left: auto;
+                            bottom: auto;
+                            right: 10px;
+                        }
+                    }
+
+                    .chatter_composer_save {
+
+                        .chatter_composer_button_save {
+                            text-transform: uppercase;
+                            -ms-flex: 1 0 100%;
+                            -moz-flex: 1 0 100%;
+                            -webkit-box-flex: 1;
+                            -webkit-flex: 1 0 100%;
+                            flex: 1 0 100%;
+                            background-color: dbColor(OutstandingColor);
+                            color: #fff;
+                            border-radius: @chatter_controls_border_radius;
+                            .chatter_transition();
+                        }
+                    }
+
                     .chatter_thread_message_info {
                         margin-bottom: 2px;
                         color: #777777;
@@ -512,6 +643,17 @@
                         p {
                             margin: unset;
                             white-space: pre-wrap;
+                        }
+
+                        .chatter_composer_textarea_edit {
+                            resize: none;
+                            padding: 5px 5px;
+                            max-width: 100%;
+                            max-height: 100%;
+                            border: none;
+                            border-radius: 6px 6px 0 0;
+                            width: 100%;
+                            
                         }
                     }
                 }

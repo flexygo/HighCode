@@ -1,309 +1,309 @@
-import { r as registerInstance, m as createEvent, f as writeTask, j as h, l as Host, k as getElement } from './index-76f52202.js';
-import { g as getIonMode, c as config } from './ionic-global-53d785f3.js';
-import { c as clamp } from './helpers-742de4f9.js';
-import { c as createAnimation } from './animation-a90ce8fc.js';
-import { d as deepReady } from './index-a6178d25.js';
-import { g as getTimeGivenProgression } from './cubic-bezier-89113939.js';
-import { createGesture } from './index-9b41fcc6.js';
-import './hardware-back-button-b3b61715.js';
-import { B as BACKDROP, a as prepareOverlay, b as present, h as activeAnimations, d as dismiss, e as eventMethod } from './overlays-3fb58ad8.js';
-import { g as getClassMap } from './theme-d8afa044.js';
-import { a as attachComponent, d as detachComponent } from './framework-delegate-7af2c551.js';
+import { r as registerInstance, m as createEvent, f as writeTask, j as h, l as Host, k as getElement } from './index-86ac49ff.js';
+import { g as getIonMode, c as config } from './ionic-global-0f98fe97.js';
+import { f as clamp } from './helpers-719f4c54.js';
+import { c as createAnimation } from './animation-10ea33c3.js';
+import { d as deepReady } from './index-7173f7a2.js';
+import { g as getTimeGivenProgression } from './cubic-bezier-93f47170.js';
+import { createGesture } from './index-7fe827c3.js';
+import './hardware-back-button-aacf3d12.js';
+import { B as BACKDROP, a as prepareOverlay, b as present, h as activeAnimations, d as dismiss, e as eventMethod } from './overlays-5302658e.js';
+import { g as getClassMap } from './theme-f934266c.js';
+import { a as attachComponent, d as detachComponent } from './framework-delegate-1fd39b54.js';
 
 // Defaults for the card swipe animation
 const SwipeToCloseDefaults = {
-    MIN_PRESENTING_SCALE: 0.93,
+  MIN_PRESENTING_SCALE: 0.93,
 };
 const createSwipeToCloseGesture = (el, animation, onDismiss) => {
-    const height = el.offsetHeight;
-    let isOpen = false;
-    const canStart = (detail) => {
-        const target = detail.event.target;
-        if (target === null ||
-            !target.closest) {
-            return true;
-        }
-        const content = target.closest('ion-content');
-        if (content === null) {
-            return true;
-        }
-        // Target is in the content so we don't start the gesture.
-        // We could be more nuanced here and allow it for content that
-        // does not need to scroll.
-        return false;
-    };
-    const onStart = () => {
-        animation.progressStart(true, (isOpen) ? 1 : 0);
-    };
-    const onMove = (detail) => {
-        const step = clamp(0.0001, detail.deltaY / height, 0.9999);
-        animation.progressStep(step);
-    };
-    const onEnd = (detail) => {
-        const velocity = detail.velocityY;
-        const step = clamp(0.0001, detail.deltaY / height, 0.9999);
-        const threshold = (detail.deltaY + velocity * 1000) / height;
-        const shouldComplete = threshold >= 0.5;
-        let newStepValue = (shouldComplete) ? -0.001 : 0.001;
-        if (!shouldComplete) {
-            animation.easing('cubic-bezier(1, 0, 0.68, 0.28)');
-            newStepValue += getTimeGivenProgression([0, 0], [1, 0], [0.68, 0.28], [1, 1], step)[0];
-        }
-        else {
-            animation.easing('cubic-bezier(0.32, 0.72, 0, 1)');
-            newStepValue += getTimeGivenProgression([0, 0], [0.32, 0.72], [0, 1], [1, 1], step)[0];
-        }
-        const duration = (shouldComplete) ? computeDuration(step * height, velocity) : computeDuration((1 - step) * height, velocity);
-        isOpen = shouldComplete;
-        gesture.enable(false);
-        animation
-            .onFinish(() => {
-            if (!shouldComplete) {
-                gesture.enable(true);
-            }
-        })
-            .progressEnd((shouldComplete) ? 1 : 0, newStepValue, duration);
-        if (shouldComplete) {
-            onDismiss();
-        }
-    };
-    const gesture = createGesture({
-        el,
-        gestureName: 'modalSwipeToClose',
-        gesturePriority: 40,
-        direction: 'y',
-        threshold: 10,
-        canStart,
-        onStart,
-        onMove,
-        onEnd
-    });
-    return gesture;
+  const height = el.offsetHeight;
+  let isOpen = false;
+  const canStart = (detail) => {
+    const target = detail.event.target;
+    if (target === null ||
+      !target.closest) {
+      return true;
+    }
+    const contentOrFooter = target.closest('ion-content, ion-footer');
+    if (contentOrFooter === null) {
+      return true;
+    }
+    // Target is in the content or the footer so do not start the gesture.
+    // We could be more nuanced here and allow it for content that
+    // does not need to scroll.
+    return false;
+  };
+  const onStart = () => {
+    animation.progressStart(true, (isOpen) ? 1 : 0);
+  };
+  const onMove = (detail) => {
+    const step = clamp(0.0001, detail.deltaY / height, 0.9999);
+    animation.progressStep(step);
+  };
+  const onEnd = (detail) => {
+    const velocity = detail.velocityY;
+    const step = clamp(0.0001, detail.deltaY / height, 0.9999);
+    const threshold = (detail.deltaY + velocity * 1000) / height;
+    const shouldComplete = threshold >= 0.5;
+    let newStepValue = (shouldComplete) ? -0.001 : 0.001;
+    if (!shouldComplete) {
+      animation.easing('cubic-bezier(1, 0, 0.68, 0.28)');
+      newStepValue += getTimeGivenProgression([0, 0], [1, 0], [0.68, 0.28], [1, 1], step)[0];
+    }
+    else {
+      animation.easing('cubic-bezier(0.32, 0.72, 0, 1)');
+      newStepValue += getTimeGivenProgression([0, 0], [0.32, 0.72], [0, 1], [1, 1], step)[0];
+    }
+    const duration = (shouldComplete) ? computeDuration(step * height, velocity) : computeDuration((1 - step) * height, velocity);
+    isOpen = shouldComplete;
+    gesture.enable(false);
+    animation
+      .onFinish(() => {
+      if (!shouldComplete) {
+        gesture.enable(true);
+      }
+    })
+      .progressEnd((shouldComplete) ? 1 : 0, newStepValue, duration);
+    if (shouldComplete) {
+      onDismiss();
+    }
+  };
+  const gesture = createGesture({
+    el,
+    gestureName: 'modalSwipeToClose',
+    gesturePriority: 40,
+    direction: 'y',
+    threshold: 10,
+    canStart,
+    onStart,
+    onMove,
+    onEnd
+  });
+  return gesture;
 };
 const computeDuration = (remaining, velocity) => {
-    return clamp(400, remaining / Math.abs(velocity * 1.1), 500);
+  return clamp(400, remaining / Math.abs(velocity * 1.1), 500);
 };
 
 /**
  * iOS Modal Enter Animation for the Card presentation style
  */
 const iosEnterAnimation = (baseEl, presentingEl) => {
-    const backdropAnimation = createAnimation()
-        .addElement(baseEl.querySelector('ion-backdrop'))
-        .fromTo('opacity', 0.01, 'var(--backdrop-opacity)')
-        .beforeStyles({
-        'pointer-events': 'none'
-    })
-        .afterClearStyles(['pointer-events']);
-    const wrapperAnimation = createAnimation()
-        .addElement(baseEl.querySelectorAll('.modal-wrapper, .modal-shadow'))
-        .beforeStyles({ 'opacity': 1 })
-        .fromTo('transform', 'translateY(100vh)', 'translateY(0vh)');
-    const baseAnimation = createAnimation()
-        .addElement(baseEl)
-        .easing('cubic-bezier(0.32,0.72,0,1)')
-        .duration(500)
-        .addAnimation(wrapperAnimation);
-    if (presentingEl) {
-        const isMobile = window.innerWidth < 768;
-        const hasCardModal = (presentingEl.tagName === 'ION-MODAL' && presentingEl.presentingElement !== undefined);
-        const presentingAnimation = createAnimation()
-            .beforeStyles({
-            'transform': 'translateY(0)',
-            'transform-origin': 'top center',
-            'overflow': 'hidden'
-        });
-        const bodyEl = document.body;
-        if (isMobile) {
-            /**
-             * Fallback for browsers that does not support `max()` (ex: Firefox)
-             * No need to worry about statusbar padding since engines like Gecko
-             * are not used as the engine for standlone Cordova/Capacitor apps
-             */
-            const transformOffset = (!CSS.supports('width', 'max(0px, 1px)')) ? '30px' : 'max(30px, var(--ion-safe-area-top))';
-            const modalTransform = hasCardModal ? '-10px' : transformOffset;
-            const toPresentingScale = SwipeToCloseDefaults.MIN_PRESENTING_SCALE;
-            const finalTransform = `translateY(${modalTransform}) scale(${toPresentingScale})`;
-            presentingAnimation
-                .afterStyles({
-                'transform': finalTransform
-            })
-                .beforeAddWrite(() => bodyEl.style.setProperty('background-color', 'black'))
-                .addElement(presentingEl)
-                .keyframes([
-                { offset: 0, filter: 'contrast(1)', transform: 'translateY(0px) scale(1)', borderRadius: '0px' },
-                { offset: 1, filter: 'contrast(0.85)', transform: finalTransform, borderRadius: '10px 10px 0 0' }
-            ]);
-            baseAnimation.addAnimation(presentingAnimation);
-        }
-        else {
-            baseAnimation.addAnimation(backdropAnimation);
-            if (!hasCardModal) {
-                wrapperAnimation.fromTo('opacity', '0', '1');
-            }
-            else {
-                const toPresentingScale = (hasCardModal) ? SwipeToCloseDefaults.MIN_PRESENTING_SCALE : 1;
-                const finalTransform = `translateY(-10px) scale(${toPresentingScale})`;
-                presentingAnimation
-                    .afterStyles({
-                    'transform': finalTransform
-                })
-                    .addElement(presentingEl.querySelector('.modal-wrapper'))
-                    .keyframes([
-                    { offset: 0, filter: 'contrast(1)', transform: 'translateY(0) scale(1)' },
-                    { offset: 1, filter: 'contrast(0.85)', transform: finalTransform }
-                ]);
-                const shadowAnimation = createAnimation()
-                    .afterStyles({
-                    'transform': finalTransform
-                })
-                    .addElement(presentingEl.querySelector('.modal-shadow'))
-                    .keyframes([
-                    { offset: 0, opacity: '1', transform: 'translateY(0) scale(1)' },
-                    { offset: 1, opacity: '0', transform: finalTransform }
-                ]);
-                baseAnimation.addAnimation([presentingAnimation, shadowAnimation]);
-            }
-        }
+  const backdropAnimation = createAnimation()
+    .addElement(baseEl.querySelector('ion-backdrop'))
+    .fromTo('opacity', 0.01, 'var(--backdrop-opacity)')
+    .beforeStyles({
+    'pointer-events': 'none'
+  })
+    .afterClearStyles(['pointer-events']);
+  const wrapperAnimation = createAnimation()
+    .addElement(baseEl.querySelectorAll('.modal-wrapper, .modal-shadow'))
+    .beforeStyles({ 'opacity': 1 })
+    .fromTo('transform', 'translateY(100vh)', 'translateY(0vh)');
+  const baseAnimation = createAnimation()
+    .addElement(baseEl)
+    .easing('cubic-bezier(0.32,0.72,0,1)')
+    .duration(500)
+    .addAnimation(wrapperAnimation);
+  if (presentingEl) {
+    const isMobile = window.innerWidth < 768;
+    const hasCardModal = (presentingEl.tagName === 'ION-MODAL' && presentingEl.presentingElement !== undefined);
+    const presentingAnimation = createAnimation()
+      .beforeStyles({
+      'transform': 'translateY(0)',
+      'transform-origin': 'top center',
+      'overflow': 'hidden'
+    });
+    const bodyEl = document.body;
+    if (isMobile) {
+      /**
+       * Fallback for browsers that does not support `max()` (ex: Firefox)
+       * No need to worry about statusbar padding since engines like Gecko
+       * are not used as the engine for standlone Cordova/Capacitor apps
+       */
+      const transformOffset = (!CSS.supports('width', 'max(0px, 1px)')) ? '30px' : 'max(30px, var(--ion-safe-area-top))';
+      const modalTransform = hasCardModal ? '-10px' : transformOffset;
+      const toPresentingScale = SwipeToCloseDefaults.MIN_PRESENTING_SCALE;
+      const finalTransform = `translateY(${modalTransform}) scale(${toPresentingScale})`;
+      presentingAnimation
+        .afterStyles({
+        'transform': finalTransform
+      })
+        .beforeAddWrite(() => bodyEl.style.setProperty('background-color', 'black'))
+        .addElement(presentingEl)
+        .keyframes([
+        { offset: 0, filter: 'contrast(1)', transform: 'translateY(0px) scale(1)', borderRadius: '0px' },
+        { offset: 1, filter: 'contrast(0.85)', transform: finalTransform, borderRadius: '10px 10px 0 0' }
+      ]);
+      baseAnimation.addAnimation(presentingAnimation);
     }
     else {
-        baseAnimation.addAnimation(backdropAnimation);
+      baseAnimation.addAnimation(backdropAnimation);
+      if (!hasCardModal) {
+        wrapperAnimation.fromTo('opacity', '0', '1');
+      }
+      else {
+        const toPresentingScale = (hasCardModal) ? SwipeToCloseDefaults.MIN_PRESENTING_SCALE : 1;
+        const finalTransform = `translateY(-10px) scale(${toPresentingScale})`;
+        presentingAnimation
+          .afterStyles({
+          'transform': finalTransform
+        })
+          .addElement(presentingEl.querySelector('.modal-wrapper'))
+          .keyframes([
+          { offset: 0, filter: 'contrast(1)', transform: 'translateY(0) scale(1)' },
+          { offset: 1, filter: 'contrast(0.85)', transform: finalTransform }
+        ]);
+        const shadowAnimation = createAnimation()
+          .afterStyles({
+          'transform': finalTransform
+        })
+          .addElement(presentingEl.querySelector('.modal-shadow'))
+          .keyframes([
+          { offset: 0, opacity: '1', transform: 'translateY(0) scale(1)' },
+          { offset: 1, opacity: '0', transform: finalTransform }
+        ]);
+        baseAnimation.addAnimation([presentingAnimation, shadowAnimation]);
+      }
     }
-    return baseAnimation;
+  }
+  else {
+    baseAnimation.addAnimation(backdropAnimation);
+  }
+  return baseAnimation;
 };
 
 /**
  * iOS Modal Leave Animation
  */
 const iosLeaveAnimation = (baseEl, presentingEl, duration = 500) => {
-    const backdropAnimation = createAnimation()
-        .addElement(baseEl.querySelector('ion-backdrop'))
-        .fromTo('opacity', 'var(--backdrop-opacity)', 0.0);
-    const wrapperAnimation = createAnimation()
-        .addElement(baseEl.querySelectorAll('.modal-wrapper, .modal-shadow'))
-        .beforeStyles({ 'opacity': 1 })
-        .fromTo('transform', 'translateY(0vh)', 'translateY(100vh)');
-    const baseAnimation = createAnimation()
-        .addElement(baseEl)
-        .easing('cubic-bezier(0.32,0.72,0,1)')
-        .duration(duration)
-        .addAnimation(wrapperAnimation);
-    if (presentingEl) {
-        const isMobile = window.innerWidth < 768;
-        const hasCardModal = (presentingEl.tagName === 'ION-MODAL' && presentingEl.presentingElement !== undefined);
-        const presentingAnimation = createAnimation()
-            .beforeClearStyles(['transform'])
-            .afterClearStyles(['transform'])
-            .onFinish(currentStep => {
-            // only reset background color if this is the last card-style modal
-            if (currentStep !== 1) {
-                return;
-            }
-            presentingEl.style.setProperty('overflow', '');
-            const numModals = Array.from(bodyEl.querySelectorAll('ion-modal')).filter(m => m.presentingElement !== undefined).length;
-            if (numModals <= 1) {
-                bodyEl.style.setProperty('background-color', '');
-            }
-        });
-        const bodyEl = document.body;
-        if (isMobile) {
-            const transformOffset = (!CSS.supports('width', 'max(0px, 1px)')) ? '30px' : 'max(30px, var(--ion-safe-area-top))';
-            const modalTransform = hasCardModal ? '-10px' : transformOffset;
-            const toPresentingScale = SwipeToCloseDefaults.MIN_PRESENTING_SCALE;
-            const finalTransform = `translateY(${modalTransform}) scale(${toPresentingScale})`;
-            presentingAnimation
-                .addElement(presentingEl)
-                .keyframes([
-                { offset: 0, filter: 'contrast(0.85)', transform: finalTransform, borderRadius: '10px 10px 0 0' },
-                { offset: 1, filter: 'contrast(1)', transform: 'translateY(0px) scale(1)', borderRadius: '0px' }
-            ]);
-            baseAnimation.addAnimation(presentingAnimation);
-        }
-        else {
-            baseAnimation.addAnimation(backdropAnimation);
-            if (!hasCardModal) {
-                wrapperAnimation.fromTo('opacity', '1', '0');
-            }
-            else {
-                const toPresentingScale = (hasCardModal) ? SwipeToCloseDefaults.MIN_PRESENTING_SCALE : 1;
-                const finalTransform = `translateY(-10px) scale(${toPresentingScale})`;
-                presentingAnimation
-                    .addElement(presentingEl.querySelector('.modal-wrapper'))
-                    .afterStyles({
-                    'transform': 'translate3d(0, 0, 0)'
-                })
-                    .keyframes([
-                    { offset: 0, filter: 'contrast(0.85)', transform: finalTransform },
-                    { offset: 1, filter: 'contrast(1)', transform: 'translateY(0) scale(1)' }
-                ]);
-                const shadowAnimation = createAnimation()
-                    .addElement(presentingEl.querySelector('.modal-shadow'))
-                    .afterStyles({
-                    'transform': 'translateY(0) scale(1)'
-                })
-                    .keyframes([
-                    { offset: 0, opacity: '0', transform: finalTransform },
-                    { offset: 1, opacity: '1', transform: 'translateY(0) scale(1)' }
-                ]);
-                baseAnimation.addAnimation([presentingAnimation, shadowAnimation]);
-            }
-        }
+  const backdropAnimation = createAnimation()
+    .addElement(baseEl.querySelector('ion-backdrop'))
+    .fromTo('opacity', 'var(--backdrop-opacity)', 0.0);
+  const wrapperAnimation = createAnimation()
+    .addElement(baseEl.querySelectorAll('.modal-wrapper, .modal-shadow'))
+    .beforeStyles({ 'opacity': 1 })
+    .fromTo('transform', 'translateY(0vh)', 'translateY(100vh)');
+  const baseAnimation = createAnimation()
+    .addElement(baseEl)
+    .easing('cubic-bezier(0.32,0.72,0,1)')
+    .duration(duration)
+    .addAnimation(wrapperAnimation);
+  if (presentingEl) {
+    const isMobile = window.innerWidth < 768;
+    const hasCardModal = (presentingEl.tagName === 'ION-MODAL' && presentingEl.presentingElement !== undefined);
+    const presentingAnimation = createAnimation()
+      .beforeClearStyles(['transform'])
+      .afterClearStyles(['transform'])
+      .onFinish(currentStep => {
+      // only reset background color if this is the last card-style modal
+      if (currentStep !== 1) {
+        return;
+      }
+      presentingEl.style.setProperty('overflow', '');
+      const numModals = Array.from(bodyEl.querySelectorAll('ion-modal')).filter(m => m.presentingElement !== undefined).length;
+      if (numModals <= 1) {
+        bodyEl.style.setProperty('background-color', '');
+      }
+    });
+    const bodyEl = document.body;
+    if (isMobile) {
+      const transformOffset = (!CSS.supports('width', 'max(0px, 1px)')) ? '30px' : 'max(30px, var(--ion-safe-area-top))';
+      const modalTransform = hasCardModal ? '-10px' : transformOffset;
+      const toPresentingScale = SwipeToCloseDefaults.MIN_PRESENTING_SCALE;
+      const finalTransform = `translateY(${modalTransform}) scale(${toPresentingScale})`;
+      presentingAnimation
+        .addElement(presentingEl)
+        .keyframes([
+        { offset: 0, filter: 'contrast(0.85)', transform: finalTransform, borderRadius: '10px 10px 0 0' },
+        { offset: 1, filter: 'contrast(1)', transform: 'translateY(0px) scale(1)', borderRadius: '0px' }
+      ]);
+      baseAnimation.addAnimation(presentingAnimation);
     }
     else {
-        baseAnimation.addAnimation(backdropAnimation);
+      baseAnimation.addAnimation(backdropAnimation);
+      if (!hasCardModal) {
+        wrapperAnimation.fromTo('opacity', '1', '0');
+      }
+      else {
+        const toPresentingScale = (hasCardModal) ? SwipeToCloseDefaults.MIN_PRESENTING_SCALE : 1;
+        const finalTransform = `translateY(-10px) scale(${toPresentingScale})`;
+        presentingAnimation
+          .addElement(presentingEl.querySelector('.modal-wrapper'))
+          .afterStyles({
+          'transform': 'translate3d(0, 0, 0)'
+        })
+          .keyframes([
+          { offset: 0, filter: 'contrast(0.85)', transform: finalTransform },
+          { offset: 1, filter: 'contrast(1)', transform: 'translateY(0) scale(1)' }
+        ]);
+        const shadowAnimation = createAnimation()
+          .addElement(presentingEl.querySelector('.modal-shadow'))
+          .afterStyles({
+          'transform': 'translateY(0) scale(1)'
+        })
+          .keyframes([
+          { offset: 0, opacity: '0', transform: finalTransform },
+          { offset: 1, opacity: '1', transform: 'translateY(0) scale(1)' }
+        ]);
+        baseAnimation.addAnimation([presentingAnimation, shadowAnimation]);
+      }
     }
-    return baseAnimation;
+  }
+  else {
+    baseAnimation.addAnimation(backdropAnimation);
+  }
+  return baseAnimation;
 };
 
 /**
  * Md Modal Enter Animation
  */
 const mdEnterAnimation = (baseEl) => {
-    const baseAnimation = createAnimation();
-    const backdropAnimation = createAnimation();
-    const wrapperAnimation = createAnimation();
-    backdropAnimation
-        .addElement(baseEl.querySelector('ion-backdrop'))
-        .fromTo('opacity', 0.01, 'var(--backdrop-opacity)')
-        .beforeStyles({
-        'pointer-events': 'none'
-    })
-        .afterClearStyles(['pointer-events']);
-    wrapperAnimation
-        .addElement(baseEl.querySelector('.modal-wrapper'))
-        .keyframes([
-        { offset: 0, opacity: 0.01, transform: 'translateY(40px)' },
-        { offset: 1, opacity: 1, transform: 'translateY(0px)' }
-    ]);
-    return baseAnimation
-        .addElement(baseEl)
-        .easing('cubic-bezier(0.36,0.66,0.04,1)')
-        .duration(280)
-        .addAnimation([backdropAnimation, wrapperAnimation]);
+  const baseAnimation = createAnimation();
+  const backdropAnimation = createAnimation();
+  const wrapperAnimation = createAnimation();
+  backdropAnimation
+    .addElement(baseEl.querySelector('ion-backdrop'))
+    .fromTo('opacity', 0.01, 'var(--backdrop-opacity)')
+    .beforeStyles({
+    'pointer-events': 'none'
+  })
+    .afterClearStyles(['pointer-events']);
+  wrapperAnimation
+    .addElement(baseEl.querySelector('.modal-wrapper'))
+    .keyframes([
+    { offset: 0, opacity: 0.01, transform: 'translateY(40px)' },
+    { offset: 1, opacity: 1, transform: 'translateY(0px)' }
+  ]);
+  return baseAnimation
+    .addElement(baseEl)
+    .easing('cubic-bezier(0.36,0.66,0.04,1)')
+    .duration(280)
+    .addAnimation([backdropAnimation, wrapperAnimation]);
 };
 
 /**
  * Md Modal Leave Animation
  */
 const mdLeaveAnimation = (baseEl) => {
-    const baseAnimation = createAnimation();
-    const backdropAnimation = createAnimation();
-    const wrapperAnimation = createAnimation();
-    const wrapperEl = baseEl.querySelector('.modal-wrapper');
-    backdropAnimation
-        .addElement(baseEl.querySelector('ion-backdrop'))
-        .fromTo('opacity', 'var(--backdrop-opacity)', 0.0);
-    wrapperAnimation
-        .addElement(wrapperEl)
-        .keyframes([
-        { offset: 0, opacity: 0.99, transform: 'translateY(0px)' },
-        { offset: 1, opacity: 0, transform: 'translateY(40px)' }
-    ]);
-    return baseAnimation
-        .addElement(baseEl)
-        .easing('cubic-bezier(0.47,0,0.745,0.715)')
-        .duration(200)
-        .addAnimation([backdropAnimation, wrapperAnimation]);
+  const baseAnimation = createAnimation();
+  const backdropAnimation = createAnimation();
+  const wrapperAnimation = createAnimation();
+  const wrapperEl = baseEl.querySelector('.modal-wrapper');
+  backdropAnimation
+    .addElement(baseEl.querySelector('ion-backdrop'))
+    .fromTo('opacity', 'var(--backdrop-opacity)', 0.0);
+  wrapperAnimation
+    .addElement(wrapperEl)
+    .keyframes([
+    { offset: 0, opacity: 0.99, transform: 'translateY(0px)' },
+    { offset: 1, opacity: 0, transform: 'translateY(40px)' }
+  ]);
+  return baseAnimation
+    .addElement(baseEl)
+    .easing('cubic-bezier(0.47,0,0.745,0.715)')
+    .duration(200)
+    .addAnimation([backdropAnimation, wrapperAnimation]);
 };
 
 const modalIosCss = ".sc-ion-modal-ios-h{--width:100%;--min-width:auto;--max-width:auto;--height:100%;--min-height:auto;--max-height:auto;--overflow:hidden;--border-radius:0;--border-width:0;--border-style:none;--border-color:transparent;--background:var(--ion-background-color, #fff);--box-shadow:none;--backdrop-opacity:0;left:0;right:0;top:0;bottom:0;display:flex;position:absolute;align-items:center;justify-content:center;outline:none;contain:strict}.overlay-hidden.sc-ion-modal-ios-h{display:none}.modal-wrapper.sc-ion-modal-ios,.modal-shadow.sc-ion-modal-ios{border-radius:var(--border-radius);width:var(--width);min-width:var(--min-width);max-width:var(--max-width);height:var(--height);min-height:var(--min-height);max-height:var(--max-height);border-width:var(--border-width);border-style:var(--border-style);border-color:var(--border-color);background:var(--background);box-shadow:var(--box-shadow);overflow:var(--overflow);z-index:10}.modal-shadow.sc-ion-modal-ios{position:absolute;background:transparent}@media only screen and (min-width: 768px) and (min-height: 600px){.sc-ion-modal-ios-h{--width:600px;--height:500px;--ion-safe-area-top:0px;--ion-safe-area-bottom:0px;--ion-safe-area-right:0px;--ion-safe-area-left:0px}}@media only screen and (min-width: 768px) and (min-height: 768px){.sc-ion-modal-ios-h{--width:600px;--height:600px}}.sc-ion-modal-ios-h:first-of-type{--backdrop-opacity:var(--ion-backdrop-opacity, 0.4)}@media only screen and (min-width: 768px) and (min-height: 600px){.sc-ion-modal-ios-h{--border-radius:10px}}.modal-wrapper.sc-ion-modal-ios{transform:translate3d(0,  100%,  0)}@media screen and (max-width: 767px){@supports (width: max(0px, 1px)){.modal-card.sc-ion-modal-ios-h{--height:calc(100% - max(30px, var(--ion-safe-area-top)) - 10px)}}@supports not (width: max(0px, 1px)){.modal-card.sc-ion-modal-ios-h{--height:calc(100% - 40px)}}.modal-card.sc-ion-modal-ios-h .modal-wrapper.sc-ion-modal-ios{border-top-left-radius:10px;border-top-right-radius:10px;border-bottom-right-radius:0;border-bottom-left-radius:0}[dir=rtl].sc-ion-modal-ios-h -no-combinator.modal-card.sc-ion-modal-ios-h .modal-wrapper.sc-ion-modal-ios,[dir=rtl] .sc-ion-modal-ios-h -no-combinator.modal-card.sc-ion-modal-ios-h .modal-wrapper.sc-ion-modal-ios,[dir=rtl].modal-card.sc-ion-modal-ios-h .modal-wrapper.sc-ion-modal-ios,[dir=rtl] .modal-card.sc-ion-modal-ios-h .modal-wrapper.sc-ion-modal-ios{border-top-left-radius:10px;border-top-right-radius:10px;border-bottom-right-radius:0;border-bottom-left-radius:0}.modal-card.sc-ion-modal-ios-h{--backdrop-opacity:0;--width:100%;align-items:flex-end}.modal-card.sc-ion-modal-ios-h .modal-shadow.sc-ion-modal-ios{display:none}.modal-card.sc-ion-modal-ios-h ion-backdrop.sc-ion-modal-ios{pointer-events:none}}@media screen and (min-width: 768px){.modal-card.sc-ion-modal-ios-h{--width:calc(100% - 120px);--height:calc(100% - (120px + var(--ion-safe-area-top) + var(--ion-safe-area-bottom)));--max-width:720px;--max-height:1000px}.modal-card.sc-ion-modal-ios-h{--backdrop-opacity:0;transition:all 0.5s ease-in-out}.modal-card.sc-ion-modal-ios-h:first-of-type{--backdrop-opacity:0.18}.modal-card.sc-ion-modal-ios-h .modal-shadow.sc-ion-modal-ios{box-shadow:0px 0px 30px 10px rgba(0, 0, 0, 0.1)}}";
@@ -360,7 +360,6 @@ const Modal = class {
                 el.dispatchEvent(ev);
             }
         };
-        prepareOverlay(this.el);
     }
     swipeToCloseChanged(enable) {
         if (this.gesture) {
@@ -369,6 +368,9 @@ const Modal = class {
         else if (enable) {
             this.initSwipeToClose();
         }
+    }
+    connectedCallback() {
+        prepareOverlay(this.el);
     }
     /**
      * Present the modal overlay after it has been created.
@@ -453,10 +455,11 @@ const Modal = class {
         return eventMethod(this.el, 'ionModalWillDismiss');
     }
     render() {
+        const { htmlAttributes } = this;
         const mode = getIonMode(this);
-        return (h(Host, { "no-router": true, "aria-modal": "true", tabindex: "-1", class: Object.assign({ [mode]: true, [`modal-card`]: this.presentingElement !== undefined && mode === 'ios' }, getClassMap(this.cssClass)), style: {
+        return (h(Host, Object.assign({ "no-router": true, "aria-modal": "true", tabindex: "-1" }, htmlAttributes, { style: {
                 zIndex: `${20000 + this.overlayIndex}`,
-            }, onIonBackdropTap: this.onBackdropTap, onIonDismiss: this.onDismiss, onIonModalDidPresent: this.onLifecycle, onIonModalWillPresent: this.onLifecycle, onIonModalWillDismiss: this.onLifecycle, onIonModalDidDismiss: this.onLifecycle }, h("ion-backdrop", { visible: this.showBackdrop, tappable: this.backdropDismiss }), mode === 'ios' && h("div", { class: "modal-shadow" }), h("div", { role: "dialog", class: "modal-wrapper" })));
+            }, class: Object.assign({ [mode]: true, [`modal-card`]: this.presentingElement !== undefined && mode === 'ios' }, getClassMap(this.cssClass)), onIonBackdropTap: this.onBackdropTap, onIonDismiss: this.onDismiss, onIonModalDidPresent: this.onLifecycle, onIonModalWillPresent: this.onLifecycle, onIonModalWillDismiss: this.onLifecycle, onIonModalDidDismiss: this.onLifecycle }), h("ion-backdrop", { visible: this.showBackdrop, tappable: this.backdropDismiss }), mode === 'ios' && h("div", { class: "modal-shadow" }), h("div", { tabindex: "0" }), h("div", { role: "dialog", class: "modal-wrapper ion-overlay-wrapper" }), h("div", { tabindex: "0" })));
     }
     get el() { return getElement(this); }
     static get watchers() { return {

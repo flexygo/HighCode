@@ -19,14 +19,21 @@ var flexygo;
                     let menuUl = $('<ul/>');
                     let collection = new flexygo.obj.Entity('Export_Formats');
                     let viewResult = collection.getView('Export_Formats_Menu');
+                    let ExportLimit = flexygo.utils.ExportLimit;
                     if (viewResult.length > 0 && triggerElement.closest('flx-module').find('flx-list')[0]) {
                         for (let prop of viewResult) {
-                            menuUl.append('<li method="export" format="' + prop['Format'] + '" maxnumber="' + prop['MaxNumber'] + '" data-toggle="tooltip" data-placement="right" title="' + prop['Description'] + '"><span><i class="' + prop['CSSClass'] + '" style="margin-right: 6px;"/>' + prop['Format'].toUpperCase() + '</span></li>');
+                            menuUl.append('<li method="export" format="' + prop['Format'] + '" maxnumber="' + ExportLimit + '" data-toggle="tooltip" data-placement="right" title="' + prop['Description'] + '"><span><i class="' + prop['CSSClass'] + '" style="margin-right: 6px;"/>' + prop['Format'].toUpperCase() + '</span></li>');
                         }
                     }
                     menuUl.find('li').off('click').on('click', function (event) {
-                        if ($(this).attr('method') === 'export') {
-                            flexygo.ui.exports.exportList($(this).attr('format'), parseInt($(this).attr('maxnumber')), ($('flx-contextmenu')[0].parent.closest('flx-module').find('flx-list')[0]));
+                        let listModule = ($('flx-contextmenu')[0].parent.closest('flx-module').find('flx-list')[0]);
+                        if ($(this).attr('method') === 'export' && listModule) {
+                            if (listModule.maxRows <= ExportLimit) {
+                                flexygo.ui.exports.exportList($(this).attr('format'), parseInt($(this).attr('maxnumber')), ($('flx-contextmenu')[0].parent.closest('flx-module').find('flx-list')[0]));
+                            }
+                            else {
+                                flexygo.msg.warning(flexygo.localization.translate('_export.exportlimit'));
+                            }
                         }
                     });
                     cntMenu.showMenu(menuUl, triggerElement);
@@ -51,7 +58,7 @@ var flexygo;
                         var progressBar;
                         var progressTimer;
                         progressBar = Lobibox.progress({
-                            title: flexygo.localization.translate('export.exportinglist'),
+                            title: flexygo.localization.translate('_export.exportinglist'),
                             closeOnEsc: false,
                             closeButton: false,
                             onShow: () => { progressTimer = setInterval(() => progressBar.setProgress(((progressBar.getProgress() + 1 >= 100) ? 0 : progressBar.getProgress() + 1)), 50); },
@@ -98,25 +105,25 @@ var flexygo;
                                 progressBar.destroy();
                                 clearInterval(progressTimer);
                                 progressTimer = null;
-                                flexygo.msg.success('export.success');
+                                flexygo.msg.success('_export.success');
                             }
                             else {
                                 progressBar.destroy();
                                 clearInterval(progressTimer);
                                 progressTimer = null;
-                                flexygo.msg.error('export.error');
+                                flexygo.msg.error('_export.error');
                             }
                         });
                     }
                     else {
-                        flexygo.msg.error('export.error');
+                        flexygo.msg.error('_export.error');
                     }
                 }
                 catch (ex) {
                     progressBar.destroy();
                     clearInterval(progressTimer);
                     progressTimer = null;
-                    flexygo.msg.error('export.error');
+                    flexygo.msg.error('_export.error');
                 }
             }
             exports.exportList = exportList;
@@ -137,17 +144,19 @@ var flexygo;
                     menuUl = $('<ul/>');
                     menuUl.append('<li method="print" value="page"><span><i class="flx-icon icon-print" style="margin-right: 6px;"/>' + flexygo.localization.translate('flxmodule.printpage') + '</span></li>');
                     menuUl.append('<li method="print" value="module"><span><i class="flx-icon icon-print" style="margin-right: 6px;"/>' + flexygo.localization.translate('flxmodule.printmodule') + '</span></li>');
-                    let proc = new flexygo.obj.Entity(objectname, objectwhere).processes();
-                    if (proc.ReportLink && Object.keys(proc.ReportLink.ChildNodes).length > 0) {
-                        if (defaults) {
-                            for (let itm in proc.ReportLink.ChildNodes) {
-                                proc.ReportLink.ChildNodes[itm].ObjectDefaults = defaults;
+                    if (objectname) {
+                        let proc = new flexygo.obj.Entity(objectname, objectwhere).processes('', defaults);
+                        if (proc.ReportLink && Object.keys(proc.ReportLink.ChildNodes).length > 0) {
+                            if (defaults) {
+                                for (let itm in proc.ReportLink.ChildNodes) {
+                                    proc.ReportLink.ChildNodes[itm].ObjectDefaults = defaults;
+                                }
                             }
+                            menuUl.append('<li class="separator"></li>');
+                            let itm = $('<li method="opensubmenu"><span class="item-closed"><i class="flx-icon icon-report" /><span> ' + flexygo.localization.translate('navigation.reports') + ' </span></li>');
+                            menuUl.append(itm);
+                            itm.append($(myObj.getChildNodes(flexygo.utils.lowerKeys(proc.ReportLink, true))));
                         }
-                        menuUl.append('<li class="separator"></li>');
-                        let itm = $('<li method="opensubmenu"><span class="item-closed"><i class="flx-icon icon-report" /><span> ' + flexygo.localization.translate('navigation.reports') + ' </span></li>');
-                        menuUl.append(itm);
-                        itm.append($(myObj.getChildNodes(flexygo.utils.lowerKeys(proc.ReportLink, true))));
                     }
                     menuUl.find('li').off('click').on('click', function (event) {
                         if ($(this).attr('method') === 'print') {

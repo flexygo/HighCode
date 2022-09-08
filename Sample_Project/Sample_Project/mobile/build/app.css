@@ -1,12 +1,15 @@
 /* Document Level Styles */
 
+
 /*
   The imports below are needed to include our light dom css for global styles such as fonts and colors.
   You can comment out any of these imports if you do not need that css. For example, if you have your own
   global font family css then you can comment out the typography.css import.
 */
 
+
 /** Core CSS required for ionic components to work property */
+
 html.ios {
   --ion-default-font: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Roboto", sans-serif;
 }
@@ -221,6 +224,7 @@ ion-card-header.ion-color .ion-inherit-color {
 
 
 /** Basic CSS for apps built with Ionic */
+
 audio,
 canvas,
 progress,
@@ -503,6 +507,7 @@ sub {
 
 
 /** Optional CSS utils that can be commented out */
+
 .ion-no-padding {
   --padding-start: 0;
   --padding-end: 0;
@@ -1137,77 +1142,116 @@ sub {
   https://ionicframework.com/docs/theming/color-generator
 */
 
-
 :root {
-  --ion-color-outstanding: #2db7b0;
-  --ion-color-outstanding-rgb: 45,183,176;
-  --ion-color-outstanding-contrast: #000000;
-  --ion-color-outstanding-contrast-rgb: 0,0,0;
-  --ion-color-outstanding-shade: #28a19b;
-  --ion-color-outstanding-tint: #42beb8;
+    --ion-color-outstanding: #2db7b0;
+    --ion-color-outstanding-rgb: 45, 183, 176;
+    --ion-color-outstanding-contrast: #000000;
+    --ion-color-outstanding-contrast-rgb: 0, 0, 0;
+    --ion-color-outstanding-shade: #28a19b;
+    --ion-color-outstanding-tint: #42beb8;
+    --safe-area-inset-top: env(safe-area-inset-top);
+    --safe-area-inset-right: env(safe-area-inset-right);
+    --safe-area-inset-bottom: env(safe-area-inset-bottom);
+    --safe-area-inset-left: env(safe-area-inset-left);
 }
 
 .ion-color-outstanding {
-  --ion-color-base: var(--ion-color-outstanding);
-  --ion-color-base-rgb: var(--ion-color-outstanding-rgb);
-  --ion-color-contrast: var(--ion-color-outstanding-contrast);
-  --ion-color-contrast-rgb: var(--ion-color-outstanding-contrast-rgb);
-  --ion-color-shade: var(--ion-color-outstanding-shade);
-  --ion-color-tint: var(--ion-color-outstanding-tint);
+    --ion-color-base: var(--ion-color-outstanding);
+    --ion-color-base-rgb: var(--ion-color-outstanding-rgb);
+    --ion-color-contrast: var(--ion-color-outstanding-contrast);
+    --ion-color-contrast-rgb: var(--ion-color-outstanding-contrast-rgb);
+    --ion-color-shade: var(--ion-color-outstanding-shade);
+    --ion-color-tint: var(--ion-color-outstanding-tint);
 }
 
 :root {
-  --ion-color-header: #333333;
-  --ion-color-header-rgb: 51,51,51;
-  --ion-color-header-contrast: #ffffff;
-  --ion-color-header-contrast-rgb: 255,255,255;
-  --ion-color-header-shade: #2d2d2d;
-  --ion-color-header-tint: #474747;
+    --ion-color-header: #333333;
+    --ion-color-header-rgb: 51, 51, 51;
+    --ion-color-header-contrast: #ffffff;
+    --ion-color-header-contrast-rgb: 255, 255, 255;
+    --ion-color-header-shade: #2d2d2d;
+    --ion-color-header-tint: #474747;
 }
 
 .ion-color-header {
-  --ion-color-base: var(--ion-color-header);
-  --ion-color-base-rgb: var(--ion-color-header-rgb);
-  --ion-color-contrast: var(--ion-color-header-contrast);
-  --ion-color-contrast-rgb: var(--ion-color-header-contrast-rgb);
-  --ion-color-shade: var(--ion-color-header-shade);
-  --ion-color-tint: var(--ion-color-header-tint);
+    --ion-color-base: var(--ion-color-header);
+    --ion-color-base-rgb: var(--ion-color-header-rgb);
+    --ion-color-contrast: var(--ion-color-header-contrast);
+    --ion-color-contrast-rgb: var(--ion-color-header-contrast-rgb);
+    --ion-color-shade: var(--ion-color-header-shade);
+    --ion-color-tint: var(--ion-color-header-tint);
 }
 
 :root {
-  --ion-color-white: #FFFFFF;
-  --ion-color-white-rgb: 255,255,255;
-  --ion-color-white-contrast: #000000;
-  --ion-color-white-contrast-rgb: 0,0,0;
-  --ion-color-white-shade: #e0e0e0;
-  --ion-color-white-tint: #ffffff;
+    --ion-color-white: #FFFFFF;
+    --ion-color-white-rgb: 255, 255, 255;
+    --ion-color-white-contrast: #000000;
+    --ion-color-white-contrast-rgb: 0, 0, 0;
+    --ion-color-white-shade: #e0e0e0;
+    --ion-color-white-tint: #ffffff;
 }
 
 .ion-color-white {
-  --ion-color-base: var(--ion-color-white);
-  --ion-color-base-rgb: var(--ion-color-white-rgb);
-  --ion-color-contrast: var(--ion-color-white-contrast);
-  --ion-color-contrast-rgb: var(--ion-color-white-contrast-rgb);
-  --ion-color-shade: var(--ion-color-white-shade);
-  --ion-color-tint: var(--ion-color-white-tint);
+    --ion-color-base: var(--ion-color-white);
+    --ion-color-base-rgb: var(--ion-color-white-rgb);
+    --ion-color-contrast: var(--ion-color-white-contrast);
+    --ion-color-contrast-rgb: var(--ion-color-white-contrast-rgb);
+    --ion-color-shade: var(--ion-color-white-shade);
+    --ion-color-tint: var(--ion-color-white-tint);
 }
 
 :root {
-  --ion-color-outstanding-light: #2db7b0;
-  --ion-color-outstanding-light-rgb: 45,183,176;
-  --ion-color-outstanding-light-contrast: #ffffff;
-  --ion-color-outstanding-light-contrast-rgb: 255,255,255;
-  --ion-color-outstanding-light-shade: #28a19b;
-  --ion-color-outstanding-light-tint: #42beb8;
+    --ion-color-outstanding-light: #2db7b0;
+    --ion-color-outstanding-light-rgb: 45, 183, 176;
+    --ion-color-outstanding-light-contrast: #ffffff;
+    --ion-color-outstanding-light-contrast-rgb: 255, 255, 255;
+    --ion-color-outstanding-light-shade: #28a19b;
+    --ion-color-outstanding-light-tint: #42beb8;
 }
 
 .ion-color-outstanding-light {
-  --ion-color-base: var(--ion-color-outstanding-light);
-  --ion-color-base-rgb: var(--ion-color-outstanding-light-rgb);
-  --ion-color-contrast: var(--ion-color-outstanding-light-contrast);
-  --ion-color-contrast-rgb: var(--ion-color-outstanding-light-contrast-rgb);
-  --ion-color-shade: var(--ion-color-outstanding-light-shade);
-  --ion-color-tint: var(--ion-color-outstanding-light-tint);
+    --ion-color-base: var(--ion-color-outstanding-light);
+    --ion-color-base-rgb: var(--ion-color-outstanding-light-rgb);
+    --ion-color-contrast: var(--ion-color-outstanding-light-contrast);
+    --ion-color-contrast-rgb: var(--ion-color-outstanding-light-contrast-rgb);
+    --ion-color-shade: var(--ion-color-outstanding-light-shade);
+    --ion-color-tint: var(--ion-color-outstanding-light-tint);
 }
 
-.hidden{display:none}
+.hidden {
+    display: none
+}
+
+
+/* ANIMACIÓN DE PARPADEO */
+
+@keyframes parpadeo {
+    0% {
+        opacity: 1.0;
+    }
+    50% {
+        opacity: 0.0;
+    }
+    100% {
+        opacity: 1.0;
+    }
+}
+
+
+/**********/
+
+#nfcIcon>img {
+    height: 150px;
+    animation-name: parpadeo;
+    animation-duration: 2.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    -webkit-animation-name: parpadeo;
+    -webkit-animation-duration: 2.5s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+}
+#nfcIconDisabled>img {
+    height: 150px;
+    opacity: 0.4;
+}

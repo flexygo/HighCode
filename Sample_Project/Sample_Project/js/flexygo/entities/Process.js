@@ -122,9 +122,16 @@ var flexygo;
         */
         showLoading() {
             var includedTypes = [0, 1, 5, 6];
+            var title;
+            if (this.config && this.config.LoadingMessage) {
+                title = this.config.LoadingMessage;
+            }
+            else {
+                title = flexygo.localization.translate('process.executing');
+            }
             if (this.showProgress && this.config && includedTypes.includes(this.config.TypeId)) {
                 this.progressBar = Lobibox.progress({
-                    title: flexygo.localization.translate('process.executing'),
+                    title: title,
                     closeOnEsc: false,
                     closeButton: false,
                     onShow: () => { this.progressTimer = setInterval(() => this.moveLoading(), 500); }

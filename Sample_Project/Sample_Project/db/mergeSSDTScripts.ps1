@@ -74,6 +74,7 @@ $SolutionDir = $args[0];
 $ProjectName = $args[1];
 $OutputPath =  $args[2];
 $TargetPath =  $args[3];
+$PrimaryDacPac = $args[4];
 
 $dacpacFile = $TargetPath.Replace(".dll",".dacpac");
 
@@ -155,9 +156,9 @@ $finalPostScript = "";
 #Get scripts from each reference
 
 foreach ($refDacPac in $refProjects) { 
-   
-   Get-Script $refDacPac ([ref]$finalPreScript) ([ref]$finalPostScript)
-
+	if((!$PrimaryDacPac) -or  ($refDacPac -like "*"+$PrimaryDacPac+"*")){
+		Get-Script $refDacPac ([ref]$finalPreScript) ([ref]$finalPostScript)
+	}
 }
 
 #Add scripts from compiled project

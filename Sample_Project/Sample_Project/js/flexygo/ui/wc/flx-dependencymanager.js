@@ -29,6 +29,7 @@ var flexygo;
                     this.propertyname = null;
                     this.constringItems = null;
                     this.cusControlsItems = null;
+                    this.propItems = [];
                     this.mode = null;
                 }
                 /**
@@ -138,7 +139,8 @@ var flexygo;
                     me.find('.pnlNavigate').append('<li data-link="required-controls"><a href="#"><i class="flx-icon icon-checked"></i> ' + flexygo.localization.translate('dependecymanager.requireddep') + '</a></li>');
                     me.find('.pnlNavigate').append('<li data-link="customControl-controls"><a href="#"><i class="flx-icon icon-wizard-1"></i> ' + flexygo.localization.translate('dependecymanager.CustomProperty') + '</a></li>');
                     me.find('.pnlNavigate').append('<li data-link="cnnstrings-controls"><a href="#"><i class="flx-icon icon-database-configuration"></i> ' + flexygo.localization.translate('dependecymanager.connectionstrings') + '</a></li>');
-                    me.find('.pnlNavigate').append('<li data-link="save-Module" class="pull-right"><button class="btn btn-default bg-info"><i class="flx-icon icon-save"></i> ' + flexygo.localization.translate('dependecymanager.save') + '</button></a></li>');
+                    me.find('.pnlNavigate').append('<li data-link="related-Dependency" class="margin-left-m"><button id="relateddepbtn" class="btn btn-default bg-outstanding"><i class="flx-icon icon-properties-relations"></i> ' + flexygo.localization.translate('dependecymanager.relateddep') + '</button></a></li>');
+                    me.find('.pnlNavigate').append('<li data-link="save-Module" class="pull-right"><button id="savedepsbtn" class="btn btn-default bg-info"><i class="flx-icon icon-save"></i> ' + flexygo.localization.translate('dependecymanager.save') + '</button></a></li>');
                     me.find('.pnlNavigate>li>a').on('click', (ev) => {
                         ev.stopPropagation();
                         ev.preventDefault();
@@ -156,8 +158,21 @@ var flexygo;
                             me.find(".pnlProperties").enableSelection();
                         }
                     });
-                    me.find('.pnlNavigate>li>button').on('click', (e) => {
+                    me.find('.pnlNavigate>li>button#savedepsbtn').on('click', (e) => {
                         this.save();
+                    });
+                    me.find('.pnlNavigate>li>button#relateddepbtn').on('click', (e) => {
+                        switch (this.mode) {
+                            case 'process':
+                                flexygo.nav.openPageName('sys_process_param_related_dependencies', 'sysProcessParam', 'Processes_Params.ProcessName = \'' + this.processname + '\' And Processes_Params.ParamName = \'' + this.propertyname + '\'', '{\'ProcessName\':\'' + this.processname + '\',\'ParamName\':\'' + this.propertyname + '\'}', 'slide', false, $(this));
+                                break;
+                            case 'report':
+                                flexygo.nav.openPageName('sys_report_param_related_dependencies', 'sysReportParam', 'Reports_Params.ReportName = \'' + this.reportname + '\' And Reports_Params.ParamName = \'' + this.propertyname + '\'', '{\'ReportName\':\'' + this.reportname + '\',\'ParamName\':\'' + this.propertyname + '\'}', 'slide', false, $(this));
+                                break;
+                            default:
+                                flexygo.nav.openPageName('sys_property_related_dependencies', 'sysObjectProperty', 'Objects_Properties.ObjectName = \'' + this.objectname + '\' And Objects_Properties.PropertyName = \'' + this.propertyname + '\'', '{\'ObjectName\':\'' + this.objectname + '\',\'PropertyName\':\'' + this.propertyname + '\'}', 'slide', false, $(this));
+                                break;
+                        }
                     });
                 }
                 /**
@@ -221,6 +236,8 @@ var flexygo;
                             break;
                     }
                     let propItems = obj.getView('AllDependencies');
+                    ;
+                    this.propItems = propItems;
                     let pnl = me.find('.pnlProperties');
                     let unpnl = me.find('.unactiveProperties');
                     for (let i = 0; i < propItems.length; i++) {
@@ -234,28 +251,39 @@ var flexygo;
                         }
                     }
                     me.find('.unactiveProperties>li>a').on('click', (e) => {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        let itm = $(e.currentTarget);
-                        let newProp = $(flexygo.utils.parser.compile(itm.parent().data('fulldata'), this.template, flexygo));
-                        me.find('.pnlProperties').append(newProp);
-                        itm.remove();
-                        newProp.find('.ctl-panel').hide();
-                        newProp.find('.' + me.find('.pnlNavigate>li.active').attr('data-link')).show();
-                        newProp.find('[property]').on('change', (ee) => {
-                            let dep = $(ee.currentTarget).closest('li');
-                            this.processDependency(dep);
-                        });
+                        this.unactivePropClick(e, me);
                     });
                     me.find('[property]').on('change', (e) => {
                         let dep = $(e.currentTarget).closest('li');
                         this.processDependency(dep);
+                    });
+                    me.find('.deleteDependencyButton').on('click', (e) => {
+                        let dep = $(e.currentTarget).closest('li');
+                        this.deleteDependency(dep);
                     });
                     setTimeout(() => {
                         me.find('.pnlProperties li').each((i, e) => {
                             this.processDependency($(e));
                         });
                     }, 500);
+                }
+                unactivePropClick(e, me) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    let itm = $(e.currentTarget);
+                    let newProp = $(flexygo.utils.parser.compile(itm.parent().data('fulldata'), this.template, flexygo));
+                    me.find('.pnlProperties').append(newProp);
+                    itm.remove();
+                    newProp.find('.ctl-panel').hide();
+                    newProp.find('.' + me.find('.pnlNavigate>li.active').attr('data-link')).show();
+                    newProp.find('[property]').on('change', (ee) => {
+                        let dep = $(ee.currentTarget).closest('li');
+                        this.processDependency(dep);
+                    });
+                    newProp.find('.deleteDependencyButton').on('click', (p) => {
+                        let dep = $(p.currentTarget).closest('li');
+                        this.deleteDependency(dep);
+                    });
                 }
                 processDependency(dep) {
                     //Show or hide dependency icons
@@ -344,7 +372,7 @@ var flexygo;
                 */
                 getTemplate() {
                     let template = '';
-                    template += '<li DependingPropertyName="{{DependingPropertyName}}">';
+                    template += '<li DependingPropertyName="{{DependingPropertyName}}" >';
                     template += '<div class="row">';
                     template += '<div class="col-2 propName {{Active|Bool:,strike}}">';
                     template += '{{DependingPropertyName}}';
@@ -357,7 +385,7 @@ var flexygo;
                     template += '  <i title="Has Visibility dependency" class="flx-icon icon-eye HasVisibleDep" style="{{HasVisibleDep|Bool:,display:none}}"></i>';
                     template += '  <i title="Has Required dependency" class="flx-icon icon-checked HasRequiredDep" style="{{HasRequiredDep|Bool:,display:none}}"></i>';
                     template += '</div>';
-                    template += '<div class="col-10">';
+                    template += '<div class="col-9">';
                     template += '<div class="cnnstrings-controls ctl-panel" style="display:none">';
                     template += '  <flx-combo type="text" property="ConnStringId" placeholder="' + flexygo.localization.translate('dependecymanager.connStringvalues') + '" value="{{ConnStringId}}">' + this.getConnStringItems() + '</flx-combo>';
                     template += '</div>';
@@ -396,6 +424,7 @@ var flexygo;
                     template += '  <flx-text type="text" class="pull-left ctlDescrip" property="Descrip" placeholder="' + flexygo.localization.translate('dependecymanager.description') + '" value="{{Descrip}}" ></flx-text>';
                     template += '</div>';
                     template += '</div>';
+                    template += '<div class="col-1 padding-top-s"><i class="flx-icon icon-close txt-danger clickable deleteDependencyButton"/></div>';
                     template += '</div>';
                     template += ' </li>';
                     return template;
@@ -418,6 +447,25 @@ var flexygo;
                         str += '<option value="' + this.cusControlsItems[i].CustomPropName + '">' + this.cusControlsItems[i].CustomPropName + '</option >';
                     }
                     return str;
+                }
+                deleteDependency(dep) {
+                    let me = $(this);
+                    let unpnl = me.find('.unactiveProperties');
+                    const found = this.propItems.find(element => element.DependingPropertyName == dep[0].attributes[0].textContent);
+                    let prop = $(flexygo.utils.parser.compile(found, '<li class="active"><a href="#">{{DependingPropertyName}}</a></li>', flexygo));
+                    prop.data('fulldata', found);
+                    console.log(found);
+                    for (const property in found) {
+                        if (property !== 'ConnStringId' && property !== 'DependingPropertyName' && property !== 'ObjectName' && property !== 'ord') {
+                            found[property] = null;
+                        }
+                    }
+                    unpnl.append(prop);
+                    //me.find('.unactiveProperties>li>a').off();
+                    prop.find('a').on('click', (e) => {
+                        this.unactivePropClick(e, me);
+                    });
+                    dep.remove();
                 }
             }
             wc.FlxDependencyManagerElement = FlxDependencyManagerElement;

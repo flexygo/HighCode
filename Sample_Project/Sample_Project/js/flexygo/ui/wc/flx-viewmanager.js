@@ -25,15 +25,18 @@ var flexygo;
                     this.objectname = null;
                     this.viewname = null;
                     this.newValue = 0;
+                    this.mode = null;
                     this.tree = null;
                     this.cmb = null;
                     this.fields = null;
+                    this.targetItem = null;
                 }
                 connectedCallback() {
                     let element = $(this);
                     this.connected = true;
                     this.objectname = element.attr('ObjectName');
                     this.viewname = element.attr('ViewName');
+                    this.mode = element.attr('mode');
                     this.init();
                 }
                 static get observedAttributes() {
@@ -50,15 +53,29 @@ var flexygo;
                 refresh() {
                     this.config = new flexygo.obj.Entity(this.objectname).getConfig();
                     let me = $(this);
-                    let btns = $('<div class="row"><div class="col-6"><div class="btn-group" role="listType" /></div><div class="col-6"><button style="float:right" class="btn btn-info btnSaveList">Save & Continue  <i class="flx-icon icon-order-right-2" /></button></div></div>');
-                    btns.find('.btn-group').append('<button type="button" class="btn btn-success" name="btn-fields"><i class="flx-icon icon-listbox-2" /> From Fields</button>');
-                    btns.find('.btn-group').append('<button type="button" class="btn btn-default" name="btn-sql"><i class="flx-icon icon-sql" /> From SQL</button>');
+                    let btns;
+                    let btnsBottom;
+                    if (this.mode == 'wizard' || this.mode == null || this.mode == '') {
+                        btns = $('<div class="row"><div class="col-6"><div class="btn-group" role="listType" /></div><div class="col-6"><button style="float:right" class="btn btn-info btnSaveList">Save & Continue  <i class="flx-icon icon-order-right-2" /></button></div></div>');
+                        btns.find('.btn-group').append('<button type="button" class="btn btn-success" name="btn-fields"><i class="flx-icon icon-listbox-2" /> From Fields</button>');
+                        btns.find('.btn-group').append('<button type="button" class="btn btn-default" name="btn-sql"><i class="flx-icon icon-sql" /> From SQL</button>');
+                    }
+                    else if (this.mode == 'template') {
+                        btns = $('<div class="margin-left-l"><legend><i class="flx-icon icon-wizard-1"></i>' + flexygo.localization.translate('viewmanager.viewwizard') + '</legend></div>');
+                    }
                     let pnl = $('<div class="pnlFields"></div>');
-                    pnl.append('<div class="col-3" style="padding-right:15px"><div class=""><span class="label">' + flexygo.localization.translate('viewmanager.properties') + ':</span><br/><ul class="objtree list-group"></ul></div></div>');
-                    pnl.append('<div class="col-9"><span class="label">' + flexygo.localization.translate('viewmanager.fields') + ':</span><br/><ul class="filterFields list-group"></ul></div>');
+                    pnl.append('<div class="col-3" style="padding-right:15px"><div class=""><span class="label"><div class="btn-group right"><button id="selectAll" class="btn btn-default" title="Select All"><i class="flx-icon icon-check-2"></i></button><button id="selectNone" class="btn btn-default" title="Select None"><i class="flx-icon icon-non-check-2"></i></button></div>' + flexygo.localization.translate('viewmanager.properties') + ':</span><br/><br/><ul class="objtree list-group"></ul></div></div>');
+                    pnl.append('<div class="col-9"><span class="label"><div class="btn-group right"><button id="removeAll" class="btn btn-default" title="Remove All"><i class="flx-icon icon-trash"></i></button></div>' + flexygo.localization.translate('viewmanager.fields') + ':</span><br/><br/><ul class="filterFields list-group"></ul></div>');
+                    if (this.mode == 'template') {
+                        btnsBottom = '<div class="save-cont"><button class="btn btn-default bg-success saveButton margin-left-l margin-bottom-l" title= "Save" name="save-button"> <i class="flx-icon icon-save-2" flx- fw="" > </i> <span>' + flexygo.localization.translate('viewmanager.save') + '</span> </button>';
+                        btnsBottom += '<button class="btn btn-default bg-danger closeButton margin-left-l margin-bottom-l" title= "Cancel" name="cancel-button"> <i class="flx-icon icon-remove" flx- fw="" > </i> <span>' + flexygo.localization.translate('viewmanager.cancel') + '</span> </button></div>';
+                    }
                     me.append(btns);
                     me.append(pnl);
-                    me.append('<div class="pnlSQL" style="display:none"><flx-code type="sql" class="txtSQL" ></flx-code><button class="btnTestView btn btn-warning"><i class="flx-icon icon-double-check"></i> ' + flexygo.localization.translate('viewmanager.validate') + '</button></div>');
+                    me.append($(btnsBottom));
+                    if (this.mode == 'wizard' || this.mode == null || this.mode == '') {
+                        me.append('<div class="pnlSQL" style="display:none"><flx-code type="sql" class="txtSQL" ></flx-code><button class="btnTestView btn btn-warning"><i class="flx-icon icon-double-check"></i> ' + flexygo.localization.translate('viewmanager.validate') + '</button></div>');
+                    }
                     this.tree = me.find('.objtree');
                     this.loadObj(me.attr('ObjectName'), this.tree, true);
                     this.cmb = me.find('.filterCmb');
@@ -81,13 +98,37 @@ var flexygo;
                         }
                         $(e.currentTarget).addClass('btn-success');
                     });
+                    me.find('.pnlFields #selectAll').on('click', (e) => {
+                        $(this).parent().find('.objtree').find('.prop-filter:visible input[type="checkbox"]').prop('checked', true);
+                    });
+                    me.find('.pnlFields #selectNone').on('click', (e) => {
+                        $(this).parent().find('.objtree').find('.prop-filter input[type="checkbox"]').prop('checked', false);
+                    });
+                    me.find('.pnlFields #removeAll').on('click', (e) => {
+                        let li = $(this).parent().find('.filterFields').find('li');
+                        flexygo.msg.confirm(flexygo.localization.translate('filtermanager.sure'), function (e) {
+                            if (e) {
+                                li.hide(250, () => {
+                                    li.remove();
+                                });
+                            }
+                        });
+                    });
                     me.find('.btnSaveList').on('click', (e) => {
                         this.saveView();
                     });
                     me.find('.btnTestView').on('click', (e) => {
                         this.validateView();
                     });
-                    this.loadView();
+                    me.find('[name="save-button"]').on('click', (e) => {
+                        this.saveView();
+                    });
+                    me.find('[name="cancel-button"]').on('click', (e) => {
+                        flexygo.nav.closePage(me);
+                    });
+                    if (this.mode == 'wizard' || this.mode == null || this.mode == '') {
+                        this.loadView();
+                    }
                 }
                 validateView() {
                     let me = $(this);
@@ -142,18 +183,28 @@ var flexygo;
                         else {
                             params.ViewName = this.viewname;
                         }
+                        params.Mode = this.mode;
                         params.Properties = new Array();
                         params.SQL = sqlStr;
                         for (let i = 0; i < fils.length; i++) {
                             let itm = Object.assign({}, fils[i]);
                             params.Properties.push(itm);
                         }
-                        flexygo.ajax.post('~/api/Sys', 'saveView', params, (view) => {
-                            this.setView(view);
-                            flexygo.msg.success('Saved :)');
-                            //This is now handled via post event
-                            //$(document).trigger("viewSaved", []);
-                        });
+                        if (this.mode == 'template') {
+                            flexygo.ajax.post('~/api/Sys', 'saveView', params, (sqlSentence) => {
+                                $(this.targetItem).find('flx-code[property="SQLSentence"]').val(sqlSentence);
+                                flexygo.msg.success(flexygo.localization.translate('viewmanager.saved'));
+                                flexygo.nav.closePage(me);
+                            });
+                        }
+                        else {
+                            flexygo.ajax.post('~/api/Sys', 'saveView', params, (view) => {
+                                this.setView(view);
+                                flexygo.msg.success(flexygo.localization.translate('viewmanager.saved'));
+                                //This is now handled via post event
+                                //$(document).trigger("viewSaved", []);
+                            });
+                        }
                     }
                     catch (e) {
                         flexygo.msg.error(e.message);
@@ -305,6 +356,27 @@ var flexygo;
                     });
                     pathArr.push(obj.data('extvalue').ObjectName);
                     return pathArr.join('|');
+                }
+                /**
+                *
+                * @method openWizard
+                */
+                openWizard(e) {
+                    let module = e.closest("flx-module");
+                    let histObj = new flexygo.nav.FlexygoHistory();
+                    let nameObj = $(module).find('input[name="ObjectName"]').val();
+                    if (nameObj != null && nameObj != '') {
+                        histObj.targetid = 'modal1024x550';
+                        let modal = flexygo.targets.createContainer(histObj, true, null, true);
+                        modal.empty();
+                        modal.closest('.ui-dialog').find('.ui-dialog-title').html(flexygo.localization.translate('viewmanager.viewwizard'));
+                        modal.append('<flx-viewmanager mode="template" objectname="' + nameObj + '"></flx-viewmanager>');
+                        let vm = modal.find('flx-viewmanager')[0];
+                        vm.targetItem = module;
+                    }
+                    else {
+                        flexygo.msg.warning(flexygo.localization.translate('viewmanager.selectobject'));
+                    }
                 }
             }
             wc.FlxViewManagerElement = FlxViewManagerElement;

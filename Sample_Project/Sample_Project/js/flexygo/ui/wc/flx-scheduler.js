@@ -31,6 +31,8 @@ var flexygo;
                     this.dayClick = false;
                     this.events = new Array();
                     this.allDay = false;
+                    this.eventsRefresh = true;
+                    this.hasPendingRefresh = false;
                 }
                 /**
                * Array of observed attributes.
@@ -76,7 +78,12 @@ var flexygo;
                     let pageType;
                     let target;
                     let eventLimit;
+                    let disableResize;
+                    let disableDrag;
+                    let onClickJS;
+                    let onClickDayJS;
                     me.removeAttr('manualInit');
+                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
                     let parentModule = me.closest('flx-module');
                     let wcModule = parentModule[0];
                     if (parentModule && wcModule) {
@@ -98,12 +105,16 @@ var flexygo;
                             maxTime = response.MaxTime;
                             minTime = response.MinTime;
                             onClickEvent = response.OnClickEvent;
+                            onClickJS = response.OnClickJS;
+                            onClickDayJS = response.OnClickDayJS;
                             tokenDefault = response.TokenDefault;
                             allDaySlot = response.AllDaySlot;
                             slotDuration = response.SlotDuration;
                             pageType = response.PageType;
                             target = response.Target;
                             eventLimit = response.EventLimit;
+                            disableResize = response.DisableResize;
+                            disableDrag = response.DisableDrag;
                             if (response.MonthView == "True") {
                                 options.push("month");
                             }
@@ -150,7 +161,7 @@ var flexygo;
                                         ctx.checkObjects.push(response[i].ObjectName);
                                     }
                                     if (ctx.objects.length > 0) {
-                                        ctx.render(options, activeMode, maxTime, minTime, onClickEvent, allDaySlot, slotDuration, pageType, target, eventLimit);
+                                        ctx.render(options, activeMode, maxTime, minTime, onClickEvent, allDaySlot, slotDuration, pageType, target, eventLimit, disableResize, disableDrag, onClickJS, onClickDayJS);
                                         //$('.fc-left').addClass('col-lg-5');
                                         //$('.fc-left').addClass('col-md-6');
                                         if (objectName != '') {
@@ -220,24 +231,30 @@ var flexygo;
                 refresh() {
                     if ($(this).attr('manualInit') != 'true') {
                         let ctx = this;
-                        let me = $(this);
-                        var myCalendar = me.find('#calendar');
-                        myCalendar.fullCalendar('removeEvents');
-                        ctx.checkPanelObjects(this.additionalWhere);
+                        if (ctx.eventsRefresh) {
+                            let me = $(this);
+                            var myCalendar = me.find('#calendar');
+                            myCalendar.fullCalendar('removeEvents');
+                            ctx.checkPanelObjects(this.additionalWhere);
+                        }
+                        else {
+                            ctx.hasPendingRefresh = true;
+                        }
                     }
                 }
                 /**
                 * Initialize Scheduler.
                 * @method render
                 */
-                render(options, activeMode, maxTime, minTime, onClickEvent, allDaySlot, slotDuration, pageType, target, eventLimit) {
+                render(options, activeMode, maxTime, minTime, onClickEvent, allDaySlot, slotDuration, pageType, target, eventLimit, disableResize, disableDrag, onClickJS, onClickDayJS) {
                     let ctx = this;
                     let me = $(this);
                     let right = '';
                     let navLinks = false;
+                    let defaultDate;
                     flexygo.events.on(this, "dialog", "closed", (e) => {
                         for (var i = 0; i < ctx.objects.length; i++) {
-                            if (e.sender.objectname.toLowerCase() === ctx.objects[i].ObjectName.toLowerCase()) {
+                            if (e.sender.objectname && e.sender.objectname.toLowerCase() === ctx.objects[i].ObjectName.toLowerCase()) {
                                 ctx.checkPanelObjects(ctx.additionalWhere);
                             }
                         }
@@ -271,6 +288,12 @@ var flexygo;
                     if (allDaySlot == "True") {
                         ctx.allDay = true;
                     }
+                    if (me.attr('dateInit')) {
+                        defaultDate = new Date($(this).attr('dateInit'));
+                    }
+                    else {
+                        defaultDate = Date.now();
+                    }
                     //Calendario//
                     myCalendar.fullCalendar({
                         header: {
@@ -281,6 +304,7 @@ var flexygo;
                         firstDay: 1,
                         locale: flexygo.profiles.langKey.toLowerCase().slice(0, 2),
                         allDaySlot: ctx.allDay,
+                        defaultDate: defaultDate,
                         defaultView: activeMode,
                         timeFormat: 'HH:mm',
                         nextDayThreshold: '00:00:00',
@@ -289,7 +313,8 @@ var flexygo;
                         navLinks: navLinks,
                         height: 'auto',
                         slotEventOverlap: false,
-                        editable: true,
+                        eventStartEditable: !disableDrag,
+                        eventDurationEditable: !disableResize,
                         eventLimit: eventLimit,
                         slotDuration: slotDuration,
                         eventDrop: function (event, delta, revertFunc) {
@@ -363,8 +388,12 @@ var flexygo;
                                 if (pageType == "view" && calEvent.canView) {
                                     flexygo.nav.openPage(pageType, calEvent.objectName, ctx.getObjectWhere(calEvent.table, calEvent.key, calEvent.id), null, target, false, $(this));
                                 }
-                                if (pageType == "edit" && calEvent.canEdit) {
+                                else if (pageType == "edit" && calEvent.canEdit) {
                                     flexygo.nav.openPage(pageType, calEvent.objectName, ctx.getObjectWhere(calEvent.table, calEvent.key, calEvent.id), null, target, false, $(this));
+                                }
+                                else if (pageType == "generic") {
+                                    var func = new Function('objectname', 'objectwhere', 'calEvent', 'jsEvent', 'view', onClickJS);
+                                    func.call(this, calEvent.objectName, ctx.getObjectWhere(calEvent.table, calEvent.key, calEvent.id), calEvent, jsEvent, view);
                                 }
                             }
                         },
@@ -374,88 +403,110 @@ var flexygo;
                                 case 'month':
                                     element.find('span.fc-title').html(element.find('span.fc-title').text());
                                     el.addClass("test");
-                                    el.tooltip({
-                                        title: element.find('span.fc-title').text(),
-                                        delay: { show: 1000 },
-                                        placement: "top",
-                                        trigger: 'hover'
-                                    });
+                                    if (el.find('flx-tooltip').length === 0) {
+                                        var text = element.find('span.fc-title').clone();
+                                        text.find('.hidden').remove();
+                                        el.tooltip({
+                                            title: text.text(),
+                                            delay: { show: 1000 },
+                                            placement: "top",
+                                            trigger: 'hover'
+                                        });
+                                    }
                                     break;
                                 case 'agendaWeek':
                                     element.find('div.fc-content').find('.fc-title').html(element.find('div.fc-content').find('.fc-title').text());
                                     el.addClass("test");
-                                    el.tooltip({
-                                        title: element.find('div.fc-title').text(),
-                                        delay: { show: 1000 },
-                                        placement: "top",
-                                        trigger: 'hover'
-                                    });
+                                    if (el.find('flx-tooltip').length === 0) {
+                                        var text = element.find('div.fc-title').clone();
+                                        text.find('.hidden').remove();
+                                        el.tooltip({
+                                            title: text.text(),
+                                            delay: { show: 1000 },
+                                            placement: "top",
+                                            trigger: 'hover'
+                                        });
+                                    }
                                     break;
                                 case 'agendaDay':
                                     element.find('div.fc-content').find('.fc-title').html(element.find('div.fc-content').find('.fc-title').text());
                                     el.addClass("test");
                                     el.addClass("fc-day-size");
-                                    el.tooltip({
-                                        title: element.find('div.fc-title').text(),
-                                        delay: { show: 1000 },
-                                        placement: "top",
-                                        trigger: 'hover'
-                                    });
+                                    if (el.find('flx-tooltip').length === 0) {
+                                        var text = element.find('div.fc-title').clone();
+                                        text.find('.hidden').remove();
+                                        el.tooltip({
+                                            title: text.text(),
+                                            delay: { show: 1000 },
+                                            placement: "top",
+                                            trigger: 'hover'
+                                        });
+                                    }
                                     break;
                                 case 'listWeek':
                                     element.find('td.fc-list-item-title').html(element.find('td.fc-list-item-title').text());
                                     el.addClass("test");
-                                    el.tooltip({
-                                        title: element.find('td.fc-list-item-title').text(),
-                                        delay: { show: 1000 },
-                                        placement: "top",
-                                        trigger: 'hover'
-                                    });
+                                    if (el.find('flx-tooltip').length === 0) {
+                                        var text = element.find('td.fc-list-item-title').clone();
+                                        text.find('.hidden').remove();
+                                        el.tooltip({
+                                            title: text.text(),
+                                            delay: { show: 1000 },
+                                            placement: "top",
+                                            trigger: 'hover'
+                                        });
+                                    }
                                     break;
                             }
                         },
                         dayClick: function (date, jsEvent, view) {
-                            if (!ctx.dayClick) {
-                                ctx.dayClick = true;
-                                let hasTime = date.hasTime();
-                                if (ctx.objects.length > 1) {
-                                    let myButtons = new Object();
-                                    let buttons = '';
-                                    for (var i = 0; i < ctx.objects.length; i++) {
-                                        myButtons[ctx.objects[i].ObjectName] = {
-                                            'class': 'btn btn-default',
-                                            text: ctx.objects[i].ObjectName,
-                                            SchedulerName: ctx.objects[i].SchedulerName,
-                                            ObjectName: ctx.objects[i].ObjectName,
-                                            StartDateField: ctx.objects[i].StartDateField,
-                                            EndDateField: ctx.objects[i].EndDateField,
-                                            StartTimeField: ctx.objects[i].StartTimeField,
-                                            EndTimeField: ctx.objects[i].EndTimeField,
-                                            DurationField: ctx.objects[i].DurationField,
-                                            closeOnClick: true,
-                                            Icon: ctx.objects[i].Icon
-                                        };
-                                        if (ctx.objects[i].CanInsert) {
-                                            buttons += '<a style="padding: 0.7em;margin-right: 3%;margin-bottom: 3%;" class="btn btn-default bg-outstanding modalButton"><i style="margin-right:4px;" class="' + ctx.objects[i].Icon + '"></i>' + ctx.objects[i].ObjectName + '</a>';
+                            if (!flexygo.utils.isBlank(onClickDayJS)) {
+                                var func = new Function('date', 'jsEvent', 'view', onClickDayJS);
+                                func.call(this, date, jsEvent, view);
+                            }
+                            else {
+                                if (!ctx.dayClick) {
+                                    ctx.dayClick = true;
+                                    let hasTime = date.hasTime();
+                                    if (ctx.objects.length > 1) {
+                                        let myButtons = new Object();
+                                        let buttons = '';
+                                        for (var i = 0; i < ctx.objects.length; i++) {
+                                            myButtons[ctx.objects[i].ObjectName] = {
+                                                'class': 'btn btn-default',
+                                                text: ctx.objects[i].ObjectName,
+                                                SchedulerName: ctx.objects[i].SchedulerName,
+                                                ObjectName: ctx.objects[i].ObjectName,
+                                                StartDateField: ctx.objects[i].StartDateField,
+                                                EndDateField: ctx.objects[i].EndDateField,
+                                                StartTimeField: ctx.objects[i].StartTimeField,
+                                                EndTimeField: ctx.objects[i].EndTimeField,
+                                                DurationField: ctx.objects[i].DurationField,
+                                                closeOnClick: true,
+                                                Icon: ctx.objects[i].Icon
+                                            };
+                                            if (ctx.objects[i].CanInsert) {
+                                                buttons += '<a style="padding: 0.7em;margin-right: 3%;margin-bottom: 3%;" class="btn btn-default bg-outstanding modalButton"><i style="margin-right:4px;" class="' + ctx.objects[i].Icon + '"></i>' + ctx.objects[i].ObjectName + '</a>';
+                                            }
+                                        }
+                                        if (buttons != '') {
+                                            $.sweetModal({
+                                                title: flexygo.localization.translate('flxscheduler.chooseobjects'),
+                                                content: '<div>' + buttons + '</div>',
+                                                theme: $.sweetModal.THEME_MIXED,
+                                                width: '31%'
+                                            });
+                                            $(".modalButton").click(function () {
+                                                let object = myButtons[this.text];
+                                                ctx.openEvent(object.ObjectName, object.StartDateField, object.EndDateField, object.StartTimeField, object.EndTimeField, object.DurationField, date.format("YYYY-MM-DD"), date.format("HH:mm"), object.AllDayField, hasTime);
+                                                $('.sweet-modal-overlay').remove();
+                                            });
                                         }
                                     }
-                                    if (buttons != '') {
-                                        $.sweetModal({
-                                            title: flexygo.localization.translate('flxscheduler.chooseobjects'),
-                                            content: '<div>' + buttons + '</div>',
-                                            theme: $.sweetModal.THEME_MIXED,
-                                            width: '31%'
-                                        });
-                                        $(".modalButton").click(function () {
-                                            let object = myButtons[this.text];
-                                            ctx.openEvent(object.ObjectName, object.StartDateField, object.EndDateField, object.StartTimeField, object.EndTimeField, object.DurationField, date.format("YYYY-MM-DD"), date.format("HH:mm"), object.AllDayField, hasTime);
-                                            $('.sweet-modal-overlay').remove();
-                                        });
-                                    }
-                                }
-                                else {
-                                    if (ctx.objects[0].CanInsert) {
-                                        ctx.openEvent(ctx.objects[0].ObjectName, ctx.objects[0].StartDateField, ctx.objects[0].EndDateField, ctx.objects[0].StartTimeField, ctx.objects[0].EndTimeField, ctx.objects[0].DurationField, date.format("YYYY-MM-DD"), date.format("HH:mm"), ctx.objects[0].AllDayField, hasTime);
+                                    else {
+                                        if (ctx.objects[0].CanInsert) {
+                                            ctx.openEvent(ctx.objects[0].ObjectName, ctx.objects[0].StartDateField, ctx.objects[0].EndDateField, ctx.objects[0].StartTimeField, ctx.objects[0].EndTimeField, ctx.objects[0].DurationField, date.format("YYYY-MM-DD"), date.format("HH:mm"), ctx.objects[0].AllDayField, hasTime);
+                                        }
                                     }
                                 }
                             }
@@ -516,6 +567,7 @@ var flexygo;
                     //Panel de objetos
                     /*Empieza a cargar*/
                     me.find('#loading').html(flexygo.utils.loadingMsg());
+                    ctx.eventsRefresh = false;
                     //me.find('.fc-view-container').css('display','none');
                     for (var x in ctx.checkObjects) {
                         for (var i = 0; i < ctx.objects.length; i++) {
@@ -574,8 +626,8 @@ var flexygo;
                     let myCalendar = me.find('#calendar');
                     myCalendar.fullCalendar('removeEvents');
                     let moment = myCalendar.fullCalendar('getDate');
-                    let date = new Date(moment.format());
-                    let dateStartWeek = ctx.getStartWeek(new Date(moment.format()));
+                    let date = new Date(moment);
+                    let dateStartWeek = ctx.getStartWeek(new Date(moment));
                     let dateWeek = new Date(dateStartWeek.getTime() + (7 * 24 * 60 * 60 * 1000));
                     let dateDay = new Date(date.getTime() + (1 * 24 * 60 * 60 * 1000));
                     let view = myCalendar.fullCalendar('getView');
@@ -680,6 +732,11 @@ var flexygo;
                             me.find('#loading').css('display', 'none');
                             ctx.n = 0;
                             ctx.events = [];
+                        }
+                        ctx.eventsRefresh = true;
+                        if (ctx.hasPendingRefresh) {
+                            ctx.hasPendingRefresh = false;
+                            ctx.refresh();
                         }
                     });
                 }

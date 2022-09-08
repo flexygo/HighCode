@@ -131,7 +131,7 @@ var flexygo;
                     moduleContent.append('<div><flx-text prop="Identifier" type="ident" required placeholder="' + flexygo.localization.translate('modulemanager.tabid') + '"></flx-text></div>');
                     moduleContent.append('<div><flx-text prop="Title" type="text" required placeholder="' + flexygo.localization.translate('modulemanager.tabtitle') + '"></flx-text></div>');
                     moduleContent.append('<div><flx-text prop="Descrip" type="text" required placeholder="' + flexygo.localization.translate('modulemanager.tabdescrip') + '"></flx-text></div>');
-                    moduleContent.append('<div><flx-dbcombo prop="IconName" objectname="sysObject" required prop="pageIcon" placeholder="' + flexygo.localization.translate('modulemanager.selecttabicon') + '" viewname="iconsView" sqlvaluefield="IconName" sqldisplayfield="IconName" ><template><div class="size-s" ><i class="{{CssClass}} icon-margin-right" ></i>{{IconName}}</div></template></flx-dbcombo></div>');
+                    moduleContent.append('<div><flx-dbcombo class="item-float" prop="IconName" objectname="sysObject" required prop="pageIcon" placeholder="' + flexygo.localization.translate('modulemanager.selecttabicon') + '" viewname="iconsView"  PageSize="50" sqlvaluefield="IconName" sqldisplayfield="IconName" ><template><i class=" txt-outstanding {{CSSClass}} icon-2x icon-margin" title="{{IconName}}" style="widht: 20px"></i></template></flx-dbcombo></div>');
                     moduleContent.append('<div><flx-dbcombo prop="ClassId" objectname="sysModule" required viewname="sysModuleClasses" sqlvaluefield="ClassId" sqldisplayfield="Descrip" placeholder="' + flexygo.localization.translate('modulemanager.classification') + '"></flx-dbcombo></div>');
                     moduleContent.append('<div><flx-dbcombo prop="TabMode" objectname="sysModule" required viewname="sysTabModes" sqlvaluefield="TypeId" sqldisplayfield="Descrip" placeholder="' + flexygo.localization.translate('modulemanager.tabMode') + '"></flx-dbcombo></div>');
                     moduleContent.append('<button required class="SaveTabModule btn btn-default bg-info saveButton"><i class="flx-icon icon-save"></i> ' + flexygo.localization.translate('modulemanager.save') + '</button>');
@@ -301,10 +301,10 @@ var flexygo;
                             let modulePosition = this.getModulePosition(myMod);
                             myMod.detach();
                             if (newTemplate.find('.' + modulePosition).length > 0) {
-                                newTemplate.find('.' + modulePosition + ' ul').append(myMod);
+                                newTemplate.find('.' + modulePosition + ' ul:not(.connectedTab)').append(myMod);
                             }
                             else {
-                                newTemplate.find('.TopPosition ul').append(myMod);
+                                newTemplate.find('.TopPosition ul:not(.connectedTab)').append(myMod);
                             }
                         }
                         pageLayout.html(newTemplate.html());
@@ -326,7 +326,7 @@ var flexygo;
                     this.modTemplate += '<i title="' + flexygo.localization.translate('modulemanager.configmodule') + '" class="flx-icon icon-settings configure"></i>';
                     this.modTemplate += '<i title="' + flexygo.localization.translate('modulemanager.removemodule') + '" class="flx-icon icon-remove remove"></i>';
                     this.modTemplate += '</div>';
-                    this.modTemplate += '<div class="listDescrip"><i title="{{TypeDescrip}}" class="{{TypeIconClass}} icon-lg"></i> <span class="modDesc">{{Descrip}}</span><span class="hidden relwhere"></span></div>{{TypeId|switch:[flx-moduletab:<div class="moduleTab" ><ul class="connectedSortable"></ul></div>,flx-buttontab:<div class="moduleTab" ><ul class="connectedSortable"></ul></div>,else:null]}}';
+                    this.modTemplate += '<div class="listDescrip"><i title="{{TypeDescrip}}" class="{{TypeIconClass}} icon-lg"></i> <span class="modDesc">{{Descrip}}</span><span class="hidden relwhere"></span></div>{{TypeId|switch:[flx-moduletab:<div class="moduleTab" ><ul class="connectedTab connectedSortable"></ul></div>,flx-buttontab:<div class="moduleTab" ><ul class="connectedTab connectedSortable"></ul></div>,else:null]}}';
                     this.modTemplate += '</li>';
                     this.modules = obj.getView('sysModuleExtended');
                     let list = me.find('#moduleList ul');

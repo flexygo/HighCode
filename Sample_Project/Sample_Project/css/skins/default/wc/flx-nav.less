@@ -4,7 +4,7 @@
     margin-right: 1em;
     margin-bottom: 1em;
     font-size: 1.1em;
-    font-family: 'latolight',Arial;
+    //font-family: 'latolight',Arial;
     cursor: pointer;
     z-index: 2;
 }
@@ -19,8 +19,8 @@ flx-nav[mode=panel] .flip-card-back {
     overflow: auto;
 }
 
-flx-nav[mode=panel] .no-card{
-    display:none;
+flx-nav[mode=panel] .no-card, flx-nav[mode=box] .no-card {
+    display: none;
 }
 
 flx-nav[mode=panel] .flip-card-front .admin, .card .flip-card-front .admin {
@@ -95,26 +95,30 @@ flx-nav[mode=panel] .back, .card .back {
 }
 
 
+//FLX-NAV BOX MODE
 flx-nav[mode=box] .box, .cardbox .box {
-    width: 250px;
+    color: dbColor(txtColor);
+    width: 280px;
     height: 280px;
-    margin: .2%;
+    margin: .2% 1% 1% .2%;
     padding: 15px;
     box-sizing: border-box;
     display: inline-block;
-    background-color: #036C81;
+    background-color: dbColor(ModuleColor);
     position: relative;
     overflow: hidden;
-    box-shadow: 0 0 5px rgba(0, 0, 0, .4);
+    box-shadow: 0px 2px 8px 0px dbColor(borderModuleColor);
+    cursor: pointer;
+    border-radius: 6px;
     cursor: pointer;
 }
 
 flx-nav[mode=box] .box .icon-cont, .cardbox .box .icon-cont {
-    border: 6px solid rgba(255, 255, 255, .3);
+    border: 6px solid dbColor(txtColor);
     border-radius: 50%;
     width: 75px;
     height: 75px;
-    margin: 30px auto;
+    margin: 60px auto;
     display: block;
     text-align: center;
     position: absolute;
@@ -126,24 +130,24 @@ flx-nav[mode=box] .box .icon-cont, .cardbox .box .icon-cont {
 }
 
 flx-nav[mode=box] .box .icon-cont i, .cardbox .box .icon-cont i {
-    opacity: .6;
+    opacity: 1;
     font-size: 2.5em;
     line-height: 60px;
 }
 
 flx-nav[mode=box] .box:hover .icon-cont, .cardbox .box:hover .icon-cont {
-    animation: shady 4s linear infinite;
+    animation: shadyII 4s linear infinite;
 }
 
 
 flx-nav[mode=box] .box h3, .cardbox .box h3 {
-    font-weight: 800;
-    font-size: 22px;
+    font-weight: 300;
+    font-size: 18px;
     text-align: center;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     padding: 15px;
-    border-bottom: 1px solid rgba(255,255,255,0);
+    border-bottom: none;
     position: absolute;
     top: 145px;
     width: 80%;
@@ -153,8 +157,8 @@ flx-nav[mode=box] .box h3, .cardbox .box h3 {
 
 
 flx-nav[mode=box] .box ul, .cardbox .box ul {
-    font-size: 14px;
-    line-height: 22px;
+    font-size: 16px;
+    line-height: 20px;
     text-indent: 0;
     margin: 0;
     margin-top: 20px;
@@ -171,7 +175,6 @@ flx-nav[mode=box] .box a.expand, .cardbox .box a.expand {
     height: 35px;
     background: transparent;
     font-weight: 600;
-    //color: #036C81;
     display: block;
     margin: 15px auto 25px;
     text-align: center;
@@ -200,12 +203,11 @@ flx-nav[mode=box] .box.selected a.expand, .cardbox .box.selected a.expand {
     display: block;
     position: absolute;
     left: 180px;
-    right: -49px;
-    bottom: -39px;
-    width: 80px;
+    right: -64px;
+    bottom: -40px;
+    width: 100px;
     height: 50px;
     background: #eee;
-    color: #036C81;
     transform: rotate(-45deg);
 }
 
@@ -213,7 +215,7 @@ flx-nav[mode=box] .box.selected a.expand span, .cardbox .box.selected a.expand s
     display: block;
     position: absolute;
     top: -4px;
-    left: 38px;
+    left: 48px;
     transform: rotate(45deg);
     font-size: 24px;
 }
@@ -227,11 +229,11 @@ flx-nav[mode=box] .box.selected a.expand span.plus, .cardbox .box.selected a.exp
 }
 
 flx-nav[mode=box] .box.selected .icon-cont, .cardbox .box.selected .icon-cont {
-    transform: scale(1.5, 1.5);
-    opacity: .3;
+    transform: scale(1.2, 1.2);
+    opacity: .6;
     position: absolute;
-    top: -20px;
-    left: -5px;
+    top: -66px;
+    left: -36px;
     right: 180px;
 }
 
@@ -241,8 +243,8 @@ flx-nav[mode=box] .box.selected:hover .icon-cont, .cardbox .box.selected:hover .
 }
 
 flx-nav[mode=box] .box.selected h3, .cardbox .box.selected h3 {
-    padding: 4px 15px 10px 15px;
-    border-bottom: 1px solid rgba(255, 255, 255, .3);
+    padding: 0 0 0 35px;
+    border-bottom: none;
     width: 80%;
     top: 16px;
     left: 10%;
@@ -250,8 +252,189 @@ flx-nav[mode=box] .box.selected h3, .cardbox .box.selected h3 {
 
 flx-nav[mode=box] .box.selected .noshow ul, .cardbox .box.selected .noshow ul {
     opacity: 1;
-    margin-top: 80px;
+    margin-top: 64px;
 }
+
+flx-nav[mode=box].card-outstanding .box .icon-cont, .cardbox.card-outstanding .box .icon-cont {
+    border: 6px solid dbColor(OutstandingColor);
+    background-color: dbColor(OutstandingColor);
+    color: white;
+}
+
+flx-nav[mode=box].card-outstanding .box h3, .cardbox.card-outstanding .box h3 {
+    color: dbColor(OutstandingColor);
+}
+
+flx-nav[mode=box].card-outstanding .box li:hover, .cardbox.card-outstanding .box li:hover {
+    color: dbColor(OutstandingColor);
+}
+
+
+flx-nav[mode=box].card-outstanding .box.selected a.expand, .cardbox.card-outstanding .box.selected a.expand {
+    background: dbColor(OutstandingColor);
+    opacity: 0.6;
+}
+//
+flx-nav[mode=box].card-info .box .icon-cont, .cardbox.card-info .box .icon-cont {
+    border: 6px solid dbColor(InfoColor);
+    background-color: dbColor(InfoColor);
+    color: white;
+}
+
+flx-nav[mode=box].card-info .box h3, .cardbox.card-info .box h3 {
+    color: dbColor(InfoColor);
+}
+
+flx-nav[mode=box].card-info .box li:hover, .cardbox.card-info .box li:hover {
+    color: dbColor(InfoColor);
+}
+
+
+flx-nav[mode=box].card-info .box.selected a.expand, .cardbox.card-info .box.selected a.expand {
+    background: dbColor(InfoColor);
+    opacity: 0.6;
+}
+//
+flx-nav[mode=box].card-danger .box .icon-cont, .cardbox.card-danger .box .icon-cont {
+    border: 6px solid dbColor(DangerColor);
+    background-color: dbColor(DangerColor);
+    color: white;
+}
+
+flx-nav[mode=box].card-danger .box h3, .cardbox.card-danger .box h3 {
+    color: dbColor(DangerColor);
+}
+
+flx-nav[mode=box].card-danger .box li:hover, .cardbox.card-danger .box li:hover {
+    color: dbColor(DangerColor);
+}
+
+
+flx-nav[mode=box].card-danger .box.selected a.expand, .cardbox.card-danger .box.selected a.expand {
+    background: dbColor(DangerColor);
+    opacity: 0.6;
+}
+//
+flx-nav[mode=box].card-warning .box .icon-cont, .cardbox.card-warning .box .icon-cont {
+    border: 6px solid dbColor(WarningColor);
+    background-color: dbColor(WarningColor);
+    color: white;
+}
+
+flx-nav[mode=box].card-warning .box h3, .cardbox.card-warning .box h3 {
+    color: dbColor(WarningColor);
+}
+
+flx-nav[mode=box].card-warning .box li:hover, .cardbox.card-warning .box li:hover {
+    color: dbColor(WarningColor);
+}
+
+
+flx-nav[mode=box].card-warning .box.selected a.expand, .cardbox.card-warning .box.selected a.expand {
+    background: dbColor(WarningColor);
+    opacity: 0.6;
+}
+//
+flx-nav[mode=box].card-info .box .icon-cont, .cardbox.card-info .box .icon-cont {
+    border: 6px solid dbColor(InfoColor);
+    background-color: dbColor(InfoColor);
+    color: white;
+}
+
+flx-nav[mode=box].card-info .box h3, .cardbox.card-info .box h3 {
+    color: dbColor(InfoColor);
+}
+
+flx-nav[mode=box].card-info .box li:hover, .cardbox.card-info .box li:hover {
+    color: dbColor(InfoColor);
+}
+
+
+flx-nav[mode=box].card-info .box.selected a.expand, .cardbox.card-info .box.selected a.expand {
+    background: dbColor(InfoColor);
+    opacity: 0.6;
+}
+//
+flx-nav[mode=box].card-notify .box .icon-cont, .cardbox.card-notify .box .icon-cont {
+    border: 6px solid dbColor(NotifyColor);
+    background-color: dbColor(NotifyColor);
+    color: white;
+}
+
+flx-nav[mode=box].card-notify .box h3, .cardbox.card-notify .box h3 {
+    color: dbColor(NotifyColor);
+}
+
+flx-nav[mode=box].card-notify .box li:hover, .cardbox.card-notify .box li:hover {
+    color: dbColor(NotifyColor);
+}
+
+
+flx-nav[mode=box].card-notify .box.selected a.expand, .cardbox.card-notify .box.selected a.expand {
+    background: dbColor(NotifyColor);
+    opacity: 0.6;
+}
+//
+flx-nav[mode=box].card-success .box .icon-cont, .cardbox.card-success .box .icon-cont {
+    border: 6px solid dbColor(SuccessColor);
+    background-color: dbColor(SuccessColor);
+    color: white;
+}
+
+flx-nav[mode=box].card-success .box h3, .cardbox.card-success .box h3 {
+    color: dbColor(SuccessColor);
+}
+
+flx-nav[mode=box].card-success .box li:hover, .cardbox.card-success .box li:hover {
+    color: dbColor(SuccessColor);
+}
+
+
+flx-nav[mode=box].card-success .box.selected a.expand, .cardbox.card-success .box.selected a.expand {
+    background: dbColor(SuccessColor);
+    opacity: 0.6;
+}
+//
+flx-nav[mode=box].card-primary .box .icon-cont, .cardbox.card-primary .box .icon-cont {
+    border: 6px solid dbColor(PrimaryColor);
+    background-color: dbColor(PrimaryColor);
+    color: white;
+}
+
+flx-nav[mode=box].card-primary .box h3, .cardbox.card-primary .box h3 {
+    color: dbColor(PrimaryColor);
+}
+
+flx-nav[mode=box].card-primary .box li:hover, .cardbox.card-primary .box li:hover {
+    color: dbColor(PrimaryColor);
+}
+
+
+flx-nav[mode=box].card-primary .box.selected a.expand, .cardbox.card-primary .box.selected a.expand {
+    background: dbColor(PrimaryColor);
+    opacity: 0.6;
+}
+//
+flx-nav[mode=box].card-tools .box .icon-cont, .cardbox.card-tools .box .icon-cont {
+    border: 6px solid dbColor(ToolsColor);
+    background-color: dbColor(ToolsColor);
+    color: white;
+}
+
+flx-nav[mode=box].card-tools .box h3, .cardbox.card-tools .box h3 {
+    color: dbColor(ToolsColor);
+}
+
+flx-nav[mode=box].card-tools .box li:hover, .cardbox.card-tools .box li:hover {
+    color: dbColor(ToolsColor);
+}
+
+
+flx-nav[mode=box].card-tools .box.selected a.expand, .cardbox.card-tools .box.selected a.expand {
+    background: dbColor(ToolsColor);
+    opacity: 0.6;
+}
+// END BOX MODE
 
 @keyframes shady {
     0% {
@@ -661,11 +844,15 @@ flx-nav[mode=nav] ul li span.active:not(.item-opened):not(.item-closed):after {
         padding: 0;
         border: 0;
         list-style: none;
-        z-index: 10;
         position: relative;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
+    }
+
+    flx-nav[mode=menu],
+    flx-nav[mode=menu] ul {
+        z-index: 10;
     }
 
     flx-nav[mode=menu]:after,
@@ -702,8 +889,10 @@ flx-nav[mode=nav] ul li span.active:not(.item-opened):not(.item-closed):after {
 
     flx-nav[mode=menu] > ul > li > span {
         padding: 15px;
-        letter-spacing: 1px;
+        letter-spacing: 0px;
         text-decoration: none;
+        line-height:1;
+       
     }
 
     flx-nav[mode=menu] ul ul {
@@ -755,7 +944,7 @@ flx-nav[mode=nav] ul li span.active:not(.item-opened):not(.item-closed):after {
     }
 
     flx-nav {
-        font-family: 'latolight',Arial;
+        //font-family: 'latolight',Arial;
     }
 
     flx-nav {
@@ -845,7 +1034,7 @@ flx-nav[mode=nav] li ul {
 
     flx-nav[mode=menu] ul ul {
         color: dbColor(txtMenuColor);
-        font-family: 'latoregular';
+        //font-family: 'latoregular';
         box-sizing: border-box;
         border: 1px solid #e0e0e0;
         border-left: 4px solid dbColor(OutstandingColor);
@@ -911,7 +1100,7 @@ flx-nav[mode=nav] li ul {
 
     .flx-contextmenu ul {
         color: dbColor(txtMenuColor);
-        font-family: 'latoregular';
+       // font-family: 'latoregular';
         box-sizing: border-box;
         border: 1px solid #e0e0e0;
         border-left: 4px solid dbColor(OutstandingColor);
@@ -977,7 +1166,7 @@ flx-nav[mode=nav] li ul {
 
     .flx-menu ul {
         color: dbColor(txtMenuColor);
-        font-family: 'latoregular';
+        //font-family: 'latoregular';
         box-sizing: border-box;
         border: 1px solid #e0e0e0;
         border-left: 4px solid dbColor(OutstandingColor);
@@ -1262,6 +1451,10 @@ flx-nodemanager, flx-menumanager {
 
                             &.show-all {
                                 width: (26px + 4px) * 5;
+                            }
+
+                            &.show-half {
+                                width: (26px + 4px) * 3;
                             }
                         }
 

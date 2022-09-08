@@ -187,6 +187,9 @@ var flexygo;
         * @return {ToolbarButton} .
         */
         class ToolbarButton {
+            constructor() {
+                this.BagOnly = false;
+            }
         }
         api.ToolbarButton = ToolbarButton;
         /**
@@ -280,6 +283,24 @@ var flexygo;
             class GetHTMLResponse {
             }
             chart.GetHTMLResponse = GetHTMLResponse;
+            /**
+        * api for GetSettingsParameters
+        * @class GetSettingsParameters
+        * @constructor
+        * @return {GetSettingsParameters} .
+        */
+            class GetSettingsParameters {
+            }
+            chart.GetSettingsParameters = GetSettingsParameters;
+            /**
+        * api for GetSettingsResponse
+        * @class GetSettingsResponse
+        * @constructor
+        * @return {GetSettingsResponse} .
+        */
+            class GetSettingsResponse {
+            }
+            chart.GetSettingsResponse = GetSettingsResponse;
         })(chart = api.chart || (api.chart = {}));
     })(api = flexygo.api || (flexygo.api = {}));
 })(flexygo || (flexygo = {}));
@@ -350,6 +371,15 @@ var flexygo;
             }
             kanban.getKanbanParams = getKanbanParams;
             /**
+            * api for getKanbanColumnParams
+            * @class getKanbanParams
+            * @constructor
+            * @return {getKanbanParams} .
+            */
+            class getKanbanColumnParams {
+            }
+            kanban.getKanbanColumnParams = getKanbanColumnParams;
+            /**
             * api for getKanbanResponse
             * @class getKanbanResponse
             * @constructor
@@ -367,6 +397,15 @@ var flexygo;
             class kanbanSettings {
             }
             kanban.kanbanSettings = kanbanSettings;
+            /**
+            * api for kanbanSettingOrders
+            * @class kanbanSettingOrders
+            * @constructor
+            * @return {kanbanSettingOrders} .
+            */
+            class kanbanSettingOrders {
+            }
+            kanban.kanbanSettingOrders = kanbanSettingOrders;
         })(kanban = api.kanban || (api.kanban = {}));
     })(api = flexygo.api || (flexygo.api = {}));
 })(flexygo || (flexygo = {}));
@@ -536,6 +575,15 @@ var flexygo;
             class getComboTextParams {
             }
             edit.getComboTextParams = getComboTextParams;
+            /**
+        * api for getComboTextParamsByView
+        * @class getComboTextParamsByView
+        * @constructor
+        * @return {getComboTextParamsByView} .
+        */
+            class getComboTextParamsByView {
+            }
+            edit.getComboTextParamsByView = getComboTextParamsByView;
             /**
            * api for getComboDataParams
            * @class getComboDataParams

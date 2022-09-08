@@ -46,6 +46,7 @@ declare namespace flexygo.ui.wc {
         };
         filterValues: flexygo.ui.wc.FlxFilterInfo[];
         activeFilter: string;
+        userDefinedGroups: boolean;
         searchSettings: {
             [key: string]: flexygo.api.SearchSettings;
         };
@@ -59,6 +60,7 @@ declare namespace flexygo.ui.wc {
         data: any;
         buttons: flexygo.api.Toolbar;
         groups: flexygo.api.TemplateGroupCollection;
+        groupList: flexygo.api.TemplateGroupCollection;
         viewId: string;
         pager: JQuery;
         presetId: string;
@@ -87,7 +89,7 @@ declare namespace flexygo.ui.wc {
         * @method sort
         * @param  {api.list.PropertyOrder[]} orderInfo
         */
-        sortByObj(orderInfo: api.list.PropertyOrder[]): void;
+        sortByObj(orderInfo: api.list.PropertyOrder[], groupsInfo: flexygo.api.TemplateGroupCollection): void;
         sort(columnItem: Element, property: string, ascMode?: boolean): void;
         loadPager(): void;
         setPreset(presetName: string, presetText: string, presetIcon: string): void;

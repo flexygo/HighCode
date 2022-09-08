@@ -88,6 +88,20 @@ function initPage() {
             }
         });
     }
+    if (flexygo.utils.isTactilModeActive()) {
+        $('html').addClass("tactilMode");
+    }
+    let oldIcon, newIcon;
+    if (flexygo.utils.isFullScreenActive()) {
+        oldIcon = "icon-expand-4";
+        newIcon = "icon-collapse";
+    }
+    else {
+        oldIcon = "icon-collapse";
+        newIcon = "icon-expand-4";
+    }
+    $('#mainMenu li[title="Toggle full screen"] i').removeClass(oldIcon);
+    $('#mainMenu li[title="Toggle full screen"] i').addClass(newIcon);
     let param = flexygo.utils.querystring.getParamValue(document.location.href, 'u');
     if (param) {
         let dataObj = flexygo.history.Base64.decode(param);
@@ -116,7 +130,7 @@ function initPage() {
 */
 function resizeMain() {
     if (!flexygo.utils.isSizeMobile()) {
-        $('#mainBlock').css('min-height', (!($('body.header-follows').length > 0 || $('body.header-overflow').length > 0)) ? $(window).height() - $('header:first').height() + 'px' : '100%');
+        $('#mainBlock').css('min-height', (!($('body.header-follows').length > 0 || $('body.header-overflow').length > 0)) ? $(window).height() - $('header:first').outerHeight() + 'px' : '100%');
     }
 }
 /**
@@ -127,6 +141,12 @@ function resizeMain() {
 function loadPage(hist) {
     if (hist) {
         flexygo.history.go(hist);
+        if (hist.successMessage) {
+            flexygo.msg.success(hist.successMessage);
+        }
+        if (hist.errorMessage) {
+            flexygo.msg.error(hist.errorMessage);
+        }
     }
     else {
         flexygo.nav.goHome(true);

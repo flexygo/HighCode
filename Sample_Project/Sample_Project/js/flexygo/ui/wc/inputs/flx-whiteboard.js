@@ -38,7 +38,6 @@ var flexygo;
                 */
                 connectedCallback() {
                     let element = $(this);
-                    this.connected = true;
                     this.type = element.attr('type') || 'html';
                     let propName = element.attr('property');
                     if (propName && flexygo.utils.isBlank(this.options)) {
@@ -130,6 +129,7 @@ var flexygo;
                     if (Value && Value !== '') {
                         this.setValue(Value);
                     }
+                    this.connected = true;
                 }
                 /**
                * Array of observed attributes. REQUIRED
@@ -197,14 +197,19 @@ var flexygo;
                             this.options.IsRequiredMessage = newVal;
                             this.refresh();
                         }
-                        if (attrName.toLowerCase() === 'class' && newVal && newVal !== '') {
+                        if (attrName.toLowerCase() === 'class' && element.attr('Control-Class') !== newVal && newVal != oldVal) {
                             if (!this.options) {
                                 this.options = new flexygo.api.ObjectProperty();
                             }
                             this.options.CssClass = newVal;
-                            element.attr('Control-Class', this.options.CssClass);
-                            element.attr('Class', '');
-                            this.refresh();
+                            if (element.attr('Control-Class') !== this.options.CssClass) {
+                                if (newVal != '') {
+                                    element.attr('Control-Class', this.options.CssClass);
+                                    element.attr('Class', this.options.CssClass);
+                                }
+                                //element.attr('Class', '');
+                                this.refresh();
+                            }
                         }
                         if (attrName.toLowerCase() === 'placeholder' && newVal && newVal !== '') {
                             if (!this.options) {
@@ -380,11 +385,11 @@ var flexygo;
                     let pizarraHtml = `<div id="WBContainer" style="z-index:999999;width:100%;height:100%;position:fixed;margin:0px;padding:0px;top:0px;left:0px;background-color:white;text-align:center;">
                <canvas id="WBcanvas"></canvas>               
                    <nav class="WBButtonsContainer">
-                  <a href="#" class="WBColorButtons Colours"></a>
-                   <a href="#" class="WBColorButtons Colours"></a>
-                    <a href="#" class="WBColorButtons Colours"></a>
+                  <a class="WBColorButtons Colours clickable"></a>
+                   <a class="WBColorButtons Colours clickable"></a>
+                    <a class="WBColorButtons Colours clickable"></a>
                     <input id="WBWeight" class="WBColorButtons" type="range" min="0.5" max="15" value="0.5" step="0.1" name="weight" >
-                   <a href="#" id="WBControlButton" class="WBColorButtons" ></a>
+                   <a id="WBControlButton" class="WBColorButtons clickable" ></a>
                   </nav>
                    <!-- <i id="WBUpload"  tooltip="Subir Imagen" class="WBActionButtons"><input id="subirImagen" type="file" name="files[]" accept="image/*"></i>-->
                   <i id="WBSave" tooltip="Guardar"   class="WBActionButtons"></i>

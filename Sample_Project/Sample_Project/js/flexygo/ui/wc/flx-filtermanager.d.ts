@@ -50,6 +50,16 @@ declare namespace flexygo.ui.wc {
        */
         getFilters(): void;
         /**
+         * Hides the properties already selected
+         * @method hideProperties
+         * */
+        hideProperties(): void;
+        /**
+         * Show the hidden properties
+         * @method showProperties
+         * */
+        showProperties(): void;
+        /**
         * Add a new filter
         * @method newFilter
         */

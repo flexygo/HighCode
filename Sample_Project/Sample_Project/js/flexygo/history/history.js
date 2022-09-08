@@ -170,7 +170,9 @@ var flexygo;
             if (flexygo.utils.deepLinking && targetId.closest('main').is('#realMain')) {
                 url = flexygo.utils.resolveUrl('~/Index') + '#' + flexygo.history.Base64.encode(JSON.stringify(dataObj));
             }
-            window.history.replaceState(dataObj, null, url);
+            if (targetId.closest('main').is('#realMain')) {
+                window.history.replaceState(dataObj, null, url);
+            }
             if (targetId && targetId.length > 0) {
                 $(targetId).closest('.pageContainer').data('context', dataObj);
             }

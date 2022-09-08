@@ -15,7 +15,7 @@
 }
 
 .easy-list li:first-child {
-    border-left: none;
+    border-left: 1px dotted #c7c7c7;
     padding-left: 0;
 }
 
@@ -42,32 +42,53 @@ flx-easyinfo:not([modulename]), .flx-easyinfo {
 }
 
 flx-easyinfo[Size=s] h5, .flx-easyinfo[Size=s] h5 {
-    font-size: 12px
+    font-size: 12px;
+}
+
+flx-easyinfo[Size=s] h5 i, .flx-easyinfo[Size=s] h5 i {
+    font-size: 18px;
+    float: left;
 }
 
 flx-easyinfo[Size=s] h5 span, .flx-easyinfo[Size=s] h5 span {
     font-size: 18px;
     margin-top: 2px;
+    margin-bottom: 4px;
+    text-align: left;
 }
-
+//
 flx-easyinfo[Size=m] h5, .flx-easyinfo[Size=m] h5 {
-    font-size: 16px
+    font-size: 16px;
+
 }
 
-flx-easyinfo[Size=m] h5 span, .flx-easyinfo[Size=m] h5 span {
+flx-easyinfo[Size=m] h5 i, .flx-easyinfo[Size=m] h5 i {
+    font-size: 22px;
+    float: left;
+}
+
+flx-easyinfo[Size=m] h5 span, .flx-easyinfo[Size=m] h5 span{
     font-size: 22px;
     margin-top: 4px;
+    margin-bottom: 6px;
+    text-align: left;
 }
-
+//
 flx-easyinfo[Size=l] h5, .flx-easyinfo[Size=l] h5 {
-    font-size: 20px
+    font-size: 20px;
+}
+flx-easyinfo[Size=l] h5 i, .flx-easyinfo[Size=l] h5 i {
+    font-size: 26px;
+    float: left;
 }
 
 flx-easyinfo[Size=l] h5 span, .flx-easyinfo[Size=l] h5 span {
-    font-size: 24px;
+    font-size: 26px;
     margin-top: 8px;
+    margin-bottom: 10px;
+    text-align: left;
 }
-
+//
 a flx-easyinfo {
     color: initial
 }
@@ -87,6 +108,7 @@ flx-easyinfo h5 {
     text-transform: uppercase;
     //margin-bottom:10px;
     color: inherit;
+    min-width:100px;
 }
 
 flx-easyinfo h5 span {
@@ -98,6 +120,7 @@ flx-easyinfo h5 span {
     text-align: center;
 }
 
-flx-easyinfo h5 span i {
+flx-easyinfo h5 i {
+    color: dbColor(OutstandingColor);
     margin-right: 4px;
 }

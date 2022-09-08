@@ -35,6 +35,8 @@ var flexygo;
                     this.defaults = null;
                     this.JSforParams = null;
                     this.dependenciesLoaded = false;
+                    this.loadingDependencies = 0;
+                    this.pendingSaveButton = null;
                 }
                 /**
                 * Fires when element is attached to DOM
@@ -106,6 +108,7 @@ var flexygo;
                     });
                     let me = $(this);
                     me.removeAttr('manualInit');
+                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
                     this.templateId = null;
                     switch (me.attr('Mode')) {
                         case 'process':
@@ -359,7 +362,7 @@ var flexygo;
                 initValidate() {
                     let me = $(this);
                     me.find('form').validate({
-                        ignore: '',
+                        ignore: '.hidProps input, .hidProps select, .hidProps textarea, .hidProps [contenteditable]',
                         unhighlight: (element, errorClass, validClass) => {
                             $(element).parent().addClass('has-success').removeClass('has-error');
                         },
@@ -377,6 +380,14 @@ var flexygo;
                         },
                         errorClass: 'txt-danger'
                     });
+                }
+                addLock() {
+                    $(this).append('<div style="position:absolute;z-index:60;top:0px;bottom:0px;left:0px;right:0px;background-color:rgba(255,255,255,0.5);" class="lockDiv">&nbsp;</div>');
+                    $(this).closest('.cntBody').css('position', 'relative');
+                }
+                removeLock() {
+                    $(this).closest('.cntBody').css('position', '');
+                    $(this).find('.lockDiv').remove();
                 }
                 /**
                 * Starts control rendering.
@@ -441,7 +452,9 @@ var flexygo;
                             //Manual implementation of areyousure on popup dialogs
                             let dlg = me.closest("main.pageContainer");
                             dlg.off("dialogbeforeclose").on("dialogbeforeclose", () => {
-                                return this.checkDirtyEdit();
+                                if (!dlg.hasClass("closing")) {
+                                    return this.checkDirtyEdit();
+                                }
                             });
                         }
                     }
@@ -480,8 +493,10 @@ var flexygo;
                                         type: "closed",
                                         sender: dlg.data('context')
                                     };
+                                    dlg.addClass("closing");
                                     flexygo.events.trigger(ev);
-                                    dlg.dialog('destroy').remove();
+                                    dlg.dialog('close');
+                                    //dlg.dialog('destroy').remove();
                                 }
                             }
                         });
@@ -628,18 +643,26 @@ var flexygo;
                             IsView: false,
                             Properties: Properties
                         };
+                        this.paintLoadingEdit();
                         flexygo.ajax.post('~/api/Edit', 'processAllDependencies', params, (response) => {
                             if (response) {
+                                let orderStackExecution = false;
                                 for (let i = 0; i < response.length; i++) {
                                     let itm = response[i];
                                     let prop = me.find('[property="' + itm.PropertyName + '"]');
                                     let lblprop = me.find('[lblproperty="' + itm.PropertyName + '"]');
                                     if (prop.length > 0) {
                                         this.refreshProperty(itm, prop, lblprop, true);
+                                        if (itm.changeVisibility)
+                                            orderStackExecution = true;
                                     }
+                                }
+                                if (flexygo.utils.isSizeSmartphone() && orderStackExecution) {
+                                    this.orderStack();
                                 }
                             }
                             this.dependenciesLoaded = true;
+                            this.removeLoadingEdit();
                         });
                     }
                 }
@@ -650,7 +673,7 @@ var flexygo;
                 restartPosition() {
                     let me = $(this);
                     for (let key in this.properties) {
-                        let prop = me.find('[property=' + this.properties[key].Name + ']');
+                        let prop = me.find('[property="' + this.properties[key].Name + '"]');
                         prop.closest('[data-gs-y]').attr('data-gs-y', this.properties[key].PositionY);
                     }
                     let gd = me.find('.grid-stack').data('gridstack');
@@ -785,6 +808,9 @@ var flexygo;
                                         let lblHeight = 25;
                                         prop.css('height', 'calc(100% - ' + lblHeight + 'px)');
                                     }
+                                    else if (this.properties[row.name].ControlType == 'uploadfile' || this.properties[row.name].ControlType == 'uploadbase64') {
+                                        prop.css('height', 'inherit');
+                                    }
                                 }
                             }
                             container.attr('data-gs-x', row.positionx);
@@ -847,12 +873,14 @@ var flexygo;
                         let IName = cntl.options.Name;
                         let IPositionX = cntl.options.PositionX;
                         let IPositionY = cntl.options.PositionY;
+                        let IIconClass = cntl.options.IconClass;
                         cntl.options = itm.newCustomProperty;
                         cntl.options.ObjectName = IObjectName;
                         cntl.options.Name = IName;
                         cntl.options.PositionX = IPositionX;
                         cntl.options.PositionY = IPositionY;
                         cntl.options.DropDownValues = itm.newSqlItems;
+                        cntl.options.IconClass = itm.newCustomProperty.IconClass;
                         prop.replaceWith(element);
                         prop = element;
                     }
@@ -869,7 +897,11 @@ var flexygo;
                             if (typeof ctlClass != 'undefined') {
                                 prop.attr('control-class', ctlClass.replace('hideControl', ''));
                                 prop.find('.hideControl').removeClass('hideControl');
+                                let cntl = prop[0];
+                                cntl.options.CssClass = cntl.options.CssClass.replace("hideControl", "");
                             }
+                            //added 10082021
+                            prop.parent().find('.hideControl').removeClass('hideControl');
                         }
                         else {
                             prop.addClass('hideControl');
@@ -903,9 +935,11 @@ var flexygo;
                     if (itm.changeRequired) {
                         if (itm.newRequired) {
                             prop.attr('required', 1);
+                            lblprop.addClass("required");
                         }
                         else {
                             prop.removeAttr('required');
+                            lblprop.removeClass("required");
                         }
                     }
                     if (itm.changeValue) {
@@ -925,14 +959,14 @@ var flexygo;
                                     });
                                 }
                                 // If control have class [data-msg-sqlvalidator] validation is executed
-                                let elm = me.find("[property=" + propertyName + "]");
+                                let elm = me.find('[property="' + propertyName + '"]');
                                 if ((elm[0].tagName).toLowerCase() == 'flx-radio') {
-                                    if (typeof elm.find("[name=" + propertyName + "]:first").attr("data-msg-sqlvalidator") !== typeof undefined) {
+                                    if (typeof elm.find('[name="' + propertyName + '"]:first').attr("data-msg-sqlvalidator") !== typeof undefined) {
                                         this.validateSQLProperty(propertyName, Properties);
                                     }
                                 }
                                 else {
-                                    if (typeof elm.find("[name=" + propertyName + "].form-control").attr("data-msg-sqlvalidator") !== typeof undefined) {
+                                    if (typeof elm.find('[name="' + propertyName + '"].form-control').attr("data-msg-sqlvalidator") !== typeof undefined) {
                                         this.validateSQLProperty(propertyName, Properties);
                                     }
                                 }
@@ -991,6 +1025,38 @@ var flexygo;
                     }
                 }
                 /**
+                * Order the gridstack control
+                * @method orderStack
+                */
+                orderStack() {
+                    let me = $(this);
+                    let props = me.find('.grid-stack-item');
+                    let orderProps = [];
+                    for (let i = 0; i < props.length; i++) {
+                        let prop = $(props[i]);
+                        orderProps.push({
+                            Prop: prop,
+                            PositionX: this.properties[prop.find('[property]').attr('property')].PositionX,
+                            PositionY: this.properties[prop.find('[property]').attr('property')].PositionY
+                        });
+                    }
+                    orderProps.sort((a, b) => {
+                        if (a.PositionY < b.PositionY)
+                            return -1;
+                        if (a.PositionY > b.PositionY)
+                            return 1;
+                        if (a.PositionX < b.PositionX)
+                            return -1;
+                        if (a.PositionX > b.PositionX)
+                            return 1;
+                        return 0;
+                    });
+                    props.detach();
+                    for (let i = 0; i < orderProps.length; i++) {
+                        me.find('.grid-stack').append(orderProps[i].Prop);
+                    }
+                }
+                /**
                * Gets module full Id using pagename objectname modulename
                * @method getModuleFullId
                * @return {string}
@@ -1021,13 +1087,13 @@ var flexygo;
                     flexygo.ajax.syncPost('~/api/Edit', 'ValidateProperty', SQLValidatorparams, (response) => {
                         //Change attribute value
                         //Select element depending type of control
-                        let element = $(this).find("[property=" + propertyName + "]");
+                        let element = $(this).find('[property="' + propertyName + '"]');
                         let prop;
                         if ((element[0].tagName).toLowerCase() == 'flx-radio') {
-                            prop = element.find("[name=" + SQLValidatorparams.PropertyName + "]:first");
+                            prop = element.find('[name="' + SQLValidatorparams.PropertyName + '"]:first');
                         }
                         else {
-                            prop = element.find("[name=" + SQLValidatorparams.PropertyName + "]");
+                            prop = element.find('[name="' + SQLValidatorparams.PropertyName + '"]');
                         }
                         // If the respone is [TRUE] then the validation is correct else is incorrect
                         if (response) {
@@ -1036,10 +1102,80 @@ var flexygo;
                         else {
                             prop.attr("sqlvalidator", 0);
                         }
-                        if (element.attr('type') == 'time' || element.attr('type') == 'date' || element.attr('type') == 'datetime-local') {
+                        if (element.attr('type') == 'time' || element.attr('type') == 'date' || element.attr('type') == 'datetime-local' || element[0].localName == 'flx-tag') {
                             prop.valid();
                         }
+                        if (element.attr('type') == 'text' || element[0].localName == 'flx-tag') {
+                            $(prop).valid();
+                        }
                     });
+                }
+                /**
+                * Validate every property thas has an SQL validation configured
+                * @method validateSQLProperties
+                */
+                validateSQLProperties() {
+                    let me = $(this);
+                    let props = me.find('[property]');
+                    if (props.length > 0) {
+                        let Properties = [];
+                        let SQLPropertiesNames = [];
+                        for (let i = 0; i < props.length; i++) {
+                            let prop = $(props[i])[0];
+                            Properties.push({
+                                Key: prop.property,
+                                Value: prop.getValue()
+                            });
+                            if (typeof $(prop).find('[name="' + prop.property + '"].form-control').attr("data-msg-sqlvalidator") !== typeof undefined) {
+                                SQLPropertiesNames.push(prop.property);
+                            }
+                        }
+                        for (let i = 0; i < SQLPropertiesNames.length; i++) {
+                            this.validateSQLProperty(SQLPropertiesNames[i], Properties);
+                        }
+                    }
+                }
+                paintLoadingEdit() {
+                    let containerItem = $(this).parent();
+                    containerItem.addClass("flx-relative");
+                    let editForm = containerItem.find('form');
+                    editForm.addClass('flx-opacity');
+                    if (containerItem.find('#flx-dependency-loader').length == 0) {
+                        containerItem.append('<div id="flx-dependency-loader"></div>');
+                    }
+                }
+                removeLoadingEdit() {
+                    let containerItem = $(this).parent();
+                    containerItem.removeClass("flx-relative");
+                    let editForm = containerItem.find('form');
+                    editForm.removeClass('flx-opacity');
+                    containerItem.find('#flx-dependency-loader').remove();
+                }
+                paintLoadingProperty(e) {
+                    let containerItem = $(e.sender).closest('.item');
+                    containerItem.addClass('flx-relative flx-opacity');
+                    if (containerItem.parent().find('#flx-dependency-loader').length == 0) {
+                        containerItem.parent().append('<div id="flx-dependency-loader"></div>');
+                    }
+                    let dependingProp = e.sender.options.DependingProperties;
+                    for (let i = 0; i < dependingProp.length; i++) {
+                        let itemDepending = $(e.sender).closest('flx-edit').find(`[property="${dependingProp[i].DependantPropertyName}"]`).closest('.item');
+                        if (itemDepending.parent().find('#flx-dependency-loader').length == 0) {
+                            itemDepending.parent().append('<div id="flx-dependency-loader"></div>');
+                            itemDepending.addClass('flx-relative flx-opacity');
+                        }
+                    }
+                }
+                removeLoadingProperty(e) {
+                    let containerItem = $(e.sender).closest('.item');
+                    containerItem.parent().find('#flx-dependency-loader').remove();
+                    containerItem.removeClass('flx-relative flx-opacity');
+                    let dependingProp = e.sender.options.DependingProperties;
+                    for (let i = 0; i < dependingProp.length; i++) {
+                        let itemDepending = $(e.sender).closest('flx-edit').find(`[property="${dependingProp[i].DependantPropertyName}"]`).closest('.item');
+                        itemDepending.parent().find('#flx-dependency-loader').remove();
+                        itemDepending.removeClass('flx-relative flx-opacity');
+                    }
                 }
                 /**
               * Captures property change event
@@ -1055,6 +1191,7 @@ var flexygo;
                         wc = $(e.sender);
                         if (me.find(wc).length > 0) {
                             if (props.length > 0) {
+                                this.paintLoadingProperty(e);
                                 let Properties = [];
                                 for (let i = 0; i < props.length; i++) {
                                     let prop = $(props[i])[0];
@@ -1064,14 +1201,14 @@ var flexygo;
                                     });
                                 }
                                 // If control have class [data-msg-sqlvalidator] validation is executed
-                                let elm = me.find("[property=" + propertyName + "]");
+                                let elm = me.find('[property="' + propertyName + '"]');
                                 if ((elm[0].tagName).toLowerCase() == 'flx-radio') {
-                                    if (typeof elm.find("[name=" + propertyName + "]:first").attr("data-msg-sqlvalidator") !== typeof undefined) {
+                                    if (typeof elm.find('[name="' + propertyName + '"]:first').attr("data-msg-sqlvalidator") !== typeof undefined) {
                                         this.validateSQLProperty(propertyName, Properties);
                                     }
                                 }
                                 else {
-                                    if (typeof elm.find("[name=" + propertyName + "].form-control").attr("data-msg-sqlvalidator") !== typeof undefined) {
+                                    if (typeof elm.find('[name="' + propertyName + '"].form-control').attr("data-msg-sqlvalidator") !== typeof undefined) {
                                         this.validateSQLProperty(propertyName, Properties);
                                     }
                                 }
@@ -1082,19 +1219,53 @@ var flexygo;
                                     PropertyName: propertyName,
                                     Properties: Properties
                                 };
+                                this.loadingDependencies += 1;
                                 flexygo.ajax.post('~/api/Edit', 'ProcessDependencies', params, (response) => {
-                                    if (response) {
-                                        for (let i = 0; i < response.length; i++) {
-                                            let itm = response[i];
-                                            let prop = me.find('[property="' + itm.PropertyName + '"]');
-                                            let lblprop = me.find('[lblproperty="' + itm.PropertyName + '"]');
-                                            if (prop.length > 0) {
-                                                this.refreshProperty(itm, prop, lblprop, false);
+                                    try {
+                                        if (response) {
+                                            let orderStackExecution = false;
+                                            for (let i = 0; i < response.length; i++) {
+                                                let itm = response[i];
+                                                let prop = me.find('[property="' + itm.PropertyName + '"]');
+                                                let lblprop = me.find('[lblproperty="' + itm.PropertyName + '"]');
+                                                if (prop.length > 0) {
+                                                    this.refreshProperty(itm, prop, lblprop, false);
+                                                    if (itm.changeVisibility)
+                                                        orderStackExecution = true;
+                                                }
+                                            }
+                                            if (flexygo.utils.isSizeSmartphone() && orderStackExecution) {
+                                                this.orderStack();
+                                            }
+                                            this.restartPosition();
+                                            this.loadingDependencies -= 1;
+                                            if (this.pendingSaveButton && this.loadingDependencies <= 0) {
+                                                this.pendingSaveButton.click();
+                                                this.removeLock();
+                                                this.pendingSaveButton = null;
                                             }
                                         }
-                                        this.restartPosition();
+                                        this.removeLoadingProperty(e);
                                     }
-                                });
+                                    catch (e) {
+                                        flexygo.exceptions.httpShow(e);
+                                        this.loadingDependencies -= 1;
+                                        this.removeLoadingProperty(e);
+                                        if (this.pendingSaveButton && this.loadingDependencies <= 0) {
+                                            this.removeLock();
+                                            this.pendingSaveButton = null;
+                                        }
+                                    }
+                                    ;
+                                }), (error) => {
+                                    flexygo.exceptions.httpShow(error);
+                                    this.loadingDependencies -= 1;
+                                    this.removeLoadingProperty(e);
+                                    if (this.pendingSaveButton && this.loadingDependencies <= 0) {
+                                        this.removeLock();
+                                        this.pendingSaveButton = null;
+                                    }
+                                };
                             }
                         }
                     }

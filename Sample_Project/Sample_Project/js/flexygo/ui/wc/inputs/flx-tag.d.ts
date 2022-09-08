@@ -46,6 +46,7 @@ declare namespace flexygo.ui.wc {
         setValue(value: any): void;
         setValueView(value: any): void;
         getValue(): any;
+        getSeparator(): string;
         getOptions(strs: any): (q: any, cb: any) => void;
         /**
         * Trigger Dependencies.

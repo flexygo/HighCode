@@ -1,4 +1,4 @@
-import { r as registerInstance, q as getContext, j as h, k as getElement } from './index-76f52202.js';
+import { r as registerInstance, q as getContext, j as h, k as getElement } from './index-86ac49ff.js';
 
 /**
  * MediaStream ImageCapture polyfill
@@ -236,7 +236,7 @@ const CameraPWA = class {
     }
     async initPhotoCapabilities(imageCapture) {
         const c = await imageCapture.getPhotoCapabilities();
-        if (c.fillLightMode && c.fillLightMode.length > 1) {
+        if (c.fillLightMode.length > 1) {
             this.flashModes = c.fillLightMode.map(m => m);
             // Try to recall the current flash mode
             if (this.flashMode) {

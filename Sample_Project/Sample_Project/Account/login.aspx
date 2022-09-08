@@ -83,9 +83,9 @@
             $('head meta[name="viewport"]').remove();
 
           if (window.orientation == 0 || window.orientation == 180) { //Vertical
-            $('head').append('<meta name="viewport" content="width=550px, user-scalable=no" />');
+            $('head').append('<meta name="viewport" content="width=550, user-scalable=no" />');
           } else {
-             $('head').append('<meta name="viewport" content="width=1280px, user-scalable=no" />'); 
+             $('head').append('<meta name="viewport" content="width=1280, user-scalable=no" />'); 
           }
         }
     </script>
@@ -112,12 +112,12 @@
     <form id="form1" runat="server" DefaultButton="MainButton">
         <div id="login" class="login">
             <div class="divlogin">
-                <div class="flip-card" style="margin:0 auto;width: 320px;height:100px;" onclick="$(this).toggleClass('flip-card-reverse');">
+                <div class="flip-card"  onclick="$(this).toggleClass('flip-card-reverse');">
 		            <div class="flip-card-flipper">
 			            <div class="flip-card-front" >
-				            <div id="trademark" class="trademark" style="width: 320px;height:100px;">flexygo</div>
+				            <div id="trademark" class="trademark" >flexygo</div>
 			            </div>
-			            <div class="flip-card-back" style="width: 320px;height:100px;">
+			            <div class="flip-card-back" >
 				            <div id="logo" class="logo"></div>
 			            </div>
 		            </div>
@@ -140,6 +140,24 @@
                     </div>
                     <div class="others">
                         <asp:HyperLink runat="server" ID="ForgotPasswordHyperLink" ViewStateMode="Disabled">Forgot your password?</asp:HyperLink>
+                    </div>
+                    <div style="text-align:center;">
+                    <asp:LinkButton ID="azureAADLogin" runat="server" CausesValidation="False">
+                        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="250px" height="50px" viewBox="0 0 3078 512" class="azureSignInButton">
+                            <style type="text/css">
+                                .fnt0 {
+                                    font-size: 260px;
+                                    font-family: 'Segoe UI Semibold', 'Segoe UI';
+                                    text-decoration: none;
+                                }
+                            </style>
+                            <rect x="150" y="129" width="122" height="122" fill="#F35325" />
+                            <rect x="284" y="129" width="122" height="122" fill="#81BC06" />
+                            <rect x="150" y="263" width="122" height="122" fill="#05A6F0" />
+                            <rect x="284" y="263" width="122" height="122" fill="#FFBA08" />
+                            <text x="470" y="357" fill="white" class="fnt0">Login with Microsoft</text>
+                        </svg>
+                    </asp:LinkButton>
                     </div>
                 </section>
             </div>

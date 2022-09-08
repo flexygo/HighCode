@@ -31,7 +31,6 @@ var flexygo;
                */
                 connectedCallback() {
                     let element = $(this);
-                    this.connected = true;
                     var propName = element.attr('property');
                     if (propName && flexygo.utils.isBlank(this.options)) {
                         var parentCtl = element.closest('flx-edit,flx-list,flx-propertymanager,flx-view,flx-filter');
@@ -108,6 +107,7 @@ var flexygo;
                         this.options.Hide = Hide == 'true';
                     }
                     this.init();
+                    this.connected = true;
                 }
                 /**
                 * Array of observed attributes.

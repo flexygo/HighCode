@@ -1,5 +1,5 @@
-import { r as registerInstance, m as createEvent, j as h, l as Host, k as getElement } from './index-76f52202.js';
-import { g as getIonMode } from './ionic-global-53d785f3.js';
+import { r as registerInstance, m as createEvent, j as h, l as Host, k as getElement } from './index-86ac49ff.js';
+import { g as getIonMode } from './ionic-global-0f98fe97.js';
 
 const imgCss = ":host{display:block;object-fit:contain}img{display:block;width:100%;height:100%;object-fit:inherit;object-position:inherit}";
 
@@ -32,10 +32,12 @@ const Img = class {
             'isIntersecting' in window.IntersectionObserverEntry.prototype) {
             this.removeIO();
             this.io = new IntersectionObserver(data => {
-                // because there will only ever be one instance
-                // of the element we are observing
-                // we can just use data[0]
-                if (data[0].isIntersecting) {
+                /**
+                 * On slower devices, it is possible for an intersection observer entry to contain multiple
+                 * objects in the array. This happens when quickly scrolling an image into view and then out of
+                 * view. In this case, the last object represents the current state of the component.
+                 */
+                if (data[data.length - 1].isIntersecting) {
                     this.load();
                     this.removeIO();
                 }

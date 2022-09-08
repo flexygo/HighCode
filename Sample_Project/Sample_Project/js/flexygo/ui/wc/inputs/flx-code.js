@@ -240,11 +240,13 @@ var flexygo;
                     else {
                         this.readonly = false;
                     }
-                    let txtArea = $('<textarea id="txtHTML" style="min-height:100%;width:100%;"></textarea>');
-                    me.html(txtArea);
+                    let txtArea = '<textarea id="txtHTML" style="min-height:100%;width:100%;"></textarea>';
+                    let rnd = $(this.getWizardButton() + txtArea);
+                    me.html(rnd);
+                    this.setWizardSettings(this);
                     if (me.attr("onchange") && me.attr("onchange") != '') {
-                        txtArea.off('change');
-                        txtArea.on('change', () => { flexygo.utils.execDynamicCode.call(this, me.attr("onchange")); });
+                        rnd.off('change');
+                        rnd.on('change', () => { flexygo.utils.execDynamicCode.call(this, me.attr("onchange")); });
                     }
                     if (this.options && this.options.Locked) {
                         this.readonly = this.options.Locked;
@@ -400,6 +402,24 @@ var flexygo;
                         default:
                             return null;
                     }
+                }
+                getWizardButton() {
+                    if (this.options && this.options.SearchFunction) {
+                        return '<button class="btn btn-assistant" type= "button" name="wizardBtn" title= "' + flexygo.localization.translate('viewmanager.openwizard') + '"><i class="flx-icon icon-wizard-1"></i></button>';
+                    }
+                    return '';
+                }
+                setWizardSettings(m) {
+                    let wizardBtn = $(this).find('[name="wizardBtn"]');
+                    if ($(this).closest("flx-module").attr('type') == 'flx-edit') {
+                        wizardBtn.show();
+                    }
+                    else if ($(this).closest("flx-module").attr('type') == 'flx-view') {
+                        wizardBtn.hide();
+                    }
+                    wizardBtn.on('click', function () {
+                        flexygo.utils.execDynamicCode.call(m, m.options.SearchFunction);
+                    });
                 }
                 /**
                 * Trigger Dependencies.

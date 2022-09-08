@@ -133,6 +133,8 @@ declare namespace flexygo.api {
         AllowNewDefaults: string;
         ObjNameLink: string;
         ObjWhereLink: string;
+        ObjModeLink: string;
+        PageNameLink: string;
         TargetIdLink: string;
         Style: string;
         CssClass: string;
@@ -173,6 +175,8 @@ declare namespace flexygo.api {
         ImageMaxHeight: number;
         ExtensionId: string;
         Extensions: string;
+        HasDependencies: boolean;
+        HasDependingProperties: boolean;
         ObjectPath?: string;
         Type?: string;
         AllowNull?: boolean;
@@ -230,6 +234,8 @@ declare namespace flexygo.api {
         allownewdefaults: string;
         objnamelink: string;
         objwherelink: string;
+        objmodelink: string;
+        pagenamelink: string;
         targetidlink: string;
         style: string;
         cssclass: string;
@@ -269,6 +275,8 @@ declare namespace flexygo.api {
         imagemaxheight: number;
         extensionid: string;
         extensions: string;
+        hasdependencies: boolean;
+        hasdependingproperties: boolean;
         objectpath?: string;
         type?: string;
         allownull?: boolean;
@@ -442,6 +450,8 @@ declare namespace flexygo.api {
         ObjectName?: string;
         ObjectWhere?: string;
         ReportHasParams?: boolean;
+        BagOnly?: boolean;
+        BagObject?: string;
     }
     /**
     * api for TemplateGroupCollection
@@ -461,8 +471,11 @@ declare namespace flexygo.api {
     class TemplateGroup {
         GroupField: string;
         Order: number;
+        OrderMode: string;
         Header: string;
         Footer: string;
+        UserDefault: boolean;
+        Label: string;
     }
     /**
     * api for Template
@@ -492,9 +505,11 @@ declare namespace flexygo.api {
         TableData: any;
         TableColumns: object;
         Groups: TemplateGroupCollection;
+        GroupList: TemplateGroupCollection;
         Data: {
             [name: string]: flexygo.api.BasicProperty;
         };
+        UserDefinedGroups: boolean;
     }
     /**
     * api for ObjectViewProperty
@@ -587,6 +602,30 @@ declare namespace flexygo.api.chart {
             [name: string]: string;
         };
         Cache: number;
+        MixedChartLabels: string;
+        MixedChartTypes: string;
+        ChartLineBorderDash: boolean;
+        ChartLineFill: boolean;
+    }
+    /**
+* api for GetSettingsParameters
+* @class GetSettingsParameters
+* @constructor
+* @return {GetSettingsParameters} .
+*/
+    class GetSettingsParameters {
+        ChartSettingName: string;
+    }
+    /**
+* api for GetSettingsResponse
+* @class GetSettingsResponse
+* @constructor
+* @return {GetSettingsResponse} .
+*/
+    class GetSettingsResponse {
+        Settings: {
+            [name: string]: string;
+        };
     }
 }
 /**
@@ -660,6 +699,21 @@ declare namespace flexygo.api.kanban {
         filterValues: flexygo.ui.wc.FlxFilterInfo[];
     }
     /**
+    * api for getKanbanColumnParams
+    * @class getKanbanParams
+    * @constructor
+    * @return {getKanbanParams} .
+    */
+    class getKanbanColumnParams {
+        ObjectName: string;
+        ObjectWhere: string;
+        ModuleName: string;
+        AdditionalWhere: string;
+        ColumnId: string;
+        searchId: string;
+        filterValues: flexygo.ui.wc.FlxFilterInfo[];
+    }
+    /**
     * api for getKanbanResponse
     * @class getKanbanResponse
     * @constructor
@@ -709,6 +763,18 @@ declare namespace flexygo.api.kanban {
         EndBoxText: string;
         EndBoxIconName: string;
         EndBoxCssClass: string;
+        SettingOrders: kanbanSettingOrders[];
+    }
+    /**
+    * api for kanbanSettingOrders
+    * @class kanbanSettingOrders
+    * @constructor
+    * @return {kanbanSettingOrders} .
+    */
+    class kanbanSettingOrders {
+        OrderField: string;
+        Order: number;
+        OrderType: string;
     }
 }
 /**
@@ -794,6 +860,7 @@ declare namespace flexygo.api.timeline {
         OnDeleteFunction: string;
         CustomOptions: string;
         DefaultTime: number;
+        EventPageTypeId: string;
     }
     /**
    * api for timelineRanges
@@ -1065,6 +1132,18 @@ declare namespace flexygo.api.edit {
         SQLValueField: string;
     }
     /**
+* api for getComboTextParamsByView
+* @class getComboTextParamsByView
+* @constructor
+* @return {getComboTextParamsByView} .
+*/
+    class getComboTextParamsByView {
+        ObjectName: string;
+        ViewName: string;
+        ValueField: string;
+        Value: string;
+    }
+    /**
    * api for getComboDataParams
    * @class getComboDataParams
    * @constructor
@@ -1275,6 +1354,7 @@ declare namespace flexygo.api.entity {
         IconClass: string;
         IconName: string;
         IgnoreDBRequired: boolean;
+        ConfirmOkText: boolean;
         ImagePath: string;
         InsertFlowText: string;
         InsertProcessName: string;
@@ -1308,6 +1388,7 @@ declare namespace flexygo.api.entity {
         ObjectLink: flexygo.api.navigation.NavigationNode;
         ReportLink: flexygo.api.navigation.NavigationNode;
         ProcessLink: flexygo.api.navigation.NavigationNode;
+        Defaults?: flexygo.api.GenericKeyValueObject[];
     }
     /**
     * api for GetConfigParams
@@ -1406,6 +1487,7 @@ declare namespace flexygo.api.html {
         ObjectWhere: string;
         ModuleName: string;
         PageName: string;
+        Defaults?: flexygo.api.GenericKeyValueObject[];
     }
     /**
     * api for GetHTMLResponse
@@ -1493,6 +1575,7 @@ declare namespace flexygo.api.list {
         ObjectName: string;
         ObjectWhere: string;
         ModuleName: string;
+        Defaults?: flexygo.api.GenericKeyValueObject[];
         PageName: string;
         Page: number;
         AdditionalWhere: string;
@@ -1504,6 +1587,7 @@ declare namespace flexygo.api.list {
         ViewId: string;
         PageSize?: number;
         PresetId?: string;
+        GroupsInfo?: flexygo.api.TemplateGroupCollection;
     }
     /**
     * api for getListResponse
@@ -1531,6 +1615,7 @@ declare namespace flexygo.api.list {
         Searcher: boolean;
         Properties: flexygo.api.ObjectPropertyCollection;
         Presets: flexygo.api.PresetSettingsCollection;
+        TemplateToolbarCollection: any;
         CanDelete: boolean;
         CanInsert: boolean;
         CanUpdate: boolean;
@@ -1913,6 +1998,7 @@ declare namespace flexygo.api.process {
         ProcessName: string;
         TypeId: ProcessType;
         ConfirmText: string;
+        LoadingMessage: string;
         JSforParams: string;
         File: string;
         ClassName: string;
@@ -2067,6 +2153,7 @@ declare namespace flexygo.api.sys {
     */
     class setSkinCacheVarsParams {
         VarValues: [flexygo.api.GenericKeyValueObject];
+        SkinId: String;
     }
     /**
     * api for UserSearchSettings
@@ -2340,6 +2427,7 @@ declare namespace flexygo.api.sys {
         ViewName: string;
         Properties: flexygo.api.SearchProperty[];
         SQL: string;
+        Mode: string;
     }
     /**
     * api for getViewParams
@@ -2395,6 +2483,7 @@ declare namespace flexygo.api.view {
         IsNew: boolean;
         Title: string;
         Properties: ObjectPropertyCollection;
+        TemplateToolbarCollection: any;
     }
 }
 /**
@@ -2457,6 +2546,7 @@ declare namespace flexygo.api.pages {
         ShowWhenNew: boolean;
         InitHidden: boolean;
         ManualInit: boolean;
+        HTMLInit: string;
         ModuleObjectName: string;
         PresetName: string;
         PresetText: string;

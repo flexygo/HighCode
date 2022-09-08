@@ -77,9 +77,39 @@ flx-sortmanager .box {
     overflow: auto;
 }
 
-flx-sortmanager > div{
-    height:100%;
-    text-align:left;
+flx-sortmanager > div {
+    height: 100%;
+    text-align: left;
+}
+
+flx-sortmanager .fieldPanel{
+    background-color: white;
+}
+
+flx-sortmanager .sortData, flx-sortmanager .groupData, flx-sortmanager .fieldspanel {
+    height: 100%;
+}
+
+flx-sortmanager .flex-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: stretch;
+    align-items: flex-start;
+}
+
+flx-sortmanager .tabPanel {
+    order: 0;
+    flex: 0 0 auto;
+    align-self: stretch;
+    height: 40px;
+}
+
+flx-sortmanager .fieldPanel {
+    order: 1;
+    flex: 1 0 auto;
+    align-self: stretch;
 }
 
 flx-sortmanager .textLabel {

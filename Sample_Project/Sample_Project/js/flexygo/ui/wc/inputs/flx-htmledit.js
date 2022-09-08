@@ -37,7 +37,6 @@ var flexygo;
                 */
                 connectedCallback() {
                     let element = $(this);
-                    this.connected = true;
                     this.type = element.attr('type') || 'html';
                     let propName = element.attr('property');
                     if (propName && flexygo.utils.isBlank(this.options)) {
@@ -129,6 +128,7 @@ var flexygo;
                     if (Value && Value !== '') {
                         this.setValue(Value);
                     }
+                    this.connected = true;
                 }
                 /**
                * Array of observed attributes. REQUIRED
@@ -195,14 +195,19 @@ var flexygo;
                             this.options.IsRequiredMessage = newVal;
                             this.refresh();
                         }
-                        if (attrName.toLowerCase() === 'class' && newVal && newVal !== '') {
+                        if (attrName.toLowerCase() === 'class' && element.attr('Control-Class') !== newVal && newVal != oldVal) {
                             if (!this.options) {
                                 this.options = new flexygo.api.ObjectProperty();
                             }
                             this.options.CssClass = newVal;
-                            element.attr('Control-Class', this.options.CssClass);
-                            element.attr('Class', '');
-                            this.refresh();
+                            if (element.attr('Control-Class') !== this.options.CssClass) {
+                                if (newVal != '') {
+                                    element.attr('Control-Class', this.options.CssClass);
+                                    element.attr('Class', this.options.CssClass);
+                                }
+                                //element.attr('Class', '');
+                                this.refresh();
+                            }
                         }
                         if (attrName.toLowerCase() === 'iconclass' && newVal && newVal !== '') {
                             if (!this.options) {
@@ -236,11 +241,15 @@ var flexygo;
                 }
                 init() {
                     let me = $(this);
+                    let val = this.getValue();
                     if (me.attr('mode') && me.attr('mode').toLowerCase() === 'view') {
                         this.initViewMode();
                     }
                     else {
                         this.initEditMode();
+                    }
+                    if (val && val !== "") {
+                        this.setValue(val);
                     }
                 }
                 initViewMode() {
@@ -328,7 +337,7 @@ var flexygo;
                         me.addClass("hideControl");
                     }
                     if (this.options && this.options.CauseRefresh) {
-                        input.on('change', () => {
+                        me.find('.summernote').on('summernote.change', () => {
                             //$(document).trigger('refreshProperty', [input.closest('flx-edit'), this.options.Name]);
                             let ev = {
                                 class: "property",
@@ -349,6 +358,7 @@ var flexygo;
                 }
                 setValue(value) {
                     $(this).find('textarea').val(value);
+                    $(this).find(".summernote").summernote("code", $(this).find('textarea')[0].value);
                     if (this.myCM) {
                         this.myCM.getDoc().setValue(value);
                     }

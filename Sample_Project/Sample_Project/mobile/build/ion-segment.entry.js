@@ -1,11 +1,11 @@
-import { r as registerInstance, m as createEvent, f as writeTask, j as h, l as Host, k as getElement } from './index-76f52202.js';
-import { c as config, g as getIonMode } from './ionic-global-53d785f3.js';
-import { p as pointerCoord } from './helpers-742de4f9.js';
-import { c as createColorClasses, h as hostContext } from './theme-d8afa044.js';
+import { r as registerInstance, m as createEvent, f as writeTask, j as h, l as Host, k as getElement } from './index-86ac49ff.js';
+import { c as config, g as getIonMode } from './ionic-global-0f98fe97.js';
+import { p as pointerCoord } from './helpers-719f4c54.js';
+import { c as createColorClasses, h as hostContext } from './theme-f934266c.js';
 
-const segmentIosCss = ":host{--ripple-color:currentColor;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;display:flex;position:relative;align-items:stretch;justify-content:center;width:100%;background:var(--background);font-family:var(--ion-font-family, inherit);text-align:center;contain:paint}:host(.segment-scrollable){justify-content:start;width:auto;overflow-x:auto}:host(.segment-scrollable::-webkit-scrollbar){display:none}:host{--background:rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.065);border-radius:8px;overflow:hidden;z-index:0}:host(.ion-color){background:rgba(var(--ion-color-base-rgb), 0.065)}:host(.in-toolbar){margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;width:auto}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){:host(.in-toolbar){margin-left:unset;margin-right:unset;-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto}}:host(.in-toolbar:not(.ion-color)){background:var(--ion-toolbar-segment-background, var(--background))}:host(.in-toolbar-color:not(.ion-color)){background:rgba(var(--ion-color-contrast-rgb), 0.11)}";
+const segmentIosCss = ":host{--ripple-color:currentColor;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;display:flex;position:relative;align-items:stretch;justify-content:center;width:100%;background:var(--background);font-family:var(--ion-font-family, inherit);text-align:center;contain:paint;user-select:none}:host(.segment-scrollable){justify-content:start;width:auto;overflow-x:auto}:host(.segment-scrollable::-webkit-scrollbar){display:none}:host{--background:rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.065);border-radius:8px;overflow:hidden;z-index:0}:host(.ion-color){background:rgba(var(--ion-color-base-rgb), 0.065)}:host(.in-toolbar){margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;width:auto}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){:host(.in-toolbar){margin-left:unset;margin-right:unset;-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto}}:host(.in-toolbar:not(.ion-color)){background:var(--ion-toolbar-segment-background, var(--background))}:host(.in-toolbar-color:not(.ion-color)){background:rgba(var(--ion-color-contrast-rgb), 0.11)}";
 
-const segmentMdCss = ":host{--ripple-color:currentColor;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;display:flex;position:relative;align-items:stretch;justify-content:center;width:100%;background:var(--background);font-family:var(--ion-font-family, inherit);text-align:center;contain:paint}:host(.segment-scrollable){justify-content:start;width:auto;overflow-x:auto}:host(.segment-scrollable::-webkit-scrollbar){display:none}:host{--background:transparent}:host(.segment-scrollable) ::slotted(ion-segment-button){min-width:auto}";
+const segmentMdCss = ":host{--ripple-color:currentColor;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;display:flex;position:relative;align-items:stretch;justify-content:center;width:100%;background:var(--background);font-family:var(--ion-font-family, inherit);text-align:center;contain:paint;user-select:none}:host(.segment-scrollable){justify-content:start;width:auto;overflow-x:auto}:host(.segment-scrollable::-webkit-scrollbar){display:none}:host{--background:transparent}:host(.segment-scrollable) ::slotted(ion-segment-button){min-width:auto}";
 
 const Segment = class {
     constructor(hostRef) {
@@ -25,11 +25,22 @@ const Segment = class {
          * in order to swipe to see hidden buttons.
          */
         this.scrollable = false;
+        /**
+         * If `true`, users will be able to swipe between segment buttons to activate them.
+         */
+        this.swipeGesture = true;
         this.onClick = (ev) => {
             const current = ev.target;
             const previous = this.checked;
+            // If the current element is a segment then that means
+            // the user tried to swipe to a segment button and
+            // click a segment button at the same time so we should
+            // not update the checked segment button
+            if (current.tagName === 'ION-SEGMENT') {
+                return;
+            }
             this.value = current.value;
-            if (this.scrollable) {
+            if (this.scrollable || !this.swipeGesture) {
                 if (previous) {
                     this.checkButton(previous, current);
                 }
@@ -39,6 +50,21 @@ const Segment = class {
             }
             this.checked = current;
         };
+    }
+    colorChanged(value, oldValue) {
+        /**
+         * If color is set after not having
+         * previously been set (or vice versa),
+         * we need to emit style so the segment-buttons
+         * can apply their color classes properly.
+         */
+        if ((oldValue === undefined && value !== undefined) ||
+            (oldValue !== undefined && value === undefined)) {
+            this.emitStyle();
+        }
+    }
+    swipeGestureChanged() {
+        this.gestureChanged();
     }
     valueChanged(value, oldValue) {
         this.ionSelect.emit({ value });
@@ -59,8 +85,8 @@ const Segment = class {
         }
     }
     gestureChanged() {
-        if (this.gesture && !this.scrollable) {
-            this.gesture.enable(!this.disabled);
+        if (this.gesture) {
+            this.gesture.enable(!this.scrollable && !this.disabled && this.swipeGesture);
         }
     }
     connectedCallback() {
@@ -71,7 +97,7 @@ const Segment = class {
     }
     async componentDidLoad() {
         this.setCheckedClasses();
-        this.gesture = (await __sc_import_app('./index-9b41fcc6.js')).createGesture({
+        this.gesture = (await __sc_import_app('./index-7fe827c3.js')).createGesture({
             el: this.el,
             gestureName: 'segment',
             gesturePriority: 100,
@@ -81,7 +107,6 @@ const Segment = class {
             onMove: ev => this.onMove(ev),
             onEnd: ev => this.onEnd(ev),
         });
-        this.gesture.enable(!this.scrollable);
         this.gestureChanged();
         if (this.disabled) {
             this.disabledChanged();
@@ -286,10 +311,19 @@ const Segment = class {
     }
     render() {
         const mode = getIonMode(this);
-        return (h(Host, { onClick: this.onClick, class: Object.assign(Object.assign({}, createColorClasses(this.color)), { [mode]: true, 'in-toolbar': hostContext('ion-toolbar', this.el), 'in-toolbar-color': hostContext('ion-toolbar[color]', this.el), 'segment-activated': this.activated, 'segment-disabled': this.disabled, 'segment-scrollable': this.scrollable }) }, h("slot", null)));
+        return (h(Host, { role: "tablist", onClick: this.onClick, class: createColorClasses(this.color, {
+                [mode]: true,
+                'in-toolbar': hostContext('ion-toolbar', this.el),
+                'in-toolbar-color': hostContext('ion-toolbar[color]', this.el),
+                'segment-activated': this.activated,
+                'segment-disabled': this.disabled,
+                'segment-scrollable': this.scrollable
+            }) }, h("slot", null)));
     }
     get el() { return getElement(this); }
     static get watchers() { return {
+        "color": ["colorChanged"],
+        "swipeGesture": ["swipeGestureChanged"],
         "value": ["valueChanged"],
         "disabled": ["disabledChanged"]
     }; }

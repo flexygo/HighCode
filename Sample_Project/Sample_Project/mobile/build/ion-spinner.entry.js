@@ -1,7 +1,7 @@
-import { r as registerInstance, j as h, l as Host } from './index-76f52202.js';
-import { c as config, g as getIonMode } from './ionic-global-53d785f3.js';
-import { c as createColorClasses } from './theme-d8afa044.js';
-import { S as SPINNERS } from './spinner-configs-5dd6891e.js';
+import { r as registerInstance, j as h, l as Host } from './index-86ac49ff.js';
+import { c as config, g as getIonMode } from './ionic-global-0f98fe97.js';
+import { c as createColorClasses } from './theme-f934266c.js';
+import { S as SPINNERS } from './spinner-configs-3566e842.js';
 
 const spinnerCss = ":host{display:inline-block;position:relative;width:28px;height:28px;color:var(--color);user-select:none}:host(.ion-color){color:var(--ion-color-base)}svg{left:0;top:0;transform-origin:center;position:absolute;width:100%;height:100%;transform:translateZ(0)}[dir=rtl] svg,:host-context([dir=rtl]) svg{left:unset;right:unset;right:0}[dir=rtl] svg,:host-context([dir=rtl]) svg{transform-origin:calc(100% - center)}:host(.spinner-lines) line,:host(.spinner-lines-small) line{stroke-width:4px;stroke-linecap:round;stroke:currentColor}:host(.spinner-lines) svg,:host(.spinner-lines-small) svg{animation:spinner-fade-out 1s linear infinite}:host(.spinner-bubbles) svg{animation:spinner-scale-out 1s linear infinite;fill:currentColor}:host(.spinner-circles) svg{animation:spinner-fade-out 1s linear infinite;fill:currentColor}:host(.spinner-crescent) circle{fill:transparent;stroke-width:4px;stroke-dasharray:128px;stroke-dashoffset:82px;stroke:currentColor}:host(.spinner-crescent) svg{animation:spinner-rotate 1s linear infinite}:host(.spinner-dots) circle{stroke-width:0;fill:currentColor}:host(.spinner-dots) svg{animation:spinner-dots 1s linear infinite}:host(.spinner-circular){animation:spinner-circular linear infinite}:host(.spinner-circular) circle{animation:spinner-circular-inner ease-in-out infinite;stroke:currentColor;stroke-dasharray:80px, 200px;stroke-dashoffset:0px;stroke-width:5.6;fill:none}:host(.spinner-paused),:host(.spinner-paused) svg,:host(.spinner-paused) circle{animation-play-state:paused}@keyframes spinner-fade-out{0%{opacity:1}100%{opacity:0}}@keyframes spinner-scale-out{0%{transform:scale(1, 1)}100%{transform:scale(0, 0)}}@keyframes spinner-rotate{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes spinner-dots{0%{transform:scale(1, 1);opacity:0.9}50%{transform:scale(0.4, 0.4);opacity:0.3}100%{transform:scale(1, 1);opacity:0.9}}@keyframes spinner-circular{100%{transform:rotate(360deg)}}@keyframes spinner-circular-inner{0%{stroke-dasharray:1px, 200px;stroke-dashoffset:0px}50%{stroke-dasharray:100px, 200px;stroke-dashoffset:-15px}100%{stroke-dasharray:100px, 200px;stroke-dashoffset:-125px}}";
 
@@ -38,7 +38,11 @@ const Spinner = class {
                 svgs.push(buildLine(spinner, duration, i, spinner.lines));
             }
         }
-        return (h(Host, { class: Object.assign(Object.assign({}, createColorClasses(self.color)), { [mode]: true, [`spinner-${spinnerName}`]: true, 'spinner-paused': !!self.paused || config.getBoolean('_testing') }), role: "progressbar", style: spinner.elmDuration ? { animationDuration: duration + 'ms' } : {} }, svgs));
+        return (h(Host, { class: createColorClasses(self.color, {
+                [mode]: true,
+                [`spinner-${spinnerName}`]: true,
+                'spinner-paused': !!self.paused || config.getBoolean('_testing')
+            }), role: "progressbar", style: spinner.elmDuration ? { animationDuration: duration + 'ms' } : {} }, svgs));
     }
 };
 const buildCircle = (spinner, duration, index, total) => {

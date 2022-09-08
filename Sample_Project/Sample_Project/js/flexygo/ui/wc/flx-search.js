@@ -28,10 +28,12 @@ var flexygo;
                     this.orderObj = null;
                     this.removeKeys = false;
                     this.activeFilter = null;
+                    this.userDefinedGroups = false;
                     this.searcher = null;
                     this.filters = null;
                     this.buttons = null;
                     this.groups = null;
+                    this.groupList = null;
                     this.viewId = null;
                     this.presetId = null;
                     this.presetText = null;
@@ -98,6 +100,7 @@ var flexygo;
                 initGrid(initMode) {
                     let me = $(this);
                     me.removeAttr('manualInit');
+                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
                     this.page = 0;
                     let mode = me.attr('mode');
                     if (!mode || mode == '') {
@@ -244,9 +247,10 @@ var flexygo;
                 * @method sort
                 * @param  {api.list.PropertyOrder[]} orderInfo
                 */
-                sortByObj(orderInfo) {
+                sortByObj(orderInfo, groupsInfo) {
                     this.sortColumn = null;
                     this.orderObj = orderInfo;
+                    this.groups = groupsInfo;
                     this.refresh();
                 }
                 sort(columnItem, property, ascMode) {

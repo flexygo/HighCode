@@ -1,4 +1,5 @@
-﻿.orgchartnode .imgdiv {
+﻿/*
+.orgchartnode .imgdiv {
     width: 50px;
 }
 
@@ -47,4 +48,60 @@
     font: normal normal normal 10px/1 Flexygo-icons;
     font-family: 'Flexygo-icons' !important;
     text-rendering: auto;
+}
+*/
+
+/*ZOOM*/
+flx-orgchart .zoomElements .sliderZoom {
+    -webkit-appearance: none;
+    height: 10px;
+    border-radius: 20px;
+    background: dbColor(borderModuleColor);
+    outline: none;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    margin-top: 10px
+}
+flx-orgchart .zoomElements .sliderZoom::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: dbColor(OutstandingColor);
+}
+flx-orgchart .zoomElements .sliderZoom::-webkit-slider-thumb:hover {
+    width: 30px;
+    height: 30px;
+}
+
+flx-orgchart .zoomElements .sliderZoom:hover {
+    background: darken(dbColor(borderModuleColor), 10%);
+}
+flx-orgchart .zoomElements {
+    padding: 20px;
+    position: fixed;
+    z-index: 2;
+    overflow: hidden;
+    display: flex;
+    width: 50%;
+    margin-bottom: 20px;
+    margin-top: -15px;
+    background-color: fade(dbColor(txtOutstandingColor),80%);
+    backdrop-filter: blur(0.5rem);
+    border-radius: 15px;
+    transform: scale(0.5);
+    left: 1%;
+}
+
+flx-orgchart .zoomElements .zoom-ic {
+    font-size: 2em;
+    color: dbColor(OutstandingColor);
+}
+
+flx-orgchart .zoomElements .zoom-ic, .zoomElements .sliderZoom {
+    cursor: pointer;
+    margin-right: 10px;
+}
+flx-orgchart .margintoporgchart {
+    margin-top: 3%;
 }

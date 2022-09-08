@@ -1,6 +1,6 @@
-import { r as registerInstance, m as createEvent, j as h, l as Host, k as getElement } from './index-76f52202.js';
-import { g as getIonMode } from './ionic-global-53d785f3.js';
-import { i as isEndSide } from './helpers-742de4f9.js';
+import { r as registerInstance, m as createEvent, j as h, l as Host, k as getElement } from './index-86ac49ff.js';
+import { g as getIonMode } from './ionic-global-0f98fe97.js';
+import { j as isEndSide } from './helpers-719f4c54.js';
 
 const itemSlidingCss = "ion-item-sliding{display:block;position:relative;width:100%;overflow:hidden;user-select:none}ion-item-sliding .item{user-select:none}.item-sliding-active-slide .item{position:relative;transition:transform 500ms cubic-bezier(0.36, 0.66, 0.04, 1);opacity:1;z-index:2;pointer-events:none;will-change:transform}.item-sliding-active-swipe-end .item-options-end .item-option-expandable{padding-left:100%;order:1;transition-duration:0.6s;transition-property:padding-left}[dir=rtl] .item-sliding-active-swipe-end .item-options-end .item-option-expandable,:host-context([dir=rtl]) .item-sliding-active-swipe-end .item-options-end .item-option-expandable{order:-1}.item-sliding-active-swipe-start .item-options-start .item-option-expandable{padding-right:100%;order:-1;transition-duration:0.6s;transition-property:padding-right}[dir=rtl] .item-sliding-active-swipe-start .item-options-start .item-option-expandable,:host-context([dir=rtl]) .item-sliding-active-swipe-start .item-options-start .item-option-expandable{order:1}";
 
@@ -18,6 +18,8 @@ const ItemSliding = class {
         this.optsWidthLeftSide = 0;
         this.sides = 0 /* None */;
         this.optsDirty = true;
+        this.closestContent = null;
+        this.initialContentScrollY = true;
         this.state = 2 /* Disabled */;
         /**
          * If `true`, the user cannot interact with the sliding item.
@@ -31,8 +33,9 @@ const ItemSliding = class {
     }
     async connectedCallback() {
         this.item = this.el.querySelector('ion-item');
+        this.closestContent = this.el.closest('ion-content');
         await this.updateOptions();
-        this.gesture = (await __sc_import_app('./index-9b41fcc6.js')).createGesture({
+        this.gesture = (await __sc_import_app('./index-7fe827c3.js')).createGesture({
             el: this.el,
             gestureName: 'item-swipe',
             gesturePriority: 100,
@@ -155,7 +158,13 @@ const ItemSliding = class {
         // Reset left and right options in case they were removed
         this.leftOptions = this.rightOptions = undefined;
         for (let i = 0; i < options.length; i++) {
-            const option = await options.item(i).componentOnReady();
+            const item = options.item(i);
+            /**
+             * We cannot use the componentOnReady helper
+             * util here since we need to wait for all of these items
+             * to be ready before we set `this.sides` and `this.optsDirty`.
+             */
+            const option = (item.componentOnReady !== undefined) ? await item.componentOnReady() : item;
             const side = isEndSide(option.side) ? 'end' : 'start';
             if (side === 'start') {
                 this.leftOptions = option;
@@ -183,11 +192,31 @@ const ItemSliding = class {
         const selected = openSlidingItem;
         if (selected && selected !== this.el) {
             this.closeOpened();
-            return false;
         }
         return !!(this.rightOptions || this.leftOptions);
     }
+    disableContentScrollY() {
+        if (this.closestContent === null) {
+            return;
+        }
+        this.initialContentScrollY = this.closestContent.scrollY;
+        this.closestContent.scrollY = false;
+    }
+    restoreContentScrollY() {
+        if (this.closestContent === null) {
+            return;
+        }
+        this.closestContent.scrollY = this.initialContentScrollY;
+    }
     onStart() {
+        /**
+         * We need to query for the ion-item
+         * every time the gesture starts. Developers
+         * may toggle ion-item elements via *ngIf.
+         */
+        this.item = this.el.querySelector('ion-item');
+        // Prevent scrolling during gesture
+        this.disableContentScrollY();
         openSlidingItem = this.el;
         if (this.tmr !== undefined) {
             clearTimeout(this.tmr);
@@ -232,6 +261,8 @@ const ItemSliding = class {
         this.setOpenAmount(openAmount, false);
     }
     onEnd(gesture) {
+        // Restore ion-content scrollY to initial value when gesture ends
+        this.restoreContentScrollY();
         const velocity = gesture.velocityX;
         let restingPoint = (this.openAmount > 0)
             ? this.optsWidthRightSide
@@ -292,9 +323,22 @@ const ItemSliding = class {
                 : 16 /* Start */;
         }
         else {
+            /**
+             * Item sliding cannot be interrupted
+             * while closing the item. If it did,
+             * it would allow the item to get into an
+             * inconsistent state where multiple
+             * items are then open at the same time.
+             */
+            if (this.gesture) {
+                this.gesture.enable(false);
+            }
             this.tmr = setTimeout(() => {
                 this.state = 2 /* Disabled */;
                 this.tmr = undefined;
+                if (this.gesture) {
+                    this.gesture.enable(true);
+                }
             }, 600);
             openSlidingItem = undefined;
             style.transform = '';

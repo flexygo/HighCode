@@ -91,6 +91,7 @@ var flexygo;
                     this.objectPropertiesPane();
                     if (!this.offline) {
                         this.listSettingsPane();
+                        this.filterSettingsPane();
                         this.displaySettingsPane();
                         this.colPropertiesPane();
                     }
@@ -133,9 +134,9 @@ var flexygo;
                     pnl.append(form);
                     //Object form
                     let icn = '';
-                    icn += '<flx-dbcombo onChange="$(\'#coliconclass\').val($(this).val());" class="size-l" name="iconclass" id="iconclass" PlaceHolder="' + flexygo.localization.translate('objectmanager.selecticon') + '" iconClass="flx-icon icon-image-26" ObjectName="sysObject" ViewName="iconsView" SQLValueField="IconName" SQLDisplayField="IconName"   required data-msg-required="' + flexygo.localization.translate('objectmanager.validicon') + '">';
+                    icn += '<flx-dbcombo onChange="$(\'#coliconclass\').val($(this).val());" class="size-l item-float" name="iconclass" id="iconclass" PlaceHolder="' + flexygo.localization.translate('objectmanager.selecticon') + '" PageSize="100" iconClass="flx-icon icon-image-26" ObjectName="sysObject" ViewName="iconsView" SQLValueField="IconName" SQLDisplayField="IconName"   required data-msg-required="' + flexygo.localization.translate('objectmanager.validicon') + '">';
                     icn += '  <template>';
-                    icn += '<span class="txt-outstanding" > <i class="{{CSSClass}} icon-margin-right" > </i>{{IconName}} <small class="text-muted">{{Classification}} ({{IconName}})</small> </span>';
+                    icn += '<span class="txt-outstanding"> <i class="{{CSSClass}} icon-2x icon-margin" title="{{IconName}}" style="width: 20px"></i></span>';
                     //icn += '   <div class="icon-box">';
                     //icn += ' 	<div class="icon-margin">';
                     //icn += '	  <i class="{{CssClass}} icon-lg icon-zoom"></i>';
@@ -154,9 +155,9 @@ var flexygo;
                     form.append(fila);
                     //Collection form
                     icn = '';
-                    icn += '<flx-dbcombo class="size-l" name="coliconclass" id="coliconclass" PlaceHolder="' + flexygo.localization.translate('objectmanager.selecticon') + '" iconClass="flx-icon icon-image-26" ObjectName="sysObject" ViewName="iconsView" SQLValueField="IconName" SQLDisplayField="IconName"   required data-msg-required="' + flexygo.localization.translate('objectmanager.validicon') + '">';
+                    icn += '<flx-dbcombo class="size-l item-float" name="coliconclass" id="coliconclass" PlaceHolder="' + flexygo.localization.translate('objectmanager.selecticon') + '" PageSize="100" iconClass="flx-icon icon-image-26" ObjectName="sysObject" ViewName="iconsView" SQLValueField="IconName" SQLDisplayField="IconName"   required data-msg-required="' + flexygo.localization.translate('objectmanager.validicon') + '">';
                     icn += '  <template>';
-                    icn += '<span class="txt-outstanding" > <i class="{{CSSClass}} icon-margin-right" > </i>{{IconName}} <small class="text-muted">{{Classification}} ({{IconName}})</small> </span>';
+                    icn += '<span class="txt-outstanding"> <i class="{{CSSClass}} icon-2x icon-margin" title="{{IconName}}" style="width: 20px"></i></span>';
                     //icn += '    <div class="icon-box">';
                     //icn += '	  <div class="icon-margin">';
                     //icn += '	    <i class="{{CssClass}} icon-lg icon-zoom"></i>';
@@ -264,12 +265,20 @@ var flexygo;
                         $('[href="#tab4"]').click();
                     });
                 }
+                filterSettingsPane() {
+                    let pnl = this.addPane('4', flexygo.localization.translate('objectmanager.filtersettings'));
+                    pnl.closest('.tab-pane').find('h3').append('<button style="float:right" class="btn btn-info btnContinueFilter">' + flexygo.localization.translate('objectmanager.continue') + ' <i class="flx-icon icon-order-right-2" /></button>');
+                    pnl.addClass('filterpanel');
+                    pnl.closest('.tab-pane').find('.btnContinueFilter').on('click', (e) => {
+                        $('[href="#tab5"]').click();
+                    });
+                }
                 displaySettingsPane() {
                     let me = $(this);
-                    let pnl = this.addPane('4', flexygo.localization.translate('objectmanager.displaysettings'));
+                    let pnl = this.addPane('5', flexygo.localization.translate('objectmanager.displaysettings'));
                     pnl.closest('.tab-pane').find('h3').append('<button style="float:right" class="btn btn-info btnContinueEnd">' + flexygo.localization.translate('objectmanager.continue') + '<i class="flx-icon icon-order-right-2" /></button>');
                     pnl.closest('.tab-pane').find('.btnContinueEnd').on('click', (e) => {
-                        $('[href="#tab5"]').click();
+                        $('[href="#tab6"]').click();
                     });
                     let btns = $('<div style="padding-bottom:10px;"><div class="btn-group" role="displayType" /></div>');
                     pnl.append(btns);
@@ -300,15 +309,15 @@ var flexygo;
                     });
                 }
                 colPropertiesPane() {
-                    let pnl = this.addPane('5', flexygo.localization.translate('objectmanager.colproperties'));
+                    let pnl = this.addPane('6', flexygo.localization.translate('objectmanager.colproperties'));
                     pnl.addClass('propertypanel');
                     pnl.closest('.tab-pane').find('h3').append('<button style="float:right" class="btn btn-info btnContinueList">' + flexygo.localization.translate('objectmanager.continue') + ' <i class="flx-icon icon-order-right-2" /></button>');
                     pnl.closest('.tab-pane').find('.btnContinueList').on('click', (e) => {
-                        $('[href="#tab6"]').click();
+                        $('[href="#tab7"]').click();
                     });
                 }
                 endPane() {
-                    let pnl = this.addPane('6', flexygo.localization.translate('objectmanager.end'));
+                    let pnl = this.addPane('7', flexygo.localization.translate('objectmanager.end'));
                     pnl.append('<h1 class="text-center txt-notify"><strong><i class="flx-icon icon-checked icon-lg"></i> ' + flexygo.localization.translate('objectmanager.objectcreated') + '</strong></h1>');
                     pnl.append('<h3 class="text-center">' + flexygo.localization.translate('objectmanager.selectoption') + '</strong></h3>');
                     let ul = $('<ul class="option-icons">');
@@ -376,11 +385,14 @@ var flexygo;
                         me.find('.listpanel').html('<flx-viewmanager ObjectName="' + this.objectname + '" ></flx-viewmanager>');
                     });
                     $('[href="#tab4"]').on('click', (e) => {
-                        if (me.find('#tab4 flx-module').length == 0) {
+                        me.find('.filterpanel').html('<flx-filtermanager objectname="' + this.collectionname + '"></flx-filtermanager>');
+                    });
+                    $('[href="#tab5"]').on('click', (e) => {
+                        if (me.find('#tab5 flx-module').length == 0) {
                             me.find('[name="btn-list"]').click();
                         }
                     });
-                    $('[href="#tab5"]').on('click', (e) => {
+                    $('[href="#tab6"]').on('click', (e) => {
                         me.find('.propertypanel').html('<flx-propertymanager mode="list" ObjectName="' + this.collectionname + '" ></flx-propertymanager>');
                     });
                 }

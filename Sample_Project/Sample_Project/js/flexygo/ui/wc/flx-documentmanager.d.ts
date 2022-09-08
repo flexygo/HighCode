@@ -140,6 +140,11 @@ declare namespace flexygo.ui.wc {
         */
         rObjectId: any;
         /**
+        * Default document category
+        * @property categoryId {string}
+        */
+        categoryId: any;
+        /**
         * Additional document filter
         * @property additionalWhere {string}
         */
@@ -255,6 +260,13 @@ declare namespace flexygo.ui.wc {
       */
         downloadAllDocuments(objectName: string, objectId: string): void;
         /**
+        * Send mail with selected documents
+        * @method sendSelectedDocuments
+        * @param {string} objectName.
+        * @param {string} objectId.
+         */
+        sendSelectedDocuments(objectName: string, objectId: string): void;
+        /**
         * Start editing.
         * @method editStartDocument
         * @param {string} Document ID.
@@ -350,7 +362,8 @@ declare namespace flexygo.io {
         documentId: string;
         manager: flexygo.ui.wc.FlxDocumentManagerElement;
         documentContainer: JQuery;
-        constructor(file: any, objectname: string, objectid: string, type: string, action: string, manager: flexygo.ui.wc.FlxDocumentManagerElement);
+        categoryId: any;
+        constructor(file: any, objectname: string, objectid: string, type: string, action: string, manager: flexygo.ui.wc.FlxDocumentManagerElement, categoryId: any);
         startUpload(): void;
         percentDone(): number;
         upload_file(): void;

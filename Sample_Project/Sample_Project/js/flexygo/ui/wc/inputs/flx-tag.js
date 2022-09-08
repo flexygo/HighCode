@@ -34,7 +34,6 @@ var flexygo;
                 */
                 connectedCallback() {
                     let element = $(this);
-                    this.connected = true;
                     this.type = element.attr('type') || 'text';
                     let propName = element.attr('property');
                     if (propName && flexygo.utils.isBlank(this.options)) {
@@ -154,18 +153,33 @@ var flexygo;
                         }
                         this.options.Hide = Hide == 'true';
                     }
+                    let RegExp = element.attr('RegExp');
+                    if (RegExp && RegExp !== '') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.RegExp = RegExp;
+                    }
+                    let RegExpText = element.attr('RegExpText');
+                    if (RegExpText && RegExpText !== '') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.RegExpText = RegExpText;
+                    }
                     this.init();
                     let Value = element.attr('Value');
                     if (Value && Value !== '') {
                         this.setValue(Value);
                     }
+                    this.connected = true;
                 }
                 /**
               * Array of observed attributes.
               * @property observedAttributes {Array}
               */
                 static get observedAttributes() {
-                    return ['type', 'property', 'required', 'separator', 'disabled', 'requiredmessage', 'style', 'class', 'placeholder', 'iconclass', 'hide'];
+                    return ['type', 'property', 'required', 'separator', 'disabled', 'requiredmessage', 'style', 'class', 'placeholder', 'iconclass', 'hide', 'regexp', 'regexptext'];
                 }
                 /**
               * Fires when the attribute value of the element is changed.
@@ -239,14 +253,17 @@ var flexygo;
                             this.refresh();
                         }
                     }
-                    if (attrName.toLowerCase() === 'class' && newVal && newVal !== '') {
+                    if (attrName.toLowerCase() === 'class' && element.attr('Control-Class') !== newVal && newVal != oldVal) {
                         if (!this.options) {
                             this.options = new flexygo.api.ObjectProperty();
                         }
                         this.options.CssClass = newVal;
                         if (element.attr('Control-Class') !== this.options.CssClass) {
-                            element.attr('Control-Class', this.options.CssClass);
-                            element.attr('Class', '');
+                            if (newVal != '') {
+                                element.attr('Control-Class', this.options.CssClass);
+                                element.attr('Class', this.options.CssClass);
+                            }
+                            //element.attr('Class', '');
                             this.refresh();
                         }
                     }
@@ -269,6 +286,20 @@ var flexygo;
                             this.options = new flexygo.api.ObjectProperty();
                         }
                         this.options.Hide = newVal;
+                        this.refresh();
+                    }
+                    if (attrName.toLowerCase() === 'regexp' && newVal && newVal !== '') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.RegExp = newVal;
+                        this.refresh();
+                    }
+                    if (attrName.toLowerCase() === 'regexptext' && newVal && newVal !== '') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.RegExpText = newVal;
                         this.refresh();
                     }
                 }
@@ -343,6 +374,27 @@ var flexygo;
                     if (iconsLeft || iconsRight) {
                         control.addClass("input-group");
                     }
+                    input.on('itemAdded', (event) => {
+                        if (this.options.RegExp && event.item) {
+                            let regExp = new RegExp(this.options.RegExp);
+                            if (!regExp.test(event.item)) {
+                                let values = input.tagsinput()[0].$container.find('> span');
+                                values.filter((i) => {
+                                    return $(values[i]).text() === event.item;
+                                }).removeClass('label-info').addClass('label-danger');
+                            }
+                            //$(input).valid();
+                        }
+                        if (this.options.SQLValidator) {
+                            let ev = {
+                                class: "property",
+                                type: "changed",
+                                sender: this,
+                                masterIdentity: this.property
+                            };
+                            flexygo.events.trigger(ev);
+                        }
+                    });
                     me.html(control);
                     this.setOptions();
                 }
@@ -476,6 +528,15 @@ var flexygo;
                     if (this.options && this.options.Hide) {
                         me.addClass("hideControl");
                     }
+                    if (this.options && this.options.RegExp && this.options.RegExp !== '') {
+                        input.attr('regex', this.options.RegExp);
+                    }
+                    if (this.options && this.options.RegExpText && this.options.RegExpText !== '') {
+                        input.attr('data-msg-regex', this.options.RegExpText);
+                    }
+                    if (this.options && this.options.ValidatorMessage && this.options.ValidatorMessage !== '') {
+                        input.attr('data-msg-sqlvalidator', this.options.ValidatorMessage);
+                    }
                     if (this.options && this.options.DropDownValues) {
                         this.dropOptions = [];
                         for (let i = 0; i < this.options.DropDownValues.length; i++) {
@@ -545,6 +606,9 @@ var flexygo;
                             return null;
                         }
                     }
+                }
+                getSeparator() {
+                    return this.options.Separator;
                 }
                 getOptions(strs) {
                     return function findMatches(q, cb) {

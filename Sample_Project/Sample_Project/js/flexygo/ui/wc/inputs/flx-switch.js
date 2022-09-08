@@ -33,7 +33,6 @@ var flexygo;
               */
                 connectedCallback() {
                     let element = $(this);
-                    this.connected = true;
                     let propName = element.attr('property');
                     if (propName && flexygo.utils.isBlank(this.options)) {
                         let parentCtl = element.closest('flx-edit,flx-list,flx-propertymanager,flx-view,flx-filter');
@@ -110,6 +109,7 @@ var flexygo;
                             }
                         }
                     }
+                    this.connected = true;
                 }
                 /**
                * Array of observed attributes.
@@ -167,14 +167,17 @@ var flexygo;
                             this.init();
                         }
                     }
-                    if (attrName.toLowerCase() === 'class' && newVal && newVal !== '') {
+                    if (attrName.toLowerCase() === 'class' && element.attr('Control-Class') !== newVal && newVal != oldVal) {
                         if (!this.options) {
                             this.options = new flexygo.api.ObjectProperty();
                         }
                         this.options.CssClass = newVal;
                         if (element.attr('Control-Class') !== this.options.CssClass) {
-                            element.attr('Control-Class', this.options.CssClass);
-                            element.attr('Class', '');
+                            if (newVal != '') {
+                                element.attr('Control-Class', this.options.CssClass);
+                                element.attr('Class', this.options.CssClass);
+                            }
+                            //element.attr('Class', '');
                             this.init();
                         }
                     }

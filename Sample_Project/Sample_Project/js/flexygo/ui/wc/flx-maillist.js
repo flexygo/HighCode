@@ -84,6 +84,7 @@ var flexygo;
                 init() {
                     var me = $(this);
                     me.removeAttr('manualInit');
+                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
                     me.empty();
                     me.append(this.structure);
                     me.find('.searchbtn').on('click', () => {

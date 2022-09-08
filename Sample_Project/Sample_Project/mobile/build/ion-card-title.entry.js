@@ -1,6 +1,6 @@
-import { r as registerInstance, j as h, l as Host } from './index-76f52202.js';
-import { g as getIonMode } from './ionic-global-53d785f3.js';
-import { c as createColorClasses } from './theme-d8afa044.js';
+import { r as registerInstance, j as h, l as Host } from './index-86ac49ff.js';
+import { g as getIonMode } from './ionic-global-0f98fe97.js';
+import { c as createColorClasses } from './theme-f934266c.js';
 
 const cardTitleIosCss = ":host{display:block;position:relative;color:var(--color)}:host(.ion-color){color:var(--ion-color-base)}:host{--color:var(--ion-text-color, #000);margin-left:0;margin-right:0;margin-top:0;margin-bottom:0;padding-left:0;padding-right:0;padding-top:0;padding-bottom:0;font-size:28px;font-weight:700;line-height:1.2}";
 
@@ -12,7 +12,10 @@ const CardTitle = class {
     }
     render() {
         const mode = getIonMode(this);
-        return (h(Host, { role: "heading", "aria-level": "2", class: Object.assign(Object.assign({}, createColorClasses(this.color)), { 'ion-inherit-color': true, [mode]: true }) }, h("slot", null)));
+        return (h(Host, { role: "heading", "aria-level": "2", class: createColorClasses(this.color, {
+                'ion-inherit-color': true,
+                [mode]: true
+            }) }, h("slot", null)));
     }
 };
 CardTitle.style = {

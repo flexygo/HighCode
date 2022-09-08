@@ -8,6 +8,12 @@ var flexygo;
         class ModuleFilterHistory {
         }
         nav.ModuleFilterHistory = ModuleFilterHistory;
+        class PresetHistoryValue {
+        }
+        nav.PresetHistoryValue = PresetHistoryValue;
+        class ModulePresetHistory {
+        }
+        nav.ModulePresetHistory = ModulePresetHistory;
         class FlexygoHistory {
         }
         nav.FlexygoHistory = FlexygoHistory;
@@ -24,9 +30,12 @@ var flexygo;
          * @param {boolean} isClone -
          * @param {flexygo.nav.FlexygoHistory} previousHist - Previous page history
         */
-        function openPage(pagetypeid, objectname, objectwhere, defaults, targetid, excludeHist, triggerElement, isClone, previousHist) {
+        function openPage(pagetypeid, objectname, objectwhere, defaults, targetid, excludeHist, triggerElement, isClone, previousHist, presets) {
             if (typeof event != 'undefined') {
                 event.preventDefault();
+            }
+            if (flexygo.utils.isTactilModeActive()) {
+                flexygo.utils.scrollTo(0);
             }
             if (flexygo.utils.isSizeMobile() && targetid.indexOf('modal') != 0) {
                 targetid = "current";
@@ -53,7 +62,8 @@ var flexygo;
                 objectwhere: objectwhere,
                 defaults: defaults,
                 pagetypeid: pagetypeid,
-                filtersValues: (previousHist && previousHist.filtersValues) ? previousHist.filtersValues : null
+                filtersValues: (previousHist && previousHist.filtersValues) ? previousHist.filtersValues : null,
+                presetsValues: (previousHist && previousHist.presetsValues) ? previousHist.presetsValues : null
             };
             if (targetid && targetid.indexOf('new') == 0) {
                 flexygo.targets.openNewWindow(histObj, targetid);
@@ -80,9 +90,9 @@ var flexygo;
                         flexygo.history.replace(editObj, pageContainer);
                     }
                     ret.pageHistory = histObj;
-                    openPageReturn(ret, objectname, objectwhere, defaults, pageContainer, null, null, isClone);
+                    openPageReturn(ret, objectname, objectwhere, defaults, pageContainer, null, null, isClone, null, presets);
                     if (pagetypeid != 'edit' || (objectwhere && objectwhere != '')) {
-                        flexygo.history.historyLog.add(ret.IconCssClass, ret.Descrip, histObj);
+                        flexygo.history.historyLog.add(ret.IconCssClass, ret.Descrip, ret.pageHistory);
                     }
                 }, (error) => {
                     flexygo.exceptions.httpShow(error);
@@ -122,9 +132,12 @@ var flexygo;
          * @param {boolean} isClone -
         * @param {flexygo.nav.FlexygoHistory} previousHist - Previous page history
         */
-        function openPageName(pagename, objectname, objectwhere, defaults, targetid, excludeHist, triggerElement, isClone, previousHist) {
+        function openPageName(pagename, objectname, objectwhere, defaults, targetid, excludeHist, triggerElement, isClone, previousHist, presets) {
             if (typeof event != 'undefined') {
                 event.preventDefault();
+            }
+            if (flexygo.utils.isTactilModeActive()) {
+                flexygo.utils.scrollTo(0);
             }
             if (flexygo.utils.isSizeMobile() && targetid.indexOf('modal') != 0) {
                 targetid = "current";
@@ -145,7 +158,8 @@ var flexygo;
                 objectwhere: objectwhere,
                 defaults: defaults,
                 pagename: pagename,
-                filtersValues: (previousHist && previousHist.filtersValues) ? previousHist.filtersValues : null
+                filtersValues: (previousHist && previousHist.filtersValues) ? previousHist.filtersValues : null,
+                presetsValues: (previousHist && previousHist.presetsValues) ? previousHist.presetsValues : null
             };
             if (targetid && targetid.indexOf('new') == 0) {
                 flexygo.targets.openNewWindow(histObj, targetid);
@@ -169,8 +183,8 @@ var flexygo;
                     }
                     var pageContainer = flexygo.targets.createContainer(histObj, excludeHist, triggerElement);
                     ret.pageHistory = histObj;
-                    openPageReturn(ret, objectname, objectwhere, defaults, pageContainer, null, null, isClone);
-                    flexygo.history.historyLog.add(ret.IconCssClass, ret.Descrip, histObj);
+                    openPageReturn(ret, objectname, objectwhere, defaults, pageContainer, null, null, isClone, null, presets);
+                    flexygo.history.historyLog.add(ret.IconCssClass, ret.Descrip, ret.pageHistory);
                 }, (error) => {
                     flexygo.exceptions.httpShow(error);
                     let ev = {
@@ -253,7 +267,7 @@ var flexygo;
             }
         }
         nav.execProcess = execProcess;
-        function openPageReturn(pageConf, objectname, objectwhere, defaults, pageContainer, reportname, processname, isClone, reportwhere) {
+        function openPageReturn(pageConf, objectname, objectwhere, defaults, pageContainer, reportname, processname, isClone, reportwhere, presets) {
             pageContainer.html(flexygo.utils.loadingMsg());
             //Hide menu when page is loaded.
             if (!flexygo.utils.isSizeMobile()) {
@@ -276,7 +290,7 @@ var flexygo;
                 //else {
                 //    pageContainer.attr('class', 'pageContainer ' + bodyClass);
                 //}
-                if (pageConf.Descrip.includes("{{") && !flexygo.utils.isBlank(reportname)) {
+                if (pageConf.Descrip.includes("{{ReportName") && !flexygo.utils.isBlank(reportname)) {
                     pageConf.Descrip = reportname;
                 }
                 pageContainer.closest('.flx-dialog,.flx-dialog-modal').find("span.ui-dialog-title").text(pageConf.Descrip);
@@ -290,68 +304,87 @@ var flexygo;
                     pageContainer.append('<style name="custom-style">' + pageConf.Style + '</style>');
                 }
                 var modules = flexygo.utils.sortObject(pageConf.Modules, 'Order');
+                let parsedPresets = flexygo.utils.isJSON(flexygo.utils.parser.replaceAll(presets, "'", '"')) ? JSON.parse(flexygo.utils.parser.replaceAll(presets, "'", '"')) : presets;
+                let presetHistoryValue = new PresetHistoryValue();
+                if (parsedPresets != null) {
+                    pageConf.pageHistory.presetsValues = new flexygo.nav.ModulePresetHistory();
+                }
+                if (typeof parsedPresets == 'object') {
+                    for (const key in parsedPresets) {
+                        presetHistoryValue = new PresetHistoryValue();
+                        presetHistoryValue.presetId = parsedPresets[key];
+                        pageConf.pageHistory.presetsValues[key] = presetHistoryValue;
+                    }
+                }
+                else if (typeof parsedPresets == 'string') {
+                    presetHistoryValue.presetId = parsedPresets;
+                    pageConf.pageHistory.presetsValues['*'] = presetHistoryValue;
+                }
                 for (let i = 0; i < modules.length; i++) {
                     let mod = modules[i];
-                    var cont = pageContainer.find('.' + mod.LayoutPositionId);
-                    if (cont.length == 0) {
-                        cont = pageContainer;
-                    }
-                    let container = $('<flx-module></flx-module>');
-                    container.html(mod.ContainerTemplate).attr('modulename', mod.ModuleName).attr('type', mod.WebComponent.split(' ')[0]).addClass(mod.ContainerClass);
-                    if (mod.PresetName) {
-                        container.html(mod.ContainerTemplate).attr('presetname', mod.PresetName).attr('presettext', mod.PresetText).attr('preseticon', mod.PresetIcon);
-                    }
-                    if (flexygo.utils.isSizeMobile() && modules.length == 1) {
-                        container.find('.cntHeader').hide();
-                    }
-                    cont.append(container);
-                    var componentString = mod.WebComponent;
-                    if (mod.Params) {
-                        componentString += ' ' + mod.Params;
-                    }
-                    /*var mode = 'edit';
-                    if (reportname) { mode= 'report'; }
-                    if (proccid) { mode= 'process'; }*/
-                    //console.log("openpageret", mod.ModuleName, mod.ObjectDefaults);
-                    let ctrl = container[0];
-                    ctrl.componentString = componentString;
-                    ctrl.isClone = isClone;
-                    ctrl.objectname = objectname;
-                    ctrl.objectwhere = objectwhere;
-                    //ctrl.mode = mode;
-                    ctrl.reportname = reportname;
-                    ctrl.reportwhere = reportwhere;
-                    ctrl.processname = processname;
-                    ctrl.moduleName = mod.ModuleName;
-                    ctrl.moduleTitle = mod.Title;
-                    ctrl.icon = mod.IconClass;
-                    if (mod.HeaderClass && mod.HeaderClass != '') {
-                        ctrl.headerClass = mod.HeaderClass;
-                    }
-                    if (mod.ModuleClass && mod.ModuleClass != '') {
-                        ctrl.moduleClass = mod.ModuleClass;
-                    }
-                    ctrl.canCollapse = mod.CanCollapse;
-                    ctrl.canEnlarge = mod.CanEnlarge;
-                    ctrl.canRefresh = mod.CanRefresh;
-                    //ctrl.canClose = true;
-                    ctrl.canConfig = true;
-                    ctrl.JSAfterLoad = mod.JSAfterLoad;
-                    ctrl.objectdefaults = mod.ObjectDefaults;
-                    if (ctrl.objectdefaults) {
-                        for (let key in ctrl.objectdefaults) {
-                            if (ctrl.objectdefaults[key] != null && ctrl.objectdefaults[key].toString().indexOf('/Date(') != -1) {
-                                ctrl.objectdefaults[key] = moment(moment.utc(ctrl.objectdefaults[key]).toDate()).format('YYYY-MM-DDTHH:mm:ss');
+                    if (mod['Active'] !== false) {
+                        var cont = pageContainer.find('.' + mod.LayoutPositionId);
+                        if (cont.length == 0) {
+                            cont = pageContainer;
+                        }
+                        let container = $('<flx-module></flx-module>');
+                        container.html(mod.ContainerTemplate).attr('modulename', mod.ModuleName).attr('type', mod.WebComponent.split(' ')[0]).addClass(mod.ContainerClass);
+                        if (mod.PresetName && presets == undefined) {
+                            container.html(mod.ContainerTemplate).attr('presetname', mod.PresetName).attr('presettext', mod.PresetText).attr('preseticon', mod.PresetIcon);
+                        }
+                        if (flexygo.utils.isSizeMobile() && modules.length == 1) {
+                            container.find('.cntHeader').hide();
+                        }
+                        cont.append(container);
+                        var componentString = mod.WebComponent;
+                        if (mod.Params) {
+                            componentString += ' ' + mod.Params;
+                        }
+                        /*var mode = 'edit';
+                        if (reportname) { mode= 'report'; }
+                        if (proccid) { mode= 'process'; }*/
+                        //console.log("openpageret", mod.ModuleName, mod.ObjectDefaults);
+                        let ctrl = container[0];
+                        ctrl.componentString = componentString;
+                        ctrl.isClone = isClone;
+                        ctrl.objectname = objectname;
+                        ctrl.objectwhere = objectwhere;
+                        //ctrl.mode = mode;
+                        ctrl.reportname = reportname;
+                        ctrl.reportwhere = reportwhere;
+                        ctrl.processname = processname;
+                        ctrl.moduleName = mod.ModuleName;
+                        ctrl.moduleTitle = mod.Title;
+                        ctrl.icon = mod.IconClass;
+                        if (mod.HeaderClass && mod.HeaderClass != '') {
+                            ctrl.headerClass = mod.HeaderClass;
+                        }
+                        if (mod.ModuleClass && mod.ModuleClass != '') {
+                            ctrl.moduleClass = mod.ModuleClass;
+                        }
+                        ctrl.canCollapse = mod.CanCollapse;
+                        ctrl.canEnlarge = mod.CanEnlarge;
+                        ctrl.canRefresh = mod.CanRefresh;
+                        //ctrl.canClose = true;
+                        ctrl.canConfig = true;
+                        ctrl.JSAfterLoad = mod.JSAfterLoad;
+                        ctrl.objectdefaults = mod.ObjectDefaults;
+                        if (ctrl.objectdefaults) {
+                            for (let key in ctrl.objectdefaults) {
+                                if (ctrl.objectdefaults[key] != null && ctrl.objectdefaults[key].toString().indexOf('/Date(') != -1) {
+                                    ctrl.objectdefaults[key] = moment(moment.utc(ctrl.objectdefaults[key]).toDate()).format('YYYY-MM-DDTHH:mm:ss');
+                                }
                             }
                         }
-                    }
-                    ctrl.moduleConfig = mod;
-                    ctrl.ManualInit = mod.ManualInit;
-                    if (mod.InitHidden) {
-                        container.attr('init', 'false').hide();
-                    }
-                    else {
-                        ctrl.init();
+                        ctrl.moduleConfig = mod;
+                        ctrl.ManualInit = mod.ManualInit;
+                        ctrl.HTMLInit = mod.HTMLInit;
+                        if (mod.InitHidden) {
+                            container.attr('init', 'false').hide();
+                        }
+                        else {
+                            ctrl.init();
+                        }
                     }
                 }
                 let ev = {
@@ -444,8 +477,15 @@ var flexygo;
         * @param {JQuery} triggerElement - Relative element to open the page
        */
         function openReportsParams(reportname, reportwhere, objectname, objectwhere, defaults, targetid, excludeHist, triggerElement) {
-            //report params page is currenty syspage-reportparams-default
-            flexygo.nav.openReportsParamsPage('syspage-reportparams-default', reportname, reportwhere, objectname, objectwhere, defaults, targetid, excludeHist, triggerElement);
+            let reportConfig = new flexygo.obj.Entity('sysReport', 'Reports.ReportName=\'' + reportname + '\'');
+            let objData = reportConfig.getView('vNet_Reports', 0, 1, null, null, null)[0];
+            if (objData.numParameters > 0) {
+                //report params page is currenty syspage-reportparams-default
+                flexygo.nav.openReportsParamsPage('syspage-reportparams-default', reportname, reportwhere, objectname, objectwhere, defaults, targetid, excludeHist, triggerElement);
+            }
+            else {
+                viewReport(reportname, reportwhere, objectname, objectwhere, defaults, null, targetid, excludeHist, true);
+            }
         }
         nav.openReportsParams = openReportsParams;
         /**
@@ -511,32 +551,55 @@ var flexygo;
          * @param {boolean} excludeHist - True to not store in history
          * @param {JQuery} triggerElement - Relative element to open the page
         */
-        function viewReport(reportname, reportwhere, objectname, objectwhere, defaults, params, targetid, excludeHist) {
+        function viewReport(reportname, reportwhere, objectname, objectwhere, defaults, params, targetid, excludeHist, hasParams = false) {
             if (typeof event != 'undefined') {
                 event.preventDefault();
             }
-            let reportConfig = new flexygo.obj.Entity('Sysreport', 'reportName=\'' + reportname + '\'');
-            reportConfig.read();
-            //html report
-            if (reportConfig.data.TypeId.Value == 'html') {
-                let templateId = reportConfig.data.TemplateId.Value;
-                let filter = reportConfig.data.FilterSentence.Value;
-                flexygo.nav.openPrintPage(objectname, objectwhere, templateId, targetid, filter);
-            }
-            else {
-                //crystal report
-                var callParams;
-                callParams = 'ObjectName=' + objectname + '&ObjectWhere=' + objectwhere + '&ReportName=' + reportname;
-                //came from param form
-                if (params)
-                    callParams += '&Params=' + JSON.stringify(params);
-                //report definition has a report where
-                if (reportwhere)
-                    callParams += '&Filter=' + reportwhere;
-                //put it all into one encoded id
-                callParams = 'id=' + flexygo.history.Base64.encode(callParams);
-                flexygo.nav.openURL('~/forms/Reports.aspx', callParams);
-            }
+            let reportConfig;
+            flexygo.ajax.post('~/api/Report', 'GetReportConfig', { "ReportName": reportname, "ObjectName": objectname, "ObjectWhere": objectwhere }, (reportConfig) => {
+                if (reportConfig.MaxRows && reportConfig.CurrentRows && reportConfig.CurrentRows > reportConfig.MaxRows) {
+                    flexygo.msg.warning(flexygo.localization.translate('navigation.reportmaxrows').replace('{0}', reportConfig.CurrentRows).replace('{1}', reportConfig.MaxRows));
+                    return;
+                }
+                //html report
+                if (reportConfig.TypeId == 'html') {
+                    $('body').append('<div class="aboveLoading"><div class="centerLoading"> <div id="flx-dependency-loader" class="reportSpinner margin-top-l margin-right-s" style="position: initial;width: 30px;height: 30px;"/><h1 class="margin-left-s loadingTitle">' + flexygo.localization.translate('htmlreport.generate') + '</h1></div></div>');
+                    flexygo.utils.asyncSleep(0).then(() => {
+                        let templateId = reportConfig.TemplateId;
+                        let filter = reportConfig.FilterSentence;
+                        let descrip = reportConfig.ReportDescrip;
+                        flexygo.nav.openPrintPage(objectname, objectwhere, templateId, targetid, filter, descrip);
+                    });
+                }
+                else if (reportConfig.TypeId == 'excel') {
+                    flexygo.ajax.syncPost('~/api/Report', 'GetReportExcel', { "ObjectName": objectname, "ObjectWhere": objectwhere, "ReportName": reportname }, (ret) => {
+                        if (ret.Success) {
+                            var func = new Function(ret.Link);
+                            func.call(ret.Link);
+                        }
+                    });
+                }
+                else {
+                    //crystal report
+                    var callParams;
+                    callParams = 'ObjectName=' + objectname + '&ObjectWhere=' + objectwhere + '&ReportName=' + reportname;
+                    //came from param form
+                    if (params)
+                        callParams += '&Params=' + JSON.stringify(params);
+                    //defaults for the params
+                    if (defaults && defaults != 'null')
+                        callParams += '&Defaults=' + JSON.stringify(defaults);
+                    //if has params even hide
+                    if (hasParams)
+                        callParams += '&HasParams=' + hasParams;
+                    //report definition has a report where
+                    if (reportwhere)
+                        callParams += '&Filter=' + reportwhere;
+                    //put it all into one encoded id
+                    callParams = 'id=' + flexygo.history.Base64.encode(callParams);
+                    flexygo.nav.openURL('~/forms/Reports.aspx', callParams);
+                }
+            });
         }
         nav.viewReport = viewReport;
         /**
@@ -714,7 +777,7 @@ var flexygo;
         * @param {string} filter - Object or collection filter
         * @param {string} targetid - Target to open the window
        */
-        function openPrintPage(objectName, objectWhere, templateId, targetid, filter) {
+        function openPrintPage(objectName, objectWhere, templateId, targetid, filter, descrip) {
             //Hide menu when page loaded
             if (!flexygo.utils.isSizeMobile()) {
                 $('#mainMenu').find('.item-opened').parent().find('ul').slideUp(flexygo.utils.animationTime);
@@ -737,7 +800,8 @@ var flexygo;
             //    repbody +='</div><div class="report" ></div > </div>'
             //    pageContainer.html(repbody);
             //    pageContainer.find('.report').html(htmlText);
-            $(htmlText).print();
+            $(htmlText).print(descrip);
+            $('body > .aboveLoading').remove();
         }
         nav.openPrintPage = openPrintPage;
         /**
@@ -769,7 +833,7 @@ var flexygo;
         function getObjectMenu(objectname, objectwhere, defaults, btn, coord, options) {
             var cntMenu = $('flx-contextmenu')[0];
             if (!cntMenu.hideMenu(btn)) {
-                let proc = new flexygo.obj.Entity(objectname, objectwhere).processes(options);
+                let proc = new flexygo.obj.Entity(objectname, objectwhere).processes(options, defaults);
                 //Clear not Show in Menu items
                 if (proc.ObjectLink && Object.keys(proc.ObjectLink.ChildNodes).length > 0) {
                     for (let key in proc.ObjectLink.ChildNodes) {

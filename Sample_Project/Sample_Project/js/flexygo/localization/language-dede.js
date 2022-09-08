@@ -39,7 +39,8 @@ var flexygo;
                 CusPropertyName: 'Name des benutzerdefinierten Steuerelements',
                 SQLCustomProperty: 'Benutzerdefinierte SQL-Eigenschaft',
                 connectionstrings: 'Verbindungszeichenfolgen',
-                connStringvalues: 'Verbindungszeichenfolgen'
+                connStringvalues: 'Verbindungszeichenfolgen',
+                relateddep: 'Verwandte abhängigkeiten'
             };
             dede.develop = {
                 developer: 'Entwickler',
@@ -67,6 +68,8 @@ var flexygo;
                 objectpropertysecurity: 'Eigenschaftssicherheit',
                 pageSettings: 'Seiteneinstellung',
                 chatter: 'Chatter',
+                users: 'Benutzer',
+                roles: 'Rollen',
             };
             dede.history = {
                 historyempty: 'Navigationsverlauf leer',
@@ -81,7 +84,8 @@ var flexygo;
                 relatedobjects: 'Verwandte Objekte',
                 reports: 'Berichte',
                 noelements: 'Keine existierenden Elemente',
-                popupwarning: 'Pop-up Windows blockiert vom Browser. Bitte ändern sie die Einstellungen.'
+                popupwarning: 'Pop-up Windows blockiert vom Browser. Bitte ändern sie die Einstellungen.',
+                reportmaxrows: 'Dieser Bericht verwendet {0} Zeilen zum Filtern und überschreitet das Limit von {1}. Wenden Sie zuerst einen restriktiveren Filter an.'
             };
             dede.flxfilter = {
                 searchplaceholder: 'Suche nach: ',
@@ -130,6 +134,8 @@ var flexygo;
                 adddetachedproperty: 'Nicht verbundenes Feld hinzufügen',
                 selecttable: 'Wählen Sie Tabelle',
                 loadmore: 'Scrollen Sie, um mehr zu laden',
+                hasdependencies: 'Startet Abhängigkeiten',
+                hasdependingproperties: 'Von Abhängigkeiten betroffen'
             };
             dede.flxeditgrid = {
                 addrow: 'Zeile hinzufügen',
@@ -257,6 +263,8 @@ var flexygo;
                 fields: 'Felder',
                 apply: 'Sich bewerben',
                 clean: 'Reinigen',
+                groups: 'Gruppierungen',
+                applied: 'Appliqué'
             };
             dede.flxlist = {
                 noentriesfound: 'Keine Einträge gefunden.',
@@ -371,6 +379,9 @@ var flexygo;
                 view: 'sehen',
                 downloadall: 'Alle Dokumente herunterladen',
                 nodocuments: 'Keine Dokumente zum Herunterladen',
+                msgremove: 'Weet u zeker dat u het document wilt verwijderen?',
+                sendselection: 'Auswahl per E-Mail senden',
+                noselection: 'Keine Dokumente ausgewählt',
             };
             dede.imagemanager = {
                 upload: 'Hochladen',
@@ -407,6 +418,7 @@ var flexygo;
                 success: 'Dateien erfolgreich exportiert ;)',
                 error: 'Fehler beim exportieren der Dateien :(',
                 exportinglist: 'Export Liste',
+                exportlimit: 'Die maximale Anzahl der zu exportierenden Datensätze wurde überschritten, bitte verwenden Sie einen restriktiveren Filter',
             };
             dede.menumanager = {
                 deleteMenu: 'Menu löschen',
@@ -492,6 +504,7 @@ var flexygo;
                 end: 'Ende',
                 colproperties: 'Bearbeiten Grid Eigenschaften (Optional)',
                 save: 'Speichern',
+                filtersettings: 'Filter Einstellungen',
             };
             dede.flxpropertymanager = {
                 addfields: 'Klicken Sie auf "Felder hinzufügen", um zu starten.',
@@ -565,6 +578,12 @@ var flexygo;
                 errornosql: 'SQL Feld kann nicht leer sein.',
                 validate: 'bestätigen',
                 errorduplicateprop: 'Feld {0} existiert bereits.',
+                save: 'Speichern',
+                cancel: 'Abbrechen',
+                viewwizard: 'Ansichts-Assistent',
+                selectobject: 'Bitte wählen Sie ein Objekt aus',
+                openwizard: 'Assistent öffnen',
+                saved: 'Gesichert  :)',
             };
             dede.templates = {
                 addnewtemplate: 'Vorlage hinzufügen',
@@ -598,12 +617,16 @@ var flexygo;
                 search: 'SearcSuche...',
                 pleasewrite: 'Bitte schreibe den zu suchenden Text',
                 speak: 'Sprich jetzt...',
+                pleaseobject: 'Bitte zuerst ein Objekt auswählen',
+                searchnode: 'Suche',
             };
             dede.text = {
                 map: 'Klicken Sie auf die Karte',
                 errormap: 'Die Adresse wurde nicht gefunden',
                 api: 'Google API-Schlüssel wurde nicht gefunden.',
                 apihelp: 'Sehen Sie sich unsere Hilfe an, um zu erfahren, wie Sie zu uns gelangen.',
+                nophone: 'Eingabe einer Rufnummer',
+                nomail: 'Eingabe einer E- Mail Adresse',
             };
             dede.flxfunnel = {
                 data: 'Keine Daten',
@@ -663,6 +686,7 @@ var flexygo;
                 sendbutton: 'Registrieren',
                 startinfo: 'Sie müssen zuerst das chatter konfigurieren',
                 deleteconfirm: '¿Sind Sie sicher, die Nachricht zu löschen?',
+                saveButton: 'Speichern',
             };
             dede.offline = {
                 createobjecttitle: 'Fügen Sie der App ein neues Objekt hinzu',
@@ -674,6 +698,89 @@ var flexygo;
             dede.offlineemulator = {
                 ios: 'IOS-Modus umschalten',
                 md: 'Android-Modus umschalten',
+            };
+            dede.combobuilder = {
+                datasource: 'Datenquelle',
+                fromtable: 'Tabelle',
+                fromview: 'Ansicht',
+                selectcnnstring: 'Wählen Sie die Verbindungszeichenfolge aus',
+                validcnnstring: 'Sie müssen eine Verbindungszeichenfolge auswählen',
+                selecttable: 'Eine Quelle auswählen',
+                validorigin: 'Geben Sie eine gültige Quelle an',
+                viewkeyfields: 'Schlüsselfelder anzeigen',
+                saved: 'Gerettet',
+                save: 'Speichern',
+                cancel: 'Abbrechen',
+                selectvaluefield: 'Wählen Sie das zu speichernde Feld aus',
+                selectdisplayfield: 'Wählen Sie das Feld, das angezeigt werden soll',
+                selectadditionalfield: 'Zusätzliche Felder auswählen',
+                selectorderfield: 'Wählen Sie das Feld aus, um die Ergebnisse zu sortieren',
+                comboassistant: 'Assistent',
+                cnnstring: 'Verbindungszeichenfolge',
+                origin: 'Herkunft',
+                sqlsentence: 'SQL-Anweisung',
+                valuefield: 'Zu speicherndes Feld',
+                displayfield: 'Anzuzeigendes Feld',
+                additionalfield: 'Zusätzliche Felder',
+                orderfield: 'Zu sortierendes Feld',
+                validvaluefield: 'Geben Sie ein zu speicherndes Feld an',
+                validdisplayfield: 'Geben Sie ein Feld zur Anzeige an',
+                validorderfield: 'Geben Sie ein Feld zum Sortieren an',
+                validsqlsentence: 'SQL-Anweisung ist ungültig',
+            };
+            dede.formatsmanager = {
+                formatassistant: 'Assistent',
+                field: 'Feld',
+                selectfield: 'Feld auswählen',
+                validfield: 'Gültiges Feld auswählen',
+                validformat: 'Gültiges Format auswählen',
+                selectformat: 'Formattyp auswählen',
+                formattype: 'Formattyp',
+                saved: 'Gespeichert',
+                nosaved: 'Es wurde kein Format gespeichert',
+                decimal: 'Dezimalformat',
+                isdate: 'Datumsformat',
+                translate: 'Satz übersetzen',
+                save: 'Speichern',
+                cancel: 'Abbrechen',
+                casetrue: 'Fall wahr',
+                casefalse: 'Fall falsch',
+                boolformat: 'Boolean format',
+                isnull: 'Wert ist null',
+                numdecimals: 'Anzahl der Nachkommastellen',
+                switchformat: 'Schaltformat',
+                casenotnull: 'Wert ist nicht null',
+                stringformat: 'Formatierender String',
+                stringtype: 'String-Format-Typ',
+                validstringformat: 'Wähle gültigen String-Format-Typ',
+                uppercase: 'Grossbuchstaben',
+                lowercase: 'Kleinbuchstaben',
+                characternumber: 'Anzahl der anzuzeigenden Zeichen',
+                addoption: 'Option hinzufügen',
+                addelse: 'Standardoption hinzufügen',
+                dateformat: 'Datumsformattyp',
+                selectdateformat: 'Datumsformat-Typ auswählen',
+                validdateformat: 'Gültigen Datumsformat-Typ auswählen',
+                dateLT: '19:05',
+                dateLTS: '19:05:57 ',
+                dateL: '13.07.2021',
+                datel: '13.7.2021',
+                dateLL: '13. Juli 2021',
+                datell: '13. Jul. 2021',
+                dateLLL: '13.07.2021 19:05',
+                datelll: 'Jul 13, 2021 19:05',
+                dateLLLL: 'Dienstag, 13. Juli 2021 19:05',
+                datellll: 'Di., Jul 13 2021 19:05 ',
+                translatesentence: 'Zu übersetzender Satz',
+                option: 'Option',
+                result: 'Ergebnis',
+                elseoption: 'Standard-Option',
+            };
+            dede.imports = {
+                template: 'Vorlagendatei',
+            };
+            dede.htmlreport = {
+                generate: 'Bericht erstellen',
             };
         })(dede = culture.dede || (culture.dede = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

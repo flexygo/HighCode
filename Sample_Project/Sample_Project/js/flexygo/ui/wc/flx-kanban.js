@@ -44,6 +44,7 @@ var flexygo;
                 init() {
                     let me = $(this);
                     me.removeAttr('manualInit');
+                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
                     flexygo.events.on(this, "dialog", "closed", this.onDialogClosed);
                     this.filterValues = null;
                     this.activeFilter = null;
@@ -67,6 +68,15 @@ var flexygo;
                 refresh() {
                     if ($(this).attr('manualInit') != 'true') {
                         this.loadKanban(false, false);
+                    }
+                }
+                /**
+                * Refresh de one colum. REQUIRED.
+                * @method refresh
+                */
+                refreshColumn(columnid) {
+                    if ($(this).attr('manualInit') != 'true') {
+                        this.loadColumn(false, false, columnid);
                     }
                 }
                 setFilter() {
@@ -129,9 +139,14 @@ var flexygo;
                         }
                         newCard.find('.kanban-card-descrip').append(descrip);
                         newCard.attr('card-id', cardData[this.config.CardIdField]);
-                        let cardOrder = this.getCardOrder(String(cardData[this.config.CardColumnIdField]), cardData[this.config.CardIdField]);
-                        if (cardOrder) {
-                            newCard.attr('original-order', cardOrder);
+                        if (this.config.SettingOrders.length > 0) {
+                            newCard.attr('original-order', i);
+                        }
+                        else {
+                            let cardOrder = this.getCardOrder(String(cardData[this.config.CardColumnIdField]), cardData[this.config.CardIdField]);
+                            if (cardOrder) {
+                                newCard.attr('original-order', cardOrder);
+                            }
                         }
                         col.append(newCard);
                     }
@@ -161,23 +176,7 @@ var flexygo;
                             $(el).append(itms);
                         }
                     });
-                    if (this.config.onCardClick) {
-                        this.panel.find('.kanban-card-descrip').on('mouseup', (event) => { if (!this.sorting) {
-                            this.descripClick($(event.currentTarget.closest('li.kanban-card')), this.config.onCardClick);
-                        } });
-                    }
-                    this.panel.find('.kanban-new-card').on('mouseup', (event) => { this.newCardClick($(event.currentTarget).closest('[column-id]')); });
-                    this.panel.find('ul>li.kanban-card').on('mousedown', (ev) => {
-                        me.find('.board-endbox').show();
-                        if (this.filterValues && this.filterValues.length > 0) {
-                            var itms = $(this).find('.kanban-card');
-                            itms.each((indx, el) => {
-                                if (!$(el).is($(ev.currentTarget))) {
-                                    $(el).addClass('locked');
-                                }
-                            });
-                        }
-                    }).on('mouseup', () => { $(this).find('.kanban-card').removeClass('locked'); });
+                    this.setCardEventClick(me);
                     me.find('ul.kanban-container, .board-endbox').sortable({
                         connectWith: ".kanban-container, .board-endbox",
                         start: (event, ui) => { this.sortStart(ui.item); },
@@ -266,7 +265,7 @@ var flexygo;
                             }
                         }
                     }
-                    if (!this.filterValues || this.filterValues.length == 0) {
+                    if ((!this.filterValues || this.filterValues.length == 0) && this.config.SettingOrders.length == 0) {
                         //Update Card Disposition
                         let boardSort = new flexygo.obj.Entity('sysKanbanOrder', 'KanbanSettingsName=\'' + this.config.KanbanSettingsName + '\' and BoardId=\'' + this.boardId + '\'');
                         boardSort.read();
@@ -274,6 +273,9 @@ var flexygo;
                         boardSort.data.BoardId.Value = this.boardId;
                         boardSort.data.JsonData.Value = this.getConfig();
                         boardSort.update();
+                    }
+                    if (this.config.SettingOrders.length > 0) {
+                        this.refreshColumn(newState);
                     }
                     this.sorting = false;
                     this.sortingFrom = null;
@@ -315,8 +317,34 @@ var flexygo;
                         this.refresh();
                     }
                 }
+                setCardEventClick(me) {
+                    if (this.config.onCardClick) {
+                        this.panel.find('.kanban-card-descrip').on('mouseup', (event) => { if (!this.sorting) {
+                            this.descripClick($(event.currentTarget.closest('li.kanban-card')), this.config.onCardClick);
+                        } });
+                    }
+                    this.panel.find('.kanban-new-card').off('mouseup').on('mouseup', (event) => { this.newCardClick($(event.currentTarget).closest('[column-id]')); });
+                    this.panel.find('ul>li.kanban-card').on('mousedown', (ev) => {
+                        me.find('.board-endbox').show();
+                        if ((this.filterValues && this.filterValues.length > 0) || (this.config.SettingOrders.length > 0)) {
+                            var itms = $(this).find('.kanban-card');
+                            itms.each((indx, el) => {
+                                if (!$(el).is($(ev.currentTarget))) {
+                                    $(el).addClass('locked');
+                                }
+                            });
+                        }
+                    }).on('mouseup', () => {
+                        $(this).find('.kanban-card').removeClass('locked');
+                    });
+                }
                 loadKanban(refreshButtons, refreshFilters) {
                     var me = $(this);
+                    var scrollColumn = new Map();
+                    var itms = $(this).find('ul.kanban-container');
+                    itms.each((indx, el) => {
+                        scrollColumn.set($(el).closest('div.kanban-div').attr('column-id'), $(el).scrollTop());
+                    });
                     me.empty();
                     let params = {
                         ObjectName: me.attr('ObjectName'),
@@ -327,13 +355,13 @@ var flexygo;
                         filterValues: this.filterValues
                     };
                     flexygo.ajax.post('~/api/Kanban', 'GetKanban', params, (response) => {
-                        if (response) {
+                        if (response && response.KanbanSettings != null) {
                             this.config = response.KanbanSettings;
                             this.columns = response.Columns;
                             this.cards = response.Cards;
                             this.defaults = response.Defaults;
-                            this.boardTitle = response.Title;
-                            this.boardDescrip = response.Descrip;
+                            this.boardTitle = flexygo.utils.parser.compile(null, response.Title);
+                            this.boardDescrip = flexygo.utils.parser.compile(null, response.Descrip);
                             this.boardId = response.BoardId;
                             this.boardOrder = JSON.parse(response.BoardOrder);
                             let parentModule = me.closest('flx-module');
@@ -361,6 +389,55 @@ var flexygo;
                                 this.loadFilters(response.SearchSettings);
                             }
                             this.render();
+                            itms = $(this).find('ul.kanban-container');
+                            itms.each((indx, el) => {
+                                $(el).scrollTop(scrollColumn.get($(el).closest('div.kanban-div').attr('column-id')));
+                            });
+                        }
+                        else {
+                            me.append('<div class="box-info"><i class="flx-icon icon-information-2 icon-lg icon-margin-right"></i><span><strong>Info!</strong> ' + flexygo.localization.translate('flxlist.noentriesfound') + '</span></div>');
+                        }
+                    });
+                }
+                loadColumn(refreshButtons, refreshFilters, columnid) {
+                    var me = $(this);
+                    let params = {
+                        ObjectName: me.attr('ObjectName'),
+                        ObjectWhere: me.attr('ObjectWhere'),
+                        ModuleName: this.moduleName,
+                        AdditionalWhere: this.additionalWhere,
+                        ColumnId: columnid,
+                        searchId: this.activeFilter,
+                        filterValues: this.filterValues
+                    };
+                    flexygo.ajax.post('~/api/Kanban', 'GetKanbanColumn', params, (response) => {
+                        if (response) {
+                            this.cards = response.Cards;
+                            let col = this.panel.find('[column-id="' + columnid + '"] ul.kanban-container');
+                            col.empty();
+                            for (let i = 0; i < this.cards.length; i++) {
+                                var cardData = this.cards[i];
+                                if (cardData[this.config.CardColumnIdField] == columnid) {
+                                    let newCard = $('<li class="kanban-card"><div class="kanban-card-descrip"></div></li>');
+                                    let descrip = cardData[this.config.ColumnDescripField];
+                                    if (this.config.CardContentTemplate) {
+                                        descrip = flexygo.utils.parser.compile(cardData, this.config.CardContentTemplate);
+                                    }
+                                    newCard.find('.kanban-card-descrip').append(descrip);
+                                    newCard.attr('card-id', cardData[this.config.CardIdField]);
+                                    if (this.config.SettingOrders.length > 0) {
+                                        newCard.attr('original-order', i);
+                                    }
+                                    else {
+                                        let cardOrder = this.getCardOrder(String(cardData[this.config.CardColumnIdField]), cardData[this.config.CardIdField]);
+                                        if (cardOrder) {
+                                            newCard.attr('original-order', cardOrder);
+                                        }
+                                    }
+                                    col.append(newCard);
+                                }
+                            }
+                            this.setCardEventClick(me);
                         }
                     });
                 }

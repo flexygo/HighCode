@@ -79,7 +79,7 @@ var flexygo;
                     let me = $(this);
                     me.empty();
                     this.uuid = flexygo.utils.uniqueUUID();
-                    let div = $('<div id="' + this.uuid + '" style="min-height:300px;border:1px solid #444444;background-color:#ffffff;"></div>');
+                    let div = $('<div id="' + this.uuid + '" style="min-height:300px;border:none;background-color:#ffffff;"></div>');
                     me.append(div);
                     let module = $(this).closest('flx-module');
                     this.initialHeight = module.height();

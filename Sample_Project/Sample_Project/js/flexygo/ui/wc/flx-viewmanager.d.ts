@@ -19,9 +19,11 @@ declare namespace flexygo.ui.wc {
         objectname: string;
         viewname: string;
         newValue: number;
+        mode: string;
         tree: JQuery;
         cmb: JQuery;
         fields: JQuery;
+        targetItem: JQuery;
         config: flexygo.api.entity.ObjBasicConfig;
         connectedCallback(): void;
         static readonly observedAttributes: any[];
@@ -37,5 +39,10 @@ declare namespace flexygo.ui.wc {
         private getLabel(label);
         private createField(fld);
         private findPath(obj);
+        /**
+        *
+        * @method openWizard
+        */
+        openWizard(e: any): void;
     }
 }

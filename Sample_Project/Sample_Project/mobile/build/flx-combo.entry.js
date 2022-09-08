@@ -1,12 +1,27 @@
-import { r as registerInstance, j as h, k as getElement } from './index-76f52202.js';
-import { u as util, s as sql } from './messages-1e55a1f4.js';
-import { j as jquery } from './jquery-4ed57fb2.js';
+import { r as registerInstance, j as h, k as getElement } from './index-86ac49ff.js';
+import './ionic-global-0f98fe97.js';
+import './webapi-7959a2b6.js';
+import { u as util, s as sql } from './conftoken-bd0cce07.js';
+import { j as jquery } from './jquery-ad132f97.js';
+import './utils-16079bfd.js';
+import './helpers-719f4c54.js';
+import './animation-10ea33c3.js';
+import './index-7173f7a2.js';
+import './ios.transition-95375ac9.js';
+import './md.transition-6d74e584.js';
+import './cubic-bezier-93f47170.js';
+import './index-7fe827c3.js';
+import './index-b40d441b.js';
+import './hardware-back-button-aacf3d12.js';
+import './index-50651ccc.js';
+import './overlays-5302658e.js';
 
 const flxComboCss = "flx-combo{width:100%}flx-combo ion-select{width:100%;max-width:100%}";
 
 const FlxCombo = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.disabled = false;
         this.autorefresh = true;
         this.table = [];
         this.rendering = false;
@@ -16,25 +31,25 @@ const FlxCombo = class {
         if (((typeof this.multiple != 'undefined')) && this.value && this.value.toString().startsWith('[')) {
             this.value = util.execDynamicCode(this.value);
         }
-        this.load();
+        this.load(true);
     }
     sqlsentenceHandler() {
         if (this.autorefresh) {
-            this.load();
+            this.load(false);
         }
     }
     additionalHandler() {
         if (this.autorefresh) {
-            this.load();
+            this.load(false);
         }
     }
     filterlHandler() {
         if (this.autorefresh) {
-            this.load();
+            this.load(false);
         }
     }
     async refresh() {
-        return this.load();
+        return this.load(true);
     }
     componentDidRender() {
         this.rendering = false;
@@ -54,8 +69,9 @@ const FlxCombo = class {
             jquery(this.me).find('ion-select')[0].open();
         }
     }
-    load() {
+    load(firstTime) {
         if (this.sqlsentence) {
+            const isNew = (window.location.href.toLowerCase().indexOf('/filter/') === -1 ? true : false);
             let sentence = sql.addWhere(this.sqlsentence, this.filter);
             sentence = sql.addWhere(sentence, this.additional);
             sentence = sql.addOrderBy(sentence, this.orderby);
@@ -63,6 +79,13 @@ const FlxCombo = class {
                 let arr = [];
                 for (let i = 0; i < table.rows.length; i++) {
                     arr.push(sql.getRow(table, i));
+                }
+                let autoselectLower = (this.autoselect ? this.autoselect.toLowerCase() : null);
+                if (table.rows.length === 1 && ((autoselectLower === "always") || (autoselectLower === "true" && isNew))) {
+                    if (firstTime) {
+                        const row = sql.getRow(table, 0);
+                        this.prerenderValue = row[this.valuefield];
+                    }
                 }
                 this.table = arr;
                 this.rendering = true;
@@ -87,7 +110,7 @@ const FlxCombo = class {
         }
     }
     render() {
-        return (h("ion-select", { multiple: (!(typeof this.multiple == 'undefined')), disabled: (this.disabled ? true : false), compareWith: this.compare, value: this.value, onIonChange: (ev) => { this.valueChange(ev); } }, ((typeof this.multiple == 'undefined') ? h("ion-select-option", { value: "" }) : null), this.table.map((row) => {
+        return (h("ion-select", { multiple: (!(typeof this.multiple == 'undefined')), disabled: (this.disabled ? true : false), compareWith: this.compare, value: (typeof this.prerenderValue != 'undefined' ? this.prerenderValue : this.value), onIonChange: (ev) => { this.valueChange(ev); } }, ((typeof this.multiple == 'undefined') ? h("ion-select-option", { value: "" }) : null), this.table.map((row) => {
             return h("ion-select-option", { value: row[this.valuefield] }, row[this.displayfield]);
         })));
     }

@@ -1,7 +1,7 @@
-import { r as registerInstance, m as createEvent, j as h, l as Host, k as getElement } from './index-76f52202.js';
-import { g as getIonMode } from './ionic-global-53d785f3.js';
-import { c as clamp, d as debounceEvent, a as renderHiddenInput } from './helpers-742de4f9.js';
-import { c as createColorClasses, h as hostContext } from './theme-d8afa044.js';
+import { r as registerInstance, m as createEvent, j as h, l as Host, k as getElement } from './index-86ac49ff.js';
+import { g as getIonMode } from './ionic-global-0f98fe97.js';
+import { f as clamp, k as debounceEvent, i as inheritAttributes, d as getAriaLabel, e as renderHiddenInput } from './helpers-719f4c54.js';
+import { c as createColorClasses, h as hostContext } from './theme-f934266c.js';
 
 const rangeIosCss = ":host{--knob-handle-size:calc(var(--knob-size) * 2);display:flex;position:relative;flex:3;align-items:center;font-family:var(--ion-font-family, inherit);user-select:none;z-index:2}:host(.range-disabled){pointer-events:none}::slotted(ion-label){flex:initial}::slotted(ion-icon[slot]){font-size:24px}.range-slider{position:relative;flex:1;width:100%;height:var(--height);contain:size layout style;cursor:grab;touch-action:pan-y}:host(.range-pressed) .range-slider{cursor:grabbing}.range-pin{position:absolute;background:var(--ion-color-base);color:var(--ion-color-contrast);text-align:center;box-sizing:border-box}.range-knob-handle{left:0;top:calc((var(--height) - var(--knob-handle-size)) / 2);margin-left:calc(0px - var(--knob-handle-size) / 2);position:absolute;width:var(--knob-handle-size);height:var(--knob-handle-size);text-align:center}[dir=rtl] .range-knob-handle,:host-context([dir=rtl]) .range-knob-handle{left:unset;right:unset;right:0}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){.range-knob-handle{margin-left:unset;-webkit-margin-start:calc(0px - var(--knob-handle-size) / 2);margin-inline-start:calc(0px - var(--knob-handle-size) / 2)}}[dir=rtl] .range-knob-handle,:host-context([dir=rtl]) .range-knob-handle{left:unset}.range-knob-handle:active,.range-knob-handle:focus{outline:none}.range-bar{border-radius:var(--bar-border-radius);left:0;top:calc((var(--height) - var(--bar-height)) / 2);position:absolute;width:100%;height:var(--bar-height);background:var(--bar-background);pointer-events:none}[dir=rtl] .range-bar,:host-context([dir=rtl]) .range-bar{left:unset;right:unset;right:0}[dir=rtl] .range-bar,:host-context([dir=rtl]) .range-bar{left:unset}.range-knob{border-radius:var(--knob-border-radius);left:calc(50% - var(--knob-size) / 2);top:calc(50% - var(--knob-size) / 2);position:absolute;width:var(--knob-size);height:var(--knob-size);background:var(--knob-background);box-shadow:var(--knob-box-shadow);z-index:2;pointer-events:none}[dir=rtl] .range-knob,:host-context([dir=rtl]) .range-knob{left:unset;right:unset;right:calc(50% - var(--knob-size) / 2)}[dir=rtl] .range-knob,:host-context([dir=rtl]) .range-knob{left:unset}:host(.range-pressed) .range-bar-active{will-change:left, right}:host(.in-item){width:100%}:host(.in-item) ::slotted(ion-label){align-self:center}:host{--knob-border-radius:50%;--knob-background:#ffffff;--knob-box-shadow:0 3px 1px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.13), 0 0 0 1px rgba(0, 0, 0, 0.02);--knob-size:28px;--bar-height:2px;--bar-background:rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.1);--bar-background-active:var(--ion-color-primary, #3880ff);--bar-border-radius:0;--height:42px;padding-left:16px;padding-right:16px;padding-top:8px;padding-bottom:8px}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){:host{padding-left:unset;padding-right:unset;-webkit-padding-start:16px;padding-inline-start:16px;-webkit-padding-end:16px;padding-inline-end:16px}}:host(.ion-color) .range-bar-active,:host(.ion-color) .range-tick-active{background:var(--ion-color-base)}::slotted([slot=start]){margin-left:0;margin-right:16px;margin-top:0;margin-bottom:0}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){::slotted([slot=start]){margin-left:unset;margin-right:unset;-webkit-margin-start:0;margin-inline-start:0;-webkit-margin-end:16px;margin-inline-end:16px}}::slotted([slot=end]){margin-left:16px;margin-right:0;margin-top:0;margin-bottom:0}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){::slotted([slot=end]){margin-left:unset;margin-right:unset;-webkit-margin-start:16px;margin-inline-start:16px;-webkit-margin-end:0;margin-inline-end:0}}:host(.range-has-pin){padding-top:20px}.range-bar-active{bottom:0;width:auto;background:var(--bar-background-active)}.range-tick{margin-left:-1px;border-radius:0;position:absolute;top:18px;width:2px;height:8px;background:rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.1);pointer-events:none}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){.range-tick{margin-left:unset;-webkit-margin-start:-1px;margin-inline-start:-1px}}.range-tick-active{background:var(--bar-background-active)}.range-pin{transform:translate3d(0,  28px,  0) scale(0.01);padding-left:8px;padding-right:8px;padding-top:8px;padding-bottom:8px;display:inline-block;position:relative;top:-20px;min-width:28px;transition:transform 120ms ease;background:transparent;color:var(--ion-text-color, #000);font-size:12px;text-align:center}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){.range-pin{padding-left:unset;padding-right:unset;-webkit-padding-start:8px;padding-inline-start:8px;-webkit-padding-end:8px;padding-inline-end:8px}}.range-knob-pressed .range-pin{transform:translate3d(0,  0,  0) scale(1)}:host(.range-disabled){opacity:0.5}";
 
@@ -14,15 +14,19 @@ const Range = class {
         this.ionStyle = createEvent(this, "ionStyle", 7);
         this.ionFocus = createEvent(this, "ionFocus", 7);
         this.ionBlur = createEvent(this, "ionBlur", 7);
+        this.didLoad = false;
         this.noUpdate = false;
         this.hasFocus = false;
+        this.inheritedAttributes = {};
         this.ratioA = 0;
         this.ratioB = 0;
         /**
          * How long, in milliseconds, to wait to trigger the
          * `ionChange` event after each change in the range value.
+         * This also impacts form bindings such as `ngModel` or `v-model`.
          */
         this.debounce = 0;
+        // TODO: In Ionic Framework v6 this should initialize to this.rangeId like the other form components do.
         /**
          * The name of the control, which is submitted with the form data.
          */
@@ -78,6 +82,21 @@ const Range = class {
             }
             else {
                 return this.clampBounds(value);
+            }
+        };
+        this.setupGesture = async () => {
+            const rangeSlider = this.rangeSlider;
+            if (rangeSlider) {
+                this.gesture = (await __sc_import_app('./index-7fe827c3.js')).createGesture({
+                    el: rangeSlider,
+                    gestureName: 'range',
+                    gesturePriority: 100,
+                    threshold: 0,
+                    onStart: ev => this.onStart(ev),
+                    onMove: ev => this.onMove(ev),
+                    onEnd: ev => this.onEnd(ev),
+                });
+                this.gesture.enable(!this.disabled);
             }
         };
         this.handleKeyboard = (knob, isIncrease) => {
@@ -136,30 +155,36 @@ const Range = class {
         value = this.ensureValueInBounds(value);
         this.ionChange.emit({ value });
     }
+    componentWillLoad() {
+        /**
+         * If user has custom ID set then we should
+         * not assign the default incrementing ID.
+         */
+        this.rangeId = (this.el.hasAttribute('id')) ? this.el.getAttribute('id') : `ion-r-${rangeIds++}`;
+        this.inheritedAttributes = inheritAttributes(this.el, ['aria-label']);
+    }
+    componentDidLoad() {
+        this.setupGesture();
+        this.didLoad = true;
+    }
     connectedCallback() {
         this.updateRatio();
         this.debounceChanged();
         this.disabledChanged();
+        /**
+         * If we have not yet rendered
+         * ion-range, then rangeSlider is not defined.
+         * But if we are moving ion-range via appendChild,
+         * then rangeSlider will be defined.
+         */
+        if (this.didLoad) {
+            this.setupGesture();
+        }
     }
     disconnectedCallback() {
         if (this.gesture) {
             this.gesture.destroy();
             this.gesture = undefined;
-        }
-    }
-    async componentDidLoad() {
-        const rangeSlider = this.rangeSlider;
-        if (rangeSlider) {
-            this.gesture = (await __sc_import_app('./index-9b41fcc6.js')).createGesture({
-                el: rangeSlider,
-                gestureName: 'range',
-                gesturePriority: 100,
-                threshold: 0,
-                onStart: ev => this.onStart(ev),
-                onMove: ev => this.onMove(ev),
-                onEnd: ev => this.onEnd(ev),
-            });
-            this.gesture.enable(!this.disabled);
         }
     }
     getValue() {
@@ -281,7 +306,16 @@ const Range = class {
         }
     }
     render() {
-        const { min, max, step, el, handleKeyboard, pressedKnob, disabled, pin, ratioLower, ratioUpper } = this;
+        const { min, max, step, el, handleKeyboard, pressedKnob, disabled, pin, ratioLower, ratioUpper, inheritedAttributes, rangeId } = this;
+        /**
+         * Look for external label, ion-label, or aria-labelledby.
+         * If none, see if user placed an aria-label on the host
+         * and use that instead.
+         */
+        let { labelText } = getAriaLabel(el, rangeId);
+        if (labelText === undefined || labelText === null) {
+            labelText = inheritedAttributes['aria-label'];
+        }
         const mode = getIonMode(this);
         const barStart = `${ratioLower * 100}%`;
         const barEnd = `${100 - ratioUpper * 100}%`;
@@ -311,7 +345,13 @@ const Range = class {
             }
         }
         renderHiddenInput(true, el, this.name, JSON.stringify(this.getValue()), disabled);
-        return (h(Host, { onFocusin: this.onFocus, onFocusout: this.onBlur, class: Object.assign(Object.assign({}, createColorClasses(this.color)), { [mode]: true, 'in-item': hostContext('ion-item', el), 'range-disabled': disabled, 'range-pressed': pressedKnob !== undefined, 'range-has-pin': pin }) }, h("slot", { name: "start" }), h("div", { class: "range-slider", ref: rangeEl => this.rangeSlider = rangeEl }, ticks.map(tick => (h("div", { style: tickStyle(tick), role: "presentation", class: {
+        return (h(Host, { onFocusin: this.onFocus, onFocusout: this.onBlur, id: rangeId, class: createColorClasses(this.color, {
+                [mode]: true,
+                'in-item': hostContext('ion-item', el),
+                'range-disabled': disabled,
+                'range-pressed': pressedKnob !== undefined,
+                'range-has-pin': pin
+            }) }, h("slot", { name: "start" }), h("div", { class: "range-slider", ref: rangeEl => this.rangeSlider = rangeEl }, ticks.map(tick => (h("div", { style: tickStyle(tick), role: "presentation", class: {
                 'range-tick': true,
                 'range-tick-active': tick.active
             }, part: tick.active ? 'tick-active' : 'tick' }))), h("div", { class: "range-bar", role: "presentation", part: "bar" }), h("div", { class: "range-bar range-bar-active", role: "presentation", style: barStyle, part: "bar-active" }), renderKnob(isRTL, {
@@ -323,7 +363,8 @@ const Range = class {
             disabled,
             handleKeyboard,
             min,
-            max
+            max,
+            labelText
         }), this.dualKnobs && renderKnob(isRTL, {
             knob: 'B',
             pressed: pressedKnob === 'B',
@@ -333,7 +374,8 @@ const Range = class {
             disabled,
             handleKeyboard,
             min,
-            max
+            max,
+            labelText
         })), h("slot", { name: "end" })));
     }
     get el() { return getElement(this); }
@@ -345,7 +387,7 @@ const Range = class {
         "value": ["valueChanged"]
     }; }
 };
-const renderKnob = (isRTL, { knob, value, ratio, min, max, disabled, pressed, pin, handleKeyboard }) => {
+const renderKnob = (isRTL, { knob, value, ratio, min, max, disabled, pressed, pin, handleKeyboard, labelText }) => {
     const start = isRTL ? 'right' : 'left';
     const knobStyle = () => {
         const style = {};
@@ -371,7 +413,7 @@ const renderKnob = (isRTL, { knob, value, ratio, min, max, disabled, pressed, pi
             'range-knob-pressed': pressed,
             'range-knob-min': value === min,
             'range-knob-max': value === max
-        }, style: knobStyle(), role: "slider", tabindex: disabled ? -1 : 0, "aria-valuemin": min, "aria-valuemax": max, "aria-disabled": disabled ? 'true' : null, "aria-valuenow": value }, pin && h("div", { class: "range-pin", role: "presentation", part: "pin" }, Math.round(value)), h("div", { class: "range-knob", role: "presentation", part: "knob" })));
+        }, style: knobStyle(), role: "slider", tabindex: disabled ? -1 : 0, "aria-label": labelText, "aria-valuemin": min, "aria-valuemax": max, "aria-disabled": disabled ? 'true' : null, "aria-valuenow": value }, pin && h("div", { class: "range-pin", role: "presentation", part: "pin" }, Math.round(value)), h("div", { class: "range-knob", role: "presentation", part: "knob" })));
 };
 const ratioToValue = (ratio, min, max, step) => {
     let value = (max - min) * ratio;
@@ -383,6 +425,7 @@ const ratioToValue = (ratio, min, max, step) => {
 const valueToRatio = (value, min, max) => {
     return clamp(0, (value - min) / (max - min), 1);
 };
+let rangeIds = 0;
 Range.style = {
     ios: rangeIosCss,
     md: rangeMdCss

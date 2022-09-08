@@ -93,6 +93,10 @@ declare namespace flexygo.ui.wc {
         * @method initValidate
         */
         initValidate(): void;
+        loadingDependencies: number;
+        pendingSaveButton: JQuery;
+        addLock(): void;
+        removeLock(): void;
         /**
         * Starts control rendering.
         * @method render
@@ -192,6 +196,11 @@ declare namespace flexygo.ui.wc {
         */
         appendStack(prop: JQuery): void;
         /**
+        * Order the gridstack control
+        * @method orderStack
+        */
+        orderStack(): void;
+        /**
        * Gets module full Id using pagename objectname modulename
        * @method getModuleFullId
        * @return {string}
@@ -204,6 +213,15 @@ declare namespace flexygo.ui.wc {
         * @param {Properties}  flexygo.api.edit.KeyValuePair[]
         */
         validateSQLProperty(propertyName: string, Properties: flexygo.api.edit.KeyValuePair[]): void;
+        /**
+        * Validate every property thas has an SQL validation configured
+        * @method validateSQLProperties
+        */
+        validateSQLProperties(): void;
+        paintLoadingEdit(): void;
+        removeLoadingEdit(): void;
+        paintLoadingProperty(e: flexygo.events.FlexygoEvent): void;
+        removeLoadingProperty(e: flexygo.events.FlexygoEvent): void;
         /**
       * Captures property change event
       * @method onPropertyChanged

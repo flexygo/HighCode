@@ -1,121 +1,121 @@
-import { r as registerInstance, m as createEvent, j as h, l as Host, k as getElement } from './index-76f52202.js';
-import { g as getIonMode } from './ionic-global-53d785f3.js';
-import './helpers-742de4f9.js';
-import { c as createAnimation } from './animation-a90ce8fc.js';
-import { s as sanitizeDOMString } from './index-86d5f3ab.js';
-import './hardware-back-button-b3b61715.js';
-import { i as isCancel, a as prepareOverlay, b as present, d as dismiss, e as eventMethod, s as safeCall } from './overlays-3fb58ad8.js';
-import { g as getClassMap, c as createColorClasses } from './theme-d8afa044.js';
+import { r as registerInstance, m as createEvent, j as h, l as Host, k as getElement } from './index-86ac49ff.js';
+import { g as getIonMode } from './ionic-global-0f98fe97.js';
+import './helpers-719f4c54.js';
+import { c as createAnimation } from './animation-10ea33c3.js';
+import { s as sanitizeDOMString } from './index-b40d441b.js';
+import './hardware-back-button-aacf3d12.js';
+import { i as isCancel, a as prepareOverlay, b as present, d as dismiss, e as eventMethod, s as safeCall } from './overlays-5302658e.js';
+import { g as getClassMap, c as createColorClasses } from './theme-f934266c.js';
 
 /**
  * iOS Toast Enter Animation
  */
 const iosEnterAnimation = (baseEl, position) => {
-    const baseAnimation = createAnimation();
-    const wrapperAnimation = createAnimation();
-    const hostEl = baseEl.host || baseEl;
-    const wrapperEl = baseEl.querySelector('.toast-wrapper');
-    const bottom = `calc(-10px - var(--ion-safe-area-bottom, 0px))`;
-    const top = `calc(10px + var(--ion-safe-area-top, 0px))`;
-    wrapperAnimation.addElement(wrapperEl);
-    switch (position) {
-        case 'top':
-            wrapperAnimation.fromTo('transform', 'translateY(-100%)', `translateY(${top})`);
-            break;
-        case 'middle':
-            const topPosition = Math.floor(hostEl.clientHeight / 2 - wrapperEl.clientHeight / 2);
-            wrapperEl.style.top = `${topPosition}px`;
-            wrapperAnimation.fromTo('opacity', 0.01, 1);
-            break;
-        default:
-            wrapperAnimation.fromTo('transform', 'translateY(100%)', `translateY(${bottom})`);
-            break;
-    }
-    return baseAnimation
-        .addElement(hostEl)
-        .easing('cubic-bezier(.155,1.105,.295,1.12)')
-        .duration(400)
-        .addAnimation(wrapperAnimation);
+  const baseAnimation = createAnimation();
+  const wrapperAnimation = createAnimation();
+  const hostEl = baseEl.host || baseEl;
+  const wrapperEl = baseEl.querySelector('.toast-wrapper');
+  const bottom = `calc(-10px - var(--ion-safe-area-bottom, 0px))`;
+  const top = `calc(10px + var(--ion-safe-area-top, 0px))`;
+  wrapperAnimation.addElement(wrapperEl);
+  switch (position) {
+    case 'top':
+      wrapperAnimation.fromTo('transform', 'translateY(-100%)', `translateY(${top})`);
+      break;
+    case 'middle':
+      const topPosition = Math.floor(hostEl.clientHeight / 2 - wrapperEl.clientHeight / 2);
+      wrapperEl.style.top = `${topPosition}px`;
+      wrapperAnimation.fromTo('opacity', 0.01, 1);
+      break;
+    default:
+      wrapperAnimation.fromTo('transform', 'translateY(100%)', `translateY(${bottom})`);
+      break;
+  }
+  return baseAnimation
+    .addElement(hostEl)
+    .easing('cubic-bezier(.155,1.105,.295,1.12)')
+    .duration(400)
+    .addAnimation(wrapperAnimation);
 };
 
 /**
  * iOS Toast Leave Animation
  */
 const iosLeaveAnimation = (baseEl, position) => {
-    const baseAnimation = createAnimation();
-    const wrapperAnimation = createAnimation();
-    const hostEl = baseEl.host || baseEl;
-    const wrapperEl = baseEl.querySelector('.toast-wrapper');
-    const bottom = `calc(-10px - var(--ion-safe-area-bottom, 0px))`;
-    const top = `calc(10px + var(--ion-safe-area-top, 0px))`;
-    wrapperAnimation.addElement(wrapperEl);
-    switch (position) {
-        case 'top':
-            wrapperAnimation.fromTo('transform', `translateY(${top})`, 'translateY(-100%)');
-            break;
-        case 'middle':
-            wrapperAnimation.fromTo('opacity', 0.99, 0);
-            break;
-        default:
-            wrapperAnimation.fromTo('transform', `translateY(${bottom})`, 'translateY(100%)');
-            break;
-    }
-    return baseAnimation
-        .addElement(hostEl)
-        .easing('cubic-bezier(.36,.66,.04,1)')
-        .duration(300)
-        .addAnimation(wrapperAnimation);
+  const baseAnimation = createAnimation();
+  const wrapperAnimation = createAnimation();
+  const hostEl = baseEl.host || baseEl;
+  const wrapperEl = baseEl.querySelector('.toast-wrapper');
+  const bottom = `calc(-10px - var(--ion-safe-area-bottom, 0px))`;
+  const top = `calc(10px + var(--ion-safe-area-top, 0px))`;
+  wrapperAnimation.addElement(wrapperEl);
+  switch (position) {
+    case 'top':
+      wrapperAnimation.fromTo('transform', `translateY(${top})`, 'translateY(-100%)');
+      break;
+    case 'middle':
+      wrapperAnimation.fromTo('opacity', 0.99, 0);
+      break;
+    default:
+      wrapperAnimation.fromTo('transform', `translateY(${bottom})`, 'translateY(100%)');
+      break;
+  }
+  return baseAnimation
+    .addElement(hostEl)
+    .easing('cubic-bezier(.36,.66,.04,1)')
+    .duration(300)
+    .addAnimation(wrapperAnimation);
 };
 
 /**
  * MD Toast Enter Animation
  */
 const mdEnterAnimation = (baseEl, position) => {
-    const baseAnimation = createAnimation();
-    const wrapperAnimation = createAnimation();
-    const hostEl = baseEl.host || baseEl;
-    const wrapperEl = baseEl.querySelector('.toast-wrapper');
-    const bottom = `calc(8px + var(--ion-safe-area-bottom, 0px))`;
-    const top = `calc(8px + var(--ion-safe-area-top, 0px))`;
-    wrapperAnimation.addElement(wrapperEl);
-    switch (position) {
-        case 'top':
-            wrapperEl.style.top = top;
-            wrapperAnimation.fromTo('opacity', 0.01, 1);
-            break;
-        case 'middle':
-            const topPosition = Math.floor(hostEl.clientHeight / 2 - wrapperEl.clientHeight / 2);
-            wrapperEl.style.top = `${topPosition}px`;
-            wrapperAnimation.fromTo('opacity', 0.01, 1);
-            break;
-        default:
-            wrapperEl.style.bottom = bottom;
-            wrapperAnimation.fromTo('opacity', 0.01, 1);
-            break;
-    }
-    return baseAnimation
-        .addElement(hostEl)
-        .easing('cubic-bezier(.36,.66,.04,1)')
-        .duration(400)
-        .addAnimation(wrapperAnimation);
+  const baseAnimation = createAnimation();
+  const wrapperAnimation = createAnimation();
+  const hostEl = baseEl.host || baseEl;
+  const wrapperEl = baseEl.querySelector('.toast-wrapper');
+  const bottom = `calc(8px + var(--ion-safe-area-bottom, 0px))`;
+  const top = `calc(8px + var(--ion-safe-area-top, 0px))`;
+  wrapperAnimation.addElement(wrapperEl);
+  switch (position) {
+    case 'top':
+      wrapperEl.style.top = top;
+      wrapperAnimation.fromTo('opacity', 0.01, 1);
+      break;
+    case 'middle':
+      const topPosition = Math.floor(hostEl.clientHeight / 2 - wrapperEl.clientHeight / 2);
+      wrapperEl.style.top = `${topPosition}px`;
+      wrapperAnimation.fromTo('opacity', 0.01, 1);
+      break;
+    default:
+      wrapperEl.style.bottom = bottom;
+      wrapperAnimation.fromTo('opacity', 0.01, 1);
+      break;
+  }
+  return baseAnimation
+    .addElement(hostEl)
+    .easing('cubic-bezier(.36,.66,.04,1)')
+    .duration(400)
+    .addAnimation(wrapperAnimation);
 };
 
 /**
  * md Toast Leave Animation
  */
 const mdLeaveAnimation = (baseEl) => {
-    const baseAnimation = createAnimation();
-    const wrapperAnimation = createAnimation();
-    const hostEl = baseEl.host || baseEl;
-    const wrapperEl = baseEl.querySelector('.toast-wrapper');
-    wrapperAnimation
-        .addElement(wrapperEl)
-        .fromTo('opacity', 0.99, 0);
-    return baseAnimation
-        .addElement(hostEl)
-        .easing('cubic-bezier(.36,.66,.04,1)')
-        .duration(300)
-        .addAnimation(wrapperAnimation);
+  const baseAnimation = createAnimation();
+  const wrapperAnimation = createAnimation();
+  const hostEl = baseEl.host || baseEl;
+  const wrapperEl = baseEl.querySelector('.toast-wrapper');
+  wrapperAnimation
+    .addElement(wrapperEl)
+    .fromTo('opacity', 0.99, 0);
+  return baseAnimation
+    .addElement(hostEl)
+    .easing('cubic-bezier(.36,.66,.04,1)')
+    .duration(300)
+    .addAnimation(wrapperAnimation);
 };
 
 const toastIosCss = ":host{--border-width:0;--border-style:none;--border-color:initial;--box-shadow:none;--min-width:auto;--width:auto;--min-height:auto;--height:auto;--max-height:auto;--white-space:pre-wrap;left:0;top:0;display:block;position:absolute;width:100%;height:100%;outline:none;color:var(--color);font-family:var(--ion-font-family, inherit);contain:strict;z-index:1001;pointer-events:none}:host-context([dir=rtl]){left:unset;right:unset;right:0}:host(.overlay-hidden){display:none}:host(.ion-color){--button-color:inherit;color:var(--ion-color-contrast)}:host(.ion-color) .toast-button-cancel{color:inherit}:host(.ion-color) .toast-wrapper{background:var(--ion-color-base)}.toast-wrapper{border-radius:var(--border-radius);left:var(--start);right:var(--end);width:var(--width);min-width:var(--min-width);max-width:var(--max-width);height:var(--height);min-height:var(--min-height);max-height:var(--max-height);border-width:var(--border-width);border-style:var(--border-style);border-color:var(--border-color);background:var(--background);box-shadow:var(--box-shadow)}[dir=rtl] .toast-wrapper,:host-context([dir=rtl]) .toast-wrapper{left:unset;right:unset;left:var(--end);right:var(--start)}.toast-container{display:flex;align-items:center;pointer-events:auto;height:inherit;min-height:inherit;max-height:inherit;contain:content}.toast-content{display:flex;flex:1;flex-direction:column;justify-content:center}.toast-message{flex:1;white-space:var(--white-space)}.toast-button-group{display:flex}.toast-button{border:0;outline:none;color:var(--button-color);z-index:0}.toast-icon{font-size:1.4em}.toast-button-inner{display:flex;align-items:center}@media (any-hover: hover){.toast-button:hover{cursor:pointer}}:host{--background:var(--ion-color-step-50, #f2f2f2);--border-radius:14px;--button-color:var(--ion-color-primary, #3880ff);--color:var(--ion-color-step-850, #262626);--max-width:700px;--start:10px;--end:10px;font-size:14px}.toast-wrapper{margin-left:auto;margin-right:auto;margin-top:auto;margin-bottom:auto;display:block;position:absolute;z-index:10}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){.toast-wrapper{margin-left:unset;margin-right:unset;-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto}}@supports (backdrop-filter: blur(0)){:host(.toast-translucent) .toast-wrapper{background:rgba(var(--ion-background-color-rgb, 255, 255, 255), 0.8);backdrop-filter:saturate(180%) blur(20px)}}.toast-wrapper.toast-top{transform:translate3d(0,  -100%,  0);top:0}.toast-wrapper.toast-middle{opacity:0.01}.toast-wrapper.toast-bottom{transform:translate3d(0,  100%,  0);bottom:0}.toast-content{padding-left:15px;padding-right:15px;padding-top:15px;padding-bottom:15px}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){.toast-content{padding-left:unset;padding-right:unset;-webkit-padding-start:15px;padding-inline-start:15px;-webkit-padding-end:15px;padding-inline-end:15px}}.toast-header{margin-bottom:2px;font-weight:500}.toast-button{padding-left:15px;padding-right:15px;padding-top:10px;padding-bottom:10px;height:44px;transition:background-color, opacity 100ms linear;border:0;background-color:transparent;font-family:var(--ion-font-family);font-size:17px;font-weight:500;overflow:hidden}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){.toast-button{padding-left:unset;padding-right:unset;-webkit-padding-start:15px;padding-inline-start:15px;-webkit-padding-end:15px;padding-inline-end:15px}}.toast-button.ion-activated{opacity:0.4}@media (any-hover: hover){.toast-button:hover{opacity:0.6}}";
@@ -160,6 +160,8 @@ const Toast = class {
                 this.callButtonHandler(cancelButton);
             }
         };
+    }
+    connectedCallback() {
         prepareOverlay(this.el);
     }
     /**
@@ -257,9 +259,10 @@ const Toast = class {
             'toast-wrapper': true,
             [`toast-${this.position}`]: true
         };
-        return (h(Host, { style: {
+        const role = allButtons.length > 0 ? 'dialog' : 'status';
+        return (h(Host, Object.assign({ role: role, tabindex: "-1" }, this.htmlAttributes, { style: {
                 zIndex: `${60000 + this.overlayIndex}`,
-            }, class: Object.assign(Object.assign(Object.assign({ [mode]: true }, createColorClasses(this.color)), getClassMap(this.cssClass)), { 'toast-translucent': this.translucent }), tabindex: "-1", onIonToastWillDismiss: this.dispatchCancelHandler }, h("div", { class: wrapperClass }, h("div", { class: "toast-container", part: "container" }, this.renderButtons(startButtons, 'start'), h("div", { class: "toast-content" }, this.header !== undefined &&
+            }, class: createColorClasses(this.color, Object.assign(Object.assign({ [mode]: true }, getClassMap(this.cssClass)), { 'toast-translucent': this.translucent })), onIonToastWillDismiss: this.dispatchCancelHandler }), h("div", { class: wrapperClass }, h("div", { class: "toast-container", part: "container" }, this.renderButtons(startButtons, 'start'), h("div", { class: "toast-content" }, this.header !== undefined &&
             h("div", { class: "toast-header", part: "header" }, this.header), this.message !== undefined &&
             h("div", { class: "toast-message", part: "message", innerHTML: sanitizeDOMString(this.message) })), this.renderButtons(endButtons, 'end')))));
     }

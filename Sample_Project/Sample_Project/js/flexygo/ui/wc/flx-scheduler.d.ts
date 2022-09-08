@@ -29,6 +29,8 @@ declare namespace flexygo.ui.wc {
         dayClick: boolean;
         events: any[];
         allDay: boolean;
+        eventsRefresh: boolean;
+        hasPendingRefresh: boolean;
         constructor();
         /**
        * Array of observed attributes.
@@ -54,7 +56,7 @@ declare namespace flexygo.ui.wc {
         * Initialize Scheduler.
         * @method render
         */
-        render(options: string[], activeMode: string, maxTime: string, minTime: string, onClickEvent: string, allDaySlot: string, slotDuration: string, pageType: string, target: string, eventLimit: boolean): void;
+        render(options: string[], activeMode: string, maxTime: string, minTime: string, onClickEvent: string, allDaySlot: string, slotDuration: string, pageType: string, target: string, eventLimit: boolean, disableResize: boolean, disableDrag: boolean, onClickJS: string, onClickDayJS: string): void;
         /**
        * Check Objects.
        * @method checkPanelObjects

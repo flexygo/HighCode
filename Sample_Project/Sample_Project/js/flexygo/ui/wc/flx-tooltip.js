@@ -156,7 +156,7 @@ var flexygo;
                         content: flexygo.utils.loadingMsg(),
                         trigger: trigger,
                         container: container
-                    }).on('show.bs.popover', (e) => {
+                    }).off('show.bs.popover').on('show.bs.popover', (e) => {
                         $('flx-tooltip').each((i, e) => {
                             if (e === this) {
                                 //set content only first time
@@ -187,7 +187,7 @@ var flexygo;
                                 }
                             }
                         });
-                    }).on('shown.bs.popover', (e) => {
+                    }).off('shown.bs.popover').on('shown.bs.popover', (e) => {
                         this.elementid = $(e.target).attr('aria-describedby');
                         if (this.mode === "popover") {
                             $(document).on('click.flxtooltip.' + this.elementid, (e) => {
@@ -203,11 +203,11 @@ var flexygo;
                                 }
                             });
                         }
-                    }).on('hide.bs.popover', (e) => {
+                    }).off('hide.bs.popover').on('hide.bs.popover', (e) => {
                         this.opened = false;
                     });
                     if (trigger === "hover") {
-                        parent.on("mouseover.flxtooltip", () => {
+                        parent.off("mouseover.flxtooltip").on("mouseover.flxtooltip", () => {
                             if (this.opened === false) {
                                 this.opened = true;
                                 this.pop.popover('show');
@@ -215,7 +215,7 @@ var flexygo;
                         });
                     }
                     else {
-                        parent.on("click.flxtooltip", () => {
+                        parent.off("click.flxtooltip").on("click.flxtooltip", () => {
                             if (this.opened === false) {
                                 this.opened = true;
                                 this.pop.popover('show');

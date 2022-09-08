@@ -57,6 +57,7 @@ var flexygo;
                     ctx.objectWhere = response.ObjectWhere;
                     ctx.objectName = response.ObjectName;
                     ctx.warningMessage = response.WarningMessage;
+                    ctx.successMessage = response.SuccessMessage;
                     ctx.jsCode = response.JSCode;
                     let ev = {
                         class: "entity",
@@ -87,6 +88,7 @@ var flexygo;
                     ctx.objectWhere = response.ObjectWhere;
                     ctx.objectName = response.ObjectName;
                     ctx.warningMessage = response.WarningMessage;
+                    ctx.successMessage = response.SuccessMessage;
                     ctx.jsCode = response.JSCode;
                     let ev = {
                         class: "entity",
@@ -113,6 +115,7 @@ var flexygo;
                 params.ObjectWhere = ctx.objectWhere;
                 flexygo.ajax.syncPost('~/api/Entity', 'Delete', params, function (response) {
                     ctx.warningMessage = response.WarningMessage;
+                    ctx.successMessage = response.SuccessMessage;
                     ctx.jsCode = response.JSCode;
                     ret = true;
                     let ev = {
@@ -132,14 +135,24 @@ var flexygo;
             * @param {string} options - leave empty for all processes. reports for only reports, processes for only processes and relations only for relations
              * @return {flexygo.api.entity.GetProcessesResponse} - Related processes
             */
-            processes(options) {
+            processes(options, defaults) {
+                let objDef;
+                if (defaults) {
+                    if (typeof defaults == 'string') {
+                        objDef = JSON.parse(flexygo.utils.parser.replaceAll(defaults, "'", '"'));
+                    }
+                    else {
+                        objDef = defaults;
+                    }
+                }
                 var ctx = this;
                 var ret = false;
-                var params = { ObjectName: null, ObjectWhere: null, Options: null };
+                var params = { ObjectName: null, ObjectWhere: null, Options: null, Defaults: null };
                 let proc = null;
                 params.ObjectName = ctx.objectName;
                 params.ObjectWhere = ctx.objectWhere;
                 params.Options = options;
+                params.Defaults = flexygo.utils.dataToArray(objDef);
                 flexygo.ajax.syncPost('~/api/Entity', 'GetProcesses', params, function (response) {
                     proc = response;
                 });

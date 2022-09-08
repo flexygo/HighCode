@@ -73,7 +73,12 @@ var flexygo;
                     if (typeof paramValue == 'undefined') {
                         paramValue = null;
                     }
-                    ret += JSON.stringify(paramValue).replace(/'/g, "\\'").replace(/"/g, "'");
+                    if (typeof paramValue == 'string' && !paramValue.startsWith("{") && !paramValue.endsWith("}")) {
+                        ret += "'" + paramValue.replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace(/"/g, "&quot;").replace(/\r?\n|\r/g, " ") + "'";
+                    }
+                    else {
+                        ret += JSON.stringify(paramValue).replace(/'/g, "\\'").replace(/"/g, "'");
+                    }
                 }
             }
             if (nonEvaluateParams) {
@@ -206,6 +211,63 @@ var flexygo;
             return ($(window).width() <= flexygo.utils.size.s);
         }
         utils.isSizeSmartphone = isSizeSmartphone;
+        /**
+        * Says if the screen is in tactil mode.
+        * @method isTactilModeActive
+        * @return {boolean} True if tactil mode is active, false if not.
+        */
+        function isTactilModeActive() {
+            return (flexygo.storage.local.get("tactilMode") ? true : false);
+        }
+        utils.isTactilModeActive = isTactilModeActive;
+        /**
+        * Toggles tactil mode.
+        * @method toggleTactilMode
+        */
+        function toggleTactilMode() {
+            if (isTactilModeActive()) {
+                $('html').removeClass("tactilMode");
+                flexygo.storage.local.add("tactilMode", false);
+                flexygo.msg.success("Tactil Mode Desactivated");
+            }
+            else {
+                $('html').addClass("tactilMode");
+                flexygo.storage.local.add("tactilMode", true);
+                flexygo.msg.success("Tactil Mode Activated");
+            }
+            flexygo.storage.local.save();
+            $('flx-nav#mainMenu > ul > li[title="Tools"] > ul').slideToggle();
+        }
+        utils.toggleTactilMode = toggleTactilMode;
+        /**
+        * Says if the screen is in full screen mode.
+        * @method isFullScreenActive
+        * @return {boolean} True if full screen is active, false if not.
+        */
+        function isFullScreenActive() {
+            return window.innerHeight == screen.height;
+        }
+        utils.isFullScreenActive = isFullScreenActive;
+        /**
+        * Toggles full screen.
+        * @method toggleFullScreen
+        */
+        function toggleFullScreen() {
+            let oldIcon, newIcon;
+            if (isFullScreenActive()) {
+                document.exitFullscreen();
+                oldIcon = "icon-collapse";
+                newIcon = "icon-expand-4";
+            }
+            else {
+                $('html')[0].requestFullscreen();
+                oldIcon = "icon-expand-4";
+                newIcon = "icon-collapse";
+            }
+            $('#mainMenu li[title="Toggle full screen"] i').removeClass(oldIcon);
+            $('#mainMenu li[title="Toggle full screen"] i').addClass(newIcon);
+        }
+        utils.toggleFullScreen = toggleFullScreen;
         /**
         * Says if the agent's navigator comes from a mobile.
         * @method isAgentMobile
@@ -392,6 +454,15 @@ var flexygo;
         }
         utils.sleep = sleep;
         /**
+        * A promise to wait until the time ends
+        * @param {number} milliseconds - number of milliseconds to stop.
+        * @method asyncSleep
+        */
+        function asyncSleep(milliseconds) {
+            return new Promise(resolve => setTimeout(resolve, milliseconds));
+        }
+        utils.asyncSleep = asyncSleep;
+        /**
         * Check if text is base64
         * @param {string} str - text base64.
         * @method isBase64
@@ -523,7 +594,7 @@ var flexygo;
         * @return {boolean}
         */
         function isInMainContent(element, margin) {
-            const mainContent = $(element).closest('#mainContent')[0];
+            const mainContent = $(element).closest('main')[0];
             if (!margin) {
                 margin = 0;
             }
@@ -541,6 +612,21 @@ var flexygo;
                 || (bounds.top <= viewport.bottom && bounds.top >= viewport.top);
         }
         utils.isInMainContent = isInMainContent;
+        /**
+        * Check if is a valid JSON string.
+        * @method isEmptyAttribute
+        * @returns {boolean} True if it's a valid JSON string, false if it's not
+        */
+        function isJSON(string) {
+            try {
+                JSON.parse(string);
+            }
+            catch (e) {
+                return false;
+            }
+            return true;
+        }
+        utils.isJSON = isJSON;
         /**
         * Get file icon.
         * @method getFileIcon
@@ -731,6 +817,16 @@ var flexygo;
             throw new Error('Bad Hex');
         }
         utils.hexToRgbA = hexToRgbA;
+        /**
+        * Scrolls to the desired height
+        * @method scrollTo
+        * @param {string} scrollHeight Height where us desired to scroll
+        */
+        function scrollTo(scrollHeight) {
+            var mainContent = document.getElementById('mainContent');
+            mainContent.scrollTop = scrollHeight;
+        }
+        utils.scrollTo = scrollTo;
     })(utils = flexygo.utils || (flexygo.utils = {}));
 })(flexygo || (flexygo = {}));
 (function (flexygo) {
@@ -843,7 +939,7 @@ var flexygo;
     };
 })(jQuery);
 // Create a jquery plugin that prints the given element.
-jQuery.fn.print = function () {
+jQuery.fn.print = function (title) {
     // NOTE: We are trimming the jQuery collection down to the
     // first element in the collection.
     if (this.size() > 1) {
@@ -883,7 +979,10 @@ jQuery.fn.print = function () {
     objDoc.write("<html>");
     objDoc.write("<head>");
     objDoc.write("<title>");
-    objDoc.write(document.title);
+    if (title)
+        objDoc.write(title);
+    else
+        objDoc.write(document.title);
     objDoc.write("</title>");
     objDoc.write(jStyleDiv.html());
     //objDoc.write(SrcDiv.html());
@@ -893,6 +992,25 @@ jQuery.fn.print = function () {
     objDoc.write("</body>");
     objDoc.write("</html>");
     objDoc.close();
+    //Establecer valores para los edit
+    $(objDoc).find('flx-edit flx-text,flx-check,flx-dbcombo,flx-combo,flx-switch').each(function () {
+        switch ($(this).prop("tagName").toLowerCase()) {
+            case 'flx-dbcombo':
+                $(this).find('input').attr('value', $(this).attr('text'));
+                break;
+            case 'flx-combo':
+                $(this).find('select option[value="' + $(this).attr('value') + '"]').attr('selected', 'selected');
+                break;
+            case 'flx-check':
+            case 'flx-switch':
+                if ($(this).attr('value') == "true") {
+                    $(this).find('input').attr('checked', 'checked');
+                }
+                break;
+            default:
+                $(this).find('input').attr('value', $(this).attr('value'));
+        }
+    });
     // Print the document.
     objFrame.focus();
     //gridstack CssRules
@@ -1118,9 +1236,11 @@ $(function () {
                 //Remove and add individuality active class because use a standard template (.box) each object
                 if (jObject.hasClass('active')) {
                     jObject.removeClass('active');
-                    jButton.closest('[pagename="offline_App_View"]').find(Object.keys(selectors).join(", ")).attr({ objectwhere: '1=0', 'related-objectname': null }).each((index, elem) => { elem.refresh(); });
+                    //jButton.closest('[pagename="offline_App_View"]').find(Object.keys(selectors).join(", ")).attr({ objectwhere: '1=0', 'related-objectname': null }).each((index: number, elem: flexygo.ui.wc.FlxListElement): void => { elem.refresh(); });
+                    (jButton.closest('[pagename="offline_App_View"]').find('[modulename="sysofflineTabs"]').get(0)).refresh();
                 }
                 else {
+                    jButton.closest('[pagename="offline_App_View"]');
                     jObject.addClass('active');
                     jObject.closest('flx-list').find(`.offline-container > div > [objectname].active:not([objectname="${objectName}"])`).removeClass('active').find('.buttons > .active').removeClass('active');
                     jButton.closest('[pagename="offline_App_View"]').find(Object.keys(selectors).join(", ")).attr({ 'related-objectname': objectName }).each((index, elem) => { $(elem).attr({ objectwhere: selectors[`flx-list#${elem.id}`] }); });

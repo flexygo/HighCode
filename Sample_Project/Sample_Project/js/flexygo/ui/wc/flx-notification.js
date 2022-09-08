@@ -71,7 +71,7 @@ var flexygo;
                     let notySpan = $('<span class="notify-dropdown"> <i class="flx-icon icon-bell-2 "></i> <b id="notifyBadge" class="badge  bounceIn animated"></b> </span>');
                     ctx.append(notySpan);
                     if (flexygo.utils.isSizeMobile()) {
-                        notySpan.on('click', () => {
+                        notySpan.closest('li').on('click', () => {
                             flexygo.nav.openPageName('syspage-notify', 'sysNotices', '', null, 'current', false, null);
                         });
                     }

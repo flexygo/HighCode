@@ -34,7 +34,6 @@ var flexygo;
                 * @method connectedCallback
                 */
                 connectedCallback() {
-                    this.connected = true;
                     let element = $(this);
                     let propName = element.attr('property');
                     if (propName && flexygo.utils.isBlank(this.options)) {
@@ -69,12 +68,6 @@ var flexygo;
                             this.options = new flexygo.api.ObjectProperty();
                         }
                         this.options.Separator = Separator;
-                    }
-                    else {
-                        if (!this.options) {
-                            this.options = new flexygo.api.ObjectProperty();
-                        }
-                        this.options.Separator = ';';
                     }
                     if (typeof element.attr('Disabled') !== 'undefined') {
                         if (!this.options) {
@@ -152,9 +145,11 @@ var flexygo;
                     }
                     this.init();
                     let Value = element.attr('Value');
+                    let Text = element.attr('Text');
                     if (Value && Value !== '') {
-                        this.setValue(Value);
+                        this.setValue(Value, Text);
                     }
+                    this.connected = true;
                 }
                 /**
                * Array of observed attributes. REQUIRED
@@ -244,14 +239,17 @@ var flexygo;
                             this.refresh();
                         }
                     }
-                    if (attrName.toLowerCase() === 'class' && newVal && newVal !== '') {
+                    if (attrName.toLowerCase() === 'class' && element.attr('Control-Class') !== newVal && newVal != oldVal) {
                         if (!this.options) {
                             this.options = new flexygo.api.ObjectProperty();
                         }
                         this.options.CssClass = newVal;
                         if (element.attr('Control-Class') !== this.options.CssClass) {
-                            element.attr('Control-Class', this.options.CssClass);
-                            element.attr('Class', '');
+                            if (newVal != '') {
+                                element.attr('Control-Class', this.options.CssClass);
+                                element.attr('Class', this.options.CssClass);
+                            }
+                            //element.attr('Class', '');
                             this.refresh();
                         }
                     }
@@ -272,9 +270,10 @@ var flexygo;
                 }
                 refresh() {
                     let val = this.getValue();
+                    let txt = $(this).attr('Text');
                     this.init();
-                    if (val && val !== "") {
-                        this.setValue(val);
+                    if (val && val != "") {
+                        this.setValue(val, txt);
                     }
                 }
                 init() {
@@ -295,11 +294,15 @@ var flexygo;
                     else {
                         this.name = flexygo.utils.uniqueName();
                     }
+                    let name = this.name;
                     if (this.options && this.options.DropDownValues) {
+                        let checked = control.find('input:checked');
+                        control.empty();
                         for (let i = 0; i < this.options.DropDownValues.length; i++) {
                             label = $('<label />');
                             if (this.options.Multiple) {
                                 input = $('<input type="checkbox">');
+                                name = this.options.DropDownValues[i][this.options.SQLDisplayField];
                             }
                             else {
                                 input = $('<input type="radio">');
@@ -307,10 +310,15 @@ var flexygo;
                             if (me.attr('tabindex') && me.attr('tabindex') !== '') {
                                 input.attr('tabindex', me.attr('tabindex'));
                             }
-                            input.attr('value', this.options.DropDownValues[i][this.options.SQLValueField]).attr('name', this.name);
+                            input.attr('value', this.options.DropDownValues[i][this.options.SQLValueField]).attr('name', name);
                             label.append(input).append(this.options.DropDownValues[i][this.options.SQLDisplayField]);
                             control.append(label);
                         }
+                        checked.map((i, e) => {
+                            let checkInput = control.find('input[value="' + e.value + '"]')[0];
+                            if (checkInput)
+                                checkInput.checked = true;
+                        });
                     }
                     else if (this.options.HTMLDropDownValues) {
                         for (let j = 0; j < this.options.HTMLDropDownValues.length; j++) {
@@ -327,7 +335,9 @@ var flexygo;
                             control.append(label);
                         }
                     }
-                    input.on('blur', () => { me.trigger('blur'); });
+                    if (typeof (input) !== 'undefined') {
+                        input.on('blur', () => { me.trigger('blur'); });
+                    }
                     if (this.options && this.options.CauseRefresh) {
                         control.find('input').off('change').on('change', () => {
                             let ev = {
@@ -383,6 +393,12 @@ var flexygo;
                         inp.attr('lastvalue', inp.prop('checked'));
                     });
                 }
+                changeSQLData(newSQL, newOptions) {
+                    this.options.SQLSentence = newSQL;
+                    this.options.SQLEditSentence = newSQL;
+                    this.options.DropDownValues = newOptions;
+                    this.setOptions();
+                }
                 setValue(value, text) {
                     let me = $(this);
                     let input;
@@ -391,16 +407,24 @@ var flexygo;
                     //    this.setValueView(value);
                     //} else {
                     if (this.options.Multiple) {
-                        let opt = value.toString().split(this.options.Separator);
-                        for (let i = 0; i < opt.length; i++) {
-                            if (me.find('input[value="' + opt[i] + '"]').length === 0) {
-                                label = $('<label />');
-                                input = $('<input type="checkbox">');
-                                input.attr('value', opt[i]).attr('name', this.name);
-                                label.append(input).append(opt[i]);
-                                me.find('div').append(label);
+                        if (!flexygo.utils.isBlank(value)) {
+                            let opt = value.toString().split(this.options.Separator);
+                            for (let i = 0; i < opt.length; i++) {
+                                if (me.attr('mode') && me.attr('mode').toLowerCase() === 'view') {
+                                    me.find('input[value="' + opt[i] + '"]').prop('checked', true).prop('disabled', true);
+                                }
+                                else {
+                                    if (me.find('input[value="' + opt[i] + '"]').length === 0) {
+                                        label = $('<label />');
+                                        input = $('<input type="checkbox">');
+                                        input.attr('value', opt[i]).attr('name', this.name);
+                                        label.append(input).append(opt[i]);
+                                        me.find('div').append(label);
+                                    }
+                                    me.find('input[value="' + opt[i] + '"]').prop('checked', true);
+                                    me.attr('value', value);
+                                }
                             }
-                            me.find('input[value="' + opt[i] + '"]').prop('checked', true);
                         }
                     }
                     else {

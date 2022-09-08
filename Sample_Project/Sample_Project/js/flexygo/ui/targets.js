@@ -12,6 +12,9 @@ var flexygo;
         function openNewWindow(objectPage, target) {
             let width, height;
             let options;
+            objectPage.targetid = 'current';
+            objectPage.hideNavbar = true;
+            objectPage.hideMenuBar = true;
             if (target.indexOf('new') == 0) {
                 target = target.replace('new', '');
                 if (target.length > 0 && target.indexOf('x') != -1) {
@@ -19,10 +22,11 @@ var flexygo;
                     height = target.split('x')[1];
                     options = 'scrollbars=yes,status=yes,titlebar=yes,resizable=yes,height=' + height + ',width=' + width;
                 }
+                else {
+                    objectPage.hideNavbar = false;
+                    objectPage.hideMenuBar = false;
+                }
             }
-            objectPage.targetid = 'current';
-            objectPage.hideNavbar = true;
-            objectPage.hideMenuBar = true;
             let url = flexygo.utils.resolveUrl('~/Index') + '#' + flexygo.history.Base64.encode(JSON.stringify(objectPage));
             window.open(url, flexygo.utils.uniqueId(), options);
         }
@@ -239,6 +243,152 @@ var flexygo;
                     pageContainer = $('#realMain');
                 }
             }
+            else if (histObj.targetid && histObj.targetid.indexOf('slide') == 0) {
+                if (triggerElement && triggerElement.closest('.pageContainer').length > 0) {
+                    histObj.opener = $(triggerElement).closest('.pageContainer').attr('id');
+                }
+                pageContainer = $('<main class="pageContainer" />');
+                pageContainer.attr('id', flexygo.utils.uniqueUUID());
+                let width, height, position, sizeNumber, effect, isPercent = false;
+                let size = histObj.targetid.replace('slide', '');
+                if (size.indexOf('right') != -1 || size.indexOf('left') != -1 || size.indexOf('top') != -1 || size.indexOf('bottom') != -1) {
+                    if (size.indexOf('x') != -1) {
+                        position = size.split("x")[0];
+                        if (size.split("x")[1].indexOf('p') != -1 || size.split("x")[1].indexOf('%') != -1) {
+                            isPercent = true;
+                            sizeNumber = parseFloat(size.split("x")[1].replace('p', '').replace('%', ''));
+                            sizeNumber = sizeNumber > 100 ? 100 : sizeNumber;
+                        }
+                        else {
+                            sizeNumber = parseFloat(size.split("x")[1]);
+                        }
+                        switch (position) {
+                            case 'right':
+                            case 'left':
+                                width = (isPercent ? ((sizeNumber * $(window).width()) / 100) : sizeNumber);
+                                height = $(window).height();
+                                break;
+                            case 'top':
+                            case 'bottom':
+                                width = $(window).width();
+                                height = (isPercent ? ((sizeNumber * $(window).height()) / 100) : sizeNumber);
+                                break;
+                            default:
+                                width = (isPercent ? ((sizeNumber * $(window).width()) / 100) : sizeNumber);
+                                height = $(window).height();
+                        }
+                    }
+                    else {
+                        position = size;
+                        if (position == 'right' || position == 'left') {
+                            width = $(window).innerWidth() / 3;
+                            height = $(window).height();
+                        }
+                        else if (position == 'top' || position == 'bottom') {
+                            width = $(window).width();
+                            height = $(window).innerHeight() / 3;
+                        }
+                    }
+                }
+                else {
+                    position = 'right';
+                    width = $(window).innerWidth() / 3;
+                    height = $(window).height();
+                }
+                let duration = 400;
+                pageContainer.dialog({
+                    position: { my: position, at: position, of: $('body') },
+                    width: (position === 'right' || position === 'left' ? 0 : width),
+                    height: (position === 'top' || position === 'bottom' ? 0 : height),
+                    dialogClass: 'flx-dialog-modal flx-slide',
+                    modal: true,
+                    resizable: false,
+                    draggable: false,
+                    closeOnEscape: false,
+                    close: function () {
+                        let ev = {
+                            class: "dialog",
+                            type: "closed",
+                            sender: $(this).data('context')
+                        };
+                        flexygo.events.trigger(ev);
+                        $(this).dialog('destroy').remove();
+                    },
+                    beforeClose: function (event, ui) {
+                        let widget = $(this).dialog("widget");
+                        if (position == 'right') {
+                            widget.animate({ left: "100%" }, duration);
+                        }
+                        else if (position == 'left') {
+                            widget.animate({ width: '0px' });
+                        }
+                        else if (position == 'top') {
+                            widget.animate({ top: "-50%" }, duration);
+                        }
+                        else if (position == 'bottom') {
+                            widget.animate({ top: "100%" }, duration);
+                        }
+                    },
+                    open: function () {
+                        let widget = $(this).dialog("widget");
+                        let diag = $(this);
+                        if (position == 'right') {
+                            widget.animate({ left: ($(window).innerWidth() - width) + 'px', width: width + 'px' }, duration);
+                        }
+                        else if (position == 'left') {
+                            widget.animate({ width: width + 'px' }, duration);
+                        }
+                        else if (position == 'top') {
+                            widget.animate({ height: height + 'px' }, duration);
+                            pageContainer.animate({ height: height + 'px' }, duration);
+                        }
+                        else if (position == 'bottom') {
+                            let titleBarHeight = $('body > div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.flx-dialog-modal.flx-slide > div').height();
+                            $('body').css('overflow', 'hidden');
+                            widget.animate({ top: ($(window).innerHeight() - height), height: 'auto' }, duration);
+                            pageContainer.css('height', height - titleBarHeight);
+                        }
+                        $(this).closest('div.ui-dialog').find('.ui-dialog-titlebar-close').off("click").on("click", (e) => {
+                            let flxEdit = diag.find('flx-edit');
+                            if (flxEdit.length != 0) {
+                                if (flxEdit.find("form.dirty").length != 0) {
+                                    $(flxEdit).find("form.dirty")[0].closest("flx-edit").checkDirtyEdit();
+                                }
+                                else {
+                                    diag.dialog('close');
+                                }
+                            }
+                            else {
+                                diag.dialog('close');
+                            }
+                            e.preventDefault();
+                        });
+                        $('.ui-widget-overlay').bind('click', function () {
+                            let flxEdit = diag.find('flx-edit');
+                            if (flxEdit.length != 0) {
+                                if (flxEdit.find("form.dirty").length != 0) {
+                                    $(flxEdit).find("form.dirty")[0].closest("flx-edit").checkDirtyEdit();
+                                }
+                                else {
+                                    diag.dialog('close');
+                                }
+                            }
+                            else {
+                                diag.dialog('close');
+                            }
+                        });
+                    },
+                    buttons: buttons
+                }).dialogExtend({
+                    closable: true,
+                    maximizable: false,
+                    minimizable: false,
+                    collapsable: false,
+                    dblclick: false,
+                    modal: true,
+                    maximize: false
+                });
+            }
             else {
                 alert('target not implemented!');
                 pageContainer = $('#realMain');
@@ -247,7 +397,11 @@ var flexygo;
             pageContainer.html(flexygo.utils.loadingMsg());
             $('flx-footermenu').empty();
             if (pageContainer.closest('.ui-dialog').length > 0 && !excludeMainframeBtn) {
-                let btn = $('<a class="flx-icon icon-select icon-margin-right ui-corner-all ui-state-default" href="#" title="Put in main frame" role="button"></a>');
+                let onlyDevelop = '';
+                if (histObj.targetid && histObj.targetid.indexOf('slide') == 0) {
+                    onlyDevelop = 'develop-only';
+                }
+                let btn = $('<a class="flx-icon icon-select icon-margin-right ui-corner-all ui-state-default ' + onlyDevelop + '" href="#" title="Put in main frame" role="button"></a>');
                 btn.on('click', function () {
                     let mainCnt = $(this).closest('.ui-dialog').find('.pageContainer').data('context');
                     mainCnt.targetid = 'main';

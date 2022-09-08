@@ -72,7 +72,8 @@ var flexygo;
                     flexygo.nav.openPageName('syspage-generic-admon', '', '', 'null', 'current', false, $(this));
                 });
                 let helpPage = $('<span class="clickable"/>').html('<i class="flx-icon icon-information-2 icon-margin-right "></i>' + flexygo.localization.translate('develop.help') + '</span>').on('click', () => {
-                    flexygo.nav.openPage('list', 'sysHelp', '', 'null', 'current', false, $(this));
+                    //flexygo.nav.openPage('list', 'sysHelp', '', 'null', 'current', false, $(this))
+                    flexygo.nav.openPageName('db6ce0fb-2f28-4056-b14e-e9aed2769f97', 'sysHelp', '', null, 'current', false, $(this));
                 });
                 panelCtx.add('<span><i class="flx-icon  icon-laptop icon-margin-right"></i>' + flexygo.localization.translate('develop.developer') + '</span>', [AdminPage, helpPage]);
                 //End developper options
@@ -217,12 +218,18 @@ var flexygo;
                 panelCtx.add('<span><i class="flx-icon icon-icons icon-margin-right"></i>' + flexygo.localization.translate('develop.modules') + '</span>', manage);
                 //End module options
                 //security options
+                let securityUsers = $('<span class="clickable"/>').html('<i class="flx-icon icon-user-3 icon-margin-right "></i>' + flexygo.localization.translate('develop.users') + '</span>').on('click', (event) => {
+                    flexygo.nav.openPage('list', 'sysUsers', '', null, 'current', false);
+                });
+                let securityRoles = $('<span class="clickable"/>').html('<i class="flx-icon icon-group1 icon-margin-right "></i>' + flexygo.localization.translate('develop.roles') + '</span>').on('click', (event) => {
+                    flexygo.nav.openPage('list', 'sysRoles', '', null, 'current', false);
+                });
                 let objProcessSecurity = $('<span class="clickable"/>').html('<i class="flx-icon icon-process icon-margin-right "></i>' + flexygo.localization.translate('develop.objectprocesssecurity') + '</span>').on('click', (event) => {
                     let pageContext = flexygo.history.get($('#realMain'));
                     let obj = new flexygo.obj.Entity(pageContext.objectname);
                     if (typeof (pageContext.objectname) != 'undefined') {
                         let cnf = obj.getConfig();
-                        flexygo.nav.openPageName('syspage-generic-objectprocesssecurity', 'sysObject', "Objectname='" + cnf.ObjectName + "'", 'popup', 'current', false);
+                        flexygo.nav.openPageName('syspage-generic-objectprocesssecurity', 'sysObject', "Objectname='" + cnf.ObjectName + "'", 'null', 'current', false);
                     }
                     else {
                         flexygo.msg.info(flexygo.localization.translate('develop.selectobject'));
@@ -233,7 +240,7 @@ var flexygo;
                     let obj = new flexygo.obj.Entity(pageContext.objectname);
                     if (typeof (pageContext.objectname) != 'undefined') {
                         let cnf = obj.getConfig();
-                        flexygo.nav.openPageName('syspage-generic-objectpropertysecurity', 'sysObject', "Objectname='" + cnf.ObjectName + "'", 'popup', 'current', false);
+                        flexygo.nav.openPageName('syspage-generic-objectpropertysecurity', 'sysObject', "Objectname='" + cnf.ObjectName + "'", 'null', 'current', false);
                     }
                     else {
                         flexygo.msg.info(flexygo.localization.translate('develop.selectobject'));
@@ -250,7 +257,7 @@ var flexygo;
                         flexygo.msg.info(flexygo.localization.translate('develop.selectobject'));
                     }
                 });
-                panelCtx.add('<span><i class="flx-icon icon-group-security icon-margin-right"></i>' + flexygo.localization.translate('develop.security') + '</span>', [objSecurity, objProcessSecurity, objPropertySecurity]);
+                panelCtx.add('<span><i class="flx-icon icon-group-security icon-margin-right"></i>' + flexygo.localization.translate('develop.security') + '</span>', [securityUsers, securityRoles, objSecurity, objProcessSecurity, objPropertySecurity]);
                 //End security options
                 container.append(panel);
             }
@@ -548,7 +555,7 @@ var flexygo;
                 for (let i = 0; i < tests.length; i++) {
                     navString += '<div class="row padding-s" testId="' + tests[i].TestId + '" testName="' + tests[i].TestName + '" testClass="' + tests[i].TestClass + '">';
                     navString += '<div class="testStat col-1">&nbsp;</div>';
-                    navString += '<div class="testDescrip col-4"><a href="#" onclick="$(this).closest(\'[testName]\').addClass(\'testPending\');flexygo.debug.test.executeTests($(this).closest(\'flx-container\'));event.stopPropagation();" ><h6 class="txt-primary"><span class="size-s">' + tests[i].TestTile + ' ' + tests[i].TestName + '</span></h6></a></div>';
+                    navString += '<div class="testDescrip col-4"><a href="#" onclick="$(this).closest(\'[testName]\').addClass(\'testPending\');flexygo.debug.test.executeTests($(this).closest(\'flx-container\'));event.stopPropagation();event.preventDefault();" ><h6 class="txt-primary"><span class="size-s">' + tests[i].TestTile + ' ' + tests[i].TestName + '</span></h6></a></div>';
                     navString += '<div class="testResult col-7 size-s"></div>';
                     navString += '</div>';
                 }

@@ -23,6 +23,7 @@ var flexygo;
                    */
                     this.connected = false;
                     this.moduleName = null;
+                    this.moduleButtons = null;
                 }
                 /**
                * Fires when element is attached to DOM
@@ -68,14 +69,28 @@ var flexygo;
                 init() {
                     let me = $(this);
                     me.removeAttr('manualInit');
+                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
                     me.html('');
+                    let def;
+                    let histObj = flexygo.history.get(me);
+                    if (typeof histObj != 'undefined' && histObj.defaults) {
+                        if (typeof histObj.defaults == 'string') {
+                            def = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
+                        }
+                        else {
+                            def = histObj.defaults;
+                        }
+                    }
                     let params = {
                         ObjectName: me.attr('ObjectName'),
                         ObjectWhere: me.attr('ObjectWhere'),
                         ModuleName: this.moduleName,
-                        PageName: flexygo.history.getPageName(me)
+                        PageName: flexygo.history.getPageName(me),
+                        Defaults: flexygo.utils.dataToArray(def)
                     };
                     flexygo.ajax.post('~/api/Html', 'GetHTML', params, (response) => {
+                        let parentModule = me.closest('flx-module');
+                        let wcModule = parentModule[0];
                         if (response) {
                             let HtmlHeader = '';
                             let HtmlText = '';
@@ -84,17 +99,19 @@ var flexygo;
                             if (response.CssText)
                                 me.append('<style>' + response.CssText + '</style>');
                             if (response.HtmlHeader)
-                                HtmlHeader = (response.HtmlHeader);
+                                HtmlHeader = flexygo.utils.parser.recursiveCompile(def, response.HtmlHeader, this);
                             if (response.HtmlText)
-                                HtmlText = (response.HtmlText);
+                                HtmlText = flexygo.utils.parser.recursiveCompile(def, response.HtmlText, this);
                             if (response.HtmlFooter)
-                                HtmlFooter = (response.HtmlFooter);
+                                HtmlFooter = flexygo.utils.parser.recursiveCompile(def, response.HtmlFooter, this);
                             me.append(HtmlHeader + HtmlText + HtmlFooter);
                             if (response.ScriptText)
                                 me.append('<script>' + response.ScriptText + '</script>');
+                            if (response.Buttons) {
+                                this.moduleButtons = response.Buttons;
+                                wcModule.setButtons(response.Buttons, null, null);
+                            }
                         }
-                        let parentModule = me.closest('flx-module');
-                        let wcModule = parentModule[0];
                         if (parentModule && wcModule) {
                             wcModule.moduleLoaded(this);
                         }

@@ -49,6 +49,11 @@ declare namespace flexygo.ui.wc {
         */
         refresh(): void;
         /**
+         *
+         Closes screen of search
+         */
+        closeSearch(): void;
+        /**
         * Execute search based on user input
         * @method refresh
         */

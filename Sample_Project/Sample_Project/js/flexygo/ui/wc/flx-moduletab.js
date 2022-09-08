@@ -88,6 +88,7 @@ var flexygo;
                 init() {
                     let me = $(this);
                     me.removeAttr('manualInit');
+                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
                     me.html('');
                     let params = {
                         ObjectName: me.attr('ObjectName'),
@@ -231,6 +232,7 @@ var flexygo;
                         rendered += '<div class="modulediv"></div>';
                         me.append(rendered);
                     }
+                    this.saveModulePresetHistory(this.activeModule);
                     /*Add module to body*/
                     module.is("flx-list[mode=list]") ? me.find(".modulediv").addClass("overflowx") : me.find(".modulediv").removeClass("overflowx");
                     let cont = me.children('.modulediv');
@@ -259,9 +261,11 @@ var flexygo;
                     if (mod.Params) {
                         componentString += ' ' + mod.Params;
                     }
-                    let hist = flexygo.history.get(me);
+                    /*let hist = flexygo.history.get(me);
                     hist.filtersValues = null;
-                    flexygo.history.replace(hist, me);
+                    flexygo.history.replace(hist, me);*/
+                    /*save preset configuration of the new module if its not set*/
+                    this.saveModulePresetHistory(mod);
                     me.parents('flx-module').find('.cntButtons .pager').remove();
                     me.parents('flx-module').find('.cntBodyHeader, .cntBodyFooter').find('*').not('.ctnArrowHeader,.ctnArrowHeader > *').remove();
                     $.each(me.parents('flx-module'), (i, e) => {
@@ -286,6 +290,23 @@ var flexygo;
                     }
                     tabs[tabName] = mod.ModuleName;
                     flexygo.storage.local.add('activeTabs', tabs);
+                }
+                saveModulePresetHistory(module) {
+                    let me = $(this);
+                    let history = flexygo.history.get(me);
+                    if (!history) {
+                        history = new flexygo.nav.FlexygoHistory();
+                    }
+                    if (!history.presetsValues) {
+                        history.presetsValues = new flexygo.nav.ModulePresetHistory();
+                    }
+                    if (!history.presetsValues[module.ModuleName]) {
+                        history.presetsValues[module.ModuleName] = new flexygo.nav.PresetHistoryValue();
+                        history.presetsValues[module.ModuleName].presetId = module.PresetName;
+                        history.presetsValues[module.ModuleName].presetText = module.PresetText;
+                        history.presetsValues[module.ModuleName].presetIcon = module.PresetIcon;
+                    }
+                    flexygo.history.replace(history, me, false);
                 }
                 translate(str) {
                     return flexygo.localization.translate(str);

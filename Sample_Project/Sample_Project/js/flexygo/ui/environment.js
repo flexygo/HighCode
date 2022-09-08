@@ -59,11 +59,13 @@ var flexygo;
         * @method setSkinVar
         * @param {string} name - Name of the variable
         * @param {string} value - Value of the variable
+        * @param {string} skinId - Skin id
        */
-        function setSkinVar(name, value) {
+        function setSkinVar(name, value, skinId) {
             value = value.replace('#', '');
             var params = new flexygo.api.sys.setSkinCacheVarsParams;
             params.VarValues = [{ key: name, value: value }];
+            params.SkinId = skinId;
             flexygo.ajax.post('~/api/Sys', 'setSkinCacheVars', params, (response) => {
                 if (response) {
                     flexygo.environment.refreshCss();
@@ -73,10 +75,14 @@ var flexygo;
         environment.setSkinVar = setSkinVar;
         /**
         * Stores the values of the skin variables into database
+        * @param {string} skinId - Id of the skin
         * @method saveSkinVars
        */
-        function saveSkinVars() {
-            flexygo.ajax.post('~/api/Sys', 'saveSkinCacheVars', null, (response) => {
+        function saveSkinVars(skinId) {
+            var params = {
+                "SkinId": skinId
+            };
+            flexygo.ajax.post('~/api/Sys', 'saveSkinCacheVars', params, (response) => {
                 if (response) {
                     flexygo.msg.success("Variables saved to Database");
                 }

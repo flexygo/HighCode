@@ -25,6 +25,11 @@ var flexygo;
                     */
                     this.connected = false;
                     /**
+                    * Default document category
+                    * @property categoryId {string}
+                    */
+                    this.categoryId = null;
+                    /**
                     * Additional document filter
                     * @property additionalWhere {string}
                     */
@@ -109,6 +114,7 @@ var flexygo;
                     try {
                         let me = $(this);
                         me.removeAttr('manualInit');
+                        $(this).closest('flx-module').find('.flx-noInitContent').remove();
                         var defString;
                         var defObject;
                         defString = flexygo.history.getDefaults(this.objectName, me);
@@ -117,10 +123,22 @@ var flexygo;
                         if (this.managerMode == 'flexygo') {
                             this.rObjectName = (this.objectName && this.objectId) ? this.objectName : (defObject) ? defObject.ObjectName : (wcModule.objectdefaults) ? wcModule.objectdefaults.ObjectName : '';
                             this.rObjectId = (this.objectName && this.objectId) ? this.objectId : (defObject) ? defObject.ObjectId : (wcModule.objectdefaults) ? wcModule.objectdefaults.ObjectId : '';
+                            if (defObject && defObject.CategoryId) {
+                                this.categoryId = defObject.CategoryId;
+                            }
+                            else if (wcModule.objectdefaults && wcModule.objectdefaults.CategoryId) {
+                                this.categoryId = wcModule.objectdefaults.CategoryId;
+                            }
                         }
                         else {
                             this.rObjectName = (this.objectName && this.objectId) ? this.objectName : (defObject) ? defObject.Tabla : (wcModule.objectdefaults) ? wcModule.objectdefaults.Tabla : '';
                             this.rObjectId = (this.objectName && this.objectId) ? this.objectId : (defObject) ? defObject.IdDoc : (wcModule.objectdefaults) ? wcModule.objectdefaults.IdDoc : '';
+                            if (defObject && defObject.IdClasificacion) {
+                                this.categoryId = defObject.IdClasificacion;
+                            }
+                            else if (wcModule.objectdefaults && wcModule.objectdefaults.IdClasificacion) {
+                                this.categoryId = wcModule.objectdefaults.IdClasificacion;
+                            }
                         }
                         if (defObject && defObject.additionalWhere) {
                             this.additionalWhere = defObject.additionalWhere;
@@ -185,9 +203,18 @@ var flexygo;
                                  <button type="button" method="downloadall" value="downloadall" class="btn btn-default dtc-btn dtc-btn-settings" data-original-title="" title="">
                                     <i class="flx-icon icon-download"  ></i>
                                 </button>
+                                <button type="button" method="sendselection" value="sendselection" class="btn btn-default dtc-btn dtc-btn-settings" data-original-title="" title="">
+                                    <i class="flx-icon icon-email-1"  ></i>
+                                </button>
                             </div>
-                            <div class="dtc-pry-container">
-                           </div></div>`;
+                            <div class="dtc-pry-container">`;
+                        if (this.type.toLowerCase() !== "view") {
+                            rendered += `<span class="background-elements">
+                                        <i class="flx-icon icon-upload-1"></i> ${flexygo.localization.translate('upload.info')}
+                                    </span>
+                                 `;
+                        }
+                        rendered += '</div></div>';
                         /* Temporal
         
                                          <button type="button" method="getDriveAccount" value="Eliminar" class="btn btn-default bg-primary dtc-btn" data-original-title="" title="">
@@ -211,6 +238,7 @@ var flexygo;
                         me.find('div.dtc-filter').tooltip({ title: flexygo.localization.translate('documentmanager.filter'), placement: 'bottom', trigger: 'hover' });
                         me.find('button[method="opensettings"][value="settings"]').tooltip({ title: flexygo.localization.translate('documentmanager.settings'), placement: 'bottom', trigger: 'hover' });
                         me.find('button[method="downloadall"][value="downloadall"]').tooltip({ title: flexygo.localization.translate('documentmanager.downloadall'), placement: 'bottom', trigger: 'hover' });
+                        me.find('button[method="sendselection"][value="sendselection"]').tooltip({ title: flexygo.localization.translate('documentmanager.sendselection'), placement: 'bottom', trigger: 'hover' });
                         if (!(this.type.toLocaleLowerCase() === 'view')) {
                             this.mainEvents();
                         }
@@ -252,6 +280,9 @@ var flexygo;
                                 category = cats[0].category;
                             }
                         }
+                        if (!flexygo.utils.isBlank(extension)) {
+                            extension = extension.toLowerCase();
+                        }
                         // All Subcontainer buttons are rendered if managerMode is different to view
                         let subcontainerbuttons = `<div class="dtc-subcontainerbuttons">
                             <i method="edit" value="" class="flx-icon icon-pencil txt-primary dtc-hover dtc-transition dtc-i-btn" flx-fw=""></i>
@@ -263,7 +294,7 @@ var flexygo;
                         if (extension == ".pdf" || extension == ".jpeg" || extension == ".jpg" || extension == ".pjp" || extension == ".svgz" || extension == ".tif" || extension == ".xbm" || extension == ".tiff" || extension == ".ico" ||
                             extension == ".gif" || extension == ".svg" || extension == ".jfif" || extension == ".webp" || extension == ".png" || extension == ".bmp" || extension == ".pjpeg" || extension == ".avif") {
                             subcontainerbuttons = subcontainerbuttons + `<i method="view" value= "` + flexygo.utils.resolveUrl(downloadLink) + `&mode=view" download= "` + name + extension + `" class="flx-icon icon-eye txt-primary dtc-hover dtc-transition dtc-i-btn" flx- fw="" > </i>
-                        </div>`;
+                    </div>`;
                         }
                         else {
                             subcontainerbuttons = subcontainerbuttons + `<i class="flx-icon icon-eye text-muted dtc-i-btn"></i></div>`;
@@ -273,7 +304,7 @@ var flexygo;
                                 <i method="download" value= "" class="flx-icon icon-download txt-primary dtc-hover dtc-transition dtc-i-btn" flx- fw="" > </i>
                             </a>`;
                             if (extension == ".pdf") {
-                                subcontainerbuttons = subcontainerbuttons + `< i method= "view" value= "` + flexygo.utils.resolveUrl(downloadLink) + `&mode=view" download= "` + name + extension + `" class="flx-icon icon-eye txt-primary dtc-hover dtc-transition dtc-i-btn" flx- fw="" > </i>`;
+                                subcontainerbuttons = subcontainerbuttons + `<i method= "view" value= "` + flexygo.utils.resolveUrl(downloadLink) + `&mode=view" download= "` + name + extension + `" class="flx-icon icon-eye txt-primary dtc-hover dtc-transition dtc-i-btn" flx- fw="" > </i>`;
                             }
                             else {
                                 subcontainerbuttons = subcontainerbuttons + `<i class="flx-icon icon-eye text-muted dtc-i-btn"></i>`;
@@ -283,6 +314,7 @@ var flexygo;
                         rendered = `<div id="` + docGuid + `" documenttype="` + documentType + `" class="dtc-container dtc-transition">
                                 <div class="dtc-subcontainer dtc-subcontainer1">
                                    <!--<a class="dtc-a" target="_blank" href="` + flexygo.utils.resolveUrl(path) + `">-->
+                                        <flx-check class="selectDoc" property="Public" value="false" ></flx-check>
                                         <i method="preview" class="` + iconClass + ` dtc-icon" flx-fw=""></i> <!--dtc-hover dtc-transition-->
                                     <!--</a>-->
                                     <div class="dtc-containertext">
@@ -364,6 +396,8 @@ var flexygo;
                         if (this.extensions) {
                             if (this.extensionId != 'sysAll') {
                                 accept = flexygo.utils.parser.replaceAll(this.extensions, '|', ',');
+                                if (accept === ".*")
+                                    accept = "";
                             }
                         }
                         if (dialogType === 'upload') {
@@ -512,7 +546,7 @@ var flexygo;
                                 this.filesPending = dEvent.dataTransfer.files.length;
                                 this.filesTotal = this.filesPending;
                                 for (var i = 0; i < dEvent.dataTransfer.files.length; i++) {
-                                    let file = new flexygo.io.DocumentUpload(dEvent.dataTransfer.files[i], this.rObjectName, this.rObjectId, 'diskfile', 'upload', this);
+                                    let file = new flexygo.io.DocumentUpload(dEvent.dataTransfer.files[i], this.rObjectName, this.rObjectId, 'diskfile', 'upload', this, this.categoryId);
                                     file.startUpload();
                                 }
                             });
@@ -570,6 +604,11 @@ var flexygo;
                                 if (method === 'downloadall' && value === 'downloadall') {
                                     if (this.rObjectName && !flexygo.utils.isBlank(this.rObjectId)) {
                                         this.downloadAllDocuments(this.rObjectName, this.rObjectId);
+                                    }
+                                }
+                                else if (method === 'sendselection' && value === 'sendselection') {
+                                    if (this.rObjectName && !flexygo.utils.isBlank(this.rObjectId)) {
+                                        this.sendSelectedDocuments(this.rObjectName, this.rObjectId);
                                     }
                                 }
                             }
@@ -667,7 +706,7 @@ var flexygo;
                                             this.filesTotal = this.filesPending;
                                             for (let i = 0; i < element[0].files.length; i++) {
                                                 let fl = element[0].files[i];
-                                                let file = new flexygo.io.DocumentUpload(fl, this.rObjectName, this.rObjectId, doctype, method, this);
+                                                let file = new flexygo.io.DocumentUpload(fl, this.rObjectName, this.rObjectId, doctype, method, this, this.categoryId);
                                                 file.startUpload();
                                             }
                                         }
@@ -885,7 +924,11 @@ var flexygo;
                             filename = element.attr('download');
                             switch (method) {
                                 case 'remove':
-                                    this.removeDocument(value);
+                                    flexygo.msg.confirm('documentmanager.msgremove', (result) => {
+                                        if (result) {
+                                            this.removeDocument(value);
+                                        }
+                                    });
                                     break;
                                 case 'edit':
                                     this.editStartDocument(Guid);
@@ -989,7 +1032,8 @@ var flexygo;
                                 'CloudId': cloudId,
                                 'CloudLink': cloudLink,
                                 'DownloadLink': downloadLink,
-                                'DocAction': action
+                                'DocAction': action,
+                                'CategoryId': this.categoryId,
                             };
                             flexygo.ajax.post('~/api/DocumentManager', 'SetDocument', params, (response) => {
                                 if (response && !response.documentError) {
@@ -1025,6 +1069,8 @@ var flexygo;
                         params = {
                             'ObjectName': objectName,
                             'ObjectId': objectId,
+                            'AdditionalWhere': this.additionalWhere,
+                            'CategoryId': this.categoryId,
                         };
                         flexygo.ajax.post('~/api/DocumentManager', 'DownloadAllDocuments', params, (response) => {
                             if (response && !response.imageError) {
@@ -1039,6 +1085,31 @@ var flexygo;
                                 }
                             }
                         });
+                    }
+                    catch (ex) {
+                        console.log(ex);
+                    }
+                }
+                /**
+                * Send mail with selected documents
+                * @method sendSelectedDocuments
+                * @param {string} objectName.
+                * @param {string} objectId.
+                 */
+                sendSelectedDocuments(objectName, objectId) {
+                    try {
+                        let me = $(this);
+                        let selectedDocs = [];
+                        let cb = $('.dtc-subcontainer1>flx-check[value="true"]');
+                        for (var i = 0; i < cb.length; i++) {
+                            selectedDocs.push(cb[i].closest('.dtc-container').getAttribute('id'));
+                        }
+                        if (selectedDocs.length > 0) {
+                            flexygo.nav.execProcess('SendSelectedDocuments', '', '', '{\'ObjectName\':\'' + objectName + '\',\'ObjectId\':\'' + objectId + '\',\'Attachments\':\'' + selectedDocs + '\'}', null, 'popup', false, me, false);
+                        }
+                        else {
+                            flexygo.msg.warning(flexygo.localization.translate('documentmanager.noselection'));
+                        }
                     }
                     catch (ex) {
                         console.log(ex);
@@ -1173,7 +1244,8 @@ var flexygo;
                                 'ObjectId': this.rObjectId,
                                 'ObjectName': this.rObjectName,
                                 'DocGuid': docGuid,
-                                'AdditionalWhere': this.additionalWhere
+                                'AdditionalWhere': this.additionalWhere,
+                                'CategoryId': this.categoryId,
                             };
                             flexygo.ajax.post('~/api/DocumentManager', 'GetDocument', params, (response) => {
                                 if (response[0] && !response[0].documentError) {
@@ -1434,7 +1506,7 @@ var flexygo;
     var io;
     (function (io) {
         class DocumentUpload {
-            constructor(file, objectname, objectid, type, action, manager) {
+            constructor(file, objectname, objectid, type, action, manager, categoryId) {
                 this.bufferSize = 2 * 1024 * 1024;
                 this.currentPosition = 0;
                 this.file = file;
@@ -1443,6 +1515,7 @@ var flexygo;
                 this.manager = manager;
                 this.documentType = type;
                 this.action = action;
+                this.categoryId = categoryId;
             }
             startUpload() {
                 this.reader = new FileReader();
@@ -1546,7 +1619,8 @@ var flexygo;
                             'CloudLink': null,
                             'DownloadLink': null,
                             'DocAction': this.action,
-                            'PartialUpload': multipart
+                            'PartialUpload': multipart,
+                            'CategoryId': this.categoryId,
                         };
                         flexygo.ajax.post('~/api/DocumentManager', 'SetDocument', params, (response) => {
                             if (multipart) {
@@ -1562,6 +1636,8 @@ var flexygo;
                                 if (response && !response.documentError) {
                                     this.manager.renderDocument(response.docGuid, response.path, response.downloadLink, response.name, response.origin, response.iconClass, response.creationDate, response.category, response.categoryId, response.description, response.documentType, response.extension, false);
                                     this.manager.documentEvents();
+                                    let ev = { class: "document", type: "uploaded", sender: this, masterIdentity: response.docGuid, detailIdentity: response };
+                                    flexygo.events.trigger(ev);
                                     flexygo.msg.success('documentmanager.saved');
                                 }
                                 else {

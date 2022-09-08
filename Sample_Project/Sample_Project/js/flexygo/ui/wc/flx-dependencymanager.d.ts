@@ -22,6 +22,7 @@ declare namespace flexygo.ui.wc {
         propertyname: string;
         constringItems: any;
         cusControlsItems: any;
+        propItems: any[];
         mode: string;
         constructor();
         /**
@@ -70,6 +71,7 @@ declare namespace flexygo.ui.wc {
        */
         save(): void;
         private loadProps();
+        private unactivePropClick(e, me);
         private processDependency(dep);
         /**
         * Gets template.
@@ -84,5 +86,6 @@ declare namespace flexygo.ui.wc {
       */
         getConnStringItems(): string;
         getCusControls(): string;
+        deleteDependency(dep: any): void;
     }
 }

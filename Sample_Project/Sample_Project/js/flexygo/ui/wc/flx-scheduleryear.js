@@ -84,6 +84,7 @@ var flexygo;
                     let ctx = this;
                     let me = $(this);
                     me.removeAttr('manualInit');
+                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
                     let parentModule = me.closest('flx-module');
                     let wcModule = parentModule[0];
                     if (parentModule && wcModule) {
@@ -92,6 +93,7 @@ var flexygo;
                     var thisYear = (new Date()).getFullYear();
                     var start = new Date("1/1/" + thisYear);
                     ctx.me.current = moment(start.valueOf());
+                    ctx.me.empty();
                     ctx.me.append('<div class="calendar"></div>');
                     ctx.render();
                 }
@@ -172,8 +174,10 @@ var flexygo;
                                 $('.calendar').find('tr *').removeAttr("style").removeClass("bg-outstanding txt-danger").popover('destroy');
                                 $('.calendar').find('td *').css('width', '26px');
                                 let filtros = this.closest('flx-multicombo').getValue();
-                                ctx.me.filter = filtros.split('|').join('\',\'');
-                                ctx.changeEvents(ctx.additionalWhere, ctx.me.filter);
+                                if (filtros) {
+                                    ctx.me.filter = filtros.split('|').join('\',\'');
+                                    ctx.changeEvents(ctx.additionalWhere, ctx.me.filter);
+                                }
                             });
                         }
                     });
@@ -268,7 +272,7 @@ var flexygo;
                                     me.find('td[data-month="' + month + '"][data-day-of-month="' + date + '"]').css('font-weight', 'normal');
                                 }
                                 else {
-                                    me.find('td[data-month="' + month + '"][data-day-of-month="' + date + '"]').find("div").css('background-color', ev.color);
+                                    me.find('td[data-month="' + month + '"][data-day-of-month="' + date + '"]').find("div").css('background', ev.color);
                                     me.find('td[data-month="' + month + '"][data-day-of-month="' + date + '"]').find("div").css('border-radius', '60%');
                                     me.find('td[data-month="' + month + '"][data-day-of-month="' + date + '"]').css('font-weight', 'normal');
                                 }
@@ -276,7 +280,7 @@ var flexygo;
                                 var div = document.createElement('div');
                                 $(div).addClass('event');
                                 var square = document.createElement('div');
-                                $(square).addClass('event-category').css('background-color', ev.color);
+                                $(square).addClass('event-category').css('background', ev.color);
                                 var span = $('<span />').html(' ' + ev.eventName);
                                 if (ev.pageType == "edit" && ev.canEdit) {
                                     $(div).click(function () {

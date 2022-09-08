@@ -45,11 +45,11 @@
    
     <script id="dynamicHead"></script>
 </head>
-<body style="display: none;" >
+<body style="display: none;" mode="<%=getUserMode()%>">
     <header>
          <%=getMainMenu()%>
     </header>
-    <div id="mainBlock">
+    <div id="mainBlock" >
          <%=getMainNavPanel()%>
         <div id="mainContent" >            
             <main id="realMain" class="realMain pageContainer">

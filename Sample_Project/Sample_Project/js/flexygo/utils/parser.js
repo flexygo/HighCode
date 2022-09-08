@@ -51,7 +51,7 @@ var flexygo;
                                 if ((jKey.startsWith("'") && jKey.endsWith("'")) || (jKey.startsWith('"') && jKey.endsWith('"'))) {
                                     fParams[j] = jKey.slice(1, -1);
                                 }
-                                else if ((json && (typeof json[jKey] != 'undefined') && (json[jKey] != null)) || (contextVars && (typeof contextVars[jKey] != 'undefined') && (contextVars[jKey] != null)) || jKey === 'json' || jKey === 'template' || jKey === 'contextfunctions') {
+                                else if ((json && (typeof json[jKey] != 'undefined') && (json[jKey] != null)) || (contextVars && (typeof contextVars[jKey] != 'undefined') && (contextVars[jKey] != null)) || jKey === 'json' || jKey === 'template' || jKey === 'contextfunctions' || jKey === 'this') {
                                     let value;
                                     if (json && (typeof json[jKey] != 'undefined') && (json[jKey] != null)) {
                                         value = flexygo.utils.parser.getValue(json[jKey]);
@@ -62,7 +62,7 @@ var flexygo;
                                     else if (jKey === 'template') {
                                         value = template;
                                     }
-                                    else if (jKey === 'contextfunctions') {
+                                    else if (jKey === 'contextfunctions' || jKey === 'this') {
                                         value = contextFunctions;
                                     }
                                     else {
@@ -282,6 +282,12 @@ var flexygo;
                                     else {
                                         rValue = flexygo.utils.generateQR(rValue);
                                     }
+                                }
+                            }
+                            else if (jKey == 'toolbar') {
+                                let module = $(contextFunctions).closest('flx-module')[0];
+                                if (contextFunctions.TemplateToolbarCollection && contextFunctions.TemplateToolbarCollection[propFormat]) {
+                                    rValue = module.getTemplateToolbar(contextFunctions.TemplateToolbarCollection[propFormat].Toolbar, json._objectname, json._objectwhere);
                                 }
                             }
                             else {

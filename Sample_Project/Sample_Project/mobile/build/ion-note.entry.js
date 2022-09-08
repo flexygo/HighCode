@@ -1,6 +1,6 @@
-import { r as registerInstance, j as h, l as Host } from './index-76f52202.js';
-import { g as getIonMode } from './ionic-global-53d785f3.js';
-import { c as createColorClasses } from './theme-d8afa044.js';
+import { r as registerInstance, j as h, l as Host } from './index-86ac49ff.js';
+import { g as getIonMode } from './ionic-global-0f98fe97.js';
+import { c as createColorClasses } from './theme-f934266c.js';
 
 const noteIosCss = ":host{color:var(--color);font-family:var(--ion-font-family, inherit);box-sizing:border-box}:host(.ion-color){color:var(--ion-color-base)}:host{--color:var(--ion-color-step-350, #a6a6a6)}";
 
@@ -12,7 +12,9 @@ const Note = class {
     }
     render() {
         const mode = getIonMode(this);
-        return (h(Host, { class: Object.assign(Object.assign({}, createColorClasses(this.color)), { [mode]: true }) }, h("slot", null)));
+        return (h(Host, { class: createColorClasses(this.color, {
+                [mode]: true,
+            }) }, h("slot", null)));
     }
 };
 Note.style = {

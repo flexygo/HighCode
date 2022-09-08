@@ -72,6 +72,7 @@ var flexygo;
                     }
                     let me = $(this);
                     me.removeAttr('manualInit');
+                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
                     me.empty();
                     this.render();
                 }

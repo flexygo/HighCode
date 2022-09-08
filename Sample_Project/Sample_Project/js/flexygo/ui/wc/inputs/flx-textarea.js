@@ -32,7 +32,6 @@ var flexygo;
               */
                 connectedCallback() {
                     let element = $(this);
-                    this.connected = true;
                     let propName = element.attr('property');
                     if (propName && flexygo.utils.isBlank(this.options)) {
                         let parentCtl = element.closest('flx-edit,flx-list,flx-propertymanager,flx-view,flx-filter');
@@ -84,6 +83,13 @@ var flexygo;
                         this.options.CssClass = Class;
                         element.attr('Control-Class', this.options.CssClass);
                         element.attr('Class', '');
+                    }
+                    let ValidatorMessage = element.attr('ValidatorMessage');
+                    if (ValidatorMessage && ValidatorMessage !== '') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.ValidatorMessage = ValidatorMessage;
                     }
                     let PlaceHolder = element.attr('PlaceHolder');
                     if (PlaceHolder && PlaceHolder !== '') {
@@ -167,13 +173,14 @@ var flexygo;
                     if (Value && Value !== '') {
                         this.setValue(Value);
                     }
+                    this.connected = true;
                 }
                 /**
                * Array of observed attributes.
                * @property observedAttributes {Array}
                */
                 static get observedAttributes() {
-                    return ['property', 'required', 'disabled', 'requiredmessage', 'style', 'class', 'placeholder', 'iconclass', 'minvalue', 'maxvalue', 'maxvaluemessage', 'minvaluemessage', 'helpid', 'hide'];
+                    return ['property', 'required', 'disabled', 'requiredmessage', 'style', 'class', 'validatormessage', 'placeholder', 'iconclass', 'minvalue', 'maxvalue', 'maxvaluemessage', 'minvaluemessage', 'helpid', 'hide'];
                 }
                 /**
                 * Fires when the attribute value of the element is changed.
@@ -236,14 +243,17 @@ var flexygo;
                             this.init();
                         }
                     }
-                    if (attrName.toLowerCase() === 'class' && newVal && newVal !== '') {
+                    if (attrName.toLowerCase() === 'class' && element.attr('Control-Class') !== newVal && newVal != oldVal) {
                         if (!this.options) {
                             this.options = new flexygo.api.ObjectProperty();
                         }
                         this.options.CssClass = newVal;
                         if (element.attr('Control-Class') !== this.options.CssClass) {
-                            element.attr('Control-Class', this.options.CssClass);
-                            element.attr('Class', '');
+                            if (newVal != '') {
+                                element.attr('Control-Class', this.options.CssClass);
+                                element.attr('Class', this.options.CssClass);
+                            }
+                            //element.attr('Class', '');
                             this.init();
                         }
                     }
@@ -313,11 +323,15 @@ var flexygo;
                 }
                 init() {
                     let me = $(this);
+                    let val = this.getValue();
                     if (me.attr('mode') && me.attr('mode').toLowerCase() === 'view') {
                         this.initViewMode();
                     }
                     else {
                         this.initEditMode();
+                    }
+                    if (val && val !== "") {
+                        this.setValue(val);
                     }
                     me.find('textarea').off('keydown.textAreaFullScreen').on('keydown.textAreaFullScreen', function (e) {
                         if (e.key == "F11" || e.key == "Escape") {
@@ -469,7 +483,7 @@ var flexygo;
                     if (me.attr('tab') && me.attr('tab') !== '') {
                         input.attr('tabindex', me.attr('tab'));
                     }
-                    if (this.options && this.options.CauseRefresh) {
+                    if (this.options && (this.options.CauseRefresh || this.options.SQLValidator != null)) {
                         input.on('change', (e) => {
                             //$(document).trigger('refreshProperty', [input.closest('flx-edit'), this.options.Name]);
                             let ev = {
@@ -511,6 +525,9 @@ var flexygo;
                     if (this.options && this.options.MaxValueMessage && this.options.MaxValueMessage !== '') {
                         input.attr('data-msg-maxlength', this.options.MaxValueMessage);
                     }
+                    if (this.options && this.options.ValidatorMessage && this.options.ValidatorMessage !== '') {
+                        input.attr('data-msg-sqlvalidator', this.options.ValidatorMessage);
+                    }
                     if (this.options && this.options.Hide) {
                         me.addClass("hideControl");
                     }
@@ -531,6 +548,10 @@ var flexygo;
                 setValueView(value) {
                     this.value = value;
                     let input = $(this).find('label');
+                    let regExp = /[&<>"'`=\/]/mi;
+                    if (typeof value === 'string' && value !== null && regExp.test(value)) {
+                        value = flexygo.string.escapeHTML(value);
+                    }
                     input.html(value);
                 }
                 getValue() {

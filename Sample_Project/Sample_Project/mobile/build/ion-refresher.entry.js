@@ -1,185 +1,208 @@
-import { f as writeTask, r as registerInstance, m as createEvent, n as readTask, j as h, l as Host, k as getElement } from './index-76f52202.js';
-import { a as isPlatform, g as getIonMode } from './ionic-global-53d785f3.js';
-import { c as clamp, g as getElementRoot, r as raf } from './helpers-742de4f9.js';
-import { c as createAnimation } from './animation-a90ce8fc.js';
-import { g as getTimeGivenProgression } from './cubic-bezier-89113939.js';
-import { d as hapticImpact } from './haptic-0ea1f445.js';
+import { f as writeTask, r as registerInstance, m as createEvent, n as readTask, j as h, l as Host, k as getElement } from './index-86ac49ff.js';
+import { a as isPlatform, g as getIonMode } from './ionic-global-0f98fe97.js';
+import { c as componentOnReady, f as clamp, g as getElementRoot, r as raf } from './helpers-719f4c54.js';
+import { c as createAnimation } from './animation-10ea33c3.js';
+import { g as getTimeGivenProgression } from './cubic-bezier-93f47170.js';
+import { d as hapticImpact } from './haptic-f13d1040.js';
 
 const getRefresherAnimationType = (contentEl) => {
-    const previousSibling = contentEl.previousElementSibling;
-    const hasHeader = previousSibling !== null && previousSibling.tagName === 'ION-HEADER';
-    return hasHeader ? 'translate' : 'scale';
+  const previousSibling = contentEl.previousElementSibling;
+  const hasHeader = previousSibling !== null && previousSibling.tagName === 'ION-HEADER';
+  return hasHeader ? 'translate' : 'scale';
 };
-const createPullingAnimation = (type, pullingSpinner) => {
-    return type === 'scale' ? createScaleAnimation(pullingSpinner) : createTranslateAnimation(pullingSpinner);
+const createPullingAnimation = (type, pullingSpinner, refresherEl) => {
+  return type === 'scale' ? createScaleAnimation(pullingSpinner, refresherEl) : createTranslateAnimation(pullingSpinner, refresherEl);
 };
 const createBaseAnimation = (pullingRefresherIcon) => {
-    const spinner = pullingRefresherIcon.querySelector('ion-spinner');
-    const circle = spinner.shadowRoot.querySelector('circle');
-    const spinnerArrowContainer = pullingRefresherIcon.querySelector('.spinner-arrow-container');
-    const arrowContainer = pullingRefresherIcon.querySelector('.arrow-container');
-    const arrow = (arrowContainer) ? arrowContainer.querySelector('ion-icon') : null;
-    const baseAnimation = createAnimation()
-        .duration(1000)
-        .easing('ease-out');
-    const spinnerArrowContainerAnimation = createAnimation()
-        .addElement(spinnerArrowContainer)
-        .keyframes([
-        { offset: 0, opacity: '0.3' },
-        { offset: 0.45, opacity: '0.3' },
-        { offset: 0.55, opacity: '1' },
-        { offset: 1, opacity: '1' }
+  const spinner = pullingRefresherIcon.querySelector('ion-spinner');
+  const circle = spinner.shadowRoot.querySelector('circle');
+  const spinnerArrowContainer = pullingRefresherIcon.querySelector('.spinner-arrow-container');
+  const arrowContainer = pullingRefresherIcon.querySelector('.arrow-container');
+  const arrow = (arrowContainer) ? arrowContainer.querySelector('ion-icon') : null;
+  const baseAnimation = createAnimation()
+    .duration(1000)
+    .easing('ease-out');
+  const spinnerArrowContainerAnimation = createAnimation()
+    .addElement(spinnerArrowContainer)
+    .keyframes([
+    { offset: 0, opacity: '0.3' },
+    { offset: 0.45, opacity: '0.3' },
+    { offset: 0.55, opacity: '1' },
+    { offset: 1, opacity: '1' }
+  ]);
+  const circleInnerAnimation = createAnimation()
+    .addElement(circle)
+    .keyframes([
+    { offset: 0, strokeDasharray: '1px, 200px' },
+    { offset: 0.20, strokeDasharray: '1px, 200px' },
+    { offset: 0.55, strokeDasharray: '100px, 200px' },
+    { offset: 1, strokeDasharray: '100px, 200px' }
+  ]);
+  const circleOuterAnimation = createAnimation()
+    .addElement(spinner)
+    .keyframes([
+    { offset: 0, transform: 'rotate(-90deg)' },
+    { offset: 1, transform: 'rotate(210deg)' }
+  ]);
+  /**
+   * Only add arrow animation if present
+   * this allows users to customize the spinners
+   * without errors being thrown
+   */
+  if (arrowContainer && arrow) {
+    const arrowContainerAnimation = createAnimation()
+      .addElement(arrowContainer)
+      .keyframes([
+      { offset: 0, transform: 'rotate(0deg)' },
+      { offset: 0.30, transform: 'rotate(0deg)' },
+      { offset: 0.55, transform: 'rotate(280deg)' },
+      { offset: 1, transform: 'rotate(400deg)' }
     ]);
-    const circleInnerAnimation = createAnimation()
-        .addElement(circle)
-        .keyframes([
-        { offset: 0, strokeDasharray: '1px, 200px' },
-        { offset: 0.20, strokeDasharray: '1px, 200px' },
-        { offset: 0.55, strokeDasharray: '100px, 200px' },
-        { offset: 1, strokeDasharray: '100px, 200px' }
+    const arrowAnimation = createAnimation()
+      .addElement(arrow)
+      .keyframes([
+      { offset: 0, transform: 'translateX(2px) scale(0)' },
+      { offset: 0.30, transform: 'translateX(2px) scale(0)' },
+      { offset: 0.55, transform: 'translateX(-1.5px) scale(1)' },
+      { offset: 1, transform: 'translateX(-1.5px) scale(1)' }
     ]);
-    const circleOuterAnimation = createAnimation()
-        .addElement(spinner)
-        .keyframes([
-        { offset: 0, transform: 'rotate(-90deg)' },
-        { offset: 1, transform: 'rotate(210deg)' }
-    ]);
-    /**
-     * Only add arrow animation if present
-     * this allows users to customize the spinners
-     * without errors being thrown
-     */
-    if (arrowContainer && arrow) {
-        const arrowContainerAnimation = createAnimation()
-            .addElement(arrowContainer)
-            .keyframes([
-            { offset: 0, transform: 'rotate(0deg)' },
-            { offset: 0.30, transform: 'rotate(0deg)' },
-            { offset: 0.55, transform: 'rotate(280deg)' },
-            { offset: 1, transform: 'rotate(400deg)' }
-        ]);
-        const arrowAnimation = createAnimation()
-            .addElement(arrow)
-            .keyframes([
-            { offset: 0, transform: 'translateX(2px) scale(0)' },
-            { offset: 0.30, transform: 'translateX(2px) scale(0)' },
-            { offset: 0.55, transform: 'translateX(-1.5px) scale(1)' },
-            { offset: 1, transform: 'translateX(-1.5px) scale(1)' }
-        ]);
-        baseAnimation.addAnimation([arrowContainerAnimation, arrowAnimation]);
-    }
-    return baseAnimation.addAnimation([spinnerArrowContainerAnimation, circleInnerAnimation, circleOuterAnimation]);
+    baseAnimation.addAnimation([arrowContainerAnimation, arrowAnimation]);
+  }
+  return baseAnimation.addAnimation([spinnerArrowContainerAnimation, circleInnerAnimation, circleOuterAnimation]);
 };
-const createScaleAnimation = (pullingRefresherIcon) => {
-    const height = pullingRefresherIcon.clientHeight;
-    const spinnerAnimation = createAnimation()
-        .addElement(pullingRefresherIcon)
-        .keyframes([
-        { offset: 0, transform: `scale(0) translateY(-${height + 20}px)` },
-        { offset: 1, transform: 'scale(1) translateY(100px)' }
-    ]);
-    return createBaseAnimation(pullingRefresherIcon).addAnimation([spinnerAnimation]);
+const createScaleAnimation = (pullingRefresherIcon, refresherEl) => {
+  /**
+   * Do not take the height of the refresher icon
+   * because at this point the DOM has not updated,
+   * so the refresher icon is still hidden with
+   * display: none.
+   * The `ion-refresher` container height
+   * is roughly the amount we need to offset
+   * the icon by when pulling down.
+   */
+  const height = refresherEl.clientHeight;
+  const spinnerAnimation = createAnimation()
+    .addElement(pullingRefresherIcon)
+    .keyframes([
+    { offset: 0, transform: `scale(0) translateY(-${height}px)` },
+    { offset: 1, transform: 'scale(1) translateY(100px)' }
+  ]);
+  return createBaseAnimation(pullingRefresherIcon).addAnimation([spinnerAnimation]);
 };
-const createTranslateAnimation = (pullingRefresherIcon) => {
-    const height = pullingRefresherIcon.clientHeight;
-    const spinnerAnimation = createAnimation()
-        .addElement(pullingRefresherIcon)
-        .keyframes([
-        { offset: 0, transform: `translateY(-${height + 20}px)` },
-        { offset: 1, transform: 'translateY(100px)' }
-    ]);
-    return createBaseAnimation(pullingRefresherIcon).addAnimation([spinnerAnimation]);
+const createTranslateAnimation = (pullingRefresherIcon, refresherEl) => {
+  /**
+   * Do not take the height of the refresher icon
+   * because at this point the DOM has not updated,
+   * so the refresher icon is still hidden with
+   * display: none.
+   * The `ion-refresher` container height
+   * is roughly the amount we need to offset
+   * the icon by when pulling down.
+   */
+  const height = refresherEl.clientHeight;
+  const spinnerAnimation = createAnimation()
+    .addElement(pullingRefresherIcon)
+    .keyframes([
+    { offset: 0, transform: `translateY(-${height}px)` },
+    { offset: 1, transform: 'translateY(100px)' }
+  ]);
+  return createBaseAnimation(pullingRefresherIcon).addAnimation([spinnerAnimation]);
 };
 const createSnapBackAnimation = (pullingRefresherIcon) => {
-    return createAnimation()
-        .duration(125)
-        .addElement(pullingRefresherIcon)
-        .fromTo('transform', 'translateY(var(--ion-pulling-refresher-translate, 100px))', 'translateY(0px)');
+  return createAnimation()
+    .duration(125)
+    .addElement(pullingRefresherIcon)
+    .fromTo('transform', 'translateY(var(--ion-pulling-refresher-translate, 100px))', 'translateY(0px)');
 };
 // iOS Native Refresher
 // -----------------------------
 const setSpinnerOpacity = (spinner, opacity) => {
-    spinner.style.setProperty('opacity', opacity.toString());
+  spinner.style.setProperty('opacity', opacity.toString());
 };
 const handleScrollWhilePulling = (spinner, ticks, opacity, currentTickToShow) => {
-    writeTask(() => {
-        setSpinnerOpacity(spinner, opacity);
-        ticks.forEach((el, i) => el.style.setProperty('opacity', (i <= currentTickToShow) ? '0.99' : '0'));
-    });
+  writeTask(() => {
+    setSpinnerOpacity(spinner, opacity);
+    ticks.forEach((el, i) => el.style.setProperty('opacity', (i <= currentTickToShow) ? '0.99' : '0'));
+  });
 };
 const handleScrollWhileRefreshing = (spinner, lastVelocityY) => {
-    writeTask(() => {
-        // If user pulls down quickly, the spinner should spin faster
-        spinner.style.setProperty('--refreshing-rotation-duration', (lastVelocityY >= 1.0) ? '0.5s' : '2s');
-        spinner.style.setProperty('opacity', '1');
-    });
+  writeTask(() => {
+    // If user pulls down quickly, the spinner should spin faster
+    spinner.style.setProperty('--refreshing-rotation-duration', (lastVelocityY >= 1.0) ? '0.5s' : '2s');
+    spinner.style.setProperty('opacity', '1');
+  });
 };
 const translateElement = (el, value) => {
-    if (!el) {
-        return Promise.resolve();
+  if (!el) {
+    return Promise.resolve();
+  }
+  const trans = transitionEndAsync(el, 200);
+  writeTask(() => {
+    el.style.setProperty('transition', '0.2s all ease-out');
+    if (value === undefined) {
+      el.style.removeProperty('transform');
     }
-    const trans = transitionEndAsync(el, 200);
-    writeTask(() => {
-        el.style.setProperty('transition', '0.2s all ease-out');
-        if (value === undefined) {
-            el.style.removeProperty('transform');
-        }
-        else {
-            el.style.setProperty('transform', `translate3d(0px, ${value}, 0px)`);
-        }
-    });
-    return trans;
+    else {
+      el.style.setProperty('transform', `translate3d(0px, ${value}, 0px)`);
+    }
+  });
+  return trans;
 };
 // Utils
 // -----------------------------
-const shouldUseNativeRefresher = (referenceEl, mode) => {
-    const pullingSpinner = referenceEl.querySelector('ion-refresher-content .refresher-pulling ion-spinner');
-    const refreshingSpinner = referenceEl.querySelector('ion-refresher-content .refresher-refreshing ion-spinner');
-    return (pullingSpinner !== null &&
-        refreshingSpinner !== null &&
-        ((mode === 'ios' && isPlatform('mobile') && referenceEl.style.webkitOverflowScrolling !== undefined) ||
-            mode === 'md'));
+const shouldUseNativeRefresher = async (referenceEl, mode) => {
+  const refresherContent = referenceEl.querySelector('ion-refresher-content');
+  if (!refresherContent) {
+    return Promise.resolve(false);
+  }
+  await new Promise(resolve => componentOnReady(refresherContent, resolve));
+  const pullingSpinner = referenceEl.querySelector('ion-refresher-content .refresher-pulling ion-spinner');
+  const refreshingSpinner = referenceEl.querySelector('ion-refresher-content .refresher-refreshing ion-spinner');
+  return (pullingSpinner !== null &&
+    refreshingSpinner !== null &&
+    ((mode === 'ios' && isPlatform('mobile') && referenceEl.style.webkitOverflowScrolling !== undefined) ||
+      mode === 'md'));
 };
 const transitionEndAsync = (el, expectedDuration = 0) => {
-    return new Promise(resolve => {
-        transitionEnd(el, expectedDuration, resolve);
-    });
+  return new Promise(resolve => {
+    transitionEnd(el, expectedDuration, resolve);
+  });
 };
 const transitionEnd = (el, expectedDuration = 0, callback) => {
-    let unRegTrans;
-    let animationTimeout;
-    const opts = { passive: true };
-    const ANIMATION_FALLBACK_TIMEOUT = 500;
-    const unregister = () => {
-        if (unRegTrans) {
-            unRegTrans();
-        }
-    };
-    const onTransitionEnd = (ev) => {
-        if (ev === undefined || el === ev.target) {
-            unregister();
-            callback(ev);
-        }
-    };
-    if (el) {
-        el.addEventListener('webkitTransitionEnd', onTransitionEnd, opts);
-        el.addEventListener('transitionend', onTransitionEnd, opts);
-        animationTimeout = setTimeout(onTransitionEnd, expectedDuration + ANIMATION_FALLBACK_TIMEOUT);
-        unRegTrans = () => {
-            if (animationTimeout) {
-                clearTimeout(animationTimeout);
-                animationTimeout = undefined;
-            }
-            el.removeEventListener('webkitTransitionEnd', onTransitionEnd, opts);
-            el.removeEventListener('transitionend', onTransitionEnd, opts);
-        };
+  let unRegTrans;
+  let animationTimeout;
+  const opts = { passive: true };
+  const ANIMATION_FALLBACK_TIMEOUT = 500;
+  const unregister = () => {
+    if (unRegTrans) {
+      unRegTrans();
     }
-    return unregister;
+  };
+  const onTransitionEnd = (ev) => {
+    if (ev === undefined || el === ev.target) {
+      unregister();
+      callback(ev);
+    }
+  };
+  if (el) {
+    el.addEventListener('webkitTransitionEnd', onTransitionEnd, opts);
+    el.addEventListener('transitionend', onTransitionEnd, opts);
+    animationTimeout = setTimeout(onTransitionEnd, expectedDuration + ANIMATION_FALLBACK_TIMEOUT);
+    unRegTrans = () => {
+      if (animationTimeout) {
+        clearTimeout(animationTimeout);
+        animationTimeout = undefined;
+      }
+      el.removeEventListener('webkitTransitionEnd', onTransitionEnd, opts);
+      el.removeEventListener('transitionend', onTransitionEnd, opts);
+    };
+  }
+  return unregister;
 };
 
 const refresherIosCss = "ion-refresher{left:0;top:0;display:none;position:absolute;width:100%;height:60px;pointer-events:none;z-index:-1}[dir=rtl] ion-refresher,:host-context([dir=rtl]) ion-refresher{left:unset;right:unset;right:0}ion-refresher.refresher-active{display:block}ion-refresher-content{display:flex;flex-direction:column;justify-content:center;height:100%}.refresher-pulling,.refresher-refreshing{display:none;width:100%}.refresher-pulling-icon,.refresher-refreshing-icon{transform-origin:center;transition:200ms;font-size:30px;text-align:center}[dir=rtl] .refresher-pulling-icon,:host-context([dir=rtl]) .refresher-pulling-icon,[dir=rtl] .refresher-refreshing-icon,:host-context([dir=rtl]) .refresher-refreshing-icon{transform-origin:calc(100% - center)}.refresher-pulling-text,.refresher-refreshing-text{font-size:16px;text-align:center}ion-refresher-content .arrow-container{display:none}.refresher-pulling ion-refresher-content .refresher-pulling{display:block}.refresher-ready ion-refresher-content .refresher-pulling{display:block}.refresher-ready ion-refresher-content .refresher-pulling-icon{transform:rotate(180deg)}.refresher-refreshing ion-refresher-content .refresher-refreshing{display:block}.refresher-cancelling ion-refresher-content .refresher-pulling{display:block}.refresher-cancelling ion-refresher-content .refresher-pulling-icon{transform:scale(0)}.refresher-completing ion-refresher-content .refresher-refreshing{display:block}.refresher-completing ion-refresher-content .refresher-refreshing-icon{transform:scale(0)}.refresher-native .refresher-pulling-text,.refresher-native .refresher-refreshing-text{display:none}.refresher-ios .refresher-pulling-icon,.refresher-ios .refresher-refreshing-icon{color:var(--ion-text-color, #000)}.refresher-ios .refresher-pulling-text,.refresher-ios .refresher-refreshing-text{color:var(--ion-text-color, #000)}.refresher-ios .refresher-refreshing .spinner-lines-ios line,.refresher-ios .refresher-refreshing .spinner-lines-small-ios line,.refresher-ios .refresher-refreshing .spinner-crescent circle{stroke:var(--ion-text-color, #000)}.refresher-ios .refresher-refreshing .spinner-bubbles circle,.refresher-ios .refresher-refreshing .spinner-circles circle,.refresher-ios .refresher-refreshing .spinner-dots circle{fill:var(--ion-text-color, #000)}ion-refresher.refresher-native{display:block;z-index:1}ion-refresher.refresher-native ion-spinner{margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){ion-refresher.refresher-native ion-spinner{margin-left:unset;margin-right:unset;-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto}}.refresher-native .refresher-refreshing ion-spinner{--refreshing-rotation-duration:2s;display:none;animation:var(--refreshing-rotation-duration) ease-out refresher-rotate forwards}.refresher-native .refresher-refreshing{display:none;animation:250ms linear refresher-pop forwards}.refresher-native.refresher-refreshing .refresher-pulling ion-spinner,.refresher-native.refresher-completing .refresher-pulling ion-spinner{display:none}.refresher-native.refresher-refreshing .refresher-refreshing ion-spinner,.refresher-native.refresher-completing .refresher-refreshing ion-spinner{display:block}.refresher-native.refresher-pulling .refresher-pulling ion-spinner{display:block}.refresher-native.refresher-pulling .refresher-refreshing ion-spinner{display:none}@keyframes refresher-pop{0%{transform:scale(1);animation-timing-function:ease-in}50%{transform:scale(1.2);animation-timing-function:ease-out}100%{transform:scale(1)}}@keyframes refresher-rotate{from{transform:rotate(0deg)}to{transform:rotate(180deg)}}";
 
-const refresherMdCss = "ion-refresher{left:0;top:0;display:none;position:absolute;width:100%;height:60px;pointer-events:none;z-index:-1}[dir=rtl] ion-refresher,:host-context([dir=rtl]) ion-refresher{left:unset;right:unset;right:0}ion-refresher.refresher-active{display:block}ion-refresher-content{display:flex;flex-direction:column;justify-content:center;height:100%}.refresher-pulling,.refresher-refreshing{display:none;width:100%}.refresher-pulling-icon,.refresher-refreshing-icon{transform-origin:center;transition:200ms;font-size:30px;text-align:center}[dir=rtl] .refresher-pulling-icon,:host-context([dir=rtl]) .refresher-pulling-icon,[dir=rtl] .refresher-refreshing-icon,:host-context([dir=rtl]) .refresher-refreshing-icon{transform-origin:calc(100% - center)}.refresher-pulling-text,.refresher-refreshing-text{font-size:16px;text-align:center}ion-refresher-content .arrow-container{display:none}.refresher-pulling ion-refresher-content .refresher-pulling{display:block}.refresher-ready ion-refresher-content .refresher-pulling{display:block}.refresher-ready ion-refresher-content .refresher-pulling-icon{transform:rotate(180deg)}.refresher-refreshing ion-refresher-content .refresher-refreshing{display:block}.refresher-cancelling ion-refresher-content .refresher-pulling{display:block}.refresher-cancelling ion-refresher-content .refresher-pulling-icon{transform:scale(0)}.refresher-completing ion-refresher-content .refresher-refreshing{display:block}.refresher-completing ion-refresher-content .refresher-refreshing-icon{transform:scale(0)}.refresher-native .refresher-pulling-text,.refresher-native .refresher-refreshing-text{display:none}.refresher-md .refresher-pulling-icon,.refresher-md .refresher-refreshing-icon{color:var(--ion-text-color, #000)}.refresher-md .refresher-pulling-text,.refresher-md .refresher-refreshing-text{color:var(--ion-text-color, #000)}.refresher-md .refresher-refreshing .spinner-lines-md line,.refresher-md .refresher-refreshing .spinner-lines-small-md line,.refresher-md .refresher-refreshing .spinner-crescent circle{stroke:var(--ion-text-color, #000)}.refresher-md .refresher-refreshing .spinner-bubbles circle,.refresher-md .refresher-refreshing .spinner-circles circle,.refresher-md .refresher-refreshing .spinner-dots circle{fill:var(--ion-text-color, #000)}ion-refresher.refresher-native{display:block;z-index:1}ion-refresher.refresher-native ion-spinner{margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;width:24px;height:24px;color:var(--ion-color-primary, #3880ff)}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){ion-refresher.refresher-native ion-spinner{margin-left:unset;margin-right:unset;-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto}}ion-refresher.refresher-native .spinner-arrow-container{display:inherit}ion-refresher.refresher-native .arrow-container{display:block;position:absolute;width:24px;height:24px}ion-refresher.refresher-native .arrow-container ion-icon{margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;left:0;right:0;bottom:-4px;position:absolute;color:var(--ion-color-primary, #3880ff);font-size:12px}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){ion-refresher.refresher-native .arrow-container ion-icon{margin-left:unset;margin-right:unset;-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto}}ion-refresher.refresher-native.refresher-pulling ion-refresher-content .refresher-pulling,ion-refresher.refresher-native.refresher-ready ion-refresher-content .refresher-pulling{display:flex}ion-refresher.refresher-native.refresher-refreshing ion-refresher-content .refresher-refreshing,ion-refresher.refresher-native.refresher-completing ion-refresher-content .refresher-refreshing,ion-refresher.refresher-native.refresher-cancelling ion-refresher-content .refresher-refreshing{display:flex}ion-refresher.refresher-native .refresher-pulling-icon{transform:translateY(calc(-100% - 10px))}ion-refresher.refresher-native .refresher-pulling-icon,ion-refresher.refresher-native .refresher-refreshing-icon{margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;border-radius:100%;padding-left:8px;padding-right:8px;padding-top:8px;padding-bottom:8px;display:flex;border:1px solid #ececec;background:white;box-shadow:0px 1px 6px rgba(0, 0, 0, 0.1)}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){ion-refresher.refresher-native .refresher-pulling-icon,ion-refresher.refresher-native .refresher-refreshing-icon{margin-left:unset;margin-right:unset;-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto}}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){ion-refresher.refresher-native .refresher-pulling-icon,ion-refresher.refresher-native .refresher-refreshing-icon{padding-left:unset;padding-right:unset;-webkit-padding-start:8px;padding-inline-start:8px;-webkit-padding-end:8px;padding-inline-end:8px}}";
+const refresherMdCss = "ion-refresher{left:0;top:0;display:none;position:absolute;width:100%;height:60px;pointer-events:none;z-index:-1}[dir=rtl] ion-refresher,:host-context([dir=rtl]) ion-refresher{left:unset;right:unset;right:0}ion-refresher.refresher-active{display:block}ion-refresher-content{display:flex;flex-direction:column;justify-content:center;height:100%}.refresher-pulling,.refresher-refreshing{display:none;width:100%}.refresher-pulling-icon,.refresher-refreshing-icon{transform-origin:center;transition:200ms;font-size:30px;text-align:center}[dir=rtl] .refresher-pulling-icon,:host-context([dir=rtl]) .refresher-pulling-icon,[dir=rtl] .refresher-refreshing-icon,:host-context([dir=rtl]) .refresher-refreshing-icon{transform-origin:calc(100% - center)}.refresher-pulling-text,.refresher-refreshing-text{font-size:16px;text-align:center}ion-refresher-content .arrow-container{display:none}.refresher-pulling ion-refresher-content .refresher-pulling{display:block}.refresher-ready ion-refresher-content .refresher-pulling{display:block}.refresher-ready ion-refresher-content .refresher-pulling-icon{transform:rotate(180deg)}.refresher-refreshing ion-refresher-content .refresher-refreshing{display:block}.refresher-cancelling ion-refresher-content .refresher-pulling{display:block}.refresher-cancelling ion-refresher-content .refresher-pulling-icon{transform:scale(0)}.refresher-completing ion-refresher-content .refresher-refreshing{display:block}.refresher-completing ion-refresher-content .refresher-refreshing-icon{transform:scale(0)}.refresher-native .refresher-pulling-text,.refresher-native .refresher-refreshing-text{display:none}.refresher-md .refresher-pulling-icon,.refresher-md .refresher-refreshing-icon{color:var(--ion-text-color, #000)}.refresher-md .refresher-pulling-text,.refresher-md .refresher-refreshing-text{color:var(--ion-text-color, #000)}.refresher-md .refresher-refreshing .spinner-lines-md line,.refresher-md .refresher-refreshing .spinner-lines-small-md line,.refresher-md .refresher-refreshing .spinner-crescent circle{stroke:var(--ion-text-color, #000)}.refresher-md .refresher-refreshing .spinner-bubbles circle,.refresher-md .refresher-refreshing .spinner-circles circle,.refresher-md .refresher-refreshing .spinner-dots circle{fill:var(--ion-text-color, #000)}ion-refresher.refresher-native{display:block;z-index:1}ion-refresher.refresher-native ion-spinner{margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;width:24px;height:24px;color:var(--ion-color-primary, #3880ff)}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){ion-refresher.refresher-native ion-spinner{margin-left:unset;margin-right:unset;-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto}}ion-refresher.refresher-native .spinner-arrow-container{display:inherit}ion-refresher.refresher-native .arrow-container{display:block;position:absolute;width:24px;height:24px}ion-refresher.refresher-native .arrow-container ion-icon{margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;left:0;right:0;bottom:-4px;position:absolute;color:var(--ion-color-primary, #3880ff);font-size:12px}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){ion-refresher.refresher-native .arrow-container ion-icon{margin-left:unset;margin-right:unset;-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto}}ion-refresher.refresher-native.refresher-pulling ion-refresher-content .refresher-pulling,ion-refresher.refresher-native.refresher-ready ion-refresher-content .refresher-pulling{display:flex}ion-refresher.refresher-native.refresher-refreshing ion-refresher-content .refresher-refreshing,ion-refresher.refresher-native.refresher-completing ion-refresher-content .refresher-refreshing,ion-refresher.refresher-native.refresher-cancelling ion-refresher-content .refresher-refreshing{display:flex}ion-refresher.refresher-native .refresher-pulling-icon{transform:translateY(calc(-100% - 10px))}ion-refresher.refresher-native .refresher-pulling-icon,ion-refresher.refresher-native .refresher-refreshing-icon{margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;border-radius:100%;padding-left:8px;padding-right:8px;padding-top:8px;padding-bottom:8px;display:flex;border:1px solid var(--ion-color-step-200, #ececec);background:var(--ion-color-step-250, #ffffff);box-shadow:0px 1px 6px rgba(0, 0, 0, 0.1)}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){ion-refresher.refresher-native .refresher-pulling-icon,ion-refresher.refresher-native .refresher-refreshing-icon{margin-left:unset;margin-right:unset;-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto}}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){ion-refresher.refresher-native .refresher-pulling-icon,ion-refresher.refresher-native .refresher-refreshing-icon{padding-left:unset;padding-right:unset;-webkit-padding-start:8px;padding-inline-start:8px;-webkit-padding-end:8px;padding-inline-end:8px}}";
 
 const Refresher = class {
     constructor(hostRef) {
@@ -229,7 +252,7 @@ const Refresher = class {
          */
         this.closeDuration = '280ms';
         /**
-         * Time it takes the refresher to to snap back to the `refreshing` state.
+         * Time it takes the refresher to snap back to the `refreshing` state.
          * Does not apply when the refresher content uses a spinner,
          * enabling the native refresher.
          */
@@ -259,8 +282,8 @@ const Refresher = class {
             this.gesture.enable(!this.disabled);
         }
     }
-    checkNativeRefresher() {
-        const useNativeRefresher = shouldUseNativeRefresher(this.el, getIonMode(this));
+    async checkNativeRefresher() {
+        const useNativeRefresher = await shouldUseNativeRefresher(this.el, getIonMode(this));
         if (useNativeRefresher && !this.nativeRefresher) {
             const contentEl = this.el.closest('ion-content');
             this.setupNativeRefresher(contentEl);
@@ -295,7 +318,7 @@ const Refresher = class {
     async setupiOSNativeRefresher(pullingSpinner, refreshingSpinner) {
         this.elementToTransform = this.scrollEl;
         const ticks = pullingSpinner.shadowRoot.querySelectorAll('svg');
-        const MAX_PULL = this.scrollEl.clientHeight * 0.16;
+        let MAX_PULL = this.scrollEl.clientHeight * 0.16;
         const NUM_TICKS = ticks.length;
         writeTask(() => ticks.forEach(el => el.style.setProperty('animation', 'none')));
         this.scrollListenerCallback = () => {
@@ -359,16 +382,27 @@ const Refresher = class {
             });
         };
         this.scrollEl.addEventListener('scroll', this.scrollListenerCallback);
-        this.gesture = (await __sc_import_app('./index-9b41fcc6.js')).createGesture({
+        this.gesture = (await __sc_import_app('./index-7fe827c3.js')).createGesture({
             el: this.scrollEl,
             gestureName: 'refresher',
-            gesturePriority: 10,
+            gesturePriority: 31,
             direction: 'y',
             threshold: 5,
             onStart: () => {
                 this.pointerDown = true;
                 if (!this.didRefresh) {
                     translateElement(this.elementToTransform, '0px');
+                }
+                /**
+                 * If the content had `display: none` when
+                 * the refresher was initialized, its clientHeight
+                 * will be 0. When the gesture starts, the content
+                 * will be visible, so try to get the correct
+                 * client height again. This is most common when
+                 * using the refresher in an ion-menu.
+                 */
+                if (MAX_PULL === 0) {
+                    MAX_PULL = this.scrollEl.clientHeight * 0.16;
                 }
             },
             onMove: ev => {
@@ -400,10 +434,10 @@ const Refresher = class {
                 refreshingCircle.style.setProperty('animation-delay', '-655ms');
             });
         }
-        this.gesture = (await __sc_import_app('./index-9b41fcc6.js')).createGesture({
+        this.gesture = (await __sc_import_app('./index-7fe827c3.js')).createGesture({
             el: this.scrollEl,
             gestureName: 'refresher',
-            gesturePriority: 10,
+            gesturePriority: 31,
             direction: 'y',
             threshold: 5,
             canStart: () => this.state !== 8 /* Refreshing */ && this.state !== 32 /* Completing */ && this.scrollEl.scrollTop === 0,
@@ -418,15 +452,13 @@ const Refresher = class {
                 if (!ev.data.didStart) {
                     ev.data.didStart = true;
                     this.state = 2 /* Pulling */;
-                    writeTask(() => {
-                        const animationType = getRefresherAnimationType(contentEl);
-                        const animation = createPullingAnimation(animationType, pullingRefresherIcon);
-                        ev.data.animation = animation;
-                        this.scrollEl.style.setProperty('--overflow', 'hidden');
-                        animation.progressStart(false, 0);
-                        this.ionStart.emit();
-                        this.animations.push(animation);
-                    });
+                    writeTask(() => this.scrollEl.style.setProperty('--overflow', 'hidden'));
+                    const animationType = getRefresherAnimationType(contentEl);
+                    const animation = createPullingAnimation(animationType, pullingRefresherIcon, this.el);
+                    ev.data.animation = animation;
+                    animation.progressStart(false, 0);
+                    this.ionStart.emit();
+                    this.animations.push(animation);
                     return;
                 }
                 // Since we are using an easing curve, slow the gesture tracking down a bit
@@ -469,10 +501,17 @@ const Refresher = class {
         if (this.scrollListenerCallback || !contentEl || this.nativeRefresher || !this.scrollEl) {
             return;
         }
+        /**
+         * If using non-native refresher before make sure
+         * we clean up any old CSS. This can happen when
+         * a user manually calls the refresh method in a
+         * component create callback before the native
+         * refresher is setup.
+         */
+        this.setCss(0, '', false, '');
         this.nativeRefresher = true;
         const pullingSpinner = this.el.querySelector('ion-refresher-content .refresher-pulling ion-spinner');
         const refreshingSpinner = this.el.querySelector('ion-refresher-content .refresher-refreshing ion-spinner');
-        await contentEl.componentOnReady();
         if (getIonMode(this) === 'ios') {
             this.setupiOSNativeRefresher(pullingSpinner, refreshingSpinner);
         }
@@ -493,16 +532,17 @@ const Refresher = class {
             console.error('<ion-refresher> must be used inside an <ion-content>');
             return;
         }
+        await new Promise(resolve => componentOnReady(contentEl, resolve));
         this.scrollEl = await contentEl.getScrollElement();
         this.backgroundContentEl = getElementRoot(contentEl).querySelector('#background-content');
-        if (shouldUseNativeRefresher(this.el, getIonMode(this))) {
+        if (await shouldUseNativeRefresher(this.el, getIonMode(this))) {
             this.setupNativeRefresher(contentEl);
         }
         else {
-            this.gesture = (await __sc_import_app('./index-9b41fcc6.js')).createGesture({
+            this.gesture = (await __sc_import_app('./index-7fe827c3.js')).createGesture({
                 el: contentEl,
                 gestureName: 'refresher',
-                gesturePriority: 10,
+                gesturePriority: 31,
                 direction: 'y',
                 threshold: 20,
                 passive: false,

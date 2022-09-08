@@ -17,6 +17,7 @@ declare namespace flexygo.obj {
         objectWhere: string;
         data: flexygo.api.BasicPropertyCollection;
         warningMessage: string;
+        successMessage: string;
         jsCode: string;
         /**
         * Init entity and recive the values.
@@ -48,7 +49,7 @@ declare namespace flexygo.obj {
         * @param {string} options - leave empty for all processes. reports for only reports, processes for only processes and relations only for relations
          * @return {flexygo.api.entity.GetProcessesResponse} - Related processes
         */
-        processes(options?: string): flexygo.api.entity.GetProcessesResponse;
+        processes(options?: string, defaults?: string): flexygo.api.entity.GetProcessesResponse;
         /**
         * Get the system configuration related to current object.
         * @method getConfig

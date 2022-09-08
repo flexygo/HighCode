@@ -73,6 +73,11 @@ declare namespace flexygo.ui.wc {
         * @method refresh
         */
         refresh(): void;
+        /**
+        * Refresh de one colum. REQUIRED.
+        * @method refresh
+        */
+        refreshColumn(columnid: string): void;
         setFilter(): void;
         /**
         * Render HTML data.
@@ -86,7 +91,9 @@ declare namespace flexygo.ui.wc {
         descripClick(el: JQuery, pageType: any): void;
         newCardClick(el: JQuery): void;
         onDialogClosed(e: flexygo.events.FlexygoEvent): void;
+        setCardEventClick(me: JQuery): void;
         loadKanban(refreshButtons: boolean, refreshFilters: boolean): void;
+        loadColumn(refreshButtons: boolean, refreshFilters: boolean, columnid: string): void;
         /**
        * Load filters
        * @method loadFilters

@@ -1,11 +1,11 @@
-import { r as registerInstance, m as createEvent, h as Build, j as h, l as Host, k as getElement } from './index-76f52202.js';
-import { c as config, g as getIonMode } from './ionic-global-53d785f3.js';
-import { i as isEndSide, b as assert, c as clamp } from './helpers-742de4f9.js';
-import './animation-a90ce8fc.js';
-import { g as getTimeGivenProgression } from './cubic-bezier-89113939.js';
-import { GESTURE_CONTROLLER } from './index-9b41fcc6.js';
-import './hardware-back-button-b3b61715.js';
-import { m as menuController } from './index-c940ddb6.js';
+import { r as registerInstance, m as createEvent, h as Build, j as h, l as Host, k as getElement } from './index-86ac49ff.js';
+import { c as config, g as getIonMode } from './ionic-global-0f98fe97.js';
+import { j as isEndSide, i as inheritAttributes, l as assert, f as clamp } from './helpers-719f4c54.js';
+import './animation-10ea33c3.js';
+import { g as getTimeGivenProgression } from './cubic-bezier-93f47170.js';
+import { GESTURE_CONTROLLER } from './index-7fe827c3.js';
+import './hardware-back-button-aacf3d12.js';
+import { m as menuController } from './index-50651ccc.js';
 
 const menuIosCss = ":host{--width:304px;--min-width:auto;--max-width:auto;--height:100%;--min-height:auto;--max-height:auto;--background:var(--ion-background-color, #fff);left:0;right:0;top:0;bottom:0;display:none;position:absolute;contain:strict}:host(.show-menu){display:block}.menu-inner{left:0;right:auto;top:0;bottom:0;transform:translate3d(-9999px,  0,  0);display:flex;position:absolute;flex-direction:column;justify-content:space-between;width:var(--width);min-width:var(--min-width);max-width:var(--max-width);height:var(--height);min-height:var(--min-height);max-height:var(--max-height);background:var(--background);contain:strict}[dir=rtl] .menu-inner,:host-context([dir=rtl]) .menu-inner{left:unset;right:unset;left:auto;right:0}[dir=rtl] .menu-inner,:host-context([dir=rtl]) .menu-inner{transform:translate3d(calc(-1 * -9999px),  0,  0)}:host(.menu-side-start) .menu-inner{--ion-safe-area-right:0px;right:auto;left:0}:host(.menu-side-end) .menu-inner{--ion-safe-area-left:0px;right:0;left:auto;}ion-backdrop{display:none;opacity:0.01;z-index:-1}@media (max-width: 340px){.menu-inner{--width:264px}}:host(.menu-type-reveal){z-index:0}:host(.menu-type-reveal.show-menu) .menu-inner{transform:translate3d(0,  0,  0)}:host(.menu-type-overlay){z-index:1000}:host(.menu-type-overlay) .show-backdrop{display:block;cursor:pointer}:host(.menu-pane-visible){width:var(--width);min-width:var(--min-width);max-width:var(--max-width)}:host(.menu-pane-visible) .menu-inner{left:0;right:0;width:auto;transform:none !important;box-shadow:none !important}:host(.menu-pane-visible) ion-backdrop{display:hidden !important;}:host(.menu-type-push){z-index:1000}:host(.menu-type-push) .show-backdrop{display:block}";
 
@@ -15,6 +15,7 @@ const iosEasing = 'cubic-bezier(0.32,0.72,0,1)';
 const mdEasing = 'cubic-bezier(0.0,0.0,0.2,1)';
 const iosEasingReverse = 'cubic-bezier(1, 0, 0.68, 0.28)';
 const mdEasingReverse = 'cubic-bezier(0.4, 0, 0.6, 1)';
+const focusableQueryString = '[tabindex]:not([tabindex^="-"]), input:not([type=hidden]):not([tabindex^="-"]), textarea:not([tabindex^="-"]), button:not([tabindex^="-"]), select:not([tabindex^="-"]), .ion-focusable:not([tabindex^="-"])';
 const Menu = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
@@ -27,6 +28,8 @@ const Menu = class {
         this.blocker = GESTURE_CONTROLLER.createBlocker({ disableScroll: true });
         this.isAnimating = false;
         this._isOpen = false;
+        this.inheritedAttributes = {};
+        this.handleFocus = (ev) => this.trapKeyboardFocus(ev, document);
         this.isPaneVisible = false;
         this.isEndSide = false;
         /**
@@ -111,7 +114,7 @@ AFTER:
         this.sideChanged();
         // register this menu with the app's menu controller
         menuController._register(this);
-        this.gesture = (await __sc_import_app('./index-9b41fcc6.js')).createGesture({
+        this.gesture = (await __sc_import_app('./index-7fe827c3.js')).createGesture({
             el: document,
             gestureName: 'menu-swipe',
             gesturePriority: 30,
@@ -124,6 +127,9 @@ AFTER:
             onEnd: ev => this.onEnd(ev),
         });
         this.updateState();
+    }
+    componentWillLoad() {
+        this.inheritedAttributes = inheritAttributes(this.el, ['aria-label']);
     }
     async componentDidLoad() {
         this.ionMenuChange.emit({ disabled: this.disabled, open: this._isOpen });
@@ -156,6 +162,11 @@ AFTER:
                 ev.stopPropagation();
                 this.close();
             }
+        }
+    }
+    onKeydown(ev) {
+        if (ev.key === 'Escape') {
+            this.close();
         }
     }
     /**
@@ -200,6 +211,62 @@ AFTER:
      */
     setOpen(shouldOpen, animated = true) {
         return menuController._setOpen(this, shouldOpen, animated);
+    }
+    focusFirstDescendant() {
+        const { el } = this;
+        const firstInput = el.querySelector(focusableQueryString);
+        if (firstInput) {
+            firstInput.focus();
+        }
+        else {
+            el.focus();
+        }
+    }
+    focusLastDescendant() {
+        const { el } = this;
+        const inputs = Array.from(el.querySelectorAll(focusableQueryString));
+        const lastInput = inputs.length > 0 ? inputs[inputs.length - 1] : null;
+        if (lastInput) {
+            lastInput.focus();
+        }
+        else {
+            el.focus();
+        }
+    }
+    trapKeyboardFocus(ev, doc) {
+        const target = ev.target;
+        if (!target) {
+            return;
+        }
+        /**
+         * If the target is inside the menu contents, let the browser
+         * focus as normal and keep a log of the last focused element.
+         */
+        if (this.el.contains(target)) {
+            this.lastFocus = target;
+        }
+        else {
+            /**
+             * Otherwise, we are about to have focus go out of the menu.
+             * Wrap the focus to either the first or last element.
+             */
+            /**
+             * Once we call `focusFirstDescendant`, another focus event
+             * will fire, which will cause `lastFocus` to be updated
+             * before we can run the code after that. We cache the value
+             * here to avoid that.
+             */
+            this.focusFirstDescendant();
+            /**
+             * If the cached last focused element is the same as the now-
+             * active element, that means the user was on the first element
+             * already and pressed Shift + Tab, so we need to wrap to the
+             * last descendant.
+             */
+            if (this.lastFocus === doc.activeElement) {
+                this.focusLastDescendant();
+            }
+        }
     }
     async _setOpen(shouldOpen, animated = true) {
         // If the menu is disabled or it is currently being animated, let's do nothing
@@ -345,6 +412,15 @@ AFTER:
         // this places the menu into the correct location before it animates in
         // this css class doesn't actually kick off any animations
         this.el.classList.add(SHOW_MENU);
+        /**
+         * We add a tabindex here so that focus trapping
+         * still works even if the menu does not have
+         * any focusable elements slotted inside. The
+         * focus trapping utility will fallback to focusing
+         * the menu so focus does not leave when the menu
+         * is open.
+         */
+        this.el.setAttribute('tabindex', '0');
         if (this.backdropEl) {
             this.backdropEl.classList.add(SHOW_BACKDROP);
         }
@@ -369,18 +445,44 @@ AFTER:
             this.blocker.unblock();
         }
         if (isOpen) {
-            // add css class
+            // add css class and hide content behind menu from screen readers
             if (this.contentEl) {
                 this.contentEl.classList.add(MENU_CONTENT_OPEN);
+                /**
+                 * When the menu is open and overlaying the main
+                 * content, the main content should not be announced
+                 * by the screenreader as the menu is the main
+                 * focus. This is useful with screenreaders that have
+                 * "read from top" gestures that read the entire
+                 * page from top to bottom when activated.
+                 */
+                this.contentEl.setAttribute('aria-hidden', 'true');
             }
             // emit open event
             this.ionDidOpen.emit();
+            // focus menu content for screen readers
+            if (this.menuInnerEl) {
+                this.focusFirstDescendant();
+            }
+            // setup focus trapping
+            document.addEventListener('focus', this.handleFocus, true);
         }
         else {
-            // remove css classes
+            // remove css classes and unhide content from screen readers
             this.el.classList.remove(SHOW_MENU);
+            /**
+             * Remove tabindex from the menu component
+             * so that is cannot be tabbed to.
+             */
+            this.el.removeAttribute('tabindex');
             if (this.contentEl) {
                 this.contentEl.classList.remove(MENU_CONTENT_OPEN);
+                /**
+                 * Remove aria-hidden so screen readers
+                 * can announce the main content again
+                 * now that the menu is not the main focus.
+                 */
+                this.contentEl.removeAttribute('aria-hidden');
             }
             if (this.backdropEl) {
                 this.backdropEl.classList.remove(SHOW_BACKDROP);
@@ -390,6 +492,8 @@ AFTER:
             }
             // emit close event
             this.ionDidClose.emit();
+            // undo focus trapping so multiple menus don't collide
+            document.removeEventListener('focus', this.handleFocus, true);
         }
     }
     updateState() {
@@ -415,9 +519,9 @@ AFTER:
         this.afterAnimation(false);
     }
     render() {
-        const { isEndSide, type, disabled, isPaneVisible } = this;
+        const { isEndSide, type, disabled, isPaneVisible, inheritedAttributes } = this;
         const mode = getIonMode(this);
-        return (h(Host, { role: "navigation", class: {
+        return (h(Host, { role: "navigation", "aria-label": inheritedAttributes['aria-label'] || 'menu', class: {
                 [mode]: true,
                 [`menu-type-${type}`]: true,
                 'menu-enabled': !disabled,

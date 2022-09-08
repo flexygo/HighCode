@@ -38,8 +38,12 @@ declare namespace flexygo.ui.wc {
         refresh(): void;
         init(): void;
         initViewMode(): void;
+        tactilModeAvailable: boolean;
+        firefoxNav: boolean;
         initEditMode(): void;
         setUrlLink(): void;
+        setPhoneNumber(): void;
+        setMail(): void;
         getIconButtons(): JQuery;
         showCronGenerator(itm: any): void;
         showCoordGenerator(itm: any, tag: any): void;

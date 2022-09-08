@@ -80,6 +80,7 @@ var flexygo;
                     let ctx = this;
                     let me = $(this);
                     me.removeAttr('manualInit');
+                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
                     ctx.me.append('<div class="schedulerView" ></div>');
                     let parentModule = me.closest('flx-module');
                     let wcModule = parentModule[0];
@@ -290,27 +291,35 @@ var flexygo;
                     $(outer).attr('currentdate', day.format('YYYYMMDD'));
                     if ($(outer).attr("class") != 'day other') {
                         $(outer).click(function () {
-                            ctx.openDay(this);
-                            let ev = {
-                                class: "module",
-                                type: "selected",
-                                sender: ctx,
-                                masterIdentity: $(this).attr('currentdate'),
-                                detailIdentity: null
-                            };
-                            flexygo.events.trigger(ev);
+                            if (!$(outer).hasClass('daySelected')) {
+                                $(outer).closest('div.month').find('div.day.daySelected').removeClass('daySelected');
+                                $(outer).addClass('daySelected');
+                                ctx.openDay(this);
+                                let ev = {
+                                    class: "module",
+                                    type: "selected",
+                                    sender: ctx,
+                                    masterIdentity: $(this).attr('currentdate'),
+                                    detailIdentity: null
+                                };
+                                flexygo.events.trigger(ev);
+                            }
                         });
                     }
                     else {
                         $(outer).click(function () {
-                            let ev = {
-                                class: "module",
-                                type: "selected",
-                                sender: ctx,
-                                masterIdentity: $(this).attr('currentdate'),
-                                detailIdentity: null
-                            };
-                            flexygo.events.trigger(ev);
+                            if (!$(outer).hasClass('daySelected')) {
+                                $(outer).closest('div.month').find('div.day.daySelected').removeClass('daySelected');
+                                $(outer).addClass('daySelected');
+                                let ev = {
+                                    class: "module",
+                                    type: "selected",
+                                    sender: ctx,
+                                    masterIdentity: $(this).attr('currentdate'),
+                                    detailIdentity: null
+                                };
+                                flexygo.events.trigger(ev);
+                            }
                         });
                     }
                     //Day Name

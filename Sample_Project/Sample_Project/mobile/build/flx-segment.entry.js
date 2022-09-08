@@ -1,12 +1,27 @@
-import { r as registerInstance, j as h, k as getElement } from './index-76f52202.js';
-import { s as sql } from './messages-1e55a1f4.js';
-import { j as jquery } from './jquery-4ed57fb2.js';
+import { r as registerInstance, j as h, k as getElement } from './index-86ac49ff.js';
+import './ionic-global-0f98fe97.js';
+import './webapi-7959a2b6.js';
+import { s as sql } from './conftoken-bd0cce07.js';
+import { j as jquery } from './jquery-ad132f97.js';
+import './utils-16079bfd.js';
+import './helpers-719f4c54.js';
+import './animation-10ea33c3.js';
+import './index-7173f7a2.js';
+import './ios.transition-95375ac9.js';
+import './md.transition-6d74e584.js';
+import './cubic-bezier-93f47170.js';
+import './index-7fe827c3.js';
+import './index-b40d441b.js';
+import './hardware-back-button-aacf3d12.js';
+import './index-50651ccc.js';
+import './overlays-5302658e.js';
 
 const flxSegmentCss = "";
 
 const FlxSegment = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.disabled = false;
         this.table = [];
     }
     componentWillLoad() {
@@ -50,8 +65,8 @@ const FlxSegment = class {
         this.value = ev.currentTarget.value;
     }
     render() {
-        return (h("ion-segment", { color: "dark", mode: "md", value: this.value, onIonChange: (ev) => { this.valueChange(ev); } }, this.table.map((row) => {
-            return h("ion-segment-button", { layout: "icon-start", value: row[this.valuefield] }, ((typeof row['icon'] == 'undefined') ? null : h("ion-icon", { name: row['icon'] })), h("ion-label", { color: ((typeof row['color'] == 'undefined') ? null : row['color']) }, row[this.displayfield]));
+        return (h("ion-segment", { scrollable: "true", disabled: (this.disabled ? true : false), color: "dark", mode: "md", value: this.value, onIonChange: (ev) => { this.valueChange(ev); } }, this.table.map((row) => {
+            return h("ion-segment-button", { disabled: (this.disabled ? true : false), layout: "icon-start", value: row[this.valuefield] }, ((typeof row['icon'] == 'undefined') ? null : h("ion-icon", { color: ((typeof row['colorIcon'] == 'undefined') ? null : row['colorIcon']), name: row['icon'] })), h("ion-label", { color: ((typeof row['color'] == 'undefined') ? null : row['color']) }, row[this.displayfield]));
         })));
     }
     get me() { return getElement(this); }

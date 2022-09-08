@@ -187,6 +187,7 @@ var flexygo;
                 mainEvents() {
                     let me = $(this);
                     me.removeAttr('manualInit');
+                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
                     let ctx = this;
                     if (this.options && this.options.Locked) {
                         return;
@@ -198,7 +199,7 @@ var flexygo;
                             documentReader(it, '');
                         }
                     });
-                    me.on('upload.upload', (event, fileId, type, moduleName, objectName, objectWhere, processName, property, path, name, extension, base64) => {
+                    me.off('upload.upload').on('upload.upload', (event, fileId, type, moduleName, objectName, objectWhere, processName, property, path, name, extension, base64) => {
                         $(ctx.uploadFileTemplate(fileId, name, extension, base64)).appendTo(me.find('.upload-drag-container > .uploaded-flies')).find('.upload-file-delete').off('click.upload').on('click.upload', (e) => {
                             let fileElement = $(e.currentTarget).closest('.upload-file');
                             let fileId = fileElement.attr('upload-file-id');

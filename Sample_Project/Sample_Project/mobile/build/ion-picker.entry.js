@@ -1,53 +1,53 @@
-import { r as registerInstance, m as createEvent, j as h, l as Host, k as getElement } from './index-76f52202.js';
-import { g as getIonMode } from './ionic-global-53d785f3.js';
-import './helpers-742de4f9.js';
-import { c as createAnimation } from './animation-a90ce8fc.js';
-import './hardware-back-button-b3b61715.js';
-import { B as BACKDROP, i as isCancel, a as prepareOverlay, b as present, d as dismiss, e as eventMethod, s as safeCall } from './overlays-3fb58ad8.js';
-import { g as getClassMap } from './theme-d8afa044.js';
+import { r as registerInstance, m as createEvent, j as h, l as Host, k as getElement } from './index-86ac49ff.js';
+import { g as getIonMode } from './ionic-global-0f98fe97.js';
+import './helpers-719f4c54.js';
+import { c as createAnimation } from './animation-10ea33c3.js';
+import './hardware-back-button-aacf3d12.js';
+import { B as BACKDROP, i as isCancel, a as prepareOverlay, b as present, d as dismiss, e as eventMethod, s as safeCall } from './overlays-5302658e.js';
+import { g as getClassMap } from './theme-f934266c.js';
 
 /**
  * iOS Picker Enter Animation
  */
 const iosEnterAnimation = (baseEl) => {
-    const baseAnimation = createAnimation();
-    const backdropAnimation = createAnimation();
-    const wrapperAnimation = createAnimation();
-    backdropAnimation
-        .addElement(baseEl.querySelector('ion-backdrop'))
-        .fromTo('opacity', 0.01, 'var(--backdrop-opacity)')
-        .beforeStyles({
-        'pointer-events': 'none'
-    })
-        .afterClearStyles(['pointer-events']);
-    wrapperAnimation
-        .addElement(baseEl.querySelector('.picker-wrapper'))
-        .fromTo('transform', 'translateY(100%)', 'translateY(0%)');
-    return baseAnimation
-        .addElement(baseEl)
-        .easing('cubic-bezier(.36,.66,.04,1)')
-        .duration(400)
-        .addAnimation([backdropAnimation, wrapperAnimation]);
+  const baseAnimation = createAnimation();
+  const backdropAnimation = createAnimation();
+  const wrapperAnimation = createAnimation();
+  backdropAnimation
+    .addElement(baseEl.querySelector('ion-backdrop'))
+    .fromTo('opacity', 0.01, 'var(--backdrop-opacity)')
+    .beforeStyles({
+    'pointer-events': 'none'
+  })
+    .afterClearStyles(['pointer-events']);
+  wrapperAnimation
+    .addElement(baseEl.querySelector('.picker-wrapper'))
+    .fromTo('transform', 'translateY(100%)', 'translateY(0%)');
+  return baseAnimation
+    .addElement(baseEl)
+    .easing('cubic-bezier(.36,.66,.04,1)')
+    .duration(400)
+    .addAnimation([backdropAnimation, wrapperAnimation]);
 };
 
 /**
  * iOS Picker Leave Animation
  */
 const iosLeaveAnimation = (baseEl) => {
-    const baseAnimation = createAnimation();
-    const backdropAnimation = createAnimation();
-    const wrapperAnimation = createAnimation();
-    backdropAnimation
-        .addElement(baseEl.querySelector('ion-backdrop'))
-        .fromTo('opacity', 'var(--backdrop-opacity)', 0.01);
-    wrapperAnimation
-        .addElement(baseEl.querySelector('.picker-wrapper'))
-        .fromTo('transform', 'translateY(0%)', 'translateY(100%)');
-    return baseAnimation
-        .addElement(baseEl)
-        .easing('cubic-bezier(.36,.66,.04,1)')
-        .duration(400)
-        .addAnimation([backdropAnimation, wrapperAnimation]);
+  const baseAnimation = createAnimation();
+  const backdropAnimation = createAnimation();
+  const wrapperAnimation = createAnimation();
+  backdropAnimation
+    .addElement(baseEl.querySelector('ion-backdrop'))
+    .fromTo('opacity', 'var(--backdrop-opacity)', 0.01);
+  wrapperAnimation
+    .addElement(baseEl.querySelector('.picker-wrapper'))
+    .fromTo('transform', 'translateY(0%)', 'translateY(100%)');
+  return baseAnimation
+    .addElement(baseEl)
+    .easing('cubic-bezier(.36,.66,.04,1)')
+    .duration(400)
+    .addAnimation([backdropAnimation, wrapperAnimation]);
 };
 
 const pickerIosCss = ".sc-ion-picker-ios-h{--border-radius:0;--border-style:solid;--min-width:auto;--width:100%;--max-width:500px;--min-height:auto;--max-height:auto;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;left:0;top:0;display:block;position:absolute;width:100%;height:100%;outline:none;font-family:var(--ion-font-family, inherit);contain:strict;user-select:none;z-index:1001}[dir=rtl].sc-ion-picker-ios-h,[dir=rtl] .sc-ion-picker-ios-h{left:unset;right:unset;right:0}.overlay-hidden.sc-ion-picker-ios-h{display:none}.picker-wrapper.sc-ion-picker-ios{border-radius:var(--border-radius);left:0;right:0;bottom:0;margin-left:auto;margin-right:auto;margin-top:auto;margin-bottom:auto;transform:translate3d(0,  100%,  0);display:flex;position:absolute;flex-direction:column;width:var(--width);min-width:var(--min-width);max-width:var(--max-width);height:var(--height);min-height:var(--min-height);max-height:var(--max-height);border-width:var(--border-width);border-style:var(--border-style);border-color:var(--border-color);background:var(--background);contain:strict;overflow:hidden;z-index:10}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){.picker-wrapper.sc-ion-picker-ios{margin-left:unset;margin-right:unset;-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto}}.picker-toolbar.sc-ion-picker-ios{width:100%;background:transparent;contain:strict;z-index:1}.picker-button.sc-ion-picker-ios{border:0;font-family:inherit}.picker-button.sc-ion-picker-ios:active,.picker-button.sc-ion-picker-ios:focus{outline:none}.picker-columns.sc-ion-picker-ios{display:flex;position:relative;justify-content:center;margin-bottom:var(--ion-safe-area-bottom, 0);contain:strict;direction:ltr;overflow:hidden}.picker-above-highlight.sc-ion-picker-ios,.picker-below-highlight.sc-ion-picker-ios{display:none;pointer-events:none}.sc-ion-picker-ios-h{--background:var(--ion-background-color, #fff);--border-width:1px 0 0;--border-color:var(--ion-item-border-color, var(--ion-border-color, var(--ion-color-step-250, #c8c7cc)));--height:260px;--backdrop-opacity:var(--ion-backdrop-opacity, 0.26);color:var(--ion-item-color, var(--ion-text-color, #000))}.picker-toolbar.sc-ion-picker-ios{display:flex;height:44px;border-bottom:0.55px solid var(--border-color)}.picker-toolbar-button.sc-ion-picker-ios{flex:1;text-align:end}.picker-toolbar-button.sc-ion-picker-ios:last-child .picker-button.sc-ion-picker-ios{font-weight:600}.picker-toolbar-button.sc-ion-picker-ios:first-child{font-weight:normal;text-align:start}.picker-button.sc-ion-picker-ios,.picker-button.ion-activated.sc-ion-picker-ios{margin-left:0;margin-right:0;margin-top:0;margin-bottom:0;padding-left:1em;padding-right:1em;padding-top:0;padding-bottom:0;height:44px;background:transparent;color:var(--ion-color-primary, #3880ff);font-size:16px}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){.picker-button.sc-ion-picker-ios,.picker-button.ion-activated.sc-ion-picker-ios{padding-left:unset;padding-right:unset;-webkit-padding-start:1em;padding-inline-start:1em;-webkit-padding-end:1em;padding-inline-end:1em}}.picker-columns.sc-ion-picker-ios{height:215px;perspective:1000px}.picker-above-highlight.sc-ion-picker-ios{left:0;top:0;transform:translate3d(0,  0,  90px);display:block;position:absolute;width:100%;height:81px;border-bottom:1px solid var(--border-color);background:linear-gradient(to bottom, var(--background, var(--ion-background-color, #fff)) 20%, rgba(var(--background-rgb, var(--ion-background-color-rgb, 255, 255, 255)), 0.8) 100%);z-index:10}[dir=rtl].sc-ion-picker-ios .picker-above-highlight.sc-ion-picker-ios,[dir=rtl].sc-ion-picker-ios-h .picker-above-highlight.sc-ion-picker-ios,[dir=rtl] .sc-ion-picker-ios-h .picker-above-highlight.sc-ion-picker-ios{left:unset;right:unset;right:0}.picker-below-highlight.sc-ion-picker-ios{left:0;top:115px;transform:translate3d(0,  0,  90px);display:block;position:absolute;width:100%;height:119px;border-top:1px solid var(--border-color);background:linear-gradient(to top, var(--background, var(--ion-background-color, #fff)) 30%, rgba(var(--background-rgb, var(--ion-background-color-rgb, 255, 255, 255)), 0.8) 100%);z-index:11}[dir=rtl].sc-ion-picker-ios .picker-below-highlight.sc-ion-picker-ios,[dir=rtl].sc-ion-picker-ios-h .picker-below-highlight.sc-ion-picker-ios,[dir=rtl] .sc-ion-picker-ios-h .picker-below-highlight.sc-ion-picker-ios{left:unset;right:unset;right:0}";
@@ -100,6 +100,8 @@ const Picker = class {
                 this.callButtonHandler(cancelButton);
             }
         };
+    }
+    connectedCallback() {
         prepareOverlay(this.el);
     }
     /**
@@ -184,12 +186,13 @@ const Picker = class {
         return selected;
     }
     render() {
+        const { htmlAttributes } = this;
         const mode = getIonMode(this);
-        return (h(Host, { "aria-modal": "true", tabindex: "-1", class: Object.assign({ [mode]: true,
-                // Used internally for styling
-                [`picker-${mode}`]: true }, getClassMap(this.cssClass)), style: {
+        return (h(Host, Object.assign({ "aria-modal": "true", tabindex: "-1" }, htmlAttributes, { style: {
                 zIndex: `${20000 + this.overlayIndex}`
-            }, onIonBackdropTap: this.onBackdropTap, onIonPickerWillDismiss: this.dispatchCancelHandler }, h("ion-backdrop", { visible: this.showBackdrop, tappable: this.backdropDismiss }), h("div", { class: "picker-wrapper", role: "dialog" }, h("div", { class: "picker-toolbar" }, this.buttons.map(b => (h("div", { class: buttonWrapperClass(b) }, h("button", { type: "button", onClick: () => this.buttonClick(b), class: buttonClass(b) }, b.text))))), h("div", { class: "picker-columns" }, h("div", { class: "picker-above-highlight" }), this.presented && this.columns.map(c => h("ion-picker-column", { col: c })), h("div", { class: "picker-below-highlight" })))));
+            }, class: Object.assign({ [mode]: true,
+                // Used internally for styling
+                [`picker-${mode}`]: true }, getClassMap(this.cssClass)), onIonBackdropTap: this.onBackdropTap, onIonPickerWillDismiss: this.dispatchCancelHandler }), h("ion-backdrop", { visible: this.showBackdrop, tappable: this.backdropDismiss }), h("div", { tabindex: "0" }), h("div", { class: "picker-wrapper ion-overlay-wrapper", role: "dialog" }, h("div", { class: "picker-toolbar" }, this.buttons.map(b => (h("div", { class: buttonWrapperClass(b) }, h("button", { type: "button", onClick: () => this.buttonClick(b), class: buttonClass(b) }, b.text))))), h("div", { class: "picker-columns" }, h("div", { class: "picker-above-highlight" }), this.presented && this.columns.map(c => h("ion-picker-column", { col: c })), h("div", { class: "picker-below-highlight" }))), h("div", { tabindex: "0" })));
     }
     get el() { return getElement(this); }
 };

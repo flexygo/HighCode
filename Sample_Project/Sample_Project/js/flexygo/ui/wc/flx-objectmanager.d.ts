@@ -31,6 +31,7 @@ declare namespace flexygo.ui.wc {
         basicInformationPane(): void;
         objectPropertiesPane(): void;
         listSettingsPane(): void;
+        filterSettingsPane(): void;
         displaySettingsPane(): void;
         colPropertiesPane(): void;
         endPane(): void;

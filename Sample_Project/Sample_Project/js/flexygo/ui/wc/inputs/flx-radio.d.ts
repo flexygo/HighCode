@@ -39,6 +39,7 @@ declare namespace flexygo.ui.wc {
         refresh(): void;
         init(): void;
         setOptions(): void;
+        changeSQLData(newSQL: string, newOptions: flexygo.api.edit.KeyValuePair[]): void;
         setValue(value: any, text?: string): void;
         setValueView(value: any): void;
         getValue(): any;

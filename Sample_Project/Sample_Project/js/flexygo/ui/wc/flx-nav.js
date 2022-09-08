@@ -101,6 +101,7 @@ var flexygo;
                 init() {
                     let navBar = $(this);
                     navBar.removeAttr('manualInit');
+                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
                     navBar.empty();
                     this.connected = true;
                     let initNode = navBar.attr('initNode');
@@ -108,7 +109,7 @@ var flexygo;
                     let itemTemplate = '<li typeid="{{type}}" class="{{cssClass}}" onClick="{{getTreeNavigate(json)}}"><i class="{{hasChildNodesClass(json)}} icon-zoom" > {{getIcon(IconClass,IconPath)}}</i><span>{{Title}}</span></li>';
                     if (this.mode == 'box') {
                         headerTemplate = '<div class="box" onclick="$(this).toggleClass(\'selected\')"> <span class="icon-cont"><i class="{{IconClass}}"></i></span><h3>{{Title}}</h3><div class="noshow child-nodes"></div><a class="expand"><span class="plus"></span><span class="minus">-</span></a></div>';
-                        itemTemplate = '<li typeid="{{type}}" class="{{cssClass}}" onClick="{{getTreeNavigate(json)}}">{{getIcon(IconClass,IconPath)}} &nbsp;{{Title}}</li>';
+                        itemTemplate = '<li typeid="{{type}}" class="{{cssClass}}" onClick="if($(this).closest(\'.box.selected\').length>0){{{getTreeNavigate(json)}}}">{{getIcon(IconClass,IconPath)}} &nbsp;{{Title}}</li>';
                     }
                     else if (this.mode == 'network') {
                         headerTemplate = '<div class="graphcontainer"></div>';
@@ -192,13 +193,13 @@ var flexygo;
                     for (let nKey in ret) {
                         if ((!firstEscape || ret[nKey].NodeId != this.initNode.toLowerCase()) && (ret[nKey].Enabled)) {
                             if (ret[nKey].StrType == 'wc') {
-                                cnt += flexygo.utils.parser.compile(ret[nKey], this.wcTemplate, this);
+                                cnt += flexygo.utils.parser.recursiveCompile(ret[nKey], this.wcTemplate, this);
                             }
                             else if (ret[nKey].StrType == 'separator') {
-                                cnt += flexygo.utils.parser.compile(flexygo.utils.lowerKeys(ret[nKey], true), this.separatorTemplate, this);
+                                cnt += flexygo.utils.parser.recursiveCompile(flexygo.utils.lowerKeys(ret[nKey], true), this.separatorTemplate, this);
                             }
                             else {
-                                cnt += flexygo.utils.parser.compile(flexygo.utils.lowerKeys(ret[nKey], true), this.template, this);
+                                cnt += flexygo.utils.parser.recursiveCompile(flexygo.utils.lowerKeys(ret[nKey], true), this.template, this);
                             }
                         }
                     }

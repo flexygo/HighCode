@@ -26,6 +26,8 @@ declare namespace flexygo.ui.wc {
         container: JQuery;
         mobileInput: JQuery;
         additionalWhere: string;
+        cnnString: string;
+        separator: string;
         /**
         * Fires when element is attached to DOM
         * @method connectedCallback
@@ -46,8 +48,8 @@ declare namespace flexygo.ui.wc {
         init(): void;
         showOptions(): void;
         hideOptions(): void;
-        loadValues(page: number, fromvalue?: boolean, value?: string): void;
-        private addComboItems(data);
+        loadValues(page: number, fromvalue?: boolean, value?: string, append?: boolean): void;
+        private addComboItems(data, append?);
         private getListItem(value, text, template);
         addValue(value: any, text?: string): void;
         getIconButtons(): JQuery;
@@ -55,6 +57,7 @@ declare namespace flexygo.ui.wc {
         changeSQLData(newSQL: string, newOptions: string): void;
         setValue(value: string, text?: string): void;
         getValue(): any;
+        getText(): any;
         /**
         * Trigger Dependencies.
         * @method triggerDependencies

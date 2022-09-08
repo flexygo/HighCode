@@ -39,6 +39,7 @@ var flexygo;
                     try {
                         let me = $(this);
                         me.removeAttr('manualInit');
+                        $(this).closest('flx-module').find('.flx-noInitContent').remove();
                         this.filterValues = null;
                         this.activeFilter = null;
                         this.wcParentModule = me.closest('flx-module')[0];
@@ -556,6 +557,7 @@ var flexygo;
                              return (<any>vis).moment(date).utc();
                          },*/
                         /*margin: {axis: 20, item: { horizontal: 10, vertical: 10}},*/
+                        margin: { item: { horizontal: -1 } },
                         max: moment().add('years', 25).format(),
                         /*maxHeight: none*/
                         /*maxMinorChars: 7,*/
@@ -744,6 +746,12 @@ var flexygo;
                                         if (objectEntity.read()) {
                                             $.extend(true, objectEntity.data, { [this.timelineSetting.PropertyGroup]: this.timelineSetting.WithGroups && this.timelineSetting.PropertyGroup ? { Value: object.group } : undefined, [this.timelineSetting.PropertyStartDate]: { Value: moment(object.start).format("YYYY-MM-DD HH:mm") }, [this.timelineSetting.PropertyEndDate]: this.timelineSetting.PropertyEndDate ? { Value: object.end ? moment(object.end).format("YYYY-MM-DD HH:mm") : object.end } : undefined });
                                             if ((action === 'insert') ? objectEntity.insert() : objectEntity.update()) {
+                                                if (objectEntity.jsCode) {
+                                                    flexygo.utils.execDynamicCode.call(this, objectEntity.jsCode);
+                                                }
+                                                if (objectEntity.warningMessage) {
+                                                    flexygo.msg.warning(objectEntity.warningMessage);
+                                                }
                                                 objectEntity.objectName = this.timelineSetting.EntityConfiguration.CollectionName;
                                                 resolve(this.buildVisItem(objectEntity.getView((this.timelineSetting.Advanced) ? this.timelineSetting.ItemViewName : null, null, null, null, null, null, true)[0]));
                                             }
@@ -788,7 +796,7 @@ var flexygo;
                 openObjectEdit(object, objectEntity) {
                     return new Promise((resolve, reject) => {
                         try {
-                            flexygo.nav.openPage('edit', objectEntity.objectName, objectEntity.objectWhere, JSON.stringify(Object.assign(this.defaults, { [this.timelineSetting.PropertyStartDate]: moment(object.start).format("YYYY-MM-DD HH:mm"), [this.timelineSetting.PropertyEndDate]: this.timelineSetting.PropertyEndDate ? object.end ? moment(object.end).format("YYYY-MM-DD HH:mm") : object.end : undefined, [this.timelineSetting.PropertyGroup]: this.timelineSetting.WithGroups && this.timelineSetting.PropertyGroup ? object.group : undefined })), 'modal');
+                            flexygo.nav.openPage(this.timelineSetting.EventPageTypeId, objectEntity.objectName, objectEntity.objectWhere, JSON.stringify(Object.assign(this.defaults, { [this.timelineSetting.PropertyStartDate]: moment(object.start).format("YYYY-MM-DD HH:mm"), [this.timelineSetting.PropertyEndDate]: this.timelineSetting.PropertyEndDate ? object.end ? moment(object.end).format("YYYY-MM-DD HH:mm") : object.end : undefined, [this.timelineSetting.PropertyGroup]: this.timelineSetting.WithGroups && this.timelineSetting.PropertyGroup ? object.group : undefined })), 'modal');
                             flexygo.events.on(this, 'entity', 'all', (e) => {
                                 if (this === e.context && e.sender.objectName === objectEntity.objectName) {
                                     flexygo.events.off(this, 'entity', 'all');

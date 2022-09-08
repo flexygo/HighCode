@@ -91,5 +91,15 @@ declare namespace flexygo.ui.wc {
         * @method stopLoading
         */
         stopLoading(): void;
+        /**
+       * Set initial zoom to view all content of orgchart.
+       * @method setInitialZoom
+       */
+        setInitialZoom(): void;
+        /**
+       * Drag scroll.
+       * @method dragScroll
+       */
+        dragScroll(): void;
     }
 }

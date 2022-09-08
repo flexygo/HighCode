@@ -1,93 +1,100 @@
-import { r as registerInstance, m as createEvent, h as Build, j as h, k as getElement } from './index-76f52202.js';
-import { g as getIonMode, c as config } from './ionic-global-53d785f3.js';
-import { b as assert } from './helpers-742de4f9.js';
-import { l as lifecycle, L as LIFECYCLE_WILL_UNLOAD, a as LIFECYCLE_WILL_LEAVE, b as LIFECYCLE_DID_LEAVE, t as transition, s as setPageHidden } from './index-a6178d25.js';
-import { g as getTimeGivenProgression } from './cubic-bezier-89113939.js';
-import { a as attachComponent } from './framework-delegate-7af2c551.js';
+import { r as registerInstance, m as createEvent, h as Build, j as h, k as getElement } from './index-86ac49ff.js';
+import { g as getIonMode, c as config } from './ionic-global-0f98fe97.js';
+import { l as assert } from './helpers-719f4c54.js';
+import { l as lifecycle, L as LIFECYCLE_WILL_UNLOAD, a as LIFECYCLE_WILL_LEAVE, b as LIFECYCLE_DID_LEAVE, t as transition, s as setPageHidden } from './index-7173f7a2.js';
+import { g as getTimeGivenProgression } from './cubic-bezier-93f47170.js';
+import { a as attachComponent } from './framework-delegate-1fd39b54.js';
 
 const VIEW_STATE_NEW = 1;
 const VIEW_STATE_ATTACHED = 2;
 const VIEW_STATE_DESTROYED = 3;
 class ViewController {
-    constructor(component, params) {
-        this.component = component;
-        this.params = params;
-        this.state = VIEW_STATE_NEW;
+  constructor(component, params) {
+    this.component = component;
+    this.params = params;
+    this.state = VIEW_STATE_NEW;
+  }
+  async init(container) {
+    this.state = VIEW_STATE_ATTACHED;
+    if (!this.element) {
+      const component = this.component;
+      this.element = await attachComponent(this.delegate, container, component, ['ion-page', 'ion-page-invisible'], this.params);
     }
-    async init(container) {
-        this.state = VIEW_STATE_ATTACHED;
-        if (!this.element) {
-            const component = this.component;
-            this.element = await attachComponent(this.delegate, container, component, ['ion-page', 'ion-page-invisible'], this.params);
-        }
+  }
+  /**
+   * DOM WRITE
+   */
+  _destroy() {
+    assert(this.state !== VIEW_STATE_DESTROYED, 'view state must be ATTACHED');
+    const element = this.element;
+    if (element) {
+      if (this.delegate) {
+        this.delegate.removeViewFromDom(element.parentElement, element);
+      }
+      else {
+        element.remove();
+      }
     }
-    /**
-     * DOM WRITE
-     */
-    _destroy() {
-        assert(this.state !== VIEW_STATE_DESTROYED, 'view state must be ATTACHED');
-        const element = this.element;
-        if (element) {
-            if (this.delegate) {
-                this.delegate.removeViewFromDom(element.parentElement, element);
-            }
-            else {
-                element.remove();
-            }
-        }
-        this.nav = undefined;
-        this.state = VIEW_STATE_DESTROYED;
-    }
+    this.nav = undefined;
+    this.state = VIEW_STATE_DESTROYED;
+  }
 }
 const matches = (view, id, params) => {
-    if (!view) {
-        return false;
-    }
-    if (view.component !== id) {
-        return false;
-    }
-    const currentParams = view.params;
-    if (currentParams === params) {
-        return true;
-    }
-    if (!currentParams && !params) {
-        return true;
-    }
-    if (!currentParams || !params) {
-        return false;
-    }
-    const keysA = Object.keys(currentParams);
-    const keysB = Object.keys(params);
-    if (keysA.length !== keysB.length) {
-        return false;
-    }
-    // Test for A's keys different from B.
-    for (const key of keysA) {
-        if (currentParams[key] !== params[key]) {
-            return false;
-        }
-    }
+  if (!view) {
+    return false;
+  }
+  if (view.component !== id) {
+    return false;
+  }
+  const currentParams = view.params;
+  if (currentParams === params) {
     return true;
+  }
+  if (!currentParams && !params) {
+    return true;
+  }
+  if (!currentParams || !params) {
+    return false;
+  }
+  const keysA = Object.keys(currentParams);
+  const keysB = Object.keys(params);
+  if (keysA.length !== keysB.length) {
+    return false;
+  }
+  // Test for A's keys different from B.
+  for (const key of keysA) {
+    if (currentParams[key] !== params[key]) {
+      return false;
+    }
+  }
+  return true;
 };
 const convertToView = (page, params) => {
-    if (!page) {
-        return null;
-    }
-    if (page instanceof ViewController) {
-        return page;
-    }
-    return new ViewController(page, params);
+  if (!page) {
+    return null;
+  }
+  if (page instanceof ViewController) {
+    return page;
+  }
+  return new ViewController(page, params);
 };
 const convertToViews = (pages) => {
-    return pages.map(page => {
-        if (page instanceof ViewController) {
-            return page;
-        }
-        if ('page' in page) {
-            return convertToView(page.page, page.params);
-        }
-        return convertToView(page, undefined);
-    }).filter(v => v !== null);
+  return pages.map(page => {
+    if (page instanceof ViewController) {
+      return page;
+    }
+    if ('component' in page) {
+      /**
+       * TODO Ionic 6:
+       * Consider switching to just using `undefined` here
+       * as well as on the public interfaces and on
+       * `NavComponentWithProps`. Previously `pages` was
+       * of type `any[]` so TypeScript did not catch this.
+       */
+      return convertToView(page.component, (page.componentProps === null) ? undefined : page.componentProps);
+    }
+    return convertToView(page, undefined);
+  }).filter(v => v !== null);
 };
 
 const navCss = ":host{left:0;right:0;top:0;bottom:0;position:absolute;contain:layout size style;overflow:hidden;z-index:0}";
@@ -137,10 +144,10 @@ const Nav = class {
     }
     async componentDidLoad() {
         this.rootChanged();
-        this.gesture = (await __sc_import_app('./swipe-back-30c717eb.js')).createSwipeBackGesture(this.el, this.canStart.bind(this), this.onStart.bind(this), this.onMove.bind(this), this.onEnd.bind(this));
+        this.gesture = (await __sc_import_app('./swipe-back-18b53ef1.js')).createSwipeBackGesture(this.el, this.canStart.bind(this), this.onStart.bind(this), this.onMove.bind(this), this.onEnd.bind(this));
         this.swipeGestureChanged();
     }
-    componentDidUnload() {
+    disconnectedCallback() {
         for (const view of this.views) {
             lifecycle(view.element, LIFECYCLE_WILL_UNLOAD);
             view._destroy();
@@ -166,7 +173,7 @@ const Nav = class {
     push(component, componentProps, opts, done) {
         return this.queueTrns({
             insertStart: -1,
-            insertViews: [{ page: component, params: componentProps }],
+            insertViews: [{ component, componentProps }],
             opts
         }, done);
     }
@@ -183,7 +190,7 @@ const Nav = class {
     insert(insertIndex, component, componentProps, opts, done) {
         return this.queueTrns({
             insertStart: insertIndex,
-            insertViews: [{ page: component, params: componentProps }],
+            insertViews: [{ component, componentProps }],
             opts
         }, done);
     }
@@ -277,7 +284,7 @@ const Nav = class {
      * @param done The transition complete function.
      */
     setRoot(component, componentProps, opts, done) {
-        return this.setPages([{ page: component, params: componentProps }], opts, done);
+        return this.setPages([{ component, componentProps }], opts, done);
     }
     /**
      * Set the views of the current navigation stack and navigate to the last view.
@@ -418,7 +425,7 @@ const Nav = class {
     // 7. _transitionStart(): called once the transition actually starts, it initializes the Animation underneath.
     // 8. _transitionFinish(): called once the transition finishes
     // 9. _cleanup(): syncs the navigation internal state with the DOM. For example it removes the pages from the DOM or hides/show them.
-    queueTrns(ti, done) {
+    async queueTrns(ti, done) {
         if (this.isTransitioning && ti.opts != null && ti.opts.skipIfBusy) {
             return Promise.resolve(false);
         }
@@ -427,6 +434,25 @@ const Nav = class {
             ti.reject = reject;
         });
         ti.done = done;
+        /**
+         * If using router, check to see if navigation hooks
+         * will allow us to perform this transition. This
+         * is required in order for hooks to work with
+         * the ion-back-button or swipe to go back.
+         */
+        if (ti.opts && ti.opts.updateURL !== false && this.useRouter) {
+            const router = document.querySelector('ion-router');
+            if (router) {
+                const canTransition = await router.canTransition();
+                if (canTransition === false) {
+                    return Promise.resolve(false);
+                }
+                else if (typeof canTransition === 'string') {
+                    router.push(canTransition, ti.opts.direction || 'back');
+                    return Promise.resolve(false);
+                }
+            }
+        }
         // Normalize empty
         if (ti.insertViews && ti.insertViews.length === 0) {
             ti.insertViews = undefined;
@@ -684,8 +710,8 @@ const Nav = class {
         const mode = getIonMode(this);
         const enteringEl = enteringView.element;
         const leavingEl = leavingView && leavingView.element;
-        const animationOpts = Object.assign({ mode, showGoBack: this.canGoBackSync(enteringView), baseEl: this.el, animationBuilder: this.animation || opts.animationBuilder || config.get('navAnimation'), progressCallback, animated: this.animated && config.getBoolean('animated', true), enteringEl,
-            leavingEl }, opts);
+        const animationOpts = Object.assign(Object.assign({ mode, showGoBack: this.canGoBackSync(enteringView), baseEl: this.el, progressCallback, animated: this.animated && config.getBoolean('animated', true), enteringEl,
+            leavingEl }, opts), { animationBuilder: opts.animationBuilder || this.animation || config.get('navAnimation') });
         const { hasCompleted } = await transition(animationOpts);
         return this.transitionFinish(hasCompleted, enteringView, leavingView, opts);
     }
@@ -747,17 +773,27 @@ const Nav = class {
         const activeViewIndex = views.indexOf(activeView);
         for (let i = views.length - 1; i >= 0; i--) {
             const view = views[i];
+            /**
+             * When inserting multiple views via insertPages
+             * the last page will be transitioned to, but the
+             * others will not be. As a result, a DOM element
+             * will only be created for the last page inserted.
+             * As a result, it is possible to have views in the
+             * stack that do not have `view.element` yet.
+             */
             const element = view.element;
-            if (i > activeViewIndex) {
-                // this view comes after the active view
-                // let's unload it
-                lifecycle(element, LIFECYCLE_WILL_UNLOAD);
-                this.destroyView(view);
-            }
-            else if (i < activeViewIndex) {
-                // this view comes before the active view
-                // and it is not a portal then ensure it is hidden
-                setPageHidden(element, true);
+            if (element) {
+                if (i > activeViewIndex) {
+                    // this view comes after the active view
+                    // let's unload it
+                    lifecycle(element, LIFECYCLE_WILL_UNLOAD);
+                    this.destroyView(view);
+                }
+                else if (i < activeViewIndex) {
+                    // this view comes before the active view
+                    // and it is not a portal then ensure it is hidden
+                    setPageHidden(element, true);
+                }
             }
         }
     }

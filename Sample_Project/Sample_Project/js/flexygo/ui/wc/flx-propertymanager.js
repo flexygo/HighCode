@@ -333,7 +333,7 @@ var flexygo;
                                 ObjectName: me.attr('ObjectName')
                             };
                             flexygo.ajax.syncPost('~/api/Edit', 'GetNewProperties', params, (ret) => {
-                                let contenAppend = '<div style="float:right"><span class="size-xs clickable" title="close" onclick="$(this).closest(\'flx-module\').find(\'.addProps\').click();"><i class="flx-icon icon-remove"></i></span></div>';
+                                let contenAppend = '<div style="float:right"><span class="size-xs clickable" title="close" onclick="$(this).closest(\'flx-propertymanager\').find(\'.addProps\').click();"><i class="flx-icon icon-remove"></i></span></div>';
                                 if (ret.length > 0) {
                                     let botonera = '<legend>' + flexygo.localization.translate('flxedit.addproperties') + '</legend><div class="pop-buttons" >';
                                     botonera += '<div class="btn-group">';
@@ -566,10 +566,23 @@ var flexygo;
                                     if (tag.toLowerCase() == 'label') {
                                         if (this.properties[row.name].ControlType != 'separator' && this.properties[row.name].ControlType != 'placeholder') {
                                             var inp = $('<input type="text" class="lblEdit" autocomplete="off" />');
+                                            var status = $('<span class="status" />');
+                                            var depStatus = $('<span class="depStatus margin-left-s" />');
                                             prop.html(inp);
+                                            prop.append(status);
+                                            prop.append(depStatus);
                                             inp.attr('value', this.getValue(row, tag));
                                             if (this.properties[row.name].IsRequired) {
                                                 prop.addClass("required");
+                                            }
+                                            if (this.properties[row.name].Locked) {
+                                                prop.addClass("locked");
+                                            }
+                                            if (this.properties[row.name].HasDependencies) {
+                                                prop.find(".depStatus").append('<i title="' + flexygo.localization.translate('flxedit.hasdependencies') + '" class="flx-icon icon-right-arrow"></i>');
+                                            }
+                                            if (this.properties[row.name].HasDependingProperties) {
+                                                prop.find(".depStatus").append('<ii title="' + flexygo.localization.translate('flxedit.hasdependingproperties') + '" class="flx-icon icon-object-relations-1 margin-left-s"></i>');
                                             }
                                             if (this.properties[row.name].LabelStyle != '') {
                                                 prop.attr('style', this.properties[row.name].LabelStyle);
@@ -839,7 +852,8 @@ var flexygo;
                     btnUl.append('<li><flx-text type="text" name="Label" placeholder="' + flexygo.localization.translate('flxpropertymanager.label') + '" iconclass="flx-icon icon-text" ></flx-text></li>');
                     btnUl.append('<li><flx-text type="text" name="CSSClass" placeholder="' + flexygo.localization.translate('flxpropertymanager.classname') + '" iconclass="flx-icon icon-custom" ></flx-text></li>');
                     //  btnUl.append('<li><flx-text type="text" name="Style" placeholder="' + flexygo.localization.translate('flxpropertymanager.style') + '" iconclass="flx-icon icon-brush" ></flx-text></li>');
-                    btnUl.append('<li><flx-dbcombo name="IconName" placeholder="' + flexygo.localization.translate('flxpropertymanager.selecticon') + '" iconclass="flx-icon icon-image" objectname="sysObject" viewname="iconsView" sqlvaluefield="IconName" sqldisplayfield="IconName" > <template><span class="txt-outstanding"><i class="{{CSSClass}} icon-margin-right"></i>{{IconName}}</span></template></flx-dbcombo></li>');
+                    btnUl.append('<li><flx-dbcombo class="item-float" name = "IconName" placeholder = "' + flexygo.localization.translate('flxpropertymanager.classname') + '" iconclass = "flx-icon icon-image" objectname = "sysObject" viewname = "iconsView" sqlvaluefield = "IconName" sqldisplayfield = "IconName" > <template><i class=" txt-outstanding {{CSSClass}} icon-2x icon-margin" title="{{IconName}}" style="width: 20px"> </i></template ></flx-dbcombo><li>');
+                    //btnUl.append('<li><flx-dbcombo name="IconName" placeholder="' + flexygo.localization.translate('flxpropertymanager.selecticon') + '" iconclass="flx-icon icon-image" objectname="sysObject" viewname="iconsView" PageSize="100" sqlvaluefield="IconName" sqldisplayfield="IconName" > <template><span class="txt-outstanding"><i class="{{CSSClass}} icon-margin-right"></i>{{IconName}}</span></template></flx-dbcombo></li>');
                     //btnUl.append('<li><flx-dbcombo name="TypeId" placeholder="' + flexygo.localization.translate('flxpropertymanager.selectcontroltype') + '" iconclass="fa fa-gear" objectname="sysObject" viewname="ControlTypes" sqlvaluefield="TypeId" sqldisplayfield="Descrip" ></flx-dbcombo></li>');
                     btnUl.append('<li class="separator"></li>');
                     btnUl.append('<li><span ><label ><i class="flx-icon icon-lock-1" ></i> ' + flexygo.localization.translate('flxpropertymanager.locked') + '</label><flx-check name="Locked" class="pull-right"></flx-check></span></li>');

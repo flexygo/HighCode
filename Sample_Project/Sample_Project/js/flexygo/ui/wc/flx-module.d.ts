@@ -28,6 +28,7 @@ declare namespace flexygo.ui.wc {
         objectdefaults: any;
         isClone: boolean;
         ManualInit: boolean;
+        HTMLInit: string;
         componentString: string;
         moduleInitClass: string;
         JSAfterLoad: string;
@@ -37,11 +38,13 @@ declare namespace flexygo.ui.wc {
         processname: string;
         emptyTop: boolean;
         emptyTimer: number;
+        TemplateToolbarCollection: any;
         /**
        * Fires when element is attached to DOM
        * @method connectedCallback
        */
         connectedCallback(): void;
+        module: any;
         /**
         * Init the webcomponent.
         * @method init
@@ -60,6 +63,7 @@ declare namespace flexygo.ui.wc {
         moduleLoaded(wc: any): void;
         toggle(): void;
         setButtons(buttons: flexygo.api.Toolbar, objectname: string, objectwhere: string, reportname?: string, processname?: string, reportwhere?: string): void;
+        getTemplateToolbar(buttons: flexygo.api.Toolbar, objectname: string, objectwhere: string, reportname?: string, processname?: string, reportwhere?: string): string;
         refreshButtons(buttons: flexygo.api.Toolbar, objectname: string, objectwhere: string, reportname?: string, processname?: string): void;
         private addGroup(position, btnGroup);
         refreshButton(htmlBtn: JQuery, btn: flexygo.api.ToolbarButton, objectname: string, objectwhere: string, objectdefaults: string, reportname?: string, reportwhere?: string, processname?: string): void;

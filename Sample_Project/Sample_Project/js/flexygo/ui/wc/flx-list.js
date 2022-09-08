@@ -50,6 +50,8 @@ var flexygo;
                     this.maxPages = 0;
                     this.moduleName = null;
                     this.groups = null;
+                    this.groupList = null;
+                    this.userDefinedGroups = false;
                     this.sortColumn = null;
                     this.sortAsc = false;
                     //orderStr: string = null;
@@ -61,6 +63,7 @@ var flexygo;
                     this.presetId = null;
                     this.presetText = null;
                     this.presetIcon = null;
+                    this.defaults = null;
                     this.canDelete = null;
                     this.canInsert = null;
                     this.canUpdate = null;
@@ -76,6 +79,7 @@ var flexygo;
                     this.templateKey = '';
                     this.searcher = null;
                     this.refreshing = null; //Set by FlxGenericSearchElement
+                    this.TemplateToolbarCollection = null;
                     this.loadingDependencies = 0;
                     this.pendingSaveButton = null;
                 }
@@ -95,6 +99,7 @@ var flexygo;
                     if (element.attr("templateid") && element.attr("templateid") != '') {
                         this.templateId = element.attr("templateid");
                     }
+                    this.defaults = element.attr("defaults");
                     if (this.moduleName) {
                         if (element.attr('manualInit') != 'true') {
                             this.init();
@@ -168,6 +173,7 @@ var flexygo;
                */
                 init() {
                     $(this).removeAttr('manualInit');
+                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
                     //Remove events from entity modification
                     flexygo.events.off(this, "entity", "all", this.onEntityChanged);
                     //Capture events from entity modification
@@ -188,13 +194,21 @@ var flexygo;
                     this.filterValues = null;
                     this.activeFilter = null;
                     this.orderObj = null;
+                    if (history && history.presetsValues && (history.presetsValues[this.moduleName] || history.presetsValues['*'])) {
+                        let preset = history.presetsValues[this.moduleName] ? history.presetsValues[this.moduleName] : history.presetsValues['*'];
+                        if (preset.presetId) {
+                            this.presetId = preset.presetId;
+                            this.presetIcon = preset.presetIcon;
+                            this.presetText = preset.presetText;
+                        }
+                    }
                     if ($(module).attr("presetname")) {
                         this.presetId = $(module).attr("presetname");
                         this.presetText = $(module).attr("presettext");
                         this.presetIcon = $(module).attr("preseticon");
                     }
-                    if (history && history.filtersValues && history.filtersValues[module.moduleName]) {
-                        let state = history.filtersValues[module.moduleName];
+                    if (history && history.filtersValues && history.filtersValues[this.moduleName]) {
+                        let state = history.filtersValues[this.moduleName];
                         if (state.activeFilter) {
                             this.activeFilter = state.activeFilter;
                         }
@@ -207,6 +221,7 @@ var flexygo;
                     }
                     flexygo.ui.templates.setDefaultTemplate(this);
                     this.setDefaultOrder();
+                    this.setDefaultGroup();
                     this.initGrid(true, true, page);
                 }
                 setDefaultOrder() {
@@ -230,6 +245,69 @@ var flexygo;
                     activeTemplatesOrder[key] = this.orderObj;
                     flexygo.storage.local.add('activeTemplatesOrder', activeTemplatesOrder);
                 }
+                setDefaultGroup() {
+                    let activeTemplatesGroup = flexygo.storage.local.get('activeTemplatesGroup');
+                    if (activeTemplatesGroup) {
+                        let key = this.getModuleFullId() + '|' + this.templateKey;
+                        if (typeof activeTemplatesGroup[key] != 'undefined') {
+                            this.groups = activeTemplatesGroup[key];
+                        }
+                        else {
+                            this.groups = null;
+                        }
+                    }
+                }
+                saveDefaultGroup() {
+                    if (this.groups) {
+                        let activeTemplatesGroup = flexygo.storage.local.get('activeTemplatesGroup');
+                        let key = this.getModuleFullId() + '|' + this.templateKey;
+                        if (activeTemplatesGroup == null) {
+                            activeTemplatesGroup = new Object();
+                        }
+                        activeTemplatesGroup[key] = this.groups;
+                        flexygo.storage.local.add('activeTemplatesGroup', activeTemplatesGroup);
+                    }
+                }
+                hasGroup(groupField) {
+                    let found = false;
+                    if (this.groups && Object.keys(this.groups).length > 0) {
+                        for (let key in this.groups) {
+                            if (key.toLowerCase() == groupField.toLowerCase()) {
+                                found = true;
+                                groupField = key;
+                            }
+                        }
+                    }
+                    return found;
+                }
+                toggleGroup(groupField) {
+                    if (this.hasGroup(groupField)) {
+                        this.removeGroup(groupField);
+                    }
+                    else {
+                        this.addGroup(groupField);
+                    }
+                }
+                addGroup(groupField) {
+                    for (let key in this.groupList) {
+                        if (key.toLowerCase() == groupField.toLowerCase()) {
+                            this.groups[key] = this.groupList[key];
+                            this.groups[key].Order = Object.keys(this.groups).length;
+                        }
+                    }
+                    this.saveDefaultGroup();
+                    this.refresh();
+                }
+                removeGroup(groupField) {
+                    delete this.groups[groupField];
+                    let i = 0;
+                    for (let key in this.groups) {
+                        this.groups[key].Order = i;
+                        i += 1;
+                    }
+                    this.saveDefaultGroup();
+                    this.refresh();
+                }
                 onEntityChanged(e) {
                     //Filter event types
                     if (e.type === "inserted" && $(this).attr("mode") != "edit" || e.type === "updated" && $(this).attr("mode") != "edit" || e.type === "deleted") {
@@ -251,6 +329,7 @@ var flexygo;
                         masterIdentity: (this.presetId) ? this.presets[this.presetId].ObjectName : this.objectname,
                         detailIdentity: this.presetId
                     };
+                    this.savePresetValueHistory();
                     flexygo.events.trigger(ev);
                 }
                 changePresetText() {
@@ -279,6 +358,7 @@ var flexygo;
                 */
                 initGrid(refreshButtons, refreshFilters, newPage) {
                     let me = $(this);
+                    let objDef;
                     if (newPage) {
                         this.page = newPage;
                     }
@@ -289,9 +369,35 @@ var flexygo;
                     if (!this.mode || this.mode === '') {
                         this.mode = 'list';
                     }
+                    if (this.defaults) {
+                        if (typeof this.defaults == 'string') {
+                            objDef = JSON.parse(this.defaults);
+                        }
+                        else {
+                            objDef = this.defaults;
+                        }
+                    }
+                    else {
+                        let histObj = flexygo.history.get(me);
+                        if (typeof histObj != 'undefined' && histObj.defaults) {
+                            if (typeof histObj.defaults == 'string') {
+                                objDef = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
+                            }
+                            else {
+                                objDef = histObj.defaults;
+                            }
+                        }
+                        if (objDef == null) {
+                            let wcMod = me.closest('flx-module')[0];
+                            if (wcMod) {
+                                objDef = wcMod.objectdefaults;
+                            }
+                        }
+                    }
                     let params = {
                         ObjectName: me.attr('ObjectName'),
                         ObjectWhere: me.attr('ObjectWhere'),
+                        Defaults: flexygo.utils.dataToArray(objDef),
                         ModuleName: this.moduleName,
                         PageName: flexygo.history.getPageName(me),
                         Page: this.page,
@@ -302,7 +408,8 @@ var flexygo;
                         FilterValues: this.filterValues,
                         TemplateId: this.templateId,
                         ViewId: this.viewId,
-                        PresetId: this.presetId
+                        PresetId: this.presetId,
+                        GroupsInfo: (this.groups ? this.groups : { 'nogroup': null })
                     };
                     flexygo.ajax.post('~/api/List', 'GetList', params, (response) => {
                         if (response) {
@@ -326,7 +433,9 @@ var flexygo;
                                 this.removeKeys = template.RemoveKeys;
                                 this.pageSize = template.PageSize;
                                 this.groups = template.Groups;
+                                this.groupList = template.GroupList;
                                 this.viewId = template.DataViewName;
+                                this.userDefinedGroups = template.UserDefinedGroups;
                             }
                             this.canInsert = response.CanInsert;
                             this.canUpdate = response.CanUpdate;
@@ -344,7 +453,13 @@ var flexygo;
                             if (parentModule.length > 0) {
                                 let parentModuleClass = wcModule.moduleClass;
                                 if (wcModule.moduleInitClass && wcModule.moduleInitClass != '') {
-                                    parentModule.attr('class', wcModule.moduleInitClass);
+                                    if (parentModule.hasClass('fullscreen')) {
+                                        parentModule.attr('class', wcModule.moduleInitClass);
+                                        parentModule.addClass('fullscreen');
+                                    }
+                                    else {
+                                        parentModule.attr('class', wcModule.moduleInitClass);
+                                    }
                                 }
                                 if (parentModuleClass && parentModuleClass != '') {
                                     parentModule.addClass(parentModuleClass);
@@ -390,12 +505,25 @@ var flexygo;
                             }
                             if (response.Presets) {
                                 this.presets = response.Presets;
+                                if (this.presetId && response.Presets[this.presetId]) {
+                                    this.presetText = response.Presets[this.presetId].Title;
+                                    this.presetIcon = response.Presets[this.presetId].IconName;
+                                    this.savePresetValueHistory();
+                                }
+                                else if (this.presetId && response.Presets[this.presetId] == undefined) {
+                                    this.presetId = null;
+                                    this.presetText = null;
+                                    this.presetIcon = null;
+                                }
                             }
                             this.hasSearcher = response.Searcher;
+                            this.TemplateToolbarCollection = response.TemplateToolbarCollection;
                             this.render();
                             this.loadSearcher();
                             this.loadPager();
-                            this.loadCount();
+                            if (this.pagerConfig) {
+                                this.loadCount();
+                            }
                             this.savedSearches = response.SavedSearches;
                             this.searchSettings = response.SearchSettings;
                             if (refreshFilters && response.SearchSettings) {
@@ -498,14 +626,19 @@ var flexygo;
                 render() {
                     let me = $(this);
                     let rendered = '';
+                    let pageDef = null;
                     let defString = flexygo.history.getDefaults(this.objectname, me);
                     let wcMod = me.closest('flx-module')[0];
                     let def = null;
                     if (wcMod) {
                         def = wcMod.objectdefaults;
+                        pageDef = (flexygo.history.get($(wcMod)) ? flexygo.history.get($(wcMod)).defaults : '');
                     }
                     if (!def && defString && defString != '') {
                         def = JSON.parse(flexygo.utils.parser.replaceAll(defString, "'", '"'));
+                    }
+                    if (!def && pageDef && pageDef != '') {
+                        def = JSON.parse(flexygo.utils.parser.replaceAll(pageDef, "'", '"'));
                     }
                     this.checkPresetDisplay();
                     if (this.presetId) {
@@ -545,9 +678,16 @@ var flexygo;
                                             rendered += flexygo.utils.parser.paintGroupHeader(this.data[i], this.groups, this);
                                         }
                                         rendered += flexygo.utils.parser.controlGroup(lastItem, this.data[i], this.groups, this);
-                                        let render = flexygo.utils.parser.recursiveCompile(this.data[i], this.tBody, this);
-                                        render = flexygo.utils.parser.recursiveCompile(def, render, this);
-                                        rendered += render;
+                                        if (this.mode === 'edit') {
+                                            let render = flexygo.utils.parser.compile(this.data[i], this.tBody, this);
+                                            render = flexygo.utils.parser.compile(def, render, this);
+                                            rendered += render;
+                                        }
+                                        else {
+                                            let render = flexygo.utils.parser.recursiveCompile(this.data[i], this.tBody, this);
+                                            render = flexygo.utils.parser.recursiveCompile(def, render, this);
+                                            rendered += render;
+                                        }
                                         lastItem = this.data[i];
                                     }
                                 }
@@ -656,7 +796,15 @@ var flexygo;
                                     $(element).parent().removeClass('has-success').addClass('has-error');
                                 },
                                 errorPlacement: (error, element) => {
-                                    error.insertAfter($(element).parent()[0]);
+                                    if ($(element).parent().length > 0) {
+                                        if ($(element)[0].getAttribute('type') === 'email') {
+                                            if ($(element).parent().closest('flx-text').length > 0 && $(element).parent()[0].closest('flx-text').children.length === 1) {
+                                                error.insertAfter($(element).parent()[0]);
+                                            }
+                                        }
+                                        else
+                                            error.insertAfter($(element).parent()[0]);
+                                    }
                                 },
                                 errorClass: 'txt-danger'
                             });
@@ -858,6 +1006,18 @@ var flexygo;
                                     Value: prop.getValue()
                                 });
                             }
+                            // If control have class [data-msg-sqlvalidator] validation is executed
+                            let elm = me.find('[property="' + propertyName + '"]');
+                            if ((elm[0].tagName).toLowerCase() == 'flx-radio') {
+                                if (typeof elm.find('[name="' + propertyName + '"]:first').attr("data-msg-sqlvalidator") !== typeof undefined) {
+                                    this.validateSQLProperty(propertyName, Properties);
+                                }
+                            }
+                            else {
+                                if (typeof elm.find('[name="' + propertyName + '"].form-control').attr("data-msg-sqlvalidator") !== typeof undefined) {
+                                    this.validateSQLProperty(propertyName, Properties);
+                                }
+                            }
                             let params = {
                                 "ObjectName": this.objectname,
                                 "ProcessName": null,
@@ -885,6 +1045,47 @@ var flexygo;
                             });
                         }
                     }
+                }
+                /**
+                * Validate property
+                * @method validateSQLProperty
+                * @param {string} propertyName
+                * @param {Properties}  flexygo.api.edit.KeyValuePair[]
+                */
+                validateSQLProperty(propertyName, Properties) {
+                    //Execute sql validation
+                    let SQLValidatorparams = {
+                        ObjectName: this.objectname,
+                        ProcessName: null,
+                        ReportName: null,
+                        PropertyName: propertyName,
+                        Properties: Properties
+                    };
+                    flexygo.ajax.syncPost('~/api/Edit', 'ValidateProperty', SQLValidatorparams, (response) => {
+                        //Change attribute value
+                        //Select element depending type of control
+                        let element = $(this).find('[property="' + propertyName + '"]');
+                        let prop;
+                        if ((element[0].tagName).toLowerCase() == 'flx-radio') {
+                            prop = element.find('[name="' + SQLValidatorparams.PropertyName + '"]:first');
+                        }
+                        else {
+                            prop = element.find('[name="' + SQLValidatorparams.PropertyName + '"]');
+                        }
+                        // If the respone is [TRUE] then the validation is correct else is incorrect
+                        if (response) {
+                            prop.attr("sqlvalidator", 1);
+                        }
+                        else {
+                            prop.attr("sqlvalidator", 0);
+                        }
+                        if (element.attr('type') == 'time' || element.attr('type') == 'date' || element.attr('type') == 'datetime-local' || element[0].localName == 'flx-tag') {
+                            prop.valid();
+                        }
+                        if (element.attr('type') == 'text' || element[0].localName == 'flx-tag') {
+                            $(prop).valid();
+                        }
+                    });
                 }
                 addLock() {
                     $(this).append('<div style="position:absolute;z-index:60;top:0px;bottom:0px;left:0px;right:0px;background-color:rgba(255,255,255,0.5);" class="lockDiv">&nbsp;</div>');
@@ -945,10 +1146,12 @@ var flexygo;
                * @method sort
                * @param  {api.list.PropertyOrder[]} orderInfo
                */
-                sortByObj(orderInfo) {
+                sortByObj(orderInfo, groupsInfo) {
                     this.sortColumn = null;
                     this.orderObj = orderInfo;
+                    this.groups = groupsInfo;
                     this.saveDefaultOrder();
+                    this.saveDefaultGroup();
                     this.refresh();
                 }
                 /**
@@ -1082,6 +1285,12 @@ var flexygo;
                         this.pager.find('.nextPage').show();
                         this.pager.find('.lastPage').show();
                     }
+                    if (this.data.length == 0) {
+                        this.pager.hide();
+                    }
+                    else {
+                        this.pager.show();
+                    }
                     this.pager.attr('title', this.pager.find('.pageInfo').first().text());
                 }
                 addButtons(btns, pageNum) {
@@ -1152,7 +1361,7 @@ var flexygo;
                             else {
                                 selector = 'main.pageContainer';
                             }
-                            $(selector).animate({ scrollTop: 0 }, 300);
+                            //$(selector).animate({ scrollTop: 0 }, 300);
                         }
                     }, null, () => {
                         this.stopLoading();
@@ -1167,7 +1376,6 @@ var flexygo;
                */
                 savePageValueHistory() {
                     let me = $(this);
-                    let module = me.closest('flx-module')[0];
                     let history = flexygo.history.get(me);
                     let page = this.page;
                     if (!history) {
@@ -1176,10 +1384,27 @@ var flexygo;
                     if (!history.filtersValues) {
                         history.filtersValues = new flexygo.nav.ModuleFilterHistory();
                     }
-                    if (!history.filtersValues[module.moduleName]) {
-                        history.filtersValues[module.moduleName] = new flexygo.nav.FilterHistoryValue();
+                    if (!history.filtersValues[this.moduleName]) {
+                        history.filtersValues[this.moduleName] = new flexygo.nav.FilterHistoryValue();
                     }
-                    history.filtersValues[module.moduleName].activePage = page;
+                    history.filtersValues[this.moduleName].activePage = page;
+                    flexygo.history.replace(history, me, false);
+                }
+                savePresetValueHistory() {
+                    let me = $(this);
+                    let history = flexygo.history.get(me);
+                    if (!history) {
+                        history = new flexygo.nav.FlexygoHistory();
+                    }
+                    if (!history.presetsValues) {
+                        history.presetsValues = new flexygo.nav.ModulePresetHistory();
+                    }
+                    if (!history.presetsValues[this.moduleName]) {
+                        history.presetsValues[this.moduleName] = new flexygo.nav.PresetHistoryValue();
+                    }
+                    history.presetsValues[this.moduleName].presetId = this.presetId;
+                    history.presetsValues[this.moduleName].presetText = this.presetText;
+                    history.presetsValues[this.moduleName].presetIcon = this.presetIcon;
                     flexygo.history.replace(history, me, false);
                 }
                 /**
@@ -1345,6 +1570,7 @@ var flexygo;
                     let page = flexygo.history.get(me);
                     let ident = page.pagename + '-' + this.moduleName;
                     let gridSizes = flexygo.storage.local.get('gridSizes');
+                    let regExp = /[&<>"'`=\/]/mi;
                     if (this.mode == 'edit' && this.canUpdate) {
                         tr.attr('objectname', row._objectname);
                         tr.attr('objectwhere', row._objectwhere);
@@ -1441,6 +1667,9 @@ var flexygo;
                                         val = val.toLocaleString(flexygo.profiles.culture);
                                     }
                                     td.css('text-align', 'right');
+                                }
+                                if (typeof val === 'string' && val !== null && regExp.test(val) && typeof row[key] != 'boolean') {
+                                    val = flexygo.string.escapeHTML(val);
                                 }
                                 let title = $("<b/>").html(key);
                                 td.html(title).append(val);
@@ -1572,6 +1801,8 @@ var flexygo;
                     let cell = $(e);
                     let ctl = cell.find('[property]')[0];
                     if (ctl) {
+                        if (ctl.nodeName === 'FLX-IMAGE')
+                            $(ctl).val('');
                         ctl.init();
                         if (!flexygo.utils.isBlank(cell.attr('def-value')) || !flexygo.utils.isBlank(cell.attr('def-text'))) {
                             ctl.setValue(cell.attr('def-value') || null, cell.attr('def-text') || null);
@@ -1655,7 +1886,7 @@ var flexygo;
                                 if (obj.jsCode) {
                                     flexygo.utils.execDynamicCode.call(this, obj.jsCode);
                                 }
-                                if (msg) {
+                                if (msg && obj.getConfig().ConfirmOkText) {
                                     if (obj.warningMessage) {
                                         flexygo.msg.warning(obj.warningMessage);
                                     }

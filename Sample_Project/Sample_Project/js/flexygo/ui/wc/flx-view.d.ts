@@ -37,6 +37,7 @@ declare namespace flexygo.ui.wc {
         tCSSText: string;
         tScriptText: string;
         isNew: boolean;
+        TemplateToolbarCollection: any;
         /**
         * Fires when element is attached to DOM
         * @method connectedCallback

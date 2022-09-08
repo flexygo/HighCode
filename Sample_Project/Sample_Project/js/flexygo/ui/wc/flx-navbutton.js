@@ -33,13 +33,18 @@ var flexygo;
                     * @property showProgress {boolean}
                     */
                     this.showprogress = true;
+                    /**
+                    * Disables the onclick event
+                    * @property disabled {boolean}
+                    */
+                    this.disabled = false;
                 }
                 /**
                 * Array of observed attributes. REQUIRED
                 * @property observedAttributes {Array}
                 */
                 static get observedAttributes() {
-                    return ['appname', 'type', 'objectname', 'objectwhere', 'defaults', 'targetid', 'excludehist', 'pagename', 'pagetypeid', 'callback', 'processname', 'processparams', 'reportname', 'reportwhere', 'reportparams', 'helpid', 'showProgress'];
+                    return ['appname', 'type', 'objectname', 'objectwhere', 'defaults', 'targetid', 'excludehist', 'pagename', 'pagetypeid', 'callback', 'processname', 'processparams', 'reportname', 'reportwhere', 'reportparams', 'helpid', 'showProgress', 'presets', 'disabled'];
                 }
                 /**
                * Fires when element is attached to DOM
@@ -68,6 +73,8 @@ var flexygo;
                     if (element.attr("showprogress")) {
                         this.showprogress = (element.attr("showprogress").toLowerCase() == 'true');
                     }
+                    this.presets = element.attr("presets") || null;
+                    this.disabled = (this.getAttribute("disabled") === null || this.getAttribute("disabled").toLowerCase() === 'false' ? false : true);
                     this.connected = true;
                     this.init();
                 }
@@ -141,6 +148,13 @@ var flexygo;
                         this.showprogress = (newVal.toLowerCase() == 'true');
                         needInit = true;
                     }
+                    else if (attrName.toLowerCase() == 'presets' && newVal && newVal != '') {
+                        this.presets = newVal;
+                        needInit = true;
+                    }
+                    else if (attrName.toLowerCase() == 'disabled') {
+                        this.disabled = (newVal === null || newVal.toLowerCase() === 'false' ? false : true);
+                    }
                     if (this.connected && needInit) {
                         this.init();
                     }
@@ -166,51 +180,79 @@ var flexygo;
                 render() {
                     let me = $(this);
                     me.off('click').on('click', (ev) => {
-                        ev.stopPropagation();
-                        ev.preventDefault();
-                        switch (this.type.toLocaleLowerCase()) {
-                            case "home":
-                                flexygo.nav.goHome();
-                            case "openpage":
-                                flexygo.nav.openPage(this.pagetypeid, this.objectname, this.objectwhere, this.defaults, this.targetid, this.excludehist, me);
-                                break;
-                            case "openpagename":
-                                flexygo.nav.openPageName(this.pagename, this.objectname, this.objectwhere, this.defaults, this.targetid, this.excludehist, me);
-                                break;
-                            case "execprocess":
-                                flexygo.nav.execProcess(this.processname, this.objectname, this.objectwhere, this.defaults, this.processparams, this.targetid, this.excludehist, me, this.callback, this.showprogress);
-                                break;
-                            case "openprocessparams":
-                                flexygo.nav.openProcessParams(this.processname, this.objectname, this.objectwhere, this.defaults, this.targetid, this.excludehist, me);
-                                break;
-                            case "openprocessparamspage":
-                                flexygo.nav.openProcessParamsPage(this.pagename, this.processname, this.objectname, this.objectwhere, this.defaults, this.targetid, this.excludehist, me);
-                                break;
-                            case "openreportsparams":
-                                flexygo.nav.openReportsParams(this.reportname, this.reportwhere, this.objectname, this.objectwhere, this.defaults, this.targetid, this.excludehist, me);
-                                break;
-                            case "openreportsparamspage":
-                                flexygo.nav.openReportsParamsPage(this.pagename, this.reportname, this.reportwhere, this.objectname, this.objectwhere, this.defaults, this.targetid, this.excludehist, me);
-                                break;
-                            case "viewreport":
-                                flexygo.nav.viewReport(this.reportname, this.reportwhere, this.objectname, this.objectwhere, this.defaults, this.reportparams, this.targetid, this.excludehist);
-                                break;
-                            case "openhelpid":
-                                flexygo.nav.openHelpId(this.helpid, this.targetid, this.excludehist, me);
-                                break;
-                            case "externalhome":
-                                flexygo.nav.external.goHome(this.appname, this.targetid);
-                            case "externalopenpage":
-                                flexygo.nav.external.openPage(this.appname, this.pagetypeid, this.objectname, this.objectwhere, this.defaults, this.targetid, me);
-                                break;
-                            case "externalopenpagename":
-                                flexygo.nav.external.openPageName(this.appname, this.pagename, this.objectname, this.objectwhere, this.defaults, this.targetid, me);
-                                break;
-                            default:
-                                alert('type not implemented');
-                                break;
+                        this.execNavFunction(ev, me);
+                    });
+                    me.off('mousedown').on('mousedown', (ev) => {
+                        let evDownType = ev.which;
+                        if (evDownType === 2) {
+                            me.off('mouseup').on('mouseup', (ev) => {
+                                if (evDownType === ev.which) {
+                                    this.execNavFunction(ev, me);
+                                }
+                            });
                         }
                     });
+                }
+                /**
+                * Executes the designated nav function
+                * @param ev Click/mouseDown jquery event
+                * @param me Component in jquery type
+                * @method execNavFunction
+                */
+                execNavFunction(ev, me) {
+                    if (this.disabled)
+                        return;
+                    let targetId = this.targetid;
+                    ev.stopPropagation();
+                    ev.preventDefault();
+                    if (ev.which === 2)
+                        targetId = 'new';
+                    if (this.targetid.toLowerCase() === 'current')
+                        $('body > div.tooltip').remove();
+                    switch (this.type.toLocaleLowerCase()) {
+                        case "home":
+                            flexygo.nav.goHome();
+                        case "openpage":
+                            flexygo.nav.openPage(this.pagetypeid, this.objectname, this.objectwhere, this.defaults, targetId, this.excludehist, me, null, null, this.presets);
+                            break;
+                        case "openpagename":
+                            flexygo.nav.openPageName(this.pagename, this.objectname, this.objectwhere, this.defaults, targetId, this.excludehist, me, null, null, this.presets);
+                            break;
+                        case "execprocess":
+                            flexygo.nav.execProcess(this.processname, this.objectname, this.objectwhere, this.defaults, this.processparams, targetId, this.excludehist, me, this.callback, this.showprogress);
+                            break;
+                        case "openprocessparams":
+                            flexygo.nav.openProcessParams(this.processname, this.objectname, this.objectwhere, this.defaults, targetId, this.excludehist, me);
+                            break;
+                        case "openprocessparamspage":
+                            flexygo.nav.openProcessParamsPage(this.pagename, this.processname, this.objectname, this.objectwhere, this.defaults, targetId, this.excludehist, me);
+                            break;
+                        case "openreportsparams":
+                            flexygo.nav.openReportsParams(this.reportname, this.reportwhere, this.objectname, this.objectwhere, this.defaults, targetId, this.excludehist, me);
+                            break;
+                        case "openreportsparamspage":
+                            flexygo.nav.openReportsParamsPage(this.pagename, this.reportname, this.reportwhere, this.objectname, this.objectwhere, this.defaults, targetId, this.excludehist, me);
+                            break;
+                        case "viewreport":
+                            flexygo.nav.viewReport(this.reportname, this.reportwhere, this.objectname, this.objectwhere, this.defaults, this.reportparams, targetId, this.excludehist);
+                            break;
+                        case "openhelpid":
+                            flexygo.nav.openHelpId(this.helpid, targetId, this.excludehist, me);
+                            break;
+                        case "externalhome":
+                            flexygo.nav.external.goHome(this.appname, targetId);
+                        case "externalopenpage":
+                            flexygo.nav.external.openPage(this.appname, this.pagetypeid, this.objectname, this.objectwhere, this.defaults, targetId, me);
+                            break;
+                        case "externalopenpagename":
+                            flexygo.nav.external.openPageName(this.appname, this.pagename, this.objectname, this.objectwhere, this.defaults, targetId, me);
+                            break;
+                        case "text":
+                            break;
+                        default:
+                            alert('type not implemented');
+                            break;
+                    }
                 }
             }
             wc.FlxNavButtonElement = FlxNavButtonElement;

@@ -35,6 +35,7 @@ var flexygo;
                 flexygo.events.trigger(eventInfo);
             }
         }
+        events.Push = Push;
         var signalRCnn;
         if ($.connection) {
             signalRCnn = new Push($.connection);

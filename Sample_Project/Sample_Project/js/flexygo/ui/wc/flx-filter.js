@@ -187,9 +187,14 @@ var flexygo;
                     if (this.settings) {
                         let module = me.closest('flx-module')[0];
                         if (module) {
+                            let moduleName = module.moduleName;
+                            if (module.componentString.includes('moduletab')) {
+                                let list = $(module).find('flx-list, flx-kanban, flx-timeline')[0];
+                                moduleName = list.moduleName;
+                            }
                             let history = flexygo.history.get(me);
-                            if (history && history.filtersValues && history.filtersValues[module.moduleName]) {
-                                let state = history.filtersValues[module.moduleName];
+                            if (history && history.filtersValues && history.filtersValues[moduleName]) {
+                                let state = history.filtersValues[moduleName];
                                 this.active = state.activeFilter;
                                 this.renderFilter(this.active, state.properties);
                             }
@@ -215,8 +220,11 @@ var flexygo;
                     this.saveActiveFilter(active);
                     this.active = active;
                     me.empty();
+                    me.removeClass('active');
                     me.closest('flx-module').find('.filterButtons').remove();
-                    if (active != null) {
+                    let moduleWidth = 0;
+                    moduleWidth = me.closest('flx-module').width() / me.closest('#mainContent').width() * 100;
+                    if (active != null && this.settings[active]) {
                         this.setProperties(this.settings[active].Properties);
                         if (this.settings[active].Type.toLowerCase() === 'text') {
                             let placeholder = flexygo.localization.translate('flxfilter.searchplaceholder');
@@ -251,7 +259,7 @@ var flexygo;
                                     propCtl += '</div>';
                                 }
                                 else {
-                                    propCtl += '<div class="item col-3 col-s-12 text-muted">';
+                                    propCtl += '<div class="item ' + (moduleWidth <= 40 ? "col-12" : "col-3") + ' col-s-12 text-muted">';
                                     propCtl += '    <div data-tag="control" class="filter-control">';
                                     propCtl += '<' + prop.WebComponent + ' object="' + prop.ObjectName + '" path="' + prop.ObjectPath + '" property="' + prop.Name + '" filtertype="' + prop.Type + '" value="' + propValue + '" text="' + propText + '"/>';
                                     propCtl += '    </div>';
@@ -259,6 +267,10 @@ var flexygo;
                                 }
                                 me.append(propCtl);
                             });
+                            me.find("div[data-tag=control] input").prop('required', false);
+                        }
+                        if (me.length > 0) {
+                            me.addClass('active');
                         }
                         me.on('keypress', (e) => {
                             if (e.which == 13) {
@@ -505,6 +517,11 @@ var flexygo;
                 saveFilterValueHistory(active, filters) {
                     let me = $(this);
                     let module = me.closest('flx-module')[0];
+                    let moduleName = module.moduleName;
+                    if (module.componentString.includes('moduletab')) {
+                        let list = $(module).find('flx-list, flx-kanban, flx-timeline')[0];
+                        moduleName = list.moduleName;
+                    }
                     let history = flexygo.history.get(me);
                     let page = (this.grid && this.grid.page) ? this.grid.page : 0;
                     if (!history.filtersValues) {
@@ -515,7 +532,7 @@ var flexygo;
                         activePage: page,
                         properties: filters
                     };
-                    history.filtersValues[module.moduleName] = histElem;
+                    history.filtersValues[moduleName] = histElem;
                     flexygo.history.replace(history, me, false);
                     flexygo.history.historyLog.add('', history.description, history);
                 }

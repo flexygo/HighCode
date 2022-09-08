@@ -39,7 +39,8 @@ var flexygo;
                 CusPropertyName: 'Custom Control name',
                 SQLCustomProperty: 'SQL Custom Property',
                 connectionstrings: 'Connection strings',
-                connStringvalues: 'Connection string values'
+                connStringvalues: 'Connection string values',
+                relateddep: 'Related dependencies'
             };
             engb.develop = {
                 developer: 'Developer',
@@ -67,6 +68,8 @@ var flexygo;
                 objectpropertysecurity: 'Property security',
                 pageSettings: 'Page Settings',
                 chatter: 'Chatter',
+                users: 'Users',
+                roles: 'Roles',
             };
             engb.history = {
                 historyempty: 'Navigation history empty',
@@ -82,6 +85,7 @@ var flexygo;
                 reports: 'Reports',
                 noelements: 'No existing elements',
                 popupwarning: 'Pop-up windows blocked by browser. Please, change settings.',
+                reportmaxrows: 'This report uses {0} rows to filter and exceeds the {1} limit. Please apply a more restrictive filter first.'
             };
             engb.flxfilter = {
                 searchplaceholder: 'Search by: ',
@@ -130,6 +134,8 @@ var flexygo;
                 adddetachedproperty: 'Add detached property',
                 selecttable: 'Select Table',
                 loadmore: 'Scroll to load more',
+                hasdependencies: 'Throw dependencies',
+                hasdependingproperties: 'Affected by dependencies'
             };
             engb.flxeditgrid = {
                 addrow: 'Add row',
@@ -259,6 +265,8 @@ var flexygo;
                 fields: 'Fields',
                 apply: 'Apply',
                 clean: 'Clean',
+                groups: 'Groups',
+                applied: 'Applied'
             };
             engb.flxlist = {
                 noentriesfound: 'No entries found.',
@@ -374,6 +382,9 @@ var flexygo;
                 view: 'View',
                 downloadall: 'Download all documents',
                 nodocuments: 'No documents to download',
+                msgremove: 'Are you sure you want to remove the document?',
+                sendselection: 'Send selection',
+                noselection: 'No documents selected',
             };
             engb.imagemanager = {
                 upload: 'Upload',
@@ -410,6 +421,7 @@ var flexygo;
                 success: 'Success exporting data ;)',
                 error: 'Error exporting data :(',
                 exportinglist: 'Exporting list',
+                exportlimit: 'The maximum number of records to export has been exceeded, please use a more restrictive filter',
             };
             engb.menumanager = {
                 deleteMenu: 'Delete menu',
@@ -495,6 +507,7 @@ var flexygo;
                 end: 'End',
                 colproperties: 'Edit grid properties (optional)',
                 save: 'Save',
+                filtersettings: 'Filter Settings',
             };
             engb.flxpropertymanager = {
                 addfields: 'Click "add fields" button to start.',
@@ -568,6 +581,12 @@ var flexygo;
                 errornosql: 'SQL field can\'t be blank.',
                 validate: 'Validate',
                 errorduplicateprop: 'Field {0} alredy exists.',
+                save: 'Save',
+                cancel: 'Cancel',
+                viewwizard: 'View Wizard',
+                selectobject: 'Please, select a object name',
+                openwizard: 'Open assistant',
+                saved: 'Saved :)',
             };
             engb.templates = {
                 addnewtemplate: 'Add new Template',
@@ -601,12 +620,16 @@ var flexygo;
                 search: 'Search...',
                 pleasewrite: 'Please write the text to search',
                 speak: 'Speak now...',
+                pleaseobject: 'Please select an object first',
+                searchnode: 'Search',
             };
             engb.text = {
                 map: 'Click on the map',
                 errormap: 'The address was not found',
                 api: 'Google API Key not found.',
                 apihelp: 'See our help to find out how to get.',
+                nophone: 'Enter a telephone number',
+                nomail: 'Enter an email address',
             };
             engb.flxfunnel = {
                 data: 'No data',
@@ -666,6 +689,7 @@ var flexygo;
                 sendbutton: 'Register',
                 startinfo: 'You must first configure the chatter',
                 deleteconfirm: 'Are you sure to delete the message?',
+                saveButton: 'Save',
             };
             engb.offline = {
                 createobjecttitle: 'Add new object to App',
@@ -677,6 +701,89 @@ var flexygo;
             engb.offlineemulator = {
                 ios: 'Toggle iOS mode',
                 md: 'Toggle Android mode',
+            };
+            engb.combobuilder = {
+                datasource: 'Data source',
+                fromtable: 'Table',
+                fromview: 'View',
+                selectcnnstring: 'Select connection string',
+                validcnnstring: 'You must enter a valid connection string',
+                selecttable: 'Select origin',
+                validorigin: 'You must enter a valid origin',
+                viewkeyfields: 'View key fields',
+                saved: 'Saved',
+                save: 'Save',
+                cancel: 'Cancel',
+                selectvaluefield: 'Select value field',
+                selectdisplayfield: 'Select display field',
+                selectadditionalfield: 'Select additionals fields',
+                selectorderfield: 'Select order field',
+                comboassistant: 'Wizard',
+                cnnstring: 'Connection string',
+                origin: 'Origin',
+                sqlsentence: 'SQL sentence',
+                valuefield: 'Value field',
+                displayfield: 'Display field',
+                additionalfield: 'Additional fields',
+                orderfield: 'Order field',
+                validvaluefield: 'You must enter a value field',
+                validdisplayfield: 'You must enter a display field',
+                validorderfield: 'You must enter a order field',
+                validsqlsentence: 'SQL sentence is not valid',
+            };
+            engb.formatsmanager = {
+                formatassistant: 'Formats Wizzard',
+                field: 'Field',
+                selectfield: 'Select field',
+                validfield: 'Select valid field',
+                validformat: 'Select valid format',
+                selectformat: 'Select format type',
+                formattype: 'Format type',
+                saved: 'Saved',
+                nosaved: 'No format has been saved',
+                decimal: 'Decimal format',
+                isdate: 'Date format',
+                translate: 'Translate sentence',
+                save: 'Save',
+                cancel: 'Cancel',
+                casetrue: 'Case true',
+                casefalse: 'Case false',
+                boolformat: 'Boolean format',
+                isnull: 'Value is null',
+                numdecimals: 'Number of decimals places',
+                switchformat: 'Switch case',
+                casenotnull: 'Value is not null',
+                stringformat: 'String to format',
+                stringtype: 'String format type',
+                validstringformat: 'Select valid string format type',
+                uppercase: 'Uppercase',
+                lowercase: 'Lowercase',
+                characternumber: 'Number of character to show',
+                addoption: 'Add option',
+                addelse: 'Add else',
+                dateformat: 'Date format type',
+                selectdateformat: 'Select date format type',
+                validdateformat: 'Select valid date format type',
+                dateLT: '7:05 PM',
+                dateLTS: '7:05:57 PM',
+                dateL: '07/13/2021',
+                datel: '7/13/2021',
+                dateLL: 'July 13 2021',
+                datell: 'Jul 13 2021',
+                dateLLL: 'July 13, 2021 7:05 PM',
+                datelll: 'Jul 13, 2021 7:05 PM',
+                dateLLLL: 'Tuesday, July 13 2021 7:05 PM',
+                datellll: 'Tue, Jul 13 2021 7:05 PM',
+                translatesentence: 'Sentence to translate',
+                option: 'Option',
+                result: 'Result',
+                elseoption: 'Else',
+            };
+            engb.imports = {
+                template: 'Template file',
+            };
+            engb.htmlreport = {
+                generate: 'Generating report',
             };
         })(engb = culture.engb || (culture.engb = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

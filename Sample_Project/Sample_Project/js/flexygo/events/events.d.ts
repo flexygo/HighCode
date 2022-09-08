@@ -2,8 +2,8 @@
  * @namespace flexygo.events
  */
 declare namespace flexygo.events {
-    type EventClass = "all" | "entity" | "property" | "process" | "module" | "page" | "post" | "dialog" | "push" | "message" | "gipe" | "navbar";
-    type EventType = "all" | "inserted" | "updated" | "deleted" | "changed" | "selected" | "executed" | "loaded" | "closed" | "refreshed" | "resized" | "generic" | "notify" | "filtered" | "loading" | "error" | "warning" | "info" | "success" | "exception" | "askparams" | "askentity" | "askyesno" | "debugstep" | "jsreturn" | "start" | "finish" | "toggled" | "check" | "uncheck";
+    type EventClass = "all" | "entity" | "property" | "process" | "module" | "page" | "post" | "dialog" | "push" | "message" | "gipe" | "navbar" | "document" | "selection";
+    type EventType = "all" | "inserted" | "updated" | "deleted" | "changed" | "selected" | "executed" | "loaded" | "closed" | "refreshed" | "resized" | "generic" | "notify" | "filtered" | "loading" | "error" | "warning" | "info" | "success" | "exception" | "askparams" | "askentity" | "askyesno" | "debugstep" | "jsreturn" | "start" | "finish" | "toggled" | "check" | "uncheck" | "uploaded";
     type EventAction = "refresh" | "process";
     /**
     * api for FlexygoEvent
@@ -15,7 +15,7 @@ declare namespace flexygo.events {
         class: EventClass;
         type: EventType;
         sender?: any;
-        context?: object;
+        context?: object | string;
         masterIdentity?: string;
         detailIdentity?: any;
         firedBy?: string;
@@ -24,18 +24,18 @@ declare namespace flexygo.events {
     /**
         * Method to subscribe to flexygo events
         * @method on
-        * @param {object} context - The subscriber
+        * @param {object|string} context - The subscriber
         * @param {flexygo.events.FlexygoEvent} eventDefinition - The FlexygoEvent to subscribe to in form of class.type (Example: entity.all)
         * @param {object} callback - Callback function to be called
         */
-    function on(context: object, eventClass: EventClass, eventType: EventType, callback: object): void;
+    function on(context: object | string, eventClass: EventClass, eventType: EventType, callback: object): void;
     /**
        * Method to unsubscribe to flexygo events
        * @method off
-       * @param {object} context - The subscriber
+       * @param {object|string} context - The subscriber
        * @param {flexygo.events.FlexygoEvent} event
        */
-    function off(context: object, eventClass: EventClass, eventType: EventType, callback?: object): void;
+    function off(context: object | string, eventClass: EventClass, eventType: EventType, callback?: object): void;
     /**
       * Method to trigger a flexygo event
       * @method trigger

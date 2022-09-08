@@ -66,12 +66,18 @@ var flexygo;
                     me.append('<select class="typefilterCmb form-control"></select><br/>');
                     me.append('<div class="col-5 box"><span class="label">' + flexygo.localization.translate('filtermanager.properties') + ':</span><br/><ul class="objtree list-group"></ul></div>');
                     me.append('<div class="col-7 box fieldsFilter"><span class="label">' + flexygo.localization.translate('filtermanager.fields') + ':</span><br/><ul class="filterFields list-group"></ul></div>');
+                    if (me.closest('flx-objectmanager .tab-pane').length > 0) {
+                        me.append('<div class="col-12 box"><button name="filtersave" class="btn btn-default bg-success"><i class="flx-icon icon-save" /> ' + flexygo.localization.translate('filtermanager.save') + '</button></div>');
+                        me.find("button[name='filtersave']").on('click', () => { this.saveFilter(); });
+                    }
+                    else {
+                        me.closest('.ui-dialog').find("button[name='save']").on("click", () => { this.saveFilter(); });
+                        me.closest('.ui-dialog').find("button[name='delete']").on("click", () => { this.deleteFilter(); });
+                    }
                     //me.append('<div class="col-12 box"><button name="filtersave" class="btn btn-default bg-success"><i class="flx-icon icon-save" /> ' + flexygo.localization.translate('filtermanager.save') + '</button></div>');
                     //me.find("button[name='filtersave']").on('click', () => { this.saveFilter(); });
                     me.find('.newFilter').on('click', () => { this.newFilter(); });
                     me.find('.editFilter').on('click', () => { this.editFilter(); });
-                    me.closest('.ui-dialog').find("button[name='save']").on("click", () => { this.saveFilter(); });
-                    me.closest('.ui-dialog').find("button[name='delete']").on("click", () => { this.deleteFilter(); });
                     this.objcmb = me.find('flx-dbcombo');
                     this.typecmb = me.find('.typefilterCmb');
                     this.tree = me.find('.objtree');
@@ -167,7 +173,9 @@ var flexygo;
                         }).change(() => {
                             if (this.allSaved || confirm(flexygo.localization.translate("filtermanager.unsaved"))) {
                                 var sel = this.cmb.find('option:selected').data('extvalue');
+                                this.showProperties();
                                 this.loadFilter(sel);
+                                this.hideProperties();
                                 previous = this.value;
                                 this.allSaved = true;
                                 this.active = this.value;
@@ -195,6 +203,30 @@ var flexygo;
                             this.typecmb.trigger("change");
                         }
                         this.loadFilter(this.cmb.find('option:selected').data('extvalue'));
+                    });
+                }
+                /**
+                 * Hides the properties already selected
+                 * @method hideProperties
+                 * */
+                hideProperties() {
+                    let me = $(this);
+                    me.find("ul.filterFields.list-group.ui-sortable").children("li").each((i, li) => {
+                        me.find(".objtree").find(".prop-filter").each((i, e) => {
+                            if ($(e).attr("Property") == $(li).attr("Property") && $(e).attr("ObjectName") == $(li).attr("ObjectName")) {
+                                $(e).addClass("hidden");
+                                return false;
+                            }
+                        });
+                    });
+                }
+                /**
+                 * Show the hidden properties
+                 * @method showProperties
+                 * */
+                showProperties() {
+                    $(this).find(".objtree").find(".prop-filter.hidden").each((i, e) => {
+                        $(e).removeClass("hidden");
                     });
                 }
                 /**
@@ -373,6 +405,7 @@ var flexygo;
                             update: (event, ui) => { this.allSaved = false; }
                         });
                         this.typecmb.val(filter.Type).trigger("change");
+                        this.hideProperties();
                     }
                 }
                 /**
@@ -425,6 +458,8 @@ var flexygo;
                                     obj.html('<label><input type="checkbox" /> ' + response.Properties[key].OriginalLabel + '</label>');
                                     obj.data('extvalue', response.Properties[key]);
                                     obj.addClass('prop-filter');
+                                    obj.attr("ObjectName", response.Properties[key].ObjectName);
+                                    obj.attr("Property", response.Properties[key].Name);
                                     itm.append(obj);
                                 }
                             }
@@ -438,6 +473,7 @@ var flexygo;
                             bitm.append(btn);
                             btn.on('click', () => { this.appendFields(); });
                             elem.append(bitm);
+                            this.hideProperties();
                         });
                     }
                 }
@@ -465,6 +501,7 @@ var flexygo;
                         let fil = this.createField(fld);
                         fil.hide();
                         this.fields.append(fil);
+                        div.addClass("hidden");
                     });
                     this.fields.find('li:not(:visible)').show('250');
                     if (inp.length > 0) {
@@ -478,6 +515,8 @@ var flexygo;
                 createField(fld) {
                     let itm = $('<li class="list-group-item filterField" />');
                     itm.data('extvalue', fld);
+                    itm.attr("ObjectName", fld.ObjectName);
+                    itm.attr("Property", fld.PropertyName);
                     itm.html('<input class="form-control" type="text" value="' + fld.OriginalLabel + '" />');
                     let cmd = $(' <select class="form-control" />');
                     $.each(this.types, (i, e) => {
@@ -504,6 +543,12 @@ var flexygo;
                         this.allSaved = false;
                         let li = $(e.currentTarget).closest('li');
                         li.hide(250, () => { li.remove(); });
+                        $(this).find(".objtree").find(".prop-filter.hidden").each((i, e) => {
+                            if ($(e).attr("Property") == $(li).attr("Property") && $(e).attr("ObjectName") == $(li).attr("ObjectName")) {
+                                $(e).removeClass("hidden");
+                                return false;
+                            }
+                        });
                     });
                     return itm;
                 }

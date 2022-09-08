@@ -45,6 +45,8 @@ declare namespace flexygo.ui.wc {
         maxPages: number;
         moduleName: string;
         groups: flexygo.api.TemplateGroupCollection;
+        groupList: flexygo.api.TemplateGroupCollection;
+        userDefinedGroups: boolean;
         sortColumn: string;
         sortAsc: boolean;
         orderObj: flexygo.api.list.PropertyOrder[];
@@ -62,6 +64,7 @@ declare namespace flexygo.ui.wc {
         viewList: {
             [name: string]: string;
         };
+        defaults: any;
         canDelete: boolean;
         canInsert: boolean;
         canUpdate: boolean;
@@ -88,6 +91,7 @@ declare namespace flexygo.ui.wc {
         presets: {
             [key: string]: flexygo.api.PresetSettings;
         };
+        TemplateToolbarCollection: any;
         /**
        * Fires when element is attached to DOM
        * @method connectedCallback
@@ -120,6 +124,12 @@ declare namespace flexygo.ui.wc {
         init(): void;
         setDefaultOrder(): void;
         saveDefaultOrder(): void;
+        setDefaultGroup(): void;
+        saveDefaultGroup(): void;
+        hasGroup(groupField: any): boolean;
+        toggleGroup(groupField: any): void;
+        addGroup(groupField: any): void;
+        removeGroup(groupField: any): void;
         onEntityChanged(e: flexygo.events.FlexygoEvent): void;
         setPreset(presetName: string, presetText: string, presetIcon: string): void;
         changePresetText(): void;
@@ -188,6 +198,13 @@ declare namespace flexygo.ui.wc {
         * @param {flexygo.events.FlexygoEvent} e
         */
         onPropertyChanged(e: flexygo.events.FlexygoEvent): void;
+        /**
+        * Validate property
+        * @method validateSQLProperty
+        * @param {string} propertyName
+        * @param {Properties}  flexygo.api.edit.KeyValuePair[]
+        */
+        validateSQLProperty(propertyName: string, Properties: flexygo.api.edit.KeyValuePair[]): void;
         addLock(): void;
         removeLock(): void;
         loadingDependencies: number;
@@ -203,7 +220,7 @@ declare namespace flexygo.ui.wc {
        * @method sort
        * @param  {api.list.PropertyOrder[]} orderInfo
        */
-        sortByObj(orderInfo: api.list.PropertyOrder[]): void;
+        sortByObj(orderInfo: api.list.PropertyOrder[], groupsInfo: flexygo.api.TemplateGroupCollection): void;
         /**
         * Sort based on column in asc or desc mode.
         * @method sort
@@ -254,6 +271,7 @@ declare namespace flexygo.ui.wc {
        * @method savePageValueHistory
        */
         savePageValueHistory(): void;
+        savePresetValueHistory(): void;
         /**
         * Load searcher
         * @method loadSearcher

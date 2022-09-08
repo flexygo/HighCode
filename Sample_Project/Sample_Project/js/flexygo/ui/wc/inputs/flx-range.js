@@ -35,7 +35,6 @@ var flexygo;
                 */
                 connectedCallback() {
                     let element = $(this);
-                    this.connected = true;
                     this.type = element.attr('type') || 'text';
                     element.removeAttr('type');
                     let propName = element.attr('property');
@@ -206,6 +205,7 @@ var flexygo;
                             this.setValue(Value);
                         }
                     }
+                    this.connected = true;
                 }
                 /**
                * Array of observed attributes.
@@ -399,9 +399,12 @@ var flexygo;
                     let me = $(this);
                     //let iconsRight = this.getIconButtons();
                     let control = $('<div>');
-                    if (this.type == 'date') {
-                        this.inputmin = $('<input type="text" onfocus="(this.type=\'date\')" class="form-control" />');
-                        this.inputmax = $('<input type="text" onfocus="(this.type=\'date\')" class="form-control" />');
+                    if (this.type == 'date' || this.type == 'datetime-local') {
+                        if (this.type === 'datetime-local' && me.closest('flx-module')[0] && me.closest('flx-module')[0].getAttribute('moduleName') === 'LoginsAndLocations') {
+                            control = $('<div style="width: 300px;">');
+                        }
+                        this.inputmin = $('<input type="text" onfocus="(this.type=\'' + this.type + '\')" class="form-control" />');
+                        this.inputmax = $('<input type="text" onfocus="(this.type=\'' + this.type + '\')" class="form-control" />');
                     }
                     else {
                         this.inputmin = $('<input type="' + this.type + '" class="form-control" />');
@@ -561,9 +564,11 @@ var flexygo;
                         this.inputmin.val('');
                     }
                     else if (this.type == 'date') {
+                        this.inputmin.attr('type', this.type);
                         this.inputmin.val(moment(valorMin).format('YYYY-MM-DD'));
                     }
                     else if (this.type == 'datetime-local') {
+                        this.inputmin.attr('type', this.type);
                         this.inputmin.val(moment(valorMin).format('YYYY-MM-DD hh:mm'));
                     }
                     else {
@@ -573,9 +578,11 @@ var flexygo;
                         this.inputmax.val('');
                     }
                     else if (this.type == 'date') {
+                        this.inputmax.attr('type', this.type);
                         this.inputmax.val(moment(valorMax).format('YYYY-MM-DD'));
                     }
                     else if (this.type == 'datetime-local') {
+                        this.inputmax.attr('type', this.type);
                         this.inputmax.val(moment(valorMax).format('YYYY-MM-DD hh:mm'));
                     }
                     else {

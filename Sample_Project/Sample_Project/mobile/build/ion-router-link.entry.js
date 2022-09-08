@@ -1,6 +1,6 @@
-import { r as registerInstance, j as h, l as Host } from './index-76f52202.js';
-import { g as getIonMode } from './ionic-global-53d785f3.js';
-import { o as openURL, c as createColorClasses } from './theme-d8afa044.js';
+import { r as registerInstance, j as h, l as Host } from './index-86ac49ff.js';
+import { g as getIonMode } from './ionic-global-0f98fe97.js';
+import { o as openURL, c as createColorClasses } from './theme-f934266c.js';
 
 const routerLinkCss = ":host{--background:transparent;--color:var(--ion-color-primary, #3880ff);background:var(--background);color:var(--color)}:host(.ion-color){color:var(--ion-color-base)}a{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit;letter-spacing:inherit;text-decoration:inherit;text-indent:inherit;text-overflow:inherit;text-transform:inherit;text-align:inherit;white-space:inherit;color:inherit}";
 
@@ -23,7 +23,10 @@ const RouterLink = class {
             rel: this.rel,
             target: this.target
         };
-        return (h(Host, { onClick: this.onClick, class: Object.assign(Object.assign({}, createColorClasses(this.color)), { [mode]: true, 'ion-activatable': true }) }, h("a", Object.assign({}, attrs), h("slot", null))));
+        return (h(Host, { onClick: this.onClick, class: createColorClasses(this.color, {
+                [mode]: true,
+                'ion-activatable': true
+            }) }, h("a", Object.assign({}, attrs), h("slot", null))));
     }
 };
 RouterLink.style = routerLinkCss;

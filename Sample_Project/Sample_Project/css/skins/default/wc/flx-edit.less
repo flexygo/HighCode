@@ -19,6 +19,10 @@ flx-edit .input-group {
     padding-right: 15px;
 }
 
+flx-text[type="cron"] .popover {
+    position: fixed;
+}
+
 
 flx-edit .item > label {
     display: inline-block;
@@ -54,7 +58,7 @@ flx-htmledit .note-editor .note-statusbar {
     display: none;
 }
 
-.grid-stack-item-content .item div[data-tag=control] {
+.grid-stack-item .item div[data-tag=control] {
     height: inherit
 }
 
@@ -105,6 +109,7 @@ flx-check > div {
     display: inline-block;
     margin-right: 1em;
     margin-left: .4em;
+    vertical-align:middle;
 }
 
 flx-check input[type=checkbox] {
@@ -130,7 +135,7 @@ flx-check input[type=checkbox] + label {
 }
 
 flx-check input[type=checkbox]:focus + label {
-    outline: 5px auto -webkit-focus-ring-color;
+    outline: 1px solid silver; //5px auto -webkit-focus-ring-color;
     outline-offset: -2px;
 }
 
@@ -188,27 +193,47 @@ flx-radio div.inline label {
 
 
 //TAGS
+flx-multicombo div.bootstrap-tagsinput {
+    border: none !important;
+}
+
+flx-multicombo div.input-group {
+    border: 1px solid #ccc;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-collapse: separate;
+}
+
 flx-tag div.bootstrap-tagsinput, flx-multicombo div.bootstrap-tagsinput {
     border-radius: 0;
     width: 100%
 }
 
-flx-tag div.bootstrap-tagsinput:first-child, flx-multicombo div.bootstrap-tagsinput:first-child {
+flx-tag div.bootstrap-tagsinput:first-child {
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
 }
 
-flx-tag div.bootstrap-tagsinput:nth-last-child(2), flx-multicombo div.bootstrap-tagsinput:nth-last-child(2) {
+flx-tag div.bootstrap-tagsinput:nth-last-child(2) {
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
 }
 
-flx-filter flx-tag div.bootstrap-tagsinput:nth-last-child(2), flx-filter flx-multicombo div.bootstrap-tagsinput:nth-last-child(2) {
-    height: fit-content;
+flx-filter flx-tag div.bootstrap-tagsinput:nth-last-child(2), flx-filter flx-multicombo div:not(.mobileinputdiv) div.bootstrap-tagsinput {
+    height: 15px;
     overflow: auto
 }
 
-flx-filter flx-tag div.bootstrap-tagsinput:nth-last-child(2):hover, flx-filter flx-multicombo div.bootstrap-tagsinput:nth-last-child(2):hover {
+flx-filter flx-multicombo > div:not(.mobileinputdiv).input-group:hover,
+flx-filter flx-multicombo > div:not(.mobileinputdiv).input-group.opened {
+    position: relative;
+    z-index: 999;
+}
+
+
+flx-filter flx-tag div.bootstrap-tagsinput:nth-last-child(2):hover,
+flx-filter flx-multicombo div:not(.mobileinputdiv) div.bootstrap-tagsinput:hover,
+flx-filter flx-multicombo div:not(.mobileinputdiv).input-group.opened div.bootstrap-tagsinput {
     height: auto;
     overflow: visible;
 }
@@ -259,6 +284,31 @@ flx-dbcombo > ul, flx-multicombo > ul {
 
 flx-dbcombo > ul.mobile, flx-multicombo > ul.mobile {
     padding-top: 30px !important;
+    z-index: 999999;
+}
+
+html.tactilMode flx-multicombo label.closed i, html.tactilMode flx-dbcombo ul i.flx-icon {
+    font-size: 28px;
+}
+
+html.tactilMode flx-module span.cntButtons {
+    font-size: 18px;
+}
+
+html.tactilMode input[type="search"]::-webkit-search-cancel-button {
+    font-size: 20px;
+    margin-right: 15px;
+}
+flx-multicombo label.cleared {
+    min-width:15px;
+}
+flx-multicombo label.cleared i {
+    font-size: 9px;
+    color: #27477a;
+}
+
+html.tactilMode flx-multicombo label.cleared i {
+    font-size: 20px;
 }
 
 flx-dbcombo > ul li, flx-multicombo > ul li {
@@ -1309,6 +1359,23 @@ flx-imagemanager .im-data-container-action:hover {
     box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
     background-color: fade(dbColor(OutstandingColor), 25%);
 }
+
+flx-imagemanager .im-background-container {    
+    position: relative;
+
+    .background-elements {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        top: 50%;
+        width: 100%;
+        text-align: center;
+        font-size: 1.5em;
+        opacity: 0.4;
+        transition: all 0.15s ease-in-out 0s;
+    }
+}
+
 //END Image Manager
 //File
 flx-file .f-btn {
@@ -1351,7 +1418,7 @@ input[type=checkbox], input[type=radio] {
     background-color: dbColor(OutstandingColor) !important;
 }
 
-label.required:after {
+flx-edit label.required:after {
     content: "*";
     color: dbColor(DangerColor);
 }
@@ -1493,4 +1560,74 @@ flx-textarea > div > span.input-group-addon {
 .grid-stack > .grid-stack-item > .grid-stack-item-content {
     z-index: unset !important;
     overflow-y: hidden;
+}
+
+//FLX-CODE ASSISTANT BUTTON
+flx-code .btn-assistant {
+    position: absolute;
+    right: 12px;
+    top: 30px;
+    z-index: 3;
+}
+
+//Google places address container on modal
+.pac-container {
+    z-index: 100000!important;
+}
+
+//Tactil mode dateTimePicker
+.def-flx-backdrop {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: black;
+    opacity: 0.5;
+    z-index: 999;
+}
+
+html.tactilMode input[type="date"]::-webkit-calendar-picker-indicator, html.tactilMode input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+flx-list .flxRszTbl .bootstrap-datetimepicker-widget tr:nth-child(odd):not(.rowHeader),
+flx-list .flxRszTbl .bootstrap-datetimepicker-widget tr:nth-child(even):not(.rowHeader),
+flx-list .flxRszTbl .bootstrap-datetimepicker-widget tr th:not(:hover),
+flx-list .flxRszTbl .bootstrap-datetimepicker-widget tr:nth-child(odd):not(.rowHeader):hover,
+flx-list .flxRszTbl .bootstrap-datetimepicker-widget tr:nth-child(odd):not(.rowHeader):hover {
+    background-color: transparent !important;
+    color: dbColor(txtColor);
+}
+
+flx-list .flxRszTbl tr .bootstrap-datetimepicker-widget th {
+    border: none;
+    color: dbColor(txtColor);
+}
+
+
+flx-list .flxRszTbl .bootstrap-datetimepicker-widget tr:not(.rowHeader):not(.rowInsert):hover, 
+.flx-list .bootstrap-datetimepicker-widget tr:not(.rowHeader):not(.rowInsert):hover, 
+flx-list .bootstrap-datetimepicker-widget tr.selected:not(.rowHeader):not(.rowInsert):hover, 
+.flx-list .bootstrap-datetimepicker-widget tr.selected:not(.rowHeader):not(.rowInsert):hover {
+    background-color: dbColor(bgColor);
+    color: dbColor(txtColor);
+}
+
+flx-list .flxRszTbl .bootstrap-datetimepicker-widget tr th,
+flx-list .flxRszTbl .bootstrap-datetimepicker-widget tr:nth-child(odd):not(.rowHeader):hover,
+flx-list .flxRszTbl .bootstrap-datetimepicker-widget tr:nth-child(even):not(.rowHeader):hover {
+    background-color: transparent !important;
+}
+
+.bootstrap-datetimepicker-widget .day {
+    border: none
+}
+
+.bootstrap-datetimepicker-widget .old, .bootstrap-datetimepicker-widget .new {
+    font-style: italic;
+}
+
+.bootstrap-datetimepicker-widget .weekend {
+    color: dbColor(dangerColor);
 }

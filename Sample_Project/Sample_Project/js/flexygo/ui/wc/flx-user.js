@@ -54,7 +54,7 @@ var flexygo;
                     let userdiv = $('<div class="profile-mini"><div><img class="img-responsive" src="' + flexygo.utils.resolveUrl(flexygo.profiles.avatar) + "?time=" + new Date().getTime() + '" alt="profile"></div><div><span>' + flexygo.profiles.username + '</span><p>' + flexygo.profiles.email + '</p></div></div>');
                     ctx.append(userdiv);
                     if (flexygo.utils.isSizeMobile()) {
-                        userdiv.on('click', () => {
+                        userdiv.closest('li').on('click', () => {
                             flexygo.nav.openPage('view', 'sysUser', '(aspnetUsers.Id=\'' + flexygo.profiles.userid + '\')', null, 'current', false, null);
                         });
                     }

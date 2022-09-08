@@ -66,6 +66,28 @@ declare namespace flexygo.utils {
        */
     function isSizeSmartphone(): boolean;
     /**
+    * Says if the screen is in tactil mode.
+    * @method isTactilModeActive
+    * @return {boolean} True if tactil mode is active, false if not.
+    */
+    function isTactilModeActive(): boolean;
+    /**
+    * Toggles tactil mode.
+    * @method toggleTactilMode
+    */
+    function toggleTactilMode(): void;
+    /**
+    * Says if the screen is in full screen mode.
+    * @method isFullScreenActive
+    * @return {boolean} True if full screen is active, false if not.
+    */
+    function isFullScreenActive(): boolean;
+    /**
+    * Toggles full screen.
+    * @method toggleFullScreen
+    */
+    function toggleFullScreen(): void;
+    /**
     * Says if the agent's navigator comes from a mobile.
     * @method isAgentMobile
     * @return {boolean} True if agent's navigator comes from a mobile, false if not.
@@ -141,6 +163,12 @@ declare namespace flexygo.utils {
     */
     function sleep(milliseconds: any): void;
     /**
+    * A promise to wait until the time ends
+    * @param {number} milliseconds - number of milliseconds to stop.
+    * @method asyncSleep
+    */
+    function asyncSleep(milliseconds: any): Promise<{}>;
+    /**
     * Check if text is base64
     * @param {string} str - text base64.
     * @method isBase64
@@ -184,12 +212,24 @@ declare namespace flexygo.utils {
     */
     function isInMainContent(element: HTMLElement, margin?: number): boolean;
     /**
+    * Check if is a valid JSON string.
+    * @method isEmptyAttribute
+    * @returns {boolean} True if it's a valid JSON string, false if it's not
+    */
+    function isJSON(string: string): boolean;
+    /**
     * Get file icon.
     * @method getFileIcon
     */
     function getFileIcon(extension: string): string;
     var colors: string[];
     function hexToRgbA(hex: any, opacity: any): string;
+    /**
+    * Scrolls to the desired height
+    * @method scrollTo
+    * @param {string} scrollHeight Height where us desired to scroll
+    */
+    function scrollTo(scrollHeight: number): any;
 }
 declare namespace flexygo.utils.querystring {
     function getParamValue(url: string, paramName: string): string;

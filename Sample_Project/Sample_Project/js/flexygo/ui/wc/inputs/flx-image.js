@@ -44,7 +44,6 @@ var flexygo;
                 */
                 connectedCallback() {
                     let element = $(this);
-                    this.connected = true;
                     let typeMode = element.attr('type') || element.attr('typemode') || 'embeded';
                     if (typeMode && typeMode !== '') {
                         this.TypeMode = typeMode;
@@ -154,6 +153,7 @@ var flexygo;
                         this.options.ImageCompressionType = parseInt(ImageCompressionType);
                     }
                     this.init();
+                    this.connected = true;
                     //let Value = element.attr('value');
                     //if (Value && Value !== '') {
                     //    this.setValue(Value);
@@ -225,14 +225,17 @@ var flexygo;
                             this.refresh();
                         }
                     }
-                    if (attrName.toLowerCase() === 'class' && newVal && newVal !== '') {
+                    if (attrName.toLowerCase() === 'class' && element.attr('Control-Class') !== newVal && newVal != oldVal) {
                         if (!this.options) {
                             this.options = new flexygo.api.ObjectProperty();
                         }
                         this.options.CssClass = newVal;
                         if (element.attr('Control-Class') !== this.options.CssClass) {
-                            element.attr('Control-Class', this.options.CssClass);
-                            element.attr('Class', '');
+                            if (newVal != '') {
+                                element.attr('Control-Class', this.options.CssClass);
+                                element.attr('Class', this.options.CssClass);
+                            }
+                            //element.attr('Class', '');
                             this.refresh();
                         }
                     }
@@ -398,6 +401,11 @@ var flexygo;
                 }
                 setValue(value, text) {
                     let me = $(this);
+                    if (this.TypeMode === 'base64') {
+                        if (value && value.toString().indexOf('data:') != 0) {
+                            value = 'data:image/png;base64,' + value;
+                        }
+                    }
                     if (!text) {
                         text = value;
                     }
@@ -489,13 +497,24 @@ var flexygo;
                                 FormValues: formValues,
                                 Name: this.name
                             };
-                            flexygo.ajax.post('~/api/Image', 'SaveFile', params, (ret) => {
-                                if (ret.Value != 'errorrootpath')
-                                    this.setValue(ret.Value, ret.Text);
-                                else {
-                                    flexygo.msg.error('image.errorrootpath');
-                                }
-                            });
+                            if ($(this).parents('flx-list').length > 0) {
+                                flexygo.ajax.syncPost('~/api/Image', 'SaveFile', params, (ret) => {
+                                    if (ret.Value != 'errorrootpath')
+                                        this.setValue(ret.Value, ret.Text);
+                                    else {
+                                        flexygo.msg.error('image.errorrootpath');
+                                    }
+                                });
+                            }
+                            else {
+                                flexygo.ajax.post('~/api/Image', 'SaveFile', params, (ret) => {
+                                    if (ret.Value != 'errorrootpath')
+                                        this.setValue(ret.Value, ret.Text);
+                                    else {
+                                        flexygo.msg.error('image.errorrootpath');
+                                    }
+                                });
+                            }
                             if (!this.fileName) {
                                 flexygo.msg.warning('image.errorfilename');
                             }
@@ -534,11 +553,17 @@ var flexygo;
                     }
                     image = me.find('img').attr("src");
                     if (this.TypeMode === 'file') {
-                        this.fileName = this.getFileName(image);
+                        this.name = this.getName(me.attr('value'), this.TypeMode);
+                        this.fileName = this.getFileName(me.attr('value'));
+                    }
+                    else {
+                        if (me.attr('value')) {
+                            this.name = "." + me.attr('value').substring(me.attr('value').indexOf("/") + 1, me.attr('value').indexOf(";"));
+                        }
                     }
                     rounded = false;
                     this.pageContainer = $(`<div class="flx-cpr-image container cnt-Body pageContainerImage">
-                                    <div class="bg-white cpr-subcontainer ctl-cpr-transition">
+                                    <div class="padding-l cpr-subcontainer ctl-cpr-transition">
                                                 <div class="panel panel-default panel-wizard col-md-12 cpr-panel">
                                                     <div class="panel-heading cpr-heading">
                                                         <div class="btn-group cpr-btn-group" data-toggle="buttons">
@@ -690,6 +715,12 @@ var flexygo;
                         }
                         imageElement.cropper(options);
                     }
+                    this.pageContainer.parent().on('click', () => {
+                        event.stopPropagation();
+                    });
+                    $('.ui-widget-overlay.ui-front').on('click', () => {
+                        event.stopPropagation();
+                    });
                     this.pageContainer.find('button').on('click', (e) => {
                         let element = $(e.currentTarget);
                         let method = element.attr('method');
@@ -901,9 +932,26 @@ var flexygo;
                 }
                 getFileName(url) {
                     if (url) {
-                        let index = url.lastIndexOf("/") + 1;
+                        let index = url.lastIndexOf("\\") + 1;
                         let filenameWithExtension = url.substr(index);
                         let filename = filenameWithExtension.split(".")[0];
+                        return filename;
+                    }
+                    else {
+                        return url;
+                    }
+                }
+                getName(url, mode) {
+                    if (url) {
+                        let index = url.lastIndexOf("\\") + 1;
+                        let filenameWithExtension = url.substr(index);
+                        let filename;
+                        if (mode === 'file') {
+                            filename = filenameWithExtension;
+                        }
+                        else {
+                            filename = filenameWithExtension.split("?")[0];
+                        }
                         return filename;
                     }
                     else {

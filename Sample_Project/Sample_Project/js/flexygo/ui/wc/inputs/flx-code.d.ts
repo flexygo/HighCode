@@ -53,6 +53,8 @@ declare namespace flexygo.ui.wc {
         setValueView(value: string): void;
         fullscreen(value: any): void;
         getMode(): string;
+        getWizardButton(): string;
+        setWizardSettings(m: any): void;
         /**
         * Trigger Dependencies.
         * @method triggerDependencies

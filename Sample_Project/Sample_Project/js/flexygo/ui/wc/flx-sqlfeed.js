@@ -69,6 +69,7 @@ var flexygo;
                 init() {
                     let me = $(this);
                     me.removeAttr('manualInit');
+                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
                     me.html('');
                     let params = {
                         ObjectName: me.attr('ObjectName'),

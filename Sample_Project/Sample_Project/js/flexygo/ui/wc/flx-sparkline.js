@@ -80,6 +80,7 @@ var flexygo;
                 init() {
                     let me = $(this);
                     me.removeAttr('manualInit');
+                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
                     me.html('');
                     if (this.moduleName) {
                         let params = {

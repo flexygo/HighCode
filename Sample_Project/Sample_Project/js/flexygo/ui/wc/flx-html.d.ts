@@ -17,6 +17,7 @@ declare namespace flexygo.ui.wc {
        */
         connected: boolean;
         moduleName: string;
+        moduleButtons: flexygo.api.Toolbar;
         /**
        * Fires when element is attached to DOM
        * @method connectedCallback

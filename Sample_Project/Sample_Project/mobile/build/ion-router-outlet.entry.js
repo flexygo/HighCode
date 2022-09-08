@@ -1,8 +1,9 @@
-import { r as registerInstance, m as createEvent, j as h, k as getElement } from './index-76f52202.js';
-import { g as getIonMode, c as config } from './ionic-global-53d785f3.js';
-import { t as transition } from './index-a6178d25.js';
-import { g as getTimeGivenProgression } from './cubic-bezier-89113939.js';
-import { a as attachComponent, d as detachComponent } from './framework-delegate-7af2c551.js';
+import { r as registerInstance, m as createEvent, j as h, k as getElement } from './index-86ac49ff.js';
+import { g as getIonMode, c as config } from './ionic-global-0f98fe97.js';
+import './helpers-719f4c54.js';
+import { t as transition } from './index-7173f7a2.js';
+import { g as getTimeGivenProgression } from './cubic-bezier-93f47170.js';
+import { a as attachComponent, d as detachComponent } from './framework-delegate-1fd39b54.js';
 
 const routeOutletCss = ":host{left:0;right:0;top:0;bottom:0;position:absolute;contain:layout size style;overflow:hidden;z-index:0}";
 
@@ -12,7 +13,7 @@ const RouterOutlet = class {
         this.ionNavWillLoad = createEvent(this, "ionNavWillLoad", 7);
         this.ionNavWillChange = createEvent(this, "ionNavWillChange", 3);
         this.ionNavDidChange = createEvent(this, "ionNavDidChange", 3);
-        this.animationEnabled = true;
+        this.gestureOrAnimationInProgress = false;
         /**
          * The mode determines which platform styles to use.
          */
@@ -28,11 +29,16 @@ const RouterOutlet = class {
         }
     }
     async connectedCallback() {
-        this.gesture = (await __sc_import_app('./swipe-back-30c717eb.js')).createSwipeBackGesture(this.el, () => !!this.swipeHandler && this.swipeHandler.canStart() && this.animationEnabled, () => this.swipeHandler && this.swipeHandler.onStart(), step => this.ani && this.ani.progressStep(step), (shouldComplete, step, dur) => {
+        const onStart = () => {
+            this.gestureOrAnimationInProgress = true;
+            if (this.swipeHandler) {
+                this.swipeHandler.onStart();
+            }
+        };
+        this.gesture = (await __sc_import_app('./swipe-back-18b53ef1.js')).createSwipeBackGesture(this.el, () => !this.gestureOrAnimationInProgress && !!this.swipeHandler && this.swipeHandler.canStart(), () => onStart(), step => this.ani && this.ani.progressStep(step), (shouldComplete, step, dur) => {
             if (this.ani) {
-                this.animationEnabled = false;
                 this.ani.onFinish(() => {
-                    this.animationEnabled = true;
+                    this.gestureOrAnimationInProgress = false;
                     if (this.swipeHandler) {
                         this.swipeHandler.onEnd(shouldComplete);
                     }
@@ -55,6 +61,9 @@ const RouterOutlet = class {
                     newStepValue += getTimeGivenProgression([0, 0], [0.32, 0.72], [0, 1], [1, 1], step)[0];
                 }
                 this.ani.progressEnd(shouldComplete ? 1 : 0, newStepValue, dur);
+            }
+            else {
+                this.gestureOrAnimationInProgress = false;
             }
         });
         this.swipeHandlerChanged();
@@ -123,12 +132,39 @@ const RouterOutlet = class {
         this.ionNavWillChange.emit();
         const { el, mode } = this;
         const animated = this.animated && config.getBoolean('animated', true);
-        const animationBuilder = this.animation || opts.animationBuilder || config.get('navAnimation');
+        const animationBuilder = opts.animationBuilder || this.animation || config.get('navAnimation');
         await transition(Object.assign(Object.assign({ mode,
             animated,
             enteringEl,
             leavingEl, baseEl: el, progressCallback: (opts.progressAnimation
-                ? ani => this.ani = ani
+                ? ani => {
+                    /**
+                     * Because this progress callback is called asynchronously
+                     * it is possible for the gesture to start and end before
+                     * the animation is ever set. In that scenario, we should
+                     * immediately call progressEnd so that the transition promise
+                     * resolves and the gesture does not get locked up.
+                     */
+                    if (ani !== undefined && !this.gestureOrAnimationInProgress) {
+                        this.gestureOrAnimationInProgress = true;
+                        ani.onFinish(() => {
+                            this.gestureOrAnimationInProgress = false;
+                            if (this.swipeHandler) {
+                                this.swipeHandler.onEnd(false);
+                            }
+                        }, { oneTimeCallback: true });
+                        /**
+                         * Playing animation to beginning
+                         * with a duration of 0 prevents
+                         * any flickering when the animation
+                         * is later cleaned up.
+                         */
+                        ani.progressEnd(0, 0, 0);
+                    }
+                    else {
+                        this.ani = ani;
+                    }
+                }
                 : undefined) }, opts), { animationBuilder }));
         // emit nav changed event
         this.ionNavDidChange.emit();

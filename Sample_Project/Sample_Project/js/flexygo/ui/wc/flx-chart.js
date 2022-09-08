@@ -22,8 +22,6 @@ var flexygo;
                    * @property connected {boolean}
                    */
                     this.connected = false;
-                    this.moduleName = null;
-                    this.additionalWhere = '';
                     this.data = null;
                 }
                 /**
@@ -33,9 +31,9 @@ var flexygo;
                 connectedCallback() {
                     let element = $(this);
                     this.connected = true;
-                    this.moduleName = element.attr("modulename");
+                    this.moduleName = element.attr("ModuleName");
                     this.data = element.attr('value');
-                    this.additionalWhere = element.attr('additionalwhere');
+                    this.AdditionalWhere = element.attr('additionalwhere');
                     if (element.attr('manualInit') != 'true') {
                         this.init();
                     }
@@ -45,7 +43,7 @@ var flexygo;
                 * @property observedAttributes {Array}
                 */
                 static get observedAttributes() {
-                    return ['modulename', 'value', 'additionalwhere'];
+                    return ['ObjectName', 'ObjectWhere', 'modulename', 'value', 'additionalwhere'];
                 }
                 /**
                 * Fires when the attribute value of the element is changed.
@@ -68,7 +66,7 @@ var flexygo;
                         }
                     }
                     if (attrName.toLowerCase() == 'additionalwhere' && newVal && newVal != '') {
-                        this.additionalWhere = newVal;
+                        this.AdditionalWhere = newVal;
                         this.refresh();
                     }
                 }
@@ -81,7 +79,7 @@ var flexygo;
                     let params = {
                         ObjectName: (me.attr('ObjectName') ? me.attr('ObjectName') : null),
                         ObjectWhere: (me.attr('ObjectWhere') ? me.attr('ObjectWhere') : null),
-                        AdditionalWhere: this.additionalWhere,
+                        AdditionalWhere: (this.AdditionalWhere ? this.AdditionalWhere : null),
                         ModuleName: me.attr('ModuleName'),
                         PageName: flexygo.history.getPageName(me)
                     };
@@ -91,74 +89,82 @@ var flexygo;
                     }
                 }
                 /**
-                * Init the webcomponent.
-                * @method init
-                */
+               * Init the webcomponent.
+               * @method init
+               */
                 init() {
                     let me = $(this);
-                    let width = 0;
-                    let height = 0;
                     me.removeAttr('manualInit');
+                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
                     let parentModule = me.closest('flx-module');
                     let wcModule = parentModule[0];
                     if (parentModule && wcModule) {
                         wcModule.moduleLoaded(this);
                     }
-                    if (me.attr('width') && me.attr('width') != '') {
-                        width = parseInt(me.attr('width'));
-                    }
-                    if (me.attr('height') && me.attr('height') != '') {
-                        height = parseInt(me.attr('height'));
-                    }
-                    me.html('<div><canvas  height=' + height + ' width=' + width + ' position:absolute;"></canvas></div>');
-                    let params = {
-                        ObjectName: (me.attr('ObjectName') ? me.attr('ObjectName') : null),
-                        ObjectWhere: (me.attr('ObjectWhere') ? me.attr('ObjectWhere') : null),
-                        AdditionalWhere: this.additionalWhere,
-                        ModuleName: me.attr('ModuleName'),
-                        PageName: flexygo.history.getPageName(me)
-                    };
-                    /** Read Cache **/
-                    let cacheResponse = flexygo.storage.cache.get('chart', params);
-                    /** If Cache use cache**/
-                    if (cacheResponse) {
-                        this.preRender(cacheResponse.response);
+                    me.html('<div><canvas></canvas></div>');
+                    if (parentModule.attr("type") != 'flx-list') {
+                        let params = {
+                            ObjectName: (me.attr('ObjectName') ? me.attr('ObjectName') : null),
+                            ObjectWhere: (me.attr('ObjectWhere') ? me.attr('ObjectWhere') : null),
+                            AdditionalWhere: (this.AdditionalWhere ? this.AdditionalWhere : null),
+                            ModuleName: me.attr('ModuleName'),
+                            PageName: flexygo.history.getPageName(me)
+                        };
+                        /** Read Cache **/
+                        let cacheResponse = flexygo.storage.cache.get('chart', params);
+                        /** If Cache use cache**/
+                        if (cacheResponse) {
+                            this.data = cacheResponse.response.Values;
+                            this.settings = cacheResponse.response.Settings;
+                            this.options = cacheResponse.response.Options;
+                            this.Title = cacheResponse.response.Title;
+                            this.Labels = cacheResponse.response.Labels;
+                            this.Series = cacheResponse.response.Series;
+                            this.Values = cacheResponse.response.Value;
+                            this.Params = cacheResponse.response.Params;
+                            this.type = cacheResponse.response.ChartType;
+                            this.Background = cacheResponse.response.ChartBackground;
+                            this.Border = cacheResponse.response.ChartBorder;
+                            this.MixedChartLabels = cacheResponse.response.MixedChartLabels;
+                            this.MixedChartTypes = cacheResponse.response.MixedChartTypes;
+                            this.ChartLineBorderDash = cacheResponse.response.ChartLineBorderDash;
+                            this.ChartLineFill = cacheResponse.response.ChartLineFill;
+                            this.render();
+                        }
+                        else {
+                            flexygo.ajax.post('~/api/Chart', 'GetHTML', params, (response) => {
+                                if (response) {
+                                    flexygo.storage.cache.add('chart', params, response, response.Cache);
+                                    this.data = response.Values;
+                                    this.settings = response.Settings;
+                                    this.options = response.Options;
+                                    this.Title = response.Title;
+                                    this.Labels = response.Labels;
+                                    this.Series = response.Series;
+                                    this.Values = response.Value;
+                                    this.Params = response.Params;
+                                    this.type = response.ChartType;
+                                    this.Background = response.ChartBackground;
+                                    this.Border = response.ChartBorder;
+                                    this.MixedChartLabels = response.MixedChartLabels;
+                                    this.MixedChartTypes = response.MixedChartTypes;
+                                    this.ChartLineBorderDash = response.ChartLineBorderDash;
+                                    this.ChartLineFill = response.ChartLineFill;
+                                    this.render();
+                                }
+                            }, null, () => { this.stopLoading(); }, () => { this.startLoading(); });
+                        }
                     }
                     else {
-                        flexygo.ajax.post('~/api/Chart', 'GetHTML', params, (response) => {
+                        let params = {
+                            ChartSettingName: me.attr("chartsetting") ? me.attr("chartsetting") : "syscs-default-legendandlabels"
+                        };
+                        flexygo.ajax.post('~/api/Chart', 'GetSettings', params, (response) => {
                             if (response) {
-                                flexygo.storage.cache.add('chart', params, response, response.Cache);
-                                this.preRender(response);
+                                this.settings = response.Settings;
+                                this.render();
                             }
                         }, null, () => { this.stopLoading(); }, () => { this.startLoading(); });
-                    }
-                }
-                /**
-               * prepares chart for render based on response saved in session o received from post
-               * @method preRender
-               */
-                preRender(response) {
-                    let me = $(this);
-                    if (response) {
-                        this.data = response.Values[0];
-                        if (!this.data || this.data.length == 0) {
-                            me.html('<div class="box-info"><i class="flx-icon icon-information-2 icon-lg icon-margin-right"></i><span><strong>Info!</strong> ' + flexygo.localization.translate('flxlist.noentriesfound') + '</span></div>');
-                            return;
-                        }
-                        this.dataColum = response.Values[1];
-                        this.settings = response.Settings;
-                        if (response.Options) {
-                            this.options = JSON.parse(response.Options);
-                        }
-                        this.Title = response.Title;
-                        this.Labels = response.Labels;
-                        this.Series = response.Series;
-                        this.Values = response.Value;
-                        this.Params = response.Params;
-                        this.type = response.ChartType;
-                        this.Background = response.ChartBackground;
-                        this.Border = response.ChartBorder;
-                        this.render();
                     }
                 }
                 /**
@@ -168,845 +174,677 @@ var flexygo;
                 render() {
                     let me = $(this);
                     let name = '';
+                    let listModule = me.closest('flx-list');
+                    let wcListModule = listModule[0];
                     if (me.attr('type') && me.attr('type') != '') {
                         this.type = me.attr('type');
                     }
-                    if (me.attr('name') && me.attr('name') != '') {
-                        name = me.attr('name');
-                    }
-                    if (me.attr('data') && me.attr('data') != '') {
-                        var dataJSON = me.attr('data');
-                    }
                     if (me.attr('options') && me.attr('options') != '') {
-                        var optionsJSON = me.attr('options');
+                        this.options = me.attr('options');
                     }
-                    let options = {
-                        Showlabels: this.settings.ShowLabels,
-                        ShowLegend: this.settings.ShowLegend,
-                        ShowTitle: this.settings.ShowTitle,
-                        LegendPos: this.settings.LegendPos.toLowerCase(),
-                        ToolTipBackgroundColor: this.settings.ToolTipBackgroundColor,
-                        Title: this.Title,
-                        TitleFontSize: this.settings.TitleFontSize,
-                        TitleFontColor: this.settings.TitleFontColor,
-                        TitlePosition: this.settings.TitlePosition.toLowerCase(),
-                        TitleFontStyle: this.settings.TitleFontStyle,
-                        Responsive: this.settings.Responsive,
-                        AnimationDuration: 100,
-                        Colors: this.settings.Colors.split("|"),
-                        ColorsBackground: this.settings.BorderColors.split("|"),
-                        MinXAxes: this.settings.MinXAxes,
-                        MinYAxes: this.settings.MinYAxes,
-                    };
-                    //var JSONoptions = JSON.stringify(options);
-                    //if (ctx.params) {
-                    //    JSONoptions = JSONoptions.substring(0, JSONoptions.length - 1);
-                    //    JSONoptions += "," + ctx.params + "}";
-                    //    options = JSON.parse(JSONoptions);
-                    //}
-                    var dataBar = {
-                        labels: ["January", "February", "March", "April", "May", "June", "July"],
-                        datasets: [{
-                                label: 'Dataset 1',
-                                backgroundColor: "rgba(220,220,220,0.5)",
-                                yAxisID: "y-axis-1",
-                                data: [66, 87, 40, 39, 87, 70, 65]
-                            }, {
-                                label: 'Dataset 2',
-                                backgroundColor: "rgba(151,187,205,0.5)",
-                                yAxisID: "y-axis-2",
-                                data: [50, 57, 70, 35, 76, 87, 58]
-                            }, {
-                                label: 'Dataset 3',
-                                backgroundColor: 'rgba(151,187,205,1)',
-                                yAxisID: "y-axis-1",
-                                data: [70, 66, 78, 40, 85, 70, 45]
-                            }]
-                    };
-                    var dataforLineEx = {
-                        labels: ['Data 1', 'Data 2', 'Data 3', 'Data 4',
-                            'Data 5', 'Data 6', 'Data 7'],
-                        datasets: [{
-                                fillColor: 'rgba(0,0,0,0)',
-                                backgroundColor: 'rgba(151,187,205,0.5)',
-                                borderColor: 'rgba(151,187,205,0.5)',
-                                data: [60, 10, 40, 30, 80, 30, 20]
-                            }, {
-                                fillColor: 'rgba(0,0,0,0)',
-                                backgroundColor: "rgba(220,220,220,0.7)",
-                                borderColor: "rgba(220,220,220,0.7)",
-                                data: [20, 30, 80, 20, 40, 10, 60]
-                            }]
-                    };
-                    var dataBubbleEx = {
-                        datasets: [
-                            {
-                                label: 'Bubble Chart',
-                                data: [
-                                    {
-                                        x: 20,
-                                        y: 30,
-                                        r: 5
-                                    },
-                                    {
-                                        x: 30,
-                                        y: 20,
-                                        r: 15
-                                    },
-                                    {
-                                        x: 33,
-                                        y: 19,
-                                        r: 5
-                                    },
-                                    {
-                                        x: 25,
-                                        y: 18,
-                                        r: 20
-                                    },
-                                    {
-                                        x: 40,
-                                        y: 10,
-                                        r: 10
-                                    }
-                                ],
-                                backgroundColor: 'rgba(151,187,205,1)',
-                                hoverBackgroundColor: 'rgba(151,187,205,1)',
-                            }
-                        ]
-                    };
-                    var dataforDoughnutEx = {
-                        labels: [
-                            "Blue",
-                            "Red",
-                            "Grey"
-                        ],
-                        datasets: [
-                            {
-                                data: [300, 50, 100],
-                                backgroundColor: [
-                                    'rgba(151,187,205,1)',
-                                    "rgb(153, 38, 0)",
-                                    "rgba(220,220,220,0.5)"
-                                ],
-                                hoverBackgroundColor: [
-                                    'rgba(151,187,205,1)',
-                                    "rgb(153, 38, 0)",
-                                    "rgba(220,220,220,0.5)"
-                                ]
-                            }
-                        ]
-                    };
-                    var dataRadar = {
-                        labels: ["Eating", "Drinking", "Sleeping", "Designing", "Coding", "Cycling", "Running"],
-                        datasets: [
-                            {
-                                label: "Radar data",
-                                backgroundColor: "rgba(151,187,205,0.5)",
-                                borderColor: "rgba(151,187,205,0.5)",
-                                data: [65, 59, 90, 81, 56, 55, 40]
+                    if (me.attr('series') && me.attr('series') != '') {
+                        this.Series = me.attr('series');
+                    }
+                    if (me.attr('labels') && me.attr('labels') != '') {
+                        this.Labels = me.attr('labels');
+                    }
+                    if (me.attr('value') && me.attr('value') != '') {
+                        this.Values = me.attr('value');
+                    }
+                    if (me.attr('borderdash') && me.attr('borderdash') != '') {
+                        this.ChartLineBorderDash = Boolean(me.attr('borderdash'));
+                    }
+                    if (me.attr('linefill') && me.attr('linefill') != '') {
+                        this.ChartLineFill = Boolean(me.attr('linefill'));
+                    }
+                    if (listModule.attr("mode") === 'list') {
+                        this.data = wcListModule.data.length > 0 ? wcListModule.data.map(s => ({ serie: s[this.Series], label: s[this.Labels], value: s[this.Values] })) : wcListModule.data;
+                    }
+                    if (this.data.length > 0) {
+                        let options = {
+                            Showlabels: this.settings.ShowLabels,
+                            ShowLegend: this.settings.ShowLegend,
+                            ShowTitle: this.settings.ShowTitle,
+                            LegendPos: this.settings.LegendPos.toLowerCase(),
+                            ToolTipBackgroundColor: this.settings.ToolTipBackgroundColor,
+                            Title: this.Title,
+                            TitleFontSize: this.settings.TitleFontSize,
+                            TitleFontColor: this.settings.TitleFontColor,
+                            TitlePosition: this.settings.TitlePosition.toLowerCase(),
+                            TitleFontStyle: this.settings.TitleFontStyle,
+                            Responsive: this.settings.Responsive,
+                            AnimationDuration: this.settings.AnimationDuration,
+                            AnimationStyle: this.settings.AnimationStyle,
+                            BackgroundColor: this.settings.Colors.split("|"),
+                            BorderColor: this.settings.BorderColors.split("|"),
+                            MinXAxes: this.settings.MinXAxes,
+                            MinYAxes: this.settings.MinYAxes,
+                        };
+                        let defaultOptions = {
+                            responsive: options.Responsive,
+                            responsiveAnimationDuration: 0,
+                            maintainAspectRatio: true,
+                            aspectRatio: 2,
+                            onResize: null,
+                            onHover: null,
+                            onClick: null,
+                            hover: {
+                                mode: 'nearest',
+                                intersect: true,
+                                animationDuration: 400,
                             },
-                            {
-                                label: "Radar data 2",
-                                backgroundColor: "rgba(220,220,220,0.7)",
-                                borderColor: "rgba(220,220,220,0.7)",
-                                data: [28, 48, 40, 19, 96, 27, 100]
-                            }
-                        ]
-                    };
-                    var dataPolarArea = {
-                        datasets: [{
-                                data: [
-                                    11,
-                                    16,
-                                    15
-                                ],
-                                backgroundColor: [
-                                    "rgba(151,187,205,0.5)",
-                                    "rgba(220,220,220,0.7)",
-                                    "rgba(153,0,0,0.45)"
-                                ],
-                                borderColor: [
-                                    "rgba(151,187,205,0.5)",
-                                    "rgba(220,220,220,0.7)",
-                                    "rgba(153,0,0,0.1)"
-                                ],
-                                label: 'PolarArea chart' // for legend
-                            }],
-                        labels: [
-                            "Red",
-                            "Green",
-                            "Yellow",
-                            "Grey",
-                            "Blue"
-                        ]
-                    };
-                    let original = Chart.defaults.global.legend.onClick;
-                    var optionsBubble = {
-                        responsive: options.Responsive,
-                        hoverMode: 'label',
-                        hoverAnimationDuration: 400,
-                        stacked: false,
-                        title: {
-                            display: options.ShowTitle,
-                            position: options.TitlePosition,
-                            fontColor: options.TitleFontColor,
-                            fontFamily: options.TitleFontStyle,
-                            fontSize: options.TitleFontSize,
-                            text: options.Title
-                        },
-                        animation: {
-                            animateScale: options.animateScale !== "False",
-                            animateRotate: options.animateRotate !== "False",
-                            duration: options.AnimationDuration
-                        },
-                        legend: {
-                            position: options.LegendPos,
-                            display: options.ShowLegend,
-                            onClick: (e, p) => {
-                                let original = Chart.defaults.global.legend.onClick;
-                                let allPageCharts = me.closest('main').find('flx-chart[link-group="' + me.attr('link-group') + '"]');
-                                if (this.options.GroupName) {
-                                    allPageCharts.each((i, e) => {
-                                        if (!$(e).is(me)) {
-                                            e.toggleLabel(p.text, null, this.options.GroupName);
-                                        }
-                                    });
-                                }
-                                else {
-                                    original.call(this, e, p);
-                                }
-                            }
-                        },
-                        elements: {
-                            points: {
-                                borderWidth: 1,
-                                borderColor: 'rgb(0, 0, 0)'
-                            }
-                        },
-                        scales: {
-                            xAxes: [{
-                                    ticks: {
-                                        callback: function (value, index, values) {
-                                            return 'value is ' + value;
-                                        },
-                                        display: options.Showlabels
+                            events: ['mousemove', 'mouseout', 'click', 'touchstart', 'touchmove'],
+                            animation: {
+                                duration: options.AnimationDuration,
+                                onProgress: null,
+                                onComplete: null,
+                                easing: options.AnimationStyle ? options.AnimationStyle : 'easeOutBounce'
+                            },
+                            legend: {
+                                display: options.ShowLegend,
+                                position: options.LegendPos,
+                                align: 'center',
+                                fullWidth: true,
+                                onHover: null,
+                                onClick: (e, p) => {
+                                    let original = Chart.defaults.global.legend.onClick;
+                                    let allPageCharts = me.closest('main').find('flx-chart[link-group="' + me.attr('link-group') + '"]');
+                                    if (this.options && !flexygo.utils.isBlank(this.options.GroupName)) {
+                                        allPageCharts.each((i, e) => {
+                                            if (!$(e).is(me)) {
+                                                e.toggleLabel(p.text, null, this.options.GroupName);
+                                            }
+                                        });
                                     }
-                                }],
-                            yAxes: [{
-                                    ticks: {
-                                        callback: function (value, index, values) {
-                                            return 'value is ' + value;
-                                        },
-                                        display: options.Showlabels
+                                    else {
+                                        original.call(this, e, p);
                                     }
-                                }]
-                        },
-                        tooltips: {
-                            backgroundColor: options.ToolTipBackgroundColor
-                        }
-                    };
-                    var klkl;
-                    var optionsLine = {
-                        responsive: options.Responsive,
-                        hoverMode: 'label',
-                        hoverAnimationDuration: 400,
-                        stacked: false,
-                        title: {
-                            display: options.ShowTitle,
-                            position: options.TitlePosition,
-                            fontColor: options.TitleFontColor,
-                            fontFamily: options.TitleFontStyle,
-                            fontSize: options.TitleFontSize,
-                            text: options.Title
-                        },
-                        animation: {
-                            animateScale: options.animateScale !== "False",
-                            animateRotate: options.animateRotate !== "False",
-                            duration: options.AnimationDuration
-                        },
-                        legend: {
-                            position: options.LegendPos,
-                            display: options.ShowLegend,
-                            onClick: (e, p) => {
-                                original.call(this, e, p);
-                                var allPageCharts = me.closest('main').find('flx-chart');
-                                if (this.options.GroupName) {
-                                    allPageCharts.each((i, e) => {
-                                        if (!$(e).is(me)) {
-                                            e.toggleLabel(p.text, null, this.options.GroupName);
-                                        }
-                                    });
+                                },
+                                onLeave: null,
+                                labels: {
+                                    boxWidth: 40,
+                                    fontSize: 12,
+                                    fontStyle: 'normal',
+                                    fontColor: '#666',
+                                    fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+                                    padding: 10,
+                                    legendCallback: null,
+                                    filter: null,
+                                    usePointStyle: false
                                 }
-                            }
-                        },
-                        scales: {
-                            xAxes: [{
-                                    display: true,
-                                    ticks: {
-                                        display: options.Showlabels
-                                    }
-                                }],
-                            yAxes: [{
-                                    display: true,
-                                    ticks: {
-                                        display: options.Showlabels
-                                    }
-                                }]
-                        },
-                        tooltips: {
-                            backgroundColor: options.ToolTipBackgroundColor
-                        },
-                        pointDotRadius: 10,
-                        bezierCurve: false,
-                        scaleShowVerticalLines: false,
-                        scaleGridLineColor: 'black'
-                    };
-                    var optionsDoughnut = {
-                        responsive: options.Responsive,
-                        hoverMode: 'label',
-                        hoverAnimationDuration: 400,
-                        stacked: false,
-                        title: {
-                            display: options.ShowTitle,
-                            position: options.TitlePosition,
-                            fontColor: options.TitleFontColor,
-                            fontFamily: options.TitleFontStyle,
-                            fontSize: options.TitleFontSize,
-                            text: options.Title
-                        },
-                        animation: {
-                            animateScale: options.animateScale !== "False",
-                            animateRotate: options.animateRotate !== "False",
-                            duration: options.AnimationDuration
-                        },
-                        legend: {
-                            position: options.LegendPos,
-                            display: options.ShowLegend,
-                            onClick: (e, p) => {
-                                original.call(this, e, p);
-                                var allPageCharts = me.closest('main').find('flx-chart[link-group="' + me.attr('link-group') + '"]');
-                                if (this.options.GroupName) {
-                                    allPageCharts.each((i, e) => {
-                                        if (!$(e).is(me)) {
-                                            e.toggleLabel(p.text, null, this.options.GroupName);
-                                        }
-                                    });
+                            },
+                            title: {
+                                display: options.ShowTitle,
+                                position: options.TitlePosition,
+                                fontColor: options.TitleFontColor,
+                                fontFamily: options.TitleFontStyle,
+                                fontSize: options.TitleFontSize,
+                                text: options.Title,
+                                fontStyle: 'bold',
+                                padding: 10,
+                                lineHeight: 1.2
+                            },
+                            tooltips: {
+                                enabled: true,
+                                mode: 'point',
+                                intersect: true,
+                                backgroundColor: options.ToolTipBackgroundColor,
+                                titleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+                                titleFontSize: 12,
+                                titleFontStyle: 'bold',
+                                titleFontColor: '#fff',
+                                titleAlign: 'left',
+                                titleSpacing: 2,
+                                titleMarginBottom: 6,
+                                bodyFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+                                bodyFontSize: 12,
+                                bodyFontStyle: 'normal',
+                                bodyFontColor: '#fff',
+                                bodyAlign: 'left',
+                                bodySpacing: 2,
+                                footerFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+                                footerFontSize: 12,
+                                footerFontStyle: 'bold',
+                                footerFontColor: '#fff',
+                                footerAlign: 'left',
+                                footerSpacing: 2,
+                                footerMarginTop: 6,
+                                xPadding: 6,
+                                yPadding: 6,
+                                caretPadding: 2,
+                                caretSize: 5,
+                                cornerRadius: 6,
+                                multiKeyBackground: '#fff',
+                                displayColors: true,
+                                borderColor: 'rgba(0, 0, 0, 0)',
+                                borderWidth: 0,
+                                rtl: true,
+                                textDirection: 'rtl'
+                            },
+                            stacked: false,
+                            elements: {
+                                point: {
+                                    radius: 5,
+                                    pointStyle: 'circle',
+                                    rotation: 0,
+                                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                    borderWidth: 1,
+                                    borderColor: 'rgba(0, 0, 0, 0.1)',
+                                    hitRadius: 1,
+                                    hoverRadius: 6,
+                                    hoverBorderWidth: 1
+                                },
+                                line: {
+                                    tension: 0.4,
+                                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                    borderWidth: 3,
+                                    borderColor: 'rgba(0, 0, 0, 0.1)',
+                                    borderCapStyle: 'butt',
+                                    borderDash: [],
+                                    borderDashOffset: 0.0,
+                                    borderJoinStyle: 'miter',
+                                    capBezierPoints: true,
+                                    cubicInterpolationMode: 'default',
+                                    fill: false,
+                                    stepped: false
+                                },
+                                rectangle: {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                    borderWidth: 0,
+                                    borderColor: 'rgba(0, 0, 0, 0.1)',
+                                    borderSkipped: 'bottom'
+                                },
+                                arc: {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                    borderAlign: 'center',
+                                    borderColor: '#fff',
+                                    borderWidth: 2
                                 }
+                            },
+                        };
+                        let original = Chart.defaults.global.legend.onClick;
+                        var ctxx = me.find('canvas');
+                        let label = [], serie = [], series = [], value = [], mixedLabels = [], backgroundColors = [], borderColor = [], hoverBackgroundColor = [], Datasets = [];
+                        for (let i = 0; i < this.data.length; i++) {
+                            //Meto todos los labels y las series distintas
+                            if (label.indexOf(this.data[i].label) == -1) {
+                                label.push(this.data[i].label);
                             }
-                        },
-                        tooltips: {
-                            backgroundColor: options.ToolTipBackgroundColor
-                        },
-                    };
-                    var optionsPie = {
-                        responsive: options.Responsive,
-                        hoverMode: 'label',
-                        hoverAnimationDuration: 400,
-                        stacked: false,
-                        title: {
-                            display: options.ShowTitle,
-                            position: options.TitlePosition,
-                            fontColor: options.TitleFontColor,
-                            fontFamily: options.TitleFontStyle,
-                            fontSize: options.TitleFontSize,
-                            text: options.Title
-                        },
-                        animation: {
-                            animateScale: options.animateScale !== "False",
-                            animateRotate: options.animateRotate !== "False",
-                            duration: options.AnimationDuration
-                        },
-                        legend: {
-                            position: options.LegendPos,
-                            display: options.ShowLegend,
-                            onClick: (e, p) => {
-                                original.call(this, e, p);
-                                var allPageCharts = me.closest('main').find('flx-chart[link-group="' + me.attr('link-group') + '"]');
-                                if (this.options.GroupName) {
-                                    allPageCharts.each((i, e) => {
-                                        if (!$(e).is(me)) {
-                                            e.toggleLabel(p.text, null, this.options.GroupName);
-                                        }
-                                    });
-                                }
+                            if (serie.indexOf(this.data[i].serie) == -1) {
+                                serie.push(this.data[i].serie);
                             }
-                        },
-                        tooltips: {
-                            backgroundColor: options.ToolTipBackgroundColor
-                        },
-                        cutoutPercentage: 0,
-                    };
-                    var optionsBar = {
-                        responsive: options.Responsive,
-                        hoverMode: 'label',
-                        hoverAnimationDuration: 400,
-                        stacked: false,
-                        title: {
-                            display: options.ShowTitle,
-                            position: options.TitlePosition,
-                            fontColor: options.TitleFontColor,
-                            fontFamily: options.TitleFontStyle,
-                            fontSize: options.TitleFontSize,
-                            text: options.Title
-                        },
-                        animation: {
-                            animateScale: options.animateScale !== "False",
-                            animateRotate: options.animateRotate !== "False",
-                            duration: options.AnimationDuration
-                        },
-                        legend: {
-                            position: options.LegendPos,
-                            display: options.ShowLegend,
-                            onClick: (e, p) => {
-                                original.call(this, e, p);
-                                var allPageCharts = me.closest('main').find('flx-chart[link-group="' + me.attr('link-group') + '"]');
-                                if (this.options.GroupName) {
-                                    allPageCharts.each((i, e) => {
-                                        if (!$(e).is(me)) {
-                                            e.toggleLabel(p.text, null, this.options.GroupName);
-                                        }
-                                    });
-                                }
+                            if (mixedLabels.indexOf(this.data[i].chartLabel) == -1) {
+                                mixedLabels.push(this.data[i].chartLabel);
                             }
-                        },
-                        scales: {
-                            xAxes: [{
-                                    ticks: {
-                                        min: options.MinXAxes,
-                                        display: options.Showlabels
-                                    }
-                                }],
-                            yAxes: [{
-                                    ticks: {
-                                        min: options.MinYAxes,
-                                        display: options.Showlabels
-                                    }
-                                }]
-                        },
-                        tooltips: {
-                            backgroundColor: options.ToolTipBackgroundColor
-                        },
-                    };
-                    var optionsRadar = {
-                        responsive: options.Responsive,
-                        hoverMode: 'label',
-                        hoverAnimationDuration: 400,
-                        stacked: false,
-                        title: {
-                            display: options.ShowTitle,
-                            position: options.TitlePosition,
-                            fontColor: options.TitleFontColor,
-                            fontFamily: options.TitleFontStyle,
-                            fontSize: options.TitleFontSize,
-                            text: options.Title
-                        },
-                        animation: {
-                            animateScale: options.animateScale !== "False",
-                            animateRotate: options.animateRotate !== "False",
-                            duration: options.AnimationDuration
-                        },
-                        legend: {
-                            position: options.LegendPos,
-                            display: options.ShowLegend,
-                            onClick: (e, p) => {
-                                original.call(this, e, p);
-                                var allPageCharts = me.closest('main').find('flx-chart[link-group="' + me.attr('link-group') + '"]');
-                                if (this.options.GroupName) {
-                                    allPageCharts.each((i, e) => {
-                                        if (!$(e).is(me)) {
-                                            e.toggleLabel(p.text, null, this.options.GroupName);
-                                        }
-                                    });
-                                }
-                            }
-                        },
-                        scale: {
-                            reverse: false,
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        },
-                        tooltips: {
-                            backgroundColor: options.ToolTipBackgroundColor
-                        },
-                    };
-                    var optionsPolarArea = {
-                        responsive: options.Responsive,
-                        hoverMode: 'label',
-                        hoverAnimationDuration: 400,
-                        stacked: false,
-                        title: {
-                            display: options.ShowTitle,
-                            position: options.TitlePosition,
-                            fontColor: options.TitleFontColor,
-                            fontFamily: options.TitleFontStyle,
-                            fontSize: options.TitleFontSize,
-                            text: options.Title
-                        },
-                        animation: {
-                            animateScale: options.animateScale !== "False",
-                            animateRotate: options.animateRotate !== "False",
-                            duration: options.AnimationDuration
-                        },
-                        legend: {
-                            position: options.LegendPos,
-                            display: options.ShowLegend,
-                            onClick: (e, p) => {
-                                original.call(this, e, p);
-                                var allPageCharts = me.closest('main').find('flx-chart[link-group="' + me.attr('link-group') + '"]');
-                                if (this.options.GroupName) {
-                                    allPageCharts.each((i, e) => {
-                                        if (!$(e).is(me)) {
-                                            e.toggleLabel(p.text, null, this.options.GroupName);
-                                        }
-                                    });
-                                }
-                            }
-                        },
-                        tooltips: {
-                            backgroundColor: options.ToolTipBackgroundColor
-                        },
-                        elements: {
-                            arc: {
-                                borderColor: "#000000"
-                            }
-                        },
-                    };
-                    var ctxx = me.find('canvas');
-                    var series = [];
-                    var Datas = [];
-                    var Background = [];
-                    var Border = [];
-                    var Label = [];
-                    var inLa = 0, inSe = 1, inDa = null, inBa = 0, inBo = 0;
-                    var Data = [];
-                    var datasets = [];
-                    try {
-                        inLa = this.dataColum.indexOf(this.Labels);
-                        inSe = this.dataColum.indexOf(this.Series);
-                        inDa = this.dataColum.indexOf(this.Values);
-                        inBa = this.dataColum.indexOf(this.Background);
-                        inBo = this.dataColum.indexOf(this.Border);
-                    }
-                    catch (e) { }
-                    for (let i in this.data) {
-                        if (inLa >= 0) {
-                            if (Label.indexOf(this.data[i][inLa]) == -1) {
-                                Label.push(this.data[i][inLa]);
+                            if (!this.checkValue(series, this.data[i].serie, this.data[i].chartLabel)) {
+                                series.push({ serial: this.data[i].serie, chartLabel: this.data[i].chartLabel, backgroundColor: this.data[i].backgroundColor, borderColor: this.data[i].borderColor });
                             }
                         }
-                    }
-                    for (let i in this.data) {
-                        if (inSe >= 0) {
-                            if (series.indexOf(this.data[i][inSe]) == -1) {
-                                series.push(this.data[i][inSe]);
-                            }
+                        switch (this.type) {
+                            case 'line':
+                                //Para cada serie y label sus valores correspondientes
+                                for (let z = 0; z < series.length; z++) {
+                                    value = [];
+                                    for (let i = 0; i < label.length; i++) {
+                                        let valor;
+                                        for (let x = 0; x < this.data.length; x++) {
+                                            if (label[i] == this.data[x].label && serie[z] == this.data[x].serie) {
+                                                valor = parseFloat(this.data[x].value.toString().replace(',', '.'));
+                                            }
+                                        }
+                                        if (!valor) {
+                                            valor = 0;
+                                        }
+                                        value.push(valor);
+                                    }
+                                    Datasets.push({ label: serie[z], fill: this.ChartLineFill, borderDash: this.ChartLineBorderDash ? [5, 5] : [0, 0], backgroundColor: flexygo.utils.isBlank(series[z]["backgroundColor"]) ? options.BackgroundColor[z] : series[z]["backgroundColor"], borderColor: flexygo.utils.isBlank(series[z]["borderColor"]) ? options.BorderColor[z] : series[z]["borderColor"], data: value });
+                                }
+                                var optionsLine = {
+                                    scales: {
+                                        xAxes: [{
+                                                display: true,
+                                                scaleLabel: {
+                                                    display: options.Showlabels,
+                                                    labelString: this.Labels
+                                                }
+                                            }],
+                                        yAxes: [{
+                                                display: true,
+                                                stacked: false,
+                                                scaleLabel: {
+                                                    display: options.Showlabels,
+                                                    labelString: this.Values
+                                                }
+                                            }]
+                                    }
+                                };
+                                let overwriteOptionsLine = Object.assign({}, defaultOptions, optionsLine);
+                                !flexygo.utils.isBlank(this.options) ? overwriteOptionsLine = Object.assign({}, overwriteOptionsLine, JSON.parse(this.options)) : overwriteOptionsLine;
+                                this.chart = new Chart(ctxx, {
+                                    type: this.type,
+                                    data: {
+                                        labels: label,
+                                        datasets: Datasets
+                                    },
+                                    options: overwriteOptionsLine
+                                });
+                                break;
+                            case 'bubble':
+                                //Para cada serie y label sus valores correspondientes
+                                for (let z = 0; z < series.length; z++) {
+                                    value = [];
+                                    for (let i = 0; i < label.length; i++) {
+                                        let valor;
+                                        for (let x = 0; x < this.data.length; x++) {
+                                            if (label[i] == this.data[x].label && serie[z] == this.data[x].serie) {
+                                                valor = parseFloat(this.data[x].value.toString().replace(',', '.'));
+                                            }
+                                        }
+                                        if (!valor) {
+                                            valor = 0;
+                                        }
+                                        value.push({ x: parseFloat(label[i]), y: parseFloat(valor), r: this.getRadiusBubble(parseFloat(valor), Math.max.apply(null, this.data.map(d => d.value)), Math.min.apply(null, this.data.map(d => d.value))) });
+                                    }
+                                    Datasets.push({ label: serie[z], backgroundColor: flexygo.utils.isBlank(series[z]["backgroundColor"]) ? options.BackgroundColor[z] : series[z]["backgroundColor"], borderColor: flexygo.utils.isBlank(series[z]["borderColor"]) ? options.BorderColor[z] : series[z]["borderColor"], hoverBackgroundColor: flexygo.utils.isBlank(series[z]["borderColor"]) ? options.BorderColor[z] : series[z]["borderColor"], hoverRadius: 0, data: value });
+                                }
+                                var optionsBubble = {
+                                    responsive: options.Responsive,
+                                    hoverMode: 'label',
+                                    hoverAnimationDuration: 400,
+                                    stacked: false,
+                                    title: {
+                                        display: options.ShowTitle,
+                                        position: options.TitlePosition,
+                                        fontColor: options.TitleFontColor,
+                                        fontFamily: options.TitleFontStyle,
+                                        fontSize: options.TitleFontSize,
+                                        text: options.Title
+                                    },
+                                    legend: {
+                                        position: options.LegendPos,
+                                        display: options.ShowLegend,
+                                        onClick: (e, p) => {
+                                            let original = Chart.defaults.global.legend.onClick;
+                                            let allPageCharts = me.closest('main').find('flx-chart[link-group="' + me.attr('link-group') + '"]');
+                                            if (this.options && !flexygo.utils.isBlank(this.options.GroupName)) {
+                                                allPageCharts.each((i, e) => {
+                                                    if (!$(e).is(me)) {
+                                                        e.toggleLabel(p.text, null, this.options.GroupName);
+                                                    }
+                                                });
+                                            }
+                                            else {
+                                                original.call(this, e, p);
+                                            }
+                                        }
+                                    },
+                                    elements: {
+                                        points: {
+                                            borderWidth: 1,
+                                            borderColor: 'rgb(0, 0, 0)'
+                                        }
+                                    },
+                                    scales: {
+                                        xAxes: [{
+                                                scaleLabel: {
+                                                    display: options.Showlabels,
+                                                    labelString: this.Labels
+                                                },
+                                                ticks: {
+                                                    display: options.Showlabels
+                                                }
+                                            }],
+                                        yAxes: [{
+                                                scaleLabel: {
+                                                    display: options.Showlabels,
+                                                    labelString: this.Values
+                                                },
+                                                ticks: {
+                                                    display: options.Showlabels
+                                                }
+                                            }]
+                                    },
+                                    tooltips: {
+                                        backgroundColor: options.ToolTipBackgroundColor
+                                    }
+                                };
+                                let overwriteOptionsBubble = Object.assign({}, defaultOptions, optionsBubble);
+                                !flexygo.utils.isBlank(this.options) ? overwriteOptionsBubble = Object.assign({}, overwriteOptionsBubble, JSON.parse(this.options)) : overwriteOptionsBubble;
+                                this.chart = new Chart(ctxx, {
+                                    type: this.type,
+                                    data: {
+                                        datasets: Datasets
+                                    },
+                                    options: overwriteOptionsBubble
+                                });
+                                break;
+                            case 'doughnut':
+                            case 'semidoughnut':
+                                //Para cada serie y label sus valores correspondientes
+                                value = [];
+                                for (let z = 0; z < series.length; z++) {
+                                    //for (let i = 0; i < label.length; i++) {
+                                    let valor;
+                                    for (let x = 0; x < this.data.length; x++) {
+                                        if (series[z]["serial"] == this.data[x].serie) {
+                                            valor = parseFloat(this.data[x].value.toString().replace(',', '.'));
+                                        }
+                                    }
+                                    if (!valor) {
+                                        valor = 0;
+                                    }
+                                    value.push(valor);
+                                    // }
+                                    backgroundColors.push(flexygo.utils.isBlank(series[z]["backgroundColor"]) ? options.BackgroundColor[z] : series[z]["backgroundColor"]);
+                                    borderColor.push(flexygo.utils.isBlank(series[z]["borderColor"]) ? options.BorderColor[z] : series[z]["borderColor"]);
+                                    hoverBackgroundColor.push(flexygo.utils.isBlank(series[z]["borderColor"]) ? options.BorderColor[z] : series[z]["borderColor"]);
+                                    //, label: series[z]["serial"]
+                                }
+                                Datasets.push({ data: value, backgroundColor: backgroundColors, borderColor: borderColor, hoverBackgroundColor: hoverBackgroundColor });
+                                var optionsDoughnut = {
+                                    circumference: this.type == 'doughnut' ? 2 * Math.PI : Math.PI,
+                                    rotation: this.type == 'doughnut' ? -Math.PI / 2 : -Math.PI,
+                                    legend: {
+                                        position: options.LegendPos,
+                                        display: options.ShowLegend,
+                                        onClick: (e, p) => {
+                                            original = Chart.defaults.doughnut.legend.onClick;
+                                            original.call(this, e, p);
+                                            var allPageCharts = me.closest('main').find('flx-chart[link-group="' + me.attr('link-group') + '"]');
+                                            if (this.options && !flexygo.utils.isBlank(this.options.GroupName)) {
+                                                allPageCharts.each((i, e) => {
+                                                    if (!$(e).is(me)) {
+                                                        e.toggleLabel(p.text, null, this.options.GroupName);
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    }
+                                };
+                                let overwriteOptionsDoughnut = Object.assign({}, defaultOptions, optionsDoughnut);
+                                !flexygo.utils.isBlank(this.options) ? overwriteOptionsDoughnut = Object.assign({}, overwriteOptionsDoughnut, JSON.parse(this.options)) : overwriteOptionsDoughnut;
+                                this.chart = new Chart(ctxx, {
+                                    type: 'doughnut',
+                                    data: {
+                                        labels: serie,
+                                        datasets: Datasets
+                                    },
+                                    options: overwriteOptionsDoughnut
+                                });
+                                break;
+                            case 'radar':
+                                //Para cada serie y label sus valores correspondientes
+                                for (let z = 0; z < series.length; z++) {
+                                    value = [];
+                                    for (let i = 0; i < label.length; i++) {
+                                        let valor;
+                                        for (let x = 0; x < this.data.length; x++) {
+                                            if (label[i] == this.data[x].label && serie[z] == this.data[x].serie) {
+                                                valor = parseFloat(this.data[x].value.toString().replace(',', '.'));
+                                            }
+                                        }
+                                        if (!valor) {
+                                            valor = 0;
+                                        }
+                                        value.push(valor);
+                                    }
+                                    Datasets.push({ label: serie[z], backgroundColor: flexygo.utils.isBlank(series[z]["backgroundColor"]) ? options.BackgroundColor[z] : series[z]["backgroundColor"], borderColor: flexygo.utils.isBlank(series[z]["borderColor"]) ? options.BorderColor[z] : series[z]["borderColor"], data: value });
+                                }
+                                var optionsRadar = {
+                                    responsive: options.Responsive,
+                                    hoverMode: 'label',
+                                    hoverAnimationDuration: 400,
+                                    stacked: false,
+                                    title: {
+                                        display: options.ShowTitle,
+                                        position: options.TitlePosition,
+                                        fontColor: options.TitleFontColor,
+                                        fontFamily: options.TitleFontStyle,
+                                        fontSize: options.TitleFontSize,
+                                        text: options.Title
+                                    },
+                                    animation: {
+                                        animateScale: options.animateScale !== "False",
+                                        animateRotate: options.animateRotate !== "False",
+                                        duration: options.AnimationDuration
+                                    },
+                                    legend: {
+                                        position: options.LegendPos,
+                                        display: options.ShowLegend,
+                                        onClick: (e, p) => {
+                                            original.call(this, e, p);
+                                            var allPageCharts = me.closest('main').find('flx-chart[link-group="' + me.attr('link-group') + '"]');
+                                            if (this.options && !flexygo.utils.isBlank(this.options.GroupName)) {
+                                                allPageCharts.each((i, e) => {
+                                                    if (!$(e).is(me)) {
+                                                        e.toggleLabel(p.text, null, this.options.GroupName);
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    },
+                                    scale: {
+                                        reverse: false,
+                                        ticks: {
+                                            beginAtZero: true
+                                        }
+                                    },
+                                    tooltips: {
+                                        backgroundColor: options.ToolTipBackgroundColor
+                                    },
+                                };
+                                let overwriteOptionsRadar = Object.assign({}, defaultOptions, optionsRadar);
+                                !flexygo.utils.isBlank(this.options) ? overwriteOptionsRadar = Object.assign({}, overwriteOptionsRadar, JSON.parse(this.options)) : overwriteOptionsRadar;
+                                this.chart = new Chart(ctxx, {
+                                    type: this.type,
+                                    data: {
+                                        labels: label,
+                                        datasets: Datasets
+                                    },
+                                    options: overwriteOptionsRadar
+                                });
+                                break;
+                            case 'polarArea':
+                            case 'polararea':
+                                //Para cada serie y label sus valores correspondientes
+                                value = [];
+                                for (let z = 0; z < series.length; z++) {
+                                    //for (let i = 0; i < label.length; i++) {
+                                    let valor;
+                                    for (let x = 0; x < this.data.length; x++) {
+                                        if (series[z]["serial"] == this.data[x].serie) {
+                                            valor = parseFloat(this.data[x].value.toString().replace(',', '.'));
+                                        }
+                                    }
+                                    if (!valor) {
+                                        valor = 0;
+                                    }
+                                    value.push(valor);
+                                    backgroundColors.push(flexygo.utils.isBlank(series[z]["backgroundColor"]) ? options.BackgroundColor[z] : series[z]["backgroundColor"]);
+                                    borderColor.push(flexygo.utils.isBlank(series[z]["borderColor"]) ? options.BorderColor[z] : series[z]["borderColor"]);
+                                    hoverBackgroundColor.push(flexygo.utils.isBlank(series[z]["borderColor"]) ? options.BorderColor[z] : series[z]["borderColor"]);
+                                    //}
+                                }
+                                Datasets.push({ data: value, backgroundColor: backgroundColors, borderColor: borderColor, hoverBackgroundColor: hoverBackgroundColor });
+                                var optionsPolarArea = {
+                                    legend: {
+                                        position: options.LegendPos,
+                                        display: options.ShowLegend,
+                                        onClick: (e, p) => {
+                                            original = Chart.defaults.polarArea.legend.onClick;
+                                            original.call(this, e, p);
+                                            var allPageCharts = me.closest('main').find('flx-chart[link-group="' + me.attr('link-group') + '"]');
+                                            if (this.options && !flexygo.utils.isBlank(this.options.GroupName)) {
+                                                allPageCharts.each((i, e) => {
+                                                    if (!$(e).is(me)) {
+                                                        e.toggleLabel(p.text, null, this.options.GroupName);
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    },
+                                    elements: {
+                                        arc: {
+                                            borderColor: "#000000"
+                                        }
+                                    },
+                                };
+                                let overwritePolarArea = Object.assign({}, defaultOptions, optionsPolarArea);
+                                !flexygo.utils.isBlank(this.options) ? overwritePolarArea = Object.assign({}, overwritePolarArea, JSON.parse(this.options)) : overwritePolarArea;
+                                this.chart = new Chart(ctxx, {
+                                    type: 'polarArea',
+                                    data: {
+                                        labels: serie,
+                                        datasets: Datasets
+                                    },
+                                    options: overwritePolarArea
+                                });
+                                break;
+                            case 'mixed':
+                                //Para cada serie y label sus valores correspondientes
+                                for (let z = 0; z < series.length; z++) {
+                                    //Por cada mixedLabel del dataset
+                                    //for (let y = 0; y < mixedLabels.length; y++) {
+                                    value = [];
+                                    let mixedChartType = "";
+                                    for (let i = 0; i < label.length; i++) {
+                                        let valor;
+                                        for (let x = 0; x < this.data.length; x++) {
+                                            if (label[i] == this.data[x].label && series[z]["chartLabel"] == this.data[x].chartLabel && series[z]["serial"] == this.data[x].serie) {
+                                                valor = parseFloat(this.data[x].value.toString().replace(',', '.'));
+                                                mixedChartType = this.data[x].chartType;
+                                            }
+                                        }
+                                        if (!valor) {
+                                            valor = 0;
+                                        }
+                                        value.push(valor);
+                                    }
+                                    Datasets.push({ label: series[z]["serial"] + ' - ' + series[z]["chartLabel"], type: mixedChartType, backgroundColor: flexygo.utils.isBlank(series[z]["backgroundColor"]) ? options.BackgroundColor[z] : series[z]["backgroundColor"], borderColor: flexygo.utils.isBlank(series[z]["borderColor"]) ? options.BorderColor[z] : series[z]["borderColor"], hoverBackgroundColor: flexygo.utils.isBlank(series[z]["borderColor"]) ? options.BorderColor[z] : series[z]["borderColor"], borderWidth: 1, data: value });
+                                    //}
+                                }
+                                this.chart = new Chart(ctxx, {
+                                    type: this.data[0].chartType,
+                                    data: {
+                                        labels: label,
+                                        datasets: Datasets
+                                    },
+                                    options: defaultOptions
+                                });
+                                break;
+                            case 'bar':
+                            case 'horizontalBar':
+                            case 'horizontalbar':
+                                //Para cada serie y label sus valores correspondientes
+                                for (let z = 0; z < series.length; z++) {
+                                    value = [];
+                                    for (let i = 0; i < label.length; i++) {
+                                        let valor;
+                                        for (let x = 0; x < this.data.length; x++) {
+                                            if (label[i] == this.data[x].label && series[z].serial == this.data[x].serie) {
+                                                valor = parseFloat(this.data[x].value.toString().replace(',', '.'));
+                                            }
+                                        }
+                                        if (!valor) {
+                                            valor = 0;
+                                        }
+                                        value.push(valor);
+                                    }
+                                    Datasets.push({ label: series[z].serial, backgroundColor: flexygo.utils.isBlank(series[z]["backgroundColor"]) ? options.BackgroundColor[z] : series[z]["backgroundColor"], borderColor: flexygo.utils.isBlank(series[z]["borderColor"]) ? options.BorderColor[z] : series[z]["borderColor"], hoverBackgroundColor: flexygo.utils.isBlank(series[z]["borderColor"]) ? options.BorderColor[z] : series[z]["borderColor"], borderWidth: 1, data: value });
+                                }
+                                let overwriteBar = defaultOptions;
+                                !flexygo.utils.isBlank(this.options) ? overwriteBar = Object.assign({}, overwriteBar, JSON.parse(this.options)) : overwriteBar;
+                                this.chart = new Chart(ctxx, {
+                                    type: this.type.toLowerCase() === 'horizontalbar' ? 'horizontalBar' : this.type,
+                                    data: {
+                                        labels: label,
+                                        datasets: Datasets
+                                    },
+                                    options: overwriteBar
+                                });
+                                break;
+                            case 'pie':
+                                //Para cada serie y label sus valores correspondientes
+                                value = [];
+                                for (let z = 0; z < series.length; z++) {
+                                    let valor;
+                                    for (let x = 0; x < this.data.length; x++) {
+                                        if (series[z]["serial"] == this.data[x].serie) {
+                                            valor = parseFloat(this.data[x].value.toString().replace(',', '.'));
+                                        }
+                                    }
+                                    if (!valor) {
+                                        valor = 0;
+                                    }
+                                    value.push(valor);
+                                    backgroundColors.push(flexygo.utils.isBlank(series[z]["backgroundColor"]) ? options.BackgroundColor[z] : series[z]["backgroundColor"]);
+                                    borderColor.push(flexygo.utils.isBlank(series[z]["borderColor"]) ? options.BorderColor[z] : series[z]["borderColor"]);
+                                    hoverBackgroundColor.push(flexygo.utils.isBlank(series[z]["borderColor"]) ? options.BorderColor[z] : series[z]["borderColor"]);
+                                }
+                                Datasets.push({ data: value, backgroundColor: backgroundColors, borderColor: borderColor, hoverBackgroundColor: hoverBackgroundColor });
+                                var optionsPie = {
+                                    legend: {
+                                        position: options.LegendPos,
+                                        display: options.ShowLegend,
+                                        onClick: (e, p) => {
+                                            original = Chart.defaults.pie.legend.onClick;
+                                            original.call(this, e, p);
+                                            var allPageCharts = me.closest('main').find('flx-chart[link-group="' + me.attr('link-group') + '"]');
+                                            if (this.options && !flexygo.utils.isBlank(this.options.GroupName)) {
+                                                allPageCharts.each((i, e) => {
+                                                    if (!$(e).is(me)) {
+                                                        e.toggleLabel(p.text, null, this.options.GroupName);
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    },
+                                    cutoutPercentage: 0,
+                                };
+                                let overwritePie = Object.assign({}, defaultOptions, optionsPie);
+                                !flexygo.utils.isBlank(this.options) ? overwritePie = Object.assign({}, overwritePie, JSON.parse(this.options)) : overwritePie;
+                                this.chart = new Chart(ctxx, {
+                                    type: this.type,
+                                    data: {
+                                        labels: serie,
+                                        datasets: Datasets
+                                    },
+                                    options: overwritePie
+                                });
+                                break;
+                            default:
+                                break;
                         }
                     }
-                    for (let i in this.data) {
-                        if (inBa >= 0) {
-                            if (Background.indexOf(this.data[i][inBa]) == -1) {
-                                Background.push(this.data[i][inBa]);
-                            }
+                    else {
+                        me.html('<div class="box-info"><i class="flx-icon icon-information-2 icon-lg icon-margin-right"></i><span><strong>Info!</strong> ' + flexygo.localization.translate('flxlist.noentriesfound') + '</span></div>');
+                    }
+                }
+                checkValue(array, value, chartLabel) {
+                    let exists = false;
+                    for (var i = 0; i < array.length; i++) {
+                        if (array[i].serial === value && array[i].chartLabel === chartLabel) {
+                            exists = true;
+                            break;
                         }
                     }
-                    for (let i in this.data) {
-                        if (inBo >= 0) {
-                            if (Border.indexOf(this.data[i][inBo]) == -1) {
-                                Border.push(this.data[i][inBo]);
-                            }
-                        }
+                    return exists;
+                }
+                getRadiusBubble(value, max, min) {
+                    let rMin = 5;
+                    let rMax = 30;
+                    let percentage = (value - min) / (max - min) * 100;
+                    let r = this.getRadius(percentage, rMin, rMax);
+                    if (r < rMin) {
+                        r = rMin;
                     }
-                    if (Background.length > 0) {
-                        options.ColorsBackground = Background;
+                    if (r > rMax) {
+                        r = rMax;
                     }
-                    if (Border.length > 0) {
-                        options.Colors = Border;
-                    }
-                    for (let iu in series) {
-                        Datas[iu] = [];
-                    }
-                    for (let u in this.data) {
-                        var ind = series.indexOf(this.data[u][inSe]);
-                        Datas[ind].push([this.data[u][inDa], this.data[u][inLa]]);
-                    }
-                    let Datasets = [];
-                    let type = this.type;
-                    switch (type) {
-                        case 'line':
-                            for (let o in series) {
-                                let res = [Label.length];
-                                for (let l in Label) {
-                                    res[l] = 0;
-                                    if (!Label[l]) {
-                                        Label[l] = '(Empty)';
-                                    }
-                                }
-                                let index = -1;
-                                for (let h in Datas[o]) {
-                                    let nom = Datas[o][h][1];
-                                    let sum = ($.isNumeric(Datas[o][h][0])) ? parseFloat(Datas[o][h][0]) : 0;
-                                    index = Label.indexOf(nom);
-                                    res[index] = res[index] + sum;
-                                }
-                                let dataAux = {
-                                    label: series[o],
-                                    backgroundColor: options.ColorsBackground[o],
-                                    borderColor: options.Colors[o],
-                                    data: res
-                                };
-                                Datasets.push(dataAux);
-                            }
-                            if (Label[0]) {
-                                dataforLineEx.labels = Label;
-                            }
-                            if (Datasets[0]) {
-                                dataforLineEx.datasets = Datasets;
-                            }
-                            let linedata = dataforLineEx;
-                            let lineoptions = optionsLine;
-                            if (typeof dataJSON != 'undefined') {
-                                let data = JSON.parse(dataJSON);
-                            }
-                            if (typeof optionsJSON != 'undefined') {
-                                let options = JSON.parse(optionsJSON);
-                            }
-                            this.chart = new Chart(ctxx, {
-                                type: type,
-                                data: linedata,
-                                options: lineoptions
-                            });
-                            break;
-                        case 'bubble':
-                            let bubbledata = dataBubbleEx;
-                            let bubbleoptions = optionsBubble;
-                            bubbledata.datasets[0].backgroundColor = options.ColorsBackground;
-                            if (typeof dataJSON != 'undefined') {
-                                let data = JSON.parse(dataJSON);
-                            }
-                            if (typeof optionsJSON != 'undefined') {
-                                let options = JSON.parse(optionsJSON);
-                            }
-                            this.chart = new Chart(ctxx, {
-                                type: type,
-                                data: bubbledata,
-                                options: bubbleoptions
-                            });
-                            break;
-                        case 'doughnut':
-                            for (let o in series) {
-                                let res = [Label.length];
-                                for (let l in Label) {
-                                    res[l] = 0;
-                                    if (!Label[l]) {
-                                        Label[l] = '(Empty)';
-                                    }
-                                }
-                                let index = -1;
-                                for (let h in Datas[o]) {
-                                    let nom = Datas[o][h][1];
-                                    let sum = ($.isNumeric(Datas[o][h][0])) ? parseFloat(Datas[o][h][0]) : 0;
-                                    index = Label.indexOf(nom);
-                                    res[index] = res[index] + sum;
-                                }
-                                let dataAux = {
-                                    label: series[o],
-                                    backgroundColor: options.ColorsBackground,
-                                    borderColor: options.Colors,
-                                    data: res
-                                };
-                                Datasets.push(dataAux);
-                            }
-                            if (Label[0])
-                                dataforDoughnutEx.labels = Label;
-                            if (Datasets[0])
-                                dataforDoughnutEx.datasets = Datasets;
-                            let doughnutdata = dataforDoughnutEx;
-                            let doughnutoptions = optionsDoughnut;
-                            if (typeof dataJSON != 'undefined') {
-                                let data = JSON.parse(dataJSON);
-                            }
-                            if (typeof optionsJSON != 'undefined') {
-                                let options = JSON.parse(optionsJSON);
-                            }
-                            this.chart = new Chart(ctxx, {
-                                type: type,
-                                data: doughnutdata,
-                                options: doughnutoptions
-                            });
-                            break;
-                        case 'radar':
-                            for (let o in series) {
-                                let res = [Label.length];
-                                for (let l in Label) {
-                                    res[l] = 0;
-                                    if (!Label[l]) {
-                                        Label[l] = '(Empty)';
-                                    }
-                                }
-                                let index = -1;
-                                for (let h in Datas[o]) {
-                                    let nom = Datas[o][h][1];
-                                    let sum = ($.isNumeric(Datas[o][h][0])) ? parseFloat(Datas[o][h][0]) : 0;
-                                    index = Label.indexOf(nom);
-                                    res[index] = res[index] + sum;
-                                }
-                                let dataAux = {
-                                    label: series[o],
-                                    backgroundColor: options.ColorsBackground[o],
-                                    borderColor: options.Colors[o],
-                                    data: res
-                                };
-                                Datasets.push(dataAux);
-                            }
-                            if (Label[0])
-                                dataRadar.labels = Label;
-                            if (Datasets[0])
-                                dataRadar.datasets = Datasets;
-                            let radardata = dataRadar;
-                            let radaroptions = optionsRadar;
-                            if (typeof dataJSON != 'undefined') {
-                                let data = JSON.parse(dataJSON);
-                            }
-                            if (typeof optionsJSON != 'undefined') {
-                                let options = JSON.parse(optionsJSON);
-                            }
-                            this.chart = new Chart(ctxx, {
-                                type: type,
-                                data: radardata,
-                                options: radaroptions
-                            });
-                            break;
-                        case 'polarArea':
-                            for (let o in series) {
-                                let res = [Label.length];
-                                for (let l in Label) {
-                                    res[l] = 0;
-                                    if (!Label[l]) {
-                                        Label[l] = '(Empty)';
-                                    }
-                                }
-                                let index = -1;
-                                for (let h in Datas[o]) {
-                                    let nom = Datas[o][h][1];
-                                    let sum = ($.isNumeric(Datas[o][h][0])) ? parseFloat(Datas[o][h][0]) : 0;
-                                    index = Label.indexOf(nom);
-                                    res[index] = res[index] + sum;
-                                }
-                                let dataAux = {
-                                    label: series[o],
-                                    backgroundColor: options.ColorsBackground,
-                                    borderColor: options.Colors,
-                                    data: res
-                                };
-                                Datasets.push(dataAux);
-                            }
-                            if (Label[0])
-                                dataPolarArea.labels = Label;
-                            if (Datasets[0])
-                                dataPolarArea.datasets = Datasets;
-                            let polarAreadata = dataPolarArea;
-                            let polarAreaoptions = optionsPolarArea;
-                            if (typeof dataJSON != 'undefined') {
-                                let data = JSON.parse(dataJSON);
-                            }
-                            if (typeof optionsJSON != 'undefined') {
-                                let options = JSON.parse(optionsJSON);
-                            }
-                            this.chart = new Chart(ctxx, {
-                                type: type,
-                                data: polarAreadata,
-                                options: polarAreaoptions
-                            });
-                            break;
-                        case 'bar':
-                        case 'horizontalBar':
-                            for (let o in series) {
-                                let res = [Label.length];
-                                for (let l in Label) {
-                                    res[l] = 0;
-                                    if (!Label[l]) {
-                                        Label[l] = '(Empty)';
-                                    }
-                                }
-                                let index = -1;
-                                for (let h in Datas[o]) {
-                                    let nom = Datas[o][h][1];
-                                    let sum = ($.isNumeric(Datas[o][h][0])) ? parseFloat(Datas[o][h][0]) : 0;
-                                    index = Label.indexOf(nom);
-                                    res[index] = res[index] + sum;
-                                }
-                                let dataAux = {
-                                    label: series[o],
-                                    backgroundColor: options.ColorsBackground[o],
-                                    borderColor: options.Colors[o],
-                                    data: res
-                                };
-                                Datasets.push(dataAux);
-                            }
-                            if (Label[0])
-                                dataBar.labels = Label;
-                            if (Datasets[0])
-                                dataBar.datasets = Datasets;
-                            let bardata = dataBar;
-                            let baroptions = optionsBar;
-                            if (typeof dataJSON != 'undefined') {
-                                let data = JSON.parse(dataJSON);
-                            }
-                            if (typeof optionsJSON != 'undefined') {
-                                let options = JSON.parse(optionsJSON);
-                            }
-                            this.chart = new Chart(ctxx, {
-                                type: type,
-                                data: bardata,
-                                options: baroptions
-                            });
-                            break;
-                        case 'pie':
-                            for (let o in series) {
-                                let res = [Label.length];
-                                for (let l in Label) {
-                                    res[l] = 0;
-                                    if (!Label[l]) {
-                                        Label[l] = '(Empty)';
-                                    }
-                                }
-                                let index = -1;
-                                for (let h in Datas[o]) {
-                                    let nom = Datas[o][h][1];
-                                    let sum = ($.isNumeric(Datas[o][h][0])) ? parseFloat(Datas[o][h][0]) : 0;
-                                    index = Label.indexOf(nom);
-                                    res[index] = res[index] + sum;
-                                }
-                                let dataAux = {
-                                    label: series[o],
-                                    backgroundColor: options.ColorsBackground,
-                                    borderColor: options.Colors,
-                                    data: res
-                                };
-                                Datasets.push(dataAux);
-                            }
-                            if (Label[0])
-                                dataforDoughnutEx.labels = Label;
-                            if (Datasets[0])
-                                dataforDoughnutEx.datasets = Datasets;
-                            let piedata = dataforDoughnutEx;
-                            let pieoptions = optionsPie;
-                            if (typeof dataJSON != 'undefined') {
-                                let data = JSON.parse(dataJSON);
-                            }
-                            if (typeof optionsJSON != 'undefined') {
-                                let options = JSON.parse(optionsJSON);
-                            }
-                            this.chart = new Chart(ctxx, {
-                                type: type,
-                                data: piedata,
-                                options: pieoptions
-                            });
-                            break;
-                        default:
-                            break;
-                    }
+                    return r;
+                }
+                getRadius(percent, min, max) {
+                    return min + (max - min) * percent / 100;
                 }
                 toggleLabel(nom, boo, GroupName, ctxx) {
                     let ci = this.chart;
@@ -1031,14 +869,6 @@ var flexygo;
                         meta.hidden = meta.hidden === null ? !ci.data.datasets[index].hidden : null;
                         ci.update();
                     }
-                }
-                /**
-               * Translate a string
-               * @method translate
-               * @param {string} str - The string to translate.
-               */
-                translate(str) {
-                    return flexygo.localization.translate(str);
                 }
                 /**
                * Start loading

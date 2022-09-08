@@ -50,6 +50,7 @@ declare namespace flexygo.ui.wc {
         initViewMode(): void;
         initEditMode(): void;
         timer: any;
+        scrollTopPosition: any;
         showOptions(): void;
         hideOptions(): void;
         loadValues(page: number, autoselect: boolean, fromvalue?: boolean, value?: string, append?: boolean): void;

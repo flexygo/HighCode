@@ -1,110 +1,110 @@
-import { r as registerInstance, m as createEvent, j as h, l as Host, k as getElement } from './index-76f52202.js';
-import { g as getIonMode, c as config } from './ionic-global-53d785f3.js';
-import './helpers-742de4f9.js';
-import { c as createAnimation } from './animation-a90ce8fc.js';
-import { s as sanitizeDOMString } from './index-86d5f3ab.js';
-import './hardware-back-button-b3b61715.js';
-import { B as BACKDROP, a as prepareOverlay, b as present, d as dismiss, e as eventMethod } from './overlays-3fb58ad8.js';
-import { g as getClassMap } from './theme-d8afa044.js';
+import { r as registerInstance, m as createEvent, j as h, l as Host, k as getElement } from './index-86ac49ff.js';
+import { g as getIonMode, c as config } from './ionic-global-0f98fe97.js';
+import './helpers-719f4c54.js';
+import { c as createAnimation } from './animation-10ea33c3.js';
+import { s as sanitizeDOMString } from './index-b40d441b.js';
+import './hardware-back-button-aacf3d12.js';
+import { B as BACKDROP, a as prepareOverlay, b as present, d as dismiss, e as eventMethod } from './overlays-5302658e.js';
+import { g as getClassMap } from './theme-f934266c.js';
 
 /**
  * iOS Loading Enter Animation
  */
 const iosEnterAnimation = (baseEl) => {
-    const baseAnimation = createAnimation();
-    const backdropAnimation = createAnimation();
-    const wrapperAnimation = createAnimation();
-    backdropAnimation
-        .addElement(baseEl.querySelector('ion-backdrop'))
-        .fromTo('opacity', 0.01, 'var(--backdrop-opacity)')
-        .beforeStyles({
-        'pointer-events': 'none'
-    })
-        .afterClearStyles(['pointer-events']);
-    wrapperAnimation
-        .addElement(baseEl.querySelector('.loading-wrapper'))
-        .keyframes([
-        { offset: 0, opacity: 0.01, transform: 'scale(1.1)' },
-        { offset: 1, opacity: 1, transform: 'scale(1)' }
-    ]);
-    return baseAnimation
-        .addElement(baseEl)
-        .easing('ease-in-out')
-        .duration(200)
-        .addAnimation([backdropAnimation, wrapperAnimation]);
+  const baseAnimation = createAnimation();
+  const backdropAnimation = createAnimation();
+  const wrapperAnimation = createAnimation();
+  backdropAnimation
+    .addElement(baseEl.querySelector('ion-backdrop'))
+    .fromTo('opacity', 0.01, 'var(--backdrop-opacity)')
+    .beforeStyles({
+    'pointer-events': 'none'
+  })
+    .afterClearStyles(['pointer-events']);
+  wrapperAnimation
+    .addElement(baseEl.querySelector('.loading-wrapper'))
+    .keyframes([
+    { offset: 0, opacity: 0.01, transform: 'scale(1.1)' },
+    { offset: 1, opacity: 1, transform: 'scale(1)' }
+  ]);
+  return baseAnimation
+    .addElement(baseEl)
+    .easing('ease-in-out')
+    .duration(200)
+    .addAnimation([backdropAnimation, wrapperAnimation]);
 };
 
 /**
  * iOS Loading Leave Animation
  */
 const iosLeaveAnimation = (baseEl) => {
-    const baseAnimation = createAnimation();
-    const backdropAnimation = createAnimation();
-    const wrapperAnimation = createAnimation();
-    backdropAnimation
-        .addElement(baseEl.querySelector('ion-backdrop'))
-        .fromTo('opacity', 'var(--backdrop-opacity)', 0);
-    wrapperAnimation
-        .addElement(baseEl.querySelector('.loading-wrapper'))
-        .keyframes([
-        { offset: 0, opacity: 0.99, transform: 'scale(1)' },
-        { offset: 1, opacity: 0, transform: 'scale(0.9)' }
-    ]);
-    return baseAnimation
-        .addElement(baseEl)
-        .easing('ease-in-out')
-        .duration(200)
-        .addAnimation([backdropAnimation, wrapperAnimation]);
+  const baseAnimation = createAnimation();
+  const backdropAnimation = createAnimation();
+  const wrapperAnimation = createAnimation();
+  backdropAnimation
+    .addElement(baseEl.querySelector('ion-backdrop'))
+    .fromTo('opacity', 'var(--backdrop-opacity)', 0);
+  wrapperAnimation
+    .addElement(baseEl.querySelector('.loading-wrapper'))
+    .keyframes([
+    { offset: 0, opacity: 0.99, transform: 'scale(1)' },
+    { offset: 1, opacity: 0, transform: 'scale(0.9)' }
+  ]);
+  return baseAnimation
+    .addElement(baseEl)
+    .easing('ease-in-out')
+    .duration(200)
+    .addAnimation([backdropAnimation, wrapperAnimation]);
 };
 
 /**
  * Md Loading Enter Animation
  */
 const mdEnterAnimation = (baseEl) => {
-    const baseAnimation = createAnimation();
-    const backdropAnimation = createAnimation();
-    const wrapperAnimation = createAnimation();
-    backdropAnimation
-        .addElement(baseEl.querySelector('ion-backdrop'))
-        .fromTo('opacity', 0.01, 'var(--backdrop-opacity)')
-        .beforeStyles({
-        'pointer-events': 'none'
-    })
-        .afterClearStyles(['pointer-events']);
-    wrapperAnimation
-        .addElement(baseEl.querySelector('.loading-wrapper'))
-        .keyframes([
-        { offset: 0, opacity: 0.01, transform: 'scale(1.1)' },
-        { offset: 1, opacity: 1, transform: 'scale(1)' }
-    ]);
-    return baseAnimation
-        .addElement(baseEl)
-        .easing('ease-in-out')
-        .duration(200)
-        .addAnimation([backdropAnimation, wrapperAnimation]);
+  const baseAnimation = createAnimation();
+  const backdropAnimation = createAnimation();
+  const wrapperAnimation = createAnimation();
+  backdropAnimation
+    .addElement(baseEl.querySelector('ion-backdrop'))
+    .fromTo('opacity', 0.01, 'var(--backdrop-opacity)')
+    .beforeStyles({
+    'pointer-events': 'none'
+  })
+    .afterClearStyles(['pointer-events']);
+  wrapperAnimation
+    .addElement(baseEl.querySelector('.loading-wrapper'))
+    .keyframes([
+    { offset: 0, opacity: 0.01, transform: 'scale(1.1)' },
+    { offset: 1, opacity: 1, transform: 'scale(1)' }
+  ]);
+  return baseAnimation
+    .addElement(baseEl)
+    .easing('ease-in-out')
+    .duration(200)
+    .addAnimation([backdropAnimation, wrapperAnimation]);
 };
 
 /**
  * Md Loading Leave Animation
  */
 const mdLeaveAnimation = (baseEl) => {
-    const baseAnimation = createAnimation();
-    const backdropAnimation = createAnimation();
-    const wrapperAnimation = createAnimation();
-    backdropAnimation
-        .addElement(baseEl.querySelector('ion-backdrop'))
-        .fromTo('opacity', 'var(--backdrop-opacity)', 0);
-    wrapperAnimation
-        .addElement(baseEl.querySelector('.loading-wrapper'))
-        .keyframes([
-        { offset: 0, opacity: 0.99, transform: 'scale(1)' },
-        { offset: 1, opacity: 0, transform: 'scale(0.9)' }
-    ]);
-    return baseAnimation
-        .addElement(baseEl)
-        .easing('ease-in-out')
-        .duration(200)
-        .addAnimation([backdropAnimation, wrapperAnimation]);
+  const baseAnimation = createAnimation();
+  const backdropAnimation = createAnimation();
+  const wrapperAnimation = createAnimation();
+  backdropAnimation
+    .addElement(baseEl.querySelector('ion-backdrop'))
+    .fromTo('opacity', 'var(--backdrop-opacity)', 0);
+  wrapperAnimation
+    .addElement(baseEl.querySelector('.loading-wrapper'))
+    .keyframes([
+    { offset: 0, opacity: 0.99, transform: 'scale(1)' },
+    { offset: 1, opacity: 0, transform: 'scale(0.9)' }
+  ]);
+  return baseAnimation
+    .addElement(baseEl)
+    .easing('ease-in-out')
+    .duration(200)
+    .addAnimation([backdropAnimation, wrapperAnimation]);
 };
 
 const loadingIosCss = ".sc-ion-loading-ios-h{--min-width:auto;--width:auto;--min-height:auto;--height:auto;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;left:0;right:0;top:0;bottom:0;display:flex;position:fixed;align-items:center;justify-content:center;outline:none;font-family:var(--ion-font-family, inherit);contain:strict;touch-action:none;user-select:none;z-index:1001}.overlay-hidden.sc-ion-loading-ios-h{display:none}.loading-wrapper.sc-ion-loading-ios{display:flex;align-items:inherit;justify-content:inherit;width:var(--width);min-width:var(--min-width);max-width:var(--max-width);height:var(--height);min-height:var(--min-height);max-height:var(--max-height);background:var(--background);opacity:0;z-index:10}.spinner-lines.sc-ion-loading-ios,.spinner-lines-small.sc-ion-loading-ios,.spinner-bubbles.sc-ion-loading-ios,.spinner-circles.sc-ion-loading-ios,.spinner-crescent.sc-ion-loading-ios,.spinner-dots.sc-ion-loading-ios{color:var(--spinner-color)}.sc-ion-loading-ios-h{--background:var(--ion-overlay-background-color, var(--ion-color-step-100, #f9f9f9));--max-width:270px;--max-height:90%;--spinner-color:var(--ion-color-step-600, #666666);--backdrop-opacity:var(--ion-backdrop-opacity, 0.3);color:var(--ion-text-color, #000);font-size:14px}.loading-wrapper.sc-ion-loading-ios{border-radius:8px;padding-left:34px;padding-right:34px;padding-top:24px;padding-bottom:24px}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){.loading-wrapper.sc-ion-loading-ios{padding-left:unset;padding-right:unset;-webkit-padding-start:34px;padding-inline-start:34px;-webkit-padding-end:34px;padding-inline-end:34px}}@supports (backdrop-filter: blur(0)){.loading-translucent.sc-ion-loading-ios-h .loading-wrapper.sc-ion-loading-ios{background-color:rgba(var(--ion-background-color-rgb, 255, 255, 255), 0.8);backdrop-filter:saturate(180%) blur(20px)}}.loading-content.sc-ion-loading-ios{font-weight:bold}.loading-spinner.sc-ion-loading-ios+.loading-content.sc-ion-loading-ios{margin-left:16px}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){.loading-spinner.sc-ion-loading-ios+.loading-content.sc-ion-loading-ios{margin-left:unset;-webkit-margin-start:16px;margin-inline-start:16px}}";
@@ -148,6 +148,8 @@ const Loading = class {
         this.onBackdropTap = () => {
             this.dismiss(undefined, BACKDROP);
         };
+    }
+    connectedCallback() {
         prepareOverlay(this.el);
     }
     componentWillLoad() {
@@ -193,11 +195,11 @@ const Loading = class {
         return eventMethod(this.el, 'ionLoadingWillDismiss');
     }
     render() {
-        const { message, spinner } = this;
+        const { message, spinner, htmlAttributes } = this;
         const mode = getIonMode(this);
-        return (h(Host, { onIonBackdropTap: this.onBackdropTap, tabindex: "-1", style: {
+        return (h(Host, Object.assign({ tabindex: "-1" }, htmlAttributes, { style: {
                 zIndex: `${40000 + this.overlayIndex}`
-            }, class: Object.assign(Object.assign({}, getClassMap(this.cssClass)), { [mode]: true, 'loading-translucent': this.translucent }) }, h("ion-backdrop", { visible: this.showBackdrop, tappable: this.backdropDismiss }), h("div", { class: "loading-wrapper", role: "dialog" }, spinner && (h("div", { class: "loading-spinner" }, h("ion-spinner", { name: spinner, "aria-hidden": "true" }))), message && h("div", { class: "loading-content", innerHTML: sanitizeDOMString(message) }))));
+            }, onIonBackdropTap: this.onBackdropTap, class: Object.assign(Object.assign({}, getClassMap(this.cssClass)), { [mode]: true, 'loading-translucent': this.translucent }) }), h("ion-backdrop", { visible: this.showBackdrop, tappable: this.backdropDismiss }), h("div", { tabindex: "0" }), h("div", { class: "loading-wrapper ion-overlay-wrapper", role: "dialog" }, spinner && (h("div", { class: "loading-spinner" }, h("ion-spinner", { name: spinner, "aria-hidden": "true" }))), message && h("div", { class: "loading-content", innerHTML: sanitizeDOMString(message) })), h("div", { tabindex: "0" })));
     }
     get el() { return getElement(this); }
 };

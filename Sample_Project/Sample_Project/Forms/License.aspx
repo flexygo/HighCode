@@ -161,12 +161,12 @@
 
             <div class="divPanel">
 
-                <div class="flip-card" style="margin:0 auto;width: 320px;height:100px;" onclick="$(this).toggleClass('flip-card-reverse');">
+                <div class="flip-card"  onclick="$(this).toggleClass('flip-card-reverse');">
 		            <div class="flip-card-flipper">
 			            <div class="flip-card-front" >
-				            <div id="trademark" style="width: 320px;height:100px;">flexygo</div>
+				            <div id="trademark" >flexygo</div>
 			            </div>
-			            <div class="flip-card-back" style="width: 320px;height:100px;">
+			            <div class="flip-card-back" >
 				            <div id="logo"></div>
 			            </div>
 		            </div>
@@ -523,6 +523,16 @@
                                     
                                 </td>
                             </tr>
+                            <tr>
+                               <td class="col-4">
+                                    <asp:Label ID="lblModules" runat="server" Visible="false" Text="Modules:"></asp:Label>
+                                </td>
+                                <td class="col-8">
+                                    <asp:TextBox ID="txtModules" runat="server" Visible="false" AutoPostBack="true"></asp:TextBox>
+                                </td>
+                            </tr>
+                           
+                        
 
                              </table>
 

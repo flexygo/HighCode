@@ -1,6 +1,6 @@
-import { r as registerInstance, m as createEvent, j as h, l as Host, k as getElement } from './index-76f52202.js';
-import { g as getIonMode } from './ionic-global-53d785f3.js';
-import { h as hapticSelectionStart, a as hapticSelectionChanged, b as hapticSelectionEnd } from './haptic-0ea1f445.js';
+import { r as registerInstance, m as createEvent, j as h, l as Host, k as getElement } from './index-86ac49ff.js';
+import { g as getIonMode } from './ionic-global-0f98fe97.js';
+import { h as hapticSelectionStart, a as hapticSelectionChanged, b as hapticSelectionEnd } from './haptic-f13d1040.js';
 
 const reorderGroupCss = ".reorder-list-active>*{transition:transform 300ms;will-change:transform}.reorder-enabled{user-select:none}.reorder-enabled ion-reorder{display:block;cursor:grab;pointer-events:all;touch-action:none}.reorder-selected,.reorder-selected ion-reorder{cursor:grabbing}.reorder-selected{position:relative;transition:none !important;box-shadow:0 0 10px rgba(0, 0, 0, 0.4);opacity:0.8;z-index:100}.reorder-visible ion-reorder .reorder-icon{transform:translate3d(0,  0,  0)}";
 
@@ -31,7 +31,7 @@ const ReorderGroup = class {
         if (contentEl) {
             this.scrollEl = await contentEl.getScrollElement();
         }
-        this.gesture = (await __sc_import_app('./index-9b41fcc6.js')).createGesture({
+        this.gesture = (await __sc_import_app('./index-7fe827c3.js')).createGesture({
             el: this.el,
             gestureName: 'reorder',
             gesturePriority: 110,
@@ -193,16 +193,15 @@ const ReorderGroup = class {
     }
     itemIndexForTop(deltaY) {
         const heights = this.cachedHeights;
-        let i = 0;
         // TODO: since heights is a sorted array of integers, we can do
         // speed up the search using binary search. Remember that linear-search is still
         // faster than binary-search for small arrays (<64) due CPU branch misprediction.
-        for (i = 0; i < heights.length; i++) {
+        for (let i = 0; i < heights.length; i++) {
             if (heights[i] > deltaY) {
-                break;
+                return i;
             }
         }
-        return i;
+        return heights.length - 1;
     }
     /********* DOM WRITE ********* */
     reorderMove(fromIndex, toIndex) {

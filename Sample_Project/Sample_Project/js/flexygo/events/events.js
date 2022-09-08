@@ -35,7 +35,7 @@ var flexygo;
         /**
             * Method to subscribe to flexygo events
             * @method on
-            * @param {object} context - The subscriber
+            * @param {object|string} context - The subscriber
             * @param {flexygo.events.FlexygoEvent} eventDefinition - The FlexygoEvent to subscribe to in form of class.type (Example: entity.all)
             * @param {object} callback - Callback function to be called
             */
@@ -73,7 +73,7 @@ var flexygo;
         /**
            * Method to unsubscribe to flexygo events
            * @method off
-           * @param {object} context - The subscriber
+           * @param {object|string} context - The subscriber
            * @param {flexygo.events.FlexygoEvent} event
            */
         function off(context, eventClass, eventType, callback) {
