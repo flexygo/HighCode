@@ -1,7 +1,7 @@
 import { r as registerInstance, j as h, k as getElement } from './index-86ac49ff.js';
 import './ionic-global-0f98fe97.js';
 import './webapi-7959a2b6.js';
-import { s as sql, i as flxSync, u as util, m as msg, C as ConftokenProvider, n as nav } from './conftoken-bd0cce07.js';
+import { s as sql, i as flxSync, u as util, m as msg, C as ConftokenProvider, n as nav } from './conftoken-84c3ec5c.js';
 import { j as jquery } from './jquery-ad132f97.js';
 import './utils-16079bfd.js';
 import './helpers-719f4c54.js';
@@ -15,7 +15,7 @@ import './index-b40d441b.js';
 import './hardware-back-button-aacf3d12.js';
 import './index-50651ccc.js';
 import './overlays-5302658e.js';
-import { p as parser } from './parser-0c2e5f94.js';
+import { p as parser } from './parser-d133369b.js';
 
 var dependencies;
 (function (dependencies) {
@@ -81,10 +81,22 @@ var dependencies;
         if (dep.SQLVisible || (dep.VisibleValues && dep.VisibleValues.length > 0) || (dep.HiddenValues && dep.HiddenValues.length > 0)) {
             //Show/hide property container.
             if (await booleanDependency(dep.PropertyName, dep.SQLVisible, dep.VisibleValues, dep.HiddenValues, form, tokens)) {
-                form.find('[container=' + dep.DependantPropertyName + ']').closest('ion-col').show();
+                let prop = form.find('[container=' + dep.DependantPropertyName + ']');
+                if (prop[0].localName.toLowerCase() === 'ion-item-divider') {
+                    prop.show();
+                }
+                else {
+                    prop.closest('ion-col').show();
+                }
             }
             else {
-                form.find('[container=' + dep.DependantPropertyName + ']').closest('ion-col').hide();
+                let prop = form.find('[container=' + dep.DependantPropertyName + ']');
+                if (prop[0].localName.toLowerCase() === 'ion-item-divider') {
+                    prop.hide();
+                }
+                else {
+                    prop.closest('ion-col').hide();
+                }
             }
         }
     }
@@ -2092,6 +2104,25 @@ const FlxEdit = class {
                 }
                 if (jquery(prop).is('ion-textarea'))
                     jquery(prop).attr('rows', properties[i].Height);
+                itm.appendChild(this.getLabel(properties[i], true));
+                itm.appendChild(prop);
+                column.appendChild(itm);
+                row.appendChild(column);
+            }
+            else {
+                let itm = document.createElement('ion-item');
+                itm.setAttribute('container', properties[i].PropertyName);
+                if (properties[i].CSSClass) {
+                    itm.setAttribute('class', properties[i].CSSClass);
+                }
+                if (properties[i].Hide) {
+                    column.setAttribute('style', 'display:none');
+                }
+                else {
+                    column.setAttribute('style', 'visibility:hidden');
+                }
+                let prop = document.createElement('ion-textarea');
+                jquery(prop).attr('rows', properties[i].Height);
                 itm.appendChild(this.getLabel(properties[i], true));
                 itm.appendChild(prop);
                 column.appendChild(itm);

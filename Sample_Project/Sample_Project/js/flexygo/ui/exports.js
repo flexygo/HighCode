@@ -51,6 +51,33 @@ var flexygo;
             function exportList(format, maxNumber, listToExport) {
                 try {
                     if (listToExport) {
+                        let objDef;
+                        //Add defaults to process
+                        if (listToExport.defaults) {
+                            if (typeof this.defaults == 'string') {
+                                objDef = JSON.parse(this.defaults);
+                            }
+                            else {
+                                objDef = this.defaults;
+                            }
+                        }
+                        else {
+                            let histObj = flexygo.history.get($(listToExport));
+                            if (typeof histObj != 'undefined' && histObj.defaults) {
+                                if (typeof histObj.defaults == 'string') {
+                                    objDef = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
+                                }
+                                else {
+                                    objDef = histObj.defaults;
+                                }
+                            }
+                            if (objDef == null) {
+                                let wcMod = $(listToExport).closest('flx-module')[0];
+                                if (wcMod) {
+                                    objDef = wcMod.objectdefaults;
+                                }
+                            }
+                        }
                         let params;
                         let responseData;
                         let table;
@@ -78,7 +105,8 @@ var flexygo;
                             TemplateId: listToExport.templateId,
                             ViewId: listToExport.viewId,
                             PageSize: maxNumber,
-                            PresetId: listToExport.presetId
+                            PresetId: listToExport.presetId,
+                            Defaults: flexygo.utils.dataToArray(objDef)
                         };
                         flexygo.ajax.post('~/api/List', 'GetList', params, (response) => {
                             if (response.Template.TableData) {

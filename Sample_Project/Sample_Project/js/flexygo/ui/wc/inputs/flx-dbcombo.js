@@ -610,14 +610,13 @@ var flexygo;
                                 this.hideOptions();
                             });
                         }
-                        $(window, me.closest('div.ui-dialog')).resize(() => {
+                        /*$((<any>window), me.closest('div.ui-dialog')).resize(() => {
                             if (!flexygo.utils.isSizeMobile() && !flexygo.utils.isTactilModeActive()) {
                                 this.hideOptions();
+                            } else {
+                               // this.datalist.css({ 'max-height': window.innerHeight - 5 })
                             }
-                            else {
-                                // this.datalist.css({ 'max-height': window.innerHeight - 5 })
-                            }
-                        });
+                        })*/
                         input.on('keyup', (e) => {
                             var up = 38;
                             var down = 40;

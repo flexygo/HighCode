@@ -1,7 +1,7 @@
 import { r as registerInstance, j as h } from './index-86ac49ff.js';
 import './ionic-global-0f98fe97.js';
 import { W as Webapi } from './webapi-7959a2b6.js';
-import { h as gps, C as ConftokenProvider, n as nav, i as flxSync, u as util } from './conftoken-bd0cce07.js';
+import { h as gps, C as ConftokenProvider, n as nav, i as flxSync, u as util } from './conftoken-84c3ec5c.js';
 import { j as jquery } from './jquery-ad132f97.js';
 import './utils-16079bfd.js';
 import './helpers-719f4c54.js';
@@ -72,10 +72,7 @@ const FlxLogin = class {
     }
     logUser(api, loader, firstTime) {
         if (!firstTime) {
-            if (this.url.startsWith('https'))
-                this.url = this.url.replace('https', 'http');
-            else
-                this.url = this.url.replace('http', 'https');
+            this.toggleHttpExtension();
         }
         api.login(this.url, this.user, this.pass).then((_value) => {
             //Check apps.
@@ -112,6 +109,7 @@ const FlxLogin = class {
                 this.logUser(api, loader, false);
             }
             else {
+                this.toggleHttpExtension();
                 loader.dismiss();
                 if (error.message = 'Failed to fetch') {
                     error.message = 'Connection error, wrong URL or WebAPI is disabled.';
@@ -119,6 +117,12 @@ const FlxLogin = class {
                 this.catchErr(error);
             }
         });
+    }
+    toggleHttpExtension() {
+        if (this.url.startsWith('https'))
+            this.url = this.url.replace('https', 'http');
+        else
+            this.url = this.url.replace('http', 'https');
     }
     catchErr(error) {
         let msg = 'Unknown login error';

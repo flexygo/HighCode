@@ -743,8 +743,15 @@ var flexygo;
                                 return;
                             }
                         }
+                        //check if moduletab and editgrid
+                        let isEditGridOnTab = false;
+                        if ($(module)[0].componentString == 'flx-moduletab') {
+                            if ($(module).find('.modulediv flx-list').length > 0 && $(module).find('.modulediv flx-list').attr('mode') == 'edit') {
+                                isEditGridOnTab = true;
+                            }
+                        }
                         // check if edit grid
-                        if ($(module)[0].componentString != 'flx-list mode="edit"') {
+                        if ($(module)[0].componentString != 'flx-list mode="edit"' && !isEditGridOnTab) {
                             if ($(module)[0].componentString == 'flx-edit') {
                                 let edit = module.find('flx-edit')[0];
                                 edit.validateSQLProperties();

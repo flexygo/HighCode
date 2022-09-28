@@ -1,7 +1,7 @@
 import './index-86ac49ff.js';
 import './ionic-global-0f98fe97.js';
 import { p as WebPlugin, q as CapacitorException } from './webapi-7959a2b6.js';
-import { l as CameraSource, o as CameraDirection } from './conftoken-bd0cce07.js';
+import { l as CameraSource, o as CameraDirection } from './conftoken-84c3ec5c.js';
 import './jquery-ad132f97.js';
 import './utils-16079bfd.js';
 import './helpers-719f4c54.js';

@@ -1,10 +1,10 @@
 import { B as BUILD, C as CSS, p as plt, w as win, a as promiseResolve, c as consoleDevInfo, H, d as doc, N as NAMESPACE } from './index-86ac49ff.js';
 import { i as initialize } from './ionic-global-0f98fe97.js';
 import { W as Webapi, s as storage, S as Storage } from './webapi-7959a2b6.js';
-import { C as ConftokenProvider, u as util, s as sql, m as msg, c as cordova$1, a as checkAvailability, g as getPromise, I as IonicNativePlugin, _ as __extends$1, b as cordovaPropertyGet, d as cordovaPropertySet, e as Injectable, n as nav, f as cam, h as gps, t as tracking, i as flxSync, j as ConftokenService } from './conftoken-bd0cce07.js';
+import { C as ConftokenProvider, u as util, s as sql, m as msg, c as cordova$1, a as checkAvailability, g as getPromise, I as IonicNativePlugin, _ as __extends$1, b as cordovaPropertyGet, d as cordovaPropertySet, e as Injectable, n as nav, f as cam, h as gps, t as tracking, i as flxSync, j as ConftokenService } from './conftoken-84c3ec5c.js';
 import { j as jquery } from './jquery-ad132f97.js';
 import { w as whiteboard } from './whiteboard-a1cbc8e2.js';
-import { p as parser } from './parser-0c2e5f94.js';
+import { p as parser } from './parser-d133369b.js';
 
 /*
  Stencil Client Patch v1.17.3 | MIT Licensed | https://stenciljs.com
@@ -417,6 +417,8 @@ const caes = {
         send: 'Enviar i rebre',
         templates: 'Actualitzar disseny',
         backup: 'Crear còpia de seguretat',
+        backupDownloadErr: 'S\'ha produït un error en baixar la còpia de segutetat',
+        backupDownloaded: 'La còpia de seguretat s\'ha desat a la carpeta de documents',
         restore: 'Restaurar base de dades',
         restoreSuccess: 'Les dades s\'han restaurat correctament',
         restoreError: 'Ha ocorregut un error al intentar introduir les dades del fitxer',
@@ -526,6 +528,8 @@ const frfr = {
         send: 'Envoyer et recevoir',
         templates: 'Mettre à jour la conception',
         backup: 'Créer une sauvegarde',
+        backupDownloadErr: 'Une erreur s\'est produite lors du téléchargement de la sauvegarde',
+        backupDownloaded: 'La sauvegarde a été enregistrée dans le dossier des documents',
         restore: 'Restaurer la base de données',
         restoreSuccess: 'Les données ont été restaurées avec succès',
         restoreError: 'Il y avait une erreur lors de la tentative d\'entrer les données du fichier',
@@ -635,6 +639,8 @@ const eses = {
         send: 'Enviar y recibir',
         templates: 'Actualizar diseño',
         backup: 'Crear copia de seguridad',
+        backupDownloadErr: 'Ha ocurrido un error descargando la copia de seguridad',
+        backupDownloaded: 'La copia de seguridad ha sido guardada en la carpeta documentos',
         restore: 'Restaurar base de datos',
         restoreSuccess: 'Los datos han sido restaurados correctamente',
         restoreError: 'Hubo un error al intentar introducir los datos del fichero',
@@ -744,6 +750,8 @@ const dede = {
         send: 'Senden und Empfangen',
         templates: 'Vorlagen aktualisieren',
         backup: 'Een backup maken ',
+        backupDownloadErr: 'Beim Herunterladen der Sicherung ist ein Fehler aufgetreten',
+        backupDownloaded: 'Die Sicherung wurde im Dokumentenordner gespeichert',
         restore: 'Database herstellen',
         restoreSuccess: 'Daten erfolgreich wiederhergestellt',
         restoreError: 'Beim Versuch, die Dateidaten einzugeben, ist ein Fehler aufgetreten',
@@ -853,6 +861,8 @@ const engb = {
         send: 'Send & Recive',
         templates: 'Update Templates',
         backup: 'Backup Database',
+        backupDownloadErr: 'There was an error downloading the backup',
+        backupDownloaded: 'The backup has been saved in documents folder',
         restore: 'Restore Database',
         restoreSuccess: 'Data has successfully been restored',
         restoreError: 'An error occurred while inserting file data',

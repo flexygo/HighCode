@@ -57344,7 +57344,7 @@ var util;
             Filesystem.writeFile({
                 path: fileName,
                 data: data,
-                directory: (cordova.platformId === 'android' ? Directory.Documents : Directory.Data)
+                directory: Directory.Data
             }).then((data) => {
                 resolve(data.uri);
             });
@@ -57381,13 +57381,22 @@ var util;
         return dates;
     }
     util.getNextSevenDates = getNextSevenDates;
-    function getPing() {
+    function getPing(timeout = 0) {
         return new Promise((resolve, reject) => {
+            let pending = true;
+            if (timeout) {
+                setTimeout(() => {
+                    if (pending) {
+                        reject('timeout');
+                    }
+                }, timeout);
+            }
             let api = new Webapi;
             api.connect().then((auth) => {
                 let initialTime = (new Date).getTime();
                 api.get(auth.url + "/webapi/context", null, { 'Authorization': 'Bearer ' + auth.bearerToken })
                     .then(() => {
+                    pending = false;
                     let finalTime = (new Date).getTime();
                     resolve(finalTime - initialTime);
                 })
@@ -58181,8 +58190,9 @@ var flxSync;
             const dateTime = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + '_' + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + ".bak";
             const zipName = 'backup_' + dateTime;
             loading.dismiss().then(() => { loading = null; });
+            base64 = `data:application/zip;base64,${base64}`;
             if (window.cordova) {
-                let fileResult = await util.b64toTempFile(zipName, `data:application/zip;base64,${base64}`);
+                let fileResult = await util.b64toTempFile(zipName, base64);
                 var options = {
                     files: [fileResult.uri],
                     chooserTitle: 'Pick an app',
@@ -58190,14 +58200,30 @@ var flxSync;
                 util.share(options);
             }
             else {
-                const downloadLink = document.createElement("a");
-                downloadLink.href = `data:application/zip;base64,${base64}`;
-                downloadLink.download = zipName;
-                downloadLink.click();
+                util.downloadByB64Navigator(base64, zipName);
             }
         });
     }
     flxSync.createBackup = createBackup;
+    /*async function backupDownloadNotification(uri) {
+      const fileOpener = new FileOpener;
+      const notification = new LocalNotifications;
+      const options = {
+          id: (await notification.getAll()).length,
+          text: util.translate('sync.backupDownloaded'),
+          attachments: [uri],
+          foreground: true
+      };
+      notification.schedule(options);
+      notification.on('click').subscribe((res) => {
+          try {
+              fileOpener.showOpenWithDialog(res.attachments[0], 'application/zip');
+          } catch (err) {
+              msg.showError(err);
+          }
+      });
+      msg.generic(util.translate('sync.backupDownloaded'), 'success',1600);
+    }*/
     async function restoreBackup(ev) {
         let files = ev.target.files[0];
         if (files.name.endsWith('.bak')) {
@@ -58258,6 +58284,7 @@ var flxSync;
     }
     flxSync.restoreBackup = restoreBackup;
     function msgCreateBackup() {
+        var complete;
         const alert = document.createElement('ion-alert');
         alert.header = util.translate('sync.createBackupHeader');
         alert.message = util.translate('sync.createBackupMessage');
@@ -58265,16 +58292,27 @@ var flxSync;
             {
                 text: util.translate('sync.onlyDB'),
                 handler: () => {
-                    createBackup(false);
+                    complete = false;
+                    createBackup(complete);
                 }
             },
             {
                 text: util.translate('sync.complete'),
                 handler: () => {
-                    createBackup(true);
+                    complete = true;
+                    createBackup(complete);
                 }
             }
         ];
+        /*alert.inputs = [
+          {
+            label: util.translate("document.download"),
+            type: "checkbox",
+            handler: () => {
+              download = (download ? false : true);
+            }
+          }
+        ];*/
         document.body.appendChild(alert);
         alert.present();
     }
@@ -58424,7 +58462,7 @@ var CameraResultType;
 })(CameraResultType || (CameraResultType = {}));
 
 const Camera$1 = registerPlugin('Camera', {
-    web: () => __sc_import_app('./web-100450ce.js').then(m => new m.CameraWeb()),
+    web: () => __sc_import_app('./web-403f8d7c.js').then(m => new m.CameraWeb()),
 });
 
 var SupportedFormat;
