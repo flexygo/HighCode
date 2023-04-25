@@ -1,8 +1,8 @@
 import { r as registerInstance, j as h, k as getElement } from './index-86ac49ff.js';
 import './ionic-global-0f98fe97.js';
-import './webapi-7959a2b6.js';
-import { i as flxSync, u as util, C as ConftokenProvider, s as sql, m as msg, n as nav } from './conftoken-84c3ec5c.js';
-import { j as jquery } from './jquery-ad132f97.js';
+import './webapi-79a1d3db.js';
+import { i as flxSync, u as util, C as ConftokenProvider, s as sql, m as msg, n as nav } from './conftoken-7e3c18eb.js';
+import { j as jquery } from './jquery-5df58adb.js';
 import './utils-16079bfd.js';
 import './helpers-719f4c54.js';
 import './animation-10ea33c3.js';
@@ -15,7 +15,7 @@ import './index-b40d441b.js';
 import './hardware-back-button-aacf3d12.js';
 import './index-50651ccc.js';
 import './overlays-5302658e.js';
-import { p as parser } from './parser-d133369b.js';
+import { p as parser } from './parser-8aed96de.js';
 
 const flxViewCss = "";
 
@@ -126,7 +126,7 @@ const FlxView = class {
     }
     render() {
         return [
-            h("ion-header", null, h("ion-toolbar", { color: "header", class: "ion-text-center" }, h("ion-buttons", { slot: "start" }, (this.modal ? null : h("ion-menu-button", { color: "outstanding" })), (this.modal ? null : h("ion-icon", { name: "alert-circle", color: "danger", class: "stack sendError hide" }))), h("ion-buttons", { slot: "end" }, h("ion-button", { color: "outstanding", onClick: () => { nav.goBack(this.me); } }, h("ion-icon", { slot: "icon-only", name: "arrow-undo-outline" }))), h("ion-title", null, h("span", { id: "menuTitle" }, this.title)))),
+            h("ion-header", null, h("ion-toolbar", { color: "header", class: "ion-text-center" }, h("ion-buttons", { slot: "start" }, (this.modal ? null : h("ion-menu-button", { color: "outstanding" })), (this.modal ? null : h("ion-icon", { name: "alert-circle", color: "danger", class: "stack sendError flx-hide" }))), h("ion-buttons", { slot: "end" }, h("ion-button", { color: "outstanding", onClick: () => { nav.goBack(this.me); } }, h("ion-icon", { slot: "icon-only", name: "arrow-undo-outline" }))), h("ion-title", null, h("span", { id: "menuTitle" }, this.title)))),
             h("ion-header", { innerHTML: this.header }),
             h("ion-content", null, h("ion-refresher", { slot: "fixed", id: "refresher", onIonRefresh: (ev) => { this.refresh(ev); } }, h("ion-refresher-content", null)), h("div", { id: "mainBody", innerHTML: this.body })),
             h("ion-footer", { innerHTML: this.footer })

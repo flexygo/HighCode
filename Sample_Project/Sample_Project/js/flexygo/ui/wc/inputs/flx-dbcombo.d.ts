@@ -53,6 +53,7 @@ declare namespace flexygo.ui.wc {
         scrollTopPosition: any;
         showOptions(): void;
         hideOptions(): void;
+        hideMobileInput(): void;
         loadValues(page: number, autoselect: boolean, fromvalue?: boolean, value?: string, append?: boolean): void;
         private addComboItems(data, autoselect, append?);
         private getTextByValue(value);

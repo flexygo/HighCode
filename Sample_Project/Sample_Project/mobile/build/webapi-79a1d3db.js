@@ -81,10 +81,11 @@ var ExceptionCode;
     ExceptionCode["Unavailable"] = "UNAVAILABLE";
 })(ExceptionCode || (ExceptionCode = {}));
 class CapacitorException extends Error {
-    constructor(message, code) {
+    constructor(message, code, data) {
         super(message);
         this.message = message;
         this.code = code;
+        this.data = data;
     }
 }
 const getPlatformId = (win) => {
@@ -405,37 +406,284 @@ class WebPlugin {
 }
 
 const WebView = /*#__PURE__*/ registerPlugin('WebView');
+/******** END WEB VIEW PLUGIN ********/
+/******** COOKIES PLUGIN ********/
+/**
+ * Safely web encode a string value (inspired by js-cookie)
+ * @param str The string value to encode
+ */
+const encode = (str) => encodeURIComponent(str)
+    .replace(/%(2[346B]|5E|60|7C)/g, decodeURIComponent)
+    .replace(/[()]/g, escape);
+class CapacitorCookiesPluginWeb extends WebPlugin {
+    async setCookie(options) {
+        try {
+            // Safely Encoded Key/Value
+            const encodedKey = encode(options.key);
+            const encodedValue = encode(options.value);
+            // Clean & sanitize options
+            const expires = `; expires=${(options.expires || '').replace('expires=', '')}`; // Default is "; expires="
+            const path = (options.path || '/').replace('path=', ''); // Default is "path=/"
+            document.cookie = `${encodedKey}=${encodedValue || ''}${expires}; path=${path}`;
+        }
+        catch (error) {
+            return Promise.reject(error);
+        }
+    }
+    async deleteCookie(options) {
+        try {
+            document.cookie = `${options.key}=; Max-Age=0`;
+        }
+        catch (error) {
+            return Promise.reject(error);
+        }
+    }
+    async clearCookies() {
+        try {
+            const cookies = document.cookie.split(';') || [];
+            for (const cookie of cookies) {
+                document.cookie = cookie
+                    .replace(/^ +/, '')
+                    .replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`);
+            }
+        }
+        catch (error) {
+            return Promise.reject(error);
+        }
+    }
+    async clearAllCookies() {
+        try {
+            await this.clearCookies();
+        }
+        catch (error) {
+            return Promise.reject(error);
+        }
+    }
+}
+const CapacitorCookies = registerPlugin('CapacitorCookies', {
+    web: () => new CapacitorCookiesPluginWeb(),
+});
+// UTILITY FUNCTIONS
+/**
+ * Read in a Blob value and return it as a base64 string
+ * @param blob The blob value to convert to a base64 string
+ */
+const readBlobAsBase64 = async (blob) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+        const base64String = reader.result;
+        // remove prefix "data:application/pdf;base64,"
+        resolve(base64String.indexOf(',') >= 0
+            ? base64String.split(',')[1]
+            : base64String);
+    };
+    reader.onerror = (error) => reject(error);
+    reader.readAsDataURL(blob);
+});
+/**
+ * Normalize an HttpHeaders map by lowercasing all of the values
+ * @param headers The HttpHeaders object to normalize
+ */
+const normalizeHttpHeaders = (headers = {}) => {
+    const originalKeys = Object.keys(headers);
+    const loweredKeys = Object.keys(headers).map(k => k.toLocaleLowerCase());
+    const normalized = loweredKeys.reduce((acc, key, index) => {
+        acc[key] = headers[originalKeys[index]];
+        return acc;
+    }, {});
+    return normalized;
+};
+/**
+ * Builds a string of url parameters that
+ * @param params A map of url parameters
+ * @param shouldEncode true if you should encodeURIComponent() the values (true by default)
+ */
+const buildUrlParams = (params, shouldEncode = true) => {
+    if (!params)
+        return null;
+    const output = Object.entries(params).reduce((accumulator, entry) => {
+        const [key, value] = entry;
+        let encodedValue;
+        let item;
+        if (Array.isArray(value)) {
+            item = '';
+            value.forEach(str => {
+                encodedValue = shouldEncode ? encodeURIComponent(str) : str;
+                item += `${key}=${encodedValue}&`;
+            });
+            // last character will always be "&" so slice it off
+            item.slice(0, -1);
+        }
+        else {
+            encodedValue = shouldEncode ? encodeURIComponent(value) : value;
+            item = `${key}=${encodedValue}`;
+        }
+        return `${accumulator}&${item}`;
+    }, '');
+    // Remove initial "&" from the reduce
+    return output.substr(1);
+};
+/**
+ * Build the RequestInit object based on the options passed into the initial request
+ * @param options The Http plugin options
+ * @param extra Any extra RequestInit values
+ */
+const buildRequestInit = (options, extra = {}) => {
+    const output = Object.assign({ method: options.method || 'GET', headers: options.headers }, extra);
+    // Get the content-type
+    const headers = normalizeHttpHeaders(options.headers);
+    const type = headers['content-type'] || '';
+    // If body is already a string, then pass it through as-is.
+    if (typeof options.data === 'string') {
+        output.body = options.data;
+    }
+    // Build request initializers based off of content-type
+    else if (type.includes('application/x-www-form-urlencoded')) {
+        const params = new URLSearchParams();
+        for (const [key, value] of Object.entries(options.data || {})) {
+            params.set(key, value);
+        }
+        output.body = params.toString();
+    }
+    else if (type.includes('multipart/form-data')) {
+        const form = new FormData();
+        if (options.data instanceof FormData) {
+            options.data.forEach((value, key) => {
+                form.append(key, value);
+            });
+        }
+        else {
+            for (const key of Object.keys(options.data)) {
+                form.append(key, options.data[key]);
+            }
+        }
+        output.body = form;
+        const headers = new Headers(output.headers);
+        headers.delete('content-type'); // content-type will be set by `window.fetch` to includy boundary
+        output.headers = headers;
+    }
+    else if (type.includes('application/json') ||
+        typeof options.data === 'object') {
+        output.body = JSON.stringify(options.data);
+    }
+    return output;
+};
+// WEB IMPLEMENTATION
+class CapacitorHttpPluginWeb extends WebPlugin {
+    /**
+     * Perform an Http request given a set of options
+     * @param options Options to build the HTTP request
+     */
+    async request(options) {
+        const requestInit = buildRequestInit(options, options.webFetchExtra);
+        const urlParams = buildUrlParams(options.params, options.shouldEncodeUrlParams);
+        const url = urlParams ? `${options.url}?${urlParams}` : options.url;
+        const response = await fetch(url, requestInit);
+        const contentType = response.headers.get('content-type') || '';
+        // Default to 'text' responseType so no parsing happens
+        let { responseType = 'text' } = response.ok ? options : {};
+        // If the response content-type is json, force the response to be json
+        if (contentType.includes('application/json')) {
+            responseType = 'json';
+        }
+        let data;
+        let blob;
+        switch (responseType) {
+            case 'arraybuffer':
+            case 'blob':
+                blob = await response.blob();
+                data = await readBlobAsBase64(blob);
+                break;
+            case 'json':
+                data = await response.json();
+                break;
+            case 'document':
+            case 'text':
+            default:
+                data = await response.text();
+        }
+        // Convert fetch headers to Capacitor HttpHeaders
+        const headers = {};
+        response.headers.forEach((value, key) => {
+            headers[key] = value;
+        });
+        return {
+            data,
+            headers,
+            status: response.status,
+            url: response.url,
+        };
+    }
+    /**
+     * Perform an Http GET request given a set of options
+     * @param options Options to build the HTTP request
+     */
+    async get(options) {
+        return this.request(Object.assign(Object.assign({}, options), { method: 'GET' }));
+    }
+    /**
+     * Perform an Http POST request given a set of options
+     * @param options Options to build the HTTP request
+     */
+    async post(options) {
+        return this.request(Object.assign(Object.assign({}, options), { method: 'POST' }));
+    }
+    /**
+     * Perform an Http PUT request given a set of options
+     * @param options Options to build the HTTP request
+     */
+    async put(options) {
+        return this.request(Object.assign(Object.assign({}, options), { method: 'PUT' }));
+    }
+    /**
+     * Perform an Http PATCH request given a set of options
+     * @param options Options to build the HTTP request
+     */
+    async patch(options) {
+        return this.request(Object.assign(Object.assign({}, options), { method: 'PATCH' }));
+    }
+    /**
+     * Perform an Http DELETE request given a set of options
+     * @param options Options to build the HTTP request
+     */
+    async delete(options) {
+        return this.request(Object.assign(Object.assign({}, options), { method: 'DELETE' }));
+    }
+}
+const CapacitorHttp = registerPlugin('CapacitorHttp', {
+    web: () => new CapacitorHttpPluginWeb(),
+});
 
-const Storage = registerPlugin('Storage', {
-    web: () => __sc_import_app('./web-0690851f.js').then(m => new m.StorageWeb()),
+const Preferences = registerPlugin('Preferences', {
+    web: () => __sc_import_app('./web-7b927e85.js').then(m => new m.PreferencesWeb()),
 });
 
 var storage;
 (function (storage) {
     async function set(key, value) {
-        await Storage.set({
+        await Preferences.set({
             key: key,
             value: JSON.stringify(value)
         });
     }
     storage.set = set;
     async function get(key) {
-        const item = await Storage.get({ key: key });
+        const item = await Preferences.get({ key: key });
         return JSON.parse(item.value);
     }
     storage.get = get;
     async function remove(key) {
-        await Storage.remove({
+        await Preferences.remove({
             key: key
         });
     }
     storage.remove = remove;
     async function keys() {
-        return (await Storage.keys()).keys;
+        return (await Preferences.keys()).keys;
     }
     storage.keys = keys;
     async function clear() {
-        await Storage.clear();
+        await Preferences.clear();
     }
     storage.clear = clear;
 })(storage || (storage = {}));
@@ -11916,6 +12164,8 @@ class UserProfileConfig {
 }
 class GeneralConfig {
 }
+class UrlConfig {
+}
 class TrackingConfig {
 }
 class fieldConfig {
@@ -12076,14 +12326,14 @@ class Webapi {
             });
         });
     }
-    getViewSchema(objectName, viewName) {
+    getViewSchema(objectName, viewName, timeout) {
         return this.connect().then((auth) => {
-            return this.get(auth.url + '/webapi/schema/' + objectName + '/' + viewName, null, { 'Authorization': 'Bearer ' + auth.bearerToken });
+            return this.get(auth.url + '/webapi/schema/' + objectName + '/' + viewName, null, { 'Authorization': 'Bearer ' + auth.bearerToken }, timeout);
         });
     }
-    getObjectSchema(objectName) {
+    getObjectSchema(objectName, timeout) {
         return this.connect().then((auth) => {
-            return this.get(auth.url + '/webapi/schema/' + objectName, null, { 'Authorization': 'Bearer ' + auth.bearerToken });
+            return this.get(auth.url + '/webapi/schema/' + objectName, null, { 'Authorization': 'Bearer ' + auth.bearerToken }, timeout);
         });
     }
     getContext() {
@@ -12097,7 +12347,7 @@ class Webapi {
     }
     deleteObject() {
     }
-    execProcess(processName, params, objectName = null, filter = null) {
+    execProcess(processName, params, objectName = null, filter = null, timeout) {
         return this.connect().then((auth) => {
             let apiPath = '/webapi/exec/' + processName;
             if (objectName) {
@@ -12105,17 +12355,43 @@ class Webapi {
             }
             if (filter)
                 apiPath += '?filter=' + encodeURIComponent(filter);
-            return this.post(auth.url + apiPath, JSON.stringify(params), { 'Authorization': 'Bearer ' + auth.bearerToken });
+            return this.post(auth.url + apiPath, JSON.stringify(params), { 'Authorization': 'Bearer ' + auth.bearerToken }, timeout);
         });
     }
-    async post(url, body, headers) {
+    async getWebApiInfo(url, firstTry = true) {
+        let info;
+        try {
+            info = await this.get(url, null, {});
+            return info;
+        }
+        catch (err) {
+            if (!firstTry) {
+                return null;
+            }
+            if (url.startsWith('https')) {
+                url = url.replace('https', 'http');
+            }
+            else {
+                url = url.replace('http', 'https');
+            }
+            return await this.getWebApiInfo(url, false);
+        }
+    }
+    async post(url, body, headers, timeout) {
         try {
             headers["content-type"] = "application/json";
+            let controller = new AbortController();
+            if (timeout && timeout > 0) {
+                setTimeout(() => {
+                    controller.abort();
+                }, timeout);
+            }
             const response = await fetch(url, {
                 "headers": headers,
                 "body": body,
                 "method": "POST",
-                "mode": "cors"
+                "mode": "cors",
+                signal: controller.signal
             });
             if (!response.ok) {
                 return this.errPost(response);
@@ -12127,7 +12403,7 @@ class Webapi {
             return new Promise((_resolve, reject) => { reject(err); });
         }
     }
-    async get(url, body, headers) {
+    async get(url, body, headers, timeout) {
         let params = '';
         if (body) {
             for (let key in body) {
@@ -12137,10 +12413,17 @@ class Webapi {
                 }
             }
         }
+        let controller = new AbortController();
+        if (timeout && timeout > 0) {
+            setTimeout(() => {
+                controller.abort();
+            }, timeout);
+        }
         let response = await fetch(url + params, {
             method: 'GET',
             mode: 'cors',
-            headers: headers
+            headers: headers,
+            signal: controller.signal
         });
         if (!response.ok) {
             return this.errPost(response);
@@ -12158,4 +12441,4 @@ class Webapi {
     }
 }
 
-export { Capacitor as C, DependencyConfig as D, FileConfig as F, GroupConfig as G, ImageConfig as I, MenuConfig as M, ObjectConfig as O, Plugins as P, RelationConfig as R, Storage as S, TrackingConfig as T, UserProfileConfig as U, ViewConfig as V, Webapi as W, authToken as a, storage$1 as b, audit$1 as c, ConfToken as d, RelationKey as e, fieldConfig as f, PageConfig as g, ScriptConfig as h, StyleConfig as i, GeneralConfig as j, fileResource as k, PropertyConfig as l, syncObj as m, syncResult as n, compareData as o, WebPlugin as p, CapacitorException as q, registerPlugin as r, storage as s };
+export { ConfToken as C, DependencyConfig as D, FileConfig as F, GroupConfig as G, ImageConfig as I, MenuConfig as M, ObjectConfig as O, Preferences as P, RelationConfig as R, ScriptConfig as S, TrackingConfig as T, UrlConfig as U, ViewConfig as V, Webapi as W, authToken as a, storage$1 as b, audit$1 as c, Capacitor as d, Plugins as e, fieldConfig as f, RelationKey as g, PageConfig as h, StyleConfig as i, UserProfileConfig as j, GeneralConfig as k, fileResource as l, PropertyConfig as m, syncObj as n, syncResult as o, compareData as p, WebPlugin as q, registerPlugin as r, storage as s, registerWebPlugin as t, CapacitorException as u };

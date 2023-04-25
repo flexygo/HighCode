@@ -84,6 +84,10 @@ var flexygo;
                 flexygo.ajax.post('~/api/Page', 'GetPageByObject', { "StrType": pagetypeid, "ObjectName": objectname, "ObjectWhere": objectwhere, "IsClone": isClone }, (ret) => {
                     histObj.pagename = ret.PageName;
                     var pageContainer = flexygo.targets.createContainer(histObj, excludeHist, triggerElement);
+                    if (!pageContainer) {
+                        NProgress.done();
+                        return;
+                    }
                     var editObj = flexygo.history.get(pageContainer);
                     if (editObj.targetid.indexOf('main') == 0 || (editObj.targetid.indexOf('current') == 0 && pageContainer.is('#realMain'))) {
                         editObj.pagename = ret.PageName;
@@ -91,8 +95,13 @@ var flexygo;
                     }
                     ret.pageHistory = histObj;
                     openPageReturn(ret, objectname, objectwhere, defaults, pageContainer, null, null, isClone, null, presets);
-                    if (pagetypeid != 'edit' || (objectwhere && objectwhere != '')) {
-                        flexygo.history.historyLog.add(ret.IconCssClass, ret.Descrip, ret.pageHistory);
+                    if (!excludeHist) {
+                        if (pagetypeid != 'edit' || (objectwhere && objectwhere != '')) {
+                            flexygo.history.historyLog.add(ret.IconCssClass, ret.Descrip, ret.pageHistory);
+                        }
+                    }
+                    if (pageContainer.is('#realMain') && ret.PageWindowDescrip != null) {
+                        document.title = ret.PageWindowDescrip;
                     }
                 }, (error) => {
                     flexygo.exceptions.httpShow(error);
@@ -182,9 +191,18 @@ var flexygo;
                         histObj.pagetypeid = ret.StrType;
                     }
                     var pageContainer = flexygo.targets.createContainer(histObj, excludeHist, triggerElement);
+                    if (!pageContainer) {
+                        NProgress.done();
+                        return;
+                    }
                     ret.pageHistory = histObj;
                     openPageReturn(ret, objectname, objectwhere, defaults, pageContainer, null, null, isClone, null, presets);
-                    flexygo.history.historyLog.add(ret.IconCssClass, ret.Descrip, ret.pageHistory);
+                    if (!excludeHist) {
+                        flexygo.history.historyLog.add(ret.IconCssClass, ret.Descrip, ret.pageHistory);
+                    }
+                    if (pageContainer.is('#realMain')) {
+                        document.title = ret.PageWindowDescrip;
+                    }
                 }, (error) => {
                     flexygo.exceptions.httpShow(error);
                     let ev = {
@@ -213,7 +231,7 @@ var flexygo;
         * @param {function} callBack - callback to be called after execute
         * @param {boolean} showprogress - false to hide progress indicator
        */
-        function execProcess(processname, objectname, objectwhere, defaults, processparams, targetid, excludeHist, triggerElement, callBack, showProgress) {
+        function execProcess(processname, objectname, objectwhere, defaults, processparams, targetid, excludeHist, triggerElement, callBack, showProgress, originalProcess) {
             if (typeof event != 'undefined') {
                 event.preventDefault();
             }
@@ -222,6 +240,9 @@ var flexygo;
             let target;
             if (typeof (showProgress) == typeof (true)) {
                 proc.showProgress = showProgress;
+            }
+            if (originalProcess) {
+                proc.progressBar = originalProcess.progressBar;
             }
             if (triggerElement) {
                 triggerElement = getRealTarget(triggerElement);
@@ -267,6 +288,98 @@ var flexygo;
             }
         }
         nav.execProcess = execProcess;
+        /**
+        * Executes a process asyncronously, opening its param page if required
+        * @method execProcess
+        * @param {string} processname - Identifier of the process
+        * @param {string} objectname - Name of the collection or entity
+        * @param {string} objectwhere - Where of the collection or entity
+        * @param {string} defaults - Defaults to be added to the process
+        * @param {any} processparams - Array of process parameters
+        * @param {string} targetid - Target to open the window
+        * @param {boolean} excludeHist - True to not store in history
+        * @param {JQuery} triggerElement - Relative element to open the page
+        * @param {function} callBack - callback to be called after execute
+        * @param {boolean} showprogress - false to hide progress indicator
+        * @param {string} lastProcessName - Indicates last executed process
+        * @param {boolean} isLast - Indicates if is the last process to be called in an execution process chain
+        export function execProcessAsync(processname: string, objectname: string, objectwhere: string, defaults: any, processparams: any, targetid: string, excludeHist: boolean, triggerElement: JQuery, callBack?: any, showProgress?: boolean, lastProcessName?: string, isBefore: boolean = false, originalProcess?: flexygo.Process): Promise<any> {
+    
+            return new Promise((resolve, reject) => {
+                if (typeof event != 'undefined') { event.preventDefault(); }
+    
+                var proc: flexygo.Process = new flexygo.Process(processname, objectname, objectwhere);
+                proc.read();
+                let target: string;
+    
+                if (typeof (showProgress) == typeof (true)) {
+                    proc.showProgress = showProgress;
+                }
+    
+                if (originalProcess) {
+                    proc.progressBar = originalProcess.progressBar;
+                }
+    
+                if (triggerElement) {
+    
+                    triggerElement = getRealTarget(triggerElement);
+                    proc.module = (<flexygo.ui.wc.FlxModuleElement>triggerElement.closest('flx-module')[0]);
+                }
+    
+                //if target has been passed use that one if not use process target
+                if (targetid == null) {
+                    target = proc.config.TargetId;
+                } else {
+                    target = targetid;
+                }
+    
+                //If process is not a workflow, and has params and params have not be passed use openprocessparams window
+                if ((!proc.config.IsWorkflow) && proc.config.HasParams && processparams == null) {
+                    if (!flexygo.utils.isSizeMobile) { excludeHist = true }
+                    flexygo.nav.openProcessParams(processname, objectname, objectwhere, defaults, target, excludeHist, triggerElement)
+                }
+                else {
+    
+                    if (!processparams && defaults) {
+                        let jsonDefaults = JSON.parse(flexygo.utils.parser.replaceAll(defaults, "'", '"'));
+                        let paramsDefaults = [];
+    
+                        for (let key in jsonDefaults) {
+                            let jsonValue = {};
+                            jsonValue["Key"] = key;
+                            jsonValue["Value"] = jsonDefaults[key];
+                            paramsDefaults.push(jsonValue);
+                        }
+                        processparams = paramsDefaults;
+                    }
+    
+                    if (typeof proc.config.ConfirmText != 'undefined' && proc.config.ConfirmText && proc.config.ConfirmText != '') {
+    
+                        let resultCallback = (result: any) => {
+                            if (result) {
+    
+                                proc.run(processparams, callBack, target, excludeHist, triggerElement, lastProcessName).then(() => {
+                                    resolve();
+                                });
+    
+                            }
+                        }
+    
+                        flexygo.msg.confirm(proc.config.ConfirmText, resultCallback)
+    
+    
+    
+                    } else {
+    
+                        proc.run(processparams, callBack, target, excludeHist, triggerElement, lastProcessName).then(() => {
+                            resolve();
+                        });
+    
+                    }
+                }
+            });
+    
+        }*/
         function openPageReturn(pageConf, objectname, objectwhere, defaults, pageContainer, reportname, processname, isClone, reportwhere, presets) {
             pageContainer.html(flexygo.utils.loadingMsg());
             //Hide menu when page is loaded.
@@ -330,7 +443,7 @@ var flexygo;
                         let container = $('<flx-module></flx-module>');
                         container.html(mod.ContainerTemplate).attr('modulename', mod.ModuleName).attr('type', mod.WebComponent.split(' ')[0]).addClass(mod.ContainerClass);
                         if (mod.PresetName && presets == undefined) {
-                            container.html(mod.ContainerTemplate).attr('presetname', mod.PresetName).attr('presettext', mod.PresetText).attr('preseticon', mod.PresetIcon);
+                            container.html(mod.ContainerTemplate).attr('presetname', mod.PresetName).attr('presettext', mod.PresetText).attr('preseticon', mod.PresetIcon).attr('removepreset', mod.RemovePreset);
                         }
                         if (flexygo.utils.isSizeMobile() && modules.length == 1) {
                             container.find('.cntHeader').hide();
@@ -379,6 +492,7 @@ var flexygo;
                         ctrl.moduleConfig = mod;
                         ctrl.ManualInit = mod.ManualInit;
                         ctrl.HTMLInit = mod.HTMLInit;
+                        ctrl.ModuleViewers = mod.ModuleViewers;
                         if (mod.InitHidden) {
                             container.attr('init', 'false').hide();
                         }
@@ -454,6 +568,10 @@ var flexygo;
             }
             else {
                 var pageContainer = flexygo.targets.createContainer(histObj, excludeHist, triggerElement);
+                if (!pageContainer) {
+                    NProgress.done();
+                    return;
+                }
                 if (triggerElement && !triggerElement.closest('.pageContainer').is(pageContainer)) {
                     pageContainer.data('opener', triggerElement.closest('.pageContainer'));
                 }
@@ -531,6 +649,10 @@ var flexygo;
             }
             else {
                 var pageContainer = flexygo.targets.createContainer(histObj, excludeHist, triggerElement);
+                if (!pageContainer) {
+                    NProgress.done();
+                    return;
+                }
                 flexygo.ajax.post('~/api/Page', 'GetPageByName', { "PageName": pagename }, (ret) => {
                     ret.pageHistory = histObj;
                     openPageReturn(ret, objectname, objectwhere, defaults, pageContainer, reportname, null, null, reportwhere);
@@ -561,18 +683,25 @@ var flexygo;
                     flexygo.msg.warning(flexygo.localization.translate('navigation.reportmaxrows').replace('{0}', reportConfig.CurrentRows).replace('{1}', reportConfig.MaxRows));
                     return;
                 }
+                let paramsJSON = {}, filter;
+                if (params) {
+                    for (let i = 0; i < params.length; i++) {
+                        paramsJSON[params[i].key] = params[i].value;
+                    }
+                }
                 //html report
                 if (reportConfig.TypeId == 'html') {
                     $('body').append('<div class="aboveLoading"><div class="centerLoading"> <div id="flx-dependency-loader" class="reportSpinner margin-top-l margin-right-s" style="position: initial;width: 30px;height: 30px;"/><h1 class="margin-left-s loadingTitle">' + flexygo.localization.translate('htmlreport.generate') + '</h1></div></div>');
                     flexygo.utils.asyncSleep(0).then(() => {
                         let templateId = reportConfig.TemplateId;
-                        let filter = reportConfig.FilterSentence;
+                        filter = flexygo.utils.parser.compile(paramsJSON, (reportConfig.AdditionalWhere == null ? "" : reportConfig.AdditionalWhere));
                         let descrip = reportConfig.ReportDescrip;
                         flexygo.nav.openPrintPage(objectname, objectwhere, templateId, targetid, filter, descrip);
                     });
                 }
                 else if (reportConfig.TypeId == 'excel') {
-                    flexygo.ajax.syncPost('~/api/Report', 'GetReportExcel', { "ObjectName": objectname, "ObjectWhere": objectwhere, "ReportName": reportname }, (ret) => {
+                    filter = flexygo.utils.parser.compile(paramsJSON, (reportConfig.AdditionalWhere == null ? "" : reportConfig.AdditionalWhere));
+                    flexygo.ajax.syncPost('~/api/Report', 'GetReportExcel', { "ObjectName": objectname, "ObjectWhere": objectwhere, "ReportName": reportname, "AdditionalWhere": filter }, (ret) => {
                         if (ret.Success) {
                             var func = new Function(ret.Link);
                             func.call(ret.Link);
@@ -680,6 +809,10 @@ var flexygo;
             }
             else {
                 var pageContainer = flexygo.targets.createContainer(histObj, excludeHist, triggerElement);
+                if (!pageContainer) {
+                    NProgress.done();
+                    return;
+                }
                 var navString = '';
                 navString += '<div class="col-9 col-m-6 col-s-12">';
                 navString += '<flx-container type="emptyCnt">';
@@ -707,6 +840,9 @@ var flexygo;
                 mCtl.addItem('flx-icon icon-remove', 'Deshacer Edición', () => { wcMaster.uneditAll(); });
                 mCtl.addItem('flx-icon icon-save', 'Guardar todo', () => { wcMaster.saveAll(); });
                 flexygo.history.historyLog.add('flx-icon icon-properties-settings', tablename, histObj);
+                if (pageContainer.is('#realMain')) {
+                    document.title = tablename;
+                }
             }
         }
         nav.openEditTable = openEditTable;
@@ -749,10 +885,17 @@ var flexygo;
             }
             else {
                 var pageContainer = flexygo.targets.createContainer(histObj, excludeHist, triggerElement);
+                if (!pageContainer) {
+                    NProgress.done();
+                    return;
+                }
                 flexygo.ajax.post('~/api/Page', 'GetHelpById', { "HelpId": helpid }, (ret) => {
                     if (ret) {
                         ret.pageHistory = histObj;
                         flexygo.history.historyLog.add('flx-icon icon-help-2', ret.Title, histObj);
+                        if (pageContainer.is('#realMain')) {
+                            document.title = ret.Title;
+                        }
                         pageContainer.html(ret.HTMLText);
                         pageContainer.prepend('<div class="develop-only help-button help-fixed"><button class="btn btn-default" onclick="flexygo.nav.openPage(\'edit\',\'sysHelp\',\'(HelpId=\\\'' + helpid + '\\\')\',null,\'current\',false,$(this))"><i class="flx-icon icon-pencil"></i> </button></div>');
                         //$(document).trigger('helpLoaded', [helpid, pageContainer]);
@@ -833,6 +976,33 @@ var flexygo;
         function getObjectMenu(objectname, objectwhere, defaults, btn, coord, options) {
             var cntMenu = $('flx-contextmenu')[0];
             if (!cntMenu.hideMenu(btn)) {
+                let defPage, defMenu;
+                if (btn) {
+                    let histObj = flexygo.history.get(btn);
+                    if (typeof histObj != 'undefined' && histObj.defaults) {
+                        if (typeof histObj.defaults == 'string') {
+                            defPage = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
+                        }
+                        else {
+                            defPage = histObj.defaults;
+                        }
+                    }
+                }
+                if (defaults) {
+                    if (typeof defaults == 'string') {
+                        defMenu = JSON.parse(flexygo.utils.parser.replaceAll(defaults, "'", '"'));
+                    }
+                    else {
+                        defMenu = defaults;
+                    }
+                }
+                if (defPage) {
+                    Object.assign(defPage, defMenu);
+                    defaults = JSON.stringify(defPage);
+                }
+                else if (defMenu) {
+                    defaults = JSON.stringify(defMenu);
+                }
                 let proc = new flexygo.obj.Entity(objectname, objectwhere).processes(options, defaults);
                 //Clear not Show in Menu items
                 if (proc.ObjectLink && Object.keys(proc.ObjectLink.ChildNodes).length > 0) {

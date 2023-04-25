@@ -2,7 +2,7 @@
  * @namespace flexygo.events
  */
 declare namespace flexygo.events {
-    type EventClass = "all" | "entity" | "property" | "process" | "module" | "page" | "post" | "dialog" | "push" | "message" | "gipe" | "navbar" | "document" | "selection";
+    type EventClass = "all" | "entity" | "property" | "process" | "module" | "page" | "post" | "dialog" | "push" | "message" | "gipe" | "navbar" | "document" | "selection" | "panel";
     type EventType = "all" | "inserted" | "updated" | "deleted" | "changed" | "selected" | "executed" | "loaded" | "closed" | "refreshed" | "resized" | "generic" | "notify" | "filtered" | "loading" | "error" | "warning" | "info" | "success" | "exception" | "askparams" | "askentity" | "askyesno" | "debugstep" | "jsreturn" | "start" | "finish" | "toggled" | "check" | "uncheck" | "uploaded";
     type EventAction = "refresh" | "process";
     /**

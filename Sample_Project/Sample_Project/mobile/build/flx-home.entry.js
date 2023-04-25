@@ -1,8 +1,8 @@
 import { r as registerInstance, j as h } from './index-86ac49ff.js';
 import './ionic-global-0f98fe97.js';
-import { W as Webapi, b as storage } from './webapi-7959a2b6.js';
-import { i as flxSync, h as gps, t as tracking, n as nav, m as msg, u as util, C as ConftokenProvider, s as sql } from './conftoken-84c3ec5c.js';
-import { j as jquery } from './jquery-ad132f97.js';
+import { W as Webapi, b as storage } from './webapi-79a1d3db.js';
+import { i as flxSync, h as gps, t as tracking, n as nav, m as msg, u as util, C as ConftokenProvider, s as sql } from './conftoken-7e3c18eb.js';
+import { j as jquery } from './jquery-5df58adb.js';
 import './utils-16079bfd.js';
 import './helpers-719f4c54.js';
 import './animation-10ea33c3.js';
@@ -15,7 +15,7 @@ import './index-b40d441b.js';
 import './hardware-back-button-aacf3d12.js';
 import './index-50651ccc.js';
 import './overlays-5302658e.js';
-import { p as parser } from './parser-d133369b.js';
+import { p as parser } from './parser-8aed96de.js';
 
 const flxHomeCss = "#menuIonTitle{position:absolute;left:0;right:0;margin-left:auto;margin-right:auto;top:0;height:100%}";
 
@@ -24,6 +24,7 @@ const FlxHome = class {
         registerInstance(this, hostRef);
     }
     componentDidLoad() {
+        this.createLogsTable();
         jquery('#loadingSpinnerModule').css('visibility', 'hidden');
         flxSync.checkSendErrors();
         if (window.cordova)
@@ -135,9 +136,20 @@ const FlxHome = class {
             return true;
         return false;
     }
+    async createLogsTable() {
+        let creationScript = `CREATE TABLE IF NOT EXISTS ErrorsLogs (
+      LogId int PRIMARY KEY,
+      Message string,
+      PageType string,
+      PageObject string,
+      PageName string,
+      _insertDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );`;
+        await sql.execSQL(creationScript);
+    }
     render() {
         return [
-            h("ion-header", null, h("ion-toolbar", { color: "header", class: "ion-text-center" }, h("ion-buttons", { slot: "start" }, h("ion-menu-button", { color: "outstanding" }), h("ion-icon", { name: "alert-circle", color: "danger", class: "stack sendError hide" })), h("ion-title", { id: "menuIonTitle" }, h("span", { id: "menuTitle" }, this.title)))),
+            h("ion-header", null, h("ion-toolbar", { color: "header", class: "ion-text-center" }, h("ion-buttons", { slot: "start" }, h("ion-menu-button", { color: "outstanding" }), h("ion-icon", { name: "alert-circle", color: "danger", class: "stack sendError flx-hide" })), h("ion-title", { id: "menuIonTitle" }, h("span", { id: "menuTitle" }, this.title)))),
             h("ion-header", { innerHTML: this.header }),
             h("ion-content", null, h("ion-refresher", { slot: "fixed", id: "refresher", onIonRefresh: (ev) => { this.refresh(ev); } }, h("ion-refresher-content", null)), h("div", { id: "mainBody", innerHTML: this.body })),
             h("ion-footer", { innerHTML: this.footer })

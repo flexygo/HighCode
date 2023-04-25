@@ -138,6 +138,7 @@ var flexygo;
                                         ctx.objects.push({
                                             SchedulerName: response[i].SchedulerName,
                                             ObjectName: response[i].ObjectName,
+                                            ObjectDescrip: response[i].ObjectDescrip,
                                             StartDateField: response[i].StartDateField,
                                             EndDateField: response[i].EndDateField,
                                             EndTimeField: response[i].EndTimeField,
@@ -211,7 +212,7 @@ var flexygo;
                                     else {
                                         me.append('<div class="box-danger"><i class="flx-icon icon-close icon-lg icon-margin-right"></i><span><strong>Error</strong> No scheduler objects configurations are found</span></div>');
                                     }
-                                    $('flx-multicombo[viewname="' + viewName + '"]').find('div').on('change', function () {
+                                    $('flx-multicombo[viewname="' + viewName + '"]').find('div:not(.mobileinputdiv)').on('change', function () {
                                         let filtros = this.closest('flx-multicombo').getValue();
                                         let where = '';
                                         for (var i in ctx.checkObjects) {
@@ -253,9 +254,11 @@ var flexygo;
                     let navLinks = false;
                     let defaultDate;
                     flexygo.events.on(this, "dialog", "closed", (e) => {
-                        for (var i = 0; i < ctx.objects.length; i++) {
-                            if (e.sender.objectname && e.sender.objectname.toLowerCase() === ctx.objects[i].ObjectName.toLowerCase()) {
-                                ctx.checkPanelObjects(ctx.additionalWhere);
+                        if (ctx.eventsRefresh) {
+                            for (var i = 0; i < ctx.objects.length; i++) {
+                                if (e.sender.objectname && e.sender.objectname.toLowerCase() === ctx.objects[i].ObjectName.toLowerCase()) {
+                                    ctx.checkPanelObjects(ctx.additionalWhere);
+                                }
                             }
                         }
                     });
@@ -349,6 +352,9 @@ var flexygo;
                                 }
                             }
                             if (obj.update()) {
+                                if (obj.jsCode) {
+                                    flexygo.utils.execDynamicCode.call(this, obj.jsCode);
+                                }
                                 flexygo.msg.success('Saved');
                             }
                         },
@@ -380,6 +386,9 @@ var flexygo;
                                 obj.data[event.duration].Value = diffMins;
                             }
                             if (obj.update()) {
+                                if (obj.jsCode) {
+                                    flexygo.utils.execDynamicCode.call(this, obj.jsCode);
+                                }
                                 flexygo.msg.success('Saved');
                             }
                         },
@@ -460,52 +469,55 @@ var flexygo;
                             }
                         },
                         dayClick: function (date, jsEvent, view) {
-                            if (!flexygo.utils.isBlank(onClickDayJS)) {
-                                var func = new Function('date', 'jsEvent', 'view', onClickDayJS);
-                                func.call(this, date, jsEvent, view);
-                            }
-                            else {
-                                if (!ctx.dayClick) {
-                                    ctx.dayClick = true;
-                                    let hasTime = date.hasTime();
-                                    if (ctx.objects.length > 1) {
-                                        let myButtons = new Object();
-                                        let buttons = '';
-                                        for (var i = 0; i < ctx.objects.length; i++) {
-                                            myButtons[ctx.objects[i].ObjectName] = {
-                                                'class': 'btn btn-default',
-                                                text: ctx.objects[i].ObjectName,
-                                                SchedulerName: ctx.objects[i].SchedulerName,
-                                                ObjectName: ctx.objects[i].ObjectName,
-                                                StartDateField: ctx.objects[i].StartDateField,
-                                                EndDateField: ctx.objects[i].EndDateField,
-                                                StartTimeField: ctx.objects[i].StartTimeField,
-                                                EndTimeField: ctx.objects[i].EndTimeField,
-                                                DurationField: ctx.objects[i].DurationField,
-                                                closeOnClick: true,
-                                                Icon: ctx.objects[i].Icon
-                                            };
-                                            if (ctx.objects[i].CanInsert) {
-                                                buttons += '<a style="padding: 0.7em;margin-right: 3%;margin-bottom: 3%;" class="btn btn-default bg-outstanding modalButton"><i style="margin-right:4px;" class="' + ctx.objects[i].Icon + '"></i>' + ctx.objects[i].ObjectName + '</a>';
+                            if (touches <= 1) {
+                                if (!flexygo.utils.isBlank(onClickDayJS)) {
+                                    var func = new Function('date', 'jsEvent', 'view', onClickDayJS);
+                                    func.call(this, date, jsEvent, view);
+                                }
+                                else {
+                                    if (!ctx.dayClick) {
+                                        ctx.dayClick = true;
+                                        let hasTime = date.hasTime();
+                                        if (ctx.objects.length > 1) {
+                                            let myButtons = new Object();
+                                            let buttons = '';
+                                            for (var i = 0; i < ctx.objects.length; i++) {
+                                                myButtons[ctx.objects[i].ObjectName] = {
+                                                    'class': 'btn btn-default',
+                                                    text: ctx.objects[i].ObjectName,
+                                                    SchedulerName: ctx.objects[i].SchedulerName,
+                                                    ObjectName: ctx.objects[i].ObjectName,
+                                                    StartDateField: ctx.objects[i].StartDateField,
+                                                    EndDateField: ctx.objects[i].EndDateField,
+                                                    StartTimeField: ctx.objects[i].StartTimeField,
+                                                    EndTimeField: ctx.objects[i].EndTimeField,
+                                                    DurationField: ctx.objects[i].DurationField,
+                                                    closeOnClick: true,
+                                                    Icon: ctx.objects[i].Icon
+                                                };
+                                                if (ctx.objects[i].CanInsert) {
+                                                    buttons += '<a style="padding: 0.7em;margin-right: 3%;margin-bottom: 3%;" class="btn btn-default bg-outstanding modalButton"><i style="margin-right:4px;" class="' + ctx.objects[i].Icon + '"></i>' + ctx.objects[i].ObjectDescrip + '</a>';
+                                                }
+                                            }
+                                            if (buttons != '') {
+                                                $.sweetModal({
+                                                    title: flexygo.localization.translate('flxscheduler.chooseobjects'),
+                                                    content: '<div>' + buttons + '</div>',
+                                                    theme: $.sweetModal.THEME_MIXED,
+                                                    width: '31%',
+                                                    onClose: () => { ctx.dayClick = false; }
+                                                });
+                                                $(".modalButton").click(function () {
+                                                    let object = myButtons[this.text];
+                                                    ctx.openEvent(object.ObjectName, object.StartDateField, object.EndDateField, object.StartTimeField, object.EndTimeField, object.DurationField, date.format("YYYY-MM-DD"), date.format("HH:mm"), object.AllDayField, hasTime);
+                                                    $('.sweet-modal-overlay').remove();
+                                                });
                                             }
                                         }
-                                        if (buttons != '') {
-                                            $.sweetModal({
-                                                title: flexygo.localization.translate('flxscheduler.chooseobjects'),
-                                                content: '<div>' + buttons + '</div>',
-                                                theme: $.sweetModal.THEME_MIXED,
-                                                width: '31%'
-                                            });
-                                            $(".modalButton").click(function () {
-                                                let object = myButtons[this.text];
-                                                ctx.openEvent(object.ObjectName, object.StartDateField, object.EndDateField, object.StartTimeField, object.EndTimeField, object.DurationField, date.format("YYYY-MM-DD"), date.format("HH:mm"), object.AllDayField, hasTime);
-                                                $('.sweet-modal-overlay').remove();
-                                            });
-                                        }
-                                    }
-                                    else {
-                                        if (ctx.objects[0].CanInsert) {
-                                            ctx.openEvent(ctx.objects[0].ObjectName, ctx.objects[0].StartDateField, ctx.objects[0].EndDateField, ctx.objects[0].StartTimeField, ctx.objects[0].EndTimeField, ctx.objects[0].DurationField, date.format("YYYY-MM-DD"), date.format("HH:mm"), ctx.objects[0].AllDayField, hasTime);
+                                        else {
+                                            if (ctx.objects[0].CanInsert) {
+                                                ctx.openEvent(ctx.objects[0].ObjectName, ctx.objects[0].StartDateField, ctx.objects[0].EndDateField, ctx.objects[0].StartTimeField, ctx.objects[0].EndTimeField, ctx.objects[0].DurationField, date.format("YYYY-MM-DD"), date.format("HH:mm"), ctx.objects[0].AllDayField, hasTime);
+                                            }
                                         }
                                     }
                                 }
@@ -550,6 +562,18 @@ var flexygo;
                     });
                     $('#mainContent').on('scroll', function () {
                         dp1.hide();
+                    });
+                    var touches = 0;
+                    me.on('touchstart', (ev) => {
+                        touches = ev.originalEvent.touches.length;
+                        me.on('touchend', (ev) => {
+                            if (ev.originalEvent.touches) {
+                                touches = ev.originalEvent.touches.length;
+                            }
+                            else {
+                                touches--;
+                            }
+                        });
                     });
                     $(document).mouseup(function (e) {
                         if (!dp1.is(e.target) && dp1.has(e.target).length === 0) {

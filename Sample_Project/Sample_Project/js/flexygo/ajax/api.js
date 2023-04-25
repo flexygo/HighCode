@@ -60,6 +60,24 @@ var flexygo;
         }
         api.BasicPropertyLoweredKey = BasicPropertyLoweredKey;
         /**
+       * api for Dependency properties
+       * @class DependencyProperties
+       * @constructor
+       * @return {DependencyProperties} .
+       */
+        class DependencyProperties {
+        }
+        api.DependencyProperties = DependencyProperties;
+        /**
+        * api for Dependency properties
+        * @class DependencyPropertiesLoweredKey
+        * @constructor
+        * @return {DependencyPropertiesLoweredKey} .
+        */
+        class DependencyPropertiesLoweredKey {
+        }
+        api.DependencyPropertiesLoweredKey = DependencyPropertiesLoweredKey;
+        /**
         * api for ObjectProperty
         * @class ObjectProperty
         * @constructor

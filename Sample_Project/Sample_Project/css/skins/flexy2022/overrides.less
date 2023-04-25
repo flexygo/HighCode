@@ -118,9 +118,16 @@ h1, h2, h3, h4, h5 {
     box-shadow: none;
     -webkit-box-shadow: none;
     border-radius: 0;
-    border-collapse: collapse;
+    border-collapse: inherit;
 }
 
+flx-view flx-text > div.input-group > label {
+    border: none !important;
+}
+
+flx-view flx-text div.input-group-btn > button {
+    border: none !important;
+}
 
 .form-control:focus, .input-group:focus {
     border-color: dbColor(InfoColor);
@@ -133,7 +140,7 @@ h1, h2, h3, h4, h5 {
 .input-group .input-group-btn {
     border:none;
 }
-.input-group .form-control, .input-group .input-group-addon {
+.input-group .form-control, .input-group .input-group-addon, flx-list[mode="edit"] .input-group {
     border-bottom: 0;
 }
 
@@ -151,6 +158,17 @@ flx-edit .bootstrap-tagsinput {
 
 flx-list[mode="edit"] flx-image {
     height: 30px;
+}
+
+flx-list[mode="edit"] flx-tag {
+    > div {
+        border: none;
+    }
+
+    .bootstrap-tagsinput {
+        background: transparent;
+        box-shadow: none;
+    }
 }
 
 .form-control, flx-dependencymanager .bootstrap-tagsinput {
@@ -588,6 +606,14 @@ flx-list[mode="edit"] {
     tr:hover flx-multicombo span.tag.label.label-info {
         border: 1px solid white;
     }
+
+    flx-multicombo div.bootstrap-tagsinput {
+        white-space: normal;
+
+        > input[type="text"] {
+            box-shadow: none;
+        }
+    }
 }
 
 flx-search .btn-default,
@@ -736,6 +762,14 @@ flx-dependencymanager .pnlProperties.ui-sortable:not(.ui-sortable-disabled) li:h
     color: dbColor(txtColor);
     background-color: transparent;
     border-color: dbcolor(OutstandingColor);
+}
+
+html.tactilMode flx-module .cntBodyHeader .moduleToolbar .btn, flx-module .cntBodyFooter .moduleToolbar .btn {
+    padding: 4px 12px 8px 12px !important;
+}
+
+.btn-toolbar button {
+    padding: 4px 6px !important;
 }
 
 flx-dbcombo > ul > div.load-more, flx-multicombo > ul > div.load-more {
@@ -1151,6 +1185,10 @@ textarea, flx-chatter .chatter .chatter_composer .chatter_composer_container .ch
     background-color: dbColor(inputbackgroundColor);
 }
 
+textarea, flx-chatter .chatter .chatter_thread .chatter_thread_message .chatter_thread_message_core .chatter_composer_tools_edit > button {
+    background-color: dbColor(inputbackgroundColor);
+}
+
 flx-textarea textarea.form-control {
     padding: 8px;
     border: 1px solid;
@@ -1159,6 +1197,51 @@ flx-textarea textarea.form-control {
 
 flx-chatter .chatter .chatter_composer .chatter_composer_container .chatter_composer_section .chatter_composer_input .chatter_composer_tools {
     border-top-color: dbColor(inputBorderColor);
+}
+
+body[mode="dark"] flx-chatter .chatter_composer_input .mentions-input-box .mentions {
+    color: dbColor(inputbackgroundColor);
+}
+
+body[mode="dark"] flx-chatter .chatter_thread_message_content .mentions-input-box .mentions {
+    color: dbColor(inputbackgroundColor);
+}
+
+
+body[mode="dark"] flx-chatter .chatter .chatter_thread .chatter_thread_message .chatter_thread_message_core .shadow_thread {
+    background-color: dbColor(inputbackgroundColor);
+    border-width: 1px;
+    border-color: #5a5a5a;
+    border-style: solid;
+}
+
+body[mode="dark"] flx-chatter .chatter .chatter_thread .chatter_thread_message .chatter_thread_message_core .chatter_composer_tools_edit {
+    border-top: 1px solid #5a5a5a;
+    background-color: dbColor(inputbackgroundColor);
+}
+
+body[mode="dark"] flx-chatter .chatter_composer_input .mentions-input-box .mentions > div > strong {
+    background: #666666;
+    color: dbColor(inputbackgroundColor);
+}
+
+body[mode="dark"] flx-chatter .chatter_thread_message_content .mentions-input-box .mentions > div > strong {
+    background: #666666;
+    color: dbColor(inputbackgroundColor);
+}
+
+body[mode="dark"] flx-chatter .mentions-input-box .mentions-autocomplete-list {
+    background: #292929;
+    border: 1px solid #292929;
+}
+
+body[mode="dark"] flx-chatter .mentions-input-box .mentions-autocomplete-list li {
+    background-color: #292929;
+    border-bottom: 1px solid #292929;
+}
+
+body[mode="dark"] flx-chatter .mentions-input-box .mentions-autocomplete-list li:hover, body[mode="dark"] flx-chatter .mentions-input-box .mentions-autocomplete-list li.active {
+    background-color: #2eafe7;
 }
 
 //Help
@@ -1257,11 +1340,11 @@ flx-propertymanager .grid-stack .grid-stack-placeholder > .placeholder-content {
 
 //Slide Dialog
 .flx-dialog-modal.flx-slide .ui-widget-header{
-    background-color:dbcolor(moduleColor);
+    background-color:dbcolor(moduleColor) !important;
 }
 
 .flx-dialog-modal.flx-slide .ui-dialog-content {
-    background-color: dbcolor(moduleColor);
+    background-color: dbcolor(moduleColor) !important;
 }
 
 //FLX-Map
@@ -1275,17 +1358,24 @@ body[mode="dark"] .cronExpression .jqCron-selector-title {
     background: transparent;
 }
 
-main[pagename="offline_App_View"] flx-module[modulename="sysOfflineObjectSearch"] {
-    div.cntBody.nopadding {
-        margin: 0 !important;
+//Offline main page
+main[pagename="offline_App_View"] {
+    flx-module[modulename="sysOfflineObjectSearch"] {
+        div.cntBody.nopadding {
+            margin: 0 !important;
+        }
+
+        flx-genericsearch input {
+            border: none;
+        }
+
+        span.input-group-addon.bg-outstanding {
+            border-color: #ccc;
+        }
     }
 
-    flx-genericsearch input {
-        border: none;
-    }
-
-    span.input-group-addon.bg-outstanding {
-        border-color: #ccc;
+    flx-module[modulename="sysofflineTabs"] .cntBody {
+        padding: 0 !important;
     }
 }
 
@@ -1308,4 +1398,37 @@ body[mode="dark"] .bootstrap-datetimepicker-widget table thead tr:first-child th
 body[mode="dark"] flx-list .flxRszTbl .bootstrap-datetimepicker-widget tr:nth-child(odd):not(.rowHeader):hover,
 body[mode="dark"] flx-list .flxRszTbl .bootstrap-datetimepicker-widget tr:nth-child(even):not(.rowHeader):hover {
     background-color: transparent !important;
+}
+
+body[mode=""] label > span.help-icon {
+    color: darken(dbColor(txtNavColor), 20);
+}
+
+body[mode=""] label > span.help-icon:hover {
+    color: dbColor(OutstandingColor);
+}
+
+body[mode="dark"] {
+    flx-sortmanager .fieldPanel, flx-sortmanager .fieldSortItem, .modal-content {
+        background-color: dbcolor(moduleColor);
+    }
+
+    pre:not(.CodeMirror-line), button.tab-button {
+        background-color: lighten(dbcolor(moduleColor), 3%);
+        border: 1px solid lighten(dbcolor(moduleColor), 10%);
+    }
+}
+
+body[mode="dark"] flx-code .CodeMirror-cursors .CodeMirror-cursor {
+    border-left: 1px solid white;
+}
+/** MODULE VIEWER **/
+body[mode="dark"] .flx-info-viewers {
+    background-color: #272727;
+    box-shadow: 0px 0px 8px 2px #161616;
+
+    .tooltip-inner {
+        background-color: #272727;
+        color: #fff;
+    }
 }

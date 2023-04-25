@@ -1,8 +1,8 @@
 import './index-86ac49ff.js';
 import './ionic-global-0f98fe97.js';
-import { p as WebPlugin, q as CapacitorException } from './webapi-7959a2b6.js';
-import { l as CameraSource, o as CameraDirection } from './conftoken-84c3ec5c.js';
-import './jquery-ad132f97.js';
+import { q as WebPlugin, u as CapacitorException } from './webapi-79a1d3db.js';
+import { o as CameraSource, p as CameraDirection } from './conftoken-7e3c18eb.js';
+import './jquery-5df58adb.js';
 import './utils-16079bfd.js';
 import './helpers-719f4c54.js';
 import './animation-10ea33c3.js';
@@ -59,6 +59,8 @@ class CameraWeb extends WebPlugin {
     async cameraExperience(options, resolve, reject) {
         if (customElements.get('pwa-camera-modal')) {
             const cameraModal = document.createElement('pwa-camera-modal');
+            cameraModal.facingMode =
+                options.direction === CameraDirection.Front ? 'user' : 'environment';
             document.body.appendChild(cameraModal);
             try {
                 await cameraModal.componentOnReady();
@@ -83,7 +85,7 @@ class CameraWeb extends WebPlugin {
             }
         }
         else {
-            console.error(`Unable to load PWA Element 'pwa-camera-modal'. See the docs: https://capacitorjs.com/docs/pwa-elements.`);
+            console.error(`Unable to load PWA Element 'pwa-camera-modal'. See the docs: https://capacitorjs.com/docs/web/pwa-elements.`);
             this.fileInputExperience(options, resolve);
         }
     }
@@ -187,7 +189,6 @@ class CameraWeb extends WebPlugin {
             });
         }
         input.accept = 'image/*';
-        input.capture = true;
         input.click();
     }
     _getCameraPhoto(photo, options) {
@@ -248,6 +249,12 @@ class CameraWeb extends WebPlugin {
     }
     async requestPermissions() {
         throw this.unimplemented('Not implemented on web.');
+    }
+    async pickLimitedLibraryPhotos() {
+        throw this.unavailable('Not implemented on web.');
+    }
+    async getLimitedLibraryPhotos() {
+        throw this.unavailable('Not implemented on web.');
     }
 }
 const Camera = new CameraWeb();

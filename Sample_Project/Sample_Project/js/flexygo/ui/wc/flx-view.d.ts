@@ -38,6 +38,9 @@ declare namespace flexygo.ui.wc {
         tScriptText: string;
         isNew: boolean;
         TemplateToolbarCollection: any;
+        currentViewers: {
+            [name: string]: string;
+        };
         /**
         * Fires when element is attached to DOM
         * @method connectedCallback

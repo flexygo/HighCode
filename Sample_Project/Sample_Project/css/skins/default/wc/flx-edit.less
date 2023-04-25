@@ -48,10 +48,7 @@ flx-htmledit .note-editor {
 }
 
 flx-htmledit .note-editor .note-editable {
-    height: 90%;
-}
-
-flx-htmledit .note-editor .note-editable.panel-body {
+    height: 90% !important ;
 }
 
 flx-htmledit .note-editor .note-statusbar {
@@ -1630,4 +1627,62 @@ flx-list .flxRszTbl .bootstrap-datetimepicker-widget tr:nth-child(even):not(.row
 
 .bootstrap-datetimepicker-widget .weekend {
     color: dbColor(dangerColor);
+}
+
+//flx-barcode styles
+body > div.barcode-backdrop {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: black;
+    opacity: 0.5;
+    z-index: 9999999;
+    height: 200%;
+}
+
+body > div.barcode-scanner {
+    transform: translate(50%,-50%);
+    position: fixed;
+    top: 50%;
+    right: 50%;
+    width: 80%;
+    height: 80%;
+    z-index: 99999999;
+
+    canvas {
+        display: none;
+    }
+
+    .icon-close-2 {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        color: white;
+        font-weight: bold;
+    }
+
+    video {
+        width: 100%;
+        height: 100%;
+    }
+
+    span.flx-icon {
+        z-index: 1;
+        padding: 5px;
+    }
+
+    div.scannerLine {
+        border: 1px solid #f00;
+        top: 50%;
+        left: 50%;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        width: 100%;
+    }
+}
+
+.barcodeLock {
+    overflow: hidden;
 }

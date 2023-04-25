@@ -1,6 +1,6 @@
 import './ionic-global-0f98fe97.js';
-import { r as registerPlugin, a as authToken, b as storage, c as audit$1, f as fieldConfig, W as Webapi$1, s as storage$1, C as Capacitor, P as Plugins, d as ConfToken, O as ObjectConfig, V as ViewConfig, F as FileConfig, I as ImageConfig, R as RelationConfig, e as RelationKey, g as PageConfig, G as GroupConfig, M as MenuConfig, h as ScriptConfig, i as StyleConfig, U as UserProfileConfig, j as GeneralConfig, k as fileResource, T as TrackingConfig, l as PropertyConfig, D as DependencyConfig, m as syncObj, n as syncResult, o as compareData } from './webapi-7959a2b6.js';
-import { j as jquery } from './jquery-ad132f97.js';
+import { r as registerPlugin, a as authToken, b as storage, c as audit$1, f as fieldConfig, W as Webapi$1, s as storage$1, d as Capacitor, e as Plugins, C as ConfToken, O as ObjectConfig, V as ViewConfig, F as FileConfig, I as ImageConfig, R as RelationConfig, g as RelationKey, h as PageConfig, G as GroupConfig, M as MenuConfig, S as ScriptConfig, i as StyleConfig, j as UserProfileConfig, k as GeneralConfig, l as fileResource, T as TrackingConfig, m as PropertyConfig, D as DependencyConfig, n as syncObj, o as syncResult, p as compareData } from './webapi-79a1d3db.js';
+import { j as jquery } from './jquery-5df58adb.js';
 import './utils-16079bfd.js';
 import { r as raf, a as removeEventListener, b as addEventListener } from './helpers-719f4c54.js';
 import './animation-10ea33c3.js';
@@ -56201,8 +56201,1102 @@ var SQLite = /** @class */ (function (_super) {
 }(IonicNativePlugin));
 
 const Device = registerPlugin('Device', {
-    web: () => __sc_import_app('./web-a6b25220.js').then(m => new m.DeviceWeb()),
+    web: () => __sc_import_app('./web-d6b116c2.js').then(m => new m.DeviceWeb()),
 });
+
+var Directory;
+(function (Directory) {
+    /**
+     * The Documents directory
+     * On iOS it's the app's documents directory.
+     * Use this directory to store user-generated content.
+     * On Android it's the Public Documents folder, so it's accessible from other apps.
+     * It's not accesible on Android 10 unless the app enables legacy External Storage
+     * by adding `android:requestLegacyExternalStorage="true"` in the `application` tag
+     * in the `AndroidManifest.xml`.
+     * It's not accesible on Android 11 or newer.
+     *
+     * @since 1.0.0
+     */
+    Directory["Documents"] = "DOCUMENTS";
+    /**
+     * The Data directory
+     * On iOS it will use the Documents directory.
+     * On Android it's the directory holding application files.
+     * Files will be deleted when the application is uninstalled.
+     *
+     * @since 1.0.0
+     */
+    Directory["Data"] = "DATA";
+    /**
+     * The Library directory
+     * On iOS it will use the Library directory.
+     * On Android it's the directory holding application files.
+     * Files will be deleted when the application is uninstalled.
+     *
+     * @since 1.1.0
+     */
+    Directory["Library"] = "LIBRARY";
+    /**
+     * The Cache directory
+     * Can be deleted in cases of low memory, so use this directory to write app-specific files
+     * that your app can re-create easily.
+     *
+     * @since 1.0.0
+     */
+    Directory["Cache"] = "CACHE";
+    /**
+     * The external directory
+     * On iOS it will use the Documents directory
+     * On Android it's the directory on the primary shared/external
+     * storage device where the application can place persistent files it owns.
+     * These files are internal to the applications, and not typically visible
+     * to the user as media.
+     * Files will be deleted when the application is uninstalled.
+     *
+     * @since 1.0.0
+     */
+    Directory["External"] = "EXTERNAL";
+    /**
+     * The external storage directory
+     * On iOS it will use the Documents directory
+     * On Android it's the primary shared/external storage directory.
+     * It's not accesible on Android 10 unless the app enables legacy External Storage
+     * by adding `android:requestLegacyExternalStorage="true"` in the `application` tag
+     * in the `AndroidManifest.xml`.
+     * It's not accesible on Android 11 or newer.
+     *
+     * @since 1.0.0
+     */
+    Directory["ExternalStorage"] = "EXTERNAL_STORAGE";
+})(Directory || (Directory = {}));
+var Encoding;
+(function (Encoding) {
+    /**
+     * Eight-bit UCS Transformation Format
+     *
+     * @since 1.0.0
+     */
+    Encoding["UTF8"] = "utf8";
+    /**
+     * Seven-bit ASCII, a.k.a. ISO646-US, a.k.a. the Basic Latin block of the
+     * Unicode character set
+     * This encoding is only supported on Android.
+     *
+     * @since 1.0.0
+     */
+    Encoding["ASCII"] = "ascii";
+    /**
+     * Sixteen-bit UCS Transformation Format, byte order identified by an
+     * optional byte-order mark
+     * This encoding is only supported on Android.
+     *
+     * @since 1.0.0
+     */
+    Encoding["UTF16"] = "utf16";
+})(Encoding || (Encoding = {}));
+/**
+ * @deprecated Use `Directory`.
+ * @since 1.0.0
+ */
+const FilesystemDirectory = Directory;
+/**
+ * @deprecated Use `Encoding`.
+ * @since 1.0.0
+ */
+const FilesystemEncoding = Encoding;
+
+const Filesystem = registerPlugin('Filesystem', {
+    web: () => __sc_import_app('./web-5ef40f6e.js').then(m => new m.FilesystemWeb()),
+});
+
+/// <reference types="@capacitor/cli" />
+/**
+ * Day of the week. Used for scheduling notifications on a particular weekday.
+ */
+var Weekday;
+(function (Weekday) {
+    Weekday[Weekday["Sunday"] = 1] = "Sunday";
+    Weekday[Weekday["Monday"] = 2] = "Monday";
+    Weekday[Weekday["Tuesday"] = 3] = "Tuesday";
+    Weekday[Weekday["Wednesday"] = 4] = "Wednesday";
+    Weekday[Weekday["Thursday"] = 5] = "Thursday";
+    Weekday[Weekday["Friday"] = 6] = "Friday";
+    Weekday[Weekday["Saturday"] = 7] = "Saturday";
+})(Weekday || (Weekday = {}));
+
+const LocalNotifications = registerPlugin('LocalNotifications', {
+    web: () => __sc_import_app('./web-f913b99c.js').then(m => new m.LocalNotificationsWeb()),
+});
+
+const FileOpener = registerPlugin('FileOpener');
+
+var SocialSharing = /** @class */ (function (_super) {
+    __extends(SocialSharing, _super);
+    function SocialSharing() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    SocialSharing.prototype.share = function (message, subject, file, url) { return cordova$1(this, "share", { "successIndex": 4, "errorIndex": 5 }, arguments); };
+    SocialSharing.prototype.shareWithOptions = function (options) { return cordova$1(this, "shareWithOptions", { "platforms": ["iOS", "Android"] }, arguments); };
+    SocialSharing.prototype.canShareVia = function (appName, message, subject, image, url) { return cordova$1(this, "canShareVia", { "successIndex": 5, "errorIndex": 6, "platforms": ["iOS", "Android"] }, arguments); };
+    SocialSharing.prototype.shareViaTwitter = function (message, image, url) { return cordova$1(this, "shareViaTwitter", { "successIndex": 3, "errorIndex": 4, "platforms": ["iOS", "Android"] }, arguments); };
+    SocialSharing.prototype.shareViaFacebook = function (message, image, url) { return cordova$1(this, "shareViaFacebook", { "successIndex": 3, "errorIndex": 4, "platforms": ["iOS", "Android"] }, arguments); };
+    SocialSharing.prototype.shareViaFacebookWithPasteMessageHint = function (message, image, url, pasteMessageHint) { return cordova$1(this, "shareViaFacebookWithPasteMessageHint", { "successIndex": 4, "errorIndex": 5, "platforms": ["iOS", "Android"] }, arguments); };
+    SocialSharing.prototype.shareViaInstagram = function (message, image) { return cordova$1(this, "shareViaInstagram", { "platforms": ["iOS", "Android"] }, arguments); };
+    SocialSharing.prototype.shareViaWhatsApp = function (message, image, url) { return cordova$1(this, "shareViaWhatsApp", { "successIndex": 3, "errorIndex": 4, "platforms": ["iOS", "Android"] }, arguments); };
+    SocialSharing.prototype.shareViaWhatsAppToReceiver = function (receiver, message, image, url) { return cordova$1(this, "shareViaWhatsAppToReceiver", { "successIndex": 4, "errorIndex": 5, "platforms": ["iOS", "Android"] }, arguments); };
+    SocialSharing.prototype.shareViaSMS = function (messge, phoneNumber) { return cordova$1(this, "shareViaSMS", { "platforms": ["iOS", "Android"] }, arguments); };
+    SocialSharing.prototype.canShareViaEmail = function () { return cordova$1(this, "canShareViaEmail", { "platforms": ["iOS", "Android"] }, arguments); };
+    SocialSharing.prototype.shareViaEmail = function (message, subject, to, cc, bcc, files) { return cordova$1(this, "shareViaEmail", { "platforms": ["iOS", "Android"], "successIndex": 6, "errorIndex": 7 }, arguments); };
+    SocialSharing.prototype.shareVia = function (appName, message, subject, image, url) { return cordova$1(this, "shareVia", { "successIndex": 5, "errorIndex": 6, "platforms": ["iOS", "Android"] }, arguments); };
+    SocialSharing.prototype.setIPadPopupCoordinates = function (targetBounds) { return cordova$1(this, "setIPadPopupCoordinates", { "sync": true, "platforms": ["iOS"] }, arguments); };
+    SocialSharing.prototype.saveToPhotoAlbum = function (fileOrFileArray) { return cordova$1(this, "saveToPhotoAlbum", { "platforms": ["iOS"] }, arguments); };
+    SocialSharing.prototype.shareViaWhatsAppToPhone = function (phone, message, fileOrFileArray, url) { return cordova$1(this, "shareViaWhatsAppToPhone", { "successIndex": 5, "errorIndex": 6, "platforms": ["iOS", "Android"] }, arguments); };
+    SocialSharing.pluginName = "SocialSharing";
+    SocialSharing.plugin = "cordova-plugin-x-socialsharing";
+    SocialSharing.pluginRef = "plugins.socialsharing";
+    SocialSharing.repo = "https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin";
+    SocialSharing.platforms = ["Android", "Browser", "iOS", "Windows", "Windows Phone"];
+    SocialSharing.decorators = [
+        { type: Injectable }
+    ];
+    return SocialSharing;
+}(IonicNativePlugin));
+
+class Webapi {
+    constructor() {
+        this.maxAttempts = 5;
+    }
+    login(url, username, password) {
+        let auth = new authToken;
+        auth.url = url;
+        auth.user = username;
+        auth.b64 = this.b64EncodeUnicode(username + ':' + password);
+        this.saveAuth(auth);
+        return this.connect();
+    }
+    b64EncodeUnicode(str) {
+        return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function toSolidBytes(_match, p1) {
+            return String.fromCharCode(('0x' + p1));
+        }));
+    }
+    async connect() {
+        let authString = await this.getAuth();
+        if (authString) {
+            let auth = authString;
+            if (auth.bearerToken) {
+                if (this.isExpired(auth)) {
+                    return this.refreshToken(auth).catch((_err) => { return this.getToken(auth); });
+                }
+                else {
+                    return new Promise((resolve, _reject) => { resolve(auth); });
+                }
+            }
+            else {
+                return this.getToken(auth);
+            }
+        }
+        else {
+            return new Promise((_resolve, reject) => { reject(); });
+        }
+    }
+    getAuth() {
+        return storage.get('flexyAuth');
+    }
+    async saveAuth(auth) {
+        storage.set('flexyAuth', auth);
+    }
+    async disconnect() {
+        let auth = await this.getAuth();
+        if (auth) {
+            auth.bearerToken = null;
+            auth.b64 = null;
+            auth.expiredDate = null;
+            this.saveAuth(auth);
+            return auth;
+        }
+        return null;
+    }
+    async refreshToken(auth) {
+        audit$1.log('Refreshing token', 'webapi');
+        return this.post(auth.url + '/token', 'grant_type=refresh_token&refresh_token=' + auth.refreshToken, { 'authorization': 'Bearer ' + auth.bearerToken }).then((res) => {
+            return this.updateAuthToken(auth, res);
+        }).catch((err) => {
+            audit$1.log('Refreshing token FAIL', 'webapi');
+            throw err;
+        });
+    }
+    async getToken(auth) {
+        audit$1.log('Getting new token', 'webapi');
+        return this.post(auth.url + '/token', 'grant_type=password', { 'Authorization': 'Basic ' + auth.b64 }).then((res) => {
+            audit$1.log('Getting new token success', 'webapi');
+            return this.updateAuthToken(auth, res);
+        });
+    }
+    updateAuthToken(auth, apiReturn) {
+        audit$1.log('Save auth', 'webapi');
+        auth.bearerToken = apiReturn.access_token;
+        auth.refreshToken = apiReturn.refresh_token;
+        auth.expiredDate = moment().add(apiReturn.expires_in, 'seconds');
+        this.saveAuth(auth);
+        return auth;
+    }
+    isExpired(auth) {
+        var tCurrent = moment();
+        var tExpire = moment(auth.expiredDate);
+        var secodsToExpire = tExpire.diff(tCurrent, 'seconds');
+        if (secodsToExpire < 10) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    getCollection(objectName, filter = null, page = 0, pageSize = 500, orderBy = null) {
+        return this.connect().then((auth) => {
+            let data = {};
+            if (filter) {
+                data['filter'] = filter;
+            }
+            data['page'] = page.toString();
+            data['pageSize'] = pageSize.toString();
+            if (orderBy) {
+                data['orderBy'] = orderBy;
+            }
+            ;
+            data['withDescrips'] = false;
+            return this.get(auth.url + '/webapi/list/' + objectName, data, { 'Authorization': 'Bearer ' + auth.bearerToken });
+        });
+    }
+    getObjectById(_objectName, _id) {
+    }
+    getObjectByFilter(_objectName, _filter) {
+    }
+    getView(objectName, viewName, filter, page, pageSize, orderBy = '', attempts = 0) {
+        return this.connect().then((auth) => {
+            let data = {};
+            if (filter) {
+                data['filter'] = filter;
+            }
+            data['page'] = page.toString();
+            data['pageSize'] = pageSize.toString();
+            if (orderBy) {
+                data['orderBy'] = orderBy;
+            }
+            ;
+            return this.get(auth.url + '/webapi/list/' + objectName + '/' + viewName, data, { 'Authorization': 'Bearer ' + auth.bearerToken }).catch((reason) => {
+                if (attempts < this.maxAttempts) {
+                    return this.getView(objectName, viewName, filter, page, pageSize, orderBy, attempts + 1);
+                }
+                else {
+                    throw reason;
+                }
+            });
+        });
+    }
+    getViewSchema(objectName, viewName, timeout) {
+        return this.connect().then((auth) => {
+            return this.get(auth.url + '/webapi/schema/' + objectName + '/' + viewName, null, { 'Authorization': 'Bearer ' + auth.bearerToken }, timeout);
+        });
+    }
+    getObjectSchema(objectName, timeout) {
+        return this.connect().then((auth) => {
+            return this.get(auth.url + '/webapi/schema/' + objectName, null, { 'Authorization': 'Bearer ' + auth.bearerToken }, timeout);
+        });
+    }
+    getContext() {
+        return this.connect().then((auth) => {
+            return this.get(auth.url + '/webapi/context', null, { 'Authorization': 'Bearer ' + auth.bearerToken });
+        });
+    }
+    insertObject() {
+    }
+    updateObject() {
+    }
+    deleteObject() {
+    }
+    execProcess(processName, params, objectName = null, filter = null, timeout) {
+        return this.connect().then((auth) => {
+            let apiPath = '/webapi/exec/' + processName;
+            if (objectName) {
+                apiPath += '/' + objectName;
+            }
+            if (filter)
+                apiPath += '?filter=' + encodeURIComponent(filter);
+            return this.post(auth.url + apiPath, JSON.stringify(params), { 'Authorization': 'Bearer ' + auth.bearerToken }, timeout);
+        });
+    }
+    async getWebApiInfo(url, firstTry = true) {
+        let info;
+        try {
+            info = await this.get(url, null, {});
+            return info;
+        }
+        catch (err) {
+            if (!firstTry) {
+                return null;
+            }
+            if (url.startsWith('https')) {
+                url = url.replace('https', 'http');
+            }
+            else {
+                url = url.replace('http', 'https');
+            }
+            return await this.getWebApiInfo(url, false);
+        }
+    }
+    async post(url, body, headers, timeout) {
+        try {
+            headers["content-type"] = "application/json";
+            let controller = new AbortController();
+            if (timeout && timeout > 0) {
+                setTimeout(() => {
+                    controller.abort();
+                }, timeout);
+            }
+            const response = await fetch(url, {
+                "headers": headers,
+                "body": body,
+                "method": "POST",
+                "mode": "cors",
+                signal: controller.signal
+            });
+            if (!response.ok) {
+                return this.errPost(response);
+            }
+            return await response.json();
+        }
+        catch (err) {
+            debugger;
+            return new Promise((_resolve, reject) => { reject(err); });
+        }
+    }
+    async get(url, body, headers, timeout) {
+        let params = '';
+        if (body) {
+            for (let key in body) {
+                if (body[key] != null) {
+                    params += (params ? '&' : '?');
+                    params += key + '=' + encodeURIComponent(body[key]);
+                }
+            }
+        }
+        let controller = new AbortController();
+        if (timeout && timeout > 0) {
+            setTimeout(() => {
+                controller.abort();
+            }, timeout);
+        }
+        let response = await fetch(url + params, {
+            method: 'GET',
+            mode: 'cors',
+            headers: headers,
+            signal: controller.signal
+        });
+        if (!response.ok) {
+            return this.errPost(response);
+        }
+        return await response.json();
+    }
+    async errPost(response) {
+        try {
+            let resp = await response.json();
+            return new Promise((_resolve, reject) => { reject((resp ? resp : response)); });
+        }
+        catch (e) {
+            return new Promise((_resolve, reject) => { reject(response); });
+        }
+    }
+}
+
+var msg;
+(function (msg_1) {
+    function showError(err, auditable = true) {
+        console.log(err);
+        let text = '';
+        if (err.error && err.error.Message) {
+            text = err.error.Message;
+        }
+        else if (err.sql) {
+            text = err.message;
+        }
+        else if (err.message) {
+            text = err.message;
+        }
+        else if (err.Message) {
+            text = err.Message;
+        }
+        else if (typeof err == 'string') {
+            text = err;
+        }
+        else {
+            text = JSON.stringify(err);
+        }
+        if (auditable && !text.startsWith(util.translate('exceptions.required'))) {
+            logErrorMsg(text);
+        }
+        if (text.toLowerCase() === 'failed to fetch') {
+            text = util.translate('sync.connectionErr');
+        }
+        return danger(text, err);
+    }
+    msg_1.showError = showError;
+    function logErrorMsg(errMsg) {
+        let activePage = jquery('ion-nav > :not([aria-hidden="true"])');
+        var pageName = 'No page detected', pageType = '', pageObject = '';
+        if (activePage.length > 0) {
+            pageType = activePage[0].localName;
+            pageObject = activePage.attr('object');
+            pageName = activePage.attr('page-name');
+        }
+        sql.execSQL(`DELETE FROM ErrorsLogs WHERE _insertDate <= date('now', '-10 day')`);
+        sql.execSQL(`INSERT INTO ErrorsLogs 
+          (LogId, Message, PageObject, PageType, PageName) 
+        VALUES(
+          (SELECT IFNULL(Max(LogId),0)+1 FROM ErrorsLogs), 
+          '${errMsg.replace(/'/g, "''")}',
+          '${pageType}',
+          '${pageObject}',
+          '${pageName}'
+      )`);
+    }
+    function danger(msg, moreInfo) {
+        return generic(msg, 'danger', 5000, moreInfo);
+    }
+    msg_1.danger = danger;
+    function warning(msg, moreInfo) {
+        return generic(msg, 'warning', 5000, moreInfo);
+    }
+    msg_1.warning = warning;
+    function success(msg, moreInfo) {
+        return generic(msg, 'success', 500, moreInfo);
+    }
+    msg_1.success = success;
+    function generic(msg, type, duration, moreInfo) {
+        const toast = document.createElement('ion-toast');
+        toast.message = msg;
+        toast.duration = duration;
+        toast.color = type;
+        if (moreInfo) {
+            toast.onclick = (() => {
+                alert(JSON.stringify(moreInfo));
+            });
+        }
+        document.body.appendChild(toast);
+        return toast.present();
+    }
+    msg_1.generic = generic;
+    function confirm(header, message, cssClass, showCancelButton = true, afterAlertPresent) {
+        return new Promise(async (resolve, reject) => {
+            const alert = document.createElement('ion-alert');
+            alert.header = header;
+            alert.message = message;
+            alert.buttons = [
+                {
+                    text: util.translate('msg.ok'),
+                    handler: () => {
+                        resolve(undefined);
+                    }
+                }
+            ];
+            if (showCancelButton) {
+                alert.buttons.push({
+                    text: util.translate('msg.cancel'),
+                    role: 'cancel',
+                    cssClass: 'secondary',
+                    handler: () => {
+                        reject();
+                    }
+                });
+            }
+            document.body.appendChild(alert);
+            if (cssClass) {
+                alert.cssClass = cssClass;
+            }
+            alert.present().then(() => {
+                if (afterAlertPresent)
+                    afterAlertPresent();
+            });
+        });
+    }
+    msg_1.confirm = confirm;
+    function changePassword(cancellable) {
+        let alert = document.createElement('ion-alert');
+        alert.header = (cancellable ? util.translate('usermenu.changePass') : util.translate('usermenu.mustChange'));
+        alert.backdropDismiss = cancellable;
+        alert.inputs = [
+            {
+                placeholder: util.translate('usermenu.current'),
+                name: 'current',
+                type: 'password',
+            }, {
+                placeholder: util.translate('usermenu.new'),
+                name: 'new',
+                type: 'password',
+            }, {
+                placeholder: util.translate('usermenu.repeat'),
+                name: 'repeat',
+                type: 'password',
+            }
+        ];
+        if (cancellable) {
+            alert.buttons = [
+                {
+                    text: util.translate('msg.ok'),
+                    handler: (data) => {
+                        changePasswordFunction(data.current, data.new, data.repeat, alert);
+                        return false;
+                    }
+                },
+                {
+                    text: util.translate('msg.cancel'),
+                    role: 'cancel',
+                    cssClass: 'secondary',
+                }
+            ];
+        }
+        else {
+            alert.buttons = [
+                {
+                    text: util.translate('msg.ok'),
+                    handler: (data) => {
+                        changePasswordFunction(data.current, data.new, data.repeat, alert);
+                        return false;
+                    }
+                }
+            ];
+        }
+        document.body.appendChild(alert);
+        alert.present();
+        return alert;
+    }
+    msg_1.changePassword = changePassword;
+    async function changePasswordFunction(lastPassword, newPassword, repeatPassword, alert) {
+        let loading = document.createElement('ion-loading');
+        loading.id = 'passwordChangeLoading';
+        loading.message = util.translate('usermenu.loading');
+        loading.backdropDismiss = false;
+        loading.translucent = true;
+        document.body.appendChild(loading);
+        await loading.present();
+        let cnf = new ConftokenService();
+        cnf.changeUserPassword(lastPassword, newPassword, repeatPassword).then((res) => {
+            if (res)
+                alert.dismiss();
+            loading.dismiss().then(() => { loading = null; });
+        }).catch(() => {
+            msg.showError(util.translate('usermenu.changePassError'));
+            alert.dismiss();
+            loading.dismiss().then(() => { loading = null; });
+        });
+    }
+})(msg || (msg = {}));
+
+var util;
+(function (util) {
+    /**
+    * Generates an unique id
+    * @method GUID
+    * @return {string} unique name.
+    */
+    function GUID() {
+        return '' + ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16));
+    }
+    util.GUID = GUID;
+    function blobToBase64(blob) {
+        return new Promise((resolve, _) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.readAsDataURL(blob);
+        });
+    }
+    util.blobToBase64 = blobToBase64;
+    function b64toBlob(b64Data, contentType = '', sliceSize = 512) {
+        const byteCharacters = atob(b64Data);
+        const byteArrays = [];
+        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+            const slice = byteCharacters.slice(offset, offset + sliceSize);
+            const byteNumbers = new Array(slice.length);
+            for (let i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            byteArrays.push(byteArray);
+        }
+        const blob = new Blob(byteArrays, { type: contentType });
+        return blob;
+    }
+    util.b64toBlob = b64toBlob;
+    function urlToB64(url) {
+        return new Promise((resolve, _) => {
+            fetch(url)
+                .then(response => response.blob())
+                .then(async (blob) => {
+                resolve(await blobToBase64(blob));
+            });
+        });
+    }
+    util.urlToB64 = urlToB64;
+    async function b64toTempFile(title, base64) {
+        return await Filesystem.writeFile({
+            path: title,
+            data: base64,
+            directory: Directory.External
+        });
+    }
+    util.b64toTempFile = b64toTempFile;
+    function urlToBlob(url) {
+        return new Promise((resolve, _) => {
+            fetch(url)
+                .then(response => response.blob())
+                .then(async (blob) => { resolve(blob); })
+                .catch(err => {
+                msg.showError(err);
+            });
+            ;
+        });
+    }
+    util.urlToBlob = urlToBlob;
+    function parseJSON(json) {
+        var fixedJSON = json
+            // Replace ":" with "@colon@" if it's between double-quotes
+            .replace(/:\s*"([^"]*)"/g, function (_match, p1) {
+            return ': "' + p1.replace(/:/g, '@colon@') + '"';
+        })
+            // Replace ":" with "@colon@" if it's between single-quotes
+            .replace(/:\s*'([^']*)'/g, function (_match, p1) {
+            return ': "' + p1.replace(/:/g, '@colon@') + '"';
+        })
+            // Add double-quotes around any tokens before the remaining ":"
+            .replace(/(['"])?([a-z0-9A-Z_]+)(['"])?\s*:/g, '"$2": ')
+            // Turn "@colon@" back into ":"
+            .replace(/@colon@/g, ':');
+        return (JSON.parse(fixedJSON));
+    }
+    util.parseJSON = parseJSON;
+    async function getFirstRow(objectName) {
+        let confToken = await ConftokenProvider.config();
+        let obj = confToken.objectConfig[objectName];
+        let sentence = 'select ' + obj.primaryKeys.join(', ') + ' from ' + obj.tableName;
+        return sql.getTable(sentence).then((table) => {
+            if (table && table.rows && table.rows.length > 0) {
+                return getPrimaryKeysFilter(obj, sql.getRow(table, 0));
+            }
+            else {
+                return null;
+            }
+        });
+    }
+    util.getFirstRow = getFirstRow;
+    function getPrimaryKeysFilter(obj, row) {
+        let filter = '';
+        for (let i = 0; i < obj.primaryKeys.length; i++) {
+            if (filter) {
+                filter += ' and ';
+            }
+            filter += obj.primaryKeys[i] + ' = ' + sql.formatSQLField(obj.fields, obj.primaryKeys[i], row[obj.primaryKeys[i]]);
+        }
+        return filter;
+    }
+    util.getPrimaryKeysFilter = getPrimaryKeysFilter;
+    function currentDate() {
+        return moment().format('YYYY-MM-DD');
+    }
+    util.currentDate = currentDate;
+    function currentDateTime() {
+        return moment().format('YYYY-MM-DDTHH:mm:ss');
+    }
+    util.currentDateTime = currentDateTime;
+    function currentTime() {
+        return moment().format('HH:mm');
+    }
+    util.currentTime = currentTime;
+    function translate(key, deviceLanguage = false) {
+        let currentCulture = 'engb';
+        if (deviceLanguage) {
+            currentCulture = getFlxDeviceCulture();
+        }
+        else if (flexygo.conftoken && flexygo.conftoken.user) {
+            currentCulture = flexygo.conftoken.user.currentUserCultureId.toLowerCase().replace('-', '');
+        }
+        var text = null;
+        try {
+            text = key.split('.').reduce((object, index) => object ? object[index] : null, flexygo.culture[currentCulture.toLowerCase()]);
+        }
+        catch (ex) { }
+        if (text == null) {
+            try {
+                text = key.split('.').reduce((object, index) => object ? object[index] : null, flexygo.culture.engb);
+            }
+            catch (ex) { }
+        }
+        if (text == null) {
+            text = key;
+        }
+        return text;
+    }
+    util.translate = translate;
+    /**
+    * Evaluates JavaScript code and executes it.
+    * @param {string} dynamicCode - Dynamic Code.
+    * @method execDynamicCode
+    * @return {any}
+    */
+    function execDynamicCode(dynamicCode) {
+        return eval(dynamicCode);
+    }
+    util.execDynamicCode = execDynamicCode;
+    function getFlxDeviceCulture() {
+        let culture = navigator.language.slice(0, 2).toLowerCase();
+        switch (culture) {
+            case 'ca':
+                culture = culture + 'es';
+                break;
+            case 'en':
+                culture = culture + 'gb';
+                break;
+            default:
+                culture = culture + culture;
+                break;
+        }
+        if (culture !== 'caes' && culture !== 'dede' && culture !== 'engb' && culture !== 'eses' && culture !== 'frfr') {
+            culture = 'engb';
+        }
+        return culture;
+    }
+    util.colors = [
+        "#63b598", "#ce7d78", "#ea9e70", "#a48a9e", "#c6e1e8", "#648177", "#0d5ac1",
+        "#f205e6", "#1c0365", "#14a9ad", "#4ca2f9", "#a4e43f", "#d298e2", "#6119d0",
+        "#d2737d", "#c0a43c", "#f2510e", "#651be6", "#79806e", "#61da5e", "#cd2f00",
+        "#9348af", "#01ac53", "#c5a4fb", "#996635", "#b11573", "#4bb473", "#75d89e",
+        "#2f3f94", "#2f7b99", "#da967d", "#34891f", "#b0d87b", "#ca4751", "#7e50a8",
+        "#c4d647", "#e0eeb8", "#11dec1", "#289812", "#566ca0", "#ffdbe1", "#2f1179",
+        "#935b6d", "#916988", "#513d98", "#aead3a", "#9e6d71", "#4b5bdc", "#0cd36d",
+        "#250662", "#cb5bea", "#228916", "#ac3e1b", "#df514a", "#539397", "#880977",
+        "#f697c1", "#ba96ce", "#679c9d", "#c6c42c", "#5d2c52", "#48b41b", "#e1cf3b",
+        "#5be4f0", "#57c4d8", "#a4d17a", "#225b8", "#be608b", "#96b00c", "#088baf",
+        "#f158bf", "#e145ba", "#ee91e3", "#05d371", "#5426e0", "#4834d0", "#802234",
+        "#6749e8", "#0971f0", "#8fb413", "#b2b4f0", "#c3c89d", "#c9a941", "#41d158",
+        "#fb21a3", "#51aed9", "#5bb32d", "#807fb", "#21538e", "#89d534", "#d36647",
+        "#7fb411", "#0023b8", "#3b8c2a", "#986b53", "#f50422", "#983f7a", "#ea24a3",
+        "#79352c", "#521250", "#c79ed2", "#d6dd92", "#e33e52", "#b2be57", "#fa06ec",
+        "#1bb699", "#6b2e5f", "#64820f", "#1c271", "#21538e", "#89d534", "#d36647",
+        "#7fb411", "#0023b8", "#3b8c2a", "#986b53", "#f50422", "#983f7a", "#ea24a3",
+        "#79352c", "#521250", "#c79ed2", "#d6dd92", "#e33e52", "#b2be57", "#fa06ec",
+        "#1bb699", "#6b2e5f", "#64820f", "#1c271", "#9cb64a", "#996c48", "#9ab9b7",
+        "#06e052", "#e3a481", "#0eb621", "#fc458e", "#b2db15", "#aa226d", "#792ed8",
+        "#73872a", "#520d3a", "#cefcb8", "#a5b3d9", "#7d1d85", "#c4fd57", "#f1ae16",
+        "#8fe22a", "#ef6e3c", "#243eeb", "#1dc18", "#dd93fd", "#3f8473", "#e7dbce",
+        "#421f79", "#7a3d93", "#635f6d", "#93f2d7", "#9b5c2a", "#15b9ee", "#0f5997",
+        "#409188", "#911e20", "#1350ce", "#10e5b1", "#fff4d7", "#cb2582", "#ce00be",
+        "#32d5d6", "#17232", "#608572", "#c79bc2", "#00f87c", "#77772a", "#6995ba",
+        "#fc6b57", "#f07815", "#8fd883", "#060e27", "#96e591", "#21d52e", "#d00043",
+        "#b47162", "#1ec227", "#4f0f6f", "#1d1d58", "#947002", "#bde052", "#e08c56",
+        "#28fcfd", "#bb09b", "#36486a", "#d02e29", "#1ae6db", "#3e464c", "#a84a8f",
+        "#911e7e", "#3f16d9", "#0f525f", "#ac7c0a", "#b4c086", "#c9d730", "#30cc49",
+        "#3d6751", "#fb4c03", "#640fc1", "#62c03e", "#d3493a", "#88aa0b", "#406df9",
+        "#615af0", "#4be47", "#2a3434", "#4a543f", "#79bca0", "#a8b8d4", "#00efd4",
+        "#7ad236", "#7260d8", "#1deaa7", "#06f43a", "#823c59", "#e3d94c", "#dc1c06",
+        "#f53b2a", "#b46238", "#2dfff6", "#a82b89", "#1a8011", "#436a9f", "#1a806a",
+        "#4cf09d", "#c188a2", "#67eb4b", "#b308d3", "#fc7e41", "#af3101", "#ff065",
+        "#71b1f4", "#a2f8a5", "#e23dd0", "#d3486d", "#00f7f9", "#474893", "#3cec35",
+        "#1c65cb", "#5d1d0c", "#2d7d2a", "#ff3420", "#5cdd87", "#a259a4", "#e4ac44",
+        "#1bede6", "#8798a4", "#d7790f", "#b2c24f", "#de73c2", "#d70a9c", "#25b67",
+        "#88e9b8", "#c2b0e2", "#86e98f", "#ae90e2", "#1a806b", "#436a9e", "#0ec0ff",
+        "#f812b3", "#b17fc9", "#8d6c2f", "#d3277a", "#2ca1ae", "#9685eb", "#8a96c6",
+        "#dba2e6", "#76fc1b", "#608fa4", "#20f6ba", "#07d7f6", "#dce77a", "#77ecca"
+    ];
+    function hexToRgbA(hex, opacity) {
+        var c;
+        if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
+            c = hex.substring(1).split('');
+            if (c.length == 3) {
+                c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+            }
+            c = '0x' + c.join('');
+            return 'rgba(' + [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(',') + ',' + opacity + ')';
+        }
+        throw new Error('Bad Hex');
+    }
+    util.hexToRgbA = hexToRgbA;
+    function getB64MIME(b64) {
+        let noHeader = b64.replace('data:', '');
+        return noHeader.substr(0, noHeader.indexOf(';'));
+    }
+    util.getB64MIME = getB64MIME;
+    function getMIMEtype(fileName) {
+        let fileExt = fileName.split('.').pop().toLowerCase();
+        let MIMETypes = {
+            'aac': 'audio/aac',
+            'abw': 'application/x-abiword',
+            'arc': 'application/x-freearc',
+            'avi': 'video/x-msvideo',
+            'azw': 'application/vnd.amazon.ebook',
+            'bin': 'application/octet-stream',
+            'bmp': 'image/bmp',
+            'bz': 'application/x-bzip',
+            'bz2': 'application/x-bzip2',
+            'csh': 'application/x-csh',
+            'css': 'text/css',
+            'csv': 'text/csv',
+            'doc': 'application/msword',
+            'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'eot': 'application/vnd.ms-fontobject',
+            'epub': 'application/epub+zip',
+            'gif': 'image/gif',
+            'htm': 'text/html',
+            'html': 'text/html',
+            'ico': 'image/vnd.microsoft.icon',
+            'ics': 'text/calendar',
+            'jar': 'application/java-archive',
+            'jpeg': 'image/jpeg',
+            'jpg': 'image/jpeg',
+            'js': 'text/javascript',
+            'json': 'application/json',
+            'jsonld': 'application/ld+json',
+            'mid': 'audio/midi',
+            'midi': 'audio/midi',
+            'mjs': 'text/javascript',
+            'mp3': 'audio/mpeg',
+            'mp4': 'video/x-msvideo',
+            'mpeg': 'video/mpeg',
+            'mpkg': 'application/vnd.apple.installer+xml',
+            'odp': 'application/vnd.oasis.opendocument.presentation',
+            'ods': 'application/vnd.oasis.opendocument.spreadsheet',
+            'odt': 'application/vnd.oasis.opendocument.text',
+            'oga': 'audio/ogg',
+            'ogv': 'video/ogg',
+            'ogx': 'application/ogg',
+            'otf': 'font/otf',
+            'png': 'image/png',
+            'pdf': 'application/pdf',
+            'ppt': 'application/vnd.ms-powerpoint',
+            'pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+            'rar': 'application/x-rar-compressed',
+            'rtf': 'application/rtf',
+            'sh': 'application/x-sh',
+            'svg': 'image/svg+xml',
+            'swf': 'application/x-shockwave-flash',
+            'tar': 'application/x-tar',
+            'tif': 'image/tiff',
+            'tiff': 'image/tiff',
+            'ttf': 'font/ttf',
+            'txt': 'text/plain',
+            'vsd': 'application/vnd.visio',
+            'wav': 'audio/wav',
+            'weba': 'audio/webm',
+            'webm': 'video/webm',
+            'webp': 'image/webp',
+            'woff': 'font/woff',
+            'woff2': 'font/woff2',
+            'xhtml': 'application/xhtml+xml',
+            'xls': 'application/vnd.ms-excel',
+            'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'xml': 'application/xml&nbsp;',
+            'xul': 'application/vnd.mozilla.xul+xml',
+            'zip': 'application/zip',
+            '3gp': 'video/3gpp',
+            '3g2': 'video/3gpp2',
+            '7z': 'application/x-7z-compressed'
+        };
+        return (MIMETypes[fileExt] ? MIMETypes[fileExt] : 'application/octet-stream');
+    }
+    util.getMIMEtype = getMIMEtype;
+    function createNotification(options) {
+        LocalNotifications.schedule(options);
+    }
+    util.createNotification = createNotification;
+    function createNotificationWithEvent(options, callBack) {
+        LocalNotifications.addListener('localNotificationActionPerformed', callBack);
+        LocalNotifications.schedule(options);
+    }
+    util.createNotificationWithEvent = createNotificationWithEvent;
+    function openFile(uri, fileMIME) {
+        let options = { filePath: uri, contentType: fileMIME };
+        FileOpener.open(options);
+    }
+    util.openFile = openFile;
+    function downloadByUrlNavigator(url, fileName) {
+        fetch(url)
+            .then(response => response.blob())
+            .then(blob => {
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = fileName;
+            link.click();
+        })
+            .catch(err => {
+            msg.showError(err);
+        });
+    }
+    util.downloadByUrlNavigator = downloadByUrlNavigator;
+    function downloadByUrlPhone(url, fileName) {
+        return new Promise((resolve, _) => {
+            fetch(url)
+                .then(response => response.blob())
+                .then(async (blob) => {
+                let dataBase64 = await blobToBase64(blob);
+                resolve(await downloadByB64Phone(dataBase64, fileName));
+            })
+                .catch(err => {
+                msg.showError(err);
+            });
+        });
+    }
+    util.downloadByUrlPhone = downloadByUrlPhone;
+    async function downloadByB64Phone(data, fileName) {
+        return new Promise((resolve, _) => {
+            Filesystem.writeFile({
+                path: fileName,
+                data: data,
+                directory: Directory.Data
+            }).then((data) => {
+                resolve(data.uri);
+            });
+        });
+    }
+    util.downloadByB64Phone = downloadByB64Phone;
+    function downloadByB64Navigator(b64, fileName) {
+        const downloadLink = document.createElement("a");
+        downloadLink.href = b64;
+        downloadLink.download = fileName;
+        downloadLink.click();
+    }
+    util.downloadByB64Navigator = downloadByB64Navigator;
+    /**
+      Opciones posibles:
+      message: STRING, //No soportado por ciertas apps (Facebook, Instagram)
+      subject: STRING, //Para aplicaciones de email
+      files: Array,    //Un array ocon los ficheros a compartir, locales o remotos
+      url: STRING,     //URL a compartir
+      chooserTitle: STRING, //Título del pop up
+      appPackageName: STRING, //Id de la app con la que compartir (Sólo para Android)
+      iPadCoordinates: STRING //Coordenadas para el mensaje. Formateado con x,y,width,height. ej: '0,0,0,0' (sólo para IOS)
+    */
+    async function share(options) {
+        let share = new SocialSharing;
+        share.shareWithOptions(options);
+    }
+    util.share = share;
+    function getNextSevenDates() {
+        var dates = [];
+        for (let i = 0; i < 7; i++) {
+            dates.push(moment().add(i, 'days').format('YYYY/MM/DD'));
+        }
+        return dates;
+    }
+    util.getNextSevenDates = getNextSevenDates;
+    function getPing(timeout = 0) {
+        return new Promise((resolve, reject) => {
+            let pending = true;
+            if (timeout) {
+                setTimeout(() => {
+                    if (pending) {
+                        reject('timeout');
+                    }
+                }, timeout);
+            }
+            let api = new Webapi;
+            api.connect().then((auth) => {
+                let initialTime = (new Date).getTime();
+                api.get(auth.url + "/webapi/context", null, { 'Authorization': 'Bearer ' + auth.bearerToken })
+                    .then(() => {
+                    pending = false;
+                    let finalTime = (new Date).getTime();
+                    resolve(finalTime - initialTime);
+                })
+                    .catch((ex) => {
+                    reject(ex);
+                });
+            });
+        });
+    }
+    util.getPing = getPing;
+    async function getTableFields(tableName) {
+        return (await getBasicFieldsInfo(tableName)).map(element => {
+            return element.trim().split(' ')[0];
+        });
+    }
+    util.getTableFields = getTableFields;
+    async function getTableFieldsConfig(tableName) {
+        return (await getBasicFieldsInfo(tableName)).map(element => {
+            let values = element.trim().split(' ');
+            let field = new fieldConfig;
+            field.FieldName = values[0];
+            field.FieldType = values[1];
+            return field;
+        });
+    }
+    util.getTableFieldsConfig = getTableFieldsConfig;
+    async function getBasicFieldsInfo(tableName) {
+        try {
+            let sqlSchema = sql.getRow(await sql.execSQL(`SELECT sql FROM sqlite_master WHERE tbl_name='${tableName}' AND type='table'`), 0).sql;
+            let fields = sqlSchema.split('(')[1].replace(/\n/g, '').split(',');
+            fields.pop();
+            return fields;
+        }
+        catch (err) {
+            throw new Error(translate('exceptions.noExistingTable').replace('@', tableName));
+        }
+    }
+    async function sendErrorsLogs() {
+        var messageBody = `Errores (${util.getOSVersion()}):`;
+        let errorsLogs = await flexygo.sql.execSQL('SELECT * FROM ErrorsLogs');
+        for (let i = 0; i < errorsLogs.rows.length; i++) {
+            let row = sql.getRow(errorsLogs, i);
+            messageBody += `\nPage type: ${row.PageType} Page object: ${row.PageObject} PageName: ${row.PageName}`;
+            messageBody += `\n🔴Message: ${row.Message}\n`;
+        }
+        let options = {
+            message: messageBody
+        };
+        share(options);
+    }
+    util.sendErrorsLogs = sendErrorsLogs;
+    function getOSVersion() {
+        if (!window.cordova) {
+            return 'Emulator';
+        }
+        if (cordova.platformId === 'android') {
+            return navigator.userAgent.match(/android\s([0-9\.]*)/i)[0];
+        }
+        if (cordova.platformId === 'ios') {
+            return navigator.userAgent.match(/(iPhone|iPad|iPod)\s([0-9\.]*)/i)[0];
+        }
+        return 'OS unrecognized';
+    }
+    util.getOSVersion = getOSVersion;
+    async function hasChangesPending() {
+        var hasChanges = false;
+        let conf = await ConftokenProvider.config();
+        let objConfig = conf.objectConfig;
+        let table = await sql.getTable(sql.getChangedScript('flxImages') + ' limit 1');
+        if (table.rows.length > 0) {
+            hasChanges = true;
+        }
+        table = await sql.getTable(sql.getChangedScript('flxDocuments') + ' limit 1');
+        if (table.rows.length > 0) {
+            hasChanges = true;
+        }
+        for (let objectName in objConfig) {
+            let objCnf = objConfig[objectName];
+            if (objCnf.sendData) {
+                table = await sql.getTable(sql.getChangedScript(objCnf.tableName) + ' limit 1');
+                if (table.rows.length > 0) {
+                    hasChanges = true;
+                }
+                for (let i = 0; i < objCnf.views.length; i++) {
+                    table = await sql.getTable(sql.getChangedScript(objCnf.views[i].tableName) + ' limit 1');
+                    if (table.rows.length > 0) {
+                        hasChanges = true;
+                    }
+                }
+            }
+        }
+        return hasChanges;
+    }
+    util.hasChangesPending = hasChangesPending;
+})(util || (util = {}));
 
 class SqlService {
     async db() {
@@ -56215,18 +57309,26 @@ class SqlService {
         return this._db;
     }
     async init(name) {
-        let info = await Device.getInfo();
-        if (info.platform == "web") {
-            let newdb = window.openDatabase(name, '1.0', 'DEV', 5 * 1024 * 1024);
-            this._db = browserDBInstance(newdb);
+        try {
+            let info = await Device.getInfo();
+            if (info.platform == "web") {
+                let newdb = window.openDatabase(name, '1.0', 'DEV', 5 * 1024 * 1024);
+                this._db = browserDBInstance(newdb);
+            }
+            else {
+                let sqlite;
+                sqlite = new SQLite();
+                this._db = await sqlite.create({
+                    name: name,
+                    location: 'default'
+                });
+            }
         }
-        else {
-            let sqlite;
-            sqlite = new SQLite();
-            this._db = await sqlite.create({
-                name: name,
-                location: 'default'
-            });
+        catch (err) {
+            if (err.message === "Failed to execute 'openDatabase' on 'Window': Access to the WebDatabase API is denied in non-secure contexts.") {
+                throw util.translate("exceptions.nonSecureApi");
+            }
+            throw err;
         }
     }
     async execSQL(sentence, params = []) {
@@ -56505,22 +57607,141 @@ class SqlService {
     fieldContains(type, str) {
         return type.includes(str);
     }
-    addWhere(sentence, filter) {
-        //check the times the word where appears betheen parenthesis, as they shoudn't be taken into account to add the filter where
-        let regexWhereBetweenParenthesis = new RegExp(/(\((?:.*\s*.*)(?:where)(?:.*\s*.*)\))/gmi);
-        let numMatchBetween = (sentence.match(regexWhereBetweenParenthesis) && sentence.match(regexWhereBetweenParenthesis).length) ? (sentence.match(regexWhereBetweenParenthesis) && sentence.match(regexWhereBetweenParenthesis).length) : 0;
-        if (filter) {
-            if (sentence.toLowerCase().indexOf('where') >= 0 && (sentence.match(/(\\n)*(where)/gmi).length > numMatchBetween)) {
-                sentence += ' and (' + filter + ')';
+    addWhere(sentence, filter, isOr = false) {
+        if (!filter)
+            return sentence;
+        if (!sentence)
+            return filter;
+        if (sentence.indexOf(filter) >= 0)
+            return sentence;
+        //Extracts subqueries and replaces it by an ID
+        var examinedSQL = sentence, subQueries = [];
+        while (this.theresSubWhere(examinedSQL)) {
+            const subQueriesStr = this.getSubquery(examinedSQL);
+            subQueries.push(subQueriesStr);
+            examinedSQL = examinedSQL.replace(subQueriesStr, '_subquery_' + ((subQueries.length - 1) + '').padStart(3, '0'));
+        }
+        var result = this._addWhere(examinedSQL, filter, isOr);
+        //Returns subqueries to original state
+        for (let i = 0; i < subQueries.length; i++) {
+            result = result.replace("_subquery_" + (i + '').padStart(3, '0'), subQueries[i]);
+        }
+        return result;
+    }
+    theresSubWhere(sql) {
+        if (sql.length <= ("SELECT ").length)
+            return false;
+        if (sql.toUpperCase().indexOf("SELECT ", ("SELECT ").length) >= 0)
+            return true;
+        else
+            return false;
+    }
+    getSubquery(sql) {
+        var finalPos = 0, initialPos = sql.toUpperCase().indexOf('SELECT ', 'SELECT '.length);
+        if (initialPos < 0)
+            return '';
+        else {
+            //Searches for the end of the subquerie
+            var i = initialPos, bracketsCount = 1;
+            const sqlLength = sql.length - 1;
+            while (i <= sqlLength) {
+                if (sql[i] === ')') {
+                    if (bracketsCount === 1) {
+                        finalPos = i;
+                        break;
+                    }
+                    else {
+                        bracketsCount -= 1;
+                    }
+                }
+                else if (sql[i] === '(') {
+                    bracketsCount += 1;
+                }
+                i++;
+            }
+            if (finalPos === 0)
+                finalPos = sql.length;
+            return sql.substring(initialPos, finalPos);
+        }
+    }
+    _addWhere(sql, where, isOr) {
+        try {
+            const regWhere = /( where |\nwhere |\twhere )/mi;
+            const regSelect = /(select |select\n)/mi;
+            if (!where)
+                return sql;
+            sql = sql.trim().replace('\r\n', ' ');
+            where = where.trim();
+            var newWhere;
+            const sqlTested = regWhere.exec(sql);
+            if (sqlTested || !regSelect.test(sql)) {
+                if (isOr) {
+                    newWhere = ' OR (';
+                }
+                else {
+                    newWhere = ' AND (';
+                }
+                if (where.toLowerCase().startsWith('where')) {
+                    newWhere += where.substring(5).trim();
+                }
+                else {
+                    newWhere += where;
+                }
+                newWhere += ')';
             }
             else {
-                sentence += ' WHERE (' + filter + ')';
+                if (where.toLowerCase().startsWith('where')) {
+                    newWhere = where;
+                }
+                else {
+                    newWhere = 'Where ' + where;
+                }
+            }
+            const sqlLowered = sql.toLowerCase();
+            var x = sqlLowered.indexOf('group by');
+            if (x < 0) {
+                x = sqlLowered.indexOf('having');
+                if (x < 0) {
+                    x = sqlLowered.lastIndexOf('order by');
+                    //Avoid order by inside over()
+                    var regRes;
+                    const regex = /(over\s?[(](.*?)[)])/;
+                    while ((regRes = regex.exec(sqlLowered)) !== null) {
+                        if (regRes.index < x && (regRes.index + regRes.length)) {
+                            x = -1;
+                        }
+                    }
+                }
+            }
+            if (x > 0) {
+                if (sqlTested) {
+                    return sql.substring(0, sqlTested.index + sqlTested.length - 1) + ' ((' + sql.substring(sqlTested.index + sqlTested.length - 1, x - (sqlTested.index + sqlTested.length - 1)) + ') ' + newWhere + ') ' + sql.substring(x);
+                }
+                else {
+                    return sql.substring(0, x) + ' ' + newWhere + ' ' + sql.substring(x);
+                }
+            }
+            else {
+                if (!sqlTested) {
+                    return sql + ' ' + newWhere;
+                }
+                else {
+                    let lswhere = sql.substring(sqlTested.index + sqlTested.length - 1);
+                    if (lswhere.trim() !== '') {
+                        return sql.substring(0, sqlTested.index + sqlTested.length - 1) + 'where ((' + lswhere.replace(/where/i, '') + ') ' + newWhere + ') ';
+                    }
+                    else {
+                        return sql + ' ' + newWhere;
+                    }
+                }
             }
         }
-        return sentence;
+        catch (error) {
+            return '';
+        }
     }
-    addPager(sentence, page, elements) {
-        return sentence += ' LIMIT ' + elements + ' OFFSET ' + (page * elements);
+    addPager(sentence, page, elements, pageModifier = 0) {
+        return sentence += ' LIMIT ' + elements + ' OFFSET ' + ((page * elements) - pageModifier);
     }
     addOrderBy(sentence, orderby) {
         if (orderby) {
@@ -56589,856 +57810,9 @@ const browserDBInstance = (db) => {
 };
 const sql = new SqlService();
 
-var Directory;
-(function (Directory) {
-    /**
-     * The Documents directory
-     * On iOS it's the app's documents directory.
-     * Use this directory to store user-generated content.
-     * On Android it's the Public Documents folder, so it's accessible from other apps.
-     * It's not accesible on Android 10 unless the app enables legacy External Storage
-     * by adding `android:requestLegacyExternalStorage="true"` in the `application` tag
-     * in the `AndroidManifest.xml`.
-     * It's not accesible on Android 11 or newer.
-     *
-     * @since 1.0.0
-     */
-    Directory["Documents"] = "DOCUMENTS";
-    /**
-     * The Data directory
-     * On iOS it will use the Documents directory
-     * On Android it's the directory holding application files.
-     * Files will be deleted when the application is uninstalled.
-     *
-     * @since 1.0.0
-     */
-    Directory["Data"] = "DATA";
-    /**
-     * The Cache directory
-     * Can be deleted in cases of low memory, so use this directory to write app-specific files
-     * that your app can re-create easily.
-     *
-     * @since 1.0.0
-     */
-    Directory["Cache"] = "CACHE";
-    /**
-     * The external directory
-     * On iOS it will use the Documents directory
-     * On Android it's the directory on the primary shared/external
-     * storage device where the application can place persistent files it owns.
-     * These files are internal to the applications, and not typically visible
-     * to the user as media.
-     * Files will be deleted when the application is uninstalled.
-     *
-     * @since 1.0.0
-     */
-    Directory["External"] = "EXTERNAL";
-    /**
-     * The external storage directory
-     * On iOS it will use the Documents directory
-     * On Android it's the primary shared/external storage directory.
-     * It's not accesible on Android 10 unless the app enables legacy External Storage
-     * by adding `android:requestLegacyExternalStorage="true"` in the `application` tag
-     * in the `AndroidManifest.xml`.
-     * It's not accesible on Android 11 or newer.
-     *
-     * @since 1.0.0
-     */
-    Directory["ExternalStorage"] = "EXTERNAL_STORAGE";
-})(Directory || (Directory = {}));
-var Encoding;
-(function (Encoding) {
-    /**
-     * Eight-bit UCS Transformation Format
-     *
-     * @since 1.0.0
-     */
-    Encoding["UTF8"] = "utf8";
-    /**
-     * Seven-bit ASCII, a.k.a. ISO646-US, a.k.a. the Basic Latin block of the
-     * Unicode character set
-     * This encoding is only supported on Android.
-     *
-     * @since 1.0.0
-     */
-    Encoding["ASCII"] = "ascii";
-    /**
-     * Sixteen-bit UCS Transformation Format, byte order identified by an
-     * optional byte-order mark
-     * This encoding is only supported on Android.
-     *
-     * @since 1.0.0
-     */
-    Encoding["UTF16"] = "utf16";
-})(Encoding || (Encoding = {}));
-/**
- * @deprecated Use `Directory`.
- * @since 1.0.0
- */
-const FilesystemDirectory = Directory;
-/**
- * @deprecated Use `Encoding`.
- * @since 1.0.0
- */
-const FilesystemEncoding = Encoding;
-
-const Filesystem = registerPlugin('Filesystem', {
-    web: () => __sc_import_app('./web-332df456.js').then(m => new m.FilesystemWeb()),
-});
-
-var ELocalNotificationTriggerUnit;
-(function (ELocalNotificationTriggerUnit) {
-    ELocalNotificationTriggerUnit["SECOND"] = "second";
-    ELocalNotificationTriggerUnit["MINUTE"] = "minute";
-    ELocalNotificationTriggerUnit["HOUR"] = "hour";
-    ELocalNotificationTriggerUnit["DAY"] = "day";
-    ELocalNotificationTriggerUnit["WEEK"] = "week";
-    ELocalNotificationTriggerUnit["MONTH"] = "month";
-    ELocalNotificationTriggerUnit["QUARTER"] = "quarter";
-    ELocalNotificationTriggerUnit["YEAR"] = "year";
-    ELocalNotificationTriggerUnit["WEEKDAY"] = "weekday";
-    ELocalNotificationTriggerUnit["WEEKDAY_ORDINAL"] = "weekdayOrdinal";
-    ELocalNotificationTriggerUnit["WEEK_OF_MONTH"] = "weekOfMonth";
-})(ELocalNotificationTriggerUnit || (ELocalNotificationTriggerUnit = {}));
-var ILocalNotificationActionType;
-(function (ILocalNotificationActionType) {
-    ILocalNotificationActionType["INPUT"] = "input";
-    ILocalNotificationActionType["BUTTON"] = "button";
-})(ILocalNotificationActionType || (ILocalNotificationActionType = {}));
-var LocalNotifications = /** @class */ (function (_super) {
-    __extends(LocalNotifications, _super);
-    function LocalNotifications() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    LocalNotifications.prototype.hasPermission = function () { return cordova$1(this, "hasPermission", {}, arguments); };
-    LocalNotifications.prototype.requestPermission = function () { return cordova$1(this, "requestPermission", {}, arguments); };
-    LocalNotifications.prototype.schedule = function (options) { return cordova$1(this, "schedule", { "sync": true }, arguments); };
-    LocalNotifications.prototype.update = function (options) { return cordova$1(this, "update", { "sync": true }, arguments); };
-    LocalNotifications.prototype.clear = function (notificationId) { return cordova$1(this, "clear", {}, arguments); };
-    LocalNotifications.prototype.clearAll = function () { return cordova$1(this, "clearAll", {}, arguments); };
-    LocalNotifications.prototype.cancel = function (notificationId) { return cordova$1(this, "cancel", {}, arguments); };
-    LocalNotifications.prototype.cancelAll = function () { return cordova$1(this, "cancelAll", {}, arguments); };
-    LocalNotifications.prototype.isPresent = function (notificationId) { return cordova$1(this, "isPresent", {}, arguments); };
-    LocalNotifications.prototype.isScheduled = function (notificationId) { return cordova$1(this, "isScheduled", {}, arguments); };
-    LocalNotifications.prototype.isTriggered = function (notificationId) { return cordova$1(this, "isTriggered", {}, arguments); };
-    LocalNotifications.prototype.hasType = function (id, type) { return cordova$1(this, "hasType", {}, arguments); };
-    LocalNotifications.prototype.getType = function (id) { return cordova$1(this, "getType", {}, arguments); };
-    LocalNotifications.prototype.getIds = function () { return cordova$1(this, "getIds", {}, arguments); };
-    LocalNotifications.prototype.getScheduledIds = function () { return cordova$1(this, "getScheduledIds", {}, arguments); };
-    LocalNotifications.prototype.getTriggeredIds = function () { return cordova$1(this, "getTriggeredIds", {}, arguments); };
-    LocalNotifications.prototype.get = function (notificationId) { return cordova$1(this, "get", {}, arguments); };
-    LocalNotifications.prototype.getAll = function () { return cordova$1(this, "getAll", {}, arguments); };
-    LocalNotifications.prototype.getScheduled = function (notificationId) { return cordova$1(this, "getScheduled", {}, arguments); };
-    LocalNotifications.prototype.getTriggered = function (notificationId) { return cordova$1(this, "getTriggered", {}, arguments); };
-    LocalNotifications.prototype.addActions = function (groupId, actions) { return cordova$1(this, "addActions", {}, arguments); };
-    LocalNotifications.prototype.removeActions = function (groupId) { return cordova$1(this, "removeActions", {}, arguments); };
-    LocalNotifications.prototype.hasActions = function (groupId) { return cordova$1(this, "hasActions", {}, arguments); };
-    LocalNotifications.prototype.getDefaults = function () { return cordova$1(this, "getDefaults", { "sync": true }, arguments); };
-    LocalNotifications.prototype.setDefaults = function (defaults) { return cordova$1(this, "setDefaults", { "sync": true }, arguments); };
-    LocalNotifications.prototype.getAllScheduled = function () { return cordova$1(this, "getAllScheduled", {}, arguments); };
-    LocalNotifications.prototype.getAllTriggered = function () { return cordova$1(this, "getAllTriggered", {}, arguments); };
-    LocalNotifications.prototype.on = function (eventName) { return cordova$1(this, "on", { "observable": true, "clearFunction": "un", "clearWithArgs": true }, arguments); };
-    LocalNotifications.prototype.fireEvent = function (eventName, args) { return cordova$1(this, "fireEvent", { "sync": true }, arguments); };
-    LocalNotifications.prototype.fireQueuedEvents = function () { return cordova$1(this, "fireQueuedEvents", {}, arguments); };
-    LocalNotifications.pluginName = "LocalNotifications";
-    LocalNotifications.plugin = "cordova-plugin-local-notification";
-    LocalNotifications.pluginRef = "cordova.plugins.notification.local";
-    LocalNotifications.repo = "https://github.com/katzer/cordova-plugin-local-notifications";
-    LocalNotifications.platforms = ["Android", "iOS", "Windows"];
-    LocalNotifications.decorators = [
-        { type: Injectable }
-    ];
-    return LocalNotifications;
-}(IonicNativePlugin));
-
-var FileOpener = /** @class */ (function (_super) {
-    __extends(FileOpener, _super);
-    function FileOpener() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    FileOpener.prototype.open = function (filePath, fileMIMEType) { return cordova$1(this, "open", { "callbackStyle": "object", "successName": "success", "errorName": "error" }, arguments); };
-    FileOpener.prototype.uninstall = function (packageId) { return cordova$1(this, "uninstall", { "callbackStyle": "object", "successName": "success", "errorName": "error" }, arguments); };
-    FileOpener.prototype.appIsInstalled = function (packageId) { return cordova$1(this, "appIsInstalled", { "callbackStyle": "object", "successName": "success", "errorName": "error" }, arguments); };
-    FileOpener.prototype.showOpenWithDialog = function (filePath, fileMIMEType) { return cordova$1(this, "showOpenWithDialog", { "callbackStyle": "object", "successName": "success", "errorName": "error" }, arguments); };
-    FileOpener.pluginName = "FileOpener";
-    FileOpener.plugin = "cordova-plugin-file-opener2";
-    FileOpener.pluginRef = "cordova.plugins.fileOpener2";
-    FileOpener.repo = "https://github.com/pwlin/cordova-plugin-file-opener2";
-    FileOpener.platforms = ["Android", "iOS", "Windows", "Windows Phone 8"];
-    FileOpener.decorators = [
-        { type: Injectable }
-    ];
-    return FileOpener;
-}(IonicNativePlugin));
-
-var SocialSharing = /** @class */ (function (_super) {
-    __extends(SocialSharing, _super);
-    function SocialSharing() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    SocialSharing.prototype.share = function (message, subject, file, url) { return cordova$1(this, "share", { "successIndex": 4, "errorIndex": 5 }, arguments); };
-    SocialSharing.prototype.shareWithOptions = function (options) { return cordova$1(this, "shareWithOptions", { "platforms": ["iOS", "Android"] }, arguments); };
-    SocialSharing.prototype.canShareVia = function (appName, message, subject, image, url) { return cordova$1(this, "canShareVia", { "successIndex": 5, "errorIndex": 6, "platforms": ["iOS", "Android"] }, arguments); };
-    SocialSharing.prototype.shareViaTwitter = function (message, image, url) { return cordova$1(this, "shareViaTwitter", { "successIndex": 3, "errorIndex": 4, "platforms": ["iOS", "Android"] }, arguments); };
-    SocialSharing.prototype.shareViaFacebook = function (message, image, url) { return cordova$1(this, "shareViaFacebook", { "successIndex": 3, "errorIndex": 4, "platforms": ["iOS", "Android"] }, arguments); };
-    SocialSharing.prototype.shareViaFacebookWithPasteMessageHint = function (message, image, url, pasteMessageHint) { return cordova$1(this, "shareViaFacebookWithPasteMessageHint", { "successIndex": 4, "errorIndex": 5, "platforms": ["iOS", "Android"] }, arguments); };
-    SocialSharing.prototype.shareViaInstagram = function (message, image) { return cordova$1(this, "shareViaInstagram", { "platforms": ["iOS", "Android"] }, arguments); };
-    SocialSharing.prototype.shareViaWhatsApp = function (message, image, url) { return cordova$1(this, "shareViaWhatsApp", { "successIndex": 3, "errorIndex": 4, "platforms": ["iOS", "Android"] }, arguments); };
-    SocialSharing.prototype.shareViaWhatsAppToReceiver = function (receiver, message, image, url) { return cordova$1(this, "shareViaWhatsAppToReceiver", { "successIndex": 4, "errorIndex": 5, "platforms": ["iOS", "Android"] }, arguments); };
-    SocialSharing.prototype.shareViaSMS = function (messge, phoneNumber) { return cordova$1(this, "shareViaSMS", { "platforms": ["iOS", "Android"] }, arguments); };
-    SocialSharing.prototype.canShareViaEmail = function () { return cordova$1(this, "canShareViaEmail", { "platforms": ["iOS", "Android"] }, arguments); };
-    SocialSharing.prototype.shareViaEmail = function (message, subject, to, cc, bcc, files) { return cordova$1(this, "shareViaEmail", { "platforms": ["iOS", "Android"], "successIndex": 6, "errorIndex": 7 }, arguments); };
-    SocialSharing.prototype.shareVia = function (appName, message, subject, image, url) { return cordova$1(this, "shareVia", { "successIndex": 5, "errorIndex": 6, "platforms": ["iOS", "Android"] }, arguments); };
-    SocialSharing.prototype.setIPadPopupCoordinates = function (targetBounds) { return cordova$1(this, "setIPadPopupCoordinates", { "sync": true, "platforms": ["iOS"] }, arguments); };
-    SocialSharing.prototype.saveToPhotoAlbum = function (fileOrFileArray) { return cordova$1(this, "saveToPhotoAlbum", { "platforms": ["iOS"] }, arguments); };
-    SocialSharing.prototype.shareViaWhatsAppToPhone = function (phone, message, fileOrFileArray, url) { return cordova$1(this, "shareViaWhatsAppToPhone", { "successIndex": 5, "errorIndex": 6, "platforms": ["iOS", "Android"] }, arguments); };
-    SocialSharing.pluginName = "SocialSharing";
-    SocialSharing.plugin = "cordova-plugin-x-socialsharing";
-    SocialSharing.pluginRef = "plugins.socialsharing";
-    SocialSharing.repo = "https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin";
-    SocialSharing.platforms = ["Android", "Browser", "iOS", "Windows", "Windows Phone"];
-    SocialSharing.decorators = [
-        { type: Injectable }
-    ];
-    return SocialSharing;
-}(IonicNativePlugin));
-
-class Webapi {
-    constructor() {
-        this.maxAttempts = 5;
-    }
-    login(url, username, password) {
-        let auth = new authToken;
-        auth.url = url;
-        auth.user = username;
-        auth.b64 = this.b64EncodeUnicode(username + ':' + password);
-        this.saveAuth(auth);
-        return this.connect();
-    }
-    b64EncodeUnicode(str) {
-        return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function toSolidBytes(_match, p1) {
-            return String.fromCharCode(('0x' + p1));
-        }));
-    }
-    async connect() {
-        let authString = await this.getAuth();
-        if (authString) {
-            let auth = authString;
-            if (auth.bearerToken) {
-                if (this.isExpired(auth)) {
-                    return this.refreshToken(auth).catch((_err) => { return this.getToken(auth); });
-                }
-                else {
-                    return new Promise((resolve, _reject) => { resolve(auth); });
-                }
-            }
-            else {
-                return this.getToken(auth);
-            }
-        }
-        else {
-            return new Promise((_resolve, reject) => { reject(); });
-        }
-    }
-    getAuth() {
-        return storage.get('flexyAuth');
-    }
-    async saveAuth(auth) {
-        storage.set('flexyAuth', auth);
-    }
-    async disconnect() {
-        let auth = await this.getAuth();
-        if (auth) {
-            auth.bearerToken = null;
-            auth.b64 = null;
-            auth.expiredDate = null;
-            this.saveAuth(auth);
-            return auth;
-        }
-        return null;
-    }
-    async refreshToken(auth) {
-        audit$1.log('Refreshing token', 'webapi');
-        return this.post(auth.url + '/token', 'grant_type=refresh_token&refresh_token=' + auth.refreshToken, { 'authorization': 'Bearer ' + auth.bearerToken }).then((res) => {
-            return this.updateAuthToken(auth, res);
-        }).catch((err) => {
-            audit$1.log('Refreshing token FAIL', 'webapi');
-            throw err;
-        });
-    }
-    async getToken(auth) {
-        audit$1.log('Getting new token', 'webapi');
-        return this.post(auth.url + '/token', 'grant_type=password', { 'Authorization': 'Basic ' + auth.b64 }).then((res) => {
-            audit$1.log('Getting new token success', 'webapi');
-            return this.updateAuthToken(auth, res);
-        });
-    }
-    updateAuthToken(auth, apiReturn) {
-        audit$1.log('Save auth', 'webapi');
-        auth.bearerToken = apiReturn.access_token;
-        auth.refreshToken = apiReturn.refresh_token;
-        auth.expiredDate = moment().add(apiReturn.expires_in, 'seconds');
-        this.saveAuth(auth);
-        return auth;
-    }
-    isExpired(auth) {
-        var tCurrent = moment();
-        var tExpire = moment(auth.expiredDate);
-        var secodsToExpire = tExpire.diff(tCurrent, 'seconds');
-        if (secodsToExpire < 10) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-    getCollection(objectName, filter = null, page = 0, pageSize = 500, orderBy = null) {
-        return this.connect().then((auth) => {
-            let data = {};
-            if (filter) {
-                data['filter'] = filter;
-            }
-            data['page'] = page.toString();
-            data['pageSize'] = pageSize.toString();
-            if (orderBy) {
-                data['orderBy'] = orderBy;
-            }
-            ;
-            data['withDescrips'] = false;
-            return this.get(auth.url + '/webapi/list/' + objectName, data, { 'Authorization': 'Bearer ' + auth.bearerToken });
-        });
-    }
-    getObjectById(_objectName, _id) {
-    }
-    getObjectByFilter(_objectName, _filter) {
-    }
-    getView(objectName, viewName, filter, page, pageSize, orderBy = '', attempts = 0) {
-        return this.connect().then((auth) => {
-            let data = {};
-            if (filter) {
-                data['filter'] = filter;
-            }
-            data['page'] = page.toString();
-            data['pageSize'] = pageSize.toString();
-            if (orderBy) {
-                data['orderBy'] = orderBy;
-            }
-            ;
-            return this.get(auth.url + '/webapi/list/' + objectName + '/' + viewName, data, { 'Authorization': 'Bearer ' + auth.bearerToken }).catch((reason) => {
-                if (attempts < this.maxAttempts) {
-                    return this.getView(objectName, viewName, filter, page, pageSize, orderBy, attempts + 1);
-                }
-                else {
-                    throw reason;
-                }
-            });
-        });
-    }
-    getViewSchema(objectName, viewName) {
-        return this.connect().then((auth) => {
-            return this.get(auth.url + '/webapi/schema/' + objectName + '/' + viewName, null, { 'Authorization': 'Bearer ' + auth.bearerToken });
-        });
-    }
-    getObjectSchema(objectName) {
-        return this.connect().then((auth) => {
-            return this.get(auth.url + '/webapi/schema/' + objectName, null, { 'Authorization': 'Bearer ' + auth.bearerToken });
-        });
-    }
-    getContext() {
-        return this.connect().then((auth) => {
-            return this.get(auth.url + '/webapi/context', null, { 'Authorization': 'Bearer ' + auth.bearerToken });
-        });
-    }
-    insertObject() {
-    }
-    updateObject() {
-    }
-    deleteObject() {
-    }
-    execProcess(processName, params, objectName = null, filter = null) {
-        return this.connect().then((auth) => {
-            let apiPath = '/webapi/exec/' + processName;
-            if (objectName) {
-                apiPath += '/' + objectName;
-            }
-            if (filter)
-                apiPath += '?filter=' + encodeURIComponent(filter);
-            return this.post(auth.url + apiPath, JSON.stringify(params), { 'Authorization': 'Bearer ' + auth.bearerToken });
-        });
-    }
-    async post(url, body, headers) {
-        try {
-            headers["content-type"] = "application/json";
-            const response = await fetch(url, {
-                "headers": headers,
-                "body": body,
-                "method": "POST",
-                "mode": "cors"
-            });
-            if (!response.ok) {
-                return this.errPost(response);
-            }
-            return await response.json();
-        }
-        catch (err) {
-            debugger;
-            return new Promise((_resolve, reject) => { reject(err); });
-        }
-    }
-    async get(url, body, headers) {
-        let params = '';
-        if (body) {
-            for (let key in body) {
-                if (body[key] != null) {
-                    params += (params ? '&' : '?');
-                    params += key + '=' + encodeURIComponent(body[key]);
-                }
-            }
-        }
-        let response = await fetch(url + params, {
-            method: 'GET',
-            mode: 'cors',
-            headers: headers
-        });
-        if (!response.ok) {
-            return this.errPost(response);
-        }
-        return await response.json();
-    }
-    async errPost(response) {
-        try {
-            let resp = await response.json();
-            return new Promise((_resolve, reject) => { reject((resp ? resp : response)); });
-        }
-        catch (e) {
-            return new Promise((_resolve, reject) => { reject(response); });
-        }
-    }
-}
-
-var util;
-(function (util) {
-    /**
-    * Generates an unique id
-    * @method GUID
-    * @return {string} unique name.
-    */
-    function GUID() {
-        return '' + ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16));
-    }
-    util.GUID = GUID;
-    function blobToBase64(blob) {
-        return new Promise((resolve, _) => {
-            const reader = new FileReader();
-            reader.onloadend = () => resolve(reader.result);
-            reader.readAsDataURL(blob);
-        });
-    }
-    util.blobToBase64 = blobToBase64;
-    function b64toBlob(b64Data, contentType = '', sliceSize = 512) {
-        const byteCharacters = atob(b64Data);
-        const byteArrays = [];
-        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-            const slice = byteCharacters.slice(offset, offset + sliceSize);
-            const byteNumbers = new Array(slice.length);
-            for (let i = 0; i < slice.length; i++) {
-                byteNumbers[i] = slice.charCodeAt(i);
-            }
-            const byteArray = new Uint8Array(byteNumbers);
-            byteArrays.push(byteArray);
-        }
-        const blob = new Blob(byteArrays, { type: contentType });
-        return blob;
-    }
-    util.b64toBlob = b64toBlob;
-    function urlToB64(url) {
-        return new Promise((resolve, _) => {
-            fetch(url)
-                .then(response => response.blob())
-                .then(async (blob) => {
-                resolve(await blobToBase64(blob));
-            });
-        });
-    }
-    util.urlToB64 = urlToB64;
-    async function b64toTempFile(title, base64) {
-        return await Filesystem.writeFile({
-            path: title,
-            data: base64,
-            directory: Directory.External
-        });
-    }
-    util.b64toTempFile = b64toTempFile;
-    function urlToBlob(url) {
-        return new Promise((resolve, _) => {
-            fetch(url)
-                .then(response => response.blob())
-                .then(async (blob) => { resolve(blob); });
-        });
-    }
-    util.urlToBlob = urlToBlob;
-    function parseJSON(json) {
-        var fixedJSON = json
-            // Replace ":" with "@colon@" if it's between double-quotes
-            .replace(/:\s*"([^"]*)"/g, function (_match, p1) {
-            return ': "' + p1.replace(/:/g, '@colon@') + '"';
-        })
-            // Replace ":" with "@colon@" if it's between single-quotes
-            .replace(/:\s*'([^']*)'/g, function (_match, p1) {
-            return ': "' + p1.replace(/:/g, '@colon@') + '"';
-        })
-            // Add double-quotes around any tokens before the remaining ":"
-            .replace(/(['"])?([a-z0-9A-Z_]+)(['"])?\s*:/g, '"$2": ')
-            // Turn "@colon@" back into ":"
-            .replace(/@colon@/g, ':');
-        return (JSON.parse(fixedJSON));
-    }
-    util.parseJSON = parseJSON;
-    async function getFirstRow(objectName) {
-        let confToken = await ConftokenProvider.config();
-        let obj = confToken.objectConfig[objectName];
-        let sentence = 'select ' + obj.primaryKeys.join(', ') + ' from ' + obj.tableName;
-        return sql.getTable(sentence).then((table) => {
-            if (table && table.rows && table.rows.length > 0) {
-                return getPrimaryKeysFilter(obj, sql.getRow(table, 0));
-            }
-            else {
-                return null;
-            }
-        });
-    }
-    util.getFirstRow = getFirstRow;
-    function getPrimaryKeysFilter(obj, row) {
-        let filter = '';
-        for (let i = 0; i < obj.primaryKeys.length; i++) {
-            if (filter) {
-                filter += ' and ';
-            }
-            filter += obj.primaryKeys[i] + ' = ' + sql.formatSQLField(obj.fields, obj.primaryKeys[i], row[obj.primaryKeys[i]]);
-        }
-        return filter;
-    }
-    util.getPrimaryKeysFilter = getPrimaryKeysFilter;
-    function currentDate() {
-        return moment().format('YYYY-MM-DD');
-    }
-    util.currentDate = currentDate;
-    function currentDateTime() {
-        return moment().format('YYYY-MM-DDTHH:mm:ss');
-    }
-    util.currentDateTime = currentDateTime;
-    function currentTime() {
-        return moment().format('HH:mm');
-    }
-    util.currentTime = currentTime;
-    function translate(key) {
-        let currentCulture = 'engb';
-        if (flexygo.conftoken && flexygo.conftoken.user) {
-            currentCulture = flexygo.conftoken.user.currentUserCultureId.toLowerCase().replace('-', '');
-        }
-        var text = null;
-        try {
-            text = key.split('.').reduce((object, index) => object ? object[index] : null, flexygo.culture[currentCulture.toLowerCase()]);
-        }
-        catch (ex) { }
-        if (text == null) {
-            try {
-                text = key.split('.').reduce((object, index) => object ? object[index] : null, flexygo.culture.engb);
-            }
-            catch (ex) { }
-        }
-        if (text == null) {
-            text = key;
-        }
-        return text;
-    }
-    util.translate = translate;
-    /**
-       * Evaluates JavaScript code and executes it.
-       * @param {string} dynamicCode - Dynamic Code.
-       * @method execDynamicCode
-       * @return {any}
-       */
-    function execDynamicCode(dynamicCode) {
-        return eval(dynamicCode);
-    }
-    util.execDynamicCode = execDynamicCode;
-    util.colors = [
-        "#63b598", "#ce7d78", "#ea9e70", "#a48a9e", "#c6e1e8", "#648177", "#0d5ac1",
-        "#f205e6", "#1c0365", "#14a9ad", "#4ca2f9", "#a4e43f", "#d298e2", "#6119d0",
-        "#d2737d", "#c0a43c", "#f2510e", "#651be6", "#79806e", "#61da5e", "#cd2f00",
-        "#9348af", "#01ac53", "#c5a4fb", "#996635", "#b11573", "#4bb473", "#75d89e",
-        "#2f3f94", "#2f7b99", "#da967d", "#34891f", "#b0d87b", "#ca4751", "#7e50a8",
-        "#c4d647", "#e0eeb8", "#11dec1", "#289812", "#566ca0", "#ffdbe1", "#2f1179",
-        "#935b6d", "#916988", "#513d98", "#aead3a", "#9e6d71", "#4b5bdc", "#0cd36d",
-        "#250662", "#cb5bea", "#228916", "#ac3e1b", "#df514a", "#539397", "#880977",
-        "#f697c1", "#ba96ce", "#679c9d", "#c6c42c", "#5d2c52", "#48b41b", "#e1cf3b",
-        "#5be4f0", "#57c4d8", "#a4d17a", "#225b8", "#be608b", "#96b00c", "#088baf",
-        "#f158bf", "#e145ba", "#ee91e3", "#05d371", "#5426e0", "#4834d0", "#802234",
-        "#6749e8", "#0971f0", "#8fb413", "#b2b4f0", "#c3c89d", "#c9a941", "#41d158",
-        "#fb21a3", "#51aed9", "#5bb32d", "#807fb", "#21538e", "#89d534", "#d36647",
-        "#7fb411", "#0023b8", "#3b8c2a", "#986b53", "#f50422", "#983f7a", "#ea24a3",
-        "#79352c", "#521250", "#c79ed2", "#d6dd92", "#e33e52", "#b2be57", "#fa06ec",
-        "#1bb699", "#6b2e5f", "#64820f", "#1c271", "#21538e", "#89d534", "#d36647",
-        "#7fb411", "#0023b8", "#3b8c2a", "#986b53", "#f50422", "#983f7a", "#ea24a3",
-        "#79352c", "#521250", "#c79ed2", "#d6dd92", "#e33e52", "#b2be57", "#fa06ec",
-        "#1bb699", "#6b2e5f", "#64820f", "#1c271", "#9cb64a", "#996c48", "#9ab9b7",
-        "#06e052", "#e3a481", "#0eb621", "#fc458e", "#b2db15", "#aa226d", "#792ed8",
-        "#73872a", "#520d3a", "#cefcb8", "#a5b3d9", "#7d1d85", "#c4fd57", "#f1ae16",
-        "#8fe22a", "#ef6e3c", "#243eeb", "#1dc18", "#dd93fd", "#3f8473", "#e7dbce",
-        "#421f79", "#7a3d93", "#635f6d", "#93f2d7", "#9b5c2a", "#15b9ee", "#0f5997",
-        "#409188", "#911e20", "#1350ce", "#10e5b1", "#fff4d7", "#cb2582", "#ce00be",
-        "#32d5d6", "#17232", "#608572", "#c79bc2", "#00f87c", "#77772a", "#6995ba",
-        "#fc6b57", "#f07815", "#8fd883", "#060e27", "#96e591", "#21d52e", "#d00043",
-        "#b47162", "#1ec227", "#4f0f6f", "#1d1d58", "#947002", "#bde052", "#e08c56",
-        "#28fcfd", "#bb09b", "#36486a", "#d02e29", "#1ae6db", "#3e464c", "#a84a8f",
-        "#911e7e", "#3f16d9", "#0f525f", "#ac7c0a", "#b4c086", "#c9d730", "#30cc49",
-        "#3d6751", "#fb4c03", "#640fc1", "#62c03e", "#d3493a", "#88aa0b", "#406df9",
-        "#615af0", "#4be47", "#2a3434", "#4a543f", "#79bca0", "#a8b8d4", "#00efd4",
-        "#7ad236", "#7260d8", "#1deaa7", "#06f43a", "#823c59", "#e3d94c", "#dc1c06",
-        "#f53b2a", "#b46238", "#2dfff6", "#a82b89", "#1a8011", "#436a9f", "#1a806a",
-        "#4cf09d", "#c188a2", "#67eb4b", "#b308d3", "#fc7e41", "#af3101", "#ff065",
-        "#71b1f4", "#a2f8a5", "#e23dd0", "#d3486d", "#00f7f9", "#474893", "#3cec35",
-        "#1c65cb", "#5d1d0c", "#2d7d2a", "#ff3420", "#5cdd87", "#a259a4", "#e4ac44",
-        "#1bede6", "#8798a4", "#d7790f", "#b2c24f", "#de73c2", "#d70a9c", "#25b67",
-        "#88e9b8", "#c2b0e2", "#86e98f", "#ae90e2", "#1a806b", "#436a9e", "#0ec0ff",
-        "#f812b3", "#b17fc9", "#8d6c2f", "#d3277a", "#2ca1ae", "#9685eb", "#8a96c6",
-        "#dba2e6", "#76fc1b", "#608fa4", "#20f6ba", "#07d7f6", "#dce77a", "#77ecca"
-    ];
-    function hexToRgbA(hex, opacity) {
-        var c;
-        if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
-            c = hex.substring(1).split('');
-            if (c.length == 3) {
-                c = [c[0], c[0], c[1], c[1], c[2], c[2]];
-            }
-            c = '0x' + c.join('');
-            return 'rgba(' + [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(',') + ',' + opacity + ')';
-        }
-        throw new Error('Bad Hex');
-    }
-    util.hexToRgbA = hexToRgbA;
-    function getB64MIME(b64) {
-        let noHeader = b64.replace('data:', '');
-        return noHeader.substr(0, noHeader.indexOf(';'));
-    }
-    util.getB64MIME = getB64MIME;
-    function getMIMEtype(fileName) {
-        let fileExt = fileName.split('.').pop().toLowerCase();
-        let MIMETypes = {
-            'aac': 'audio/aac',
-            'abw': 'application/x-abiword',
-            'arc': 'application/x-freearc',
-            'avi': 'video/x-msvideo',
-            'azw': 'application/vnd.amazon.ebook',
-            'bin': 'application/octet-stream',
-            'bmp': 'image/bmp',
-            'bz': 'application/x-bzip',
-            'bz2': 'application/x-bzip2',
-            'csh': 'application/x-csh',
-            'css': 'text/css',
-            'csv': 'text/csv',
-            'doc': 'application/msword',
-            'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'eot': 'application/vnd.ms-fontobject',
-            'epub': 'application/epub+zip',
-            'gif': 'image/gif',
-            'htm': 'text/html',
-            'html': 'text/html',
-            'ico': 'image/vnd.microsoft.icon',
-            'ics': 'text/calendar',
-            'jar': 'application/java-archive',
-            'jpeg': 'image/jpeg',
-            'jpg': 'image/jpeg',
-            'js': 'text/javascript',
-            'json': 'application/json',
-            'jsonld': 'application/ld+json',
-            'mid': 'audio/midi',
-            'midi': 'audio/midi',
-            'mjs': 'text/javascript',
-            'mp3': 'audio/mpeg',
-            'mp4': 'video/x-msvideo',
-            'mpeg': 'video/mpeg',
-            'mpkg': 'application/vnd.apple.installer+xml',
-            'odp': 'application/vnd.oasis.opendocument.presentation',
-            'ods': 'application/vnd.oasis.opendocument.spreadsheet',
-            'odt': 'application/vnd.oasis.opendocument.text',
-            'oga': 'audio/ogg',
-            'ogv': 'video/ogg',
-            'ogx': 'application/ogg',
-            'otf': 'font/otf',
-            'png': 'image/png',
-            'pdf': 'application/pdf',
-            'ppt': 'application/vnd.ms-powerpoint',
-            'pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-            'rar': 'application/x-rar-compressed',
-            'rtf': 'application/rtf',
-            'sh': 'application/x-sh',
-            'svg': 'image/svg+xml',
-            'swf': 'application/x-shockwave-flash',
-            'tar': 'application/x-tar',
-            'tif': 'image/tiff',
-            'tiff': 'image/tiff',
-            'ttf': 'font/ttf',
-            'txt': 'text/plain',
-            'vsd': 'application/vnd.visio',
-            'wav': 'audio/wav',
-            'weba': 'audio/webm',
-            'webm': 'video/webm',
-            'webp': 'image/webp',
-            'woff': 'font/woff',
-            'woff2': 'font/woff2',
-            'xhtml': 'application/xhtml+xml',
-            'xls': 'application/vnd.ms-excel',
-            'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            'xml': 'application/xml&nbsp;',
-            'xul': 'application/vnd.mozilla.xul+xml',
-            'zip': 'application/zip',
-            '3gp': 'video/3gpp',
-            '3g2': 'video/3gpp2',
-            '7z': 'application/x-7z-compressed'
-        };
-        return (MIMETypes[fileExt] ? MIMETypes[fileExt] : 'application/octet-stream');
-    }
-    util.getMIMEtype = getMIMEtype;
-    function createNotification(options) {
-        const notification = new LocalNotifications;
-        notification.schedule(options);
-    }
-    util.createNotification = createNotification;
-    function createNotificationWithEvent(options, event, callBack) {
-        const notification = new LocalNotifications;
-        notification.on(event).subscribe(callBack);
-        notification.schedule(options);
-    }
-    util.createNotificationWithEvent = createNotificationWithEvent;
-    function openFile(uri, fileMIME) {
-        const fileOpener = new FileOpener;
-        fileOpener.showOpenWithDialog(uri, fileMIME);
-    }
-    util.openFile = openFile;
-    function downloadByUrlNavigator(url, fileName) {
-        fetch(url)
-            .then(response => response.blob())
-            .then(blob => {
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = fileName;
-            link.click();
-        });
-    }
-    util.downloadByUrlNavigator = downloadByUrlNavigator;
-    function downloadByUrlPhone(url, fileName) {
-        return new Promise((resolve, _) => {
-            fetch(url)
-                .then(response => response.blob())
-                .then(async (blob) => {
-                let dataBase64 = await blobToBase64(blob);
-                resolve(await downloadByB64Phone(dataBase64, fileName));
-            });
-        });
-    }
-    util.downloadByUrlPhone = downloadByUrlPhone;
-    async function downloadByB64Phone(data, fileName) {
-        return new Promise((resolve, _) => {
-            Filesystem.writeFile({
-                path: fileName,
-                data: data,
-                directory: Directory.Data
-            }).then((data) => {
-                resolve(data.uri);
-            });
-        });
-    }
-    util.downloadByB64Phone = downloadByB64Phone;
-    function downloadByB64Navigator(b64, fileName) {
-        const downloadLink = document.createElement("a");
-        downloadLink.href = b64;
-        downloadLink.download = fileName;
-        downloadLink.click();
-    }
-    util.downloadByB64Navigator = downloadByB64Navigator;
-    /**
-      Opciones posibles:
-      message: STRING, //No soportado por ciertas apps (Facebook, Instagram)
-      subject: STRING, //Para aplicaciones de email
-      files: Array,    //Un array ocon los ficheros a compartir, locales o remotos
-      url: STRING,     //URL a compartir
-      chooserTitle: STRING, //Título del pop up
-      appPackageName: STRING, //Id de la app con la que compartir (Sólo para Android)
-      iPadCoordinates: STRING //Coordenadas para el mensaje. Formateado con x,y,width,height. ej: '0,0,0,0' (sólo para IOS)
-    */
-    async function share(options) {
-        let share = new SocialSharing;
-        share.shareWithOptions(options);
-    }
-    util.share = share;
-    function getNextSevenDates() {
-        var dates = [];
-        for (let i = 0; i < 7; i++) {
-            dates.push(moment().add(i, 'days').format('YYYY/MM/DD'));
-        }
-        return dates;
-    }
-    util.getNextSevenDates = getNextSevenDates;
-    function getPing(timeout = 0) {
-        return new Promise((resolve, reject) => {
-            let pending = true;
-            if (timeout) {
-                setTimeout(() => {
-                    if (pending) {
-                        reject('timeout');
-                    }
-                }, timeout);
-            }
-            let api = new Webapi;
-            api.connect().then((auth) => {
-                let initialTime = (new Date).getTime();
-                api.get(auth.url + "/webapi/context", null, { 'Authorization': 'Bearer ' + auth.bearerToken })
-                    .then(() => {
-                    pending = false;
-                    let finalTime = (new Date).getTime();
-                    resolve(finalTime - initialTime);
-                })
-                    .catch((ex) => {
-                    reject(ex);
-                });
-            });
-        });
-    }
-    util.getPing = getPing;
-    async function getTableFields(tableName) {
-        return (await getBasicFieldsInfo(tableName)).map(element => {
-            return element.trim().split(' ')[0];
-        });
-    }
-    util.getTableFields = getTableFields;
-    async function getTableFieldsConfig(tableName) {
-        return (await getBasicFieldsInfo(tableName)).map(element => {
-            let values = element.trim().split(' ');
-            let field = new fieldConfig;
-            field.FieldName = values[0];
-            field.FieldType = values[1];
-            return field;
-        });
-    }
-    util.getTableFieldsConfig = getTableFieldsConfig;
-    async function getBasicFieldsInfo(tableName) {
-        try {
-            let sqlSchema = sql.getRow(await sql.execSQL(`SELECT sql FROM sqlite_master WHERE tbl_name='${tableName}' AND type='table'`), 0).sql;
-            let fields = sqlSchema.split('(')[1].replace(/\n/g, '').split(',');
-            fields.pop();
-            return fields;
-        }
-        catch (err) {
-            throw new Error(translate('exceptions.noExistingTable'));
-        }
-    }
-})(util || (util = {}));
-
-var msg;
+var msg$1;
 (function (msg_1) {
-    function showError(err) {
+    function showError(err, auditable = true) {
         console.log(err);
         let text = '';
         if (err.error && err.error.Message) {
@@ -57459,9 +57833,34 @@ var msg;
         else {
             text = JSON.stringify(err);
         }
+        if (auditable && !text.startsWith(util.translate('exceptions.required'))) {
+            logErrorMsg(text);
+        }
+        if (text.toLowerCase() === 'failed to fetch') {
+            text = util.translate('sync.connectionErr');
+        }
         return danger(text, err);
     }
     msg_1.showError = showError;
+    function logErrorMsg(errMsg) {
+        let activePage = jquery('ion-nav > :not([aria-hidden="true"])');
+        var pageName = 'No page detected', pageType = '', pageObject = '';
+        if (activePage.length > 0) {
+            pageType = activePage[0].localName;
+            pageObject = activePage.attr('object');
+            pageName = activePage.attr('page-name');
+        }
+        sql.execSQL(`DELETE FROM ErrorsLogs WHERE _insertDate <= date('now', '-10 day')`);
+        sql.execSQL(`INSERT INTO ErrorsLogs 
+          (LogId, Message, PageObject, PageType, PageName) 
+        VALUES(
+          (SELECT IFNULL(Max(LogId),0)+1 FROM ErrorsLogs), 
+          '${errMsg.replace(/'/g, "''")}',
+          '${pageType}',
+          '${pageObject}',
+          '${pageName}'
+      )`);
+    }
     function danger(msg, moreInfo) {
         return generic(msg, 'danger', 5000, moreInfo);
     }
@@ -57488,7 +57887,7 @@ var msg;
         return toast.present();
     }
     msg_1.generic = generic;
-    function confirm(header, message, cssClass, showCancelButton = true) {
+    function confirm(header, message, cssClass, showCancelButton = true, afterAlertPresent) {
         return new Promise(async (resolve, reject) => {
             const alert = document.createElement('ion-alert');
             alert.header = header;
@@ -57515,7 +57914,10 @@ var msg;
             if (cssClass) {
                 alert.cssClass = cssClass;
             }
-            alert.present();
+            alert.present().then(() => {
+                if (afterAlertPresent)
+                    afterAlertPresent();
+            });
         });
     }
     msg_1.confirm = confirm;
@@ -57584,12 +57986,12 @@ var msg;
                 alert.dismiss();
             loading.dismiss().then(() => { loading = null; });
         }).catch(() => {
-            msg.showError(util.translate('usermenu.changePassError'));
+            msg$1.showError(util.translate('usermenu.changePassError'));
             alert.dismiss();
             loading.dismiss().then(() => { loading = null; });
         });
     }
-})(msg || (msg = {}));
+})(msg$1 || (msg$1 = {}));
 
 /// <reference types="@capacitor/cli" />
 
@@ -57922,7 +58324,7 @@ var nav;
         let router = document.querySelector('ion-router');
         let url = router.baseURI.substring(router.baseURI.indexOf('#'));
         if (url.startsWith('#')) {
-            url = url.substr(1);
+            url = url.substring(1);
         }
         return url;
     }
@@ -57960,7 +58362,7 @@ var nav;
                     }
                 }
                 if (!found) {
-                    msg.danger('Page not found');
+                    msg$1.danger('Page not found');
                 }
                 break;
             case 'external_page':
@@ -57970,7 +58372,7 @@ var nav;
                 navOnline.goPage(menu.pageTypeId, menu.onlineObject, null, null, menu.objectWhere);
                 break;
             default:
-                msg.danger('Feature not implemented');
+                msg$1.danger('Feature not implemented');
         }
     }
     nav._goMenu = _goMenu;
@@ -58044,10 +58446,21 @@ var flxSync;
 (function (flxSync) {
     let syncId = "";
     function sendData(options) {
+        if (options) {
+            if (!options.syncTables)
+                options.syncTables = [];
+            if (!options.syncViews)
+                options.syncViews = [];
+        }
         let cnf = new ConftokenService();
         popOverInfo(cnf, false).then(() => {
             cnf.sendDataStart(options).catch((err) => {
-                msg.showError(err);
+                if (err.message === 'Failed to fetch') {
+                    msg$1.danger('sync.connectionErr');
+                }
+                else {
+                    msg$1.showError(err);
+                }
                 jquery('ion-loading#syncLoading')[0].dismiss();
                 jquery('ion-loading#syncLoading').remove();
                 ConftokenProvider.saveLastSendData(err.Message ? err.Message : err.message, syncId);
@@ -58057,10 +58470,10 @@ var flxSync;
     flxSync.sendData = sendData;
     function syncTemplates() {
         let cnf = new ConftokenService();
-        cnf.getAppTemplates().catch((err) => {
-            msg.showError(err);
-        }).then(() => {
-            msg.success('Templates updated');
+        cnf.getAppTemplates().then(() => {
+            msg$1.success('Templates updated');
+        }).catch((err) => {
+            msg$1.showError(err);
         });
     }
     flxSync.syncTemplates = syncTemplates;
@@ -58073,6 +58486,12 @@ var flxSync;
     }
     flxSync.overwriteData = overwriteData;
     function getData(forced, reloadPage = true, jscode, options) {
+        if (options) {
+            if (!options.syncTables)
+                options.syncTables = [];
+            if (!options.syncViews)
+                options.syncViews = [];
+        }
         nav.goHome();
         let cnf = new ConftokenService();
         popOverInfo(cnf, true).then(() => {
@@ -58082,9 +58501,19 @@ var flxSync;
                     ConftokenProvider.saveLastSendError(null);
             })
                 .catch((err) => {
-                msg.showError(err);
                 jquery('ion-loading#syncLoading')[0].dismiss();
                 jquery('ion-loading#syncLoading').remove();
+                try {
+                    err.message = (err.message === 'Failed to fetch' ? util.translate('sync.connectionErr') : err.message);
+                }
+                catch (err) { }
+                try {
+                    err = (err.message === 'The user aborted a request.' ? new Error(util.translate('exceptions.syncTimeout')) : err);
+                }
+                catch (err) { }
+                ;
+                ConftokenProvider.saveLastSendError(err.message);
+                msg$1.showError(err);
             });
         });
     }
@@ -58115,12 +58544,12 @@ var flxSync;
             }
             else {
                 if (syncRes.error) {
-                    msg.showError(syncRes.error);
+                    msg$1.showError(syncRes.error);
                 }
                 else {
                     for (let key in syncRes.data) {
                         if (syncRes.data[key].state == 'error') {
-                            msg.showError(syncRes.data[key].lastError);
+                            msg$1.showError(syncRes.data[key].lastError);
                         }
                     }
                 }
@@ -58161,10 +58590,21 @@ var flxSync;
         let tblInfo = await sql.execSQL("SELECT name, sql FROM sqlite_master WHERE type='table' and substr(name,1,1)<>'_' and name <> 'sqlite_sequence'");
         for (let i = 0; i < tblInfo.rows.length; i++) {
             let tblSQLName = sql.getRow(tblInfo, i);
-            let objCnf = Object.entries(cnf.objectConfig).find((obj) => {
-                return obj[1].tableName === tblSQLName.name;
-            });
-            let blockSize = ((tblSQLName.name === 'flxImages' || tblSQLName.name === 'flxDocuments') ? 5 : (objCnf ? objCnf[1].bufferSize : 500));
+            let objCnf;
+            if (tblSQLName.name !== 'ErrorsLogs') {
+                objCnf = Object.entries(cnf.objectConfig).find((obj) => {
+                    return obj[1].tableName === tblSQLName.name;
+                });
+            }
+            console.log(tblSQLName.name);
+            console.log(objCnf);
+            let blockSize;
+            if (objCnf && objCnf[1] && objCnf[1].bufferSize) {
+                blockSize = objCnf[1].bufferSize;
+            }
+            else {
+                blockSize = (tblSQLName.name === 'flxImages' || tblSQLName.name === 'flxDocuments') ? 5 : 500;
+            }
             let tbl = await sql.selectTableInBlocks('SELECT * FROM ' + tblSQLName.name, blockSize);
             for (let j = 0; j < tbl.rows.length; j++) {
                 dataSQL += 'INSERT INTO ' + tblSQLName.name + ' VALUES (' + await transformToValues(Object.values(sql.getRow(tbl, j))) + ');;\n';
@@ -58262,10 +58702,10 @@ var flxSync;
                         sqlCode.unshift('DROP TABLE ' + tblSQLName.name);
                     }
                     await sql.sqlBatch(sqlCode.filter(Boolean)).then(() => {
-                        msg.success(util.translate('sync.restoreSuccess'));
+                        msg$1.success(util.translate('sync.restoreSuccess'));
                         document.location.reload();
                     }).catch((err) => {
-                        msg.showError(util.translate('sync.restoreError') + '\nError: ' + err.message);
+                        msg$1.showError(util.translate('sync.restoreError') + '\nError: ' + err.message);
                         console.log(err);
                         storage$1.clear();
                         for (let i = 0; i < storageVal.length; i++) {
@@ -58274,12 +58714,12 @@ var flxSync;
                     });
                 }
                 else
-                    msg.showError(util.translate('sync.notValidZip'));
+                    msg$1.showError(util.translate('sync.notValidZip'));
                 loading.dismiss().then(() => { loading = null; });
             });
         }
         else
-            msg.showError(util.translate('sync.restoreInvalid'));
+            msg$1.showError(util.translate('sync.restoreInvalid'));
         ev.target.value = "";
     }
     flxSync.restoreBackup = restoreBackup;
@@ -58401,7 +58841,7 @@ var flxPush;
             let cnf = new ConftokenService();
             flxSync.popOverInfo(cnf, true).then(() => {
                 cnf.getAppConfiguration(false, false, data.javaFunction).catch((err) => {
-                    msg.showError(err);
+                    msg$1.showError(err);
                     jquery('ion-loading#syncLoading')[0].dismiss();
                     jquery('ion-loading#syncLoading').remove();
                 });
@@ -58445,7 +58885,7 @@ var CameraSource;
      */
     CameraSource["Camera"] = "CAMERA";
     /**
-     * Pick an existing photo fron the gallery or photo album.
+     * Pick an existing photo from the gallery or photo album.
      */
     CameraSource["Photos"] = "PHOTOS";
 })(CameraSource || (CameraSource = {}));
@@ -58462,7 +58902,11 @@ var CameraResultType;
 })(CameraResultType || (CameraResultType = {}));
 
 const Camera$1 = registerPlugin('Camera', {
-    web: () => __sc_import_app('./web-403f8d7c.js').then(m => new m.CameraWeb()),
+    web: () => __sc_import_app('./web-2ec80b7d.js').then(m => new m.CameraWeb()),
+});
+
+const CameraPreview = registerPlugin('CameraPreview', {
+    web: () => __sc_import_app('./web-a27d1f00.js').then((m) => new m.CameraPreviewWeb()),
 });
 
 var SupportedFormat;
@@ -58524,7 +58968,7 @@ var CameraDirection$1;
 })(CameraDirection$1 || (CameraDirection$1 = {}));
 
 const BarcodeScanner = registerPlugin('BarcodeScanner', {
-    web: () => __sc_import_app('./web-cf0b8f05.js').then(m => new m.BarcodeScannerWeb()),
+    web: () => __sc_import_app('./web-d1ebbb91.js').then(m => new m.BarcodeScannerWeb()),
 });
 
 var OutputType$1;
@@ -58666,7 +59110,16 @@ var cam;
             alert('Failed because: ' + message);
     }
     cam.onFail = onFail;
-    function getPicture(myWidth = 1000, myHeight = 1000, myQuality = 50, typeCrop) {
+    async function getPicture(myWidth = 1000, myHeight = 1000, myQuality = 50, typeCrop, alternativeCam = false) {
+        if (alternativeCam) {
+            return await getPicture_Alternative(myWidth, myHeight, myQuality);
+        }
+        else {
+            return await getPicture_Default(myWidth, myHeight, myQuality, typeCrop);
+        }
+    }
+    cam.getPicture = getPicture;
+    function getPicture_Default(myWidth = 1000, myHeight = 1000, myQuality = 50, typeCrop) {
         if (navigator.camera) {
             let opts = {
                 quality: myQuality,
@@ -58697,7 +59150,107 @@ var cam;
             });
         }
     }
-    cam.getPicture = getPicture;
+    function getPicture_Alternative(myWidth = 1000, myHeight = 1000, myQuality = 50) {
+        return new Promise(async (resolve, reject) => {
+            if (navigator.camera) {
+                try {
+                    startCamera();
+                    resolve(await showCameraOverlay(myWidth, myHeight, myQuality));
+                }
+                catch (e) {
+                    reject(e);
+                }
+            }
+            else {
+                resolve(nocamB64);
+            }
+        });
+    }
+    function startCamera() {
+        const cameraPreviewOptions = {
+            position: 'rear',
+            enableZoom: true,
+            toBack: true,
+            disableExifHeaderStripping: false,
+            rotateWhenOrientationChanged: true,
+            disableAudio: true
+        };
+        CameraPreview.start(cameraPreviewOptions);
+    }
+    function showCameraOverlay(myWidth, myHeight, myQuality) {
+        return new Promise(async (resolve, _) => {
+            const options = {
+                width: myWidth,
+                height: myHeight,
+                quality: myQuality
+            };
+            jquery('app-root').css('display', 'none');
+            let cameraUI = jquery('<div id="cameraUI"></div>');
+            let close = jquery('<ion-icon name="close" class="close"/>');
+            let flash = jquery('<ion-icon name="flash" class="flash"/>');
+            let shoot = jquery('<ion-icon name="camera" class="shoot"/>');
+            let flip = jquery('<ion-icon name="repeat-outline" class="flip"/>');
+            close.on('click', () => {
+                stopCamera();
+            });
+            let torchActivity = false;
+            flash.on('click', () => {
+                let flashMode = (torchActivity ? 'off' : 'on');
+                torchActivity = (torchActivity ? false : true);
+                CameraPreview.setFlashMode({ flashMode: flashMode });
+            });
+            shoot.on('click', async () => {
+                const b64 = 'data:image/jpeg;base64,' + (await CameraPreview.capture(options)).value;
+                if (await showCameraResult(b64)) {
+                    stopCamera();
+                    resolve(b64);
+                }
+                else {
+                    jquery('#cameraUI').css('display', '');
+                }
+            });
+            flip.on('click', () => {
+                CameraPreview.flip();
+            });
+            let bottomBar = jquery('<div class="bottomBar"/>');
+            bottomBar.append(flash);
+            bottomBar.append(shoot);
+            bottomBar.append(flip);
+            cameraUI.append(close);
+            cameraUI.append(bottomBar);
+            jquery('body').append(cameraUI);
+        });
+    }
+    function showCameraResult(b64) {
+        return new Promise(async (resolve, _) => {
+            jquery('#cameraUI').css('display', 'none');
+            let cameraResult = jquery('<div id="cameraResult"/>');
+            let imageContainer = jquery(`<div class="resultContainer"><img src="${b64}"/></div>`);
+            let bottomBar = jquery('<div class="bottomBar"/>');
+            let accept = jquery('<ion-icon name="checkmark-circle" class="accept"/>');
+            let denie = jquery('<ion-icon name="close" class="denie"/>');
+            accept.on('click', () => {
+                jquery('#cameraResult').remove();
+                resolve(true);
+            });
+            denie.on('click', () => {
+                jquery('#cameraResult').remove();
+                resolve(false);
+            });
+            bottomBar.append(accept);
+            bottomBar.append(denie);
+            cameraResult.append(imageContainer);
+            cameraResult.append(bottomBar);
+            jquery('body').append(cameraResult);
+        });
+    }
+    function stopCamera() {
+        CameraPreview.stop();
+        jquery('#cameraUI').remove();
+        jquery('#cameraResult').remove();
+        jquery('app-root').css("display", "");
+    }
+    cam.stopCamera = stopCamera;
     async function getGalleryPicture(myWidth = 1000, myHeight = 1000, myQuality = 50) {
         var imagePicker = new ImagePicker();
         var options = {
@@ -58736,7 +59289,7 @@ var cam;
         fields.push('_rowguid');
         values.push(util.GUID());
         let InserScript = sql.getInsertScript(tableName, fields);
-        return sql.execSQL(InserScript, values).catch(err => { msg.showError(err); });
+        return sql.execSQL(InserScript, values).catch(err => { msg$1.showError(err); });
     }
     cam.savePicture = savePicture;
     function getDefaultImage() {
@@ -59243,7 +59796,7 @@ var DeviceSettings = /** @class */ (function () {
     }
     DeviceSettings.isIgnoringBatteryOptimizations = function () {
         return new Promise(function (resolve, reject) {
-            NativeModule$2.isIgnoringBatteryOptimizations.then(function (result) {
+            NativeModule$2.isIgnoringBatteryOptimizations().then(function (result) {
                 resolve(result.isIgnoringBatteryOptimizations);
             }).catch(function (error) {
                 reject(error.message);
@@ -59721,7 +60274,7 @@ var BackgroundGeolocation = /** @class */ (function () {
     };
     BackgroundGeolocation.getCurrentPosition = function (options) {
         return new Promise(function (resolve, reject) {
-            NativeModule$3.getCurrentPosition(options).then(function (result) {
+            NativeModule$3.getCurrentPosition({ options: options }).then(function (result) {
                 resolve(result);
             }).catch(function (error) {
                 reject(error.code);
@@ -60152,7 +60705,7 @@ var tracking;
             gps.showActivationMsg(true, false);
         }
         else {
-            msg.danger(util.translate('tracking.usingPC'));
+            msg$1.danger(util.translate('tracking.usingPC'));
         }
     }
     tracking.restart = restart;
@@ -60181,8 +60734,10 @@ var tracking;
                 batchSync: true,
                 maxBatchSize: 20,
                 autoSync: true,
-                notificationTitle: appName + util.translate('tracking.notificationTitle'),
-                notificationText: util.translate('tracking.notificationText') + appName,
+                notification: {
+                    title: appName + util.translate('tracking.notificationTitle'),
+                    text: util.translate('tracking.notificationText') + appName,
+                },
                 stationaryRadius: 25,
                 distanceFilter: (trackingData.radius ? trackingData.radius : 50),
                 desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
@@ -60206,7 +60761,7 @@ var tracking;
             });
         }
         else {
-            msg.danger(util.translate('tracking.usingPC'));
+            msg$1.danger(util.translate('tracking.usingPC'));
         }
     }
     tracking.initiate = initiate;
@@ -60227,7 +60782,7 @@ var tracking;
             console.log(await BackgroundGeolocation.getState());
         }
         else {
-            msg.danger(util.translate('tracking.usingPC'));
+            msg$1.danger(util.translate('tracking.usingPC'));
         }
     }
     tracking.checkState = checkState;
@@ -60238,7 +60793,7 @@ var tracking;
             }
         }
         else {
-            msg.danger(util.translate('tracking.usingPC'));
+            msg$1.danger(util.translate('tracking.usingPC'));
         }
     }
     tracking.clean = clean;
@@ -60247,7 +60802,7 @@ var tracking;
             return await BackgroundGeolocation.getLocations();
         }
         else {
-            msg.danger(util.translate('tracking.usingPC'));
+            msg$1.danger(util.translate('tracking.usingPC'));
         }
     }
     tracking.getLocations = getLocations;
@@ -60306,14 +60861,67 @@ var gps;
     gps.getCoords = getCoords;
     function getCoordsError(error) {
         if (error.code == 3) {
-            msg.danger(util.translate('exceptions.gpstimeout'));
+            msg$1.danger(util.translate('exceptions.gpsTimeout'));
         }
         else {
-            alert('code: ' + error.code + '\n' +
-                'message: ' + error.message + '\n');
+            alert('code: ' + error.code + '\n' + 'message: ' + error.message + '\n');
         }
     }
-    function requestGPSPermission(actMsg) {
+    /**
+     * Requests gps permission and returns the status after the user has interacted with the message
+     * @returns {string} Possible values: GRANTED, DENIED, DENIED_ONCE, NOT_REQUESTED, DENIED_ALWAYS, RESTRICTED, GRANTED_WHEN_IN_USE;
+    */
+    function requestGPSStatus() {
+        return diagnostic.getLocationAuthorizationStatus();
+    }
+    gps.requestGPSStatus = requestGPSStatus;
+    /**
+     * Requests gps permission and when user has denied always it will navigate to app settings
+     * @returns {Promise<boolean>}  Promise with a result of true when gps is granted and false when it isn't
+    */
+    function requestGPSPermission() {
+        return new Promise(async (resolve, _) => {
+            let currentStatus = await diagnostic.getLocationAuthorizationStatus();
+            diagnostic.requestLocationAuthorization().then(async (result) => {
+                if (result === diagnostic.permissionStatus.DENIED_ALWAYS && currentStatus === diagnostic.permissionStatus.DENIED_ALWAYS) {
+                    let openNativeSettings = new OpenNativeSettings;
+                    openNativeSettings.open('application_details').then(async () => {
+                        if (await diagnostic.isLocationAuthorized()) {
+                            resolve(false);
+                        }
+                        resolve(true);
+                    });
+                }
+                else if (result === diagnostic.permissionStatus.GRANTED || result === diagnostic.permissionStatus.GRANTED_WHEN_IN_USE) {
+                    resolve(true);
+                }
+                resolve(false);
+            }, err => { if (err.code !== 4)
+                msg$1.showError('Error requesting location permissions: ' + err.message); });
+        });
+    }
+    gps.requestGPSPermission = requestGPSPermission;
+    /**
+     * Asks user to activate gps
+     * @returns {Promise<boolean>} Promise with a result of true when gps is activated and false when it isn't
+    */
+    function requestGPSActivation() {
+        return new Promise(async (resolve, reject) => {
+            locationAccuracy.request(locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(async () => {
+                resolve(true);
+            }, err => {
+                if (err.code === 4) {
+                    resolve(false);
+                }
+                else {
+                    msg$1.showError('Error requesting location permissions: ' + err.message);
+                    reject(err);
+                }
+            });
+        });
+    }
+    gps.requestGPSActivation = requestGPSActivation;
+    function requestTrackingPermission(actMsg) {
         diagnostic.requestLocationAuthorization(diagnostic.locationAuthorizationMode.ALWAYS).then(async (result) => {
             let openNativeSettings = new OpenNativeSettings;
             switch (result) {
@@ -60357,7 +60965,7 @@ var gps;
                     break;
             }
         }, err => { if (err.code !== 4)
-            msg.showError('Error requesting location permissions: ' + err.message); });
+            msg$1.showError('Error requesting location permissions: ' + err.message); });
     }
     function askToTurnOnGPS(actMsg) {
         locationAccuracy.request(locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(async () => {
@@ -60371,7 +60979,7 @@ var gps;
                 tracking.initiate();
             }
         }, err => { if (err.code !== 4)
-            msg.showError('Error requesting location permissions: ' + err.message); });
+            msg$1.showError('Error requesting location permissions: ' + err.message); });
     }
     async function showActivationMsg(activateBackLocation, permissionRequest) {
         if (!permissionRequest) {
@@ -60396,14 +61004,14 @@ var gps;
                             getActivationMsg(false, permissionRequest);
                             break;
                     }
-                }, (err) => { msg.showError('Error requesting location permissions: ' + err); });
+                }, (err) => { msg$1.showError('Error requesting location permissions: ' + err); });
             }
         }
     }
     gps.showActivationMsg = showActivationMsg;
     async function getActivationMsg(permission, permissionRequest) {
         let shown = await storage.get('trackingMsgShown');
-        if ((!shown && !permissionRequest) || ((!permission || await gpsOff()) && permissionRequest)) {
+        if ((!shown && !permissionRequest) || ((!permission || await isGPSOff()) && permissionRequest)) {
             storage.set('trackingMsgShown', true);
             const actMsg = document.createElement('ion-alert');
             actMsg.header = util.translate('gps.activationMsg');
@@ -60431,7 +61039,7 @@ var gps;
                     if (permission)
                         askToTurnOnGPS(actMsg);
                     else
-                        requestGPSPermission(actMsg);
+                        requestTrackingPermission(actMsg);
                     return false;
                 }
             });
@@ -60442,7 +61050,7 @@ var gps;
             tracking.initiate();
         }
     }
-    async function gpsOff() {
+    async function isGPSOff() {
         if (cordova.platformId === 'ios') {
             return await locationAccuracy.canRequest();
         }
@@ -60454,6 +61062,7 @@ var gps;
                 return false;
         }
     }
+    gps.isGPSOff = isGPSOff;
 })(gps || (gps = {}));
 
 var ConftokenProvider;
@@ -60580,7 +61189,18 @@ class ConftokenService {
         if (!forced && oldConfToken && oldConfToken.resources) {
             conf.resources = oldConfToken.resources;
         }
-        return this.api.execProcess('GetAppConfig', { "AppName": app.AppName }).then(async (cnf) => {
+        let timeout = 0;
+        if (!forced && oldConfToken && oldConfToken.generalConfig && oldConfToken.generalConfig.syncTimeout) {
+            timeout = oldConfToken.generalConfig.syncTimeout * 1000;
+        }
+        let syncType;
+        if (this.options && this.options.partialSync) {
+            syncType = 'Partial Sync';
+        }
+        else {
+            syncType = (forced ? 'Overwrite' : 'Complete sync');
+        }
+        return this.api.execProcess('GetAppConfig', { "AppName": app.AppName, "SyncType": syncType }, null, null, timeout).then(async (cnf) => {
             conf.menuConfig = this.getMenuConfig(cnf);
             conf.homePage = this.getHomePage(cnf);
             conf.user = await this.api.getContext();
@@ -60620,7 +61240,7 @@ class ConftokenService {
                         conf.objectConfig[obj.objectName] = obj;
                     }
                 }
-                await this.getDataModel(conf);
+                await this.getDataModel(conf, timeout);
             }
             else {
                 throw "Can't find any object";
@@ -60641,10 +61261,10 @@ class ConftokenService {
                 token.profile.mustChangePsw = false;
                 storage.set('confToken', token);
             }
-            msg.success(util.translate("usermenu.success"));
+            msg$1.success(util.translate("usermenu.success"));
             return true;
         }).catch((err) => {
-            msg.showError(err.Message);
+            msg$1.showError(err.Message);
             return false;
         });
     }
@@ -60812,6 +61432,7 @@ class ConftokenService {
                 menu.objectName = cnf.Data.Menus[i].ObjectName;
                 menu.objectWhere = cnf.Data.Menus[i].ObjectWhere;
                 menu.iconClass = cnf.Data.Menus[i].IconClass;
+                menu.jsCode = cnf.Data.Menus[i].jsCode;
                 menuConfig.push(menu);
             }
         }
@@ -60862,6 +61483,7 @@ class ConftokenService {
             generalConf.syncMessage = cnf.Data.GeneralConf[0].SyncMessage;
             generalConf.sendMessage = cnf.Data.GeneralConf[0].SendMessage;
             generalConf.locationSending = cnf.Data.GeneralConf[0].LocationSending;
+            generalConf.syncTimeout = cnf.Data.GeneralConf[0].SyncTimeout;
         }
         return generalConf;
     }
@@ -61001,7 +61623,7 @@ class ConftokenService {
         fields.push({ "FieldName": "Descrip", "FieldType": "string" });
         return { "tableName": tableName, "primaryKeys": primaryKeys, "fields": fields };
     }
-    getDataModel(cnf) {
+    getDataModel(cnf, timeout) {
         let objConfig = cnf.objectConfig;
         let promises = [];
         if ((!this.options || !this.options.partialSync) || (this.options && this.options.partialSync && this.options.syncTables.includes('flxDocuments'))) {
@@ -61018,7 +61640,7 @@ class ConftokenService {
             for (let objectName in objConfig) {
                 let objCnf = objConfig[objectName];
                 if ((!this.options || !this.options.partialSync) || (this.options && this.options.partialSync && this.options.syncTables.includes(objCnf.tableName))) {
-                    promises.push(this.api.getObjectSchema(objectName).then(async (retn) => {
+                    promises.push(this.api.getObjectSchema(objectName, timeout).then(async (retn) => {
                         let promissArray = [];
                         if (!objCnf.tableName) {
                             objCnf.tableName = retn.TableName;
@@ -61028,11 +61650,11 @@ class ConftokenService {
                         objCnf.primaryKeys = retn.KeyFields;
                         objCnf.properties = this.getProperties(retn.Properties);
                         promissArray.push(sql.execSQL(sql.getDropScript(this.prefix + objCnf.tableName)).catch((err) => {
-                            msg.showError(err);
+                            msg$1.showError(err);
                             throw err;
                         }));
                         promissArray.push(sql.execSQL(sql.getCreateScript(this.prefix + objCnf.tableName, objCnf.fields, objCnf.primaryKeys)).catch((err) => {
-                            msg.showError(err);
+                            msg$1.showError(err);
                             throw err;
                         }));
                         await Promise.all(promissArray);
@@ -61043,15 +61665,15 @@ class ConftokenService {
                 for (let j = 0; j < objConfig[objectName].views.length; j++) {
                     let view = objConfig[objectName].views[j];
                     if ((!this.options || !this.options.partialSync) || (this.options && this.options.partialSync && this.options.syncViews.includes(view.tableName))) {
-                        promises.push(this.api.getViewSchema(objectName, view.tableName).then(async (ret) => {
+                        promises.push(this.api.getViewSchema(objectName, view.tableName, timeout).then(async (ret) => {
                             let promissArray = [];
                             objCnf.views[j].fields = ret;
                             promissArray.push(sql.execSQL(sql.getDropScript(this.prefix + view.tableName)).catch((err) => {
-                                msg.showError(err);
+                                msg$1.showError(err);
                                 throw err;
                             }));
                             promissArray.push(sql.execSQL(sql.getCreateScript(this.prefix + view.tableName, ret, view.primaryKeys)).catch((err) => {
-                                msg.showError(err);
+                                msg$1.showError(err);
                                 throw err;
                             }));
                             await Promise.all(promissArray);
@@ -61464,9 +62086,16 @@ class ConftokenService {
                                 sentences.push(sql.getRenameScript(this.prefix + tableName, tableName));
                             }
                             else {
-                                let errString = 'Table ' + tableName + ' has changed its primary key. Please, do a full synchronization.';
-                                this.rewriteSyncStatus(tableName, 'error', errString);
-                                throw errString;
+                                let pendingChanges = await sql.getTable(`SELECT * FROM ${tableName} WHERE _isUpdated=1 OR _isInserted=1`);
+                                if (pendingChanges.length > 0) {
+                                    let errString = 'Table ' + tableName + ' has changed its primary key. Please, send your data first.';
+                                    this.rewriteSyncStatus(tableName, 'error', errString);
+                                    throw errString;
+                                }
+                                else {
+                                    sentences.push(sql.getDropScript(tableName));
+                                    sentences.push(sql.getRenameScript(this.prefix + tableName, tableName));
+                                }
                             }
                         }
                     }
@@ -61504,7 +62133,7 @@ class ConftokenService {
                         this.postSyncFunction();
                     }).catch(() => {
                         //Catch for when avatar is too big
-                        msg.showError(util.translate('exceptions.avatarSize'));
+                        msg$1.showError(util.translate('exceptions.avatarSize'));
                         this.lastConf.profile.avatar = cam.getDefaultImage();
                         ConftokenProvider.saveConfToken(this.lastConf).then(() => {
                             this.postSyncFunction();
@@ -61606,14 +62235,15 @@ class ConftokenService {
             }
         }
         if (hasChanges) {
+            let syncType = (this.options && this.options.partialSend ? 'Partial send' : 'Complete send');
             for (let key in this.synData) {
-                this.sendTable(GUID, auth.user, app.AppName, key, this.synData[key].table);
+                this.sendTable(GUID, auth.user, app.AppName, key, this.synData[key].table, syncType);
             }
             conf.lastSend = util.currentDateTime();
             ConftokenProvider.saveConfToken(conf);
         }
         else {
-            noChangeMessage = (this.options && this.options.noChangeMessage) ? this.options.noChangeMessage : "There's no changes pending";
+            noChangeMessage = (this.options && this.options.noChangeMessage) ? this.options.noChangeMessage : util.translate("sync.noChanges");
             this.onFinish.next(new syncResult(false, this.synData, noChangeMessage));
         }
     }
@@ -61640,20 +62270,20 @@ class ConftokenService {
         let objConfig = conf.objectConfig;
         if (objConfig && Object.keys(objConfig).length > 0) {
             let sentences = [];
-            if ((!this.options || !this.options.partialSend) || (this.options && this.options.partialSend && this.options.sendTables.includes('flxImages'))) {
+            if ((!this.options || !this.options.partialSend) || (this.options && this.options.partialSend && this.options.sendTables && this.options.sendTables.includes('flxImages'))) {
                 sentences.push(sql.getFinishSyncScript('flxImages'));
             }
-            if ((!this.options || !this.options.partialSend) || (this.options && this.options.partialSend && this.options.sendTables.includes('flxDocuments'))) {
+            if ((!this.options || !this.options.partialSend) || (this.options && this.options.partialSend && this.options.sendTables && this.options.sendTables.includes('flxDocuments'))) {
                 sentences.push(sql.getFinishSyncScript('flxDocuments'));
             }
             for (let objectName in objConfig) {
                 let objCnf = objConfig[objectName];
                 if (objCnf.sendData) {
-                    if ((!this.options || !this.options.partialSend) || (this.options && this.options.partialSend && this.options.sendTables.includes(objCnf.tableName))) {
+                    if ((!this.options || !this.options.partialSend) || (this.options && this.options.partialSend && this.options.sendTables && this.options.sendTables.includes(objCnf.tableName))) {
                         sentences.push(sql.getFinishSyncScript(objCnf.tableName));
                     }
                     for (let i = 0; i < objCnf.views.length; i++) {
-                        if ((!this.options || !this.options.partialSend) || (this.options && this.options.partialSend && this.options.sendViews.includes(objCnf.views[i].tableName))) {
+                        if ((!this.options || !this.options.partialSend) || (this.options && this.options.partialSend && this.options.sendViews && this.options.sendViews.includes(objCnf.views[i].tableName))) {
                             sentences.push(sql.getFinishSyncScript(objCnf.views[i].tableName));
                         }
                     }
@@ -61662,7 +62292,7 @@ class ConftokenService {
             await sql.sqlBatch(sentences);
         }
     }
-    sendTable(GUID, user, appname, tableName, table) {
+    sendTable(GUID, user, appname, tableName, table, syncType) {
         let size = this.synData[tableName].pageSize;
         let page = this.synData[tableName].currentPage;
         let tableData = new Array();
@@ -61679,9 +62309,10 @@ class ConftokenService {
             params.TableName = tableName;
             params.UserName = user;
             params.PageNumber = page;
+            params.SyncType = syncType;
             this.api.execProcess('sysOfflineSendTable', params).then(() => {
                 this.updateSyncRows(tableName, tableData.length);
-                this.sendTable(GUID, user, appname, tableName, table);
+                this.sendTable(GUID, user, appname, tableName, table, syncType);
             }).catch((err) => {
                 this.changeSendStatus(GUID, tableName, 'error', err);
                 ConftokenProvider.saveLastSendData(err.Message ? err.Message : err.message, GUID);
@@ -61767,4 +62398,4 @@ class ConftokenService {
     }
 }
 
-export { ConftokenProvider as C, FileOpener as F, IonicNativePlugin as I, LocalNotifications as L, __extends as _, checkAvailability as a, cordovaPropertyGet as b, cordova$1 as c, cordovaPropertySet as d, Injectable as e, cam as f, getPromise as g, gps as h, flxSync as i, ConftokenService as j, flxPush as k, CameraSource as l, msg as m, nav as n, CameraDirection as o, sql as s, tracking as t, util as u };
+export { ConftokenProvider as C, FileOpener as F, IonicNativePlugin as I, LocalNotifications as L, __extends as _, checkAvailability as a, cordovaPropertyGet as b, cordova$1 as c, cordovaPropertySet as d, Injectable as e, cam as f, getPromise as g, gps as h, flxSync as i, ConftokenService as j, msg as k, flxPush as l, msg$1 as m, nav as n, CameraSource as o, CameraDirection as p, sql as s, tracking as t, util as u };

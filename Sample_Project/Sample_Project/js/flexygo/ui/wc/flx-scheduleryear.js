@@ -287,9 +287,15 @@ var flexygo;
                                         flexygo.nav.openPage(ev.pageType, ev.calendar, ctx.getObjectWhere(ev.table, ev.key, ev.id), null, ev.target, false, $(this));
                                     });
                                 }
-                                if (ev.pageType == "view" && ev.canView) {
+                                else if (ev.pageType == "view" && ev.canView) {
                                     $(div).click(function () {
                                         flexygo.nav.openPage(ev.pageType, ev.calendar, ctx.getObjectWhere(ev.table, ev.key, ev.id), null, ev.target, false, $(this));
+                                    });
+                                }
+                                else if (ev.pageType == "generic") {
+                                    $(div).click(function () {
+                                        var func = new Function('objectname', 'objectwhere', 'calEvent', 'jsEvent', 'view', ev.OnClickJS);
+                                        func.call(this, ev.calendar, ctx.getObjectWhere(ev.table, ev.key, ev.id), ev);
                                     });
                                 }
                                 eventColor = ev.color;

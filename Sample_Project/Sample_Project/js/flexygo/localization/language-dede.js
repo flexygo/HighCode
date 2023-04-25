@@ -85,7 +85,8 @@ var flexygo;
                 reports: 'Berichte',
                 noelements: 'Keine existierenden Elemente',
                 popupwarning: 'Pop-up Windows blockiert vom Browser. Bitte ändern sie die Einstellungen.',
-                reportmaxrows: 'Dieser Bericht verwendet {0} Zeilen zum Filtern und überschreitet das Limit von {1}. Wenden Sie zuerst einen restriktiveren Filter an.'
+                reportmaxrows: 'Dieser Bericht verwendet {0} Zeilen zum Filtern und überschreitet das Limit von {1}. Wenden Sie zuerst einen restriktiveren Filter an.',
+                scrolltop: 'Geh hinauf'
             };
             dede.flxfilter = {
                 searchplaceholder: 'Suche nach: ',
@@ -135,7 +136,10 @@ var flexygo;
                 selecttable: 'Wählen Sie Tabelle',
                 loadmore: 'Scrollen Sie, um mehr zu laden',
                 hasdependencies: 'Startet Abhängigkeiten',
-                hasdependingproperties: 'Von Abhängigkeiten betroffen'
+                hasdependingproperties: 'Von Abhängigkeiten betroffen',
+                withchangeprocess: 'Mit Veränderungsprozess',
+                throwto: 'Werfen zu',
+                affectedby: 'Beeinflusst durch'
             };
             dede.flxeditgrid = {
                 addrow: 'Zeile hinzufügen',
@@ -320,6 +324,7 @@ var flexygo;
                 uniqueBagError: 'Nicht definiertes eindeutiges Bezeichnerfeld.',
                 nofieldBagError: 'Kan veld <b>{0}</b> niet vinden. Voeg het toe om te vragen of de selectieknop te verwijderen.',
                 noItemsSelected: 'Wählen Sie zuerst ein Element aus der Liste aus.',
+                currentlyViewing: 'Derzeit ansehen'
             };
             dede.flxnav = {
                 notimplemented: 'Aktionsknoten nicht implementiert',
@@ -382,6 +387,7 @@ var flexygo;
                 msgremove: 'Weet u zeker dat u het document wilt verwijderen?',
                 sendselection: 'Auswahl per E-Mail senden',
                 noselection: 'Keine Dokumente ausgewählt',
+                filterdocs: 'Dokumente filtern',
             };
             dede.imagemanager = {
                 upload: 'Hochladen',
@@ -432,6 +438,7 @@ var flexygo;
                 edit: 'bearbeiten',
                 submenus: 'Untermenüs',
                 newsubmenu: 'Neues Untermenü',
+                menuSecurity: 'Menüsicherheit',
             };
             dede.modulemanager = {
                 save: 'Speichern',
@@ -460,6 +467,7 @@ var flexygo;
                 deletenode: 'Knoten löschen',
                 deletenodequestion: 'Sind Sie sicher diesen Knoten zu Löschen ?',
                 addfields: 'Felder hinzufügen',
+                cloneDependencies: 'Objektabhängigkeiten klonen'
             };
             dede.objectmanager = {
                 selecticon: 'Wählen Sie ein Symbol',
@@ -627,6 +635,7 @@ var flexygo;
                 apihelp: 'Sehen Sie sich unsere Hilfe an, um zu erfahren, wie Sie zu uns gelangen.',
                 nophone: 'Eingabe einer Rufnummer',
                 nomail: 'Eingabe einer E- Mail Adresse',
+                seeMap: 'Siehe auf Google Maps'
             };
             dede.flxfunnel = {
                 data: 'Keine Daten',
@@ -781,6 +790,15 @@ var flexygo;
             };
             dede.htmlreport = {
                 generate: 'Bericht erstellen',
+            };
+            dede.skin = {
+                darkmode: 'Dunkler Modus',
+                lightmode: 'Licht Modus'
+            };
+            dede.flxBarcode = {
+                noCamera: 'Keine verfügbare Kamera gefunden',
+                IOSerr: 'Diese Funktionalität ist unter IOS nicht verfügbar',
+                noCode: 'In diesem Bild ist kein Code zu finden.'
             };
         })(dede = culture.dede || (culture.dede = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

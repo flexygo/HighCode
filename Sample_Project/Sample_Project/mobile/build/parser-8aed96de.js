@@ -1,6 +1,6 @@
-import './webapi-7959a2b6.js';
-import { u as util, h as gps } from './conftoken-84c3ec5c.js';
-import { j as jquery } from './jquery-ad132f97.js';
+import './webapi-79a1d3db.js';
+import { u as util, h as gps, k as msg } from './conftoken-7e3c18eb.js';
+import { j as jquery } from './jquery-5df58adb.js';
 
 var parser;
 (function (parser) {
@@ -342,8 +342,13 @@ var parser;
                             rValue = util.GUID();
                         }
                         else if (jKey == 'currentlocation') {
-                            let pos = await gps.getCoords();
-                            rValue = pos.coords.latitude + ', ' + pos.coords.longitude;
+                            try {
+                                let pos = await gps.getCoords();
+                                rValue = pos.coords.latitude + ', ' + pos.coords.longitude;
+                            }
+                            catch (err) {
+                                msg.showError(util.translate('exceptions.gpsConnection'));
+                            }
                         }
                         else if (jKey == 'currentaltitude') {
                             let pos = await gps.getCoords();

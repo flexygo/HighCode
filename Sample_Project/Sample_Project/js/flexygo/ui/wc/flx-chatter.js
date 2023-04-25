@@ -29,6 +29,24 @@ var flexygo;
                     */
                     this.composerAttachments = [];
                     /**
+                    * Mentions Data
+                    * @property mentionsData {array}
+                    */
+                    this.mentionsData = [];
+                    /**
+                    * Default Settings
+                    * @property defaultSettings {string}
+                    */
+                    this.defaultSettings = {
+                        minChars: 1,
+                        onDataRequest: (mode, query, callback) => {
+                            callback.call(this, this.mentionsData.filter(function (item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1; }));
+                        },
+                        templates: {
+                            autocompleteListItemAvatar: _.template('<img is="flx-img" alt="<%= display %>" src="<%= avatar %>" />')
+                        }
+                    };
+                    /**
                     * Composer Messages
                     * @property messages {array}
                     */
@@ -57,12 +75,12 @@ var flexygo;
                                                       </div>
                                                       <div class="chatter_composer">
                                                         <div class="chatter_composer_container">
-                                                          <img class="chatter_avatar img-circle hidden-sm hidden-xs" src="${flexygo.utils.resolveUrl(flexygo.profiles.avatar)}"/>
+                                                          <img class="chatter_avatar img-circle hidden-sm hidden-xs" is="flx-img" alt="${flexygo.profiles.username.toUpperCase()}" src="${(flexygo.profiles.avatar == "~/img/Avatars/avatar_blank.png") ? "" : flexygo.utils.resolveUrl(flexygo.profiles.avatar)}"/>
                                                           <div class="chatter_composer_section">
                                                             <div class="chatter_composer_input">
                                                               <textarea class="chatter_composer_textarea" tabindex="2" placeholder="${flexygo.localization.translate('chatter.composerplaceholder')}"></textarea>
                                                               <div class="chatter_composer_tools">
-                                                                <img class="chatter_avatar_mini img-circle hidden-lg hidden-md" src="${flexygo.utils.resolveUrl(flexygo.profiles.avatar)}"/>
+                                                                <img class="chatter_avatar_mini img-circle hidden-lg hidden-md" is="flx-img" alt="${flexygo.profiles.username.toUpperCase()}" src="${(flexygo.profiles.avatar == "~/img/Avatars/avatar_blank.png") ? "" : flexygo.utils.resolveUrl(flexygo.profiles.avatar)}"/>
                                                                 <button disabled class="hide btn fa fa-smile-o chatter_composer_button_emoji" data-toggle="popover" tabindex="4" type="button"/>
                                                                 <button class="btn fa fa-paperclip chatter_composer_button_add_attachment" tabindex="5" type="button"/>
                                                                 <button disabled class="btn btn-icon fa fa-paper-plane-o chatter_composer_button_send hidden-lg hidden-md" tabindex="3" type="button"/>
@@ -120,7 +138,7 @@ var flexygo;
                     */
                     this.messageTemplate = (messageData, isNew) => `<div class="chatter_thread_message ${(isNew) ? 'new_message' : ''}" chatter-message-id="${messageData.messageId}">
                                                                                                     <div class="chatter_thread_message_sidebar">
-                                                                                                    <img src="${flexygo.utils.resolveUrl(messageData.avatar)}" class="chatter_thread_message_avatar img-circle"/>
+                                                                                                    <img is="flx-img" alt="${messageData.loginOwner.toUpperCase()}" src="${(flexygo.profiles.avatar == "~/img/Avatars/avatar_blank.png") ? "" : flexygo.utils.resolveUrl(messageData.avatar)}" class="chatter_thread_message_avatar img-circle"/>
                                                                                                     </div>
                                                                                                     <div class="chatter_thread_message_core">
                                                                                                         <p class="chatter_thread_message_info">
@@ -135,10 +153,10 @@ var flexygo;
 
                                                                                                             </span>
                                                                                                         </p>
-                                                                                                        <p id='messageContent'>${messageData.content}</p>
+                                                                                                        <p class="hide" id='messageContent'>${messageData.content}</p>
                                                                                                         <div class="shadow_thread" style="display:none;">
                                                                                                             <div class="chatter_thread_message_content">
-                                                                                                                <textarea class="chatter_composer_textarea_edit" id="${messageData.messageId}" display:none;">${messageData.content}</textarea>
+                                                                                                                <textarea class="chatter_composer_textarea_edit" id="${messageData.messageId}" display:none;"></textarea>
                                                                                                             </div>
                                                                                                             <div class="chatter_composer_tools_edit">
                                                                                                                 <button class="btn fa fa-paperclip chatter_composer_button_add_attachment_edit" tabindex="5" type="button" style="display:none;"/>
@@ -323,6 +341,7 @@ var flexygo;
                                 $(this).text(moment($(this).attr('chatter-message-timestamp')).locale(flexygo.profiles.culture).fromNow());
                             });
                         }, 60 * 1000);
+                        this.setMentions();
                         /* DEVELOPING: SignalR
                         flexygo.events.off(this, 'push', 'inserted');
                         flexygo.events.on(this, 'push', 'inserted', (e) => {
@@ -361,16 +380,40 @@ var flexygo;
                             }
                         });
                         DEVELOPING END: Favorite message */
+                        /*Change height of textarea*/
+                        let composerTextareaMinHeight = me.find('.chatter_composer_textarea_edit').outerHeight() || 50;
+                        let sillyTextArea = $('<textarea disabled>').css({
+                            position: 'absolute',
+                            opacity: 0,
+                            height: 0,
+                            borderTopWidth: 0,
+                            borderBottomWidth: 0,
+                            padding: 0,
+                            top: -10000,
+                        });
+                        me.find('.chatter_composer_textarea_edit').off('input.chatter focus.chatter change.chatter').on('input.chatter focus.chatter change.chatter', function () {
+                            let composerTextareaHeightOffset = 0;
+                            let textareaStyle = window.getComputedStyle(this, null);
+                            let temporarySillyTextAreaHeight;
+                            let temporarySillyTextArea = sillyTextArea.insertAfter(this);
+                            temporarySillyTextArea.width($(this).width());
+                            temporarySillyTextArea.val($(this).val());
+                            temporarySillyTextAreaHeight = temporarySillyTextArea[0].scrollHeight;
+                            temporarySillyTextArea.remove();
+                            if (textareaStyle.boxSizing === 'border-box') {
+                                let paddingHeight = parseFloat(textareaStyle.paddingTop) + parseFloat(textareaStyle.paddingBottom);
+                                let borderHeight = parseFloat(textareaStyle.borderTopWidth) + parseFloat(textareaStyle.borderBottomWidth);
+                                composerTextareaHeightOffset = borderHeight + paddingHeight;
+                            }
+                            $(this).css({ height: Math.max(temporarySillyTextAreaHeight + composerTextareaHeightOffset, composerTextareaMinHeight) });
+                        });
                         /*Delete message*/
                         me.find('.button_delete_message').off('click.chatter').on('click.chatter', function () {
                             let resultCallback = (result) => {
                                 if (result) {
-                                    let response = new Boolean(false);
                                     let parentId = $(this).closest('.chatter_thread_message');
                                     let id = parentId.attr('chatter-message-id');
-                                    response = me[0].deleteMessage(id);
-                                    if (response == true)
-                                        parentId.fadeOut(1500, 'linear');
+                                    me[0].deleteMessage(id, parentId);
                                 }
                             };
                             flexygo.msg.confirm(flexygo.localization.translate('chatter.deleteconfirm'), resultCallback);
@@ -520,15 +563,50 @@ var flexygo;
                 getMessages() {
                     try {
                         let me = $(this);
+                        let chatter = this;
                         let params;
                         params = {
                             'ObjectName': this.destinationObjectName,
                             'ObjectId': this.destinationObjectId,
                         };
                         flexygo.ajax.post('~/api/Chatter', 'GetMessages', params, (response) => {
-                            response.forEach((message) => { me.find((!message.parentMessage) ? '.chatter_thread' : `[chatter-message-id="${message.parentMessage}"] .chatter_thread_message_children:first`).append(this.messageTemplate(message)); });
+                            response.forEach((message) => {
+                                me.find((!message.parentMessage) ? '.chatter_thread' : `[chatter-message-id="${message.parentMessage}"] .chatter_thread_message_children:first`).append(this.messageTemplate(message));
+                                me.find(`[chatter-message-id="${message.messageId}"]`).find('#messageContent').mentionsInput({ defaultValue: (message.contentMarked == '') ? message.content : message.contentMarked });
+                                me.find(`[chatter-message-id="${message.messageId}"]`).find('textarea.chatter_composer_textarea_edit').mentionsInput(this.defaultSettings);
+                                me.find(`[chatter-message-id="${message.messageId}"]`).find('textarea.chatter_composer_textarea_edit').mentionsInput('resetValue', (message.contentMarked == '') ? message.content : message.contentMarked);
+                            });
                             //me.find('.chatter_thread').append(this.separatorTemplate(new Date));
                             this.setMessageEvents();
+                        });
+                    }
+                    catch (ex) {
+                        console.log(ex);
+                    }
+                }
+                /**
+                * Set mentions.
+                * @method setMentions
+                */
+                setMentions() {
+                    try {
+                        let me = $(this);
+                        let params;
+                        params = {
+                            'ObjectName': this.destinationObjectName,
+                        };
+                        flexygo.ajax.post('~/api/Chatter', 'SetMentions', params, (response) => {
+                            if (response) {
+                                this.mentionsData = response.mentionsResult;
+                                if (!flexygo.utils.isBlank(response.customOptions)) {
+                                    let customSettings = JSON.parse(response.customOptions);
+                                    for (var key in customSettings.templates) {
+                                        customSettings.templates[key] = eval(customSettings.templates[key]);
+                                    }
+                                    this.defaultSettings = Object.assign({}, this.defaultSettings, customSettings);
+                                }
+                                me.find('textarea.chatter_composer_textarea').mentionsInput(this.defaultSettings);
+                            }
                         });
                     }
                     catch (ex) {
@@ -543,17 +621,31 @@ var flexygo;
                     try {
                         let me;
                         let params;
+                        let contentMarked;
+                        let mentions;
+                        let chatter = this;
                         me = $(this);
+                        me.find('textarea.chatter_composer_textarea').mentionsInput('val', (text) => {
+                            contentMarked = text;
+                        });
+                        me.find('textarea.chatter_composer_textarea').mentionsInput('getMentions', (data) => {
+                            mentions = JSON.stringify(data);
+                        });
                         params = {
                             DestinationObjectName: this.destinationObjectName,
                             DestinationObjectId: this.destinationObjectId,
                             DestinationParentMessage: me.find('.chatter_composer_parent_message').attr('chatter-parent-message-id'),
                             Content: me.find('textarea.chatter_composer_textarea').val().trim(),
-                            Attachments: this.composerAttachments
+                            Attachments: this.composerAttachments,
+                            ContentMarked: contentMarked,
+                            Mentions: mentions
                         };
                         flexygo.ajax.post('~/api/Chatter', 'SetMessage', params, (response) => {
                             //TODO:  create own prepend function for chatter
                             this.setMessageEvents($(this.messageTemplate(response, true)).prependTo(me.find((!response.parentMessage) ? '.chatter_thread' : `[chatter-message-id="${response.parentMessage}"] .chatter_thread_message_children:first`)));
+                            me.find(`[chatter-message-id="${response.messageId}"]`).find('#messageContent').mentionsInput({ defaultValue: response.contentMarked });
+                            me.find(`[chatter-message-id="${response.messageId}"]`).find('textarea.chatter_composer_textarea_edit').mentionsInput(this.defaultSettings);
+                            me.find(`[chatter-message-id="${response.messageId}"]`).find('textarea.chatter_composer_textarea_edit').mentionsInput('resetValue', response.contentMarked);
                             if (!flexygo.utils.isInMainContent(me.find(`[chatter-message-id="${response.messageId}"]`)[0], 100)) {
                                 $(this).find(`[chatter-message-id="${response.messageId}"]`)[0].scrollIntoView({ block: "center", behavior: "smooth" });
                             }
@@ -572,14 +664,27 @@ var flexygo;
                     try {
                         let me;
                         let params;
+                        let contentMarked;
+                        let mentions;
                         me = $(this);
+                        parent.find('textarea.chatter_composer_textarea_edit').mentionsInput('val', (text) => {
+                            contentMarked = text;
+                        });
+                        parent.find('textarea.chatter_composer_textarea_edit').mentionsInput('getMentions', (data) => {
+                            mentions = JSON.stringify(data);
+                        });
                         params = {
                             MessageId: id,
                             Content: parent.find('textarea.chatter_composer_textarea_edit').val().trim(),
-                            Attachments: this.composerAttachments
+                            ContentMarked: contentMarked,
+                            Attachments: this.composerAttachments,
+                            Mentions: mentions,
+                            DestinationObjectName: this.destinationObjectName,
+                            DestinationObjectId: this.destinationObjectId,
                         };
                         flexygo.ajax.post('~/api/Chatter', 'UpdateMessage', params, (response) => {
                             parent.find('#messageContent').first().html(response.content);
+                            parent.find('#messageContent').mentionsInput('resetValue', response.contentMarked);
                             parent.find('.chatter_thread_message_attachments').first().html('<i class="fa fa-lg fa-paperclip"></i>' + response.attachmentsCount.toString());
                             if (response.attachmentsCount == 0) {
                                 parent.find('.chatter_thread_message_attachments').first().hide();
@@ -598,16 +703,22 @@ var flexygo;
                 * Delete message.
                 * @method deleteMessage
                 */
-                deleteMessage(IdMessage) {
-                    //Instance sysTmpTest Object with ID 1
-                    var obj = new flexygo.obj.Entity('sysChatter', 'Chatters.MessageId=\'' + IdMessage + '\'');
-                    //Delete data and capture success or fail
-                    if (obj.delete()) {
-                        $('#sysLog').append('<p>Delete ok!</p>');
-                        return true;
+                deleteMessage(IdMessage, parentId) {
+                    try {
+                        let params;
+                        params = {
+                            MessageId: IdMessage,
+                            DestinationObjectName: this.destinationObjectName,
+                            DestinationObjectId: this.destinationObjectId,
+                        };
+                        flexygo.ajax.post('~/api/Chatter', 'DeleteMessage', params, (response) => {
+                            if (response) {
+                                parentId.fadeOut(1500, 'linear');
+                            }
+                        });
                     }
-                    else {
-                        $('#sysLog').append('<p class="txt-danger">Delete fail :(</p>');
+                    catch (ex) {
+                        console.log(ex);
                     }
                 }
                 /**
@@ -617,6 +728,7 @@ var flexygo;
                 cleanComposer() {
                     try {
                         $(this).find('textarea.chatter_composer_textarea').val('');
+                        $(this).find('textarea.chatter_composer_textarea').mentionsInput('resetValue', '');
                         $(this).find('.chatter_composer_parent_message_delete').click();
                         $(this).find('.chatter_composer_attachment_delete').click();
                         $(this).find('.chatter_composer_button_send').prop('disabled', true);
@@ -657,7 +769,7 @@ var flexygo;
                             ObjectName: (cnf) ? cnf.ObjectName : '',
                             ObjectPK: (cnf) ? (cnf.KeyFields.length === 1) ? cnf.KeyFields[0] : '' : '',
                         };
-                        flexygo.nav.openPage('edit', 'sysChatter_Config', (cnf) ? "ObjectName = '" + cnf.ObjectName + "'" : null, defaults, 'modal900x400', false, $(this));
+                        flexygo.nav.openPage('edit', 'sysChatter_Config', (cnf) ? "ObjectName = '" + cnf.ObjectName + "'" : null, defaults, 'modal900x580', false, $(this));
                         flexygo.events.on(this, 'entity', 'all', (e) => {
                             if (this === e.context && e.sender.objectName === 'sysChatter_Config') {
                                 flexygo.events.off(this, 'entity', 'all');

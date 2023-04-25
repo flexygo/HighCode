@@ -337,7 +337,8 @@ var flexygo;
                     if (this.options && this.options.IsRequiredMessage) {
                         input.attr('data-msg-required', this.options.IsRequiredMessage);
                     }
-                    if (this.options && this.options.CauseRefresh) {
+                    const module = me.closest('flx-module')[0];
+                    if ((this.options && this.options.CauseRefresh) || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
                         input.on('change', () => {
                             //$(document).trigger('refreshProperty', [input.closest('flx-edit'), this.options.Name]);
                             let ev = {
@@ -399,6 +400,8 @@ var flexygo;
                             return 'css';
                         case 'sql':
                             return 'text/x-mssql';
+                        case 'csharp':
+                            return 'text/x-csharp';
                         default:
                             return null;
                     }

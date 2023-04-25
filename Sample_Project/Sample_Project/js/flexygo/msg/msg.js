@@ -3,6 +3,14 @@
 *
 * @class flexygo.msg
 */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var flexygo;
 (function (flexygo) {
     var msg;
@@ -28,32 +36,39 @@ var flexygo;
         * @param {string} msg - The message to show.
         * @param {LobiBoxConfirmCallback} callback - The callback function.
         */
-        function confirm(msg, callback) {
-            Lobibox.confirm({
-                title: flexygo.localization.translate('msg.confirm'),
-                msg: flexygo.localization.translate(msg),
-                iconClass: 'fa fa-question-circle',
-                buttons: {
-                    yes: {
-                        'class': 'lobibox-btn lobibox-btn-yes',
-                        text: flexygo.localization.translate('flxedit.areyousuremsgyes'),
-                        closeOnClick: true
+        function confirm(msg, callback = (() => { })) {
+            return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
+                Lobibox.confirm({
+                    title: flexygo.localization.translate('msg.confirm'),
+                    msg: flexygo.localization.translate(msg),
+                    iconClass: 'fa fa-question-circle',
+                    buttons: {
+                        yes: {
+                            'class': 'lobibox-btn lobibox-btn-yes',
+                            text: flexygo.localization.translate('flxedit.areyousuremsgyes'),
+                            closeOnClick: true
+                        },
+                        no: {
+                            'class': 'lobibox-btn lobibox-btn-no',
+                            text: flexygo.localization.translate('flxedit.areyousuremsgno'),
+                            closeOnClick: true
+                        }
                     },
-                    no: {
-                        'class': 'lobibox-btn lobibox-btn-no',
-                        text: flexygo.localization.translate('flxedit.areyousuremsgno'),
-                        closeOnClick: true
+                    callback: (dlg, type, ev) => {
+                        if (type == "yes") {
+                            callback(true);
+                            resolve(true);
+                        }
+                        else {
+                            callback(false);
+                            resolve(false);
+                        }
+                    },
+                    closed: () => {
+                        resolve();
                     }
-                },
-                callback: (dlg, type, ev) => {
-                    if (type == "yes") {
-                        callback(true);
-                    }
-                    else {
-                        callback(false);
-                    }
-                }
-            });
+                });
+            }));
         }
         msg_1.confirm = confirm;
         /**

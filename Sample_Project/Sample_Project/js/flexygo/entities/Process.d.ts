@@ -21,6 +21,7 @@ declare namespace flexygo {
         module: flexygo.ui.wc.FlxModuleElement;
         config: flexygo.api.process.ProcessConfig;
         showProgress: boolean;
+        moreProcesses: boolean;
         /**
             * Read process info and sets it into config property.
             * @method read
@@ -39,7 +40,7 @@ declare namespace flexygo {
         run(processparams: string | {
             Key: string;
             Value: any;
-        }[], cllback?: any, targetid?: string, excludeHist?: boolean, triggerElement?: JQuery): void;
+        }[], cllback?: any, targetid?: string, excludeHist?: boolean, triggerElement?: JQuery, lastProcessName?: string): void;
         /**
         * Show loading funcion before executing process
         * @method showLoading
@@ -54,6 +55,6 @@ declare namespace flexygo {
         * Close loading funcion after executing process
         * @method showLoading
         */
-        closeLoading(): void;
+        closeLoading(lastProcess?: boolean): void;
     }
 }

@@ -46,6 +46,12 @@ flx-filter .filter-check {
     vertical-align: middle;
 }
 
+flx-filter flx-multicombo, flx-filter flx-dbcombo {
+    ul {
+        z-index: 99;
+    }
+}
+
 flx-list table.flxRszTbl, .flx-list table {
     padding-right: 5px;
     border-spacing: 0;
@@ -294,4 +300,10 @@ flx-list[mode="edit"] flx-image {
         background-color: white;
         color: lighten(black,30);
     }
+}
+
+flx-list td > .tag.label-info {
+    border: 1px solid white;
+    border-radius: 0.4em;
+    line-height: 25px;
 }

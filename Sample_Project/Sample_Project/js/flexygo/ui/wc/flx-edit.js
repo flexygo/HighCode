@@ -34,6 +34,8 @@ var flexygo;
                     this.templateId = null;
                     this.defaults = null;
                     this.JSforParams = null;
+                    this.maxTabIndex = 0;
+                    this.isClone = false;
                     this.dependenciesLoaded = false;
                     this.loadingDependencies = 0;
                     this.pendingSaveButton = null;
@@ -120,6 +122,36 @@ var flexygo;
                         default:
                             this.initEditMode();
                     }
+                    $(this).off('keydown.tabcontrol').on('keydown.tabcontrol', (ev) => {
+                        if (ev.key === 'Tab') {
+                            var target = $(ev.target).closest("[Property]");
+                            if (!target.is('flx-barcode') && !target.is('flx-code')) {
+                                var index = parseInt($(ev.target).attr('tabindex'));
+                                if (ev.shiftKey)
+                                    index--;
+                                else
+                                    index++;
+                                var dependenciesLoad = setInterval(() => {
+                                    if (target.find('.item #flx-dependency-loader, .grid-stack-item #flx-dependency-loader').length === 0) {
+                                        if (!target.find('> div').hasClass('has-error')) {
+                                            let control = $(this).find("[tabindex=" + index + "]");
+                                            if (control.closest('flx-multicombo').length === 0) {
+                                                control.select().focus();
+                                            }
+                                            else {
+                                                let searchControl = $(this).find(`[tabindex="${index}"][type="search"]`);
+                                                if (searchControl.is(':visible'))
+                                                    searchControl.focus();
+                                                else
+                                                    control.focus().click();
+                                            }
+                                        }
+                                        clearInterval(dependenciesLoad);
+                                    }
+                                }, 200);
+                            }
+                        }
+                    });
                 }
                 /**
                 * Refresh de webcomponent.
@@ -167,6 +199,7 @@ var flexygo;
                             }
                         }
                     }
+                    this.isClone = (me.attr('isClone') === 'true');
                     let params = {
                         ObjectName: me.attr('ObjectName'),
                         ObjectWhere: me.attr('ObjectWhere'),
@@ -183,7 +216,15 @@ var flexygo;
                             if (parentModule && wcModule) {
                                 if (response.Buttons) {
                                     wcModule.setButtons(response.Buttons, response.ObjectName, response.ObjectWhere);
-                                    parentModule.find('.cntBodyFooter .moduleButtons .saveButton').attr('tabIndex', this.getMaxTabindex(response.Properties));
+                                    this.setMaxTabindex(response.Properties);
+                                    let btns = parentModule.find('.cntBodyFooter .moduleButtons div.btn-group span.submenuContainer button, .cntBodyFooter .moduleButtons div.btn-group button');
+                                    btns.each((i, btn) => {
+                                        this.maxTabIndex++;
+                                        $(btn).attr('tabIndex', this.maxTabIndex);
+                                    });
+                                }
+                                else {
+                                    wcModule.setButtons(null, response.ObjectName, response.ObjectWhere);
                                 }
                                 wcModule.setObjectDescrip(response.Title);
                             }
@@ -215,6 +256,26 @@ var flexygo;
                         let wcModule = parentModule[0];
                         if (parentModule && wcModule) {
                             wcModule.moduleLoaded(this);
+                            if (wcModule.ModuleViewers && response.ObjectWhere !== '') {
+                                this.currentViewers = response.CurrentViewers;
+                                flexygo.utils.refreshModuleViewersInfo(wcModule, this.currentViewers);
+                                flexygo.utils.checkObserverModule(wcModule, 20000);
+                                flexygo.events.on(this, 'push', 'notify', function (e) {
+                                    switch (e.masterIdentity) {
+                                        case 'GetSetModuleViewers': {
+                                            if ((wcModule.moduleName == '' ? null : wcModule.moduleName) == (e.sender.ModuleName == '' ? null : e.sender.ModuleName)
+                                                && (wcModule.objectname == '' ? null : wcModule.objectname) == (e.sender.ObjectName == '' ? null : e.sender.ObjectName)
+                                                && (wcModule.objectwhere == '' ? null : wcModule.objectwhere) == (e.sender.ObjectWhere == '' ? null : e.sender.ObjectWhere)) {
+                                                flexygo.utils.refreshModuleViewersInfo(wcModule, e.sender.ActiveUsers);
+                                            }
+                                            break;
+                                        }
+                                        default: {
+                                            break;
+                                        }
+                                    }
+                                });
+                            }
                         }
                     });
                 }
@@ -225,6 +286,7 @@ var flexygo;
                 initReportMode() {
                     let me = $(this);
                     let objDef;
+                    let selector;
                     if (this.defaults) {
                         objDef = JSON.parse(this.defaults);
                     }
@@ -256,6 +318,15 @@ var flexygo;
                             if (parentModule && wcModule) {
                                 if (response.Buttons) {
                                     wcModule.setButtons(response.Buttons, response.ObjectName, response.ObjectWhere, response.ReportName, null);
+                                    this.setMaxTabindex(response.Properties);
+                                    let btns = $(wcModule).find('.cntBodyFooter .moduleButtons div.btn-group span.submenuContainer button, .cntBodyFooter .moduleButtons div.btn-group button');
+                                    btns.each((i, btn) => {
+                                        this.maxTabIndex++;
+                                        $(btn).attr('tabIndex', this.maxTabIndex);
+                                    });
+                                }
+                                else {
+                                    wcModule.setButtons(null, response.ObjectName, response.ObjectWhere, response.ReportName, null);
                                 }
                                 wcModule.setObjectDescrip(response.Title);
                             }
@@ -267,6 +338,13 @@ var flexygo;
                             this.render();
                             this.initValidate();
                         }
+                        if (!me.closest('div.ui-dialog').length) {
+                            selector = 'div#mainContent';
+                        }
+                        else {
+                            selector = 'div.ui-dialog';
+                        }
+                        me.closest(selector).find('flx-module flx-edit').first().find('[property] select:enabled:visible, [property] input:enabled:visible, [property] textarea:enabled:visible').first().focus();
                         let parentModule = me.closest('flx-module');
                         let wcModule = parentModule[0];
                         if (parentModule && wcModule) {
@@ -276,22 +354,32 @@ var flexygo;
                 }
                 /**
                 * Gets maximum tab index.
-                * @method getMaxTabindex
+                * @method setMaxTabindex
+                * @param {flexygo.api.ObjectPropertyCollection} props
+                */
+                setMaxTabindex(props) {
+                    if (this.maxTabIndex === 0) {
+                        this.maxTabIndex = Object.keys(props).length + this.lastEditControlsCount();
+                    }
+                }
+                /**
+                * Gets last loaded edit controls number
+                * @method lastEditControlsCount
                 * @param {flexygo.api.ObjectPropertyCollection} props
                 * @return {string}
                 */
-                getMaxTabindex(props) {
-                    let posX = 0;
-                    let posY = 0;
-                    for (let key in props) {
-                        if (props[key].PositionX > posX) {
-                            posX = props[key].PositionX;
-                        }
-                        if (props[key].PositionY > posY) {
-                            posY = props[key].PositionY;
-                        }
+                lastEditControlsCount() {
+                    $(this).addClass('flx-currentExaminedEdit');
+                    let otherEdits = $(`flx-edit:not(.flx-currentExaminedEdit)[ControlsNumber]`);
+                    let totalControls = 0;
+                    if (otherEdits.length > 0) {
+                        otherEdits.each((index, el) => {
+                            let elementControls = parseInt(el.getAttribute('ControlsNumber'));
+                            totalControls = elementControls > totalControls ? elementControls : totalControls;
+                        });
                     }
-                    return posY.toString() + posX.toString();
+                    $(this).removeClass('flx-currentExaminedEdit');
+                    return totalControls;
                 }
                 /**
               * Init the webcomponent in edit process parameter mode.
@@ -301,6 +389,7 @@ var flexygo;
                     let me = $(this);
                     me.html('');
                     let objDef = null;
+                    let selector;
                     if (this.defaults) {
                         objDef = JSON.parse(this.defaults);
                     }
@@ -331,6 +420,15 @@ var flexygo;
                             if (parentModule && wcModule) {
                                 if (response.Buttons) {
                                     wcModule.setButtons(response.Buttons, response.ObjectName, response.ObjectWhere, null, response.ProcessName);
+                                    this.setMaxTabindex(response.Properties);
+                                    let btns = $(wcModule).find('.cntBodyFooter .moduleButtons div.btn-group span.submenuContainer button, .cntBodyFooter .moduleButtons div.btn-group button');
+                                    btns.each((i, btn) => {
+                                        this.maxTabIndex++;
+                                        $(btn).attr('tabIndex', this.maxTabIndex);
+                                    });
+                                }
+                                else {
+                                    wcModule.setButtons(null, response.ObjectName, response.ObjectWhere, null, response.ProcessName);
                                 }
                                 wcModule.setObjectDescrip(response.Title);
                             }
@@ -347,7 +445,19 @@ var flexygo;
                                     me.closest('flx-module').find("button[data-type='runprocess']").children('span').html(response.RunButtonText);
                                 }
                             }
+                            if (response.RunButtonIconName) {
+                                if (me.closest('flx-module').find("button[data-type='runprocess'] i")) {
+                                    me.closest('flx-module').find("button[data-type='runprocess']").children('i').removeClass().addClass(response.RunButtonIconName + ' margin-right-s');
+                                }
+                            }
                         }
+                        if (!me.closest('div.ui-dialog').length) {
+                            selector = 'div#mainContent';
+                        }
+                        else {
+                            selector = 'div.ui-dialog';
+                        }
+                        me.closest(selector).find('flx-module flx-edit').first().find('[property] select:enabled:visible, [property] input:enabled:visible, [property] textarea:enabled:visible').first().focus();
                         let parentModule = me.closest('flx-module');
                         let wcModule = parentModule[0];
                         if (wcModule) {
@@ -452,56 +562,13 @@ var flexygo;
                             //Manual implementation of areyousure on popup dialogs
                             let dlg = me.closest("main.pageContainer");
                             dlg.off("dialogbeforeclose").on("dialogbeforeclose", () => {
-                                if (!dlg.hasClass("closing")) {
-                                    return this.checkDirtyEdit();
+                                if (!dlg.hasClass("closing") && me.closest('flx-module').length > 0) {
+                                    return me.closest('flx-module')[0].checkDirtyEdit();
                                 }
                             });
                         }
                     }
-                }
-                /**
-                * Checks if form is dirty.
-                * @method checkDirtyEdit
-                * @return {boolean}
-                */
-                checkDirtyEdit() {
-                    let me = $(this);
-                    let dlg = me.closest("main.pageContainer");
-                    let form = me.find('form');
-                    let dirtyForms = form.filter('.dirty');
-                    if (dirtyForms.length != 0 && document.body.contains(this)) {
-                        Lobibox.confirm({
-                            title: flexygo.localization.translate('flxedit.areyousuretitle'),
-                            msg: flexygo.localization.translate('flxedit.areyousuremsg'),
-                            buttons: {
-                                yes: {
-                                    'class': 'lobibox-btn lobibox-btn-yes',
-                                    text: flexygo.localization.translate('flxedit.areyousuremsgyes'),
-                                    closeOnClick: true
-                                },
-                                no: {
-                                    'class': 'lobibox-btn lobibox-btn-no',
-                                    text: flexygo.localization.translate('flxedit.areyousuremsgno'),
-                                    closeOnClick: true
-                                }
-                            },
-                            iconClass: '',
-                            callback: (dialog, type, ev) => {
-                                if (type == "yes") {
-                                    let ev = {
-                                        class: "dialog",
-                                        type: "closed",
-                                        sender: dlg.data('context')
-                                    };
-                                    dlg.addClass("closing");
-                                    flexygo.events.trigger(ev);
-                                    dlg.dialog('close');
-                                    //dlg.dialog('destroy').remove();
-                                }
-                            }
-                        });
-                        return false; //cancel default close
-                    }
+                    this.setTabIndex();
                 }
                 /**
                * Establish webcomponent settings
@@ -570,6 +637,9 @@ var flexygo;
                         targetid: targetid
                     };
                     let pageContainer = flexygo.targets.createContainer(histObj, true, null);
+                    if (!pageContainer) {
+                        return;
+                    }
                     pageContainer.closest('.ui-dialog').find('.flx-icon.icon-select').remove();
                     let control;
                     let descrip;
@@ -653,16 +723,28 @@ var flexygo;
                                     let lblprop = me.find('[lblproperty="' + itm.PropertyName + '"]');
                                     if (prop.length > 0) {
                                         this.refreshProperty(itm, prop, lblprop, true);
-                                        if (itm.changeVisibility)
+                                        if (itm.changeVisibility || itm.changeEnabled)
                                             orderStackExecution = true;
                                     }
                                 }
                                 if (flexygo.utils.isSizeSmartphone() && orderStackExecution) {
                                     this.orderStack();
                                 }
+                                if (orderStackExecution) {
+                                    this.setTabIndex();
+                                }
                             }
                             this.dependenciesLoaded = true;
                             this.removeLoadingEdit();
+                            let selector = '';
+                            if (!me.closest('div.ui-dialog').length) {
+                                selector = 'div#mainContent';
+                            }
+                            else {
+                                selector = 'div.ui-dialog';
+                            }
+                            me.closest(selector).find('flx-module flx-edit').first().find('[property] select:enabled:visible, [property] input:enabled:visible, [property] textarea:enabled:visible').first().focus();
+                            me.find('form').removeClass('dirty');
                         });
                     }
                 }
@@ -693,6 +775,11 @@ var flexygo;
                     let me = $(this);
                     let controls = me.find('[property]');
                     //let objDef = null;
+                    let obj;
+                    if (this.isClone) {
+                        obj = new flexygo.obj.Entity(this.objectname);
+                        obj.read();
+                    }
                     for (let i = 0; i < controls.length; i++) {
                         let propName = $(controls[i]).attr('property');
                         let ctl = $(controls[i])[0];
@@ -704,7 +791,12 @@ var flexygo;
                             //if (objDef && typeof objDef[propName] != 'undefined') {
                             //    value = objDef[propName]
                             //}
-                            ctl.setValue(value, this.data[propName].Text);
+                            if (obj && obj.data && obj.data[propName]) {
+                                ctl.setValue((value || obj.data[propName].Value), this.data[propName].Text);
+                            }
+                            else {
+                                ctl.setValue((value), this.data[propName].Text);
+                            }
                         }
                     }
                 }
@@ -762,7 +854,7 @@ var flexygo;
                             return 1;
                         return 0;
                     });
-                    str += '<form><div class="resizable-row grid-stack edit-form">';
+                    str += '<form onsubmit="return false"><div class="resizable-row grid-stack edit-form">';
                     for (let i = 0; i < dataArray.length; i++) {
                         let row = flexygo.utils.lowerKeys(dataArray[i]);
                         if (this.properties[row.name].FormDisplay) {
@@ -881,7 +973,14 @@ var flexygo;
                         cntl.options.PositionY = IPositionY;
                         cntl.options.DropDownValues = itm.newSqlItems;
                         cntl.options.IconClass = itm.newCustomProperty.IconClass;
-                        prop.replaceWith(element);
+                        if (prop[0].tagName.toLocaleLowerCase() == 'flx-code') {
+                            let value = prop.val();
+                            prop.replaceWith(element);
+                            element[0].setValue(value);
+                        }
+                        else {
+                            prop.replaceWith(element);
+                        }
                         prop = element;
                     }
                     if (itm.JSCode) {
@@ -1103,10 +1202,14 @@ var flexygo;
                             prop.attr("sqlvalidator", 0);
                         }
                         if (element.attr('type') == 'time' || element.attr('type') == 'date' || element.attr('type') == 'datetime-local' || element[0].localName == 'flx-tag') {
-                            prop.valid();
+                            if (!prop.valid()) {
+                                $(prop).focus().select();
+                            }
                         }
-                        if (element.attr('type') == 'text' || element[0].localName == 'flx-tag') {
-                            $(prop).valid();
+                        if (element.attr('type') == 'text' || element[0].localName == 'flx-tag' || element[0].localName == 'flx-barcode') {
+                            if (!$(prop).valid()) {
+                                $(prop).focus().select();
+                            }
                         }
                     });
                 }
@@ -1167,14 +1270,18 @@ var flexygo;
                     }
                 }
                 removeLoadingProperty(e) {
-                    let containerItem = $(e.sender).closest('.item');
-                    containerItem.parent().find('#flx-dependency-loader').remove();
-                    containerItem.removeClass('flx-relative flx-opacity');
-                    let dependingProp = e.sender.options.DependingProperties;
-                    for (let i = 0; i < dependingProp.length; i++) {
-                        let itemDepending = $(e.sender).closest('flx-edit').find(`[property="${dependingProp[i].DependantPropertyName}"]`).closest('.item');
-                        itemDepending.parent().find('#flx-dependency-loader').remove();
-                        itemDepending.removeClass('flx-relative flx-opacity');
+                    if (e && e.sender && e.sender) {
+                        let containerItem = $(e.sender).closest('.item');
+                        containerItem.parent().find('#flx-dependency-loader').remove();
+                        containerItem.removeClass('flx-relative flx-opacity');
+                    }
+                    if (e && e.sender && e.sender.options) {
+                        let dependingProp = e.sender.options.DependingProperties;
+                        for (let i = 0; i < dependingProp.length; i++) {
+                            let itemDepending = $(e.sender).closest('flx-edit').find(`[property="${dependingProp[i].DependantPropertyName}"]`).closest('.item');
+                            itemDepending.parent().find('#flx-dependency-loader').remove();
+                            itemDepending.removeClass('flx-relative flx-opacity');
+                        }
                     }
                 }
                 /**
@@ -1212,6 +1319,29 @@ var flexygo;
                                         this.validateSQLProperty(propertyName, Properties);
                                     }
                                 }
+                                if (!this.properties[propertyName].ThrowDependenciesOnInvalid) {
+                                    let prop;
+                                    if ((elm[0].tagName).toLowerCase() == 'flx-radio') {
+                                        prop = elm.find('[name="' + propertyName + '"]:first');
+                                    }
+                                    else {
+                                        prop = elm.find('[name="' + propertyName + '"]');
+                                    }
+                                    if ((elm[0].tagName).toLowerCase() == 'flx-dbcombo') {
+                                        if (elm.find('[name="' + propertyName + '"]').attr("sqlvalidator") == "0") {
+                                            this.removeLoadingProperty(e);
+                                            return;
+                                        }
+                                    }
+                                    else {
+                                        if (prop.length > 0) {
+                                            if (!prop.valid()) {
+                                                this.removeLoadingProperty(e);
+                                                return;
+                                            }
+                                        }
+                                    }
+                                }
                                 let params = {
                                     ObjectName: this.objectname,
                                     ProcessName: this.processName,
@@ -1230,14 +1360,19 @@ var flexygo;
                                                 let lblprop = me.find('[lblproperty="' + itm.PropertyName + '"]');
                                                 if (prop.length > 0) {
                                                     this.refreshProperty(itm, prop, lblprop, false);
-                                                    if (itm.changeVisibility)
+                                                    if (itm.changeVisibility || itm.changeEnabled)
                                                         orderStackExecution = true;
                                                 }
                                             }
                                             if (flexygo.utils.isSizeSmartphone() && orderStackExecution) {
                                                 this.orderStack();
+                                                me.find('form').validate();
+                                                this.validateSQLProperties();
                                             }
                                             this.restartPosition();
+                                            if (orderStackExecution) {
+                                                this.setTabIndex();
+                                            }
                                             this.loadingDependencies -= 1;
                                             if (this.pendingSaveButton && this.loadingDependencies <= 0) {
                                                 this.pendingSaveButton.click();
@@ -1267,6 +1402,57 @@ var flexygo;
                                     }
                                 };
                             }
+                        }
+                    }
+                }
+                /**
+                * Set tab index to elements
+                * @method setTabIndex
+                */
+                setTabIndex() {
+                    let me = $(this);
+                    let props = me.find('.grid-stack-item');
+                    let orderControls = [];
+                    for (let i = 0; i < props.length; i++) {
+                        let prop = $(props[i]);
+                        let elem = prop.find('[data-tag="control"]').children().not('flx-separator,.hideControl,[disabled="disabled"]');
+                        if (elem.length > 0) {
+                            orderControls.push({
+                                Elem: elem,
+                                PositionX: parseInt(prop.attr('data-gs-x')),
+                                PositionY: parseInt(prop.attr('data-gs-y'))
+                            });
+                        }
+                    }
+                    orderControls.sort((a, b) => {
+                        if (a.PositionY < b.PositionY)
+                            return -1;
+                        if (a.PositionY > b.PositionY)
+                            return 1;
+                        if (a.PositionX < b.PositionX)
+                            return -1;
+                        if (a.PositionX > b.PositionX)
+                            return 1;
+                        return 0;
+                    });
+                    me.attr('ControlsNumber', this.maxTabIndex);
+                    if (orderControls.length > 0) {
+                        let z = 1 + this.lastEditControlsCount();
+                        for (let i = 0; i < orderControls.length; i++) {
+                            switch (orderControls[i].Elem[0].tagName.toLowerCase()) {
+                                case 'flx-textarea':
+                                    orderControls[i].Elem.find('textarea').attr('tabindex', z);
+                                    break;
+                                case 'flx-dbcombo' || 'flx-multicombo':
+                                    orderControls[i].Elem.find('input').first().attr('tabindex', z);
+                                    break;
+                                case 'flx-combo':
+                                    orderControls[i].Elem.find('select').attr('tabindex', z);
+                                    break;
+                                default:
+                                    orderControls[i].Elem.find('input').attr('tabindex', z);
+                            }
+                            z++;
                         }
                     }
                 }

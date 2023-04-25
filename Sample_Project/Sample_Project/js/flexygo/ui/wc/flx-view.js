@@ -115,7 +115,30 @@ var flexygo;
                                 if (response.Buttons) {
                                     wcModule.setButtons(response.Buttons, response.ObjectName, response.ObjectWhere);
                                 }
+                                else {
+                                    wcModule.setButtons(null, response.ObjectName, response.ObjectWhere);
+                                }
                                 wcModule.setObjectDescrip(response.Title);
+                                if (wcModule.ModuleViewers) {
+                                    this.currentViewers = response.CurrentViewers;
+                                    flexygo.utils.refreshModuleViewersInfo(wcModule, this.currentViewers);
+                                    flexygo.utils.checkObserverModule(wcModule, 20000);
+                                    flexygo.events.on(this, 'push', 'notify', function (e) {
+                                        switch (e.masterIdentity) {
+                                            case 'GetSetModuleViewers': {
+                                                if ((wcModule.moduleName == '' ? null : wcModule.moduleName) == (e.sender.ModuleName == '' ? null : e.sender.ModuleName)
+                                                    && (wcModule.objectname == '' ? null : wcModule.objectname) == (e.sender.ObjectName == '' ? null : e.sender.ObjectName)
+                                                    && (wcModule.objectwhere == '' ? null : wcModule.objectwhere) == (e.sender.ObjectWhere == '' ? null : e.sender.ObjectWhere)) {
+                                                    flexygo.utils.refreshModuleViewersInfo(wcModule, e.sender.ActiveUsers);
+                                                }
+                                                break;
+                                            }
+                                            default: {
+                                                break;
+                                            }
+                                        }
+                                    });
+                                }
                             }
                         }
                     });

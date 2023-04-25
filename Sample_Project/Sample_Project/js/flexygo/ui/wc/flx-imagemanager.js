@@ -117,8 +117,8 @@ var flexygo;
                         defString = flexygo.history.getDefaults(this.objectName, me);
                         defObject = JSON.parse(flexygo.utils.parser.replaceAll(defString, "'", '"'));
                         let wcModule = me.closest('flx-module')[0];
-                        this.rObjectName = (this.objectName && this.objectId) ? this.objectName : (defObject) ? defObject.ObjectName : (wcModule.objectdefaults) ? wcModule.objectdefaults.ObjectName : '';
-                        this.rObjectId = (this.objectName && this.objectId) ? this.objectId : (defObject) ? defObject.ObjectId : (wcModule.objectdefaults) ? wcModule.objectdefaults.ObjectId : '';
+                        this.rObjectName = (this.objectName && this.objectId) ? this.objectName : (defObject && defObject.ObjectName) ? defObject.ObjectName : (wcModule.objectdefaults) ? wcModule.objectdefaults.ObjectName : '';
+                        this.rObjectId = (this.objectName && this.objectId) ? this.objectId : (defObject && defObject.ObjectId) ? defObject.ObjectId : (wcModule.objectdefaults) ? wcModule.objectdefaults.ObjectId : '';
                         if (defObject && defObject.additionalWhere) {
                             this.additionalWhere = defObject.additionalWhere;
                         }
@@ -131,7 +131,17 @@ var flexygo;
                         else if (wcModule.objectdefaults && wcModule.objectdefaults.ImageClassId) {
                             this.imageClassId = wcModule.objectdefaults.ImageClassId;
                         }
-                        this.render();
+                        if ($(me).closest('.flx-slide.flx-slide-loading').length == 0) {
+                            this.render();
+                        }
+                        else {
+                            var loadSlideModal = setInterval(() => {
+                                if ($(me).closest('.flx-slide.flx-slide-fullLoaded').length > 0) {
+                                    this.render();
+                                    clearInterval(loadSlideModal);
+                                }
+                            }, 200);
+                        }
                     }
                     catch (ex) {
                         console.log(ex);
@@ -852,7 +862,6 @@ var flexygo;
                 */
                 downloadAllImages(objectName, objectId) {
                     try {
-                        let me = $(this);
                         var params;
                         params = {
                             'ObjectName': objectName,
@@ -995,6 +1004,8 @@ var flexygo;
                             thumbnail: true,
                             animateThumb: true,
                             share: false,
+                            rotate: true,
+                            rotateLeft: false,
                             //showThumbByDefault: false,
                             preload: 2
                         });
@@ -1028,6 +1039,9 @@ var flexygo;
                         let histObj = new flexygo.nav.FlexygoHistory();
                         histObj.targetid = 'popup';
                         let modal = flexygo.targets.createContainer(histObj, true, e);
+                        if (!modal) {
+                            return;
+                        }
                         modal.empty();
                         modal.closest('.ui-dialog').find('.ui-dialog-title').html(r.Data.Faces.length + ' faces found.');
                         let canvas = $('<canvas></canvas>')[0];

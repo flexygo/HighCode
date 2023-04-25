@@ -1,8 +1,8 @@
 import { r as registerInstance, j as h } from './index-86ac49ff.js';
 import './ionic-global-0f98fe97.js';
-import './webapi-7959a2b6.js';
-import { C as ConftokenProvider, u as util, m as msg, n as nav, i as flxSync } from './conftoken-84c3ec5c.js';
-import { j as jquery } from './jquery-ad132f97.js';
+import './webapi-79a1d3db.js';
+import { C as ConftokenProvider, u as util, m as msg, n as nav, i as flxSync } from './conftoken-7e3c18eb.js';
+import { j as jquery } from './jquery-5df58adb.js';
 import './utils-16079bfd.js';
 import './helpers-719f4c54.js';
 import './animation-10ea33c3.js';
@@ -44,6 +44,7 @@ const FlxSync = class {
         <p><b>Time:</b> ${cnf.lastSend ? cnf.lastSend : util.translate("sendData.time")}</p>
         <p><b>Error:</b> ${cnf.lastSendError ? cnf.lastSendError : util.translate("sendData.error")}</p>
         <p><b>Ping:</b> ${cnf.lastSendPing ? cnf.lastSendPing : util.translate("sendData.ping")}${cnf.lastSendPing ? "ms" : ""}</p>
+        <p><b>OS:</b> ${util.getOSVersion()}</p>
       `;
             if (cnf.lastSendLocation === 'Unable to get coords') {
                 body += `<p><b>Location:</b> ${cnf.lastSendLocation}<p></p>`;
@@ -54,7 +55,12 @@ const FlxSync = class {
             else {
                 body += `<p><b>Location:</b> ${util.translate("sendData.location")}<p></p>`;
             }
-            msg.confirm(util.translate('sendData.title'), body, null, false);
+            body += `<ion-button id="sendErrorLogs" onclick="flexygo.utils.sendErrorsLogs();">${util.translate('sendData.sendErrorLogs')}</ion-button>`;
+            msg.confirm(util.translate('sendData.title'), body, null, false, () => {
+                let button = jquery('ion-button#sendErrorLogs');
+                button.attr('fill', 'outline');
+                button.click(() => { util.sendErrorsLogs(); });
+            });
         });
     }
     render() {
@@ -67,7 +73,7 @@ const FlxSync = class {
                     h("div", { class: "square-container", color: "outstanding" }, h("div", { class: "square" }, h("div", { id: "overwrite", class: "content", onClick: () => msg.confirm(util.translate('sync.confirmOverwrite'), util.translate('sync.confirmOverwriteText')).then(() => { flxSync.overwriteData(); }) }, h("img", { src: "./assets/img/overwrite-data.png" }), h("h6", null, util.translate('sync.overwrite')))), h("div", { class: "square" }, h("div", { id: "templates", class: "content", onClick: () => flxSync.syncTemplates() }, h("img", { src: "./assets/img/sync-templates.png" }), h("h6", null, util.translate('sync.templates')))))
                     : h("div", null)), h("div", null, h("input", { id: "file-selector", onChange: (ev) => { flxSync.restoreBackup(ev); }, type: "file", style: { "display": "none" } }), h("div", { id: "result_block", class: "hidden" }, h("h3", null, "Content :"), h("div", { id: "result" })), h("div", { class: "square-container", color: "outstanding" }, (this.lastSync !== '-' ?
                     h("div", { class: "square" }, h("div", { id: "backup", class: "content", onClick: () => flxSync.msgCreateBackup() }, h("img", { src: "./assets/img/sync-backup.png" }), h("h6", null, util.translate('sync.backup'))))
-                    : h("div", null)), h("div", { class: "square" }, h("div", { id: "restore", class: "content", onClick: () => msg.confirm(util.translate('sync.confirmOverwrite'), util.translate('sync.confirmOverwriteText')).then(() => { jquery('#file-selector').trigger('click'); }) }, h("img", { src: "./assets/img/sync-restore.png" }), h("h6", null, util.translate('sync.restore')))))), h("div", null, h("div", { class: "square-container", color: "outstanding" }, h("div", { class: "rectangle" }, h("div", { id: "backup", class: "content", onClick: () => this.showSendDataInfo() }, h("ion-icon", { name: "information-circle-outline" }), h("h6", null, util.translate('sendData.title')))))))
+                    : h("div", null)), h("div", { class: "square" }, h("div", { id: "restore", class: "content", onClick: () => msg.confirm(util.translate('sync.confirmOverwrite'), util.translate('sync.confirmOverwriteText')).then(() => { jquery('#file-selector').trigger('click'); }) }, h("img", { src: "./assets/img/sync-restore.png" }), h("h6", null, util.translate('sync.restore')))))), h("div", null, h("div", { class: "square-container", color: "outstanding" }, h("div", { class: "rectangle" }, h("div", { id: "sendDataInfo", class: "content", onClick: () => this.showSendDataInfo() }, h("ion-icon", { name: "information-circle-outline" }), h("h6", null, util.translate('sendData.title')))))))
                 : h("div", null))))))
         ];
     }

@@ -112,6 +112,9 @@ var flexygo;
                     }
                 ];
                 let modal = flexygo.targets.createContainer(histObj, true, null, true, buttons);
+                if (!modal) {
+                    return;
+                }
                 modal.empty();
                 modal.closest('.ui-dialog').find('.ui-dialog-title').html(flexygo.localization.translate('sortmanager.sort'));
                 modal.closest('.ui-dialog').find('.ui-dialog-buttonset').attr("style", "float:left");

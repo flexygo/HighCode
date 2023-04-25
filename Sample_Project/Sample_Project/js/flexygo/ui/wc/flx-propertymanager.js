@@ -226,6 +226,15 @@ var flexygo;
                         btnOrder.find('button').on('click', (e) => {
                             this.toogleSortMode(btnOrder);
                         });
+                        let btnCloneDependencies = $('<button type="button" class="cloneDependencies btn btn-default txt-tools margin-right-s"><i class="fa fa-clone margin-right-s"></i>' + flexygo.localization.translate('nodemanager.cloneDependencies') + '</button>');
+                        me.find('.propHeader').append(btnCloneDependencies);
+                        btnCloneDependencies.on('click', () => {
+                            const colName = this.objectname;
+                            var obj = new flexygo.obj.Entity(colName);
+                            obj.read();
+                            const objName = obj.getConfig().ObjectName;
+                            flexygo.nav.execProcess('pNet_CloneDependencies_ObjectToCollection', colName, '', `{'ObjName': '${objName}', 'ColName': '${colName}'}`, null, 'modal640x480', true, me);
+                        });
                     }
                     else {
                         rendered = flexygo.utils.parser.compile(this.properties, this.tBody, this);
@@ -477,27 +486,29 @@ var flexygo;
                         stack.resizable('.' + stack.opts._class + ' .grid-stack-item', true);
                         me.closest('flx-module').find('.config-btn').show();
                         me.find('.grid-stack').on('change.config', (event, items) => {
-                            let myProps = new Array();
-                            for (let i = 0; i < items.length; i++) {
-                                let myProp = new flexygo.api.PropertyResize();
-                                myProp.PositionX = items[i].x;
-                                myProp.PositionY = items[i].y;
-                                myProp.Width = items[i].width;
-                                myProp.Height = items[i].height;
-                                myProp.PropertyName = items[i].el.find('[property]').attr('property');
-                                if (this.mode == 'edit') {
-                                    myProp.Name = this.objectname;
+                            if (!flexygo.utils.isBlank(items)) {
+                                let myProps = new Array();
+                                for (let i = 0; i < items.length; i++) {
+                                    let myProp = new flexygo.api.PropertyResize();
+                                    myProp.PositionX = items[i].x;
+                                    myProp.PositionY = items[i].y;
+                                    myProp.Width = items[i].width;
+                                    myProp.Height = items[i].height;
+                                    myProp.PropertyName = items[i].el.find('[property]').attr('property');
+                                    if (this.mode == 'edit') {
+                                        myProp.Name = this.objectname;
+                                    }
+                                    else if (this.mode == 'process') {
+                                        myProp.Name = this.processName;
+                                    }
+                                    else if (this.mode == 'report') {
+                                        myProp.Name = this.reportName;
+                                    }
+                                    myProps.push(myProp);
                                 }
-                                else if (this.mode == 'process') {
-                                    myProp.Name = this.processName;
-                                }
-                                else if (this.mode == 'report') {
-                                    myProp.Name = this.reportName;
-                                }
-                                myProps.push(myProp);
+                                let params = { "Mode": this.mode, "Properties": myProps };
+                                flexygo.ajax.syncPost('~/api/Edit', 'ResizeProperties', params, () => { });
                             }
-                            let params = { "Mode": this.mode, "Properties": myProps };
-                            flexygo.ajax.syncPost('~/api/Edit', 'ResizeProperties', params, () => { });
                         });
                     }
                     let props = me.find('[data-tag=property-toolbar]');
@@ -578,11 +589,26 @@ var flexygo;
                                             if (this.properties[row.name].Locked) {
                                                 prop.addClass("locked");
                                             }
+                                            let listDependencies = $('<div class="flxListDependencies"/>');
                                             if (this.properties[row.name].HasDependencies) {
-                                                prop.find(".depStatus").append('<i title="' + flexygo.localization.translate('flxedit.hasdependencies') + '" class="flx-icon icon-right-arrow"></i>');
+                                                let listProps = this.properties[row.name].DependingProperties;
+                                                listDependencies.append(`<small><b>${flexygo.localization.translate('flxedit.throwto')}</b></small><ul id="listDependencies"/>`);
+                                                for (let i = 0; i < listProps.length; i++) {
+                                                    listDependencies.find('ul').append('<li>' + this.properties[row.name].DependingProperties[i].DependantPropertyName + '</li>');
+                                                }
+                                                prop.find(".depStatus").append(`<span><i title="${flexygo.localization.translate('flxedit.hasdependencies')}" class="flx-icon icon-right-arrow" clickable></i><flx-tooltip mode="popover" container="body">${listDependencies[0].outerHTML}</flx-tooltip></span>`);
                                             }
+                                            let listDependencies2 = $('<div class="flxListDependencies"/>');
                                             if (this.properties[row.name].HasDependingProperties) {
-                                                prop.find(".depStatus").append('<ii title="' + flexygo.localization.translate('flxedit.hasdependingproperties') + '" class="flx-icon icon-object-relations-1 margin-left-s"></i>');
+                                                let listProps2 = this.properties[row.name].DependingFrom;
+                                                listDependencies2.append(`<small><b>${flexygo.localization.translate('flxedit.affectedby')}</b></small><ul id="listDepending"/>`);
+                                                for (let i = 0; i < listProps2.length; i++) {
+                                                    listDependencies2.find('ul').append('<li>' + this.properties[row.name].DependingFrom[i].DependantPropertyName + '</li>');
+                                                }
+                                                prop.find(".depStatus").append(`<span><i title="${flexygo.localization.translate('flxedit.hasdependingproperties')}" class="flx-icon icon-object-relations-1 margin-left-s clickable"></i><flx-tooltip mode="popover" container="body">${listDependencies2[0].outerHTML}</flx-tooltip></span>`);
+                                            }
+                                            if (this.properties[row.name].OnChangeProcessName) {
+                                                prop.find(".depStatus").append(`<span><i title="${flexygo.localization.translate('flxedit.withchangeprocess')}" class="flx-icon icon-process margin-left-s"></i></span>`);
                                             }
                                             if (this.properties[row.name].LabelStyle != '') {
                                                 prop.attr('style', this.properties[row.name].LabelStyle);

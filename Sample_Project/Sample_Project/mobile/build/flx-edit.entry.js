@@ -1,8 +1,8 @@
 import { r as registerInstance, j as h, k as getElement } from './index-86ac49ff.js';
 import './ionic-global-0f98fe97.js';
-import './webapi-7959a2b6.js';
-import { s as sql, i as flxSync, u as util, m as msg, C as ConftokenProvider, n as nav } from './conftoken-84c3ec5c.js';
-import { j as jquery } from './jquery-ad132f97.js';
+import './webapi-79a1d3db.js';
+import { s as sql, i as flxSync, u as util, m as msg, C as ConftokenProvider, n as nav } from './conftoken-7e3c18eb.js';
+import { j as jquery } from './jquery-5df58adb.js';
 import './utils-16079bfd.js';
 import './helpers-719f4c54.js';
 import './animation-10ea33c3.js';
@@ -15,7 +15,7 @@ import './index-b40d441b.js';
 import './hardware-back-button-aacf3d12.js';
 import './index-50651ccc.js';
 import './overlays-5302658e.js';
-import { p as parser } from './parser-d133369b.js';
+import { p as parser } from './parser-8aed96de.js';
 
 var dependencies;
 (function (dependencies) {
@@ -137,11 +137,20 @@ var dependencies;
     async function execValueDependency(form, dep, tokens) {
         if (dep.SQLValue) {
             let value = await sql.getValue(parseSQLdependency(dep.SQLValue, form, tokens));
-            if (form.find('[property=' + dep.DependantPropertyName + ']').is('ion-toggle') || form.find('[property=' + dep.DependantPropertyName + ']').is('ion-checkbox')) {
-                form.find('[property=' + dep.DependantPropertyName + ']')[0].checked = value;
+            let prop = form.find('[property=' + dep.DependantPropertyName + ']');
+            if (prop.is('ion-toggle') || prop.is('ion-checkbox')) {
+                prop[0].checked = value;
+            }
+            else if (prop.is('ion-datetime')) {
+                if (prop.attr('display-format').toUpperCase() === 'H:MM' || prop.attr('display-format').toUpperCase() === 'HH:MM') {
+                    prop.val(moment("2023-02-15T" + value).format('HH:mm')); //La fecha es para que lo admita moment
+                }
+                else {
+                    prop.val(value);
+                }
             }
             else {
-                form.find('[property=' + dep.DependantPropertyName + ']').val(value);
+                prop.val(value);
             }
         }
     }
@@ -1900,7 +1909,7 @@ const FlxEdit = class {
         this.obj = this.cToken.objectConfig[this.object];
         this.page = parser.findTemplate(this.obj, 'edit', this.pageName);
         if (!this.obj) {
-            throw 'Object doesn\'t exists.';
+            throw new Error('Object doesn\'t exists.');
         }
         if (this.filter) {
             let sentence = 'select * from ' + this.obj.tableName;
@@ -1948,7 +1957,7 @@ const FlxEdit = class {
                 }
                 else {
                     //error objecto no encontrado.
-                    throw 'Object doesn\'t exists.';
+                    throw new Error('Object doesn\'t exists.');
                 }
             });
         }
@@ -2314,7 +2323,7 @@ const FlxEdit = class {
     }
     render() {
         return [
-            h("ion-header", null, h("ion-toolbar", { color: "header", class: "ion-text-center" }, h("ion-buttons", { slot: "start" }, (this.modal ? null : h("ion-menu-button", { color: "outstanding" })), (this.modal ? null : h("ion-icon", { name: "alert-circle", color: "danger", class: "stack sendError hide" }))), h("ion-title", null, h("span", { id: "menuTitle" }, this.title)), h("ion-buttons", { slot: "end" }, h("ion-button", { color: "outstanding", onClick: () => { nav.goBack(this.me); } }, h("ion-icon", { slot: "icon-only", name: "arrow-undo-outline" }))))),
+            h("ion-header", null, h("ion-toolbar", { color: "header", class: "ion-text-center" }, h("ion-buttons", { slot: "start" }, (this.modal ? null : h("ion-menu-button", { color: "outstanding" })), (this.modal ? null : h("ion-icon", { name: "alert-circle", color: "danger", class: "stack sendError flx-hide" }))), h("ion-title", null, h("span", { id: "menuTitle" }, this.title)), h("ion-buttons", { slot: "end" }, h("ion-button", { color: "outstanding", onClick: () => { nav.goBack(this.me); } }, h("ion-icon", { slot: "icon-only", name: "arrow-undo-outline" }))))),
             h("ion-header", { innerHTML: this.header }),
             h("ion-content", { innerHTML: this.body }),
             h("ion-footer", { innerHTML: this.footer })

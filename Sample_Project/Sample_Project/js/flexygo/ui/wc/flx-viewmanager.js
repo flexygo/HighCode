@@ -368,6 +368,9 @@ var flexygo;
                     if (nameObj != null && nameObj != '') {
                         histObj.targetid = 'modal1024x550';
                         let modal = flexygo.targets.createContainer(histObj, true, null, true);
+                        if (!modal) {
+                            return;
+                        }
                         modal.empty();
                         modal.closest('.ui-dialog').find('.ui-dialog-title').html(flexygo.localization.translate('viewmanager.viewwizard'));
                         modal.append('<flx-viewmanager mode="template" objectname="' + nameObj + '"></flx-viewmanager>');

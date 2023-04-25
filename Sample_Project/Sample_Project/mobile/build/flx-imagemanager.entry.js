@@ -1,8 +1,8 @@
 import { r as registerInstance, j as h } from './index-86ac49ff.js';
 import './ionic-global-0f98fe97.js';
-import './webapi-7959a2b6.js';
-import { i as flxSync, C as ConftokenProvider, s as sql, u as util, f as cam, m as msg, n as nav } from './conftoken-84c3ec5c.js';
-import { j as jquery } from './jquery-ad132f97.js';
+import './webapi-79a1d3db.js';
+import { i as flxSync, C as ConftokenProvider, s as sql, u as util, f as cam, m as msg, n as nav } from './conftoken-7e3c18eb.js';
+import { j as jquery } from './jquery-5df58adb.js';
 import './utils-16079bfd.js';
 import './helpers-719f4c54.js';
 import './animation-10ea33c3.js';
@@ -22,6 +22,7 @@ const FlxImagemanager = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.hasGallery = false;
+        this.alternativeCam = false;
     }
     componentDidLoad() {
         jquery('#loadingSpinnerModule').css('visibility', 'hidden');
@@ -37,9 +38,12 @@ const FlxImagemanager = class {
         let def = null;
         if (this.defaults) {
             def = util.parseJSON(this.defaults);
-            if (def.ImageClassId != undefined) {
+            if (def.ImageClassId !== undefined) {
                 this.imageClassId = def.ImageClassId;
                 this.classDescription = await sql.getValue('select Descrip from `flxImagesClass` where ImageClassId=\'' + this.imageClassId + '\' and TypeId=\'' + this.objConf.imageConfig.typeId + '\'');
+            }
+            if (def.AlternativeCamera !== undefined) {
+                this.alternativeCam = def.AlternativeCamera;
             }
         }
         if (!this.lastOrder) {
@@ -52,7 +56,7 @@ const FlxImagemanager = class {
     }
     getPicture(multi = false) {
         const compression = this.getCompression();
-        cam.getPicture(compression.height, compression.width, compression.quality).then((b64) => {
+        cam.getPicture(compression.height, compression.width, compression.quality, null, this.alternativeCam).then((b64) => {
             let image = { "ImageId": util.GUID(), "ObjectName": this.object, "ObjectId": this.objectid, "ObjectGUID": this.objectGUID, "Name": this.object + ' ' + this.lastOrder, "Descrip": null, "ImageClassId": (this.imageClassId == null ? this.objConf.imageConfig.defaultCategoryId : this.imageClassId), "MainImage": (this.lastOrder == 0 ? true : false), "OrderNumber": this.lastOrder, "CreationDate": util.currentDateTime(), "URL": null, "B64": b64, "_isInserted": 1 };
             cam.savePicture(image).then(() => {
                 let imgs = document.querySelector('flx-imagegallery');
@@ -112,7 +116,7 @@ const FlxImagemanager = class {
     }
     render() {
         return [
-            h("ion-header", null, h("ion-toolbar", { color: "header", class: "ion-text-center" }, h("ion-buttons", { slot: "start" }, h("ion-menu-button", { color: "outstanding" }), h("ion-icon", { name: "alert-circle", color: "danger", class: "stack sendError hide" })), h("ion-buttons", { slot: "end" }, h("ion-button", { color: "outstanding", onClick: () => { nav.goBack(); } }, h("ion-icon", { slot: "icon-only", name: "arrow-undo-outline" }))), h("ion-title", null, h("span", { id: "menuTitle" }, (this.classDescription ? this.classDescription : util.translate('image.title')))))),
+            h("ion-header", null, h("ion-toolbar", { color: "header", class: "ion-text-center" }, h("ion-buttons", { slot: "start" }, h("ion-menu-button", { color: "outstanding" }), h("ion-icon", { name: "alert-circle", color: "danger", class: "stack sendError flx-hide" })), h("ion-buttons", { slot: "end" }, h("ion-button", { color: "outstanding", onClick: () => { nav.goBack(); } }, h("ion-icon", { slot: "icon-only", name: "arrow-undo-outline" }))), h("ion-title", null, h("span", { id: "menuTitle" }, (this.classDescription ? this.classDescription : util.translate('image.title')))))),
             h("ion-content", null, h("ion-refresher", { slot: "fixed", id: "refresher", onIonRefresh: (ev) => { this.refresh(ev); } }, h("ion-refresher-content", { "pulling-icon": "chevron-down-circle-outline", refreshingSpinner: "bubbles" })), h("flx-imagegallery", { object: this.object, filter: 'ObjectName=\'' + this.object + '\' and ObjectId=\'' + this.objectid + '\'' + (this.imageClassId == null ? '' : ' and ImageClassId=\'' + this.imageClassId + '\'') })),
             h("ion-fab", { vertical: "bottom", horizontal: "end", slot: "fixed" }, h("ion-fab-button", null, h("ion-icon", { name: "apps-outline" })), h("ion-fab-list", { side: "top" }, h("ion-fab-button", { color: "dark", onClick: () => { this.getPicture(false); } }, h("ion-icon", { name: "camera" })), h("ion-fab-button", { color: "dark", onClick: () => { this.getPicture(true); } }, h("ion-icon", { name: "refresh-outline" }))), window.cordova ?
                 h("ion-fab-list", { side: "start" }, h("ion-fab-button", { color: "dark", onClick: () => { this.getGalleryPicturesPhone(); } }, h("ion-icon", { name: "image" })))

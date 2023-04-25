@@ -412,6 +412,10 @@ var flexygo;
                     }
                     control.append(this.inputmin);
                     control.append(this.inputmax);
+                    control.find('input').on('change', ev => {
+                        let input = ev.currentTarget;
+                        input.setAttribute('value', input.value);
+                    });
                     //if (iconsRight) {
                     //    control.append(iconsRight)
                     //    control.addClass("input-group");
@@ -513,7 +517,8 @@ var flexygo;
                     if (this.options && this.options.Mask) {
                         input.mask(this.options.Mask);
                     }
-                    if (this.options && this.options.CauseRefresh) {
+                    const module = me.closest('flx-module')[0];
+                    if ((this.options && this.options.CauseRefresh) || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
                         input.on('change', () => {
                             //$(document).trigger('refreshProperty', [input.closest('flx-edit'), this.options.Name]);
                             let ev = {

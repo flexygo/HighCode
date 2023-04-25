@@ -460,26 +460,31 @@ var flexygo;
                             control.append(iconsLeft);
                         }
                         control.append(container);
+                        if (!viewMode && !this.options.Locked) {
+                            $(`<label class="cleared input-group-btn">
+                            <label class="clickable margin-0">
+                            <i title="${flexygo.localization.translate('sortmanager.clean')}" class="flx-icon icon-arrow-2 flx-icon icon-close-11" />
+                            </label>
+                        </label>`).appendTo(control);
+                        }
                         if (iconsRight) {
                             control.append(iconsRight);
                         }
                         control.append(datalist);
-                        if (!viewMode) {
-                            if (!this.options.Locked) {
-                                $(`<label class="cleared input-group-btn">
-                             <label class="clickable margin-0">
-                               <i title="${flexygo.localization.translate('sortmanager.clean')}" class="flx-icon icon-arrow-2 flx-icon icon-close-11" />
-                             </label>
-                            </label>`).appendTo(control);
-                                control.find('label.cleared > label.clickable').on('click', (e) => {
-                                    if (!$(this).attr('disabled')) {
-                                        this.setValue('', '');
-                                        this.container.tagsinput('removeAll');
-                                        if (this.mobileInput)
-                                            this.mobileInput.tagsinput('removeAll');
-                                    }
-                                });
-                            }
+                        if (!viewMode && !this.options.Locked) {
+                            control.find('label.cleared > label.clickable').on('click', (e) => {
+                                let oldValue = this.getValue();
+                                if (!$(this).attr('disabled')) {
+                                    me.attr('value', '');
+                                    me.attr('text', '');
+                                    this.container.tagsinput('removeAll');
+                                    if (this.mobileInput)
+                                        this.mobileInput.tagsinput('removeAll');
+                                    if (oldValue !== '')
+                                        this.triggerDependencies();
+                                    me.find('.bootstrap-tagsinput input').attr('placeholder', this.options.PlaceHolder);
+                                }
+                            });
                         }
                         me.html(control);
                         me.append(datalist);
@@ -503,6 +508,9 @@ var flexygo;
                             this.container.on('itemRemoved', (event) => {
                                 if (event.item) {
                                     this.mobileInput.tagsinput('remove', { "value": event.item.value, "text": event.item.text });
+                                    if (this.container.tagsinput('items').length === 0) {
+                                        me.find('.bootstrap-tagsinput input').attr('placeholder', this.options.PlaceHolder);
+                                    }
                                 }
                             });
                             this.mobileInput.on('itemRemoved', (event) => {
@@ -515,11 +523,20 @@ var flexygo;
                             this.container.on('itemRemoved', (event) => {
                                 if (event.item) {
                                     this.triggerDependencies();
+                                    if (this.container.tagsinput('items').length === 0) {
+                                        me.find('.bootstrap-tagsinput input').attr('placeholder', this.options.PlaceHolder);
+                                    }
+                                    me.attr('value', this.getValue());
+                                    me.attr('text', this.getText());
                                 }
                             });
-                            me.find('.bootstrap-tagsinput').first().on('click', (e) => {
+                            me.find('.bootstrap-tagsinput').on('click', (e) => {
                                 this.showOptions();
-                                this.input.focus();
+                                this.input.focus().select();
+                            });
+                            me.find('.bootstrap-tagsinput > input').on('keyup', (e) => {
+                                this.showOptions();
+                                this.input.focus().select();
                             });
                         }
                     }
@@ -699,7 +716,7 @@ var flexygo;
                         text = value;
                     }
                     this.container.tagsinput('add', { "value": value, "text": text });
-                    me.find('.bootstrap-tagsinput input').hide();
+                    me.find('.bootstrap-tagsinput input').attr('placeholder', '');
                     me.attr('value', this.getValue());
                     me.attr('text', this.getText());
                     this.triggerDependencies();
@@ -794,7 +811,8 @@ var flexygo;
                     if (this.options && this.options.IsRequiredMessage) {
                         this.input.attr('data-msg-required', this.options.IsRequiredMessage);
                     }
-                    if (this.options && this.options.CauseRefresh) {
+                    const module = me.closest('flx-module')[0];
+                    if ((this.options && this.options.CauseRefresh) || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
                         this.input.on('change', () => {
                             //$(document).trigger('refreshProperty', [this.input.closest('flx-edit'), this.options.Name]);
                             let ev = {
@@ -832,7 +850,7 @@ var flexygo;
                     let parentCtl = $(this).closest('flx-view');
                     if (parentCtl && parentCtl.length > 0) {
                         me.find('[data-role="remove"]').css('display', 'none');
-                        me.closest('flx-multicombo').attr("disabled", "true");
+                        me.closest('flx-multicombo').attr('disabled', 'true');
                     }
                     else {
                         if (flexygo.utils.isTactilModeActive()) {

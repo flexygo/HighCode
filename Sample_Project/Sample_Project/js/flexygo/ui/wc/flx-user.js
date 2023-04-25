@@ -51,7 +51,33 @@ var flexygo;
                 */
                 refresh() {
                     let ctx = $(this);
-                    let userdiv = $('<div class="profile-mini"><div><img class="img-responsive" src="' + flexygo.utils.resolveUrl(flexygo.profiles.avatar) + "?time=" + new Date().getTime() + '" alt="profile"></div><div><span>' + flexygo.profiles.username + '</span><p>' + flexygo.profiles.email + '</p></div></div>');
+                    ctx.empty();
+                    let userdiv;
+                    let imgSrc = '';
+                    if (!(flexygo.profiles.avatar.toString().toLowerCase() == '~/img/avatars/avatar_blank.png')) {
+                        imgSrc = flexygo.utils.resolveUrl(flexygo.profiles.avatar) + "?time=" + new Date().getTime();
+                    }
+                    if (flexygo.context.currentRoleId.toString().toLowerCase() == 'admins') {
+                        let color;
+                        switch (flexygo.context.currentOriginId) {
+                            case '0':
+                                color = 'txt-danger';
+                                break;
+                            case '1':
+                                color = 'txt-warning';
+                                break;
+                            case '2':
+                                color = 'txt-success';
+                                break;
+                            default:
+                                color = 'txt-info';
+                                break;
+                        }
+                        userdiv = $('<div class="profile-mini"><div><img class="img-responsive left hidden-s margin-right-s" is="flx-img" alt="' + flexygo.profiles.username.toUpperCase() + '" src="' + imgSrc + '" ><i title="Script & Download database" class="develop-only hover-outstanding clickable flx-icon icon-database icon-2x text-muted" onclick="event.stopPropagation();event.preventDefault();flexygo.nav.execProcess(\'ScriptDatabase\',\'sysObjects\',\'(offline = 0)\',\'null\',null,\'slideright\',false,$(this))" /></div><div><span class="develop-hidden">' + flexygo.profiles.username + '</span><p class="develop-hidden">' + flexygo.profiles.email + '</p><p class="develop-only ' + color + '" onclick="event.stopPropagation();event.preventDefault();flexygo.nav.execProcess(\'SetNewOrigin\',\'sysObjects\',null,null,null,\'modal640x480\',false,$(this))"><b style="font-size:1.5em">' + ((flexygo.context.currentOriginId || flexygo.context.currentOriginId == 0) ? flexygo.context.currentOriginId : '') + ' ' + (flexygo.context.currentOrigin ? flexygo.context.currentOrigin : '') + '</b> MODE</p></div></div>');
+                    }
+                    else {
+                        userdiv = $('<div class="profile-mini"><div><img class="img-responsive" is="flx-img" alt="' + flexygo.profiles.username.toUpperCase() + '" src="' + imgSrc + '" ></div><div><span>' + flexygo.profiles.username + '</span><p>' + flexygo.profiles.email + '</p></div></div>');
+                    }
                     ctx.append(userdiv);
                     if (flexygo.utils.isSizeMobile()) {
                         userdiv.closest('li').on('click', () => {

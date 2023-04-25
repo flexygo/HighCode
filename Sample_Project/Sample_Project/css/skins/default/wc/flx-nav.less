@@ -622,7 +622,6 @@ flx-nav {
 
                 > span {
                     white-space: nowrap;
-                    overflow: hidden;
                     text-overflow: ellipsis;
                 }
 
@@ -748,16 +747,10 @@ flx-nav[mode=nav] ul li span.active:not(.item-opened):not(.item-closed):after {
         display: inline-block;
     }
     //Special Nodes
-    flx-nav[mode=menu] .noText > span > span {
-        display: none;
-    }
-
-    flx-nav[mode=panel] .noText > span > span {
-        display: none;
-    }
-
-    flx-nav[mode=box] .noText > span > span {
-        display: none;
+    flx-nav[mode=menu], flx-nav[mode=panel], flx-nav[mode=box] {
+        .noText > span > span.navTextSpan {
+            display: none;
+        }
     }
 
     flx-nav[mode=menu] .confignode, flx-nav[mode=nav] .confignode span {
@@ -891,8 +884,7 @@ flx-nav[mode=nav] ul li span.active:not(.item-opened):not(.item-closed):after {
         padding: 15px;
         letter-spacing: 0px;
         text-decoration: none;
-        line-height:1;
-       
+        line-height: normal;
     }
 
     flx-nav[mode=menu] ul ul {
@@ -1135,7 +1127,7 @@ flx-nav[mode=nav] li ul {
         color: dbColor(txtOutstandingColor);
     }
 
-    .flx-contextmenu ul li[submenu]:after {
+    .flx-contextmenu ul li[submenu]:after, .flx-contextmenu ul li span[gotSubmenus]:after {
         font-family: 'Linearicons-Free';
         text-transform: none;
         content: "\e876";
@@ -1146,6 +1138,12 @@ flx-nav[mode=nav] li ul {
         line-height: 35px;
         margin-right: 5px;
     }
+
+    .flx-contextmenu ul li span[gotSubmenus] {
+        float: right;
+        padding-left: 10px;
+    }
+
     // flx-menu */
     .flx-menu,
     .flx-menu ul,
@@ -1607,23 +1605,35 @@ flx-nodemanager > .btnPnl {
     border-top: solid 1px dbColor(borderModuleColor);
 }
 
-flx-nav[mode=mobile] li {
+flx-nav[mode=mobile] li > div {
     width: 100%;
-    text-align: center;
+    text-align: left;
     border-style: none;
     color: dbColor(NavColor);
     background-color: lighten(dbColor(txtNavColor),30);
     font-size: 1.5rem;
-    height: 5rem;
     line-height: 5rem;
     margin: 0.2em 0;
     border-radius: 25px;
     border: unset;
-    box-shadow: 0 7px 14px 0 rgba(148, 159, 169, 0.12), 0 3px 6px 0 rgba(181, 169, 169, 0.12);
+    box-shadow: 0 7px 14px 0 rgba(148, 159, 169, 12%), 0 3px 6px 0 rgba(181, 169, 169, 12%);
     font-weight: bold;
+
+    > span {
+        display: flex;
+        align-items: center;
+        margin: 0 20px 0 25px;
+
+        > span {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            width: 100%;
+            overflow: hidden;
+        }
+    }
 }
 
-flx-nav[mode=mobile] li:hover {
+flx-nav[mode=mobile] li > div:hover {
     background-color: dbColor(OutstandingColor);
     color: dbColor(txtOutstandingColor);
 }
@@ -1632,4 +1642,8 @@ flx-nav[mode=mobile] li i {
     font-size: 1.2em;
     margin-right: 8px;
     margin-left: 8px;
+}
+
+flx-nav[mode="mobile"] > ul {
+    padding: 0 20px 0 20px;
 }

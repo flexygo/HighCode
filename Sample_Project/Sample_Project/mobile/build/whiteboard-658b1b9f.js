@@ -1,4 +1,4 @@
-import { j as jquery } from './jquery-ad132f97.js';
+import { j as jquery } from './jquery-5df58adb.js';
 
 var pizarra_canvas;
 var pizarra_context;
@@ -7,7 +7,7 @@ var whiteboard;
 (function (whiteboard) {
     function init(transparent = false) {
         return new Promise((resolve, reject) => {
-            var pizarraHtml = '<div id="contenedor_pizarra" style="z-index:2;width:100%;height:100%;position:fixed;margin:0px;padding:0px;top:0px;left:0px;background-color:white;text-align:center;">';
+            var pizarraHtml = '<div id="contenedor_pizarra" style="z-index:99999;width:100%;height:100%;position:fixed;margin:0px;padding:0px;top:0px;left:0px;background-color:white;text-align:center;">';
             pizarraHtml += '<canvas id="pizarra" style="border:solid 1px black;"></canvas><br>';
             pizarraHtml += '<section>';
             pizarraHtml += '  <div style="width:33%;float:left">';

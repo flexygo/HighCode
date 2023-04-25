@@ -22,7 +22,7 @@ declare namespace flexygo.msg {
     * @param {string} msg - The message to show.
     * @param {LobiBoxConfirmCallback} callback - The callback function.
     */
-    function confirm(msg: string, callback: LobiBoxConfirmCallback): void;
+    function confirm(msg: string, callback?: LobiBoxConfirmCallback): Promise<boolean>;
     /**
    * Launch question dialog. Stops execution until user accepts or cancel the dialog.
    * @method confirm

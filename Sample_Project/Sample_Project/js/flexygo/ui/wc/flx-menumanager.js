@@ -122,8 +122,9 @@ var flexygo;
                     let newbutton = `<div class="managerbuttons">
                                         <span><i class="flx-icon icon-clear"/>${flexygo.localization.translate('menumanager.menus')}</span>
                                         <div>
-                                        <i data-action="refresh" class="flx-icon icon-refresh"  data-toggle="tooltip" title="${flexygo.localization.translate('menumanager.refresh')}"/>
-                                        <i data-action="addnew" class="flx-icon icon-plus-1"  data-toggle="tooltip" title="${flexygo.localization.translate('menumanager.new')}"/>
+                                        <i data-action="viewMenuSecurity" class="flx-icon icon-centinel"  data-toggle="tooltip" title="${flexygo.localization.translate('menumanager.menuSecurity')}"></i>
+                                        <i data-action="refresh" class="flx-icon icon-refresh"  data-toggle="tooltip" title="${flexygo.localization.translate('menumanager.refresh')}"></i>
+                                        <i data-action="addnew" class="flx-icon icon-plus-1"  data-toggle="tooltip" title="${flexygo.localization.translate('menumanager.new')}"></i>
                                         </div>
                                     </div>`;
                     me.find('.managerpanel').append(newbutton);
@@ -170,6 +171,9 @@ var flexygo;
                             me.find('[data-action="add"]').removeClass('active');
                         }
                         this.showEdit($(e.target).closest('li').children('.editMenu'), false);
+                    });
+                    me.find('[data-action="viewMenuSecurity"]').on('click', (e) => {
+                        flexygo.nav.openPageName('syspage-generic-objectsecurity', 'sysObject', "Objectname='sysOfflineMenu'", 'null', 'popup', false);
                     });
                     me.find('[data-action="refresh"]').on('click', (e) => {
                         this.loadMenus();

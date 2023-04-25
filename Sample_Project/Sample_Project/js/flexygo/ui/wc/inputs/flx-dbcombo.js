@@ -90,6 +90,97 @@ var flexygo;
                         }
                         this.options.SQLDisplayField = SQLDisplayField;
                     }
+                    let AllowNewObject = element.attr('AllowNewObject');
+                    if (AllowNewObject && AllowNewObject !== '') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.AllowNewObject = AllowNewObject;
+                    }
+                    let AllowNewReturnFields = element.attr('AllowNewReturnFields');
+                    if (AllowNewReturnFields && AllowNewReturnFields !== '') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.AllowNewReturnFields = AllowNewReturnFields;
+                    }
+                    let AllowNewFunction = element.attr('AllowNewFunction');
+                    if (AllowNewFunction && AllowNewFunction !== '') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.AllowNewFunction = AllowNewFunction;
+                    }
+                    let AllowNewDefaults = element.attr('AllowNewDefaults');
+                    if (AllowNewDefaults && AllowNewDefaults !== '') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.AllowNewDefaults = AllowNewDefaults;
+                    }
+                    let ObjNameLink = element.attr('ObjNameLink');
+                    if (ObjNameLink && ObjNameLink !== '') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.ObjNameLink = ObjNameLink;
+                    }
+                    let ObjWhereLink = element.attr('ObjWhereLink');
+                    if (ObjWhereLink && ObjWhereLink !== '') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.ObjWhereLink = ObjWhereLink;
+                    }
+                    let ObjModeLink = element.attr('ObjModeLink');
+                    if (ObjModeLink && ObjModeLink !== '') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.ObjModeLink = ObjModeLink;
+                    }
+                    let PageNameLink = element.attr('PageNameLink');
+                    if (PageNameLink && PageNameLink !== '') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.PageNameLink = PageNameLink;
+                    }
+                    let TargetIdLink = element.attr('TargetIdLink');
+                    if (TargetIdLink && TargetIdLink !== '') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.TargetIdLink = TargetIdLink;
+                    }
+                    let SearchCollection = element.attr('SearchCollection');
+                    if (SearchCollection && SearchCollection !== '') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.SearchCollection = SearchCollection;
+                    }
+                    let SearchReturnFields = element.attr('SearchReturnFields');
+                    if (SearchReturnFields && SearchReturnFields !== '') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.SearchReturnFields = SearchReturnFields;
+                    }
+                    let SearchWhere = element.attr('SearchWhere');
+                    if (SearchWhere && SearchWhere !== '') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.SearchWhere = SearchWhere;
+                    }
+                    let SearchFunction = element.attr('SearchFunction');
+                    if (SearchFunction && SearchFunction !== '') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.SearchFunction = SearchFunction;
+                    }
                     if (typeof element.attr('Required') !== 'undefined') {
                         if (!this.options) {
                             this.options = new flexygo.api.ObjectProperty();
@@ -148,6 +239,23 @@ var flexygo;
                         }
                         this.options.Template = Template.html();
                         Template.remove();
+                    }
+                    let Items = element.find('option');
+                    if (Items.length > 0) {
+                        let arr = [];
+                        for (let opt = 0; opt < Items.length; opt++) {
+                            let obj = {};
+                            if ($(Items[opt]).attr('value')) {
+                                obj[element.attr('SQLValueField')] = $(Items[opt]).attr('value');
+                            }
+                            obj[element.attr('SQLDisplayField')] = $(Items[opt]).html();
+                            arr.push(obj);
+                        }
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.DropDownValues = arr;
+                        Items.remove();
                     }
                     let HelpId = element.attr('HelpId');
                     if (HelpId && HelpId !== '') {
@@ -305,6 +413,7 @@ var flexygo;
                             this.input.prop('disabled', this.options.Locked);
                             element.find('div.input-group-btn .flx-caret').hide();
                             element.find('div.input-group-btn .flxallownew').hide();
+                            element.find('div.input-group-btn .flx-icon.icon-search').parent().hide();
                             if (element.find('div.input-group-btn .btn:visible').length == 0) {
                                 if (!element.find('span.input-group-addon').length) {
                                     element.find('div').first().removeClass('input-group');
@@ -318,6 +427,7 @@ var flexygo;
                             this.options.Locked = false;
                             element.find('div.input-group-btn .flx-caret').show();
                             element.find('div.input-group-btn .flxallownew').show();
+                            element.find('div.input-group-btn .flx-icon.icon-search').parent().show();
                             element.find('div').first().addClass('input-group');
                             this.input.css({ 'border-top-right-radius': '', 'border-bottom-right-radius': '' });
                         }
@@ -438,16 +548,37 @@ var flexygo;
                         iconsRight = $('<div class="input-group-btn" />');
                         let icon1 = $('<button class="btn btn-default" type="button"><i class="flx-icon icon-link" /></button>').on('click', () => {
                             if (this.getValue()) {
-                                if (this.options.ObjModeLink == 'Other') {
-                                    flexygo.nav.openPageName(this.options.PageNameLink, editCtl.parseEditString(this.options.ObjNameLink), editCtl.parseEditString(this.options.ObjWhereLink), null, this.options.TargetIdLink, true);
+                                let propObjNameLink = this.options.ObjNameLink;
+                                let propObjWhereLink = this.options.ObjWhereLink;
+                                if (editCtl) {
+                                    if (propObjNameLink) {
+                                        propObjNameLink = editCtl.parseEditString(this.options.ObjNameLink);
+                                        if (propObjWhereLink) {
+                                            propObjWhereLink = editCtl.parseEditString(this.options.ObjWhereLink);
+                                        }
+                                    }
+                                    else {
+                                        let obj = new Object();
+                                        obj[this.options.SQLValueField] = this.getValue();
+                                        obj[this.options.SQLDisplayField] = this.getText();
+                                        if (propObjNameLink) {
+                                            propObjNameLink = flexygo.utils.parser.compile(obj, propObjNameLink);
+                                        }
+                                        if (propObjWhereLink) {
+                                            propObjWhereLink = flexygo.utils.parser.compile(obj, propObjWhereLink);
+                                        }
+                                    }
+                                    if (this.options.ObjModeLink == 'Other') {
+                                        flexygo.nav.openPageName(this.options.PageNameLink, propObjNameLink, propObjWhereLink, null, this.options.TargetIdLink, true);
+                                    }
+                                    else {
+                                        flexygo.nav.openPage(this.options.ObjModeLink, propObjNameLink, propObjWhereLink, null, this.options.TargetIdLink);
+                                    }
+                                    //flexygo.nav.openPage('view', editCtl.parseEditString(this.options.ObjNameLink), editCtl.parseEditString(this.options.ObjWhereLink), null, this.options.TargetIdLink);
                                 }
                                 else {
-                                    flexygo.nav.openPage(this.options.ObjModeLink, editCtl.parseEditString(this.options.ObjNameLink), editCtl.parseEditString(this.options.ObjWhereLink), null, this.options.TargetIdLink);
+                                    flexygo.msg.warning('flxedit.emptyproperty');
                                 }
-                                //flexygo.nav.openPage('view', editCtl.parseEditString(this.options.ObjNameLink), editCtl.parseEditString(this.options.ObjWhereLink), null, this.options.TargetIdLink);
-                            }
-                            else {
-                                flexygo.msg.warning('flxedit.emptyproperty');
                             }
                         });
                         iconsRight.append(icon1);
@@ -506,18 +637,14 @@ var flexygo;
                                     this.input.val(this.mobileInput.val());
                                     this.input.trigger('keyup');
                                 }
+                                if (e.key === 'Enter') {
+                                    this.hideMobileInput();
+                                }
                             }).off('search').on('search', (e) => {
                                 this.input.val($(e.currentTarget).val());
                                 this.input.trigger('search');
                             }).off('blur').on('blur', () => {
-                                if (this.open) {
-                                    var itms = this.datalist.children('.selected');
-                                    if (itms.length > 0 && itms.attr('data-value') != this.inputval.val()) {
-                                        itms.trigger("mousedown");
-                                    }
-                                    this.input.trigger('blur');
-                                    this.hideOptions();
-                                }
+                                this.hideMobileInput();
                             });
                         }
                         this.input = input;
@@ -544,6 +671,7 @@ var flexygo;
                             var up = 38;
                             var down = 40;
                             var enter = 13;
+                            const tab = 9;
                             if (e.keyCode == down) {
                                 if (this.open) {
                                     if (this.datalist.children('li').length > 0) {
@@ -592,7 +720,7 @@ var flexygo;
                                 e.preventDefault();
                                 return false;
                             }
-                            else if (e.keyCode == enter) {
+                            else if (e.keyCode == enter || e.keyCode == tab) {
                                 if (this.open) {
                                     var itms = this.datalist.children('.selected');
                                     if (itms.length > 0 && itms.attr('data-value') != this.inputval.val()) {
@@ -602,6 +730,7 @@ var flexygo;
                                 }
                             }
                         }).off('change').on('change', (e) => {
+                            me.attr('value', this.getValue());
                             e.stopPropagation();
                             e.preventDefault();
                         });
@@ -740,6 +869,16 @@ var flexygo;
                         if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
                             window.scrollTo(0, this.scrollTopPosition);
                         }
+                    }
+                }
+                hideMobileInput() {
+                    if (this.open) {
+                        var itms = this.datalist.children('.selected');
+                        if (itms.length > 0 && itms.attr('data-value') != this.inputval.val()) {
+                            itms.trigger("mousedown");
+                        }
+                        this.input.trigger('blur');
+                        this.hideOptions();
                     }
                 }
                 loadValues(page, autoselect, fromvalue, value, append) {
@@ -926,7 +1065,19 @@ var flexygo;
                     if (this.options && (this.options.SearchCollection || this.options.SearchFunction) && !this.options.Locked) {
                         icon1 = $('<button class="btn btn-default" type="button"><i class="flx-icon icon-search" /></button>').on('click', () => {
                             if (this.options.SearchFunction) {
-                                flexygo.utils.execDynamicCode.call(this, editCtl.parseEditString(this.options.SearchFunction, editCtl, this));
+                                let propSearchFunction = this.options.SearchFunction;
+                                if (editCtl) {
+                                    flexygo.utils.execDynamicCode.call(this, editCtl.parseEditString(this.options.SearchFunction, editCtl, this));
+                                }
+                                else {
+                                    let obj = new Object();
+                                    obj[this.options.SQLValueField] = this.getValue();
+                                    obj[this.options.SQLDisplayField] = this.getText();
+                                    if (propSearchFunction) {
+                                        propSearchFunction = flexygo.utils.parser.compile(obj, propSearchFunction);
+                                    }
+                                    flexygo.utils.execDynamicCode.call(this, propSearchFunction);
+                                }
                             }
                             if (this.options.SearchCollection && this.options.SearchCollection !== '') {
                                 flexygo.events.on(this, "entity", "selected", (e) => {
@@ -942,7 +1093,37 @@ var flexygo;
                                     this.triggerDependencies();
                                     $(document).find('flx-search[objectname="' + this.options.SearchCollection + '"]').closest(".ui-dialog").remove();
                                 });
-                                flexygo.nav.openPage('search', editCtl.parseEditString(this.options.SearchCollection, editCtl, this), editCtl.parseEditString(this.options.SearchWhere, editCtl, this), null, 'modal');
+                                let PropSearchCollection = this.options.SearchCollection;
+                                let PropSearchWhere = this.options.SearchWhere;
+                                if (editCtl) {
+                                    flexygo.nav.openPage('search', editCtl.parseEditString(this.options.SearchCollection, editCtl, this), editCtl.parseEditString(this.options.SearchWhere, editCtl, this), null, 'modal');
+                                }
+                                else {
+                                    let obj = new Object();
+                                    obj[this.options.SQLValueField] = this.getValue();
+                                    obj[this.options.SQLDisplayField] = this.getText();
+                                    if (PropSearchCollection) {
+                                        PropSearchCollection = flexygo.utils.parser.compile(obj, PropSearchCollection);
+                                    }
+                                    if (PropSearchWhere) {
+                                        PropSearchWhere = flexygo.utils.parser.compile(obj, PropSearchWhere);
+                                    }
+                                    flexygo.nav.openPage('search', PropSearchCollection, PropSearchWhere, null, 'modal');
+                                }
+                                let propSearchFunction = this.options.SearchFunction;
+                                if (editCtl) {
+                                    if (propSearchFunction) {
+                                        propSearchFunction = editCtl.parseEditString(this.options.SearchFunction, editCtl, this);
+                                    }
+                                }
+                                else {
+                                    let obj = new Object();
+                                    obj[this.options.SQLValueField] = this.getValue();
+                                    obj[this.options.SQLDisplayField] = this.getText();
+                                    if (propSearchFunction) {
+                                        propSearchFunction = flexygo.utils.parser.compile(obj, propSearchFunction);
+                                    }
+                                }
                             }
                         });
                         ret.append(icon1);
@@ -950,11 +1131,38 @@ var flexygo;
                     if (this.options && this.options.ObjNameLink && this.options.ObjWhereLink) {
                         icon1 = $('<button class="btn btn-default" type="button"><i class="flx-icon icon-link" /></button>').on('click', () => {
                             if (this.getValue()) {
-                                if (this.options.ObjModeLink == 'Other') {
-                                    flexygo.nav.openPageName(this.options.PageNameLink, editCtl.parseEditString(this.options.ObjNameLink, editCtl, this), editCtl.parseEditString(this.options.ObjWhereLink, editCtl, this), null, this.options.TargetIdLink, true);
+                                let propObjNameLink = this.options.ObjNameLink;
+                                let propObjWhereLink = this.options.ObjWhereLink;
+                                if (editCtl) {
+                                    if (propObjNameLink) {
+                                        propObjNameLink = editCtl.parseEditString(this.options.ObjNameLink, editCtl, this);
+                                    }
+                                    if (propObjWhereLink) {
+                                        propObjWhereLink = editCtl.parseEditString(this.options.ObjWhereLink, editCtl, this);
+                                    }
                                 }
                                 else {
-                                    flexygo.nav.openPage(this.options.ObjModeLink, editCtl.parseEditString(this.options.ObjNameLink, editCtl, this), editCtl.parseEditString(this.options.ObjWhereLink, editCtl, this), null, this.options.TargetIdLink);
+                                    let obj = new Object();
+                                    obj[this.options.SQLValueField] = this.getValue();
+                                    obj[this.options.SQLDisplayField] = this.getText();
+                                    if (propObjWhereLink) {
+                                        propObjNameLink = flexygo.utils.parser.compile(obj, propObjNameLink);
+                                    }
+                                    if (propObjWhereLink) {
+                                        propObjWhereLink = flexygo.utils.parser.compile(obj, propObjWhereLink);
+                                    }
+                                }
+                                if (this.options.ObjModeLink == 'Other') {
+                                    flexygo.nav.openPageName(this.options.PageNameLink, propObjNameLink, propObjWhereLink, null, this.options.TargetIdLink, true);
+                                }
+                                else {
+                                    if (!this.options.ObjModeLink) {
+                                        this.options.ObjModeLink = 'view';
+                                    }
+                                    if (!this.options.TargetIdLink) {
+                                        this.options.TargetIdLink = 'popup';
+                                    }
+                                    flexygo.nav.openPage(this.options.ObjModeLink, propObjNameLink, propObjWhereLink, null, this.options.TargetIdLink);
                                 }
                                 //flexygo.nav.openPage('view', editCtl.parseEditString(this.options.ObjNameLink, editCtl, this), editCtl.parseEditString(this.options.ObjWhereLink, editCtl, this), null, this.options.TargetIdLink);
                             }
@@ -967,7 +1175,21 @@ var flexygo;
                     if (this.options && (this.options.AllowNewFunction || this.options.AllowNewObject) && !this.options.Locked) {
                         icon1 = $('<button class="btn btn-default flxallownew" type="button"><i class="fa fa-plus" /></button>').on('click', () => {
                             if (this.options.AllowNewFunction) {
-                                flexygo.utils.execDynamicCode.call(this, editCtl.parseEditString(this.options.AllowNewFunction, editCtl, this));
+                                let propAllowNewFunction = this.options.AllowNewFunction;
+                                if (editCtl) {
+                                    if (propAllowNewFunction) {
+                                        propAllowNewFunction = editCtl.parseEditString(this.options.AllowNewFunction, editCtl, this);
+                                    }
+                                }
+                                else {
+                                    let obj = new Object();
+                                    obj[this.options.SQLValueField] = this.getValue();
+                                    obj[this.options.SQLDisplayField] = this.getText();
+                                    if (propAllowNewFunction) {
+                                        propAllowNewFunction = flexygo.utils.parser.compile(obj, propAllowNewFunction);
+                                    }
+                                }
+                                flexygo.utils.execDynamicCode.call(this, propAllowNewFunction);
                             }
                             else if (this.options.AllowNewObject && this.options.AllowNewObject !== '') {
                                 flexygo.events.on(this, "entity", "inserted", (e) => {
@@ -988,7 +1210,28 @@ var flexygo;
                                         $(document).find('flx-edit[objectname="' + this.options.AllowNewObject + '"]').closest(".ui-dialog").remove();
                                     }
                                 });
-                                flexygo.nav.openPage('edit', editCtl.parseEditString(this.options.AllowNewObject, editCtl, this), null, editCtl.parseEditString(this.options.AllowNewDefaults, editCtl, this), 'modal');
+                                let propAllowNewObject = this.options.AllowNewObject;
+                                let propAllowNewDefaults = this.options.AllowNewDefaults;
+                                if (editCtl) {
+                                    if (propAllowNewObject) {
+                                        propAllowNewObject = editCtl.parseEditString(this.options.AllowNewObject, editCtl, this);
+                                    }
+                                    if (propAllowNewDefaults) {
+                                        propAllowNewDefaults = editCtl.parseEditString(this.options.AllowNewDefaults, editCtl, this);
+                                    }
+                                }
+                                else {
+                                    let obj = new Object();
+                                    obj[this.options.SQLValueField] = this.getValue();
+                                    obj[this.options.SQLDisplayField] = this.getText();
+                                    if (propAllowNewObject) {
+                                        propAllowNewObject = flexygo.utils.parser.compile(obj, propAllowNewObject);
+                                    }
+                                    if (propAllowNewDefaults) {
+                                        propAllowNewDefaults = flexygo.utils.parser.compile(obj, propAllowNewDefaults);
+                                    }
+                                }
+                                flexygo.nav.openPage('edit', propAllowNewObject, null, propAllowNewDefaults, 'modal');
                             }
                         });
                         ret.append(icon1);
@@ -1055,7 +1298,8 @@ var flexygo;
                     if (this.options && this.options.ValidatorMessage && this.options.ValidatorMessage !== '') {
                         this.input.attr('data-msg-sqlvalidator', this.options.ValidatorMessage);
                     }
-                    if (this.options && (this.options.CauseRefresh || this.options.SQLValidator)) {
+                    const module = me.closest('flx-module')[0];
+                    if ((this.options && (this.options.CauseRefresh || this.options.SQLValidator)) || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
                         this.inputval.on('change', () => {
                             //$(document).trigger('refreshProperty', [this.inputval.closest('flx-edit'), this.options.Name]);
                             let ev = {

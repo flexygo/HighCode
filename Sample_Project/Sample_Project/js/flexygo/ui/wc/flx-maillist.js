@@ -107,7 +107,20 @@ var flexygo;
                         }
                     });
                     flexygo.nav.hideNavBar();
+                    flexygo.ajax.post('~/api/Mail', 'checkMailToken', null, (responseToken) => {
+                        if (responseToken.AuthSuccess) {
+                            var func = new Function(responseToken.AuthJSCode);
+                            func.call(responseToken.AuthJSCode);
+                        }
+                    });
                     this.loadConfig();
+                    flexygo.events.on(this, 'push', 'notify', function (e) {
+                        if (e.masterIdentity == 'initMail') {
+                            if (e.sender.success) {
+                                this.init();
+                            }
+                        }
+                    });
                     flexygo.events.on(this, 'process', 'executed', (e) => {
                         if (e.sender.processName == "sysImapNewFolders") {
                             flexygo.ajax.post('~/api/Mail', 'GetMailFolders', null, (response) => {
@@ -185,18 +198,22 @@ var flexygo;
                                 $(this).find('.nosettings').on('click', (evt) => { this.settingsClick($(evt.currentTarget)); });
                             }
                             else {
-                                response.Folders.sort(function (a, b) { return b.IsInbox - a.IsInbox; });
-                                this.linkObj = response.ObjectName;
-                                this.linkKey = response.ObjectId;
-                                this.toolbar = response.Toolbar;
-                                this.renderToolbar(JSON.stringify({ ObjectName: this.linkObj, ObjectId: this.linkKey }));
-                                me.find('[name="MailAddress"]').val(response.EmailFilter);
-                                $(this).find('.mailFolders').html(this.renderFolders(response.Folders, null));
-                                $(this).find('[isinbox="true"]:first').addClass('selected');
-                                $(this).find('[folderid]').on('click', (evt) => { this.folderClick($(evt.currentTarget)); });
-                                $(this).find('.nosettings').on('click', (evt) => { this.settingsClick($(evt.currentTarget)); });
-                                $(this).find('.newFolder').on('click', (evt) => { this.newFolderClick($(evt.currentTarget)); });
-                                this.load(true);
+                                flexygo.ajax.post('~/api/Mail', 'refreshMailToken', null, (responseRefreshToken) => {
+                                    if (responseRefreshToken) {
+                                        response.Folders.sort(function (a, b) { return b.IsInbox - a.IsInbox; });
+                                        this.linkObj = response.ObjectName;
+                                        this.linkKey = response.ObjectId;
+                                        this.toolbar = response.Toolbar;
+                                        this.renderToolbar(JSON.stringify({ ObjectName: this.linkObj, ObjectId: this.linkKey }));
+                                        me.find('[name="MailAddress"]').val(response.EmailFilter);
+                                        $(this).find('.mailFolders').html(this.renderFolders(response.Folders, null));
+                                        $(this).find('[isinbox="true"]:first').addClass('selected');
+                                        $(this).find('[folderid]').on('click', (evt) => { this.folderClick($(evt.currentTarget)); });
+                                        $(this).find('.nosettings').on('click', (evt) => { this.settingsClick($(evt.currentTarget)); });
+                                        $(this).find('.newFolder').on('click', (evt) => { this.newFolderClick($(evt.currentTarget)); });
+                                        this.load(true);
+                                    }
+                                });
                             }
                         }
                     }, (error) => {
@@ -277,6 +294,9 @@ var flexygo;
                     itm.attr('ObjectName', this.linkObj);
                     itm.attr('ObjectId', this.linkKey);
                     let cont = flexygo.targets.createContainer({ targetid: 'popup1280x1024' }, false, $(this));
+                    if (!cont) {
+                        return;
+                    }
                     cont.closest('.ui-dialog').find('.ui-dialog-title').html(subject);
                     cont.addClass('mailViewer');
                     cont.html(itm);

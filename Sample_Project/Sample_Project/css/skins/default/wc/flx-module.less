@@ -397,7 +397,20 @@ flx-module .cntBodyHeader .moduleToolbar, flx-module .cntBodyFooter .moduleToolb
     padding: 2px 6px 4px 6px;
 }*/
 
-flx-module .cntBodyHeader .moduleToolbar .btn[data-type="text"], flx-module .cntBodyFooter .moduleToolbar [data-type="text"] {
+flx-module .cntBodyHeader .moduleToolbar span.submenuContainer.focused {
+    border: 1px solid dbColor(OutstandingColor);
+
+    > button {
+        border: inherit;
+    }
+}
+
+flx-module .btn-toolbar button[subbuttonid] span.caret {
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+flx-module .cntBodyHeader .moduleToolbar .btn[data-type="text"]:not(.hasSubmenus), flx-module .cntBodyFooter .moduleToolbar [data-type="text"]:not(.hasSubmenus) {
     border: none;
     background: none;
 }
@@ -539,4 +552,27 @@ flx-module[type='flx-orgchart'].loading:after, flx-module[type='flx-maillist'].l
 }
 .sentinel button[data-type=delete]:hover {
     color: red !important;
+}
+
+//Sticky toolbar & Sticky header
+flx-module.sticky-toolbar .cntBodyHeader, flx-module.sticky-header thead {
+    z-index: 9;
+    position: sticky;
+
+    @media (min-width: dbSize(medium)) {
+        top: 0px;
     }
+
+    @media (max-width: dbSize(medium)) {
+        top: 55px;
+    }
+}
+
+flx-module.sticky-toolbar.sticky-header thead {
+    top: 44px;
+}
+
+flx-module.sticky-header .overflowx {
+    overflow-x: inherit;
+}
+

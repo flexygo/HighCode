@@ -209,17 +209,23 @@ var flexygo;
                 });
             }
             else if (histObj.targetid && histObj.targetid.indexOf('main') == 0) {
+                pageContainer = $('#realMain');
+                if (pageContainer.find("form.dirty:not(.skipDirty)").length > 0 && confirm(flexygo.localization.translate('flxedit.areyousuremsg')) == false) {
+                    return null;
+                }
                 if (triggerElement && triggerElement.closest('.pageContainer').length > 0) {
                     histObj.opener = $(triggerElement).closest('.pageContainer').attr('id');
                 }
                 if (!excludeHist) {
                     flexygo.history.set(histObj);
                 }
-                pageContainer = $('#realMain');
             }
             else if (histObj.targetid && histObj.targetid.indexOf('current') == 0) {
                 if (triggerElement && triggerElement.closest('.pageContainer').length > 0) {
                     pageContainer = triggerElement.closest('.pageContainer');
+                    if (pageContainer.find("form.dirty:not(.skipDirty)").length > 0 && confirm(flexygo.localization.translate('flxedit.areyousuremsg')) == false) {
+                        return null;
+                    }
                     histObj.opener = $(pageContainer).data('context').opener;
                     if (pageContainer.is($('#realMain'))) {
                         if (!excludeHist) {
@@ -228,10 +234,13 @@ var flexygo;
                     }
                 }
                 else {
+                    pageContainer = $('#realMain');
+                    if (pageContainer.find("form.dirty:not(.skipDirty)").length > 0 && confirm(flexygo.localization.translate('flxedit.areyousuremsg')) == false) {
+                        return null;
+                    }
                     if (!excludeHist) {
                         flexygo.history.set(histObj);
                     }
-                    pageContainer = $('#realMain');
                 }
             }
             else if (histObj.targetid && histObj.targetid.indexOf('opener') == 0) {
@@ -332,46 +341,42 @@ var flexygo;
                     open: function () {
                         let widget = $(this).dialog("widget");
                         let diag = $(this);
+                        widget.addClass('flx-slide-loading');
                         if (position == 'right') {
                             widget.animate({ left: ($(window).innerWidth() - width) + 'px', width: width + 'px' }, duration);
+                            widget.addClass('flx-slideright');
                         }
                         else if (position == 'left') {
                             widget.animate({ width: width + 'px' }, duration);
+                            widget.addClass('flx-slideleft');
                         }
                         else if (position == 'top') {
                             widget.animate({ height: height + 'px' }, duration);
                             pageContainer.animate({ height: height + 'px' }, duration);
+                            widget.addClass('flx-slidetop');
                         }
                         else if (position == 'bottom') {
                             let titleBarHeight = $('body > div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.flx-dialog-modal.flx-slide > div').height();
                             $('body').css('overflow', 'hidden');
                             widget.animate({ top: ($(window).innerHeight() - height), height: 'auto' }, duration);
                             pageContainer.css('height', height - titleBarHeight);
+                            widget.addClass('flx-slidebottom');
                         }
+                        setTimeout(function () { widget.addClass('flx-slide-fullLoaded'); widget.removeClass('flx-slide-loading'); }, duration + 100);
                         $(this).closest('div.ui-dialog').find('.ui-dialog-titlebar-close').off("click").on("click", (e) => {
-                            let flxEdit = diag.find('flx-edit');
-                            if (flxEdit.length != 0) {
-                                if (flxEdit.find("form.dirty").length != 0) {
-                                    $(flxEdit).find("form.dirty")[0].closest("flx-edit").checkDirtyEdit();
-                                }
-                                else {
-                                    diag.dialog('close');
-                                }
+                            let dirtyModules = $(this).find("form.dirty");
+                            if (dirtyModules.length != 0) {
+                                $(dirtyModules[0]).closest("flx-module")[0].checkDirtyEdit();
                             }
                             else {
                                 diag.dialog('close');
                             }
                             e.preventDefault();
                         });
-                        $('.ui-widget-overlay').bind('click', function () {
-                            let flxEdit = diag.find('flx-edit');
-                            if (flxEdit.length != 0) {
-                                if (flxEdit.find("form.dirty").length != 0) {
-                                    $(flxEdit).find("form.dirty")[0].closest("flx-edit").checkDirtyEdit();
-                                }
-                                else {
-                                    diag.dialog('close');
-                                }
+                        $('.ui-widget-overlay').bind('click', () => {
+                            let dirtyModules = $(this).find("form.dirty");
+                            if (dirtyModules.length != 0) {
+                                $(dirtyModules[0]).closest("flx-module")[0].checkDirtyEdit();
                             }
                             else {
                                 diag.dialog('close');

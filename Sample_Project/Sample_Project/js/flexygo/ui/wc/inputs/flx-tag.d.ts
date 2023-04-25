@@ -21,6 +21,7 @@ declare namespace flexygo.ui.wc {
         dropOptions: string[];
         property: string;
         value: any;
+        isDefaultValue: boolean;
         /**
         * Fires when element is attached to DOM
         * @method connectedCallback

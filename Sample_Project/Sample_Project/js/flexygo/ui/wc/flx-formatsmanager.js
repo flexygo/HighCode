@@ -510,6 +510,9 @@ var flexygo;
                     let histObj = new flexygo.nav.FlexygoHistory();
                     histObj.targetid = 'modal1024x480';
                     let modal = flexygo.targets.createContainer(histObj, true, null, true);
+                    if (!modal) {
+                        return;
+                    }
                     modal.empty();
                     modal.closest('.ui-dialog').find('.ui-dialog-title').html(flexygo.localization.translate('develop.modulemanager'));
                     modal.append('<flx-formatsmanager></flx-formatsmanager>');

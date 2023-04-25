@@ -56,6 +56,24 @@ var flexygo;
             }
         }
         debug.enableDevelopMode = enableDevelopMode;
+        function showObject(mode) {
+            let selectObjectname = $('.sysObjConfigCombo flx-dbcombo').val();
+            //only if an object is selected
+            if (selectObjectname) {
+                let obj = new flexygo.obj.Entity(selectObjectname);
+                let cnf = obj.getConfig();
+                if (mode == 'edit') {
+                    flexygo.nav.openPage(mode, cnf.ObjectName, null, 'null', 'popup', false, $(this));
+                }
+                else {
+                    flexygo.nav.openPage(mode, cnf.ParentName, null, 'null', 'popup', false, $(this));
+                }
+            }
+            else {
+                flexygo.msg.warning(flexygo.localization.translate('develop.selectobject'));
+            }
+        }
+        debug.showObject = showObject;
         /**
          * Configure and returns sidebar config page panel.
          * @method getPagePanel
@@ -63,6 +81,16 @@ var flexygo;
          */
         function getPagePanel() {
             let container = $('<div/>');
+            let pageContext = flexygo.history.get($('#realMain'));
+            let currentObject = ((pageContext && pageContext.objectname) ? pageContext.objectname : '');
+            flexygo.events.on(this, "panel", "loading", function () {
+                pageContext = flexygo.history.get($('#realMain'));
+                let currentPageObject = (pageContext.objectname ? pageContext.objectname : '');
+                if ($('.sysObjConfigCombo flx-dbcombo').length > 0) {
+                    $('.sysObjConfigCombo flx-dbcombo').val(currentPageObject);
+                }
+            });
+            container.append(`<section class="sysObjConfigCombo"><flx-dbcombo AllowNewFunction="flexygo.debug.showObject('edit');" SearchFunction="flexygo.debug.showObject('list');" placeholder="Select object to get settings" iconclass="flx-icon icon-object" objectname="SysObject" viewname="Objects_Config_Combo" sqlvaluefield="ObjectName" sqldisplayfield="Descrip" value="${currentObject}" control-class="size-m" additionalwhere="Iscollection=0"></flx-dbcombo></section>`);
             let panel = $('<flx-accordion class="props-accordion" />');
             let panelCtx = panel[0];
             if (panelCtx) {
@@ -75,12 +103,14 @@ var flexygo;
                     //flexygo.nav.openPage('list', 'sysHelp', '', 'null', 'current', false, $(this))
                     flexygo.nav.openPageName('db6ce0fb-2f28-4056-b14e-e9aed2769f97', 'sysHelp', '', null, 'current', false, $(this));
                 });
-                panelCtx.add('<span><i class="flx-icon  icon-laptop icon-margin-right"></i>' + flexygo.localization.translate('develop.developer') + '</span>', [AdminPage, helpPage]);
+                let settingsPage = $('<span class="clickable"/>').html('<i class="fa fa-gear icon-margin-right "></i>' + flexygo.localization.translate('develop.settings') + '</span>').on('click', () => {
+                    flexygo.nav.openPage('list', 'sysSettingGroups', '', null, 'current', false, $(this));
+                });
+                panelCtx.add('<span><i class="flx-icon  icon-laptop icon-margin-right"></i>' + flexygo.localization.translate('develop.developer') + '</span>', [AdminPage, helpPage, settingsPage]);
                 //End developper options
                 // Page options
                 let newPageStr = '<span class="newPage" title="New Page" ><i class="size-m txt-outstanding  flx-icon icon-new-doc icon-margin-right pull-right"></i></span>';
                 let pageView = $('<span class="clickable"/>').html('<i class="flx-icon icon-listbox icon-margin-right "></i>' + flexygo.localization.translate('develop.pageSettings') + '</span>').on('click', () => {
-                    let pageContext = flexygo.history.get($('#realMain'));
                     flexygo.nav.openPage('view', 'sysPage', "Pagename='" + pageContext.pagename + "'", null, 'popup', true);
                 });
                 panelCtx.add('<span><i class="flx-icon icon-document icon-margin-right"></i>' + flexygo.localization.translate('develop.page') + newPageStr + '</span>', [pageView]);
@@ -91,10 +121,10 @@ var flexygo;
                 //End page options
                 //Object Options
                 let objConfig = $('<span class="clickable"/>').html('<i class="flx-icon icon-modules-settings icon-margin-right "></i>' + flexygo.localization.translate('develop.settings') + '</span>').on('click', (event) => {
-                    let pageContext = flexygo.history.get($('#realMain'));
-                    let obj = new flexygo.obj.Entity(pageContext.objectname);
+                    let selectObjectname = $('.sysObjConfigCombo flx-dbcombo').val();
                     //only if an object is selected
-                    if (typeof (pageContext.objectname) != 'undefined') {
+                    if (selectObjectname) {
+                        let obj = new flexygo.obj.Entity(selectObjectname);
                         let cnf = obj.getConfig();
                         flexygo.nav.openPage('edit', 'sysObject', "Objectname='" + cnf.ObjectName + "'", null, 'popup', true);
                     }
@@ -104,9 +134,9 @@ var flexygo;
                     event.stopPropagation();
                 });
                 let objView = $('<span class="clickable"/>').html('<i class="flx-icon icon-cube1 icon-margin-right "></i>' + flexygo.localization.translate('develop.viewobject') + '</span>').on('click', (event) => {
-                    let pageContext = flexygo.history.get($('#realMain'));
-                    let obj = new flexygo.obj.Entity(pageContext.objectname);
-                    if (typeof (pageContext.objectname) != 'undefined') {
+                    let selectObjectname = $('.sysObjConfigCombo flx-dbcombo').val();
+                    if (selectObjectname) {
+                        let obj = new flexygo.obj.Entity(selectObjectname);
                         let cnf = obj.getConfig();
                         flexygo.nav.openPage('view', 'sysObject', "Objectname='" + cnf.ObjectName + "'", null, 'popup', true);
                     }
@@ -116,9 +146,9 @@ var flexygo;
                     event.stopPropagation();
                 });
                 let objWizard = $('<span class="clickable"/>').html('<i class="fa fa-magic icon-margin-right "></i>' + flexygo.localization.translate('develop.wizard') + '</span>').on('click', (event) => {
-                    let pageContext = flexygo.history.get($('#realMain'));
-                    let obj = new flexygo.obj.Entity(pageContext.objectname);
-                    if (typeof (pageContext.objectname) != 'undefined') {
+                    let selectObjectname = $('.sysObjConfigCombo flx-dbcombo').val();
+                    if (selectObjectname) {
+                        let obj = new flexygo.obj.Entity(selectObjectname);
                         let cnf = obj.getConfig();
                         flexygo.nav.openPageName('syspage-generic-objectwizard', 'sysObject', "ObjectName='" + cnf.ObjectName + "'", 'null', 'current', false);
                     }
@@ -128,15 +158,15 @@ var flexygo;
                     event.stopPropagation();
                 });
                 let objImageManager = $('<span class="clickable"/>').html('<i class="fa fa-image icon-margin-right "></i>' + flexygo.localization.translate('develop.imagemanager') + '</span>').on('click', (event) => {
-                    let pageContext = flexygo.history.get($('#realMain'));
-                    let obj = new flexygo.obj.Entity(pageContext.objectname);
-                    if (typeof (pageContext.objectname) != 'undefined') {
+                    let selectObjectname = $('.sysObjConfigCombo flx-dbcombo').val();
+                    if (selectObjectname) {
+                        let obj = new flexygo.obj.Entity(selectObjectname);
                         let cnf = (obj.objectName) ? obj.getConfig() : null;
                         let defaults = {
                             'ObjectName': (cnf) ? cnf.ObjectName : '',
                             'KeyProperty': (cnf) ? (cnf.KeyFields.length === 1) ? cnf.KeyFields[0] : '' : '',
                         };
-                        flexygo.nav.openPage('edit', 'sysObjectImageSetting', (cnf) ? "ObjectName = '" + cnf.ObjectName + "'" : null, defaults, 'modal900x500', false, $(this));
+                        flexygo.nav.openPage('edit', 'sysObjectImageSetting', (cnf) ? "ObjectName = '" + cnf.ObjectName + "'" : null, defaults, 'modal900x580', false, $(this));
                     }
                     else {
                         flexygo.msg.warning(flexygo.localization.translate('develop.selectobject'));
@@ -144,9 +174,9 @@ var flexygo;
                     event.stopPropagation();
                 });
                 let objDocumentManager = $('<span class="clickable"/>').html('<i class="flx-icon icon-document icon-margin-right "></i>' + flexygo.localization.translate('develop.documentmanager') + '</span>').on('click', (event) => {
-                    let pageContext = flexygo.history.get($('#realMain'));
-                    let obj = new flexygo.obj.Entity(pageContext.objectname);
-                    if (typeof (pageContext.objectname) != 'undefined') {
+                    let selectObjectname = $('.sysObjConfigCombo flx-dbcombo').val();
+                    if (selectObjectname) {
+                        let obj = new flexygo.obj.Entity(selectObjectname);
                         let cnf = (obj.objectName) ? obj.getConfig() : null;
                         let defaults = {
                             'ObjectName': (cnf) ? cnf.ObjectName : '',
@@ -160,9 +190,9 @@ var flexygo;
                     event.stopPropagation();
                 });
                 let objMailManager = $('<span class="clickable"/>').html('<i class="flx-icon icon-email-settings icon-margin-right "></i>' + flexygo.localization.translate('develop.mailmanager') + '</span>').on('click', (event) => {
-                    let pageContext = flexygo.history.get($('#realMain'));
-                    let obj = new flexygo.obj.Entity(pageContext.objectname);
-                    if (typeof (pageContext.objectname) != 'undefined') {
+                    let selectObjectname = $('.sysObjConfigCombo flx-dbcombo').val();
+                    if (selectObjectname) {
+                        let obj = new flexygo.obj.Entity(selectObjectname);
                         let cnf = (obj.objectName) ? obj.getConfig() : null;
                         let defaults = {
                             'ObjectName': (cnf) ? cnf.ObjectName : '',
@@ -176,15 +206,15 @@ var flexygo;
                     event.stopPropagation();
                 });
                 let objChatter = $('<span class="clickable"/>').html('<i class="flx-icon icon-chats icon-margin-right "></i>' + flexygo.localization.translate('develop.chatter') + '</span>').on('click', (event) => {
-                    let pageContext = flexygo.history.get($('#realMain'));
-                    let obj = new flexygo.obj.Entity(pageContext.objectname);
-                    if (typeof (pageContext.objectname) != 'undefined') {
+                    let selectObjectname = $('.sysObjConfigCombo flx-dbcombo').val();
+                    if (selectObjectname) {
+                        let obj = new flexygo.obj.Entity(selectObjectname);
                         let cnf = (obj.objectName) ? obj.getConfig() : null;
                         let defaults = {
                             'ObjectName': (cnf) ? cnf.ObjectName : '',
                             'ObjectPK': (cnf) ? (cnf.KeyFields.length === 1) ? cnf.KeyFields[0] : '' : '',
                         };
-                        flexygo.nav.openPage('edit', 'sysChatter_Config', (cnf) ? "ObjectName = '" + cnf.ObjectName + "'" : null, defaults, 'modal900x400', false, $(this));
+                        flexygo.nav.openPage('edit', 'sysChatter_Config', (cnf) ? "ObjectName = '" + cnf.ObjectName + "'" : null, defaults, 'modal900x580', false, $(this));
                     }
                     else {
                         flexygo.msg.warning(flexygo.localization.translate('develop.selectobject'));
@@ -201,9 +231,9 @@ var flexygo;
                 //End object options
                 //Collection options
                 let colConfig = $('<span class="clickable"/>').html('<i class="flx-icon icon-modules-settings icon-margin-right "></i>' + flexygo.localization.translate('develop.settings') + '</span>').on('click', (event) => {
-                    let pageContext = flexygo.history.get($('#realMain'));
-                    let obj = new flexygo.obj.Entity(pageContext.objectname);
-                    if (typeof (pageContext.objectname) != 'undefined') {
+                    let selectObjectname = $('.sysObjConfigCombo flx-dbcombo').val();
+                    if (selectObjectname) {
+                        let obj = new flexygo.obj.Entity(selectObjectname);
                         let cnf = obj.getConfig();
                         flexygo.nav.openPage('edit', 'sysObject', "Objectname='" + cnf.ParentName + "'", null, 'popup', true);
                     }
@@ -225,9 +255,9 @@ var flexygo;
                     flexygo.nav.openPage('list', 'sysRoles', '', null, 'current', false);
                 });
                 let objProcessSecurity = $('<span class="clickable"/>').html('<i class="flx-icon icon-process icon-margin-right "></i>' + flexygo.localization.translate('develop.objectprocesssecurity') + '</span>').on('click', (event) => {
-                    let pageContext = flexygo.history.get($('#realMain'));
-                    let obj = new flexygo.obj.Entity(pageContext.objectname);
-                    if (typeof (pageContext.objectname) != 'undefined') {
+                    let selectObjectname = $('.sysObjConfigCombo flx-dbcombo').val();
+                    if (selectObjectname) {
+                        let obj = new flexygo.obj.Entity(selectObjectname);
                         let cnf = obj.getConfig();
                         flexygo.nav.openPageName('syspage-generic-objectprocesssecurity', 'sysObject', "Objectname='" + cnf.ObjectName + "'", 'null', 'current', false);
                     }
@@ -236,9 +266,9 @@ var flexygo;
                     }
                 });
                 let objPropertySecurity = $('<span class="clickable"/>').html('<i class="flx-icon icon-object-properties-2 icon-margin-right "></i>' + flexygo.localization.translate('develop.objectpropertysecurity') + '</span>').on('click', () => {
-                    let pageContext = flexygo.history.get($('#realMain'));
-                    let obj = new flexygo.obj.Entity(pageContext.objectname);
-                    if (typeof (pageContext.objectname) != 'undefined') {
+                    let selectObjectname = $('.sysObjConfigCombo flx-dbcombo').val();
+                    if (selectObjectname) {
+                        let obj = new flexygo.obj.Entity(selectObjectname);
                         let cnf = obj.getConfig();
                         flexygo.nav.openPageName('syspage-generic-objectpropertysecurity', 'sysObject', "Objectname='" + cnf.ObjectName + "'", 'null', 'current', false);
                     }
@@ -247,9 +277,9 @@ var flexygo;
                     }
                 });
                 let objSecurity = $('<span class="clickable"/>').html('<i class="flx-icon icon-object icon-margin-right "></i>' + flexygo.localization.translate('develop.objectsecurity') + '</span>').on('click', () => {
-                    let pageContext = flexygo.history.get($('#realMain'));
-                    let obj = new flexygo.obj.Entity(pageContext.objectname);
-                    if (typeof (pageContext.objectname) != 'undefined') {
+                    let selectObjectname = $('.sysObjConfigCombo flx-dbcombo').val();
+                    if (selectObjectname) {
+                        let obj = new flexygo.obj.Entity(selectObjectname);
                         let cnf = obj.getConfig();
                         flexygo.nav.openPageName('syspage-generic-objectsecurity', 'sysObject', "Objectname='" + cnf.ObjectName + "'", 'null', 'popup', false);
                     }

@@ -1,8 +1,8 @@
 import { r as registerInstance, j as h } from './index-86ac49ff.js';
 import './ionic-global-0f98fe97.js';
-import { W as Webapi, b as storage } from './webapi-7959a2b6.js';
-import { s as sql, u as util, m as msg, F as FileOpener, L as LocalNotifications, C as ConftokenProvider } from './conftoken-84c3ec5c.js';
-import './jquery-ad132f97.js';
+import { W as Webapi, b as storage } from './webapi-79a1d3db.js';
+import { s as sql, u as util, m as msg, L as LocalNotifications, F as FileOpener, C as ConftokenProvider } from './conftoken-7e3c18eb.js';
+import './jquery-5df58adb.js';
 import './utils-16079bfd.js';
 import './helpers-719f4c54.js';
 import './animation-10ea33c3.js';
@@ -21,6 +21,7 @@ const flxDocumentgalleryCss = "ion-grid{padding:0}.file{font-size:50px!important
 const FlxDocumentgallery = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.id = 0;
     }
     refresh() {
         return this.loadData();
@@ -70,8 +71,7 @@ const FlxDocumentgallery = class {
         else if (this.table[index].URL) {
             let url = await this.getFullUrl(this.table[index].URL);
             if (window.cordova) {
-                let b64 = await util.blobToBase64(await util.urlToBlob(url));
-                util.downloadByB64Phone(b64, fileName)
+                util.downloadByUrlPhone(url, fileName)
                     .then(async (uri) => {
                     this.documentDownloadNotification(uri, util.getMIMEtype(fileName), fileName);
                 })
@@ -83,18 +83,17 @@ const FlxDocumentgallery = class {
         }
     }
     async documentDownloadNotification(uri, mime, fileName) {
-        const fileOpener = new FileOpener;
-        const notification = new LocalNotifications;
         const options = {
-            id: (await notification.getAll()).length,
-            text: util.translate('document.downloadedNoti').replace('%', fileName),
-            attachments: [uri],
-            foreground: true
+            id: (await LocalNotifications.getDeliveredNotifications()).notifications.length,
+            title: util.translate('document.downloadedNoti').replace('%', fileName),
+            body: util.translate('document.downloadedNoti').replace('%', fileName),
+            attachments: [uri]
         };
-        notification.schedule(options);
-        notification.on('click').subscribe((res) => {
+        LocalNotifications.schedule({ notifications: [options] });
+        LocalNotifications.addListener('localNotificationActionPerformed', () => {
             try {
-                fileOpener.showOpenWithDialog(res.attachments[0], mime);
+                let foOptions = { filePath: uri, contentType: mime };
+                FileOpener.open(foOptions);
             }
             catch (err) {
                 msg.showError(err);

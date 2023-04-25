@@ -1,4 +1,4 @@
-import { p as WebPlugin } from './webapi-7959a2b6.js';
+import { q as WebPlugin } from './webapi-79a1d3db.js';
 
 class BarcodeScannerWeb extends WebPlugin {
     async prepare() {

@@ -83,7 +83,17 @@ var flexygo;
                     let menuUl = $('<ul/>');
                     let wc = module[0];
                     let wcFil = module.find('flx-filter')[0];
-                    let filkey = wc.objectname + '-' + wc.moduleName;
+                    let moduleName = wc.moduleName;
+                    if (wc.getAttribute('type') === 'flx-moduletab') {
+                        moduleName = $(wc).find('.nav.nav-tabs .active[data-modname]').attr('data-modname');
+                    }
+                    let currentObjectName = wc.objectname;
+                    if (!currentObjectName) {
+                        var moduleData = new flexygo.obj.Entity('SysModules', `ModuleName='${moduleName}'`);
+                        moduleData.read();
+                        currentObjectName = (moduleData.data && moduleData.data.ObjectName && moduleData.data.ObjectName.Value) ? moduleData.data.ObjectName.Value : currentObjectName;
+                    }
+                    let filkey = objectname + '-' + moduleName;
                     for (let key in list.searchSettings) {
                         let fil = list.searchSettings[key];
                         let ico = (fil.Type.toLowerCase() === 'text') ? "icon-text" : "icon-filter-1";

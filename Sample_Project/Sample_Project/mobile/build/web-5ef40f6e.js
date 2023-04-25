@@ -1,4 +1,4 @@
-import { p as WebPlugin } from './webapi-7959a2b6.js';
+import { q as WebPlugin } from './webapi-79a1d3db.js';
 
 function resolve(path) {
     const posix = path.split('/').filter(item => item !== '.');
@@ -125,12 +125,12 @@ class FilesystemWeb extends WebPlugin {
      */
     async writeFile(options) {
         const path = this.getPath(options.directory, options.path);
-        const data = options.data;
+        let data = options.data;
+        const encoding = options.encoding;
         const doRecursive = options.recursive;
         const occupiedEntry = (await this.dbRequest('get', [path]));
         if (occupiedEntry && occupiedEntry.type === 'directory')
-            throw 'The supplied path is a directory.';
-        const encoding = options.encoding;
+            throw Error('The supplied path is a directory.');
         const parentPath = path.substr(0, path.lastIndexOf('/'));
         const parentEntry = (await this.dbRequest('get', [parentPath]));
         if (parentEntry === undefined) {
@@ -144,6 +144,11 @@ class FilesystemWeb extends WebPlugin {
                 });
             }
         }
+        if (!encoding) {
+            data = data.indexOf(',') >= 0 ? data.split(',')[1] : data;
+            if (!this.isBase64String(data))
+                throw Error('The supplied data is not valid base64 content.');
+        }
         const now = Date.now();
         const pathObj = {
             path: path,
@@ -152,7 +157,7 @@ class FilesystemWeb extends WebPlugin {
             size: data.length,
             ctime: now,
             mtime: now,
-            content: !encoding && data.indexOf(',') >= 0 ? data.split(',')[1] : data,
+            content: data,
         };
         await this.dbRequest('put', [pathObj]);
         return {
@@ -167,13 +172,13 @@ class FilesystemWeb extends WebPlugin {
     async appendFile(options) {
         const path = this.getPath(options.directory, options.path);
         let data = options.data;
-        // const encoding = options.encoding;
+        const encoding = options.encoding;
         const parentPath = path.substr(0, path.lastIndexOf('/'));
         const now = Date.now();
         let ctime = now;
         const occupiedEntry = (await this.dbRequest('get', [path]));
         if (occupiedEntry && occupiedEntry.type === 'directory')
-            throw 'The supplied path is a directory.';
+            throw Error('The supplied path is a directory.');
         const parentEntry = (await this.dbRequest('get', [parentPath]));
         if (parentEntry === undefined) {
             const subDirIndex = parentPath.indexOf('/', 1);
@@ -186,8 +191,15 @@ class FilesystemWeb extends WebPlugin {
                 });
             }
         }
+        if (!encoding && !this.isBase64String(data))
+            throw Error('The supplied data is not valid base64 content.');
         if (occupiedEntry !== undefined) {
-            data = occupiedEntry.content + data;
+            if (occupiedEntry.content !== undefined && !encoding) {
+                data = btoa(atob(occupiedEntry.content) + atob(data));
+            }
+            else {
+                data = occupiedEntry.content + data;
+            }
             ctime = occupiedEntry.ctime;
         }
         const pathObj = {
@@ -271,7 +283,7 @@ class FilesystemWeb extends WebPlugin {
         if (readDirResult.files.length !== 0 && !recursive)
             throw Error('Folder is not empty');
         for (const entry of readDirResult.files) {
-            const entryPath = `${path}/${entry}`;
+            const entryPath = `${path}/${entry.name}`;
             const entryObj = await this.stat({ path: entryPath, directory });
             if (entryObj.type === 'file') {
                 await this.deleteFile({ path: entryPath, directory });
@@ -293,10 +305,21 @@ class FilesystemWeb extends WebPlugin {
         if (options.path !== '' && entry === undefined)
             throw Error('Folder does not exist.');
         const entries = await this.dbIndexRequest('by_folder', 'getAllKeys', [IDBKeyRange.only(path)]);
-        const names = entries.map(e => {
-            return e.substring(path.length + 1);
-        });
-        return { files: names };
+        const files = await Promise.all(entries.map(async (e) => {
+            let subEntry = (await this.dbRequest('get', [e]));
+            if (subEntry === undefined) {
+                subEntry = (await this.dbRequest('get', [e + '/']));
+            }
+            return {
+                name: e.substring(path.length + 1),
+                type: subEntry.type,
+                size: subEntry.size,
+                ctime: subEntry.ctime,
+                mtime: subEntry.mtime,
+                uri: subEntry.path,
+            };
+        }));
+        return { files: files };
     }
     /**
      * Return full File URI for a path and directory
@@ -340,7 +363,8 @@ class FilesystemWeb extends WebPlugin {
      * @return a promise that resolves with the rename result
      */
     async rename(options) {
-        return this._copy(options, true);
+        await this._copy(options, true);
+        return;
     }
     /**
      * Copy a file or directory
@@ -376,7 +400,9 @@ class FilesystemWeb extends WebPlugin {
         const toPath = this.getPath(toDirectory, to);
         // Test that the "to" and "from" locations are different
         if (fromPath === toPath) {
-            return;
+            return {
+                uri: toPath,
+            };
         }
         if (isPathParent(fromPath, toPath)) {
             throw Error('To path cannot contain the from path');
@@ -439,7 +465,7 @@ class FilesystemWeb extends WebPlugin {
                     });
                 }
                 // Write the file to the new location
-                await this.writeFile({
+                const writeResult = await this.writeFile({
                     path: to,
                     directory: toDirectory,
                     data: file.data,
@@ -449,7 +475,7 @@ class FilesystemWeb extends WebPlugin {
                     await updateTime(to, ctime, fromObj.mtime);
                 }
                 // Resolve promise
-                return;
+                return writeResult;
             }
             case 'directory': {
                 if (toObj) {
@@ -492,6 +518,17 @@ class FilesystemWeb extends WebPlugin {
                     });
                 }
             }
+        }
+        return {
+            uri: toPath,
+        };
+    }
+    isBase64String(str) {
+        try {
+            return btoa(atob(str)) == str;
+        }
+        catch (err) {
+            return false;
         }
     }
 }

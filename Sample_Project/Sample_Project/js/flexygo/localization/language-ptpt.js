@@ -80,7 +80,8 @@ var flexygo;
                 reports: 'Relatórios',
                 noelements: 'Não há elementos',
                 popupwarning: 'As configurações do seu navegador estão bloqueando as janelas pop-up.',
-                reportmaxrows: 'Este relatório usa {0} linhas para filtrar e excede o limite de {1}. Aplique primeiro um filtro mais restritivo.'
+                reportmaxrows: 'Este relatório usa {0} linhas para filtrar e excede o limite de {1}. Aplique primeiro um filtro mais restritivo.',
+                scrolltop: 'Suba'
             };
             ptpt.msg = {
                 confirm: 'Confirme a ação',
@@ -127,7 +128,10 @@ var flexygo;
                 selecttable: 'Selecione Tabela',
                 loadmore: 'Role para carregar mais',
                 hasdependencies: 'Lança dependências',
-                hasdependingproperties: 'Afetado por dependências'
+                hasdependingproperties: 'Afetado por dependências',
+                withchangeprocess: 'Com processo de mudança',
+                throwto: 'Jogar para',
+                affectedby: 'Afetado por'
             };
             ptpt.flxeditgrid = {
                 addrow: 'Adicionar linha',
@@ -322,6 +326,7 @@ var flexygo;
                 uniqueBagError: 'Campo chave única indefinida.',
                 nofieldBagError: 'O campo não foi encontrado <b>{0}</b>. Adicione-o à consulta ou remova o botão de opção.',
                 noItemsSelected: 'Selecione um item da lista primeiro.',
+                currentlyViewing: 'Atualmente visualizando'
             };
             ptpt.flxnav = {
                 notimplemented: 'Ação não implementada',
@@ -385,6 +390,7 @@ var flexygo;
                 msgremove: 'Tem certeza de que deseja excluir o documento?',
                 sendselection: 'Enviar documentos selecionados pelo correio',
                 noselection: 'No hay documentos seleccionados',
+                filterdocs: 'Filtrar documentos',
             };
             ptpt.imagemanager = {
                 upload: 'Upload',
@@ -435,6 +441,7 @@ var flexygo;
                 edit: 'Editar',
                 submenus: 'Submenus',
                 newsubmenu: 'Submenu Novo',
+                menuSecurity: 'Segurança do menu',
             };
             ptpt.modulemanager = {
                 save: 'Salve',
@@ -463,6 +470,7 @@ var flexygo;
                 deletenode: 'Excluir nodo',
                 deletenodequestion: 'Tem certeza de que deseja excluir este nó??',
                 addfields: 'Adicionar campos',
+                cloneDependencies: 'Clonar dependências de objetos'
             };
             ptpt.objectmanager = {
                 selecticon: 'Selecione un ícone',
@@ -630,6 +638,7 @@ var flexygo;
                 apihelp: 'Consulte nossa ajuda para descobrir como obter.',
                 nophone: 'Insira um número de telefone',
                 nomail: 'Digite um endereço de e-mail',
+                seeMap: 'Veja no google maps'
             };
             ptpt.flxfunnel = {
                 data: 'Não há dados',
@@ -784,6 +793,15 @@ var flexygo;
             };
             ptpt.htmlreport = {
                 generate: 'Gerando relatório',
+            };
+            ptpt.skin = {
+                darkmode: 'Modo Escuro',
+                lightmode: 'Modo de Luz'
+            };
+            ptpt.flxBarcode = {
+                noCamera: 'Nenhuma câmera disponível encontrada',
+                IOSerr: 'Esta funcionalidade não está disponível no IOS',
+                noCode: 'Nenhum código pode ser encontrado nesta imagem.'
             };
         })(ptpt = culture.ptpt || (culture.ptpt = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

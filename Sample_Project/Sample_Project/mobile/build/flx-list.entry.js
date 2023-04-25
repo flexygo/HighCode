@@ -1,8 +1,8 @@
 import { r as registerInstance, j as h, k as getElement } from './index-86ac49ff.js';
 import './ionic-global-0f98fe97.js';
-import './webapi-7959a2b6.js';
-import { u as util, i as flxSync, C as ConftokenProvider, s as sql, m as msg, n as nav } from './conftoken-84c3ec5c.js';
-import { j as jquery } from './jquery-ad132f97.js';
+import './webapi-79a1d3db.js';
+import { u as util, i as flxSync, C as ConftokenProvider, s as sql, m as msg, n as nav } from './conftoken-7e3c18eb.js';
+import { j as jquery } from './jquery-5df58adb.js';
 import './utils-16079bfd.js';
 import './helpers-719f4c54.js';
 import './animation-10ea33c3.js';
@@ -15,7 +15,7 @@ import './index-b40d441b.js';
 import './hardware-back-button-aacf3d12.js';
 import './index-50651ccc.js';
 import './overlays-5302658e.js';
-import { p as parser } from './parser-d133369b.js';
+import { p as parser } from './parser-8aed96de.js';
 
 const flxListCss = "";
 
@@ -25,6 +25,7 @@ const FlxList = class {
         this.pageElements = 20;
         this.currentPage = 0;
         this.searchValue = '';
+        this.pageModifier = 0;
         this.modal = false;
     }
     watchFilter() {
@@ -67,6 +68,7 @@ const FlxList = class {
     filterData(filter) {
         return ConftokenProvider.config().then(async (conf) => {
             this.currentPage = 0;
+            this.pageModifier = 0;
             let infiniteScroll = ((jquery(this.me).find('ion-infinite-scroll').length > 0) ? jquery(this.me).find('ion-infinite-scroll')[0] : null);
             if (infiniteScroll) {
                 infiniteScroll.disabled = false;
@@ -90,7 +92,7 @@ const FlxList = class {
                 sentence = sql.addOrderBy(sentence, this.page.SQLOrderBy);
             }
             this.currentSentence = sentence;
-            sentence = sql.addPager(this.currentSentence, this.currentPage, this.pageElements);
+            sentence = sql.addPager(this.currentSentence, this.currentPage, this.pageElements, this.pageModifier);
             sql.getTable(sentence).then(async (table) => {
                 this.body = await this.getRows(this.confObj, this.page, table, null, this, false, conf);
             });
@@ -99,16 +101,18 @@ const FlxList = class {
     async refresh(ev) {
         //this.body=new Array(); Comentado para evitar que el render se llame 2 veces
         this.loadData(false).then(() => {
-            if (ev && ev.target && ev.target.complete) {
+            this.pageModifier = 0;
+            if (this.page && this.page.JSAfterLoad)
+                this.page.JSAfterLoad;
+            if (ev && ev.target && ev.target.complete)
                 ev.target.complete();
-            }
         });
     }
     async loadMore() {
         try {
             let conf = await ConftokenProvider.config();
             this.currentPage += 1;
-            let sentence = sql.addPager(this.currentSentence, this.currentPage, this.pageElements);
+            let sentence = sql.addPager(this.currentSentence, this.currentPage, this.pageElements, this.pageModifier);
             sql.getTable(sentence).then(async (table) => {
                 let newItems = await this.getRows(this.confObj, this.page, table, null, this, false, conf);
                 this.body = this.body.concat(newItems);
@@ -167,7 +171,7 @@ const FlxList = class {
             }
             this.currentSentence = sentence;
             //Load more elements if currentPage is more than one to allow scroll item in back button
-            sentence = sql.addPager(this.currentSentence, 0, (this.pageElements * (this.currentPage + 1)));
+            sentence = sql.addPager(this.currentSentence, 0, (this.pageElements * (this.currentPage + 1)), this.pageModifier);
             await sql.getTable(sentence).then(async (table) => {
                 if (table && table.rows && table.rows.length > 0) {
                     this.title = await parser.recursiveCompile(sql.getRow(table, 0), page.title, confT, this);
@@ -333,7 +337,7 @@ const FlxList = class {
     }
     render() {
         return [
-            h("ion-header", null, h("ion-toolbar", { color: "header", class: "ion-text-center" }, h("ion-buttons", { slot: "start" }, (this.modal ? null : h("ion-menu-button", { color: "outstanding" })), (this.modal ? null : h("ion-icon", { name: "alert-circle", color: "danger", class: "stack sendError hide" }))), h("ion-buttons", { slot: "end" }, h("ion-button", { color: "outstanding", onClick: () => { nav.goBack(this.me); } }, h("ion-icon", { slot: "icon-only", name: "arrow-undo-outline" }))), h("ion-title", null, h("span", { id: "menuTitle" }, this.title)))),
+            h("ion-header", null, h("ion-toolbar", { color: "header", class: "ion-text-center" }, h("ion-buttons", { slot: "start" }, (this.modal ? null : h("ion-menu-button", { color: "outstanding" })), (this.modal ? null : h("ion-icon", { name: "alert-circle", color: "danger", class: "stack sendError flx-hide" }))), h("ion-buttons", { slot: "end" }, h("ion-button", { color: "outstanding", onClick: () => { nav.goBack(this.me); } }, h("ion-icon", { slot: "icon-only", name: "arrow-undo-outline" }))), h("ion-title", null, h("span", { id: "menuTitle" }, this.title)))),
             h("ion-header", null, ((this.page && this.page.ShowSearchBar && this.page.SQLSearchFilter)
                 ? h("ion-searchbar", { "cancel-button-text": util.translate('msg.cancel'), placeholder: util.translate('list.search'), mode: "ios", debounce: 1000, value: this.searchValue.replace(/^\%+|\%+$/g, ''), onIonClear: (ev) => { this.onSearchChange(ev, ''); }, onIonChange: (ev) => { this.onSearchChange(ev, ev.currentTarget.value); }, animated: true, "show-cancel-button": "focus" })
                 : '')),

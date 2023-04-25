@@ -1,4 +1,4 @@
-import { p as WebPlugin } from './webapi-7959a2b6.js';
+import { q as WebPlugin } from './webapi-79a1d3db.js';
 
 class DeviceWeb extends WebPlugin {
     async getId() {
@@ -39,6 +39,11 @@ class DeviceWeb extends WebPlugin {
         };
     }
     async getLanguageCode() {
+        return {
+            value: navigator.language.split('-')[0].toLowerCase(),
+        };
+    }
+    async getLanguageTag() {
         return {
             value: navigator.language,
         };
@@ -144,7 +149,7 @@ class DeviceWeb extends WebPlugin {
         return uaFields;
     }
     getUid() {
-        if (typeof window !== 'undefined') {
+        if (typeof window !== 'undefined' && window.localStorage) {
             let uid = window.localStorage.getItem('_capuid');
             if (uid) {
                 return uid;

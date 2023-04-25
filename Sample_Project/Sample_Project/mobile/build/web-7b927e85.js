@@ -1,6 +1,6 @@
-import { p as WebPlugin } from './webapi-7959a2b6.js';
+import { q as WebPlugin } from './webapi-79a1d3db.js';
 
-class StorageWeb extends WebPlugin {
+class PreferencesWeb extends WebPlugin {
     constructor() {
         super(...arguments);
         this.group = 'CapacitorStorage';
@@ -70,4 +70,4 @@ class StorageWeb extends WebPlugin {
     }
 }
 
-export { StorageWeb };
+export { PreferencesWeb };

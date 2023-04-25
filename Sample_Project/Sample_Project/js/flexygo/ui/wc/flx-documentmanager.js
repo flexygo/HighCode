@@ -121,8 +121,8 @@ var flexygo;
                         defObject = JSON.parse(flexygo.utils.parser.replaceAll(defString, "'", '"'));
                         let wcModule = me.closest('flx-module')[0];
                         if (this.managerMode == 'flexygo') {
-                            this.rObjectName = (this.objectName && this.objectId) ? this.objectName : (defObject) ? defObject.ObjectName : (wcModule.objectdefaults) ? wcModule.objectdefaults.ObjectName : '';
-                            this.rObjectId = (this.objectName && this.objectId) ? this.objectId : (defObject) ? defObject.ObjectId : (wcModule.objectdefaults) ? wcModule.objectdefaults.ObjectId : '';
+                            this.rObjectName = (this.objectName && this.objectId) ? this.objectName : (defObject && defObject.ObjectName) ? defObject.ObjectName : (wcModule.objectdefaults) ? wcModule.objectdefaults.ObjectName : '';
+                            this.rObjectId = (this.objectName && this.objectId) ? this.objectId : (defObject && defObject.ObjectId) ? defObject.ObjectId : (wcModule.objectdefaults) ? wcModule.objectdefaults.ObjectId : '';
                             if (defObject && defObject.CategoryId) {
                                 this.categoryId = defObject.CategoryId;
                             }
@@ -131,8 +131,8 @@ var flexygo;
                             }
                         }
                         else {
-                            this.rObjectName = (this.objectName && this.objectId) ? this.objectName : (defObject) ? defObject.Tabla : (wcModule.objectdefaults) ? wcModule.objectdefaults.Tabla : '';
-                            this.rObjectId = (this.objectName && this.objectId) ? this.objectId : (defObject) ? defObject.IdDoc : (wcModule.objectdefaults) ? wcModule.objectdefaults.IdDoc : '';
+                            this.rObjectName = (this.objectName && this.objectId) ? this.objectName : (defObject && defObject.Tabla) ? defObject.Tabla : (wcModule.objectdefaults) ? wcModule.objectdefaults.Tabla : '';
+                            this.rObjectId = (this.objectName && this.objectId) ? this.objectId : (defObject && defObject.IdDoc) ? defObject.IdDoc : (wcModule.objectdefaults) ? wcModule.objectdefaults.IdDoc : '';
                             if (defObject && defObject.IdClasificacion) {
                                 this.categoryId = defObject.IdClasificacion;
                             }
@@ -206,6 +206,15 @@ var flexygo;
                                 <button type="button" method="sendselection" value="sendselection" class="btn btn-default dtc-btn dtc-btn-settings" data-original-title="" title="">
                                     <i class="flx-icon icon-email-1"  ></i>
                                 </button>
+                                <button type="button" method="filterdocs" value="filterdocs" class="btn btn-default dtc-btn dtc-btn-settings" data-original-title="" title="">
+                                    <i class="flx-icon icon-filter"  ></i>
+                                </button>
+                            </div>
+                            <div class="dtc-filter-container" style="display:none;">
+                                <div class="search input-group">
+                                    <input type="search" placeholder="` + flexygo.localization.translate('flxsearch.search') + `">
+                                    <span class="input-group-addon bg-outstanding"><i class="flx-icon icon-search-1"></i></span>
+                                </div>
                             </div>
                             <div class="dtc-pry-container">`;
                         if (this.type.toLowerCase() !== "view") {
@@ -239,6 +248,7 @@ var flexygo;
                         me.find('button[method="opensettings"][value="settings"]').tooltip({ title: flexygo.localization.translate('documentmanager.settings'), placement: 'bottom', trigger: 'hover' });
                         me.find('button[method="downloadall"][value="downloadall"]').tooltip({ title: flexygo.localization.translate('documentmanager.downloadall'), placement: 'bottom', trigger: 'hover' });
                         me.find('button[method="sendselection"][value="sendselection"]').tooltip({ title: flexygo.localization.translate('documentmanager.sendselection'), placement: 'bottom', trigger: 'hover' });
+                        me.find('button[method="filterdocs"][value="filterdocs"]').tooltip({ title: flexygo.localization.translate('documentmanager.filterdocs'), placement: 'bottom', trigger: 'hover' });
                         if (!(this.type.toLocaleLowerCase() === 'view')) {
                             this.mainEvents();
                         }
@@ -568,6 +578,25 @@ var flexygo;
                                 }
                             }
                         });
+                        me.find('.dtc-filter-container input').on('keyup.search & search', (e) => {
+                            var element;
+                            var value;
+                            var docs = me.find('[documenttype]');
+                            element = $(e.currentTarget);
+                            value = element.val().toLowerCase();
+                            for (var i = 0; i < docs.length; i++) {
+                                let docName = $(docs[i]).find('.dtc-name').html().toLowerCase();
+                                let docDesc = $(docs[i]).find('.dtc-description').html().toLowerCase();
+                                let docCategory = $(docs[i]).find('.dtc-category').html().toLowerCase();
+                                let docExt = $(docs[i]).find('.dtc-containertext small').html().toLowerCase();
+                                if (docName.includes(value) || docDesc.includes(value) || docCategory.includes(value) || docExt.includes(value)) {
+                                    $(docs[i]).removeClass('hide');
+                                }
+                                else {
+                                    $(docs[i]).addClass('hide');
+                                }
+                            }
+                        });
                         me.find('button').off('click').on('click', (e) => {
                             var element;
                             var method;
@@ -609,6 +638,17 @@ var flexygo;
                                 else if (method === 'sendselection' && value === 'sendselection') {
                                     if (this.rObjectName && !flexygo.utils.isBlank(this.rObjectId)) {
                                         this.sendSelectedDocuments(this.rObjectName, this.rObjectId);
+                                    }
+                                }
+                                else if (method === 'filterdocs') {
+                                    let filterCont = $(this).find('.dtc-filter-container');
+                                    if (filterCont.is(':visible')) {
+                                        filterCont.hide();
+                                        $(filterCont).find('input').val("");
+                                        $(filterCont).find('input').trigger('keyup');
+                                    }
+                                    else {
+                                        filterCont.show();
                                     }
                                 }
                             }
@@ -956,8 +996,11 @@ var flexygo;
                 */
                 viewDocument(content, filename) {
                     let histObj = new flexygo.nav.FlexygoHistory();
-                    histObj.targetid = 'modal';
+                    histObj.targetid = 'popup';
                     let modal = flexygo.targets.createContainer(histObj, true, null, true, null);
+                    if (!modal) {
+                        return;
+                    }
                     modal.empty();
                     modal.closest('.ui-dialog').find('.ui-dialog-title').html(filename);
                     modal.append('<embed style="height:100%;width:100%" src="' + content + '"></embed>');
@@ -1064,7 +1107,6 @@ var flexygo;
               */
                 downloadAllDocuments(objectName, objectId) {
                     try {
-                        let me = $(this);
                         var params;
                         params = {
                             'ObjectName': objectName,

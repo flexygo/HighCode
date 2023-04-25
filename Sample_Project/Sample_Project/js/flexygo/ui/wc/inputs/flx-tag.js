@@ -27,6 +27,7 @@ var flexygo;
                     this.dropOptions = null;
                     this.property = null;
                     this.value = null;
+                    this.isDefaultValue = true;
                 }
                 /**
                 * Fires when element is attached to DOM
@@ -172,6 +173,7 @@ var flexygo;
                     if (Value && Value !== '') {
                         this.setValue(Value);
                     }
+                    this.isDefaultValue = false;
                     this.connected = true;
                 }
                 /**
@@ -385,7 +387,8 @@ var flexygo;
                             }
                             //$(input).valid();
                         }
-                        if (this.options.SQLValidator) {
+                        const module = me.closest('flx-module')[0];
+                        if (this.options.SQLValidator || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
                             let ev = {
                                 class: "property",
                                 type: "changed",
@@ -498,9 +501,12 @@ var flexygo;
                     if (this.options && this.options.Locked) {
                         input.prop('disabled', this.options.Locked);
                     }
-                    if (this.options && this.options.CauseRefresh) {
+                    const module = me.closest('flx-module')[0];
+                    if ((this.options && this.options.CauseRefresh) || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
                         input.on('change', () => {
                             //$(document).trigger('refreshProperty', [input.closest('flx-edit'), this.options.Name]);
+                            if (this.isDefaultValue)
+                                return;
                             let ev = {
                                 class: "property",
                                 type: "changed",

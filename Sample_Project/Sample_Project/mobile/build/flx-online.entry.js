@@ -1,5 +1,5 @@
 import { r as registerInstance, j as h } from './index-86ac49ff.js';
-import { b as storage, W as Webapi } from './webapi-7959a2b6.js';
+import { b as storage, W as Webapi } from './webapi-79a1d3db.js';
 
 const flxOnlineCss = "";
 
@@ -62,7 +62,7 @@ const FlxOnline = class {
     }
     render() {
         return [
-            h("ion-header", null, h("ion-toolbar", { color: "header", class: "ion-text-center" }, h("ion-buttons", { slot: "start" }, h("ion-menu-button", { color: "outstanding" }), h("ion-icon", { name: "alert-circle", color: "danger", class: "stack sendError hide" })), h("ion-title", null, h("span", null, "Online")))),
+            h("ion-header", null, h("ion-toolbar", { color: "header", class: "ion-text-center" }, h("ion-buttons", { slot: "start" }, h("ion-menu-button", { color: "outstanding" }), h("ion-icon", { name: "alert-circle", color: "danger", class: "stack sendError flx-hide" })), h("ion-title", null, h("span", null, "Online")))),
             h("ion-content", { color: "light" }, h("iframe", { height: "100%", width: "100%", src: this.url }))
         ];
     }

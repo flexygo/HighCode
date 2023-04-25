@@ -63,6 +63,9 @@ declare namespace flexygo.ui.wc {
         filterValues: FlxFilterInfo[];
         activeFilter: string;
         moduleButtons: flexygo.api.Toolbar;
+        currentViewers: {
+            [name: string]: string;
+        };
         /**
         * Init the webcomponent. REQUIRED.
         * @method init

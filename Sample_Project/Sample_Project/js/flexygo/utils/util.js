@@ -1,6 +1,14 @@
 /**
  * @namespace flexygo.utils
  */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var flexygo;
 (function (flexygo) {
     var utils;
@@ -236,6 +244,7 @@ var flexygo;
                 flexygo.msg.success("Tactil Mode Activated");
             }
             flexygo.storage.local.save();
+            window.location.reload(true);
             $('flx-nav#mainMenu > ul > li[title="Tools"] > ul').slideToggle();
         }
         utils.toggleTactilMode = toggleTactilMode;
@@ -539,6 +548,67 @@ var flexygo;
             }, interval);
         }
         utils.onlineCheck = onlineCheck;
+        function refreshModuleViewersInfo(module, listUsers) {
+            if ($('body').find(module).length > 0) {
+                let userName = flexygo.context.currentUserLogin;
+                let items = 0;
+                let viewerTemplate = $('<div class="tooltip flx-info-viewers" role="tooltip"><div class="tooltip-inner"></div></div>');
+                let tooltiptitle = $(`<div><small class="txt-muted txt-uppercase">${flexygo.localization.translate('flxmodule.currentlyViewing')}</small><br></div>`);
+                for (let us in listUsers) {
+                    if (us !== userName) {
+                        tooltiptitle.append('<small>' + listUsers[us] + '</small><br>');
+                        items++;
+                    }
+                }
+                $('body').find(module).find("#flx-viewer-module #flx-flip-back").html(items.toString());
+                $('body').find(module).find("#flx-viewer-module").attr("data-original-title", $(tooltiptitle)[0].outerHTML);
+                $('body').find(module).find("#flx-viewer-module").tooltip({ template: $(viewerTemplate)[0].outerHTML, html: true, title: $('body').find(module).find("#flx-viewer-module").attr("data-original-title"), placement: 'bottom' });
+                if (items > 0) {
+                    $('body').find(module).find("#flx-viewer-module").removeClass("hidden");
+                }
+                else {
+                    $('body').find(module).find("#flx-viewer-module").addClass("hidden");
+                }
+            }
+        }
+        utils.refreshModuleViewersInfo = refreshModuleViewersInfo;
+        ;
+        function checkObserverModule(module, interval, removeElement = false) {
+            let userId = flexygo.context.currentUserId;
+            setTimeout(function () {
+                if ($('body').find(module).length > 0) {
+                    if ($('body').find(module)[0].ModuleViewers) {
+                        var params = { UserId: null, ModuleName: null, ObjectName: null, ObjectWhere: null, RemoveElement: null };
+                        if ($('body').find(module).length == 0) {
+                            removeElement = true;
+                        }
+                        params.UserId = userId;
+                        params.ModuleName = module.moduleName;
+                        params.ObjectName = module.objectname;
+                        params.ObjectWhere = module.objectwhere;
+                        params.RemoveElement = removeElement;
+                        flexygo.ajax.post('~/api/Page', 'IsObserverModule', params, (response) => {
+                            if (response) {
+                                console.log(response);
+                                refreshModuleViewersInfo(module, response);
+                            }
+                        }, (err) => {
+                            console.log(err);
+                        }, () => {
+                            if ($('body').find(module).length > 0) {
+                                if ($('body').find(module)[0].ModuleViewers) {
+                                    flexygo.utils.checkObserverModule(module, interval);
+                                }
+                            }
+                        });
+                    }
+                }
+                //else {
+                //    flexygo.utils.checkObserverModule(module, interval, true);
+                //}
+            }, interval);
+        }
+        utils.checkObserverModule = checkObserverModule;
         /**
         * Evaluates JavaScript code and executes it.
         * @param {string} dynamicCode - Dynamic Code.
@@ -550,6 +620,31 @@ var flexygo;
             /*jQuery.globalEval*/
         }
         utils.execDynamicCode = execDynamicCode;
+        /**
+        * Evaluates JavaScript code and executes it.
+        * @param {string} dynamicCode - Dynamic Code.
+        * @method execAsyncDynamicCode
+        * @return {Promise<any>}
+        */
+        function execAsyncDynamicCode(dynamicCode) {
+            return __awaiter(this, void 0, void 0, function* () {
+                return yield eval(dynamicCode);
+            });
+        }
+        utils.execAsyncDynamicCode = execAsyncDynamicCode;
+        /**
+        * Evaluates JavaScript code and executes it.
+        * @param {string} dynamicCode - Dynamic Code.
+        * @method execAsyncDynamicCode
+        * @return {Promise<any>}
+        */
+        function execAsyncFunction(jsFunction, paramNames = [], paramValues = []) {
+            return __awaiter(this, void 0, void 0, function* () {
+                var func = new Function(...paramNames, jsFunction);
+                return yield func(...paramValues);
+            });
+        }
+        utils.execAsyncFunction = execAsyncFunction;
         /**
         * Evaluates if variable has defined value.
         * @param {any} value - Variable to evaluate
@@ -823,10 +918,131 @@ var flexygo;
         * @param {string} scrollHeight Height where us desired to scroll
         */
         function scrollTo(scrollHeight) {
-            var mainContent = document.getElementById('mainContent');
-            mainContent.scrollTop = scrollHeight;
+            if (flexygo.utils.isSizeMobile()) {
+                $(window).scrollTop(scrollHeight);
+            }
+            else {
+                var mainContent = document.getElementById('mainContent');
+                mainContent.scrollTop = scrollHeight;
+            }
         }
         utils.scrollTo = scrollTo;
+        /**
+        * Launch dark/light mode effect.
+        * @method isEmptyAttribute
+        * @param {boolean} dark Attribute Name.
+        */
+        function skinModeEffect(dark) {
+            let txt = 'skin.lightmode';
+            let iconMode = 'fa fa-sun-o';
+            if (dark) {
+                txt = 'skin.darkmode';
+                iconMode = 'fa fa-moon-o';
+            }
+            $("body").click();
+            let anim = '';
+            anim += `<div id="SkinModeBackground" class="${(dark ? 'dark' : '')}">`;
+            anim += `<i id="SkinModeIcon" class="${iconMode}"></i>`;
+            anim += `<div id="SkinModeText" style="width: 500px;">${flexygo.localization.translate(txt)}</div>`;
+            anim += '<div class="loader"><div class="loader-wrapper"><span></span><span></span><span></span><span></span><span></span></div></div>';
+            anim += '</div>';
+            $('body').append(anim);
+            $('#SkinModeText').textillate({
+                autoStart: false,
+                in: {
+                    delayScale: 2, delay: 40, effect: 'flipInY'
+                }
+            });
+            $('#SkinModeBackground').show('fold', null, 500, function () {
+                $('#SkinModeText').textillate('start');
+                $('#SkinModeIcon').show('fade', null, 1500);
+            });
+        }
+        utils.skinModeEffect = skinModeEffect;
+        function getErrorMessage(err) {
+            let text = '';
+            if (err.error && err.error.Message) {
+                text = err.error.Message;
+            }
+            else if (err.sql) {
+                text = err.message;
+            }
+            else if (err.message) {
+                text = err.message;
+            }
+            else if (err.Message) {
+                text = err.Message;
+            }
+            else if (typeof err == 'string') {
+                text = err;
+            }
+            else {
+                text = JSON.stringify(err);
+            }
+            return text;
+        }
+        utils.getErrorMessage = getErrorMessage;
+        /**
+        * Generate random color based on a text seed.
+        * @method randomColor
+        * @param {text} seed Any string to get always same color.
+        * @return {string} Color in
+        */
+        function randomColor(seed) {
+            let value = seed;
+            while (!$.isNumeric(value) || (this.colors.length <= value)) {
+                let currentIndex = 0;
+                value = value.toString().split('');
+                for (let i = 0; i < value.length; i++) {
+                    if ($.isNumeric(value[i])) {
+                        currentIndex += parseInt(value[i]);
+                    }
+                    else {
+                        currentIndex += value[i].charCodeAt();
+                    }
+                }
+                value = currentIndex;
+            }
+            return this.colors[value];
+        }
+        utils.randomColor = randomColor;
+        utils.colors = ['#EF9A9A',
+            '#F48FB1',
+            '#CE93D9',
+            '#694c9f',
+            '#4e5a9a',
+            '#32638a',
+            '#244b5d',
+            '#4a9ba7',
+            '#30635e',
+            '#2ea879',
+            '#679238',
+            '#a5b22e',
+            '#59819d',
+            '#bca047',
+            '#FFCC80',
+            '#FFAB91',
+            '#BDAAA4',
+            '#B1BEC5',
+            '#D32E2E',
+            '#C2175B',
+            '#7B1FA2',
+            '#5D35B1',
+            '#3948AB',
+            '#1D88E5',
+            '#009BE5',
+            '#00ACC1',
+            '#00897B',
+            '#43A046',
+            '#7CB342',
+            '#C0CA33',
+            '#FED935',
+            '#FFB300',
+            '#FB8C00',
+            '#F4501D',
+            '#6D4C41',
+            '#757575',
+            '#546E7A'];
     })(utils = flexygo.utils || (flexygo.utils = {}));
 })(flexygo || (flexygo = {}));
 (function (flexygo) {
@@ -938,6 +1154,35 @@ var flexygo;
         return res;
     };
 })(jQuery);
+function printText(text) {
+    // Create a random name for the print frame.
+    var strFrameName = ("printer-" + (new Date()).getTime());
+    // Create an iFrame with the new name.
+    var jFrame = $("<iframe name='" + strFrameName + "'>");
+    jFrame.css("width", "1000px")
+        .css("z-index", "100")
+        .css("height", "800px")
+        .css("position", "absolute")
+        .css("left", "-9999px")
+        .appendTo($("body:first"));
+    // Get a FRAMES reference to the new frame.
+    var objFrame = window.frames[strFrameName];
+    // Get a reference to the DOM in the new frame.
+    var objDoc = objFrame.document;
+    // Write the HTML for the document. In this, we will
+    // write out the HTML of the current element.
+    objDoc.open();
+    objDoc.write(text);
+    objDoc.close();
+    // Print the document.
+    objFrame.focus();
+    setTimeout(function () { objFrame.print(); }, 1000);
+    // Have the frame remove itself in about a minute so that
+    // we don't build up too many of these frames.
+    setTimeout(function () {
+        jFrame.remove();
+    }, (60 * 1000));
+}
 // Create a jquery plugin that prints the given element.
 jQuery.fn.print = function (title) {
     // NOTE: We are trimming the jQuery collection down to the
@@ -1129,6 +1374,9 @@ $(function () {
             itm.attr('objectName', objectName);
             itm.attr('objectId', objectId);
             let cont = flexygo.targets.createContainer({ targetid: 'popup1280x1024' }, false, $(this));
+            if (!cont) {
+                return;
+            }
             cont.addClass('mailViewer');
             cont.html(itm);
             $(mail).parent().addClass('seen');

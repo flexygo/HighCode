@@ -55,6 +55,7 @@ declare namespace flexygo.ui.wc {
         presetId: string;
         presetText: string;
         presetIcon: string;
+        removePreset: string;
         templatetype: string;
         tEmpty: string;
         tModuleClass: string;
@@ -92,6 +93,9 @@ declare namespace flexygo.ui.wc {
             [key: string]: flexygo.api.PresetSettings;
         };
         TemplateToolbarCollection: any;
+        currentViewers: {
+            [name: string]: string;
+        };
         /**
        * Fires when element is attached to DOM
        * @method connectedCallback
@@ -333,7 +337,9 @@ declare namespace flexygo.ui.wc {
         * @return {string}
         */
         getModuleFullId(): string;
+        setFocus(me: JQuery, listItem: flexygo.ui.wc.FlxListElement, e: JQueryEventObject): void;
     }
     function clearRow(list: JQuery, btn: JQuery): void;
     function saveRow(objectName: string, objectWhere: string, list: JQuery, btn: JQuery, msg?: boolean): void;
 }
+declare let ev: any;

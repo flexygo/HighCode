@@ -252,6 +252,10 @@ var flexygo;
                                         else if (response.WarningMessage) {
                                             flexygo.msg.warning(response.WarningMessage);
                                         }
+                                        if (response.JSCode) {
+                                            var func = new Function('objectname', 'objectwhere', 'triggerElement', response.JSCode);
+                                            func.call(this, this.objectName, this.objectWhere, this);
+                                        }
                                     }
                                 };
                                 cardChange.showProgress = false;
@@ -377,10 +381,35 @@ var flexygo;
                                 }
                                 if (parentModule && wcModule) {
                                     this.moduleButtons = response.Buttons;
-                                    if (refreshButtons && response.Buttons) {
-                                        wcModule.setButtons(response.Buttons, response.FilterObjectName, response.FilterObjectWhere);
+                                    if (refreshButtons) {
+                                        if (response.Buttons) {
+                                            wcModule.setButtons(response.Buttons, response.FilterObjectName, response.FilterObjectWhere);
+                                        }
+                                        else {
+                                            wcModule.setButtons(null, response.FilterObjectName, response.FilterObjectWhere);
+                                        }
                                     }
                                     wcModule.setObjectDescrip(response.Title);
+                                }
+                                if (wcModule.ModuleViewers) {
+                                    this.currentViewers = response.CurrentViewers;
+                                    flexygo.utils.refreshModuleViewersInfo(wcModule, this.currentViewers);
+                                    flexygo.utils.checkObserverModule(wcModule, 20000);
+                                    flexygo.events.on(this, 'push', 'notify', function (e) {
+                                        switch (e.masterIdentity) {
+                                            case 'GetSetModuleViewers': {
+                                                if ((wcModule.moduleName == '' ? null : wcModule.moduleName) == (e.sender.ModuleName == '' ? null : e.sender.ModuleName)
+                                                    && (wcModule.objectname == '' ? null : wcModule.objectname) == (e.sender.ObjectName == '' ? null : e.sender.ObjectName)
+                                                    && (wcModule.objectwhere == '' ? null : wcModule.objectwhere) == (e.sender.ObjectWhere == '' ? null : e.sender.ObjectWhere)) {
+                                                    flexygo.utils.refreshModuleViewersInfo(wcModule, e.sender.ActiveUsers);
+                                                }
+                                                break;
+                                            }
+                                            default: {
+                                                break;
+                                            }
+                                        }
+                                    });
                                 }
                             }
                             this.savedSearches = response.SavedSearches;

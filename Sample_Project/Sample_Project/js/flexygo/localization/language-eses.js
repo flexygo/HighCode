@@ -80,7 +80,8 @@ var flexygo;
                 reports: 'Informes',
                 noelements: 'No existen elementos',
                 popupwarning: 'La configuración de su navegador está bloqueando las ventanas emergentes.',
-                reportmaxrows: 'Este informe utiliza {0} filas para filtrar y supera el límite de {1}. Aplique primero un filtro más restrictivo.'
+                reportmaxrows: 'Este informe utiliza {0} filas para filtrar y supera el límite de {1}. Aplique primero un filtro más restrictivo.',
+                scrolltop: 'Ir arriba'
             };
             eses.msg = {
                 confirm: 'Confirme la acción',
@@ -127,7 +128,10 @@ var flexygo;
                 selecttable: 'Seleccione Tabla',
                 loadmore: 'Scroll para cargar más',
                 hasdependencies: 'Lanza dependencias',
-                hasdependingproperties: 'Afectado por dependencias'
+                hasdependingproperties: 'Afectado por dependencias',
+                withchangeprocess: 'Con proceso de cambio',
+                throwto: 'Lanza a',
+                affectedby: 'Afectada por'
             };
             eses.flxeditgrid = {
                 addrow: 'Añadir fila',
@@ -322,6 +326,7 @@ var flexygo;
                 uniqueBagError: 'Campo de clave unica no definido.',
                 nofieldBagError: 'No se ha podido encontrar el campo <b>{0}</b>. Añádalo a la consulta o quite el botón de selección.',
                 noItemsSelected: 'Seleccione primero algún elemento de la lista.',
+                currentlyViewing: 'Viendo actualmente'
             };
             eses.flxnav = {
                 notimplemented: 'Acción no implementada',
@@ -385,6 +390,7 @@ var flexygo;
                 msgremove: '¿Está seguro de que quiere eliminar el documento?',
                 sendselection: 'Enviar documentos seleccionados por correo',
                 noselection: 'No hay documentos seleccionados',
+                filterdocs: 'Filtrar documentos',
             };
             eses.imagemanager = {
                 upload: 'Subir',
@@ -435,6 +441,7 @@ var flexygo;
                 edit: 'Editar',
                 submenus: 'Submenús',
                 newsubmenu: 'Submenú nuevo',
+                menuSecurity: 'Seguridad de los menús',
             };
             eses.modulemanager = {
                 save: 'Guardar',
@@ -463,6 +470,7 @@ var flexygo;
                 deletenode: 'Borrar nodo',
                 deletenodequestion: '¿Está seguro de que desea eliminar este nodo?',
                 addfields: 'Añadir campos',
+                cloneDependencies: 'Clonar dependencias del objeto'
             };
             eses.objectmanager = {
                 selecticon: 'Seleccione un icono',
@@ -630,6 +638,7 @@ var flexygo;
                 apihelp: 'Vea nuestra ayuda para descubrir cómo obtener.',
                 nophone: 'Introduzca un número de teléfono',
                 nomail: 'Introduzca una dirección de correo',
+                seeMap: 'Ver en google maps'
             };
             eses.flxfunnel = {
                 data: 'Sin datos',
@@ -784,6 +793,15 @@ var flexygo;
             };
             eses.htmlreport = {
                 generate: 'Generando informe',
+            };
+            eses.skin = {
+                darkmode: 'Modo Oscuro',
+                lightmode: 'Modo Claro'
+            };
+            eses.flxBarcode = {
+                noCamera: 'No se ha encontrado ninguna cámara',
+                IOSerr: 'Esta funcionalidad no está disponible en IOS',
+                noCode: 'No se puede encontrar ningún código en esta imagen.'
             };
         })(eses = culture.eses || (culture.eses = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

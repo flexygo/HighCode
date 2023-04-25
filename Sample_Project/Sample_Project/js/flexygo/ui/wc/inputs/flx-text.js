@@ -293,7 +293,8 @@ var flexygo;
                         else {
                             this.options.Locked = false;
                         }
-                        element.find('input').prop('disabled', this.options.Locked);
+                        //element.find('input').prop('disabled', this.options.Locked);
+                        this.refresh();
                     }
                     if (attrName.toLowerCase() === 'requiredmessage' && newVal && newVal !== '') {
                         if (!this.options) {
@@ -524,6 +525,9 @@ var flexygo;
                     }
                     else {
                         input = $('<input type="' + this.type + '" class="form-control" />');
+                    }
+                    if (me.attr("disablescroll") === 'true') {
+                        input.on('wheel', (e) => { $(e.target).trigger('blur'); });
                     }
                     input.on('blur', (e) => { me.trigger('blur'); });
                     if (this.type === 'ident') {
@@ -768,6 +772,9 @@ var flexygo;
                     let histObj = new flexygo.nav.FlexygoHistory();
                     histObj.targetid = 'modal1024x800';
                     let modal = flexygo.targets.createContainer(histObj, true, null, true);
+                    if (!modal) {
+                        return;
+                    }
                     modal.empty();
                     modal.closest('.ui-dialog').find('.ui-dialog-title').html(flexygo.localization.translate('text.map'));
                     modal.addClass('nopadding');
@@ -858,7 +865,9 @@ var flexygo;
                     }
                     if (this.options && this.options.Locked) {
                         input.prop('disabled', this.options.Locked);
-                        me.attr('disabled', 'disabled');
+                        if (me.attr('disabled') !== 'disabled') {
+                            me.attr('disabled', 'disabled');
+                        }
                     }
                     if (this.options && this.options.PlaceHolder) {
                         input.attr('PlaceHolder', this.options.PlaceHolder);
@@ -881,7 +890,8 @@ var flexygo;
                             $(this).val('');
                         });
                     }
-                    if (this.options && (this.options.CauseRefresh || this.options.SQLValidator != null)) {
+                    const module = me.closest('flx-module')[0];
+                    if ((this.options && (this.options.CauseRefresh || this.options.SQLValidator != null)) || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
                         if (this.tactilModeAvailable) {
                             input.on('click', () => {
                                 //Sets old value
@@ -903,7 +913,8 @@ var flexygo;
                                     locale: flexygo.profiles.culture,
                                     showClear: true,
                                     keepOpen: true,
-                                    date: this.getValue()
+                                    date: this.getValue(),
+                                    toolbarPlacement: 'bottom'
                                 });
                                 //Show DateTimePicker
                                 datetimePicker.data("DateTimePicker").show();
@@ -939,7 +950,7 @@ var flexygo;
                                     let date = e.date;
                                     let stringValue;
                                     if (this.type === 'time') {
-                                        stringValue = e.date.hour() + ":" + (e.date.minutes() < 10 ? '0' : '') + e.date.minutes();
+                                        stringValue = (e.date.hour() < 10 ? '0' : '') + e.date.hour() + ":" + (e.date.minutes() < 10 ? '0' : '') + e.date.minutes();
                                     }
                                     else {
                                         stringValue = e.date.year() + "/" + (e.date.month() + 1) + "/" + e.date.date() + " " + e.date.hour() + ":" + e.date.minutes();

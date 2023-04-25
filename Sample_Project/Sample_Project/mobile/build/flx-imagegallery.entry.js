@@ -1,8 +1,8 @@
 import { r as registerInstance, j as h } from './index-86ac49ff.js';
 import './ionic-global-0f98fe97.js';
-import { W as Webapi, b as storage } from './webapi-7959a2b6.js';
-import { s as sql, u as util, m as msg, F as FileOpener, L as LocalNotifications, C as ConftokenProvider } from './conftoken-84c3ec5c.js';
-import { j as jquery } from './jquery-ad132f97.js';
+import { W as Webapi, b as storage } from './webapi-79a1d3db.js';
+import { s as sql, u as util, m as msg, L as LocalNotifications, F as FileOpener, C as ConftokenProvider } from './conftoken-7e3c18eb.js';
+import { j as jquery } from './jquery-5df58adb.js';
 import './utils-16079bfd.js';
 import './helpers-719f4c54.js';
 import './animation-10ea33c3.js';
@@ -16,11 +16,162 @@ import './hardware-back-button-aacf3d12.js';
 import './index-50651ccc.js';
 import './overlays-5302658e.js';
 
-const flxImagegalleryCss = "ion-thumbnail{--size:150px;display:inline-block}ion-grid{padding:0}.modalFullscreen .modal-wrapper{--width:100%;--height:100%}.swiper-container{height:100%;background-color:rgba(0, 0, 0, 0.75)}.slide{display:flex;flex-direction:column;justify-content:center;background-repeat:no-repeat;background-size:contain;width:100%;height:100%;background-position:center center}.image-text{position:absolute;right:0px;bottom:30px;left:0px;background:rgba(0, 0, 0, 0.75);padding:4px 8px;color:white;margin:0;font:14px Sans-Serif}.loading{background:transparent url(./assets/img/loading.gif) no-repeat center center;background-size:40px 40px}.center{position:absolute;display:grid;place-items:center;width:100%;height:100%}.noResults{text-align:center;display:flex;flex-direction:column;align-items:center;font-size:3em;color:#7d7d7d61}ion-fab{z-index:99}ion-slides{z-index:1}ion-fab[vertical=\"top\"]{margin-top:constant(safe-area-inset-top);margin-top:env(safe-area-inset-top)}";
+var imageEdit_canvas;
+var imageEdit_context;
+var imgData;
+var slideId;
+var imageEdit;
+(function (imageEdit) {
+    async function init(imgTbl, id) {
+        const editImageModal = document.createElement('flx-imageedit');
+        imgData = imgTbl;
+        slideId = id;
+        let html = `
+        <div class="sliderContainer shadowed">
+            <div style="display:none;">
+                <input type="range"/>
+            </div>
+        </div>
+        <ion-header fullscreen>
+            <ion-toolbar class="applist shadowed" color="darkBlue">
+                <ion-buttons slot="start">
+                    <ion-button class="clear">
+                        <ion-icon name="trash"></ion-icon>
+                    </ion-button>
+                </ion-buttons>
+                <ion-title>${imgData.Descrip ? imgData.Descrip : imgData.Name}</ion-title>
+                <ion-buttons slot="end">
+                    <ion-button onclick="$(this).closest('ion-modal')[0].dismiss()">
+                        <ion-icon name="close"></ion-icon>
+                    </ion-button>
+                </ion-buttons>
+            </ion-toolbar>
+        </ion-header>
+        <ion-content> 
+            <div>
+                <canvas/>
+            </div>
+        </ion-content>
+        <ion-footer>
+            <ion-toolbar class="shadowed" color="darkBlue">
+                <div>
+                    <div><ion-icon name="save"/></div>
+                    <div id="colorPicker"><input type="color"/></div>
+                    <div><ion-icon name="pencil"/></div>
+                </div>
+            </ion-toolbar>
+        </ion-footer>
+        `;
+        editImageModal.innerHTML = html;
+        configCanvas(editImageModal);
+        configInputs(jquery(editImageModal));
+        const modal = document.createElement('ion-modal');
+        modal.id = 'imageEdit';
+        modal.component = editImageModal;
+        document.body.appendChild(modal);
+        modal.present();
+    }
+    imageEdit.init = init;
+    var ratio = 1;
+    function configCanvas(modal) {
+        imageEdit_canvas = modal.querySelector('canvas');
+        imageEdit_context = imageEdit_canvas.getContext('2d');
+        setDefaultImg(jquery(modal));
+        imageEdit_canvas.addEventListener("mousedown", drawStart, false);
+        imageEdit_canvas.addEventListener("mouseup", drawEnd, false);
+        imageEdit_canvas.addEventListener("touchstart", drawStart, false);
+        imageEdit_canvas.addEventListener("touchend", drawEnd, false);
+        imageEdit_canvas.addEventListener("mouseout", drawEnd, false);
+    }
+    function configInputs(modal) {
+        let colorInput = modal.find('input[type="color"]');
+        let penInput = modal.find('input[type="range"]');
+        let clearBtn = modal.find('ion-button.clear');
+        let saveBtn = modal.find('ion-icon[name="save"]');
+        let penSizeBtn = modal.find('ion-icon[name="pencil"]');
+        colorInput.on('change', () => {
+            imageEdit_context.strokeStyle = colorInput[0].value;
+        });
+        penInput.on('change', () => {
+            imageEdit_context.lineWidth = parseInt(penInput[0].value) + 1;
+        });
+        clearBtn.on('click', () => {
+            setDefaultImg(modal);
+        });
+        saveBtn.on('click', () => {
+            save(modal);
+        });
+        penSizeBtn.on('click', () => {
+            modal.find('.sliderContainer > div').toggle(400);
+        });
+        imageEdit_context.strokeStyle = colorInput[0].value = '#ff0000';
+        imageEdit_context.lineWidth = penInput[0].value = '5';
+    }
+    var entra;
+    function drawStart(e) {
+        entra = 0;
+        imageEdit_context.moveTo(e.clientX, e.clientY);
+        imageEdit_context.beginPath();
+        imageEdit_canvas.addEventListener("mousemove", draw, false);
+        imageEdit_canvas.addEventListener("touchmove", draw, false);
+    }
+    imageEdit.drawStart = drawStart;
+    function drawEnd(_e) {
+        imageEdit_canvas.removeEventListener("mousemove", draw, false);
+        imageEdit_canvas.removeEventListener("touchmove", draw, false);
+        if (entra < 2) {
+            imageEdit_context.beginPath();
+            imageEdit_context.arc(lastX, lastY, 3, 0, 2 * Math.PI, true);
+            imageEdit_context.fill();
+        }
+    }
+    imageEdit.drawEnd = drawEnd;
+    var lastX, lastY;
+    function draw(e) {
+        e.preventDefault();
+        if (e.targetTouches && e.targetTouches[0].pageX) {
+            lastX = e.targetTouches[0].pageX - jquery(imageEdit_canvas).offset().left;
+            lastY = e.targetTouches[0].pageY - jquery(imageEdit_canvas).offset().top;
+        }
+        else {
+            lastX = e.clientX - jquery(imageEdit_canvas).offset().left;
+            lastY = e.clientY - jquery(imageEdit_canvas).offset().top;
+        }
+        imageEdit_context.lineTo(lastX / ratio, lastY / ratio);
+        imageEdit_context.moveTo(lastX / ratio, lastY / ratio);
+        imageEdit_context.stroke();
+        if (entra < 200)
+            entra++;
+    }
+    imageEdit.draw = draw;
+    function setDefaultImg(modal) {
+        var img = new Image();
+        img.src = imgData.URL ? imgData.URL : imgData.B64;
+        imageEdit_canvas.width = img.width;
+        imageEdit_canvas.height = img.height;
+        ratio = window.innerWidth / img.width;
+        img.onload = () => {
+            imageEdit_context.drawImage(img, 0, 0);
+        };
+        imageEdit_context.strokeStyle = modal.find('input[type="color"]')[0].value;
+        imageEdit_context.lineWidth = parseInt(modal.find('input[type="range"]')[0].value) + 1;
+    }
+    function save(modal) {
+        let newB64 = imageEdit_canvas.toDataURL();
+        sql.execSQL('UPDATE flxImages SET B64 = ? WHERE ImageId = ?;', [newB64, imgData.ImageId]);
+        jquery(`#${slideId}slide`).attr('src', newB64);
+        jquery('flx-imagemanager')[0].refresh();
+        modal.closest('ion-modal')[0].dismiss();
+    }
+    imageEdit.save = save;
+})(imageEdit || (imageEdit = {}));
+
+const flxImagegalleryCss = "ion-thumbnail{--size:150px;display:inline-block}ion-grid{padding:0}.modalFullscreen .modal-wrapper{--width:100%;--height:100%}.swiper-container{height:100%;background-color:rgba(0, 0, 0, 0.75)}.slide{display:flex;flex-direction:column;justify-content:center;background-repeat:no-repeat;background-size:contain;width:100%;height:100%;background-position:center center}.image-text{position:absolute;right:0px;bottom:30px;left:0px;background:rgba(0, 0, 0, 0.75);padding:4px 8px;color:white;margin:0;font:14px Sans-Serif}.loading{background:transparent url(./assets/img/loading.gif) no-repeat center center;background-size:40px 40px}.center{position:absolute;display:grid;place-items:center;width:100%;height:100%}.noResults{text-align:center;display:flex;flex-direction:column;align-items:center;font-size:3em;color:#7d7d7d61}ion-fab{z-index:99}ion-slides{z-index:1}ion-fab[vertical=\"top\"]{margin-top:constant(safe-area-inset-top);margin-top:env(safe-area-inset-top)}#imageEdit>div[role=\"dialog\"]{width:100%;height:100%}flx-imageedit ion-icon{color:white;font-size:40px;cursor:pointer}flx-imageedit .shadowed{box-shadow:rgba(0, 0, 0, 0.25) 0px 54px 55px, \r\n              rgba(0, 0, 0, 0.12) 0px -12px 30px, \r\n              rgba(0, 0, 0, 0.12) 0px 4px 6px, \r\n              rgba(0, 0, 0, 0.17) 0px 12px 13px, \r\n              rgba(0, 0, 0, 0.09) 0px -3px 5px}flx-imageedit .sliderContainer{display:flex;justify-content:center}flx-imageedit .sliderContainer>div{position:absolute;bottom:113px;display:flex;align-items:center;justify-content:center;width:95%;height:60px;background-color:white;border:1px solid black;border-radius:20px;z-index:1}flx-imageedit .sliderContainer input[type=\"range\"]{width:90%}flx-imageedit ion-toolbar{--ion-color-base:#003c6a !important}flx-imageedit ion-header ion-title{color:white;text-align:center}flx-imageedit ion-header ion-icon[name=\"trash\"]{font-size:30px}flx-imageedit ion-content>div{display:flex;align-items:center;justify-content:center;height:100%;background:#404040}flx-imageedit ion-content canvas{width:100%;cursor:crosshair}flx-imageedit ion-footer{background:#404040}flx-imageedit ion-footer ion-toolbar{padding-top:calc(var(--ion-safe-area-bottom, 0)/2);border-radius:20px 20px 0 0}flx-imageedit ion-footer ion-toolbar>div{display:grid;grid-template-columns:auto auto auto;justify-items:center;align-items:center;border-radius:20px 20px 0 0}flx-imageedit ion-footer ion-toolbar #colorPicker{width:100%;height:100%;display:flex;justify-content:center;align-items:center}flx-imageedit ion-footer ion-toolbar #colorPicker>input{width:60%;height:70%}flx-imageedit ion-footer ion-toolbar>div ion-icon[name=\"save\"]{font-size:40px;color:#003c6a;background:white;border-radius:10px;border:5px solid white}";
 
 const FlxImagegallery = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.opening = false;
     }
     refresh() {
         return this.loadData();
@@ -84,18 +235,17 @@ const FlxImagegallery = class {
         }
     }
     async imageDownloadNotification(uri, fileName) {
-        const fileOpener = new FileOpener;
-        const notification = new LocalNotifications;
         const options = {
-            id: (await notification.getAll()).length,
-            text: util.translate('image.downloadedNoti').replace('%', fileName),
-            attachments: [uri],
-            foreground: true
+            id: (await LocalNotifications.getDeliveredNotifications()).notifications.length,
+            title: util.translate('image.downloadedNoti').replace('%', fileName),
+            body: util.translate('image.downloadedNoti').replace('%', fileName),
+            attachments: [uri]
         };
-        notification.schedule(options);
-        notification.on('click').subscribe((res) => {
+        LocalNotifications.schedule({ notifications: [options] });
+        LocalNotifications.addListener('localNotificationActionPerformed', () => {
             try {
-                fileOpener.showOpenWithDialog(res.attachments[0], 'image/jpeg');
+                let foOptions = { filePath: uri, contentType: 'image/jpeg' };
+                FileOpener.open(foOptions);
             }
             catch (err) {
                 msg.showError(err);
@@ -127,8 +277,11 @@ const FlxImagegallery = class {
                         <ion-fab-button class="download">
                             <ion-icon name="download"></ion-icon>
                         </ion-fab-button>
-                        <ion-fab-button color="warning" class="edit ion-margin-top" id="editButton" ${this.table[currentSlide].URL ? 'style="display:none;"' : ''}>
+                        <ion-fab-button color="warning" class="changeDescrip ion-margin-top" id="editButton" ${this.table[currentSlide].URL ? 'style="display:none;"' : ''}>
                             <ion-icon name="pencil" color="white"></ion-icon>
+                        </ion-fab-button>
+                        <ion-fab-button color="medium" class="edit ion-margin-top" ${this.table[currentSlide].URL ? 'style="display:none;"' : ''}>
+                            <ion-icon name="brush"></ion-icon>
                         </ion-fab-button>
                         <ion-fab-button color="danger" class="delete ion-margin-top" id="deleteButton">
                             <ion-icon name="trash"></ion-icon>
@@ -175,7 +328,12 @@ const FlxImagegallery = class {
             jquery(content).find('.swiper-pagination.swiper-pagination-bullets').fadeToggle(350);
         });
         jquery(content).find('ion-fab-button.close').on('click', () => { modalElement.dismiss(); });
-        jquery(content).find('ion-fab-button.edit').on('click', async () => { this.msgEdit(await slider.getActiveIndex()); });
+        jquery(content).find('ion-fab-button.changeDescrip').on('click', async () => { this.msgEdit(await slider.getActiveIndex()); });
+        jquery(content).find('ion-fab-button.edit').on('click', async () => {
+            const activeIndex = await slider.getActiveIndex();
+            const img = this.table[activeIndex];
+            imageEdit.init(img, activeIndex);
+        });
         jquery(content).find('ion-fab-button.download').on('click', async () => {
             this.downloadImg(await slider.getActiveIndex());
         });
@@ -183,6 +341,9 @@ const FlxImagegallery = class {
             msg.confirm(util.translate('image.delete'), util.translate('image.msg')).then(async () => { this.deleteImg(await slider.getActiveIndex()); });
         });
         document.body.appendChild(modalElement);
+        modalElement.onDidDismiss().then(() => {
+            this.opening = false;
+        });
         return modalElement.present();
     }
     isOnlineImage(online) {
@@ -231,7 +392,12 @@ const FlxImagegallery = class {
     render() {
         return ([
             h("ion-grid", null, h("ion-row", null, (this.table.length > 0 ? (this.table.map((row, i) => {
-                return h("ion-col", { class: "ion-text-center" }, h("ion-thumbnail", { class: "container", onClick: () => { this.zoomGalery(i); } }, h("img", { loading: "lazy", class: "img-wrapper loading", src: (row.URL ? row.URL : row.B64), id: i.toString(), onError: () => document.getElementById(i.toString()).setAttribute("src", "./assets/img/noWifi.png") })));
+                return h("ion-col", { class: "ion-text-center" }, h("ion-thumbnail", { class: "container", onClick: () => {
+                        if (!this.opening) {
+                            this.opening = true;
+                            this.zoomGalery(i);
+                        }
+                    } }, h("img", { loading: "lazy", class: "img-wrapper loading", src: (row.URL ? row.URL : row.B64), id: i.toString(), onError: () => document.getElementById(i.toString()).setAttribute("src", "./assets/img/noWifi.png") })));
             })) :
                 h("div", { class: "center" }, h("div", { class: "noResults" }, h("i", { class: "fa fa-image" }), util.translate('list.noresults'))))))
         ]);

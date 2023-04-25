@@ -22,43 +22,6 @@ var flexygo;
                    * @property connected {boolean}
                    */
                     this.connected = false;
-                    this.colors = ['#EF9A9A',
-                        '#F48FB1',
-                        '#CE93D9',
-                        '#694c9f',
-                        '#4e5a9a',
-                        '#32638a',
-                        '#244b5d',
-                        '#4a9ba7',
-                        '#30635e',
-                        '#2ea879',
-                        '#679238',
-                        '#a5b22e',
-                        '#59819d',
-                        '#bca047',
-                        '#FFCC80',
-                        '#FFAB91',
-                        '#BDAAA4',
-                        '#B1BEC5',
-                        '#D32E2E',
-                        '#C2175B',
-                        '#7B1FA2',
-                        '#5D35B1',
-                        '#3948AB',
-                        '#1D88E5',
-                        '#009BE5',
-                        '#00ACC1',
-                        '#00897B',
-                        '#43A046',
-                        '#7CB342',
-                        '#C0CA33',
-                        '#FED935',
-                        '#FFB300',
-                        '#FB8C00',
-                        '#F4501D',
-                        '#6D4C41',
-                        '#757575',
-                        '#546E7A'];
                 }
                 /**
                 * Fires when element is attached to DOM
@@ -73,21 +36,7 @@ var flexygo;
                     }
                 }
                 generateBackgroundImage(initials) {
-                    let value = initials;
-                    while (!$.isNumeric(value) || (this.colors.length <= value)) {
-                        let currentIndex = 0;
-                        value = value.toString().split('');
-                        for (let i = 0; i < value.length; i++) {
-                            if ($.isNumeric(value[i])) {
-                                currentIndex += parseInt(value[i]);
-                            }
-                            else {
-                                currentIndex += value[i].charCodeAt();
-                            }
-                        }
-                        value = currentIndex;
-                    }
-                    var randomColor = this.colors[value];
+                    var randomColor = flexygo.utils.randomColor(initials);
                     // Create a rectangular canvas which will become th image.
                     var canvas = document.createElement("canvas");
                     var context = canvas.getContext("2d");

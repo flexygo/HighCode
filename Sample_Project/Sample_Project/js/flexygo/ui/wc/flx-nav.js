@@ -33,8 +33,8 @@ var flexygo;
                     this.template = `
             <li typeid="{{type}}" title="{{Title}}" class="{{cssClass}} {{hasChildNodesLiClass(json)}}">
                 <span class="{{hasChildNodesClass(json)}}" onClick="{{getTreeNavigate(json)}}">
-                    {{getIcon(IconClass,IconPath)}}
-                    <span>&nbsp;{{Title}}</span>
+                    <span class="{{IconMenuClass}}">{{getIcon(IconClass,IconPath)}}</span>
+                    <span class="{{TextMenuClass}} navTextSpan">&nbsp;{{Title}}</span>
                 </span>
                 {{getChildNodes(json)}}
             </li>`;
@@ -43,6 +43,7 @@ var flexygo;
                     this.network = null;
                     this.nodes = null;
                     this.edges = null;
+                    this.lastSize = (flexygo.utils.isSizeMobile() ? 'mobile' : 'desktop');
                 }
                 /**
                 * Fires when element is attached to DOM
@@ -106,7 +107,7 @@ var flexygo;
                     this.connected = true;
                     let initNode = navBar.attr('initNode');
                     let headerTemplate = '<div class="flip-card" onclick="$(this).toggleClass(\'flip-card-reverse\');"> <div class="flip-card-flipper"><div class="flip-card-front "><div class="admin"><h3>{{Title}}</h3><span class="main-icon"> <i class="flx-icon {{IconClass}} icon-5x"></i></span></div><div class="more-info"><i class="flx-icon icon-arrow-head-2 "></i>' + flexygo.localization.translate('flxnav.moreinfo') + '</div></div><div class="flip-card-back"><div class="admin reverse"><div class="child-nodes admin-back"></div><div class="back"><i class="flx-icon icon-arrow-head-2 icon-rotate-180"></i>&nbsp;</div></div></div></div>';
-                    let itemTemplate = '<li typeid="{{type}}" class="{{cssClass}}" onClick="{{getTreeNavigate(json)}}"><i class="{{hasChildNodesClass(json)}} icon-zoom" > {{getIcon(IconClass,IconPath)}}</i><span>{{Title}}</span></li>';
+                    let itemTemplate = '<li typeid="{{type}}" class="{{cssClass}}" onClick="{{getTreeNavigate(json)}}"><i class="{{hasChildNodesClass(json)}} icon-zoom" > {{getIcon(IconClass,IconPath)}}</i><span class="navTextSpan">{{Title}}</span></li>';
                     if (this.mode == 'box') {
                         headerTemplate = '<div class="box" onclick="$(this).toggleClass(\'selected\')"> <span class="icon-cont"><i class="{{IconClass}}"></i></span><h3>{{Title}}</h3><div class="noshow child-nodes"></div><a class="expand"><span class="plus"></span><span class="minus">-</span></a></div>';
                         itemTemplate = '<li typeid="{{type}}" class="{{cssClass}}" onClick="if($(this).closest(\'.box.selected\').length>0){{{getTreeNavigate(json)}}}">{{getIcon(IconClass,IconPath)}} &nbsp;{{Title}}</li>';
@@ -116,7 +117,16 @@ var flexygo;
                         itemTemplate = ';';
                     }
                     else if (this.mode == 'mobile') {
-                        itemTemplate = '<li typeid="{{type}}" class="{{cssClass}}" onClick="{{getTreeNavigate(json)}}">{{getIcon(IconClass,IconPath)}} &nbsp;{{Title}}</li>';
+                        itemTemplate = this.template = `
+                    <li typeid="{{type}}" title="{{Title}}" class="{{cssClass}} {{hasChildNodesLiClass(json)}}">
+                        <div onClick="{{getTreeNavigate(json)}}">
+                            <span class="{{hasChildNodesClass(json)}}">
+                                {{getIcon(IconClass,IconPath)}}
+                                <span class="navTextSpan">&nbsp;{{Title}}</span>
+                            </span>
+                        </div>
+                        {{getChildNodes(json)}}
+                    </li>`;
                     }
                     this.wcTemplate = '<li typeid="{{type}}" title="{{Title}}" class="{{cssClass}}"><span>{{WebComponent}}</span></li>';
                     if (!navBar.attr('original-mode')) {
@@ -204,12 +214,12 @@ var flexygo;
                         }
                     }
                     // Add node config
-                    let cnftemplate = '<li StrType="{{StrType}}" title="{{Title}}" class="{{cssClass}}"><span onClick="flexygo.debug.manageNodes($(\'#realMain\'),\'' + this.initNode + '\')"> {{getIcon(IconClass,IconPath)}} <span>&nbsp;{{Title}}</span></span></li>';
+                    let cnftemplate = '<li StrType="{{StrType}}" title="{{Title}}" class="{{cssClass}}"><span onClick="flexygo.debug.manageNodes($(\'#realMain\'),\'' + this.initNode + '\')"> {{getIcon(IconClass,IconPath)}} <span class="navTextSpan">&nbsp;{{Title}}</span></span></li>';
                     let cnfNode = { StrType: "process", ProcessName: "LogOff", ChildNodes: "", IconClass: "flx-icon icon-admon", Title: "Node Settings", TargetId: "current", cssClass: "develop-only noText confignode", IconPath: "" };
                     cnt += flexygo.utils.parser.compile(cnfNode, cnftemplate, this);
                     let elem = $('<ul />').html(cnt).first();
                     let clkEvent = this.navItemClick;
-                    elem.find('li>span').each((i, e) => {
+                    elem.find('li > span, li > div').each((i, e) => {
                         /*let itm = $(this);
                         if (itm.is('[onClick]')) {
                             let handler = $(this).attr('onClick');
@@ -444,7 +454,7 @@ var flexygo;
                         }
                     }
                     if (cnt != '') {
-                        return '<ul>' + cnt + '</ul>';
+                        return (this.mode === 'mobile' ? '<ul style="display: none;">' + cnt + '</ul>' : '<ul>' + cnt + '</ul>');
                     }
                     else {
                         return '';
@@ -656,17 +666,21 @@ var flexygo;
                 * @method onNavResize
                 */
                 onNavResize(ev) {
-                    let me = $(this);
-                    if (flexygo.utils.isSizeMobile()) {
-                        me.attr('mode', 'nav');
-                        if ($(document.activeElement).closest('flx-voicesearch').length == 0) {
-                            me.hide();
+                    let currentSize = (flexygo.utils.isSizeMobile() ? 'mobile' : 'desktop');
+                    if (this.lastSize !== currentSize) {
+                        this.lastSize = currentSize;
+                        let me = $(this);
+                        if (flexygo.utils.isSizeMobile()) {
+                            me.attr('mode', 'nav');
+                            if ($(document.activeElement).closest('flx-voicesearch').length == 0) {
+                                me.hide();
+                            }
                         }
-                    }
-                    else {
-                        me.attr('mode', me.attr('original-mode'));
-                        if (!me.is('visible')) {
-                            me.show();
+                        else {
+                            me.attr('mode', me.attr('original-mode'));
+                            if (!me.is('visible')) {
+                                me.show();
+                            }
                         }
                     }
                 }

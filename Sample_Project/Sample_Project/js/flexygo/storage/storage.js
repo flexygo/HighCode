@@ -40,7 +40,7 @@ var flexygo;
         }
         selection.add = add;
         function appendArray(object, selArr) {
-            let newArr = flexygo.selection.getArray(object).concat(selArr);
+            let newArr = selArr;
             //remove duplicates
             for (var i = 0; i < newArr.length; ++i) {
                 for (var j = i + 1; j < newArr.length; ++j) {

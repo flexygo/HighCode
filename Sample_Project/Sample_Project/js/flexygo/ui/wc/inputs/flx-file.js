@@ -133,7 +133,8 @@ var flexygo;
                         flexygo.ajax.post('~/api/File', 'SaveFile', params, (response) => {
                             if (response && !response.fileError) {
                                 this.setValue(response.path);
-                                if (this.options && this.options.CauseRefresh) {
+                                const module = $(this).closest('flx-module')[0];
+                                if ((this.options && this.options.CauseRefresh) || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
                                     let ev = {
                                         class: "property",
                                         type: "changed",

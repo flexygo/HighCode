@@ -731,16 +731,51 @@ flx-sidepanel #responsivePanels div .icon-mobile {
     width: 464px;
 }
 
+.sysObjConfigCombo {
+    padding: 100px 10px 0px 10px;
+    text-align: left;
+}
 
+.sysObjConfigCombo flx-dbcombo div {
+    border: none;
+}
+
+.sysObjConfigCombo input {
+    color: dbColor(OutstandingColor);
+    font-weight: bold;
+    border: none;
+}
+
+.sysObjConfigCombo .input-group-addon, .sysObjConfigCombo .input-group, .sysObjConfigCombo .btn-default {
+    background-color: transparent;
+    color: dbColor(OutstandingColor);
+    border: none;
+}
+
+.sysObjConfigCombo .input-group {
+    border-bottom: solid 1px dbColor(OutstandingColor);
+}
+
+.sysObjConfigCombo .flx-icon.icon-search:before {
+    content: "\f05d";
+}
+
+.sysObjConfigCombo .btn-default {
+    border: none
+}
+
+.sysObjConfigCombo input {
+    background-color: transparent;
+}
 
 .props-accordion {
- //   font-family: 'latolight';
+    //   font-family: 'latolight';
     padding-top: 150px;
     font-size: 1.3em;
 }
 
 .props-accordion > ul {
-    padding-top: 100px;
+    
     margin-left: 0;
     padding-left: 25px;
 }
@@ -760,6 +795,10 @@ flx-sidepanel #responsivePanels div .icon-mobile {
 
 
 body:not(.develop) .develop-only {
+    display: none;
+}
+
+body.develop .develop-hidden {
     display: none;
 }
 
@@ -2786,191 +2825,196 @@ input[type='search']::-webkit-search-cancel-button {
         }
     }
 }
-    //POWERBI
-    .powerbi {
-        width: 100%;
-        height: 1024px;
-        background-color: #FFFFFF;
-        padding: 20px;
-        clear: both;
-    }
 
-    .powerbi iframe {
-        border: 0;
-        width: 100%;
-        height: 100%;
-        background-color: #FFFFFF;
-    }
+[mode="dark"].offline-page .offline-module .offline-container .empty-info {
+    color: darken(dbColor(txtModuleColor), 10);
+}
 
-    //MAILCHIMP INTEGRATION
-    flx-module.superclean:not(.config):not(.fullscreen) {
-        border: none;
-        background-color: unset;
-        .cntHeader, .cntBodyHeader { background-color: unset; }
-    }
+//POWERBI
+.powerbi {
+    width: 100%;
+    height: 1024px;
+    background-color: #FFFFFF;
+    padding: 20px;
+    clear: both;
+}
 
-    [modulename="sysmod-mailchimp-navbar"] {
-        li > a {
-            cursor: pointer;
-            font-size: 15.5px;
-            &:hover { background-color: #ddd; }
-            i {
-                color: #C1BFBD;
-                font-size: 24px;
-                vertical-align: middle;
-            }
-        }
-        li.active > a, li.active > a:hover {
-            background-color: dbColor(OutstandingColor);
-            i { color: white; }
-        }
-    }
+.powerbi iframe {
+    border: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #FFFFFF;
+}
 
-    [modulename="sysmod-mailchimp-campaigns"], [modulename="sysmod-mailchimp-templates"], [modulename="sysmod-mailchimp-lists"], [modulename=sysmod-mailchimp-objects-contacts],
-    [modulename="sysmod-mailchimp-contacts"] {
-        .cntHeader .cntIcon, .cntHeader .cntTitle {
-            margin: 0 !important;
-        }
-        table.flxRszTbl {
-            border: 1px solid #ccc;
-            border-collapse: unset;
-            border-radius: 6px;
-            background-color: #fff;
-            td, th {
-                text-align: left;
-                @media (min-width: dbSize(medium)) {
-                    padding: 10px 6px !important;
-                }
-            }
-            thead {
-                th {
-                    text-align: left;
-                    font-weight: bold;
-                    color: dbColor(txtColor); 
-                    &:not(:hover) { background-color: #ddd; }
-                    &:hover { color: #fff; }
-                }
-            }
-            tr:not(.rowHeader) { 
-                &:not(:hover) { 
-                    background-color: unset !important; 
-                    td:nth-of-type(2) { color: dbColor(OutstandingColor); }
-                }
-                td:nth-of-type(2) { 
-                    font-weight: bold;
-                }
-            }
+//MAILCHIMP INTEGRATION
+flx-module.superclean:not(.config):not(.fullscreen) {
+    border: none;
+    background-color: unset;
+    .cntHeader, .cntBodyHeader { background-color: unset; }
+}
 
-        }
-    }
-
-    [modulename="sysmod-mailchimp-campaignsbycontact"], [modulename="sysmod-mailchimp-contactsbycampaign"], [modulename="sysmod-mailchimp-contactsbylist"], [modulename="sysmod-mailchimp-listsbycontact"] {
-        i.icon-email-2, i.flx-icon.icon-man, i.flx-icon.icon-clients {
-            color: #c1bfbd;
+[modulename="sysmod-mailchimp-navbar"] {
+    li > a {
+        cursor: pointer;
+        font-size: 15.5px;
+        &:hover { background-color: #ddd; }
+        i {
+            color: #C1BFBD;
             font-size: 24px;
-        }
-        hr {
-            margin-top: 10px; 
-            margin-bottom: 15px; 
-            padding: 0.5px; 
-            opacity: 0.3;
+            vertical-align: middle;
         }
     }
-
-    [modulename="sysmod-mailchimp-contactsbycampaign"] {
-        .badge {
-            position:absolute;
-            top:-42px;
-            right:-14px;
-        }
+    li.active > a, li.active > a:hover {
+        background-color: dbColor(OutstandingColor);
+        i { color: white; }
     }
+}
 
-    [modulename="sysmod-view-campaignInfo"] .stats {
-        border: solid 1px #ccd5dd;
+[modulename="sysmod-mailchimp-campaigns"], [modulename="sysmod-mailchimp-templates"], [modulename="sysmod-mailchimp-lists"], [modulename=sysmod-mailchimp-objects-contacts],
+[modulename="sysmod-mailchimp-contacts"] {
+    .cntHeader .cntIcon, .cntHeader .cntTitle {
+        margin: 0 !important;
+    }
+    table.flxRszTbl {
+        border: 1px solid #ccc;
+        border-collapse: unset;
+        border-radius: 6px;
+        background-color: #fff;
+        td, th {
+            text-align: left;
+            @media (min-width: dbSize(medium)) {
+                padding: 10px 6px !important;
+            }
+        }
+        thead {
+            th {
+                text-align: left;
+                font-weight: bold;
+                color: dbColor(txtColor); 
+                &:not(:hover) { background-color: #ddd; }
+                &:hover { color: #fff; }
+            }
+        }
+        tr:not(.rowHeader) { 
+            &:not(:hover) { 
+                background-color: unset !important; 
+                td:nth-of-type(2) { color: dbColor(OutstandingColor); }
+            }
+            td:nth-of-type(2) { 
+                font-weight: bold;
+            }
+        }
+
+    }
+}
+
+[modulename="sysmod-mailchimp-campaignsbycontact"], [modulename="sysmod-mailchimp-contactsbycampaign"], [modulename="sysmod-mailchimp-contactsbylist"], [modulename="sysmod-mailchimp-listsbycontact"] {
+    i.icon-email-2, i.flx-icon.icon-man, i.flx-icon.icon-clients {
+        color: #c1bfbd;
+        font-size: 24px;
+    }
+    hr {
+        margin-top: 10px; 
+        margin-bottom: 15px; 
+        padding: 0.5px; 
+        opacity: 0.3;
+    }
+}
+
+[modulename="sysmod-mailchimp-contactsbycampaign"] {
+    .badge {
+        position:absolute;
+        top:-42px;
+        right:-14px;
+    }
+}
+
+[modulename="sysmod-view-campaignInfo"] .stats {
+    border: solid 1px #ccd5dd;
+    > div {
+        background-color: white;
         > div {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            > span:first-of-type {
+                color: #adb8c2;
+                font-size: 12px;
+                font-weight: 700;
+            }
+            > span:last-of-type {
+                font-size: 16px;
+                color: #59687f;
+                font-weight: 600;
+            }
+        }
+    }
+    li {
+        border-bottom: 1px solid white;
+        .marcador {
+            border: solid 1px #ccd5dd;
+            border-radius: 10%;
             background-color: white;
-            > div {
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                > span:first-of-type {
-                    color: #adb8c2;
-                    font-size: 12px;
-                    font-weight: 700;
-                }
-                > span:last-of-type {
-                    font-size: 16px;
-                    color: #59687f;
-                    font-weight: 600;
-                }
-            }
         }
-        li {
-            border-bottom: 1px solid white;
-            .marcador {
-                border: solid 1px #ccd5dd;
-                border-radius: 10%;
-                background-color: white;
-            }
-        &:hover .marcador {font-weight: 600;}
-        }
+    &:hover .marcador {font-weight: 600;}
     }
+}
 
-    //DDBB
-    #dataModel {
-        margin: 15px;
-        overflow: auto;
-    }
+//DDBB
+#dataModel {
+    margin: 15px;
+    overflow: auto;
+}
 
-    #dataModel .tb {
-        float: left;
-        border: solid 2px dbColor(outstandingColor);
-        border-radius: 5px;
-        margin-left: 15px;
-        box-shadow: 10px 10px 20px -10px rgba(0,0,0,0.75);
-    }
+#dataModel .tb {
+    float: left;
+    border: solid 2px dbColor(outstandingColor);
+    border-radius: 5px;
+    margin-left: 15px;
+    box-shadow: 10px 10px 20px -10px rgba(0,0,0,0.75);
+}
 
-    #dataModel .tb:hover {
-        border: solid 2px lighten(dbColor(outstandingColor),25);
-    }
+#dataModel .tb:hover {
+    border: solid 2px lighten(dbColor(outstandingColor),25);
+}
 
-    #dataModel .tbname {
-        background-color: dbColor(outstandingColor);
-        color: dbColor(txtOutstandingColor);
-        padding: 5px;
-        font-weight: bold;
-    }
+#dataModel .tbname {
+    background-color: dbColor(outstandingColor);
+    color: dbColor(txtOutstandingColor);
+    padding: 5px;
+    font-weight: bold;
+}
 
-    #dataModel .tb:hover .tbname {
-        background-color: lighten(dbColor(outstandingColor),25);
-    }
+#dataModel .tb:hover .tbname {
+    background-color: lighten(dbColor(outstandingColor),25);
+}
 
-    #dataModel .field {
-        padding: 2px;
-        border-bottom: solid 1px dbColor(outstandingColor);
-        overflow: auto;
-    }
+#dataModel .field {
+    padding: 2px;
+    border-bottom: solid 1px dbColor(outstandingColor);
+    overflow: auto;
+}
 
-    #dataModel .field:last-child {
-        border: none;
-    }
+#dataModel .field:last-child {
+    border: none;
+}
 
-    #dataModel .field .name {
-        margin-left: 5px;
-        float: left;
-        margin-right: 5px;
-    }
+#dataModel .field .name {
+    margin-left: 5px;
+    float: left;
+    margin-right: 5px;
+}
 
-    #dataModel .field .name > i {
-        width: 10px;
-        margin-right: 15px;
-    }
+#dataModel .field .name > i {
+    width: 10px;
+    margin-right: 15px;
+}
 
-    #dataModel .field .type {
-        margin-right: 5px;
-        float: right;
-        font-style: italic;
-    }
+#dataModel .field .type {
+    margin-right: 5px;
+    float: right;
+    font-style: italic;
+}
 
     //Required message
 label.txt-danger[id$="-error"] {
@@ -3720,6 +3764,14 @@ input[type=range]:focus::-ms-fill-upper {
             }
         }
     }
+
+    .sticky-toolbar {
+        z-index: 9;
+        position: sticky;
+        top: 0;
+        background-color: white;
+        padding: 7px;
+    }
 }
 
 .flxhelp[modulename="sysHelpSearch"] {
@@ -3861,4 +3913,54 @@ main[pagename="offline_App_View"] flx-module[modulename="sysOfflineObjectSearch"
         border-bottom: 1px solid #e5e5e5;
         border-radius: unset;
     }
+}
+
+
+
+
+/*NEWS*/
+
+.flx-news-category {
+    display: inline-block;
+    padding: 4px 6px;
+    font-size: 10px;
+    color: #fff;
+    border-radius: 10px;
+    margin-right: 5px;
+    overflow: hidden;
+    text-transform: uppercase;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.flx-news-featureDate {
+    font-size: 14px;
+    color: #8da2b5;
+    margin-bottom: 8px;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: flex;
+    flex-wrap: nowrap;
+    text-transform: capitalize;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    width: 100%;
+    white-space: nowrap;
+}
+
+.flx-news-featureContent img {
+    width: 100%;
+    height: auto;
+}
+
+div.lg-backdrop {
+    z-index: 99999;
+}
+
+div.lg-slide[role="dialog"] {
+    z-index: 100000;
 }

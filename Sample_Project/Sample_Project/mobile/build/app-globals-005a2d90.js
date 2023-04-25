@@ -1,10 +1,10 @@
 import { B as BUILD, C as CSS, p as plt, w as win, a as promiseResolve, c as consoleDevInfo, H, d as doc, N as NAMESPACE } from './index-86ac49ff.js';
 import { i as initialize } from './ionic-global-0f98fe97.js';
-import { W as Webapi, s as storage, S as Storage } from './webapi-7959a2b6.js';
-import { C as ConftokenProvider, u as util, s as sql, m as msg, c as cordova$1, a as checkAvailability, g as getPromise, I as IonicNativePlugin, _ as __extends$1, b as cordovaPropertyGet, d as cordovaPropertySet, e as Injectable, n as nav, f as cam, h as gps, t as tracking, i as flxSync, j as ConftokenService } from './conftoken-84c3ec5c.js';
-import { j as jquery } from './jquery-ad132f97.js';
-import { w as whiteboard } from './whiteboard-a1cbc8e2.js';
-import { p as parser } from './parser-d133369b.js';
+import { W as Webapi, s as storage, r as registerPlugin, P as Preferences, C as ConfToken, U as UrlConfig } from './webapi-79a1d3db.js';
+import { C as ConftokenProvider, u as util, s as sql, m as msg, c as cordova$1, a as checkAvailability, g as getPromise, I as IonicNativePlugin, _ as __extends$1, b as cordovaPropertyGet, d as cordovaPropertySet, e as Injectable, n as nav, f as cam, h as gps, t as tracking, i as flxSync, j as ConftokenService } from './conftoken-7e3c18eb.js';
+import { j as jquery } from './jquery-5df58adb.js';
+import { w as whiteboard } from './whiteboard-658b1b9f.js';
+import { p as parser } from './parser-8aed96de.js';
 
 /*
  Stencil Client Patch v1.17.3 | MIT Licensed | https://stenciljs.com
@@ -168,6 +168,9 @@ var forms;
                 if (prop.is('.date') && val) {
                     val = moment(val).format('YYYY-MM-DD');
                 }
+                else if (prop.is('.time') && val && val.length > 5) {
+                    val = moment(val).format('HH:mm');
+                }
                 else if (prop.is('ion-datetime') && !prop.is('.time') && val) {
                     val = moment(val).format('YYYY-MM-DDTHH:mm:ss');
                 }
@@ -193,7 +196,7 @@ var forms;
                 for (let i = 0; i < keys.length; i++) {
                     let val = jquery(edit).find('[property="' + keys[i] + '"]');
                     if (val.length == 0 || val[0].value == null || val[0].value == '') {
-                        throw 'Object has not primary key.';
+                        throw new Error('Object has not primary key.');
                     }
                 }
                 fields.push('_isInserted');
@@ -379,7 +382,16 @@ var exports;
 
 const caes = {
     login: {
-        appsListTitle: 'Per favor, trie una aplicació'
+        appsListTitle: 'Per favor, trie una aplicació',
+        invalidPsw: 'El nom d\'usuari o la contrasenya són incorrectes',
+        connectionErr: 'Error de connexió, URL incorrecte o API web desactivada',
+        username: 'Nom d\'usuari',
+        password: 'Contrasenya',
+        login: 'Iniciar sessió',
+        blankUrl: 'L\'URL no pot estar en blanc',
+        blankUsr: 'L\'usuari no pot estar en blanc',
+        blankPsw: 'La contrasenya no pot estar en blanc',
+        wrongtURL: 'URL incorrecta'
     },
     menu: {
         menu: 'Menú',
@@ -401,12 +413,15 @@ const caes = {
         saved: 'Guardat :)'
     },
     exceptions: {
-        gpstimeout: 'Temps \'espera superat. Assegureu-se de tindre el GPS actiu al dispositiu.',
+        syncTimeout: 'Temps d\'espera superat. Assegureu-vos de tenir una connexió a internet estable i que el servidor siga accessible.',
+        gpsTimeout: 'Temps d\'espera superat. Assegureu-se de tindre el GPS actiu al dispositiu.',
         gpsAccess: 'No es pot accedir a la ubicació perquè està desactivada o l\'aplicació no té permisos',
+        gpsConnection: 'No s\'han pogut obtenir les coordenades de la ubicació a causa d\'una baixa connectivitat',
         required: 'Completi tots els camps requerits. ',
         bufferSize: 'Hi ha hagut un problema a la inserció de la taula @, hauríeu de provar a reduir la mida del buffer intermèdia a la seva configuració',
         avatarSize: 'Sembla que la imatge de perfil és massa pesada',
-        noExistingTable: 'Sembla que la taula que busques no existeix'
+        noExistingTable: 'Sembla que la taula @ no existeix',
+        nonSecureApi: 'El vostre navegador no admet accés a la base de dades a excepció de l\'ús de HTTPS o localhost. Per favor instal·la un certificat SSL o accedeix des de la màquina localhost durant el desenvolupament'
     },
     sync: {
         last: 'Última sincronització:',
@@ -422,12 +437,14 @@ const caes = {
         restore: 'Restaurar base de dades',
         restoreSuccess: 'Les dades s\'han restaurat correctament',
         restoreError: 'Ha ocorregut un error al intentar introduir les dades del fitxer',
-        restoreInvalid: 'El format del fitxer no es vàlid, ha de ser un .zip',
+        restoreInvalid: 'El format del fitxer no es vàlid, ha de ser un .bak',
         createBackupHeader: 'Seleccioneu el tipus de còpia',
         createBackupMessage: 'Vol fer la còpia només de la base de dades o vol hacer fer una còpia completa?',
         onlyDB: 'Només base de dades',
         complete: 'Completa',
-        notValidZip: 'No s\'ha trobat cap fitxer de base de dades en al fitxer introduït'
+        notValidZip: 'No s\'ha trobat cap fitxer de base de dades en al fitxer introduït',
+        connectionErr: 'Error en connectar-se a la base de dades',
+        noChanges: 'No hi ha canvis pendents'
     },
     image: {
         delete: 'Eliminar',
@@ -484,13 +501,23 @@ const caes = {
         time: 'Encara no s\'han enviat dades',
         error: 'No hi ha hagut cap error en l\'últim enviament de dades',
         ping: 'Encara no s\'ha provat cap ping',
-        location: 'Encara no hi ha cap ubicació registrada'
+        location: 'Encara no hi ha cap ubicació registrada',
+        sendErrorLogs: 'Enviar informació'
     }
 };
 
 const frfr = {
     login: {
-        appsListTitle: 'Veuillez choisir une application'
+        appsListTitle: 'Veuillez choisir une application',
+        invalidPsw: 'Le nom d\'utilisateur ou mot de passe est incorrect',
+        connectionErr: 'Erreur de connexion, URL incorrecte ou WebAPI désactivée',
+        username: 'Nom d\'utilisateur',
+        password: 'Mot de passe',
+        login: 'Connexion',
+        blankUrl: 'L\'URL ne peut pas être vide',
+        blankUsr: 'L\'utilisateur ne peut pas être vide',
+        blankPsw: 'Le mot de passe ne peut pas rester vide',
+        wrongtURL: 'URL incorrecte'
     },
     menu: {
         menu: 'Menu',
@@ -512,12 +539,15 @@ const frfr = {
         saved: 'Enregistré :)'
     },
     exceptions: {
-        gpstimeout: 'Le temps d\'attente a été dépassé. Assurez-vous que votre GPS est actif sur l\'appareil.',
+        syncTimeout: 'Temps libre. Assurez-vous d\'avoir une connexion Internet stable et que le serveur est accessible.',
+        gpsTimeout: 'Le temps d\'attente a été dépassé. Assurez-vous que votre GPS est actif sur l\'appareil.',
         gpsAccess: 'L\'emplacement n\'est pas accessible car il est désactivé ou l\'application n\'a pas d\'autorisations',
+        gpsConnection: 'Impossible d\'obtenir les coordonnées de localisation en raison d\'une mauvaise connectivité',
         required: 'Remplissez tous les champs obligatoires: ',
         bufferSize: 'Il y a eu un problème sur la table @ insertion, vous devriez essayer de diminuer la taille du tampon dans ses paramètres',
         avatarSize: 'Il semble que l\'image de profil soit trop lourde',
-        noExistingTable: 'Il semble que la table que vous recherchez n\'existe pas'
+        noExistingTable: 'Il semble que la table @ n\'existe pas',
+        nonSecureApi: 'Votre navigateur n\'autorise pas l\'accès à la base de données sans HTTPS ou localhost. Veuillez installer un certificat SSL ou accéder à partir de la machine hôte local pendant le développement'
     },
     sync: {
         last: 'Dernière synchronisation:',
@@ -533,12 +563,14 @@ const frfr = {
         restore: 'Restaurer la base de données',
         restoreSuccess: 'Les données ont été restaurées avec succès',
         restoreError: 'Il y avait une erreur lors de la tentative d\'entrer les données du fichier',
-        restoreInvalid: 'Le format de fichier n\'est pas valide, il doit s\'agir d\'un .zip',
+        restoreInvalid: 'Le format de fichier n\'est pas valide, il doit s\'agir d\'un .bak',
         createBackupHeader: 'Sélectionnez le type de copie',
         createBackupMessage: 'Voulez-vous faire une copie de la base de données uniquement ou voulez-vous faire une copie complète?',
         onlyDB: 'Base de données uniquement',
         complete: 'Complète',
-        notValidZip: 'Aucun fichier de base de données trouvé dans le fichier saisi'
+        notValidZip: 'Aucun fichier de base de données trouvé dans le fichier saisi',
+        connectionErr: 'Erreur lors de la connexion à la base de données',
+        noChanges: 'Il n\'y a aucun changement en attente'
     },
     image: {
         delete: 'Retirer',
@@ -595,13 +627,23 @@ const frfr = {
         time: 'Il n\'y a pas encore eu d\'envoi de données',
         error: 'Il n\'y avait pas d\'erreur dans le dernier envoi de données',
         ping: 'Il n\'y a pas encore eu de ping testé',
-        location: 'Aucun emplacement n\'a encore été enregistré'
+        location: 'Aucun emplacement n\'a encore été enregistré',
+        sendErrorLogs: 'Envoyer une information'
     }
 };
 
 const eses = {
     login: {
-        appsListTitle: 'Por favor, escoja una aplicación'
+        appsListTitle: 'Por favor, escoja una aplicación',
+        invalidPsw: 'Contraseña o usuario incorrectos',
+        connectionErr: 'Error de conexion, URL incorrecta o WebAPI deshabilitada',
+        username: 'Nombre de usuario',
+        password: 'Contraseña',
+        login: 'Iniciar sesión',
+        blankUrl: 'La Url no puede estar vacía',
+        blankUsr: 'El nombre de usuario no puede estar vacío',
+        blankPsw: 'La contraseña no puede estar vacía',
+        wrongtURL: 'URL incorrecta'
     },
     menu: {
         menu: 'Menú',
@@ -623,12 +665,15 @@ const eses = {
         saved: 'Guardado :)'
     },
     exceptions: {
-        gpstimeout: 'Tiempo de espera superado. Asegurese de tener el GPS activo en el dispositivo.',
+        syncTimeout: 'Tiempo de espera superado. Asegurese de tener una conexión a internet estable y que el servidor es accesible.',
+        gpsTimeout: 'Tiempo de espera superado. Asegurese de tener el GPS activo en el dispositivo.',
         gpsAccess: 'No se puede acceder a la ubicación ya que está desactivada o la aplicación no tiene permisos',
+        gpsConnection: 'No se pudieron obtener las coordenadas de la ubicación debido a una baja conectividad',
         required: 'Complete todos los campos requeridos: ',
         bufferSize: 'Hubo un problema en la insercioón de la tabla @, debería intentar disminuir el tamaño del búfer en la configuración de esta',
         avatarSize: 'Parece que la imagen de perfil es demasiado pesada',
-        noExistingTable: 'Parece que la tabla en cuestión no existe'
+        noExistingTable: 'Parece que la tabla @ no existe',
+        nonSecureApi: 'Tu navegador no admite acceso a la base de datos a excepción del uso de HTTPS o localhost. Por favor instala un certificado SSL o accede desde la máquina localhost durante el desarrollo'
     },
     sync: {
         last: 'Última Sincronización:',
@@ -644,12 +689,14 @@ const eses = {
         restore: 'Restaurar base de datos',
         restoreSuccess: 'Los datos han sido restaurados correctamente',
         restoreError: 'Hubo un error al intentar introducir los datos del fichero',
-        restoreInvalid: 'El formato del fichero no es válido, debe ser un .zip',
+        restoreInvalid: 'El formato del fichero no es válido, debe ser un .bak',
         createBackupHeader: 'Seleccione el tipo de copia',
         createBackupMessage: '¿Quiere hacer la copia solamente de la base de datos o quiere hacer una copia completa?',
         onlyDB: 'Solo base de datos',
         complete: 'Completa',
-        notValidZip: 'No se ha encontrado ningun fichero de base de datos en el archivo introducido'
+        notValidZip: 'No se ha encontrado ningun fichero de base de datos en el archivo introducido',
+        connectionErr: 'Error al establecer conexión con el servidor',
+        noChanges: 'No hay cambios pendientes'
     },
     image: {
         delete: 'Eliminar',
@@ -706,13 +753,23 @@ const eses = {
         time: 'Todavía no ha habido ningún envío',
         error: 'Todavía no ha habido un error en un envío',
         ping: 'No se ha obtenido un ping todavía',
-        location: 'No se ha registrado ninguna localización todavía'
+        location: 'No se ha registrado ninguna localización todavía',
+        sendErrorLogs: 'Enviar información'
     }
 };
 
 const dede = {
     login: {
-        appsListTitle: 'Bitte wählen Sie eine Anwendung'
+        appsListTitle: 'Bitte wählen Sie eine Anwendung',
+        invalidPsw: 'Der Benutzername oder das Passwort ist falsch',
+        connectionErr: 'Verbindungsfehler, falsche URL oder WebAPI ist deaktiviert',
+        username: 'Nutzername',
+        password: 'Passwort',
+        login: 'Einloggen',
+        blankUrl: 'Die URL darf nicht leer sein',
+        blankUsr: 'Der Benutzer darf nicht leer sein',
+        blankPsw: 'Das Passwort darf nicht leer sein',
+        wrongtURL: 'Falsche URL'
     },
     menu: {
         menu: 'Menü',
@@ -734,12 +791,15 @@ const dede = {
         saved: 'Gerettet :)'
     },
     exceptions: {
-        gpstimeout: 'Wartezeit überschritten. Stellen Sie sicher, dass Ihr Gerät über aktives GPS verfügt.',
+        syncTimeout: 'Auszeit. Stellen Sie sicher, dass Sie über eine stabile Internetverbindung verfügen und dass der Server erreichbar ist.',
+        gpsTimeout: 'Wartezeit überschritten. Stellen Sie sicher, dass Ihr Gerät über aktives GPS verfügt.',
         gpsAccess: 'Auf den Standort kann nicht zugegriffen werden, da er deaktiviert ist oder die App keine Berechtigungen hat',
+        gpsConnection: 'Standortkoordinaten konnten aufgrund einer geringen Konnektivität nicht abgerufen werden',
         required: 'Füllen Sie alle erforderlichen Felder aus: ',
         bufferSize: 'Beim Einfügen von Tabelle @ ist ein Problem aufgetreten. Sie sollten versuchen, die Puffergröße in den Einstellungen zu verringern',
         avatarSize: 'Anscheinend ist das Profilbild zu schwer',
-        noExistingTable: 'Anscheinend existiert die gesuchte Tabelle nicht'
+        noExistingTable: 'Es scheint, dass die Tabelle @ nicht existiert',
+        nonSecureApi: 'Ihr Browser erlaubt keinen Datenbankzugriff ohne HTTPS oder localhost. Bitte installieren Sie während der Entwicklung ein SSL-Zertifikat oder greifen Sie vom lokalen Host-Computer aus zu'
     },
     sync: {
         last: 'Letzte Synchronisation:',
@@ -755,12 +815,14 @@ const dede = {
         restore: 'Database herstellen',
         restoreSuccess: 'Daten erfolgreich wiederhergestellt',
         restoreError: 'Beim Versuch, die Dateidaten einzugeben, ist ein Fehler aufgetreten',
-        restoreInvalid: 'Das Dateiformat ist ungültig, es muss eine ZIP-Datei sein',
+        restoreInvalid: 'Das Dateiformat ist ungültig, es muss eine BAK-Datei sein',
         createBackupHeader: 'Wählen Sie die Art der Kopie',
         createBackupMessage: 'Haben Sie eine Kopie der Datenbank vornehmen möchten nur oder haben Sie eine vollständige Kopie machen wollen?',
         onlyDB: 'Nur Datenbank',
         complete: 'Komplett',
-        notValidZip: 'In der eingegebenen Datei wurde keine Datenbankdatei gefunden'
+        notValidZip: 'In der eingegebenen Datei wurde keine Datenbankdatei gefunden',
+        connectionErr: 'Fehler beim Verbinden mit der Datenbank',
+        noChanges: 'Es stehen keine Änderungen an'
     },
     image: {
         delete: 'Entfernen',
@@ -817,13 +879,23 @@ const dede = {
         time: 'Es wurde noch kein Datenversand durchgeführt',
         error: 'Beim letzten Datenversand ist kein Fehler aufgetreten',
         ping: 'Es wurde noch kein Ping getestet',
-        location: 'Es wurde noch kein Standort registriert'
+        location: 'Es wurde noch kein Standort registriert',
+        sendErrorLogs: 'Sende Informationen'
     }
 };
 
 const engb = {
     login: {
-        appsListTitle: 'Please, choose an application'
+        appsListTitle: 'Please, choose an application',
+        invalidPsw: 'The username or password is incorrect',
+        connectionErr: 'Connection error, wrong URL or WebAPI is disabled',
+        username: 'Username',
+        password: 'Password',
+        login: 'Login',
+        blankUrl: 'Url can\'t be blank',
+        blankUsr: 'User can\'t be blank',
+        blankPsw: 'Password can\'t be blank',
+        wrongtURL: 'Wrong URL'
     },
     menu: {
         menu: 'Menu',
@@ -845,12 +917,15 @@ const engb = {
         saved: 'Saved :)'
     },
     exceptions: {
-        gpstimeout: 'Timeout. Please, enable GPS settings',
+        syncTimeout: 'Timeout. Make sure you have an stable internet connection and that the server is accessible.',
+        gpsTimeout: 'Timeout. Please, enable GPS settings',
         gpsAccess: 'The location cannot be accessed as it is disabled or the app does not have permissions',
+        gpsConnection: 'Unable to get location coordinates due to a poor connectivity',
         required: 'Complete all required fields: ',
         bufferSize: 'There was a problem on table @ insertion, you should try decreasing buffer size in its settings',
         avatarSize: 'It seems the profile image is too heavy',
-        noExistingTable: 'It seems that the table you are looking for does not exist'
+        noExistingTable: 'It seems that the table @ does not exist',
+        nonSecureApi: 'Your browser doesn\'t allow database access without HTTPS or localhost. Please, install an SSL certificate or access from localhost machine during development'
     },
     sync: {
         last: 'Last sync on:',
@@ -866,12 +941,14 @@ const engb = {
         restore: 'Restore Database',
         restoreSuccess: 'Data has successfully been restored',
         restoreError: 'An error occurred while inserting file data',
-        restoreInvalid: 'The file format is not valid, it must be a .zip',
+        restoreInvalid: 'The file format is not valid, it must be a .bak',
         createBackupHeader: 'Select the copy mode',
         createBackupMessage: 'Do you want to make a backup with only database data or do you want a complete one?',
         onlyDB: 'Only database',
         complete: 'Complete',
-        notValidZip: 'No database file found in the entered file'
+        notValidZip: 'No database file found in the entered file',
+        connectionErr: 'Error on connecting to database',
+        noChanges: 'There\'s no changes pending'
     },
     image: {
         delete: 'Remove',
@@ -927,7 +1004,8 @@ const engb = {
         time: 'There wasn\'t a send yet',
         error: 'There wasn\'t an error in last send',
         ping: 'There wasn\'t a ping tested yet',
-        location: 'There wasn\'t a location registered yet'
+        location: 'There wasn\'t a location registered yet',
+        sendErrorLogs: 'Send data'
     }
 };
 
@@ -1271,13 +1349,47 @@ var ext;
     ext.linkExternalFunctions = linkExternalFunctions;
 })(ext || (ext = {}));
 
+const App = registerPlugin('App', {
+    web: () => __sc_import_app('./web-24a2aae0.js').then(m => new m.AppWeb()),
+});
+
 const appGlobalScript = () => {
     ext.linkExternalFunctions();
 };
 window.addEventListener("message", receiveMessage, false);
-Storage.migrate();
-Storage.removeOld();
+Preferences.migrate();
+Preferences.removeOld();
 changeBackButton();
+App.addListener('appUrlOpen', async (data) => {
+    ConftokenProvider.config().then(async (conf) => {
+        try {
+            if (!conf) {
+                conf = new ConfToken;
+                conf['urlConfig'] = new UrlConfig;
+            }
+            else {
+                conf.urlConfig = new UrlConfig;
+            }
+            let url = data.url;
+            url = url.replace('https://app.flexygo.com/?', '');
+            let urlConstants = url.split('&');
+            urlConstants.forEach(element => {
+                conf.urlConfig = setUrlData(conf.urlConfig, element);
+            });
+            ConftokenProvider.saveConfToken(conf).then(() => {
+                if (!nav.currentUrl().startsWith('/login')) {
+                    nav.goLogin();
+                }
+                else {
+                    jquery('flx-login')[0].refresh();
+                }
+            });
+        }
+        catch (err) {
+            msg.showError(err);
+        }
+    });
+});
 function receiveMessage(event) {
     if (event.data && event.data.action) {
         switch (event.data.action) {
@@ -1316,11 +1428,25 @@ function changeBackButton() {
             else if (jquery('#scannerUI').length > 0) {
                 cam.stopScan();
             }
+            else if (jquery('#cameraUI').length > 0) {
+                cam.stopCamera();
+            }
             else {
                 nav.goBack();
             }
         });
     });
+}
+function setUrlData(urlConfig, cnt) {
+    let cntLowered = cnt.toLowerCase();
+    if (cntLowered.startsWith('url=')) {
+        urlConfig.url = atob(cnt.replace('url=', ''));
+        return urlConfig;
+    }
+    if (cntLowered.startsWith('usr=')) {
+        urlConfig.user = atob(cnt.replace('usr=', ''));
+        return urlConfig;
+    }
 }
 
 const globalScripts = () => {

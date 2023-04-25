@@ -19,6 +19,8 @@ declare namespace flexygo.obj {
         warningMessage: string;
         successMessage: string;
         jsCode: string;
+        lastProcessName: string;
+        lastAfterProcessName: string;
         /**
         * Init entity and recive the values.
         * @method read
@@ -30,19 +32,19 @@ declare namespace flexygo.obj {
          * @method insert
          * @return {boolean} - Success or fail.
         */
-        insert(): boolean;
+        insert(lastProcessName?: string, lastAfterProcessName?: string): boolean;
         /**
          * Save changes in the database.
          * @method update
          * @return {boolean} - Success or fail.
         */
-        update(): boolean;
+        update(lastProcessName?: string, lastAfterProcessName?: string): boolean;
         /**
          * Delete current object.
          * @method delete
          * @return {boolean} - Success or fail.
         */
-        delete(): boolean;
+        delete(lastProcessName?: string, lastAfterProcessName?: string): boolean;
         /**
          * Get the processes related to current object.
          * @method processes

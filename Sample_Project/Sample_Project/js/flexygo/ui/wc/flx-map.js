@@ -262,111 +262,135 @@ var flexygo;
                             url: x.getAttribute('icon'),
                             scaledSize: new google.maps.Size(35, 35),
                         };
-                        if (x.getAttribute('lng') && x.getAttribute('lng') != '' && x.getAttribute('lng') != 'null' && x.getAttribute('lat') && x.getAttribute('lat') != '' && x.getAttribute('lat') != 'null') {
-                            positionMarker = new google.maps.LatLng(x.getAttribute('lat'), x.getAttribute('lng'));
-                            if (positionMarker.lat() != null) {
-                                map.lat = positionMarker.lat();
-                            }
-                            if (positionMarker.lng() != null) {
-                                map.lng = positionMarker.lng();
-                            }
-                            if (this.route && markers.length > 1) {
-                                userCoordinates.push({ lat: map.lat, lng: map.lng });
-                                coordinatesIds.push(x.getAttribute('id'));
-                                if (this.dotted)
-                                    createRouteDot(positionMarker, x.getAttribute('title'), x.innerHTML, this.lineColor, x.getAttribute('label'));
-                                if (icon.url) {
-                                    createMarker(positionMarker, x.getAttribute('title'), x.innerHTML, icon, x.getAttribute('label'), x.getAttribute('zIndex'));
-                                }
-                            }
-                            else
-                                createMarker(positionMarker, x.getAttribute('title'), x.innerHTML, icon, x.getAttribute('label'), x.getAttribute('zIndex'));
+                        let listCoords = [];
+                        let color = "", contenido = "";
+                        let innerCoords = [];
+                        if (x.getAttribute('coords') && isJsonString(x.getAttribute('coords'))) {
+                            listCoords = parseJSON(x.getAttribute('coords'));
+                            innerCoords = ((x.getAttribute('innerCoords') && isJsonString(x.getAttribute('innerCoords'))) ? parseJSON(x.getAttribute('innerCoords')) : null);
+                            contenido = x.innerHTML;
+                            color = (x.getAttribute('color') ? x.getAttribute('color') : flexygo.utils.randomColor(contenido));
+                            createPolygon(color, contenido, listCoords, innerCoords);
                         }
                         else {
-                            if (x.getAttribute('address') && x.getAttribute('address') != '') {
-                                geocoderAddress(x.getAttribute('address'), x.getAttribute('title'), x.innerHTML, icon, x.getAttribute('label'), x.getAttribute('zIndex'));
+                            if (x.getAttribute('lng') && x.getAttribute('lng') != '' && x.getAttribute('lng') != 'null' && x.getAttribute('lat') && x.getAttribute('lat') != '' && x.getAttribute('lat') != 'null') {
+                                positionMarker = new google.maps.LatLng(x.getAttribute('lat'), x.getAttribute('lng'));
+                                if (positionMarker.lat() != null) {
+                                    map.lat = positionMarker.lat();
+                                }
+                                if (positionMarker.lng() != null) {
+                                    map.lng = positionMarker.lng();
+                                }
+                                if (this.route && markers.length > 1) {
+                                    userCoordinates.push({ lat: map.lat, lng: map.lng, group: (x.getAttribute('group') ? x.getAttribute('group') : '') });
+                                    coordinatesIds.push(x.getAttribute('id'));
+                                    if (this.dotted)
+                                        createRouteDot(positionMarker, x.getAttribute('title'), x.innerHTML, this.lineColor, x.getAttribute('label'));
+                                    if (icon.url) {
+                                        createMarker(positionMarker, x.getAttribute('title'), x.innerHTML, icon, x.getAttribute('label'), x.getAttribute('zIndex'));
+                                    }
+                                }
+                                else
+                                    createMarker(positionMarker, x.getAttribute('title'), x.innerHTML, icon, x.getAttribute('label'), x.getAttribute('zIndex'));
+                            }
+                            else {
+                                if (x.getAttribute('address') && x.getAttribute('address') != '') {
+                                    geocoderAddress(x.getAttribute('address'), x.getAttribute('title'), x.innerHTML, icon, x.getAttribute('label'), x.getAttribute('zIndex'));
+                                }
                             }
                         }
                         x.style = "display:none";
                     }
+                    /* hasta aqui */
                     if (this.route && userCoordinates.length > 1) {
-                        const arrowIcon = {
-                            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-                        };
-                        var smallArrowsIcon = {
-                            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-                            fillOpacity: 1,
-                            strokeWeight: 1,
-                            scale: 2,
-                            fillColor: 'white'
-                        };
-                        let polyline;
-                        if (this.arrow) {
-                            polyline = new google.maps.Polyline({
-                                path: userCoordinates,
-                                geodesic: true,
-                                strokeColor: this.lineColor,
-                                strokeOpacity: 1.0,
-                                strokeWeight: this.lineWidht,
-                                icons: [
-                                    {
-                                        icon: arrowIcon,
-                                        offset: "100%",
-                                    },
-                                    {
-                                        icon: arrowIcon,
-                                        offset: "0",
-                                    },
-                                    {
-                                        icon: smallArrowsIcon,
-                                        offset: '20px',
-                                        repeat: '50px'
-                                    }
-                                ],
-                            });
-                        }
-                        else {
-                            polyline = new google.maps.Polyline({
-                                path: userCoordinates,
-                                geodesic: true,
-                                strokeColor: this.lineColor,
-                                strokeOpacity: 1.0,
-                                strokeWeight: this.lineWidht,
-                                icons: [{
-                                        icon: { path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW },
-                                        offset: '100%',
-                                        repeat: '20px'
-                                    }]
-                            });
-                        }
-                        google.maps.event.addListener(polyline, 'click', (data) => {
-                            var nearestMarker = {
-                                minDistance: 999999,
-                                index: -1,
-                                latlng: null
+                        let groupedCoords = userCoordinates.reduce((groupedMarkers, marker) => {
+                            if (!groupedMarkers[marker.group]) {
+                                groupedMarkers[marker.group] = [];
+                            }
+                            groupedMarkers[marker.group].push(marker);
+                            return groupedMarkers;
+                        }, {});
+                        let keys = Object.keys(groupedCoords);
+                        for (let i = 0; i < keys.length; i++) {
+                            let coords = groupedCoords[keys[i]];
+                            const arrowIcon = {
+                                path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
                             };
-                            polyline.getPath().forEach(function (routePoint, index) {
-                                var dist = google.maps.geometry.spherical.computeDistanceBetween(data.latLng, routePoint);
-                                if (dist < nearestMarker.minDistance) {
-                                    nearestMarker.minDistance = dist;
-                                    nearestMarker.index = index;
-                                    nearestMarker.latlng = routePoint;
-                                }
+                            var smallArrowsIcon = {
+                                path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+                                fillOpacity: 1,
+                                strokeWeight: 1,
+                                scale: 2,
+                                fillColor: 'white'
+                            };
+                            let polyline;
+                            if (this.arrow) {
+                                polyline = new google.maps.Polyline({
+                                    path: coords,
+                                    geodesic: true,
+                                    strokeColor: this.lineColor,
+                                    strokeOpacity: 1.0,
+                                    strokeWeight: this.lineWidht,
+                                    icons: [
+                                        {
+                                            icon: arrowIcon,
+                                            offset: "100%",
+                                        },
+                                        {
+                                            icon: arrowIcon,
+                                            offset: "0",
+                                        },
+                                        {
+                                            icon: smallArrowsIcon,
+                                            offset: '20px',
+                                            repeat: '50px'
+                                        }
+                                    ],
+                                });
+                            }
+                            else {
+                                polyline = new google.maps.Polyline({
+                                    path: coords,
+                                    geodesic: true,
+                                    strokeColor: this.lineColor,
+                                    strokeOpacity: 1.0,
+                                    strokeWeight: this.lineWidht,
+                                    icons: [{
+                                            icon: { path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW },
+                                            offset: '100%',
+                                            repeat: '20px'
+                                        }]
+                                });
+                            }
+                            google.maps.event.addListener(polyline, 'click', (data) => {
+                                var nearestMarker = {
+                                    minDistance: 999999,
+                                    index: -1,
+                                    latlng: null
+                                };
+                                polyline.getPath().forEach(function (routePoint, index) {
+                                    var dist = google.maps.geometry.spherical.computeDistanceBetween(data.latLng, routePoint);
+                                    if (dist < nearestMarker.minDistance) {
+                                        nearestMarker.minDistance = dist;
+                                        nearestMarker.index = index;
+                                        nearestMarker.latlng = routePoint;
+                                    }
+                                });
+                                const clickedMarker = document.getElementById(coordinatesIds[nearestMarker.index]);
+                                infowindow.setContent("<div>" + (clickedMarker.innerHTML ? clickedMarker.innerHTML : clickedMarker.getAttribute('title')) + '</div>' + "<a style='color:#427fed;' href='http://maps.google.com?q=" + data.latLng + "'>" + flexygo.localization.translate("text.seeMap") + "</a>");
+                                infowindow.setPosition(nearestMarker.latlng);
+                                infowindow.open(map);
+                                map.setCenter(nearestMarker.latlng);
                             });
-                            const clickedMarker = document.getElementById(coordinatesIds[nearestMarker.index]);
-                            infowindow.setContent("<div>" + (clickedMarker.innerHTML ? clickedMarker.innerHTML : clickedMarker.getAttribute('title')) + '</div>' + "<a style='color:#427fed;' href='http://maps.google.com?q=" + data.latLng + "'>Ver en Google Maps</a>");
-                            infowindow.setPosition(nearestMarker.latlng);
-                            infowindow.open(map);
-                            map.setCenter(nearestMarker.latlng);
-                        });
-                        polyline.setMap(map);
-                        cluster.push(polyline);
-                        for (var n = 0; n < userCoordinates.length; n++) {
-                            bounds.extend(userCoordinates[n]);
-                        }
-                        map.setCenter(bounds.getCenter());
-                        if (!me.attr('zoom')) {
-                            map.fitBounds(bounds);
+                            polyline.setMap(map);
+                            cluster.push(polyline);
+                            for (var n = 0; n < userCoordinates.length; n++) {
+                                bounds.extend(userCoordinates[n]);
+                            }
+                            map.setCenter(bounds.getCenter());
+                            if (!me.attr('zoom')) {
+                                map.fitBounds(bounds);
+                            }
                         }
                     }
                     google.maps.event.addListener(map, 'idle', function () {
@@ -452,6 +476,23 @@ var flexygo;
                             }
                         });
                     }
+                    function isJsonString(str) {
+                        try {
+                            parseJSON(str);
+                        }
+                        catch (e) {
+                            return false;
+                        }
+                        return true;
+                    }
+                    function parseJSON(str) {
+                        try {
+                            return JSON.parse(str);
+                        }
+                        catch (e) {
+                            return JSON.parse(str.replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, '"$2": '));
+                        }
+                    }
                     function createMarker(position, title, content, icon, label, zIndex) {
                         if (position.lat() != null) {
                             map.lat = position.lat();
@@ -516,16 +557,56 @@ var flexygo;
                                 //map.setZoom(20);
                                 map.setCenter(marker.getPosition());
                                 if (content) {
-                                    infowindow.setContent(content + "<br><a style='color:#427fed;' target='_blank' href='http://maps.google.com?q=" + marker.position + "'>Ver en Google Maps</a>");
+                                    infowindow.setContent(content + "<br><a style='color:#427fed;' target='_blank' href='http://maps.google.com?q=" + marker.position + "'>" + flexygo.localization.translate("text.seeMap") + "</a>");
                                 }
                                 else {
-                                    infowindow.setContent("<a style='color:#427fed;' target='_blank' href='http://maps.google.com?q=" + marker.position + "'>Ver en Google Maps</a>");
+                                    infowindow.setContent("<a style='color:#427fed;' target='_blank' href='http://maps.google.com?q=" + marker.position + "'>" + flexygo.localization.translate("text.seeMap") + "</a>");
                                 }
                                 infowindow.open(map, marker);
                             };
                         })(marker, i));
                         if (cl == 'true') {
                             markerCluster = new MarkerClusterer(map, cluster, { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
+                        }
+                    }
+                    function createPolygon(color, contenido, coords, innerCoords) {
+                        let fullPaths;
+                        if (!innerCoords) {
+                            fullPaths = coords;
+                        }
+                        else {
+                            fullPaths = [coords, innerCoords];
+                        }
+                        const polygon = new google.maps.Polygon({
+                            paths: fullPaths,
+                            strokeColor: color,
+                            strokeOpacity: 0.8,
+                            strokeWeight: 2,
+                            fillColor: color,
+                            fillOpacity: 0.35,
+                        });
+                        google.maps.event.addListener(polygon, 'click', (event) => {
+                            let latLng = new google.maps.LatLng(event.latLng.lat(), event.latLng.lng());
+                            map.setCenter(latLng);
+                            if (contenido) {
+                                infowindow.setContent(contenido + "<br><a style='color:#427fed;' target='_blank' href='http://maps.google.com?q=" + latLng + "'>" + flexygo.localization.translate("text.seeMap") + "</a>");
+                            }
+                            else {
+                                infowindow.setContent("<a style='color:#427fed;' target='_blank' href='http://maps.google.com?q=" + latLng + "'>" + flexygo.localization.translate("text.seeMap") + "</a>");
+                            }
+                            infowindow.setPosition(latLng);
+                            infowindow.open(map, polygon);
+                        });
+                        polygon.setMap(map);
+                        cluster.push(polygon);
+                        for (var i = 0; i < coords.length; i++) {
+                            bounds.extend(coords[i]);
+                        }
+                        map.setCenter(bounds.getCenter());
+                        if (me.attr('zoom') && me.attr('zoom') != '') {
+                            zoom = parseInt(me.attr('zoom'));
+                            map.setZoom(zoom);
+                            map.fitBounds(bounds);
                         }
                     }
                     function createRouteDot(position, title, content, color, label) {
@@ -589,13 +670,13 @@ var flexygo;
                                 //map.setZoom(20);
                                 map.setCenter(marker.getPosition());
                                 if (content) {
-                                    infowindow.setContent(content + "<br><a style='color:#427fed;' target='_blank' href='http://maps.google.com?q=" + marker.position + "'>Ver en Google Maps</a>");
+                                    infowindow.setContent(content + "<br><a style='color:#427fed;' target='_blank' href='http://maps.google.com?q=" + marker.position + "'>" + flexygo.localization.translate("text.seeMap") + "</a>");
                                 }
                                 else if (title) {
-                                    infowindow.setContent("<div>" + title + "</div><a style='color:#427fed;' target='_blank' href='http://maps.google.com?q=" + marker.position + "'>Ver en Google Maps</a>");
+                                    infowindow.setContent("<div>" + title + "</div><a style='color:#427fed;' target='_blank' href='http://maps.google.com?q=" + marker.position + "'>" + flexygo.localization.translate("text.seeMap") + " </a>");
                                 }
                                 else {
-                                    infowindow.setContent("<a style='color:#427fed;' target='_blank' href='http://maps.google.com?q=" + marker.position + "'>Ver en Google Maps</a>");
+                                    infowindow.setContent("<a style='color:#427fed;' target='_blank' href='http://maps.google.com?q=" + marker.position + "'>" + flexygo.localization.translate("text.seeMap") + "</a>");
                                 }
                                 infowindow.open(map, marker);
                             };
@@ -606,8 +687,9 @@ var flexygo;
                     }
                     // If the map position is out of range, move it back
                     function checkBounds(map) {
-                        let latNorth = map.getBounds().getNorthEast().lat();
-                        let latSouth = map.getBounds().getSouthWest().lat();
+                        let latNorth = (map.getBounds() ? map.getBounds().getNorthEast().lat() : '');
+                        let latSouth = (map.getBounds() ? map.getBounds().getSouthWest().lat() : '');
+                        ;
                         let newLat;
                         if (latNorth < 85 && latSouth > -85)
                             return;

@@ -201,10 +201,16 @@ var flexygo;
                                     valuesTemp = valuesTemp.substring(1, valuesTemp.length - 1);
                                     valuesTemp = valuesTemp.split(',');
                                     let values = new Object();
+                                    var lastKey;
                                     for (let z = 0; z < valuesTemp.length; z++) {
-                                        let arrKey = valuesTemp[z].split(':')[0].toString().trim();
-                                        let arrValue = valuesTemp[z].split(':')[1].toString().trim();
-                                        values[arrKey] = arrValue;
+                                        if (valuesTemp[z].includes(':')) {
+                                            let arrKey = lastKey = valuesTemp[z].split(':')[0].toString().trim();
+                                            let arrValue = valuesTemp[z].split(':')[1].toString().trim();
+                                            values[arrKey] = arrValue;
+                                        }
+                                        else {
+                                            values[lastKey] = values[lastKey] + ',' + valuesTemp[z];
+                                        }
                                     }
                                     for (let switchvalue in values) {
                                         if (switchvalue.toLowerCase() == rValue.toString().toLowerCase()) {

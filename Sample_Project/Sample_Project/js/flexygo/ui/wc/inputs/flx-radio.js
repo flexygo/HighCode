@@ -338,19 +338,9 @@ var flexygo;
                     if (typeof (input) !== 'undefined') {
                         input.on('blur', () => { me.trigger('blur'); });
                     }
-                    if (this.options && this.options.CauseRefresh) {
+                    const module = me.closest('flx-module')[0];
+                    if ((this.options && (this.options.CauseRefresh && this.options.SQLValidator)) || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
                         control.find('input').off('change').on('change', () => {
-                            let ev = {
-                                class: "property",
-                                type: "changed",
-                                sender: this,
-                                masterIdentity: this.property
-                            };
-                            flexygo.events.trigger(ev);
-                        });
-                    }
-                    if (this.options && this.options.SQLValidator != null) {
-                        control.find('input').off('change').on('change', (e) => {
                             let ev = {
                                 class: "property",
                                 type: "changed",

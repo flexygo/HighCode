@@ -949,6 +949,10 @@
                     if (this.labelContainer.length) {
                         this.labelContainer.append(place);
                     } else if (this.settings.errorPlacement) {
+                        let flxFile = $(element).closest('flx-file');
+                        if (flxFile.length > 0) {
+                            flxFile.find('> label#-error').remove();
+                        }
                         this.settings.errorPlacement(place, $(element));
                     } else {
                         place.insertAfter(element);

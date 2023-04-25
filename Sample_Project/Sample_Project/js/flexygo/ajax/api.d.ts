@@ -89,6 +89,28 @@ declare namespace flexygo.api {
         defaultvalue: any;
     }
     /**
+   * api for Dependency properties
+   * @class DependencyProperties
+   * @constructor
+   * @return {DependencyProperties} .
+   */
+    class DependencyProperties {
+        ObjectName: string;
+        DependantPropertyName: string;
+        PropertyName: string;
+    }
+    /**
+    * api for Dependency properties
+    * @class DependencyPropertiesLoweredKey
+    * @constructor
+    * @return {DependencyPropertiesLoweredKey} .
+    */
+    class DependencyPropertiesLoweredKey {
+        objectname: string;
+        dependantpropertyname: string;
+        propertyname: string;
+    }
+    /**
     * api for ObjectProperty
     * @class ObjectProperty
     * @constructor
@@ -177,6 +199,9 @@ declare namespace flexygo.api {
         Extensions: string;
         HasDependencies: boolean;
         HasDependingProperties: boolean;
+        DependingProperties: DependencyProperties[];
+        DependingFrom: DependencyProperties[];
+        ThrowDependenciesOnInvalid: boolean;
         ObjectPath?: string;
         Type?: string;
         AllowNull?: boolean;
@@ -188,6 +213,7 @@ declare namespace flexygo.api {
         ProcessName?: string;
         ReportName?: string;
         PageSize?: number;
+        BarcodeReaders?: string;
     }
     /**
     * api for ObjectPropertyLoweredKey
@@ -277,6 +303,9 @@ declare namespace flexygo.api {
         extensions: string;
         hasdependencies: boolean;
         hasdependingproperties: boolean;
+        dependingproperties: DependencyPropertiesLoweredKey[];
+        dependingfrom: DependencyPropertiesLoweredKey[];
+        throwdependenciesoninvalid: boolean;
         objectpath?: string;
         type?: string;
         allownull?: boolean;
@@ -288,6 +317,7 @@ declare namespace flexygo.api {
         processname?: string;
         reportname?: string;
         pagesize?: number;
+        BarcodeReaders?: string;
     }
     /**
     * api for ObjectPropertyCollection
@@ -733,6 +763,9 @@ declare namespace flexygo.api.kanban {
         FilterObjectWhere: string;
         SavedSearches: SavedSearchesCollection;
         SearchSettings: SearchSettingsCollection;
+        CurrentViewers: {
+            [name: string]: string;
+        };
     }
     /**
     * api for kanbanSettings
@@ -1113,6 +1146,9 @@ declare namespace flexygo.api.edit {
         ObjectName: string;
         ObjectWhere: string;
         Title: string;
+        CurrentViewers: {
+            [name: string]: string;
+        };
     }
     /**
    * api for getComboTextParams
@@ -1187,6 +1223,7 @@ declare namespace flexygo.api.edit {
         ObjectWhere: string;
         Title: string;
         RunButtonText: string;
+        RunButtonIconName: string;
         JSforParams: string;
     }
     /**
@@ -1619,6 +1656,9 @@ declare namespace flexygo.api.list {
         CanDelete: boolean;
         CanInsert: boolean;
         CanUpdate: boolean;
+        CurrentViewers: {
+            [name: string]: string;
+        };
     }
     /**
     * api for getSearchParams
@@ -2484,6 +2524,9 @@ declare namespace flexygo.api.view {
         Title: string;
         Properties: ObjectPropertyCollection;
         TemplateToolbarCollection: any;
+        CurrentViewers: {
+            [name: string]: string;
+        };
     }
 }
 /**
@@ -2547,10 +2590,12 @@ declare namespace flexygo.api.pages {
         InitHidden: boolean;
         ManualInit: boolean;
         HTMLInit: string;
+        ModuleViewers: boolean;
         ModuleObjectName: string;
         PresetName: string;
         PresetText: string;
         PresetIcon: string;
+        RemovePreset: string;
         Events: {
             [name: string]: ModuleEvent;
         };
@@ -2601,6 +2646,7 @@ declare namespace flexygo.api.pages {
             [name: string]: PageModule;
         };
         StrType: string;
+        PageWindowDescrip: string;
         pageHistory?: flexygo.nav.FlexygoHistory;
     }
     /**
@@ -2710,9 +2756,21 @@ declare namespace flexygo.api.Chatter {
         author: string;
         insertionDate: Date;
         content: string;
+        contentMarked: string;
         parentMessage: string;
         attachmentsCount: number;
         userOwner: string;
+        loginOwner: string;
+    };
+    type mentionsConfig = {
+        mentionsResult: Array<flexygo.api.Chatter.mentionsData>;
+        customOptions: string;
+    };
+    type mentionsData = {
+        id: string;
+        name: string;
+        avatar: string;
+        type: string;
     };
 }
 /**

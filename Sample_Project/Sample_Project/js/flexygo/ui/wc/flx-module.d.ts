@@ -29,6 +29,7 @@ declare namespace flexygo.ui.wc {
         isClone: boolean;
         ManualInit: boolean;
         HTMLInit: string;
+        ModuleViewers: boolean;
         componentString: string;
         moduleInitClass: string;
         JSAfterLoad: string;
@@ -39,6 +40,7 @@ declare namespace flexygo.ui.wc {
         emptyTop: boolean;
         emptyTimer: number;
         TemplateToolbarCollection: any;
+        newObjectWhere: string;
         /**
        * Fires when element is attached to DOM
        * @method connectedCallback
@@ -63,11 +65,16 @@ declare namespace flexygo.ui.wc {
         moduleLoaded(wc: any): void;
         toggle(): void;
         setButtons(buttons: flexygo.api.Toolbar, objectname: string, objectwhere: string, reportname?: string, processname?: string, reportwhere?: string): void;
-        getTemplateToolbar(buttons: flexygo.api.Toolbar, objectname: string, objectwhere: string, reportname?: string, processname?: string, reportwhere?: string): string;
+        ctxMenusValues: {};
+        setChildButtons(container: any, childBtns: any, objectname: any, objectwhere: any, defString: any, reportname: any, reportwhere: any, processname: any): void;
+        printToolbarContextMenu(id: any, btnId: any, objectname: any, objectwhere: any, defString: any, reportname: any, reportwhere: any, processname: any): void;
+        setMenuButtons(childBtns: any, parentId: any, objectname: any, objectwhere: any, defString: any, reportname: any, reportwhere: any, processname: any): JQuery;
+        showSubmenu(ev: any, btns: any, parentId: any, objectname: any, objectwhere: any, defString: any, reportname: any, reportwhere: any, processname: any, trueElement?: any): void;
+        getTemplateToolbar(buttons: flexygo.api.Toolbar, objectname: string, objectwhere: string, reportname?: string, processname?: string, reportwhere?: string): object;
         refreshButtons(buttons: flexygo.api.Toolbar, objectname: string, objectwhere: string, reportname?: string, processname?: string): void;
         private addGroup(position, btnGroup);
         refreshButton(htmlBtn: JQuery, btn: flexygo.api.ToolbarButton, objectname: string, objectwhere: string, objectdefaults: string, reportname?: string, reportwhere?: string, processname?: string): void;
-        getButton(btn: flexygo.api.ToolbarButton, objectname: string, objectwhere: string, objectdefaults: string, reportname?: string, reportwhere?: string, processname?: string): JQuery;
+        getButton(btn: flexygo.api.ToolbarButton, objectname: string, objectwhere: string, objectdefaults: string, reportname?: string, reportwhere?: string, processname?: string, notABtn?: boolean): JQuery;
         changeTemplate(): void;
         closeWindow(): void;
         toggleFullScreen(): void;
@@ -80,11 +87,18 @@ declare namespace flexygo.ui.wc {
         bagSelectionAll(objectName: string, objectWhere: string, module: JQuery, button: JQuery, cllbck?: any): void;
         bagShowOnlySelected(objectName: string, objectWhere: string, module: JQuery, button: JQuery, cllbck?: any): void;
         deleteModule(objectName: string, objectWhere: string, module: JQuery, button: JQuery, cllbck?: any): void;
-        saveModule(objectName: string, objectWhere: string, module: JQuery, button: JQuery): boolean;
+        deleteModuleResponse(objectName: string, objectWhere: string, module: JQuery, button: JQuery, cllbck?: any, lastProcessName?: string, lastAfterProcessName?: string): Promise<void>;
+        saveModule(objectName: string, objectWhere: string, module: JQuery, button: JQuery, afterSaveGoTo?: string, defaults?: any, lastObj?: any, lastProcessName?: string, lastAfterProcessName?: string): boolean;
         saveReportParams(reportname: string, reportwhere: string, objectname: string, objectwhere: string, objectdefaults: string, module: JQuery, button: JQuery): void;
         execProcessParams(processname: string, objectname: string, objectwhere: string, defaults: any, module: JQuery, button: JQuery): void;
         execSelectEntity(objectname: string, objectwhere: string, module: JQuery, button: JQuery): void;
         startLoading(): void;
         stopLoading(): void;
+        /**
+        * Checks if form is dirty.
+        * @method checkDirtyEdit
+        * @return {boolean}
+        */
+        checkDirtyEdit(): boolean;
     }
 }

@@ -145,6 +145,9 @@ var flexygo;
                                 if (response.Buttons) {
                                     wcModule.setButtons(response.Buttons, response.ObjectName, response.ObjectWhere);
                                 }
+                                else {
+                                    wcModule.setButtons(null, response.ObjectName, response.ObjectWhere);
+                                }
                                 wcModule.setObjectDescrip(response.Title);
                             }
                             if (response.RowButtons) {

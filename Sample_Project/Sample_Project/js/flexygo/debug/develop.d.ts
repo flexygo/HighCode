@@ -20,6 +20,7 @@ declare namespace flexygo.debug {
      * @param {bool} showAnimation - Sets if the animation must be shown.
      */
     function enableDevelopMode(enable: boolean, showAnimation: boolean): void;
+    function showObject(mode: any): void;
     /**
      * Configure and returns sidebar config page panel.
      * @method getPagePanel

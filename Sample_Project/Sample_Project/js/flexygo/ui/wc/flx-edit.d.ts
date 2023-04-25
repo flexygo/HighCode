@@ -34,6 +34,11 @@ declare namespace flexygo.ui.wc {
         };
         data: any;
         JSforParams: string;
+        currentViewers: {
+            [name: string]: string;
+        };
+        maxTabIndex: number;
+        isClone: boolean;
         constructor();
         /**
         * Fires when element is attached to DOM
@@ -78,11 +83,17 @@ declare namespace flexygo.ui.wc {
         initReportMode(): void;
         /**
         * Gets maximum tab index.
-        * @method getMaxTabindex
+        * @method setMaxTabindex
+        * @param {flexygo.api.ObjectPropertyCollection} props
+        */
+        setMaxTabindex(props: flexygo.api.ObjectPropertyCollection): void;
+        /**
+        * Gets last loaded edit controls number
+        * @method lastEditControlsCount
         * @param {flexygo.api.ObjectPropertyCollection} props
         * @return {string}
         */
-        getMaxTabindex(props: flexygo.api.ObjectPropertyCollection): string;
+        lastEditControlsCount(): number;
         /**
       * Init the webcomponent in edit process parameter mode.
       * @method initProcessMode
@@ -102,12 +113,6 @@ declare namespace flexygo.ui.wc {
         * @method render
         */
         render(): void;
-        /**
-        * Checks if form is dirty.
-        * @method checkDirtyEdit
-        * @return {boolean}
-        */
-        checkDirtyEdit(): boolean;
         /**
        * Establish webcomponent settings
        * @method configure
@@ -228,5 +233,10 @@ declare namespace flexygo.ui.wc {
       * @param {flexygo.events.FlexygoEvent} e
       */
         onPropertyChanged(e: flexygo.events.FlexygoEvent): void;
+        /**
+        * Set tab index to elements
+        * @method setTabIndex
+        */
+        setTabIndex(): void;
     }
 }

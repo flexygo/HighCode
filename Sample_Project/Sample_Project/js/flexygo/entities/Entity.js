@@ -46,12 +46,14 @@ var flexygo;
              * @method insert
              * @return {boolean} - Success or fail.
             */
-            insert() {
+            insert(lastProcessName, lastAfterProcessName) {
                 var ctx = this;
                 var ret = false;
-                var params = { ObjectName: null, Properties: null };
+                var params = { ObjectName: null, Properties: null, LastProcessName: null, LastAfterProcessName: null };
                 params.ObjectName = ctx.objectName;
                 params.Properties = flexygo.utils.dataToArray(ctx.data);
+                params.LastProcessName = lastProcessName;
+                params.LastAfterProcessName = lastAfterProcessName;
                 flexygo.ajax.syncPost('~/api/Entity', 'Insert', params, function (response) {
                     ctx.data = response.Properties;
                     ctx.objectWhere = response.ObjectWhere;
@@ -59,6 +61,8 @@ var flexygo;
                     ctx.warningMessage = response.WarningMessage;
                     ctx.successMessage = response.SuccessMessage;
                     ctx.jsCode = response.JSCode;
+                    ctx.lastProcessName = response.LastProcessName;
+                    ctx.lastAfterProcessName = response.LastAfterProcessName;
                     let ev = {
                         class: "entity",
                         type: "inserted",
@@ -76,13 +80,15 @@ var flexygo;
              * @method update
              * @return {boolean} - Success or fail.
             */
-            update() {
+            update(lastProcessName, lastAfterProcessName) {
                 var ctx = this;
                 var ret = false;
-                var params = { ObjectName: null, ObjectWhere: null, Properties: null };
+                var params = { ObjectName: null, ObjectWhere: null, Properties: null, LastProcessName: null, LastAfterProcessName: null };
                 params.ObjectName = ctx.objectName;
                 params.ObjectWhere = ctx.objectWhere;
                 params.Properties = flexygo.utils.dataToArray(ctx.data);
+                params.LastProcessName = lastProcessName;
+                params.LastAfterProcessName = lastAfterProcessName;
                 flexygo.ajax.syncPost('~/api/Entity', 'Update', params, function (response) {
                     ctx.data = response.Properties;
                     ctx.objectWhere = response.ObjectWhere;
@@ -90,6 +96,8 @@ var flexygo;
                     ctx.warningMessage = response.WarningMessage;
                     ctx.successMessage = response.SuccessMessage;
                     ctx.jsCode = response.JSCode;
+                    ctx.lastProcessName = response.LastProcessName;
+                    ctx.lastAfterProcessName = response.LastAfterProcessName;
                     let ev = {
                         class: "entity",
                         type: "updated",
@@ -107,16 +115,20 @@ var flexygo;
              * @method delete
              * @return {boolean} - Success or fail.
             */
-            delete() {
+            delete(lastProcessName, lastAfterProcessName) {
                 var ctx = this;
                 var ret = false;
-                var params = { ObjectName: null, ObjectWhere: null, Properties: null };
+                var params = { ObjectName: null, ObjectWhere: null, Properties: null, LastProcessName: null, LastAfterProcessName: null };
                 params.ObjectName = ctx.objectName;
                 params.ObjectWhere = ctx.objectWhere;
+                params.LastProcessName = lastProcessName;
+                params.LastAfterProcessName = lastAfterProcessName;
                 flexygo.ajax.syncPost('~/api/Entity', 'Delete', params, function (response) {
                     ctx.warningMessage = response.WarningMessage;
                     ctx.successMessage = response.SuccessMessage;
                     ctx.jsCode = response.JSCode;
+                    ctx.lastProcessName = response.LastProcessName;
+                    ctx.lastAfterProcessName = response.LastAfterProcessName;
                     ret = true;
                     let ev = {
                         class: "entity",

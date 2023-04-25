@@ -93,6 +93,7 @@ flx-voicesearch #main-search-voice-btn {
 
 flx-voicesearch input {
     border-right: 0px !important;
+    line-height: normal;
 }
 
 //Fixed size for li
@@ -225,6 +226,12 @@ flx-voicesearch .search-screen.fullScreen .search-box,
     opacity: 1;
 }
 
+@media (min-width: dbSize(medium)) {
+    flx-voicesearch #search-after {
+        display: none
+    }
+}
+
 @media (max-width: dbSize(small)) {
 
     flx-voicesearch .search-screen {
@@ -271,5 +278,4 @@ flx-voicesearch .search-screen.fullScreen .search-box,
         cursor: pointer;
         color: dbColor(txtHeaderColor);
     }
-
 }

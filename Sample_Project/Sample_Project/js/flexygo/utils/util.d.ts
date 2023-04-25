@@ -183,6 +183,8 @@ declare namespace flexygo.utils {
     */
     function areParents(objectname1: string, objectname2: string): boolean;
     function onlineCheck(interval: any): void;
+    function refreshModuleViewersInfo(module: flexygo.ui.wc.FlxModuleElement, listUsers: any): void;
+    function checkObserverModule(module: flexygo.ui.wc.FlxModuleElement, interval: any, removeElement?: boolean): void;
     /**
     * Evaluates JavaScript code and executes it.
     * @param {string} dynamicCode - Dynamic Code.
@@ -190,6 +192,20 @@ declare namespace flexygo.utils {
     * @return {any}
     */
     function execDynamicCode(dynamicCode: string): any;
+    /**
+    * Evaluates JavaScript code and executes it.
+    * @param {string} dynamicCode - Dynamic Code.
+    * @method execAsyncDynamicCode
+    * @return {Promise<any>}
+    */
+    function execAsyncDynamicCode(dynamicCode: string): Promise<any>;
+    /**
+    * Evaluates JavaScript code and executes it.
+    * @param {string} dynamicCode - Dynamic Code.
+    * @method execAsyncDynamicCode
+    * @return {Promise<any>}
+    */
+    function execAsyncFunction(jsFunction: string, paramNames?: string[], paramValues?: any[]): Promise<any>;
     /**
     * Evaluates if variable has defined value.
     * @param {any} value - Variable to evaluate
@@ -230,6 +246,21 @@ declare namespace flexygo.utils {
     * @param {string} scrollHeight Height where us desired to scroll
     */
     function scrollTo(scrollHeight: number): any;
+    /**
+    * Launch dark/light mode effect.
+    * @method isEmptyAttribute
+    * @param {boolean} dark Attribute Name.
+    */
+    function skinModeEffect(dark: boolean): any;
+    function getErrorMessage(err: any): string;
+    /**
+    * Generate random color based on a text seed.
+    * @method randomColor
+    * @param {text} seed Any string to get always same color.
+    * @return {string} Color in
+    */
+    function randomColor(seed: string): any;
+    var colors: Array<string>;
 }
 declare namespace flexygo.utils.querystring {
     function getParamValue(url: string, paramName: string): string;
@@ -241,6 +272,7 @@ declare namespace flexygo.utils.querystring {
         value: string;
     }];
 }
+declare function printText(text: any): void;
 declare namespace flexygo.mail {
     /**
     * Filters mail list Module with folder Name.

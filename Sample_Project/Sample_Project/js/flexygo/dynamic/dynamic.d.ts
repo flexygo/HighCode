@@ -11,6 +11,9 @@ declare namespace flexygo.utils.size {
     var m: number;
     var l: number;
 }
+declare namespace flexygo.utils.scroll {
+    var minheight: number;
+}
 declare namespace flexygo.colors {
     var success: string;
     var danger: string;

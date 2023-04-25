@@ -81,7 +81,8 @@ var flexygo;
                 reports: 'Rapports',
                 noelements: ' Il n’y a pas d’éléments',
                 popupwarning: 'Les paramètres de votre navigateur bloquent les fenêtres pop-up.',
-                reportmaxrows: 'Ce rapport utilise {0} lignes pour filtrer et dépasse la limite de {1}. Appliquez d\'abord un filtre plus restrictif.'
+                reportmaxrows: 'Ce rapport utilise {0} lignes pour filtrer et dépasse la limite de {1}. Appliquez d\'abord un filtre plus restrictif.',
+                scrolltop: 'Monter'
             };
             frfr.msg = {
                 confirm: 'Confirmer l’action',
@@ -128,7 +129,10 @@ var flexygo;
                 selecttable: 'Sélectionnez Tableau',
                 loadmore: 'Faites défiler pour charger plus',
                 hasdependencies: 'Lance des dépendances',
-                hasdependingproperties: 'Affecté par les dépendances'
+                hasdependingproperties: 'Affecté par les dépendances',
+                withchangeprocess: 'Avec processus de changement',
+                throwto: 'Jeter à',
+                affectedby: 'Affecté par'
             };
             frfr.flxeditgrid = {
                 addrow: 'Ajouter ligne',
@@ -323,6 +327,7 @@ var flexygo;
                 uniqueBagError: 'Champ d\'identificateur unique non défini.',
                 nofieldBagError: 'Impossible de trouver le champ <b>{0}</b>. Ajoutez-le pour interroger ou supprimer le bouton de sélection.',
                 noItemsSelected: 'D\'abord sélectionner un élément de la liste.',
+                currentlyViewing: 'Visionnage en cours'
             };
             frfr.flxnav = {
                 notimplemented: ' Action non mise en œuvre ',
@@ -385,6 +390,7 @@ var flexygo;
                 msgremove: 'Etes-vous sûr de vouloir supprimer le document?',
                 sendselection: 'Envoyer les documents sélectionnés',
                 noselection: 'Aucun document sélectionné',
+                filterdocs: 'Filtrer les documents',
             };
             frfr.imagemanager = {
                 upload: 'Télécharger',
@@ -435,6 +441,7 @@ var flexygo;
                 edit: 'Éditer',
                 submenus: 'Sous-menus',
                 newsubmenu: 'Nouveau sous-menu',
+                menuSecurity: 'Sécurité des menus',
             };
             frfr.modulemanager = {
                 save: 'Sauvegarder',
@@ -463,6 +470,7 @@ var flexygo;
                 deletenode: 'Supprimer nœud',
                 deletenodequestion: 'Êtes-vous sûr de vouloir supprimer ce nœud?',
                 addfields: 'Ajouter champs',
+                cloneDependencies: 'Cloner les dépendances d\'objet'
             };
             frfr.objectmanager = {
                 selecticon: 'Sélectionnez une icône ',
@@ -630,6 +638,7 @@ var flexygo;
                 apihelp: 'Voir notre aide pour savoir comment obtenir.',
                 nophone: 'Entrez un numéro de téléphone',
                 nomail: 'Entrez une adresse e-mail',
+                seeMap: 'Voir sur google maps'
             };
             frfr.flxfunnel = {
                 data: 'Aucune donnée',
@@ -784,6 +793,15 @@ var flexygo;
             };
             frfr.htmlreport = {
                 generate: 'Génération de rapport',
+            };
+            frfr.skin = {
+                darkmode: 'Mode Sombre',
+                lightmode: 'Mode Lumière'
+            };
+            frfr.flxBarcode = {
+                noCamera: 'Aucune caméra disponible trouvée',
+                IOSerr: 'Cette fonctionnalité n\'est pas disponible sur IOS',
+                noCode: 'Aucun code ne peut être trouvé dans cette image.'
             };
         })(frfr = culture.frfr || (culture.frfr = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

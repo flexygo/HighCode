@@ -374,7 +374,8 @@ var flexygo;
                     if (this.options && this.options.CssClass) {
                         me.children('div').addClass(this.options.CssClass);
                     }
-                    if (this.options && this.options.CauseRefresh) {
+                    const module = me.closest('flx-module')[0];
+                    if ((this.options && this.options.CauseRefresh) || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
                         input.on('change', () => {
                             //$(document).trigger('refreshProperty', [input.closest('flx-edit'), ctx.options.Name]);
                             let ev = {

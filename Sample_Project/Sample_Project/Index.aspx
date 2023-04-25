@@ -13,7 +13,7 @@
     <!-- CSS -->
     <%= Me.getCssScripts()%>
     <%= System.Web.Optimization.Styles.Render("~/bnd-" & FLEXYGO.Web.GlobalVars.VersionStr & "/plugins/css").ToHtmlString()%>
-    <%= System.Web.Optimization.Styles.Render("~/bnd-" & FLEXYGO.Web.GlobalVars.VersionStr & "/css").ToHtmlString()%>
+    <%= System.Web.Optimization.Styles.Render("~/bnd-" & FLEXYGO.Web.GlobalVars.VersionStr & "/" & IIf(FLEXYGO.Utilities.General.Util.IsBlank(FLEXYGO.Web.GlobalVars.ConfToken.UserSecurity.Mode), "light", FLEXYGO.Web.GlobalVars.ConfToken.UserSecurity.Mode).ToString() & "/css").ToHtmlString()%>
     <!--Skin CSS-->
     <%= Me.getSkinCss()%>
     <!--Interface CSS-->
@@ -34,7 +34,7 @@
 
     <%= System.Web.Optimization.Scripts.Render("~/bnd-" & FLEXYGO.Web.GlobalVars.VersionStr & "/plugins/js").ToHtmlString()%>
   
-    <%= System.Web.Optimization.Scripts.Render("~/bnd-" & FLEXYGO.Web.GlobalVars.VersionStr & "/js").ToHtmlString()%>
+    <%= System.Web.Optimization.Scripts.Render("~/bnd-" & FLEXYGO.Web.GlobalVars.VersionStr & IIf(FLEXYGO.Web.GlobalVars.ConfToken.UserSecurity.IsDesigner, "/a", "").ToString & "/js").ToHtmlString()%>
      <!--Skin JS-->
     <%= Me.getSkinScripts()%>
     <!--Interface JS-->
@@ -64,7 +64,7 @@
             <footer></footer>
         </div>
     </div>
-
+    <div id="flx-goUpArrow"><i class="flx-icon icon-up-arrow-2"></i></div>
     <script>
         configureFirebase()
     </script>

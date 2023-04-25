@@ -685,20 +685,10 @@ var flexygo;
                     if (this.options && this.options.ValidatorMessage && this.options.ValidatorMessage !== '') {
                         input.attr('data-msg-sqlvalidator', this.options.ValidatorMessage);
                     }
-                    if (this.options && this.options.CauseRefresh) {
+                    const module = me.closest('flx-module')[0];
+                    if ((this.options && (this.options.CauseRefresh || this.options.SQLValidator)) || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
                         input.on('change', () => {
                             //$(document).trigger('refreshProperty', [input.closest('flx-edit'), this.options.Name]);
-                            let ev = {
-                                class: "property",
-                                type: "changed",
-                                sender: this,
-                                masterIdentity: this.property
-                            };
-                            flexygo.events.trigger(ev);
-                        });
-                    }
-                    if (this.options && this.options.SQLValidator != null) {
-                        input.on('change', (e) => {
                             let ev = {
                                 class: "property",
                                 type: "changed",

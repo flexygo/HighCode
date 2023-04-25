@@ -392,7 +392,17 @@
     }
 }
 
-main:not(.ui-dialog-content) flx-documentmanager, .flx-documentmanager {    
+.dtc-filter-container {
+    position: relative;
+    margin-top: 15px;
+    transition: all 500ms;
+
+    .search, input {
+        width: 100%;
+    }
+}
+
+main:not(.ui-dialog-content) flx-documentmanager, .flx-documentmanager {
 
     @media (min-width: dbSize(small)) AND (max-width: dbSize(large)) {
         .dtc-container {
@@ -423,5 +433,11 @@ main:not(.ui-dialog-content) flx-documentmanager, .flx-documentmanager {
             min-width: 160px !important;
             padding: 10px !important;
         }
+    }
+}
+
+@media (min-width: dbSize(medium)) {
+    flx-module.fullscreen flx-documentmanager .dtc-pry-container, flx-module.fullscreen .flx-documentmanager .dtc-pry-container {
+        max-height: 80vh;
     }
 }

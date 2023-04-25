@@ -198,7 +198,7 @@ var flexygo;
                         this.ChartLineFill = Boolean(me.attr('linefill'));
                     }
                     if (listModule.attr("mode") === 'list') {
-                        this.data = wcListModule.data.length > 0 ? wcListModule.data.map(s => ({ serie: s[this.Series], label: s[this.Labels], value: s[this.Values] })) : wcListModule.data;
+                        this.data = wcListModule.data.length > 0 ? wcListModule.data.map(s => ({ serie: s[this.Series], label: s[this.Labels], value: s[this.Values], borderColor: s["borderColor"], backgroundColor: s["backgroundColor"] })) : wcListModule.data;
                     }
                     if (this.data.length > 0) {
                         let options = {

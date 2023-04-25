@@ -70,7 +70,7 @@ var flexygo;
                     me.empty();
                     //var ctl = $('<div class="search input-group"><span class="main-search-btn"><i class="flx-icon icon-search"></i></span><div class="input-group search hidden"><span class="input-group-addon cnf"  id="main-search-voice-btn"><i class="flx-icon icon-help-1 size-s"></i></span><span class="input-group-addon cnf" ><span  id="main-search-cnf-btn"><i class="flx-icon icon-order-down"></i></span></span><input type="search" class="form-control voice" placeholder="' + flexygo.localization.translate('flxsearch.search') + '" ></input></div></div>');
                     //var ctl = $('<div class="search input-group"><span class="main-search-btn"><i class="flx-icon icon-search"></i></span><div class=""><input type="' + flexygo.localization.translate('flxsearch.search') + '" class="form-control voice" placeholder="Search..." ></input><span class="input-group-addon cnf"  id="main-search-voice-btn"><i class="flx-icon icon-help-1 size-s"></i></span><span class="input-group-addon cnf" ><span  id="main-search-cnf-btn"><i class="flx-icon icon-order-down"></i></span></span></div></div>');
-                    var ctl = $('<div title="Search" class="search"><span id="search-icon"><i class="flx-icon icon-search-1"></i></span><div class="search-screen"><i id="main-search-cnf-btn" class="drop-icon flx-icon icon-order-down-1"></i><div class="drop-icon-content"></div><i class="close-icon flx-icon icon-close-11"></i><input type = "text" class= "search-box" placeholder = "' + flexygo.localization.translate('flxsearch.search') + '"></input><span><i id="main-search-voice-btn" class="flx-icon icon-mic" style="position: relative; display: block; font-size: 30px"></i></span><span><i class="flx-icon icon-flx-search" style="position: relative; display: block; font-size: 30px; margin-left: 10px"></i></span></div></div>');
+                    var ctl = $('<div title="Search" class="search"><span id="search-icon"><i class="flx-icon icon-search-1"></i></span><div class="search-screen"><i id="main-search-cnf-btn" class="drop-icon flx-icon icon-order-down-1"></i><div class="drop-icon-content"></div><i class="close-icon flx-icon icon-close-11"></i><form id="flx-search-form" action="javascript:void(0);"><input type = "text" class= "search-box" placeholder = "' + flexygo.localization.translate('flxsearch.search') + '"></input></form><span><i id="main-search-voice-btn" class="flx-icon icon-mic" style="position: relative; display: block; font-size: 30px"></i></span><span><i class="flx-icon icon-flx-search" style="position: relative; display: block; font-size: 30px; margin-left: 10px"></i></span></div></div>');
                     ctl.find('.close-icon').click(this.closeSearch);
                     ctl.on('keydown', (e) => {
                         if (e.keyCode == 27) {
@@ -85,7 +85,7 @@ var flexygo;
                     });
                     me.append(ctl);
                     ctl.find("#search-icon").closest('li').on('click', (e) => {
-                        if (!e.target.className.includes("close-icon")) {
+                        if (!e.target.className.includes("close-icon") && !e.target.className.includes("icon-flx-search")) {
                             $('.search-screen').addClass("fullScreen");
                             $('.search-box').focus();
                         }

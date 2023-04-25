@@ -132,6 +132,9 @@ var flexygo;
                     };
                     let defaults = null; ///OJO!!!!!!!
                     var pageContainer = flexygo.targets.createContainer(histObj, false, null);
+                    if (!pageContainer) {
+                        return;
+                    }
                     //if (triggerElement && !triggerElement.closest('.pageContainer').is(pageContainer)) {
                     //    pageContainer.data('opener', triggerElement.closest('.pageContainer'));
                     //}

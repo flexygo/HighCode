@@ -102,6 +102,8 @@ var flexygo;
                         this.panels[itm.attr('name')].panel.show();
                     }
                     else {
+                        let ev = new flexygo.events.FlexygoEvent("panel", "loading", this);
+                        flexygo.events.trigger(ev);
                         lastActive.removeClass('active');
                         lastActive.each((i, e) => {
                             this.panels[$(e).attr('name')].panel.hide('blind', { direction: 'left' }, 500);

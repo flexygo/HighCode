@@ -85,7 +85,8 @@ var flexygo;
                 reports: 'Reports',
                 noelements: 'No existing elements',
                 popupwarning: 'Pop-up windows blocked by browser. Please, change settings.',
-                reportmaxrows: 'This report uses {0} rows to filter and exceeds the {1} limit. Please apply a more restrictive filter first.'
+                reportmaxrows: 'This report uses {0} rows to filter and exceeds the {1} limit. Please apply a more restrictive filter first.',
+                scrolltop: 'Go up'
             };
             engb.flxfilter = {
                 searchplaceholder: 'Search by: ',
@@ -135,7 +136,10 @@ var flexygo;
                 selecttable: 'Select Table',
                 loadmore: 'Scroll to load more',
                 hasdependencies: 'Throw dependencies',
-                hasdependingproperties: 'Affected by dependencies'
+                hasdependingproperties: 'Affected by dependencies',
+                withchangeprocess: 'With change process',
+                throwto: 'Throw to',
+                affectedby: 'Affected by'
             };
             engb.flxeditgrid = {
                 addrow: 'Add row',
@@ -322,6 +326,7 @@ var flexygo;
                 uniqueBagError: 'Undefined Unique Identifier Field.',
                 nofieldBagError: 'Can\'t find field <b>{0}</b> in current row. Add it to query or remove selection button.',
                 noItemsSelected: 'Select some items from the list first.',
+                currentlyViewing: 'Currently viewing'
             };
             engb.flxnav = {
                 notimplemented: 'Action node not implemented',
@@ -385,6 +390,7 @@ var flexygo;
                 msgremove: 'Are you sure you want to remove the document?',
                 sendselection: 'Send selection',
                 noselection: 'No documents selected',
+                filterdocs: 'Filter documents',
             };
             engb.imagemanager = {
                 upload: 'Upload',
@@ -435,6 +441,7 @@ var flexygo;
                 edit: 'edit',
                 submenus: 'Submenus',
                 newsubmenu: 'New submenu',
+                menuSecurity: 'Menu security',
             };
             engb.modulemanager = {
                 save: 'Save',
@@ -463,6 +470,7 @@ var flexygo;
                 deletenode: 'Delete node',
                 deletenodequestion: 'Are you sure you want to delete this node?',
                 addfields: 'Add fields',
+                cloneDependencies: 'Clone object dependencies'
             };
             engb.objectmanager = {
                 selecticon: 'Select icon',
@@ -630,6 +638,7 @@ var flexygo;
                 apihelp: 'See our help to find out how to get.',
                 nophone: 'Enter a telephone number',
                 nomail: 'Enter an email address',
+                seeMap: 'See in google maps'
             };
             engb.flxfunnel = {
                 data: 'No data',
@@ -784,6 +793,15 @@ var flexygo;
             };
             engb.htmlreport = {
                 generate: 'Generating report',
+            };
+            engb.skin = {
+                darkmode: 'Dark Mode',
+                lightmode: 'Light Mode'
+            };
+            engb.flxBarcode = {
+                noCamera: 'No available camera found',
+                IOSerr: 'This functionalitie isn\'t available on IOS',
+                noCode: 'Can\'t find any code on this picture.'
             };
         })(engb = culture.engb || (culture.engb = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

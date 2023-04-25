@@ -421,7 +421,7 @@ var flexygo;
                     template += '</div>';
                     template += '<div class="order-controls ctl-panel">';
                     template += '	<flx-switch class="pull-left" property="Active" {{Active|Bool:checked}} ></flx-switch>';
-                    template += '  <flx-text type="text" class="pull-left ctlDescrip" property="Descrip" placeholder="' + flexygo.localization.translate('dependecymanager.description') + '" value="{{Descrip}}" ></flx-text>';
+                    template += '  <flx-text type="text" class="pull-left ctlDescrip" property="Descrip" placeholder="' + flexygo.localization.translate('dependecymanager.description') + '" value="{{sysDescrip}}" ></flx-text>';
                     template += '</div>';
                     template += '</div>';
                     template += '<div class="col-1 padding-top-s"><i class="flx-icon icon-close txt-danger clickable deleteDependencyButton"/></div>';

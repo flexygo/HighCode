@@ -111,6 +111,9 @@ var flexygo;
                                 this.moduleButtons = response.Buttons;
                                 wcModule.setButtons(response.Buttons, null, null);
                             }
+                            else {
+                                wcModule.setButtons(null, null, null);
+                            }
                         }
                         if (parentModule && wcModule) {
                             wcModule.moduleLoaded(this);

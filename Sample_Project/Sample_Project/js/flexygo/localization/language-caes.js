@@ -85,7 +85,8 @@ var flexygo;
                 reports: 'Informes',
                 noelements: 'Element no existent',
                 popupwarning: 'Pop-up windows bloquejades pel navegador. Per favor, canvia paràmetres',
-                reportmaxrows: 'This report uses {0} rows to filter and exceed the {1} limit. Please apply a restrictive filter first.'
+                reportmaxrows: 'This report uses {0} rows to filter and exceed the {1} limit. Please apply a restrictive filter first.',
+                scrolltop: 'Anar a dalt'
             };
             caes.flxfilter = {
                 searchplaceholder: 'Cecar per: ',
@@ -134,7 +135,10 @@ var flexygo;
                 adddetachedproperty: 'Afegir propietat separada ',
                 loadmore: 'Desplaça\'t per carregar-ne més',
                 hasdependencies: 'Llança dependències',
-                hasdependingproperties: 'Afectada per dependències'
+                hasdependingproperties: 'Afectada per dependències',
+                withchangeprocess: 'Amb procés de canvi',
+                throwto: 'Llança a',
+                affectedby: 'Afectada per'
             };
             caes.flxeditgrid = {
                 addrow: 'Afegeix fila',
@@ -321,6 +325,7 @@ var flexygo;
                 uniqueBagError: 'Camp d&#39;identificador únic sense definir.',
                 nofieldBagError: 'No es pot trobar el camp <b> {0} </b> a la fila actual. Afegiu-la per consultar o eliminar el botó de selecció..',
                 noItemsSelected: 'Primer seleccioneu alguns elements de la llista.',
+                currentlyViewing: 'Veient actualment'
             };
             caes.flxnav = {
                 notimplemented: 'El node d&#39;acció no s&#39;ha implementat',
@@ -383,6 +388,7 @@ var flexygo;
                 msgremove: 'Esteu segur que voleu eliminar el document?',
                 sendselection: 'Enviar selecció',
                 noselection: 'No hi ha documents seleccionats',
+                filterdocs: 'Filtrar documents',
             };
             caes.imagemanager = {
                 upload: 'Carregar',
@@ -433,6 +439,7 @@ var flexygo;
                 edit: 'Editar',
                 submenus: 'Submenús',
                 newsubmenu: 'Submenú nou',
+                menuSecurity: 'Seguretat dels menús',
             };
             caes.modulemanager = {
                 save: 'Desa',
@@ -461,6 +468,7 @@ var flexygo;
                 deletenode: 'Eliminar el node',
                 deletenodequestion: 'Esteu segur que voleu eliminar aquest node?',
                 addfields: 'Afegir camps',
+                cloneDependencies: 'Clonar dependències dels objectes'
             };
             caes.objectmanager = {
                 selecticon: 'Seleccionar la icona',
@@ -628,6 +636,7 @@ var flexygo;
                 apihelp: 'Vegeu la nostra ajuda per saber com aconseguir-ho.',
                 nophone: 'Introdueix un telèfon',
                 nomail: 'Introdueix una adreça de correu',
+                seeMap: 'Veure al google maps'
             };
             caes.flxfunnel = {
                 data: 'No hi ha informació',
@@ -782,6 +791,15 @@ var flexygo;
             };
             caes.htmlreport = {
                 generate: 'Generant informe',
+            };
+            caes.skin = {
+                darkmode: 'Mode Fosc',
+                lightmode: 'Mode Clar'
+            };
+            caes.flxBarcode = {
+                noCamera: 'No s\'ha trobat una càmera disponible',
+                IOSerr: 'Aquesta funcionalitat no està disponible a IOS',
+                noCode: 'No es pot trobar cap codi en aquesta imatge.'
             };
         })(caes = culture.caes || (culture.caes = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

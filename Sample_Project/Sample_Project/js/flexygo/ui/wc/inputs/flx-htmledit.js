@@ -336,7 +336,8 @@ var flexygo;
                     if (this.options && this.options.Hide) {
                         me.addClass("hideControl");
                     }
-                    if (this.options && this.options.CauseRefresh) {
+                    const module = me.closest('flx-module')[0];
+                    if ((this.options && this.options.CauseRefresh) || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
                         me.find('.summernote').on('summernote.change', () => {
                             //$(document).trigger('refreshProperty', [input.closest('flx-edit'), this.options.Name]);
                             let ev = {
@@ -351,8 +352,12 @@ var flexygo;
                 }
                 getValue() {
                     let me = $(this);
-                    if (me.find('.summernote').summernote('codeview.isActivated')) {
-                        me.find('.summernote').summernote('codeview.deactivate');
+                    let pluginInput = me.find('.summernote');
+                    if (pluginInput.summernote('codeview.isActivated')) {
+                        pluginInput.summernote('codeview.deactivate');
+                    }
+                    if (pluginInput.summernote('isEmpty')) {
+                        return '';
                     }
                     return me.find('textarea').val();
                 }

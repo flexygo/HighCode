@@ -21,10 +21,11 @@ var flexygo;
             if (httpExc.responseJSON) {
                 lastError = httpExc.responseJSON;
                 msg = httpExc.responseJSON.message;
-                if (!element && (httpExc.responseJSON.stackTrace != '' || httpExc.responseJSON.innermessage != '')) {
-                    msg = '<span onclick="flexygo.exceptions.showFullError();" >' + msg + '<br/><u>More info</u></span>';
-                }
                 tit = httpExc.responseJSON.title;
+                if (!element && (httpExc.responseJSON.stackTrace != '' || httpExc.responseJSON.innermessage != '' || httpExc.responseJSON.message != '')) {
+                    msg = '<span onclick="flexygo.exceptions.showFullError();" >' + msg + '<br/><u>More info</u></span>';
+                    tit = '<span onclick="flexygo.exceptions.showFullError();" >' + tit + '</span>';
+                }
                 msgtype = httpExc.responseJSON.msgtype;
             }
             if (!msg) {
@@ -54,9 +55,22 @@ var flexygo;
         * @method showFullError
         */
         function showFullError() {
+            let content = '';
+            if (lastError.title) {
+                content += '<b>Description:</b><br/>' + lastError.title;
+            }
+            if (lastError.message) {
+                content += '<br/>' + lastError.message;
+            }
+            if (lastError.innermessage) {
+                content += '<br/><br/><b>More info:</b><br/>' + lastError.innermessage;
+            }
+            if (lastError.stackTrace) {
+                content += '<br/><br/><b>Stack Trace:</b><br/><code>' + lastError.stackTrace + '</code>';
+            }
             Lobibox.window({
                 title: lastError.title,
-                content: '<b>Description:</b><br/>' + lastError.title + '<br/>' + lastError.message + '<br/><br/><b>Inner exception:</b><br/><code>' + lastError.innermessage + '</code><br/><br/><b>Stack Trace:</b><br/><code>' + lastError.stackTrace + '</code>'
+                content: content
             });
         }
         exceptions.showFullError = showFullError;

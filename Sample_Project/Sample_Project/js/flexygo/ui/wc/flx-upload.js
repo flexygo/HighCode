@@ -205,7 +205,7 @@ var flexygo;
                             let fileId = fileElement.attr('upload-file-id');
                             let values;
                             values = JSON.parse(this.value);
-                            delete values[fileId];
+                            values.splice(parseInt(fileId), 1);
                             this.value = JSON.stringify(values);
                             fileElement.remove();
                         });

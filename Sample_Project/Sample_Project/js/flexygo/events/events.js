@@ -209,6 +209,9 @@ var flexygo;
                                     case "dialog":
                                         catched = true;
                                         break;
+                                    case "document":
+                                        catched = true;
+                                        break;
                                 }
                                 if (catched) {
                                     switch (ee.EventAction) {

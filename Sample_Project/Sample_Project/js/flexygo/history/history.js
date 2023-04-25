@@ -4,15 +4,27 @@
 * @class flexygo.history
 */
 window.onpopstate = function (event) {
-    if (event.state) {
-        if (event.state.targetid == 'current' || event.state.targetid == 'main') {
-            event.state.targetid = 'main';
-            $('#realMain').data('context', event.state);
-            flexygo.history.go(event.state);
-        }
+    if ($('body').is('.historycancel')) {
+        $('body').removeClass('historycancel');
     }
     else {
-        flexygo.nav.goHome(true);
+        if (event.state) {
+            if (event.state.targetid == 'current' || event.state.targetid == 'main') {
+                if ($('#realMain').find("form.dirty:not(.skipDirty)").length > 0 && confirm(flexygo.localization.translate('flxedit.areyousuremsg')) == false) {
+                    $('body').addClass('historycancel');
+                    history.go(1);
+                }
+                else {
+                    $('#realMain').find("form.dirty").removeClass('dirty').addClass('skipDirty');
+                    event.state.targetid = 'main';
+                    $('#realMain').data('context', event.state);
+                    flexygo.history.go(event.state);
+                }
+            }
+        }
+        else {
+            flexygo.nav.goHome(true);
+        }
     }
 };
 var flexygo;
@@ -253,6 +265,9 @@ var flexygo;
                         let histObj = new flexygo.nav.FlexygoHistory();
                         histObj.targetid = 'modal640x480';
                         var container = flexygo.targets.createContainer(histObj, true, null, true);
+                        if (!container) {
+                            return;
+                        }
                         var ulList = $('<ul class="dialog-menu nolist"/>');
                         for (var i = 0; i < list.length; i++) {
                             var itm = flexygo.history.historyLog.getItem(list[i]);
