@@ -3964,3 +3964,22 @@ div.lg-backdrop {
 div.lg-slide[role="dialog"] {
     z-index: 100000;
 }
+/**COMBO TO PAGINATION LIST*/
+select.pagination {
+    cursor: pointer;
+    margin:0;
+    border-radius:0;
+}
+
+select.pagination:hover {
+    border-color: dbcolor(InfoColor);
+}
+
+flx-module .cntBodyFooter .pager.onlyPageInfo select.pagination {
+    margin-left: 10px;
+}
+
+flx-module .cntBodyFooter .pager:not(.onlyPageInfo):not(:empty) {
+    margin-left: 16px;
+    margin-right: 16px;
+}

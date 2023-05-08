@@ -1,7 +1,7 @@
 import { r as registerInstance, j as h } from './index-86ac49ff.js';
 import './ionic-global-0f98fe97.js';
 import { b as storage } from './webapi-79a1d3db.js';
-import { m as msg, u as util, n as nav } from './conftoken-7e3c18eb.js';
+import { m as msg, u as util, n as nav } from './conftoken-950775a1.js';
 import './jquery-5df58adb.js';
 import './utils-16079bfd.js';
 import './helpers-719f4c54.js';

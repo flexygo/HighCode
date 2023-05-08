@@ -640,8 +640,13 @@ var flexygo;
         */
         function execAsyncFunction(jsFunction, paramNames = [], paramValues = []) {
             return __awaiter(this, void 0, void 0, function* () {
-                var func = new Function(...paramNames, jsFunction);
-                return yield func(...paramValues);
+                let res, context;
+                context = paramValues[paramNames.indexOf('triggerElement')];
+                context = context ? context[0] : window;
+                context.customFunction = new Function(...paramNames, jsFunction);
+                res = yield context.customFunction.call(context, ...paramValues);
+                context.customFunction = null;
+                return res;
             });
         }
         utils.execAsyncFunction = execAsyncFunction;

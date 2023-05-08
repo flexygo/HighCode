@@ -1870,10 +1870,11 @@ var flexygo;
             } //class
             wc_1.FlxListElement = FlxListElement;
             function clearRow(list, btn) {
+                let listEl = list[0];
                 let cells = list.find('tfoot > tr > td');
                 let focus = false;
                 let input;
-                var obj = new flexygo.obj.Entity(list[0].objectname);
+                var obj = new flexygo.obj.Entity(listEl.objectname);
                 obj.read();
                 cells.each((i, e) => {
                     let cell = $(e);
@@ -1885,8 +1886,14 @@ var flexygo;
                         ctl.init();
                         if (!flexygo.utils.isBlank(cell.attr('def-value')) || !flexygo.utils.isBlank(cell.attr('def-text'))) {
                             let propName = cell.children().attr('property');
-                            let newValue = obj.data[propName] ? obj.data[propName].Value : null;
-                            newValue = (cell.attr('def-value') || newValue || null);
+                            let newValue;
+                            if (listEl.properties[propName] && listEl.properties[propName].IgnoreDBDefaultValue) {
+                                newValue = cell.attr('def-value');
+                            }
+                            else {
+                                newValue = obj.data[propName] ? obj.data[propName].Value : null;
+                                newValue = (newValue || cell.attr('def-value') || null);
+                            }
                             if (newValue) {
                                 newValue = flexygo.utils.parser.compile(null, newValue, null, null);
                             }

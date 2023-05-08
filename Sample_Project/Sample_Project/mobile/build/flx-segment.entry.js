@@ -1,7 +1,7 @@
 import { r as registerInstance, j as h, k as getElement } from './index-86ac49ff.js';
 import './ionic-global-0f98fe97.js';
 import './webapi-79a1d3db.js';
-import { s as sql } from './conftoken-7e3c18eb.js';
+import { s as sql } from './conftoken-950775a1.js';
 import { j as jquery } from './jquery-5df58adb.js';
 import './utils-16079bfd.js';
 import './helpers-719f4c54.js';

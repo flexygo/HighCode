@@ -1,7 +1,7 @@
 import { r as registerInstance, j as h, k as getElement } from './index-86ac49ff.js';
 import './ionic-global-0f98fe97.js';
 import './webapi-79a1d3db.js';
-import { u as util, i as flxSync, C as ConftokenProvider, s as sql, m as msg, n as nav } from './conftoken-7e3c18eb.js';
+import { u as util, i as flxSync, C as ConftokenProvider, s as sql, m as msg, n as nav } from './conftoken-950775a1.js';
 import { j as jquery } from './jquery-5df58adb.js';
 import './utils-16079bfd.js';
 import './helpers-719f4c54.js';
@@ -15,7 +15,7 @@ import './index-b40d441b.js';
 import './hardware-back-button-aacf3d12.js';
 import './index-50651ccc.js';
 import './overlays-5302658e.js';
-import { p as parser } from './parser-8aed96de.js';
+import { p as parser } from './parser-791f85ed.js';
 
 const flxListCss = "";
 
@@ -98,9 +98,9 @@ const FlxList = class {
             });
         });
     }
-    async refresh(ev) {
+    async refresh(ev, loadHeader = false, loadFooter = false) {
         //this.body=new Array(); Comentado para evitar que el render se llame 2 veces
-        this.loadData(false).then(() => {
+        this.loadData(false, loadHeader, loadFooter).then(() => {
             this.pageModifier = 0;
             if (this.page && this.page.JSAfterLoad)
                 this.page.JSAfterLoad;
@@ -123,7 +123,7 @@ const FlxList = class {
         }
         ;
     }
-    async loadData(first) {
+    async loadData(first, loadHeader = false, loadFooter = false) {
         try {
             this.lastItem = null;
             let infiniteScroll = ((jquery(this.me).find('ion-infinite-scroll').length > 0) ? jquery(this.me).find('ion-infinite-scroll')[0] : null);
@@ -181,7 +181,7 @@ const FlxList = class {
                 if (this.defaults) {
                     def = util.parseJSON(this.defaults);
                 }
-                this.body = await this.getRows(this.confObj, this.page, table, def, this, first, confT);
+                this.body = await this.getRows(this.confObj, this.page, table, def, this, first, confT, loadHeader, loadFooter);
             });
         }
         catch (e) {
@@ -189,11 +189,11 @@ const FlxList = class {
         }
         ;
     }
-    async getRows(confObj, page, table, defaults, ctx, first, cnf) {
+    async getRows(confObj, page, table, defaults, ctx, first, cnf, loadHeader = false, loadFooter = false) {
         let infiniteScroll = ((jquery(this.me).find('ion-infinite-scroll').length > 0) ? jquery(this.me).find('ion-infinite-scroll')[0] : null);
         let newItems = new Array();
         if (table && table.rows && table.rows.length > 0) {
-            if (first && page.header && page.header != '') {
+            if ((first || loadHeader) && page.header && page.header != '') {
                 this.header = await parser.recursiveCompile(sql.getRow(table, 0), page.header, cnf, ctx);
                 if (defaults) {
                     this.header = await parser.recursiveCompile(defaults, this.header, cnf, ctx);
@@ -228,7 +228,7 @@ const FlxList = class {
                     }
                 }
             }
-            if (first && page.footer && page.footer != '') {
+            if ((first || loadFooter) && page.footer && page.footer != '') {
                 this.footer = await parser.recursiveCompile(sql.getRow(table, 0), page.footer, cnf, ctx);
                 if (defaults) {
                     this.footer = await parser.recursiveCompile(defaults, this.footer, cnf, ctx);

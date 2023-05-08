@@ -1,8 +1,8 @@
 import { b as bootstrapLazy } from './index-86ac49ff.js';
-import { p as patchBrowser, g as globalScripts } from './app-globals-005a2d90.js';
+import { p as patchBrowser, g as globalScripts } from './app-globals-a4d1a0a6.js';
 import './ionic-global-0f98fe97.js';
 import './webapi-79a1d3db.js';
-import './conftoken-7e3c18eb.js';
+import './conftoken-950775a1.js';
 import './jquery-5df58adb.js';
 import './utils-16079bfd.js';
 import './helpers-719f4c54.js';
@@ -17,7 +17,7 @@ import './hardware-back-button-aacf3d12.js';
 import './index-50651ccc.js';
 import './overlays-5302658e.js';
 import './whiteboard-658b1b9f.js';
-import './parser-8aed96de.js';
+import './parser-791f85ed.js';
 
 patchBrowser().then(options => {
   globalScripts();

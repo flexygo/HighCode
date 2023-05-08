@@ -496,7 +496,7 @@ var flexygo;
                                                     Icon: ctx.objects[i].Icon
                                                 };
                                                 if (ctx.objects[i].CanInsert) {
-                                                    buttons += '<a style="padding: 0.7em;margin-right: 3%;margin-bottom: 3%;" class="btn btn-default bg-outstanding modalButton"><i style="margin-right:4px;" class="' + ctx.objects[i].Icon + '"></i>' + ctx.objects[i].ObjectDescrip + '</a>';
+                                                    buttons += '<a style="padding: 0.7em;margin-right: 3%;margin-bottom: 3%;" class="btn btn-default bg-outstanding modalButton" objectName="' + ctx.objects[i].ObjectName + '"><i style="margin-right:4px;" class="' + ctx.objects[i].Icon + '"></i>' + ctx.objects[i].ObjectDescrip + '</a>';
                                                 }
                                             }
                                             if (buttons != '') {
@@ -508,7 +508,7 @@ var flexygo;
                                                     onClose: () => { ctx.dayClick = false; }
                                                 });
                                                 $(".modalButton").click(function () {
-                                                    let object = myButtons[this.text];
+                                                    let object = myButtons[this.getAttribute('objectName')];
                                                     ctx.openEvent(object.ObjectName, object.StartDateField, object.EndDateField, object.StartTimeField, object.EndTimeField, object.DurationField, date.format("YYYY-MM-DD"), date.format("HH:mm"), object.AllDayField, hasTime);
                                                     $('.sweet-modal-overlay').remove();
                                                 });

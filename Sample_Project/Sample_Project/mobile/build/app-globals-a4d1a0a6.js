@@ -1,10 +1,10 @@
 import { B as BUILD, C as CSS, p as plt, w as win, a as promiseResolve, c as consoleDevInfo, H, d as doc, N as NAMESPACE } from './index-86ac49ff.js';
 import { i as initialize } from './ionic-global-0f98fe97.js';
 import { W as Webapi, s as storage, r as registerPlugin, P as Preferences, C as ConfToken, U as UrlConfig } from './webapi-79a1d3db.js';
-import { C as ConftokenProvider, u as util, s as sql, m as msg, c as cordova$1, a as checkAvailability, g as getPromise, I as IonicNativePlugin, _ as __extends$1, b as cordovaPropertyGet, d as cordovaPropertySet, e as Injectable, n as nav, f as cam, h as gps, t as tracking, i as flxSync, j as ConftokenService } from './conftoken-7e3c18eb.js';
+import { C as ConftokenProvider, u as util, s as sql, m as msg, c as cordova$1, a as checkAvailability, g as getPromise, I as IonicNativePlugin, _ as __extends$1, b as cordovaPropertyGet, d as cordovaPropertySet, e as Injectable, n as nav, f as cam, h as gps, t as tracking, i as flxSync, j as ConftokenService } from './conftoken-950775a1.js';
 import { j as jquery } from './jquery-5df58adb.js';
 import { w as whiteboard } from './whiteboard-658b1b9f.js';
-import { p as parser } from './parser-8aed96de.js';
+import { p as parser } from './parser-791f85ed.js';
 
 /*
  Stencil Client Patch v1.17.3 | MIT Licensed | https://stenciljs.com
@@ -421,7 +421,8 @@ const caes = {
         bufferSize: 'Hi ha hagut un problema a la inserció de la taula @, hauríeu de provar a reduir la mida del buffer intermèdia a la seva configuració',
         avatarSize: 'Sembla que la imatge de perfil és massa pesada',
         noExistingTable: 'Sembla que la taula @ no existeix',
-        nonSecureApi: 'El vostre navegador no admet accés a la base de dades a excepció de l\'ús de HTTPS o localhost. Per favor instal·la un certificat SSL o accedeix des de la màquina localhost durant el desenvolupament'
+        nonSecureApi: 'El vostre navegador no admet accés a la base de dades a excepció de l\'ús de HTTPS o localhost. Per favor instal·la un certificat SSL o accedeix des de la màquina localhost durant el desenvolupament',
+        maxLatency: 'Connexió inestable, torna-ho a provar més tard quan el senyal sigui més estable'
     },
     sync: {
         last: 'Última sincronització:',
@@ -547,7 +548,8 @@ const frfr = {
         bufferSize: 'Il y a eu un problème sur la table @ insertion, vous devriez essayer de diminuer la taille du tampon dans ses paramètres',
         avatarSize: 'Il semble que l\'image de profil soit trop lourde',
         noExistingTable: 'Il semble que la table @ n\'existe pas',
-        nonSecureApi: 'Votre navigateur n\'autorise pas l\'accès à la base de données sans HTTPS ou localhost. Veuillez installer un certificat SSL ou accéder à partir de la machine hôte local pendant le développement'
+        nonSecureApi: 'Votre navigateur n\'autorise pas l\'accès à la base de données sans HTTPS ou localhost. Veuillez installer un certificat SSL ou accéder à partir de la machine hôte local pendant le développement',
+        maxLatency: 'Connexion instable, veuillez réessayer plus tard lorsque le signal sera plus stable'
     },
     sync: {
         last: 'Dernière synchronisation:',
@@ -673,7 +675,8 @@ const eses = {
         bufferSize: 'Hubo un problema en la insercioón de la tabla @, debería intentar disminuir el tamaño del búfer en la configuración de esta',
         avatarSize: 'Parece que la imagen de perfil es demasiado pesada',
         noExistingTable: 'Parece que la tabla @ no existe',
-        nonSecureApi: 'Tu navegador no admite acceso a la base de datos a excepción del uso de HTTPS o localhost. Por favor instala un certificado SSL o accede desde la máquina localhost durante el desarrollo'
+        nonSecureApi: 'Tu navegador no admite acceso a la base de datos a excepción del uso de HTTPS o localhost. Por favor instala un certificado SSL o accede desde la máquina localhost durante el desarrollo',
+        maxLatency: 'Conexión inestable en estos momentos, intentelo de nuevo más tarde cuando la señal sea más estable'
     },
     sync: {
         last: 'Última Sincronización:',
@@ -799,7 +802,8 @@ const dede = {
         bufferSize: 'Beim Einfügen von Tabelle @ ist ein Problem aufgetreten. Sie sollten versuchen, die Puffergröße in den Einstellungen zu verringern',
         avatarSize: 'Anscheinend ist das Profilbild zu schwer',
         noExistingTable: 'Es scheint, dass die Tabelle @ nicht existiert',
-        nonSecureApi: 'Ihr Browser erlaubt keinen Datenbankzugriff ohne HTTPS oder localhost. Bitte installieren Sie während der Entwicklung ein SSL-Zertifikat oder greifen Sie vom lokalen Host-Computer aus zu'
+        nonSecureApi: 'Ihr Browser erlaubt keinen Datenbankzugriff ohne HTTPS oder localhost. Bitte installieren Sie während der Entwicklung ein SSL-Zertifikat oder greifen Sie vom lokalen Host-Computer aus zu',
+        maxLatency: 'Instabile Verbindung, bitte versuchen Sie es später erneut, wenn das Signal stabiler ist'
     },
     sync: {
         last: 'Letzte Synchronisation:',
@@ -925,7 +929,8 @@ const engb = {
         bufferSize: 'There was a problem on table @ insertion, you should try decreasing buffer size in its settings',
         avatarSize: 'It seems the profile image is too heavy',
         noExistingTable: 'It seems that the table @ does not exist',
-        nonSecureApi: 'Your browser doesn\'t allow database access without HTTPS or localhost. Please, install an SSL certificate or access from localhost machine during development'
+        nonSecureApi: 'Your browser doesn\'t allow database access without HTTPS or localhost. Please, install an SSL certificate or access from localhost machine during development',
+        maxLatency: 'Unstable connection, please try again later when the signal is more stable'
     },
     sync: {
         last: 'Last sync on:',

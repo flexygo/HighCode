@@ -1,7 +1,7 @@
 import { r as registerInstance, j as h } from './index-86ac49ff.js';
 import './ionic-global-0f98fe97.js';
 import { W as Webapi, b as storage } from './webapi-79a1d3db.js';
-import { c as cordova, I as IonicNativePlugin, n as nav, l as flxPush, C as ConftokenProvider, u as util, i as flxSync, m as msg } from './conftoken-7e3c18eb.js';
+import { c as cordova, I as IonicNativePlugin, n as nav, l as flxPush, C as ConftokenProvider, u as util, i as flxSync, m as msg } from './conftoken-950775a1.js';
 import { j as jquery } from './jquery-5df58adb.js';
 import './utils-16079bfd.js';
 import './helpers-719f4c54.js';
@@ -15,7 +15,7 @@ import './index-b40d441b.js';
 import './hardware-back-button-aacf3d12.js';
 import { m as menuController } from './index-50651ccc.js';
 import './overlays-5302658e.js';
-import { p as parser } from './parser-8aed96de.js';
+import { p as parser } from './parser-791f85ed.js';
 
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {

@@ -569,8 +569,8 @@ var flexygo;
                     };
                     flexygo.events.trigger(ev);
                     if (!norefresh) {
-                        this.grid.refresh();
                         this.saveFilterValueHistory(this.active, null);
+                        this.grid.refresh();
                     }
                 }
             }

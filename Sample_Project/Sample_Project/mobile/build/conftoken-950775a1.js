@@ -57222,7 +57222,7 @@ var util;
         return (await getBasicFieldsInfo(tableName)).map(element => {
             let values = element.trim().split(' ');
             let field = new fieldConfig;
-            field.FieldName = values[0];
+            field.FieldName = values[0].startsWith('`') && values[0].endsWith('`') ? values[0].substring(1, values[0].length - 1) : values[0];
             field.FieldType = values[1];
             return field;
         });
@@ -57376,7 +57376,12 @@ class SqlService {
                 fieldsSt += ', ';
                 valuesSt += ', ';
             }
-            fieldsSt += '`' + fields[j] + '`';
+            if (!fields[j].startsWith('`') && !fields[j].endsWith('`')) {
+                fieldsSt += '`' + fields[j] + '`';
+            }
+            else {
+                fieldsSt += fields[j];
+            }
             valuesSt += '?';
         }
         return 'INSERT INTO `' + tableName + '` (' + fieldsSt + ') VALUES (' + valuesSt + ')';
@@ -57410,7 +57415,12 @@ class SqlService {
             if (insertSt) {
                 insertSt += ', ';
             }
-            insertSt += fields[j].FieldName;
+            if (!fields[j].FieldName.startsWith('`') && !fields[j].FieldName.endsWith('`')) {
+                insertSt += '`' + fields[j].FieldName + '`';
+            }
+            else {
+                insertSt += fields[j].FieldName;
+            }
         }
         insertSt = 'INSERT INTO `' + tableName + '` (' + insertSt + ')';
         for (let i = 0; i < tb.length; i++) {
@@ -57564,7 +57574,12 @@ class SqlService {
     getCreateScript(tableName, fields, primaryKey) {
         let fieldsStr = '';
         for (let i = 0; i < fields.length; i++) {
-            fieldsStr += fields[i].FieldName + ' ' + this.getSQLType(fields[i].FieldType) + ', ';
+            if (!fields[i].FieldName.startsWith('`') && !fields[i].FieldName.endsWith('`')) {
+                fieldsStr += `\`${fields[i].FieldName}\` ${this.getSQLType(fields[i].FieldType)}, `;
+            }
+            else {
+                fieldsStr += `${fields[i].FieldName} ${this.getSQLType(fields[i].FieldType)}, `;
+            }
         }
         fieldsStr += `
     _isInserted INTEGER DEFAULT 0, 
@@ -58445,12 +58460,23 @@ var navOnline;
 var flxSync;
 (function (flxSync) {
     let syncId = "";
-    function sendData(options) {
+    async function sendData(options) {
         if (options) {
             if (!options.syncTables)
                 options.syncTables = [];
             if (!options.syncViews)
                 options.syncViews = [];
+        }
+        let confToken = await ConftokenProvider.config();
+        if (confToken && confToken.generalConfig && confToken.generalConfig.maxLatency > 0) {
+            if (confToken.generalConfig.maxLatency > 0) {
+                try {
+                    await util.getPing(confToken.generalConfig.maxLatency);
+                }
+                catch (ex) {
+                    throw new Error(util.translate('exceptions.maxLatency'));
+                }
+            }
         }
         let cnf = new ConftokenService();
         popOverInfo(cnf, false).then(() => {
@@ -58902,7 +58928,7 @@ var CameraResultType;
 })(CameraResultType || (CameraResultType = {}));
 
 const Camera$1 = registerPlugin('Camera', {
-    web: () => __sc_import_app('./web-2ec80b7d.js').then(m => new m.CameraWeb()),
+    web: () => __sc_import_app('./web-764ac06f.js').then(m => new m.CameraWeb()),
 });
 
 const CameraPreview = registerPlugin('CameraPreview', {
@@ -61484,6 +61510,7 @@ class ConftokenService {
             generalConf.sendMessage = cnf.Data.GeneralConf[0].SendMessage;
             generalConf.locationSending = cnf.Data.GeneralConf[0].LocationSending;
             generalConf.syncTimeout = cnf.Data.GeneralConf[0].SyncTimeout;
+            generalConf.maxLatency = cnf.Data.GeneralConf[0].MaxLatency;
         }
         return generalConf;
     }
