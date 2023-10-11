@@ -87,4 +87,15 @@ flx-scheduler .margin-filter{
 
  flx-scheduler .fc-basic-view .fc-body .fc-row {
     min-height: 8em;
+    overflow: inherit;
+}
+
+//New style for week flx-scheduler to solve the glitch with tooltip (Necesary to override the style properties added in fullcalendar.min.css)
+
+flx-scheduler div.fc-scroller.fc-time-grid-container, flx-scheduler div.fc-scroller.fc-day-grid-container {
+    overflow: inherit !important;
+}
+//to ensure the tooltip overlaps
+flx-scheduler .fc-widget-content > .fc-day-grid.fc-unselectable {
+    z-index: inherit;
 }

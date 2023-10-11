@@ -111,10 +111,13 @@ var Lobibox = Lobibox || {};
             }
             if (me.$options.closeOnEsc) {
                 $(document).on('keyup.lobibox', function (ev) {
-                    if (ev.which === 27) {
+                    if (ev.which === 27 || $('.lobibox-btn-default').hasClass('flxClicked')) {
                         me.destroy();
                     } else if (ev.which === 13 && me.$options.multiline == false) {
-                        if($('.lobibox-btn-default').length>0){$('.lobibox-btn-default').click();}
+                        if ($('.lobibox-btn-default').length > 0) {
+                            $('.lobibox-btn-default').addClass('flxClicked');
+                            $('.lobibox-btn-default').click();
+                        }
                     }
                 });
             }

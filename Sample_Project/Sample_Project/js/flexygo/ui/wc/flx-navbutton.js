@@ -40,13 +40,6 @@ var flexygo;
                     this.disabled = false;
                 }
                 /**
-                * Array of observed attributes. REQUIRED
-                * @property observedAttributes {Array}
-                */
-                static get observedAttributes() {
-                    return ['appname', 'type', 'objectname', 'objectwhere', 'defaults', 'targetid', 'excludehist', 'pagename', 'pagetypeid', 'callback', 'processname', 'processparams', 'reportname', 'reportwhere', 'reportparams', 'helpid', 'showProgress', 'presets', 'disabled'];
-                }
-                /**
                * Fires when element is attached to DOM
                * @method connectedCallback
                */
@@ -255,6 +248,11 @@ var flexygo;
                     }
                 }
             }
+            /**
+            * Array of observed attributes. REQUIRED
+            * @property observedAttributes {Array}
+            */
+            FlxNavButtonElement.observedAttributes = ['appname', 'type', 'objectname', 'objectwhere', 'defaults', 'targetid', 'excludehist', 'pagename', 'pagetypeid', 'callback', 'processname', 'processparams', 'reportname', 'reportwhere', 'reportparams', 'helpid', 'showProgress', 'presets', 'disabled'];
             wc.FlxNavButtonElement = FlxNavButtonElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

@@ -40,13 +40,6 @@ var flexygo;
                     }
                 }
                 /**
-               * Array of observed attributes.
-               * @property observedAttributes {Array}
-               */
-                static get observedAttributes() {
-                    return ['modulename'];
-                }
-                /**
                * Fires when the attribute value of the element is changed.
                * @method attributeChangedCallback
                */
@@ -88,7 +81,7 @@ var flexygo;
                         }
                     }, null, () => { this.stopLoading(); }, () => { this.startLoading(); });
                 }
-                translate(str) {
+                flxTranslate(str) {
                     return flexygo.localization.translate(str);
                 }
                 startLoading() {
@@ -102,6 +95,11 @@ var flexygo;
                     }
                 }
             }
+            /**
+           * Array of observed attributes.
+           * @property observedAttributes {Array}
+           */
+            FlxSqlFeedElement.observedAttributes = ['modulename'];
             wc.FlxSqlFeedElement = FlxSqlFeedElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

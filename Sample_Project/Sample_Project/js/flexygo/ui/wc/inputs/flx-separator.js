@@ -110,13 +110,6 @@ var flexygo;
                     this.connected = true;
                 }
                 /**
-                * Array of observed attributes.
-                * @property observedAttributes {Array}
-                */
-                static get observedAttributes() {
-                    return ['property', 'label', 'style', 'type', 'class', 'iconclass', 'hide'];
-                }
-                /**
                 * Fires when the attribute value of the element is changed.
                 * @method attributeChangedCallback
                 */
@@ -240,6 +233,11 @@ var flexygo;
                 triggerDependencies() {
                 }
             }
+            /**
+            * Array of observed attributes.
+            * @property observedAttributes {Array}
+            */
+            FlxSeparatorElement.observedAttributes = ['property', 'label', 'style', 'type', 'class', 'iconclass', 'hide'];
             wc.FlxSeparatorElement = FlxSeparatorElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

@@ -166,7 +166,7 @@ declare namespace flexygo.ui.wc {
         * Monitor the list of observed attribute for changes.
         * @property observedAttributes
         */
-        static readonly observedAttributes: string[];
+        observedAttributes(): string[];
         /**
         * Fires when the attribute value of the element is changed.
         * @method attributeChangedCallback

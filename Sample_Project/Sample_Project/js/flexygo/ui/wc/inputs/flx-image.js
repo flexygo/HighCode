@@ -160,13 +160,6 @@ var flexygo;
                     //}
                 }
                 /**
-               * Array of observed attributes.
-               * @property observedAttributes {Array}
-               */
-                static get observedAttributes() {
-                    return ['type', 'typemode', 'modulename', 'property', 'required', 'locked', 'disabled', 'style', 'class', 'hide', 'tag'];
-                }
-                /**
                * Fires when the attribute value of the element is changed.
                * @method attributeChangedCallback
                */
@@ -384,7 +377,7 @@ var flexygo;
                                 sender: this,
                                 masterIdentity: this.property
                             };
-                            flexygo.events.trigger(ev);
+                            flexygo.events.trigger(ev, me);
                         });
                     }
                 }
@@ -983,6 +976,11 @@ var flexygo;
                     input.trigger('change');
                 }
             }
+            /**
+           * Array of observed attributes.
+           * @property observedAttributes {Array}
+           */
+            FlxImageElement.observedAttributes = ['type', 'typemode', 'modulename', 'property', 'required', 'locked', 'disabled', 'style', 'class', 'hide', 'tag'];
             wc.FlxImageElement = FlxImageElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

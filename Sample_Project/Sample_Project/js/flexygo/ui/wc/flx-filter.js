@@ -188,6 +188,7 @@ var flexygo;
                */
                 init() {
                     let me = $(this);
+                    flexygo.events.on(this, "property", "changed", this.onPropertyChanged, true);
                     let activeFilters = flexygo.storage.local.get('activeFilters');
                     if (activeFilters && this.key != null) {
                         if (typeof activeFilters[this.key] != 'undefined') {
@@ -282,10 +283,28 @@ var flexygo;
                         if (me.length > 0) {
                             me.addClass('active');
                         }
-                        me.on('keypress', (e) => {
+                        me.off('keypress').on('keypress', (e) => {
                             if (e.which == 13) {
                                 e.preventDefault();
-                                this.applyFilters();
+                                let multicomboHtml = e.target.closest('flx-multicombo');
+                                if (multicomboHtml) {
+                                    let multicomboJquery = $(multicomboHtml);
+                                    let listInput = multicomboJquery.find('li input');
+                                    let tags = multicomboHtml.getValue().split(multicomboHtml.separator);
+                                    let selectedLi = multicomboJquery.find('li.selected');
+                                    let listValues = multicomboJquery.find('li:not(.search)');
+                                    //Si el input est� vac�o Y no hay valor seleccionado Y (hay m�s de un resulatado O el resultado que hay ya ha sido a�adido) debe filtrar
+                                    if (listInput.val() === '' && selectedLi.length === 0 && (listValues.length > 1 || (listValues.length === 1 && tags.indexOf(listValues.attr('data-value')) !== -1))) {
+                                        this.applyFilters();
+                                    }
+                                    //Si el valor ya ha sido a�adido se filtrar�
+                                    if (tags.indexOf(selectedLi.attr('data-value')) !== -1) {
+                                        this.applyFilters();
+                                    }
+                                }
+                                else {
+                                    this.applyFilters();
+                                }
                             }
                         });
                         let btnApply = $('<button class="btn btn-default txt-success"><i class="flx-icon icon-search"></i></button>');
@@ -333,6 +352,125 @@ var flexygo;
                         this.properties[prop.ObjectName + '-' + prop.Name] = prop;
                     });
                 }
+                onPropertyChanged(e) {
+                    let wc = $(e.sender);
+                    let me = $(wc.closest('flx-filter'));
+                    if (me.find(wc).length > 0) {
+                        if ((me)[0].key == e.context.key) {
+                            let propertyElement = e;
+                            let containerItem = $(me.closest('flx-module')[0]);
+                            let props = me.find('[property]');
+                            let propertyName = e.masterIdentity;
+                            if (props.length > 0) {
+                                let Properties = [];
+                                for (let i = 0; i < props.length; i++) {
+                                    let prop = $(props[i])[0];
+                                    Properties.push({
+                                        Key: prop.property,
+                                        Value: prop.getValue()
+                                    });
+                                }
+                                let objeto = wc[0];
+                                let params = {
+                                    SearchId: (me)[0].active,
+                                    ObjectName: containerItem.find('flx-list')[0].objectname,
+                                    PropertyObjectName: $(wc[0]).attr("object"),
+                                    PropertyName: propertyName,
+                                    Properties: Properties
+                                };
+                                this.paintLoadingFilter(propertyElement);
+                                flexygo.ajax.post('~/api/Edit', 'ProcessFilterDependencies', params, (response) => {
+                                    try {
+                                        if (response) {
+                                            for (let i = 0; i < response.length; i++) {
+                                                let itm = response[i];
+                                                let prop = me.find('[property="' + itm.PropertyName + '"]');
+                                                if (prop.length > 0) {
+                                                    this.refreshProperty(itm, prop);
+                                                }
+                                            }
+                                        }
+                                        this.removeLoadingFilter(propertyElement);
+                                    }
+                                    catch (e) {
+                                        flexygo.exceptions.httpShow(e);
+                                        this.removeLoadingFilter(propertyElement);
+                                    }
+                                    ;
+                                }), (error) => {
+                                    flexygo.exceptions.httpShow(error);
+                                    this.removeLoadingFilter(propertyElement);
+                                };
+                            }
+                        }
+                    }
+                }
+                /**
+               * Paint a Loading animation in active filter.
+               * @method paintLoadingFilter
+               */
+                paintLoadingFilter(e) {
+                    let containerItem = $(e.sender).closest('.item');
+                    let currentFilter = containerItem.closest('flx-filter')[0];
+                    if (currentFilter) {
+                        let currentProperties = currentFilter.settings[currentFilter.active].Properties;
+                        let DependingProperties;
+                        for (let key in currentProperties) {
+                            if (currentProperties[key].PropertyName == e.masterIdentity) {
+                                DependingProperties = currentProperties[key].DependingFilterProperties;
+                                break;
+                            }
+                        }
+                        for (let i = 0; i < DependingProperties.length; i++) {
+                            let DependantPropertyName = DependingProperties[i].DependantPropertyName;
+                            let DependantObjectName = DependingProperties[i].DependantObjectName;
+                            let HTMLProperty = $($(currentFilter)[0]).find(`[property="${DependantPropertyName}"][object="${DependantObjectName}"]`)[0].closest(".item");
+                            $(HTMLProperty).addClass("flx-relative");
+                            $(HTMLProperty).addClass("flx-opacity");
+                            if ($(HTMLProperty).find('#flx-dependency-loader').length == 0) {
+                                $(HTMLProperty).append('<div id="flx-dependency-loader"></div>');
+                            }
+                        }
+                    }
+                }
+                /**
+              * Remove the Loading animation of the active filter.
+              * @method removeLoadingFilter
+              */
+                removeLoadingFilter(e) {
+                    let me = $(e.sender).closest('flx-filter')[0];
+                    if (me) {
+                        let currentProperties = me.settings[me.active].Properties;
+                        let DependingProperties;
+                        for (let key in currentProperties) {
+                            if (currentProperties[key].PropertyName == e.masterIdentity) {
+                                DependingProperties = currentProperties[key].DependingFilterProperties;
+                                break;
+                            }
+                        }
+                        for (let i = 0; i < DependingProperties.length; i++) {
+                            let DependantPropertyName = DependingProperties[i].DependantPropertyName;
+                            let DependantObjectName = DependingProperties[i].DependantObjectName;
+                            let HTMLProperty = $($(me)[0]).find(`[property="${DependantPropertyName}"][object="${DependantObjectName}"]`)[0].closest(".item");
+                            $(HTMLProperty).find("#flx-dependency-loader").remove();
+                            $(HTMLProperty).removeClass('flx-relative flx-opacity');
+                        }
+                    }
+                }
+                refreshProperty(itm, prop) {
+                    if (prop.is('flx-multicombo')) {
+                        let clearButton = $(prop).find("label.cleared > label.clickable");
+                        if (clearButton) {
+                            clearButton.trigger('click');
+                        }
+                    }
+                    if (itm.changeSQL) {
+                        let cntl = prop[0];
+                        if (cntl.changeSQLData) {
+                            cntl.changeSQLData(itm.newSQL, null);
+                        }
+                    }
+                }
                 /**
                * Pushes filter values into filter object.
                * @method getfilterValues
@@ -346,7 +484,7 @@ var flexygo;
                         let val = me.find("input[type='search']").val();
                         let txt = me.find("input[type='search']").text();
                         if (!val || val.length === 0) {
-                            this.clearFilters();
+                            this.clearFilters(false, false);
                             return;
                         }
                         $.each(this.settings[this.active].Properties, (i, e) => {
@@ -402,7 +540,7 @@ var flexygo;
                         masterIdentity: this.settings[this.active].ObjectName,
                         detailIdentity: this.active
                     };
-                    flexygo.events.trigger(ev);
+                    flexygo.events.trigger(ev, $(this));
                 }
                 /**
                * Assignes current saved filter values to curren filter.
@@ -551,7 +689,7 @@ var flexygo;
              * @method clearFilters
              * @param {boolean} norefresh - disable automatic refreshing
              */
-                clearFilters(norefresh = false) {
+                clearFilters(norefresh = false, triggerEv = true) {
                     let me = $(this);
                     let ctls = me.find('[property]');
                     $.each(ctls, (i, ctl) => {
@@ -560,6 +698,8 @@ var flexygo;
                     });
                     me.find("input[type='search']").val("");
                     this.grid.filterValues = null;
+                    if (!triggerEv)
+                        return;
                     let ev = {
                         class: "module",
                         type: "filtered",
@@ -567,7 +707,7 @@ var flexygo;
                         masterIdentity: this.settings[this.active].ObjectName,
                         detailIdentity: this.active
                     };
-                    flexygo.events.trigger(ev);
+                    flexygo.events.trigger(ev, me);
                     if (!norefresh) {
                         this.saveFilterValueHistory(this.active, null);
                         this.grid.refresh();

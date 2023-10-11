@@ -25,13 +25,6 @@ var flexygo;
                     this.connected = false;
                 }
                 /**
-                * Array of observed attributes. REQUIRED
-                * @property observedAttributes {Array}
-                */
-                static get observedAttributes() {
-                    return ['ObjectName', 'ObjectWhere', 'ModuleName'];
-                }
-                /**
                 * Init the webcomponent. REQUIRED.
                 * @method init
                 */
@@ -84,6 +77,11 @@ var flexygo;
                     }
                 }
             }
+            /**
+            * Array of observed attributes. REQUIRED
+            * @property observedAttributes {Array}
+            */
+            FlxSampleWcElement.observedAttributes = ['ObjectName', 'ObjectWhere', 'ModuleName'];
             wc.FlxSampleWcElement = FlxSampleWcElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

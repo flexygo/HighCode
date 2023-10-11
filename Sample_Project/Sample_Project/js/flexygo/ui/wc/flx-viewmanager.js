@@ -39,9 +39,6 @@ var flexygo;
                     this.mode = element.attr('mode');
                     this.init();
                 }
-                static get observedAttributes() {
-                    return [];
-                }
                 attributeChangedCallback(attrName, oldVal, newVal) {
                     if (!this.connected) {
                         return;
@@ -382,6 +379,7 @@ var flexygo;
                     }
                 }
             }
+            FlxViewManagerElement.observedAttributes = [];
             wc.FlxViewManagerElement = FlxViewManagerElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

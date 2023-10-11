@@ -176,13 +176,6 @@ var flexygo;
                     this.connected = true;
                 }
                 /**
-               * Array of observed attributes.
-               * @property observedAttributes {Array}
-               */
-                static get observedAttributes() {
-                    return ['property', 'required', 'disabled', 'requiredmessage', 'style', 'class', 'validatormessage', 'placeholder', 'iconclass', 'minvalue', 'maxvalue', 'maxvaluemessage', 'minvaluemessage', 'helpid', 'hide'];
-                }
-                /**
                 * Fires when the attribute value of the element is changed.
                 * @method attributeChangedCallback
                 */
@@ -493,7 +486,7 @@ var flexygo;
                                 sender: this,
                                 masterIdentity: this.property
                             };
-                            flexygo.events.trigger(ev);
+                            flexygo.events.trigger(ev, me);
                         });
                     }
                     if (this.options && this.options.Locked) {
@@ -550,8 +543,11 @@ var flexygo;
                     this.value = value;
                     let input = $(this).find('label');
                     let regExp = /[&<>"'`=\/]/mi;
-                    if (typeof value === 'string' && value !== null && regExp.test(value)) {
-                        value = flexygo.string.escapeHTML(value);
+                    if (typeof value === 'string' && value !== null) {
+                        input.attr('title', value);
+                        if (regExp.test(value)) {
+                            value = flexygo.string.escapeHTML(value);
+                        }
                     }
                     input.html(value);
                 }
@@ -578,6 +574,11 @@ var flexygo;
                     input.trigger('change');
                 }
             }
+            /**
+           * Array of observed attributes.
+           * @property observedAttributes {Array}
+           */
+            FlxTextAreaElement.observedAttributes = ['property', 'required', 'disabled', 'requiredmessage', 'style', 'class', 'validatormessage', 'placeholder', 'iconclass', 'minvalue', 'maxvalue', 'maxvaluemessage', 'minvaluemessage', 'helpid', 'hide'];
             wc.FlxTextAreaElement = FlxTextAreaElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

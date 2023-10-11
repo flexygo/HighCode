@@ -89,98 +89,6 @@ declare namespace flexygo.nav {
     * @param {boolean} showprogress - false to hide progress indicator
    */
     function execProcess(processname: string, objectname: string, objectwhere: string, defaults: any, processparams: any, targetid: string, excludeHist: boolean, triggerElement: JQuery, callBack?: any, showProgress?: boolean, originalProcess?: flexygo.Process): void;
-    /**
-    * Executes a process asyncronously, opening its param page if required
-    * @method execProcess
-    * @param {string} processname - Identifier of the process
-    * @param {string} objectname - Name of the collection or entity
-    * @param {string} objectwhere - Where of the collection or entity
-    * @param {string} defaults - Defaults to be added to the process
-    * @param {any} processparams - Array of process parameters
-    * @param {string} targetid - Target to open the window
-    * @param {boolean} excludeHist - True to not store in history
-    * @param {JQuery} triggerElement - Relative element to open the page
-    * @param {function} callBack - callback to be called after execute
-    * @param {boolean} showprogress - false to hide progress indicator
-    * @param {string} lastProcessName - Indicates last executed process
-    * @param {boolean} isLast - Indicates if is the last process to be called in an execution process chain
-    export function execProcessAsync(processname: string, objectname: string, objectwhere: string, defaults: any, processparams: any, targetid: string, excludeHist: boolean, triggerElement: JQuery, callBack?: any, showProgress?: boolean, lastProcessName?: string, isBefore: boolean = false, originalProcess?: flexygo.Process): Promise<any> {
-
-        return new Promise((resolve, reject) => {
-            if (typeof event != 'undefined') { event.preventDefault(); }
-
-            var proc: flexygo.Process = new flexygo.Process(processname, objectname, objectwhere);
-            proc.read();
-            let target: string;
-
-            if (typeof (showProgress) == typeof (true)) {
-                proc.showProgress = showProgress;
-            }
-
-            if (originalProcess) {
-                proc.progressBar = originalProcess.progressBar;
-            }
-
-            if (triggerElement) {
-
-                triggerElement = getRealTarget(triggerElement);
-                proc.module = (<flexygo.ui.wc.FlxModuleElement>triggerElement.closest('flx-module')[0]);
-            }
-
-            //if target has been passed use that one if not use process target
-            if (targetid == null) {
-                target = proc.config.TargetId;
-            } else {
-                target = targetid;
-            }
-
-            //If process is not a workflow, and has params and params have not be passed use openprocessparams window
-            if ((!proc.config.IsWorkflow) && proc.config.HasParams && processparams == null) {
-                if (!flexygo.utils.isSizeMobile) { excludeHist = true }
-                flexygo.nav.openProcessParams(processname, objectname, objectwhere, defaults, target, excludeHist, triggerElement)
-            }
-            else {
-
-                if (!processparams && defaults) {
-                    let jsonDefaults = JSON.parse(flexygo.utils.parser.replaceAll(defaults, "'", '"'));
-                    let paramsDefaults = [];
-
-                    for (let key in jsonDefaults) {
-                        let jsonValue = {};
-                        jsonValue["Key"] = key;
-                        jsonValue["Value"] = jsonDefaults[key];
-                        paramsDefaults.push(jsonValue);
-                    }
-                    processparams = paramsDefaults;
-                }
-
-                if (typeof proc.config.ConfirmText != 'undefined' && proc.config.ConfirmText && proc.config.ConfirmText != '') {
-
-                    let resultCallback = (result: any) => {
-                        if (result) {
-
-                            proc.run(processparams, callBack, target, excludeHist, triggerElement, lastProcessName).then(() => {
-                                resolve();
-                            });
-
-                        }
-                    }
-
-                    flexygo.msg.confirm(proc.config.ConfirmText, resultCallback)
-
-
-
-                } else {
-
-                    proc.run(processparams, callBack, target, excludeHist, triggerElement, lastProcessName).then(() => {
-                        resolve();
-                    });
-
-                }
-            }
-        });
-
-    }*/
     function openPageReturn(pageConf: flexygo.api.pages.Page, objectname: string, objectwhere: string, defaults: any, pageContainer: JQuery, reportname: string, processname?: string, isClone?: boolean, reportwhere?: string, presets?: string): void;
     /**
    * Opens the parameter process page
@@ -255,7 +163,10 @@ declare namespace flexygo.nav {
      * @param {string} params - parameters to add to the URL
      * @param {string} targetid - Target to open the window
     */
-    function openURL(url: string, params: string, targetid?: string): Window;
+    function openURL(url: string, params: string | {
+        key: string;
+        value: string;
+    }[], targetid?: string): Window;
     /**
     * Opens an edit table Page
     * @method openEditTable

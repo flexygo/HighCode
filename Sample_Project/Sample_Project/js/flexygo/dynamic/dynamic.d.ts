@@ -5,6 +5,9 @@ declare namespace flexygo.utils {
     var GoogleDeveloperKey: string;
     var GoogleAppId: string;
     var ExportLimit: number;
+    var maintenanceMode: string;
+    var MaxSizeAttachment: string;
+    var MaxSizeMail: string;
 }
 declare namespace flexygo.utils.size {
     var s: number;

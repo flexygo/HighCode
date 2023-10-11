@@ -1,10 +1,15 @@
+/**
+* Library to manage navigation history items.
+*
+* @class flexygo.history
+*/
 declare namespace flexygo.history {
     class Base64 {
         private static keyStr;
         static encode(e: string): string;
         static decode(e: string): string;
-        private static _utf8_encode(e);
-        private static _utf8_decode(e);
+        private static _utf8_encode;
+        private static _utf8_decode;
     }
     function go(hist: flexygo.nav.FlexygoHistory): void;
     function get(targetId: JQuery): flexygo.nav.FlexygoHistory;

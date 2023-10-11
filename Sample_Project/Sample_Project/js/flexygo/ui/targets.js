@@ -117,6 +117,7 @@ var flexygo;
                     "minimizeLocation": 'left',
                     "collapsable": false,
                     "dblclick": false,
+                    //"titlebar": 'transparent',
                 });
             }
             else if (histObj.targetid && histObj.targetid.indexOf('modal') == 0) {
@@ -158,6 +159,7 @@ var flexygo;
                     "collapsable": false,
                     "dblclick": false,
                     "modal": true,
+                    //"titlebar": 'transparent',
                 });
             }
             else if (histObj.targetid && histObj.targetid.indexOf('menu') == 0) {

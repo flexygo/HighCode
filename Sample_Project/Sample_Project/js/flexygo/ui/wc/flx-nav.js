@@ -55,9 +55,6 @@ var flexygo;
                         this.init();
                     }
                 }
-                static get observedAttributes() {
-                    return ['mode', 'hierarchical'];
-                }
                 /**
               * Fires when the attribute value of the element is changed.
               * @method attributeChangedCallback
@@ -507,7 +504,7 @@ var flexygo;
                         }
                     }
                     switch (json.strtype) {
-                        case 'action':
+                        case 'action': //Action Node
                             switch (json.actiontype.toLowerCase()) {
                                 case 'view':
                                     retFunction = flexygo.utils.functionToString('flexygo.nav.openPage', ['view', json.objectname, json.objectwhere, objDef, json.targetid], [false, '$(this)']);
@@ -537,11 +534,11 @@ var flexygo;
                                     retFunction = "flexygo.msg.alert( flexygo.localization.translate('flxnav.notimplemented'));";
                             }
                             break;
-                        case 'group':
+                        case 'group': //	Group Node
                             break;
-                        case 'text':
+                        case 'text': // Text
                             break;
-                        case 'object':
+                        case 'object': // Object Link
                             if (json.pagetypeid && json.pagetypeid != '') {
                                 retFunction = flexygo.utils.functionToString('flexygo.nav.openPage', [json.pagetypeid, json.objectname, json.objectwhere, objDef, json.targetid], [false, '$(this)']);
                             }
@@ -552,7 +549,7 @@ var flexygo;
                                 retFunction = "flexygo.msg.alert('Page not specified');";
                             }
                             break;
-                        case 'process':
+                        case 'process': // Process Link
                             if (json.processname && json.processname != '') {
                                 retFunction = flexygo.utils.functionToString('flexygo.nav.execProcess', [json.processname, json.objectname, json.objectwhere, objDef, null, json.targetid], [false, '$(this)']);
                                 if (json.bagonly) {
@@ -564,7 +561,7 @@ var flexygo;
                                 retFunction = "flexygo.msg.alert(flexygo.localization.translate('flxnav.pIdNotespecified'));";
                             }
                             break;
-                        case 'report':
+                        case 'report': // Report Link
                             if (json.reportname && json.reportname != '') {
                                 if (json.reporthasparams) {
                                     retFunction = flexygo.utils.functionToString('flexygo.nav.openReportsParams', [json.reportname, json.reportwhere, json.objectname, json.objectwhere, objDef, json.targetid], [false, '$(this)']);
@@ -577,7 +574,7 @@ var flexygo;
                                 retFunction = "flexygo.msg.alert(flexygo.localization.translate('flxnav.pIdNotespecified'));";
                             }
                             break;
-                        case 'page':
+                        case 'page': // Page Link
                             if (json.pagename && json.pagename != '') {
                                 retFunction = flexygo.utils.functionToString('flexygo.nav.openPageName', [json.pagename, json.objectname, json.objectwhere, objDef, json.targetid], [false, '$(this)']);
                             }
@@ -585,7 +582,7 @@ var flexygo;
                                 retFunction = "flexygo.msg.alert(flexygo.localization.translate('flxnav.pIdNotespecified'));";
                             }
                             break;
-                        case 'external_page':
+                        case 'external_page': // External Page Link
                             if (json.url && json.url != '') {
                                 retFunction = flexygo.utils.functionToString('flexygo.nav.openURL', [json.url, json.params, json.targetid], [false, '$(this)']);
                             }
@@ -593,12 +590,12 @@ var flexygo;
                                 retFunction = "flexygo.msg.alert(flexygo.localization.translate('flxnav.urlnotespecified'));";
                             }
                             break;
-                        case 'auto':
+                        case 'auto': // Auto Generate SQL Links
                             retFunction = "flexygo.msg.alert(flexygo.localization.translate('flxnav.autoSQlnovalidtype'));";
                             break;
-                        case 'separator':
+                        case 'separator': // separator does nothing
                             break;
-                        case 'master_table':
+                        case 'master_table': // Master Table Link
                             if (json.objectname && json.objectname != '') {
                                 if (json.pagename && json.pagename != '') {
                                     retFunction = flexygo.utils.functionToString('flexygo.nav.openPageName', [json.pagename, json.objectname, json.objectwhere, null, json.targetid], [false, '$(this)']);
@@ -614,10 +611,10 @@ var flexygo;
                                 retFunction = flexygo.utils.functionToString('flexygo.nav.openEditTable', [json.tablename, json.targetid, json.descrip], [false, '$(this)']);
                             }
                             break;
-                        case 'wc':
+                        case 'wc': // Web Component
                             retFunction = "flexygo.msg.alert(flexygo.localization.translate('flxnav.webcomponentnotspecified'));";
                             break;
-                        case 'help':
+                        case 'help': // HelpLink
                             if (json.helpid && json.helpid != '') {
                                 retFunction = flexygo.utils.functionToString('flexygo.nav.openHelpId', [json.helpid, json.targetid], [false, '$(this)']);
                             }
@@ -625,7 +622,7 @@ var flexygo;
                                 retFunction = "flexygo.msg.alert('flxnav.helpidnotspecified');";
                             }
                             break;
-                        default:
+                        default: // undefined
                             alert(json.strtype);
                     }
                     if (retFunction) {
@@ -747,6 +744,7 @@ var flexygo;
                     return JSON.parse('"\\u' + code.toString(16) + '"');
                 }
             }
+            FlxNavElement.observedAttributes = ['mode', 'hierarchical'];
             wc.FlxNavElement = FlxNavElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

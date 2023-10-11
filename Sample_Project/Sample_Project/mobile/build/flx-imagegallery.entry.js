@@ -1,7 +1,6 @@
 import { r as registerInstance, j as h } from './index-86ac49ff.js';
 import './ionic-global-0f98fe97.js';
-import { W as Webapi, b as storage } from './webapi-79a1d3db.js';
-import { s as sql, u as util, m as msg, L as LocalNotifications, F as FileOpener, C as ConftokenProvider } from './conftoken-950775a1.js';
+import { s as sql, u as util, m as msg, L as LocalNotifications, F as FileOpener, C as ConftokenProvider, W as Webapi } from './conftoken-38d23b50.js';
 import { j as jquery } from './jquery-5df58adb.js';
 import './utils-16079bfd.js';
 import './helpers-719f4c54.js';
@@ -384,7 +383,7 @@ const FlxImagegallery = class {
         let api = new Webapi();
         let token = await api.connect();
         if (url.startsWith("~")) {
-            let token = await storage.get("flexyAuth");
+            let token = await api.getAuth();
             url = token.url + url.substring(1);
         }
         return url + '&access_token=' + token.bearerToken;

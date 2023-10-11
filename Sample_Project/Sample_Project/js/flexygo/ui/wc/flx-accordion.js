@@ -32,13 +32,6 @@ var flexygo;
                     this.init();
                 }
                 /**
-                * Array of observed attributes.
-                * @property observedAttributes {Array}
-                */
-                static get observedAttributes() {
-                    return [];
-                }
-                /**
                 * Fires when the attribute value of the element is changed.
                 * @method attributeChangedCallback
                 */
@@ -97,6 +90,11 @@ var flexygo;
                     itm.parent().children('div').toggle(300);
                 }
             }
+            /**
+            * Array of observed attributes.
+            * @property observedAttributes {Array}
+            */
+            FlxAccordionElement.observedAttributes = [];
             wc.FlxAccordionElement = FlxAccordionElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

@@ -55,9 +55,9 @@ declare namespace flexygo.ui.wc {
         hideOptions(): void;
         hideMobileInput(): void;
         loadValues(page: number, autoselect: boolean, fromvalue?: boolean, value?: string, append?: boolean): void;
-        private addComboItems(data, autoselect, append?);
-        private getTextByValue(value);
-        private getListItem(value, text, template);
+        private addComboItems;
+        private getTextByValue;
+        private getListItem;
         getIconButtons(): JQuery;
         setOptions(): void;
         changeSQLData(newSQL: string, newOptions: any): void;

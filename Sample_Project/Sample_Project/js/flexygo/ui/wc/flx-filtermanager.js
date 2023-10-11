@@ -57,6 +57,7 @@ var flexygo;
                 */
                 refresh() {
                     let me = $(this);
+                    me.empty();
                     me.append('<span class="label">' + flexygo.localization.translate('filtermanager.objectname') + ':</span>');
                     me.append('<flx-dbcombo objectname="sysObject" viewname="sysOnlineCollections" sqlvaluefield="ObjectName" sqldisplayfield="Descrip"></flx-dbcombo>');
                     me.append('<span class="label">' + flexygo.localization.translate('filtermanager.choosefilter') + ':</span>');
@@ -68,11 +69,11 @@ var flexygo;
                     me.append('<div class="col-7 box fieldsFilter"><span class="label">' + flexygo.localization.translate('filtermanager.fields') + ':</span><br/><ul class="filterFields list-group"></ul></div>');
                     if (me.closest('flx-objectmanager .tab-pane').length > 0) {
                         me.append('<div class="col-12 box"><button name="filtersave" class="btn btn-default bg-success"><i class="flx-icon icon-save" /> ' + flexygo.localization.translate('filtermanager.save') + '</button></div>');
-                        me.find("button[name='filtersave']").on('click', () => { this.saveFilter(); });
+                        me.find("button[name='filtersave']").off('click').on('click', () => { this.validateSaveProcess(); });
                     }
                     else {
-                        me.closest('.ui-dialog').find("button[name='save']").on("click", () => { this.saveFilter(); });
-                        me.closest('.ui-dialog').find("button[name='delete']").on("click", () => { this.deleteFilter(); });
+                        me.closest('.ui-dialog').find("button[name='save']").off('click').on('click', () => { this.validateSaveProcess(); });
+                        me.closest('.ui-dialog').find("button[name='delete']").off('click').on('click', () => { this.deleteFilter(); });
                     }
                     //me.append('<div class="col-12 box"><button name="filtersave" class="btn btn-default bg-success"><i class="flx-icon icon-save" /> ' + flexygo.localization.translate('filtermanager.save') + '</button></div>');
                     //me.find("button[name='filtersave']").on('click', () => { this.saveFilter(); });
@@ -110,9 +111,7 @@ var flexygo;
                             if (this.objectname != value) {
                                 this.objectname = value;
                                 let params = {
-                                    ObjectName: value,
-                                    Generic: (this.generic),
-                                    NonGeneric: (!this.generic)
+                                    ObjectName: value
                                 };
                                 flexygo.ajax.post('~/api/Sys', 'getFilters', params, (response) => {
                                     this.loadObj(this.objectname, this.tree, true);
@@ -141,9 +140,7 @@ var flexygo;
                */
                 getFilters() {
                     let params = {
-                        ObjectName: this.objectname,
-                        Generic: (this.generic),
-                        NonGeneric: (!this.generic)
+                        ObjectName: this.objectname
                     };
                     flexygo.ajax.post('~/api/Sys', 'getFilters', params, (response) => {
                         this.filtertypes = response.Types;
@@ -190,9 +187,11 @@ var flexygo;
                             switch (value) {
                                 case 'Text':
                                     this.fields.find('select').hide();
+                                    this.fields.find('span i.icon-settings-2').hide();
                                     break;
                                 case 'Properties':
                                     this.fields.find('select').show();
+                                    this.fields.find('span i.icon-settings-2').show();
                                     break;
                             }
                         });
@@ -249,10 +248,17 @@ var flexygo;
                     if (name != '') {
                         let newVal = 'newValue' + this.newValue;
                         this.newValue++;
+                        if (!flexygo.utils.isBlank(this.cmb.val())) {
+                            this.fields.empty();
+                        }
                         let opt = $('<option/>').html(name).val(newVal);
                         this.cmb.append(opt);
-                        this.fields.empty();
-                        this.cmb.val(newVal).trigger("change");
+                        let itms = this.fields.find('li');
+                        this.cmb.val(newVal);
+                        if (itms.length > 0) {
+                            this.saveFilter();
+                        }
+                        this.cmb.trigger("change");
                     }
                 }
                 /**
@@ -290,6 +296,7 @@ var flexygo;
                             if (success) {
                                 this.cmb.find('option:selected').remove();
                                 flexygo.msg.success('Deleted :)', null, null);
+                                flexygo.nav.execProcess('ReloadQuietCache', '', '', null, null, 'current', false, $(this));
                                 if (this.cmb.find('option:selected').length > 0) {
                                     this.loadFilter(this.cmb.find('option:selected').data('extvalue'));
                                 }
@@ -316,76 +323,78 @@ var flexygo;
                     }, 'edit title', this.cmb.find('option:selected').text());
                 }
                 /**
-                * Save a filter
-                * @method saveFilter
-                */
-                saveFilter() {
+                 * Validate if can save the filter
+                 * @method validateSaveProcess
+                 */
+                validateSaveProcess() {
                     this.allSaved = true;
                     let itms = this.fields.find('li');
                     if (this.generic === false && this.cmb.find('option:selected').length == 0) {
-                        flexygo.msg.error(flexygo.localization.translate('filtermanager.errornofilter'), null, null);
+                        let newFilter = $(this).find('.newFilter')[0];
+                        newFilter.click();
                     }
                     else if (itms.length == 0) {
                         flexygo.msg.error(flexygo.localization.translate('filtermanager.errornofields'), null, null);
                     }
                     else {
-                        let fils = new Array();
-                        let configs = new Array();
-                        $.each(itms, (i, e) => {
-                            let li = $(e);
-                            let ctl = li.data('extvalue');
-                            let fil = {
-                                ObjectName: ctl.ObjectName,
-                                PropertyName: ctl.PropertyName,
-                                ObjectPath: ctl.ObjectPath,
-                                Size: ctl.Size,
-                                Order: i,
-                                Label: li.find('input').val(),
-                                OriginalLabel: li.find('input').val(),
-                                PropertySearchType: li.find('select').val(),
-                                Config: null
-                            };
-                            configs.push(ctl.Config);
-                            fils.push(fil);
-                        });
-                        let searchid = null;
-                        let filtername = null;
-                        if (this.generic === true) {
-                            if (this.genericFilter) {
-                                searchid = this.genericFilter.SearchId;
-                                filtername = this.genericFilter.Name;
-                            }
-                            else {
-                                searchid = this.cmb.val();
-                                filtername = this.cmb.find('option:selected').text();
-                            }
+                        this.saveFilter();
+                    }
+                }
+                /**
+                * Save a filter
+                * @method saveFilter
+                */
+                saveFilter() {
+                    let itms = this.fields.find('li');
+                    let fils = new Array();
+                    let configs = new Array();
+                    $.each(itms, (i, e) => {
+                        let li = $(e);
+                        let ctl = li.data('extvalue');
+                        let fil = {
+                            ObjectName: ctl.ObjectName,
+                            PropertyName: ctl.PropertyName,
+                            ObjectPath: ctl.ObjectPath,
+                            Size: ctl.Size,
+                            Order: i,
+                            Label: li.find('input').val(),
+                            OriginalLabel: li.find('input').val(),
+                            PropertySearchType: li.find('select').val(),
+                            Config: null
+                        };
+                        configs.push(ctl.Config);
+                        fils.push(fil);
+                    });
+                    let searchid = null;
+                    let filtername = null;
+                    if (this.generic === true) {
+                        if (this.genericFilter) {
+                            searchid = this.genericFilter.SearchId;
+                            filtername = this.genericFilter.Name;
                         }
                         else {
                             searchid = this.cmb.val();
                             filtername = this.cmb.find('option:selected').text();
                         }
-                        let params = {
-                            SearchId: searchid,
-                            FilterName: filtername,
-                            ObjectName: this.objectname,
-                            Type: this.type,
-                            Properties: fils,
-                            Generic: this.generic
-                        };
-                        flexygo.ajax.post('~/api/Sys', 'saveFilter', params, (response) => {
-                            this.cmb.find('option:selected').val(response);
-                            params.Properties = fils;
-                            $.each(params.Properties, (i, prop) => {
-                                prop.Config = configs[i];
-                            });
-                            this.cmb.find('option:selected').data('extvalue', params);
-                            flexygo.msg.success('Saved :)', null, null);
-                            if (this.parentModule) {
-                                let wcModule = this.parentModule[0];
-                                wcModule.refresh();
-                            }
-                        });
                     }
+                    else {
+                        searchid = this.cmb.val();
+                        filtername = this.cmb.find('option:selected').text();
+                    }
+                    let params = {
+                        SearchId: searchid,
+                        FilterName: filtername,
+                        ObjectName: this.objectname,
+                        Type: this.type,
+                        Properties: fils,
+                        Generic: this.generic
+                    };
+                    let me = this;
+                    flexygo.ajax.post('~/api/Sys', 'saveFilter', params, (response) => {
+                        me.active = response;
+                        flexygo.msg.success('Saved :)', null, null);
+                        this.refresh();
+                    });
                 }
                 /**
                 * Loads a filter
@@ -399,7 +408,7 @@ var flexygo;
                     this.fields.empty();
                     if (filter) {
                         $.each(filter.Properties, (i, e) => {
-                            this.fields.append(this.createField(e));
+                            this.fields.append(this.createField(e, filter.SearchId));
                         });
                         this.fields.sortable({
                             update: (event, ui) => { this.allSaved = false; }
@@ -483,6 +492,7 @@ var flexygo;
                 */
                 appendFields() {
                     let inp = this.tree.find('input:checked');
+                    let notAppend = [];
                     $.each(inp, (i, e) => {
                         let div = $(e).closest('div');
                         let prop = div.data('extvalue');
@@ -511,13 +521,18 @@ var flexygo;
                         update: (event, ui) => { this.allSaved = false; }
                     });
                     inp.prop('checked', false);
+                    if (notAppend.length > 0) {
+                        let message = notAppend.length > 0 ? flexygo.localization.translate('filtermanager.fieldnotappend') : flexygo.localization.translate('filtermanager.fieldsnotappend');
+                        flexygo.msg.warning(`${message} ${notAppend.join(", ")}`, null, null);
+                    }
                 }
-                createField(fld) {
+                createField(fld, SearchId) {
                     let itm = $('<li class="list-group-item filterField" />');
                     itm.data('extvalue', fld);
                     itm.attr("ObjectName", fld.ObjectName);
                     itm.attr("Property", fld.PropertyName);
-                    itm.html('<input class="form-control" type="text" value="' + fld.OriginalLabel + '" />');
+                    itm.html("");
+                    itm.html('<div class="propInfo col-4"><input class="form-control" type="text" value="' + fld.OriginalLabel + '" /></div>');
                     let cmd = $(' <select class="form-control" />');
                     $.each(this.types, (i, e) => {
                         let tmp = false;
@@ -534,11 +549,44 @@ var flexygo;
                         }
                     });
                     cmd.val(fld.Type);
+                    let itmConf = $('<i class="flx-icon icon-settings-2 clickable size-l margin-left-m icon-zoom-115"></i>');
                     if (this.type === 'Text') {
                         cmd.hide();
+                        itmConf.hide();
                     }
-                    itm.append(cmd);
-                    itm.append(' <span class="comment">(' + flexygo.utils.parser.replaceAll(fld.ObjectPath, '|', ' > ') + ') <i class="flx-icon icon-trash clickable size-l" /></span>');
+                    $(itm.children()[0]).append(cmd);
+                    let propDependencies = $('<div class="propDependencies " />');
+                    let dependencyIcons = $('<span class="filter_dependencies" />');
+                    let listDependantFilterProperties = $('<div class="flxListFilterDependencies"/>');
+                    if (fld.DependingFilterProperties && fld.DependingFilterProperties.length > 0) {
+                        let listProps = fld.DependingFilterProperties;
+                        listDependantFilterProperties.append(`<small><b>${flexygo.localization.translate('filtermanager.throwto')}</b></small><ul id="listDependencies"/>`);
+                        for (let prop of listProps) {
+                            listDependantFilterProperties.find('ul').append(`<li>${prop.DependantPropertyName}</li>`);
+                        }
+                        dependencyIcons.append($(`<span><i title="${flexygo.localization.translate('filtermanager.hasfilterdependencies')}" class="flx-icon icon-right-arrow clickable size-m"></i></i><flx-tooltip mode="popover" container="body">${listDependantFilterProperties[0].outerHTML}</flx-tooltip>`));
+                    }
+                    let listDependingFrom = $('<div class="flxListFilterDependencies"/>');
+                    if (fld.DependingFilterFrom && fld.DependingFilterFrom.length > 0) {
+                        let listProps = fld.DependingFilterFrom;
+                        listDependingFrom.append(`<small><b>${flexygo.localization.translate('filtermanager.affectedby')}</b></small><ul id="listDepending"/>`);
+                        for (let prop of listProps) {
+                            listDependingFrom.find('ul').append(`<li>${prop.PropertyName}</li>`);
+                        }
+                        dependencyIcons.append($(`<span><i title="${flexygo.localization.translate('filtermanager.hasfilterdependingproperties')}" class="flx-icon icon-object-relations-1 margin-left-s clickable"></i><flx-tooltip mode="popover" container="body">${listDependingFrom[0].outerHTML}</flx-tooltip>`));
+                    }
+                    propDependencies.append(dependencyIcons);
+                    itm.append(propDependencies);
+                    let propOptions = $('<div class="propOptions"/>');
+                    let optionIcons = $('<span class="comment"/>');
+                    let objectPath = flexygo.utils.parser.replaceAll(fld.ObjectPath, '|', ' > ');
+                    if (typeof SearchId != 'undefined') {
+                        optionIcons.append($('<i class="flx-icon icon-lock-1 clickable size-l margin-left-m icon-zoom-115 clickable"></i>'));
+                        optionIcons.append(itmConf);
+                    }
+                    optionIcons.append($(`<i class="flx-icon icon-trash clickable size-l margin-left-m icon-zoom-115"></i><br>(${objectPath})</span>`));
+                    propOptions.append(optionIcons);
+                    itm.append(propOptions);
                     itm.find('.icon-trash').on('click', (e) => {
                         this.allSaved = false;
                         let li = $(e.currentTarget).closest('li');
@@ -549,6 +597,13 @@ var flexygo;
                                 return false;
                             }
                         });
+                    });
+                    itm.find('.icon-lock-1').on('click', (e) => {
+                        let searchId = $(e.currentTarget).closest('flx-filtermanager').find('select.filterCmb')[0].value;
+                        flexygo.nav.openPage('view', 'sysFilterProperty', `[Objects_Search_Properties].SearchId='${searchId}' AND [Objects_Search_Properties].ObjectName='${fld.ObjectName}' AND [Objects_Search_Properties].PropertyName='${fld.PropertyName}'`, null, 'popup', true, $(e.currentTarget), false);
+                    });
+                    itm.find('.icon-settings-2').on('click', (e) => {
+                        flexygo.nav.openPageName('syspage-filter-dependencies', 'sysGenericSearchProperty', "ObjectName=\'" + $(e.currentTarget).closest('li').attr("ObjectName") + "\' and PropertyName=\'" + $(e.currentTarget).closest('li').attr("Property") + "\' and SearchId=\'" + SearchId + "\'", null, 'popup', false, $(this));
                     });
                     return itm;
                 }

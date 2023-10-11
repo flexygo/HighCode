@@ -1567,6 +1567,7 @@
         },
 
         markActive: function (connection) {
+            debugger;
             if (transportLogic.verifyLastActive(connection)) {
                 connection._.lastActiveAt = new Date().getTime();
                 return true;
@@ -1597,6 +1598,7 @@
         },
 
         verifyLastActive: function (connection) {
+            return true;
             if (new Date().getTime() - connection._.lastActiveAt >= connection.reconnectWindow) {
                 var message = signalR._.format(signalR.resources.reconnectWindowTimeout, new Date(connection._.lastActiveAt), connection.reconnectWindow);
                 connection.log(message);

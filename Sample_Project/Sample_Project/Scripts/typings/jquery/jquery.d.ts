@@ -3254,3 +3254,9 @@ declare module "jquery" {
 }
 declare var jQuery: JQueryStatic;
 declare var $: JQueryStatic;
+
+declare var Inputmask: any;
+declare module "Inputmask" {
+    export = Inputmask;
+}
+

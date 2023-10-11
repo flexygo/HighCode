@@ -80,7 +80,7 @@ var flexygo;
                 * Monitor the list of observed attribute for changes.
                 * @property observedAttributes
                 */
-                static get observedAttributes() {
+                observedAttributes() {
                     return ['modulename', 'objectname', 'objectwhere', 'processname', 'property', 'type', 'rootpath', 'path'];
                 }
                 /**
@@ -322,6 +322,7 @@ var flexygo;
                                                 path: response.path,
                                                 name: name,
                                                 extension: extension,
+                                                //base64: reader.result,
                                             });
                                             if (ctx.options && ctx.options.CauseRefresh) {
                                                 let ev = {
@@ -330,7 +331,7 @@ var flexygo;
                                                     sender: ctx,
                                                     masterIdentity: ctx.property
                                                 };
-                                                flexygo.events.trigger(ev);
+                                                flexygo.events.trigger(ev, me);
                                             }
                                         }
                                         else {

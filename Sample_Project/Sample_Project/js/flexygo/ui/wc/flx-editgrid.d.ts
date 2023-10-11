@@ -166,7 +166,7 @@ declare namespace flexygo.ui.wc {
         * @param  prop
         */
         getText(value: any, prop: any): JQuery;
-        private refreshColMenu(tbl);
+        private refreshColMenu;
         /**
       * Sort based on column in asc or desc mode.
       * @method sort

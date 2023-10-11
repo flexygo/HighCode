@@ -9,6 +9,7 @@ var flexygo;
         (function (itit) {
             itit.process = {
                 executing: 'Processo in esecuzione...',
+                loadingdata: 'Caricamento dati...'
             };
             itit.dependecymanager = {
                 sort: 'Ordine',
@@ -21,6 +22,7 @@ var flexygo;
                 CustomProperty: 'Custom Property Dep.',
                 save: 'Salvare',
                 addmore: 'Aggiungi altre proprietà dipendenti',
+                addmorefilter: 'Aggiungi altre proprietà dipendenti',
                 sqlvalue: 'Valore SQL',
                 sqlclass: 'Classe SQL',
                 sqlcombofilter: 'Filtro SQL per Elenco a discesa',
@@ -99,6 +101,7 @@ var flexygo;
                 appendwarning: 'Seleziona un tipo e il nome del campo.',
                 createfields: 'Aggiungi campi',
                 enterfieldname: 'Nome di campi',
+                reserveword: 'è una parola riservata',
                 selecttype: 'Seleziona il tipo di dati',
                 seedependencies: 'Vedi dipendenze',
                 templates: 'Modelli',
@@ -131,7 +134,10 @@ var flexygo;
                 hasdependingproperties: 'Influenzato dalle dipendenze',
                 withchangeprocess: 'Con processo di cambiamento',
                 throwto: 'Lancia a',
-                affectedby: 'Colpiti da'
+                affectedby: 'Colpiti da',
+                persistdefaultvalue: 'Predefinito persistente',
+                defaultvalue: 'Valore di default',
+                detachedproperty: 'Proprietà disconnessa'
             };
             itit.flxeditgrid = {
                 addrow: 'Aggiungi riga',
@@ -261,8 +267,14 @@ var flexygo;
                 add: 'Inserisci',
                 errornofilter: 'Si prega di aggiungere prima un nuovo filtro.',
                 errornofields: 'Aggiungi almeno un campo filtro.',
+                fieldnotappend: 'Non è stato possibile aggiungere la seguente proprietà perché ne esiste già una con lo stesso nome:',
+                fieldsnotappend: 'Non è stato possibile aggiungere le seguenti proprietà perché ne esiste già una con lo stesso nome:',
                 save: 'Salvare',
                 delete: 'Eliminare',
+                hasfilterdependencies: 'Avvia le dipendenze',
+                hasfilterdependingproperties: 'Influenzato dalle dipendenze',
+                throwto: 'Lancia a',
+                affectedby: 'Colpiti da'
             };
             itit.sortmanager = {
                 sort: 'Ordine',
@@ -468,7 +480,8 @@ var flexygo;
                 deletenode: 'Elimina nodo',
                 deletenodequestion: 'Sei sicuro di voler eliminare questo nodo?',
                 addfields: 'Aggiungi campi',
-                cloneDependencies: 'Clonare le dipendenze degli oggetti'
+                cloneDependencies: 'Clonare le dipendenze degli oggetti',
+                relationshipOfDependencies: 'Relazione di dipendenze'
             };
             itit.objectmanager = {
                 selecticon: 'Seleziona un&#39;icona',
@@ -596,6 +609,7 @@ var flexygo;
             };
             itit.templates = {
                 addnewtemplate: 'Aggiungi modello',
+                openiconlist: "Apri l'elenco delle icone",
             };
             itit.flxscheduler = {
                 objects: 'oggetti',
@@ -785,6 +799,7 @@ var flexygo;
                 option: 'Opzione',
                 risultato: 'Risultato',
                 elseoption: 'Opzione predefinita',
+                requiredobject: 'Devi prima selezionare un oggetto',
             };
             itit.imports = {
                 template: 'File modello',
@@ -800,6 +815,44 @@ var flexygo;
                 noCamera: 'Nessuna fotocamera disponibile trovata',
                 IOSerr: 'Questa funzionalità non è disponibile su IOS',
                 noCode: 'Nessun codice può essere trovato in questa immagine.'
+            };
+            itit.abhSign = {
+                save: 'Salva',
+                title: 'Seleziona un documento',
+                help: 'Aiuta Abh Sign',
+                lastPage: 'Ultima pagina'
+            };
+            itit.maintenance = {
+                logoMini: 'Manutenzione',
+                title: 'Torneremo presto!',
+                subtitle: 'Ci scusiamo per l\'inconveniente.Al momento stiamo eseguendo una manutenzione.',
+                time: 'Modalità di manutenzione'
+            };
+            itit.flxWacom = {
+                titleError: 'Errore durante la Cattura della Firma',
+                serviceNotDetected: 'Servizio Signature SDK non rilevato',
+                sigDataError: `Errore durante l'ottenimento dei dati della firma`,
+                additionalDataError: `Errore durante l'ottenimento dei dati aggiuntivi`,
+                renderBitmapError: 'Errore nella creazione del bitmap della firma',
+                extraDataError: `Errore durante l'aggiunta dei dati extra`,
+                sigCtrlCaptureError: 'Errore nella cattura di SigCtl',
+                sigCtrlConstructorError: 'Errore nella creazione di SigCtl',
+                DynCaptureError: 'Errore nella creazione della cattura dinamica',
+                error100: "",
+                error101: "",
+                error103: "",
+                error200: ""
+            };
+            itit.mail = {
+                fileSize: "Dimensione del file superata",
+                mailSize: "Dimensione della posta superata",
+                maxSize: "Taglia massima",
+            };
+            itit.databaseScript = {
+                infoGenerate: "I file verranno generati direttamente nella cartella predefinita",
+                infoDownload: "I file verranno compressi in una zip e scaricati",
+                generate: "Genera file",
+                download: "Scaricare files"
             };
         })(itit = culture.itit || (culture.itit = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

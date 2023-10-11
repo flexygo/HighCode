@@ -88,7 +88,7 @@ declare namespace flexygo.ui.wc {
         * @param {any} parms. The event param
         */
         onNodeClick(params: any): void;
-        private setMultiline(s);
+        private setMultiline;
         /**
        * get Node icon
        * @method getIcon
@@ -131,6 +131,6 @@ declare namespace flexygo.ui.wc {
       * @param {string} mode. check for parent ,child or process mode
       */
         getNoShow(json: flexygo.api.navigation.NavigationNode, mode: string): string;
-        private toUnicode(name);
+        private toUnicode;
     }
 }

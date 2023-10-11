@@ -71,13 +71,6 @@ var flexygo;
 </div>`;
                 }
                 /**
-                * Array of observed attributes. REQUIRED
-                * @property observedAttributes {Array}
-                */
-                static get observedAttributes() {
-                    return ['ObjectName', 'ObjectWhere', 'ModuleName'];
-                }
-                /**
                 * Init the webcomponent. REQUIRED.
                 * @method init
                 */
@@ -507,6 +500,11 @@ var flexygo;
                     }
                 }
             }
+            /**
+            * Array of observed attributes. REQUIRED
+            * @property observedAttributes {Array}
+            */
+            FlxMailList.observedAttributes = ['ObjectName', 'ObjectWhere', 'ModuleName'];
             wc.FlxMailList = FlxMailList;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

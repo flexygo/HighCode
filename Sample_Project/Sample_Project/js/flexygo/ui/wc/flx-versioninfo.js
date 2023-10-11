@@ -453,7 +453,7 @@ var flexygo;
                         clearInterval(inter);
                         this.progressBar.destroy();
                         if (response.CurrentState === flexygo.api.sys.eAutoUpdaterState.eStateFinishedOk) {
-                            window.location.reload(true);
+                            window.location.reload();
                         }
                     }
                 }

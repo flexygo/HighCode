@@ -47,7 +47,7 @@ var flexygo;
                     });
                     this.init();
                 }
-                static get observedAttributes() {
+                observedAttributes() {
                     return [];
                 }
                 attributeChangedCallback(attrName, oldVal, newVal) {
@@ -485,7 +485,7 @@ var flexygo;
                                 masterIdentity: obj.objectName,
                                 detailIdentity: obj.objectWhere
                             };
-                            flexygo.events.trigger(ev);
+                            flexygo.events.trigger(ev, me);
                         }
                     });
                 }

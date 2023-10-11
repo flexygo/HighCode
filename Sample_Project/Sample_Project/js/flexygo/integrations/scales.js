@@ -1,14 +1,20 @@
 //https://developer.mozilla.org/en-US/docs/Web/API/SerialPort
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-;
-;
+/*declare class TextDecoder {
+    decode: Function;
+};
+
+declare class TextEncoder {
+    encode: Function;
+};*/
 var flexygo;
 (function (flexygo) {
     var integrations;
@@ -68,7 +74,7 @@ var flexygo;
                         cnf = defaultCnf;
                     }
                     else {
-                        cnf = Object.assign({}, defaultCnf, cnf);
+                        cnf = Object.assign(Object.assign({}, defaultCnf), cnf);
                     }
                     let ports = yield navigator.serial.getPorts();
                     if (ports.length > 0) {

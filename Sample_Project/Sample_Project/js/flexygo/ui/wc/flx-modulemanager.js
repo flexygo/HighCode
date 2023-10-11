@@ -38,7 +38,7 @@ var flexygo;
                     flexygo.events.on(this, "entity", "all", this.onModuleChanged);
                     this.init();
                 }
-                static get observedAttributes() {
+                observedAttributes() {
                     return [];
                 }
                 disconnectedCallback() {

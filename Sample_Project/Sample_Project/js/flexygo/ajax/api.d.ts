@@ -111,6 +111,38 @@ declare namespace flexygo.api {
         propertyname: string;
     }
     /**
+   * api for filter Dependency properties
+   * @class DependencyFilterProperties
+   * @constructor
+   * @return {DependencyFilterProperties} .
+   */
+    class DependencyFilterProperties {
+        SearchId: string;
+        ObjectName: string;
+        PropertyName: string;
+        DependantPropertyName: string;
+        DependantObjectName: string;
+        SQLComboSentence: string;
+        SQLComboFilter: string;
+        ConnStringId: string;
+    }
+    /**
+    * api for filter Dependency properties
+    * @class DependencyFilterPropertiesLoweredKey
+    * @constructor
+    * @return {DependencyFilterPropertiesLoweredKey} .
+    */
+    class DependencyFilterPropertiesLoweredKey {
+        searchid: string;
+        objectname: string;
+        propertyname: string;
+        dependandpropertyname: string;
+        dependandobjectname: string;
+        sqlcombosentence: string;
+        sqlcombofilter: string;
+        connstringid: string;
+    }
+    /**
     * api for ObjectProperty
     * @class ObjectProperty
     * @constructor
@@ -343,9 +375,26 @@ declare namespace flexygo.api {
         PropertySearchType: string;
         WebComponent?: string;
         Size: number;
+        DependingFilterProperties?: DependencyFilterProperties[];
+        DependingFilterFrom?: DependencyFilterProperties[];
         Config?: flexygo.api.ObjectProperty;
         ObjectPath?: string;
         Type?: string;
+    }
+    class SearchPropertyLoweredKey {
+        objectname: string;
+        propertyname: string;
+        label: string;
+        originallabel: string;
+        order: number;
+        propertysearchtype: string;
+        webcomponent?: string;
+        size: number;
+        dependingfilterproperties?: DependencyFilterPropertiesLoweredKey[];
+        dependingfilterfrom?: DependencyFilterPropertiesLoweredKey[];
+        config?: flexygo.api.ObjectProperty;
+        objectpath?: string;
+        type?: string;
     }
     /**
     * api for SearchSettings
@@ -482,6 +531,9 @@ declare namespace flexygo.api {
         ReportHasParams?: boolean;
         BagOnly?: boolean;
         BagObject?: string;
+        SQLEnabledDescrip?: string;
+        SQLEnabled?: string;
+        ConnStringId?: string;
     }
     /**
     * api for TemplateGroupCollection
@@ -889,8 +941,10 @@ declare namespace flexygo.api.timeline {
         ItemContentTemplate: string;
         ItemVisibleFrameTemplate: string;
         OnMovingFunction: string;
+        OnMoveFunction: string;
         OnDropObjectOnItemFunction: string;
         OnDeleteFunction: string;
+        OnAddFunction: string;
         CustomOptions: string;
         DefaultTime: number;
         EventPageTypeId: string;
@@ -1024,6 +1078,18 @@ declare namespace flexygo.api.edit {
         changeCustomProperty: boolean;
         newCustomProperty: ObjectProperty;
         JSCode: string;
+        TriggerPropertyName: string;
+        dependencyErrors: DependecyError[];
+    }
+    class DependecyError {
+        Type: number;
+        LastExceptionMessage: string;
+        SqlSentence: boolean;
+    }
+    class FilterDependencyAction {
+        PropertyName: string;
+        changeSQL: boolean;
+        newSQL: string;
     }
     /**
     * api for DependencyHelper
@@ -1055,6 +1121,17 @@ declare namespace flexygo.api.edit {
         CusPropName: string;
         SQLCustomProperty: string;
     }
+    class DependencyFilterHelper {
+        ObjectName: string;
+        PropertyName: string;
+        DependingObjectName: string;
+        DependingPropertyName: string;
+        SQLComboSentence: string;
+        SQLComboFilter: string;
+        Active: boolean;
+        Descrip: string;
+        Order: number;
+    }
     /**
     * api for saveDependenciesConfigParams
     * @class saveDependenciesConfigParams
@@ -1067,6 +1144,14 @@ declare namespace flexygo.api.edit {
         ReportName: string;
         PropertyName: string;
         Dependencies: flexygo.api.edit.DependencyHelper[];
+    }
+    class saveFilterDependenciesConfigParams {
+        SearchId: string;
+        ObjectName: string;
+        ProcessName: string;
+        ReportName: string;
+        PropertyName: string;
+        Dependencies: flexygo.api.edit.DependencyFilterHelper[];
     }
     /**
     * api for ObjectRowDependency
@@ -1115,6 +1200,19 @@ declare namespace flexygo.api.edit {
    */
     class processAllListDependenciesResponse {
         [RowId: string]: DependencyAction;
+    }
+    /**
+    * api for processFilterDependenciesParams
+    * @class processFilterDependenciesParams
+    * @constructor
+    * @return {processFilterDependenciesParams}
+    */
+    class processFilterDependenciesParams {
+        SearchId: string;
+        ObjectName: string;
+        PropertyName: string;
+        PropertyObjectName: string;
+        Properties: KeyValuePair[];
     }
     /**
    * api for getEditTemplateParams
@@ -2017,7 +2115,7 @@ declare namespace flexygo.api.process {
         ObjectLink = 7,
         PageLink = 8,
         ReportLink = 9,
-        HelpLink = 10,
+        HelpLink = 10
     }
     /**
     * api for ProcessParam
@@ -2110,6 +2208,7 @@ declare namespace flexygo.api.security {
         SecurityType: string;
         SecurityKey: string;
         SecurityKey2: string;
+        SecurityKey3: string;
         SecurityItem: string;
         SecurityItemValue: string;
         SecurityId: string;
@@ -2124,6 +2223,7 @@ declare namespace flexygo.api.security {
         SecurityType: string;
         SecurityKey: string;
         SecurityKey2: string;
+        SecurityKey3: string;
     }
 }
 /**
@@ -2273,8 +2373,6 @@ declare namespace flexygo.api.sys {
     */
     class GetFiltersParams {
         ObjectName: string;
-        Generic: boolean;
-        NonGeneric: boolean;
     }
     /**
     * api for GetFiltersResponse
@@ -2368,7 +2466,7 @@ declare namespace flexygo.api.sys {
         eStateFinishedOk = 2,
         eStateFinishedError = 3,
         eStateWaitingForResponse = 4,
-        eStateServiceRestarted = 5,
+        eStateServiceRestarted = 5
     }
     enum eAutoUpdaterStatus {
         eStatusUpdatingService = 0,
@@ -2376,7 +2474,7 @@ declare namespace flexygo.api.sys {
         eStatusDownloadingVersion = 2,
         eStatusUpdateDatabase = 3,
         eStatusUpdateIIS = 4,
-        eStatusFinished = 5,
+        eStatusFinished = 5
     }
     /**
    * api for checkUpdateProgressResponse
@@ -2771,6 +2869,7 @@ declare namespace flexygo.api.Chatter {
         name: string;
         avatar: string;
         type: string;
+        email?: string;
     };
 }
 /**

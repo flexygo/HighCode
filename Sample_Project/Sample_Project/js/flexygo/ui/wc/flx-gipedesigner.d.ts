@@ -322,15 +322,15 @@ declare namespace flexygo.ui.wc {
         * @method init
         */
         init(): void;
-        private initGraphStyles();
-        private initEditorTemplates();
-        private addEditorTemplate(name, xmlString);
-        private initEditorPopupMenu();
-        private initEditorToolbar();
-        private initEditorKeyHandler();
-        private initEditorMouseHandler();
-        private doDropTemplate(ui);
-        private setGraphSize();
+        private initGraphStyles;
+        private initEditorTemplates;
+        private addEditorTemplate;
+        private initEditorPopupMenu;
+        private initEditorToolbar;
+        private initEditorKeyHandler;
+        private initEditorMouseHandler;
+        private doDropTemplate;
+        private setGraphSize;
         /**
         * Refresh the webcomponent. REQUIRED.
         * @method refresh
@@ -421,7 +421,7 @@ declare namespace flexygo.ui.wc {
         * @method openTemplateDialog
         */
         openTemplateDialog(): void;
-        private updateTemplateFilter();
+        private updateTemplateFilter;
         onModuleResize(e: flexygo.events.FlexygoEvent): void;
         /**
        * Open the workflow debug dialog
@@ -438,26 +438,26 @@ declare namespace flexygo.ui.wc {
         * @method render
         */
         updateToolbarStatus(): void;
-        private openPropertiesDialog();
-        private showCellProperties(cell);
-        private showRelationProperties(cell);
-        private viewCell(cell);
-        private listParamsCell(cell);
-        private newCell(cell);
-        private onEntityInserted(e);
-        private showWorkflowProperties();
-        private updateModuleTitle();
-        private updateBreadcrumb();
-        private concatWhere(whereA, whereB);
-        private updateComboVersions();
-        private htmlEncode(value);
-        private getStepStyle(cell, style);
+        private openPropertiesDialog;
+        private showCellProperties;
+        private showRelationProperties;
+        private viewCell;
+        private listParamsCell;
+        private newCell;
+        private onEntityInserted;
+        private showWorkflowProperties;
+        private updateModuleTitle;
+        private updateBreadcrumb;
+        private concatWhere;
+        private updateComboVersions;
+        private htmlEncode;
+        private getStepStyle;
         /**
         * Fires when an execution has finisehd a step
         * @method debugWorkflow
         */
         onDebugStepChanged(): void;
-        private addTreeNode(change, rootNode);
+        private addTreeNode;
         updateDebugInfo(ret: flexygo.api.gipe.GipeDebugStatus): void;
     }
 }

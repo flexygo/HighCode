@@ -38,9 +38,23 @@ flx-edit .item [data-tag=control] .btn {
     font-size: 14px;
 }
 
+.flxdependency-modal-sentence {
+    .sweet-modal-content {
+        padding: 35px 15px;
+    }
+
+    b {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 8px;
+    }
+
+    code {
+        color: #485980;
+    }
+}
 
 // Inputs WC Less Styles
-
 // HTML Editor*
 flx-htmledit .note-editor {
     height: 90%;
@@ -227,15 +241,9 @@ flx-filter flx-multicombo > div:not(.mobileinputdiv).input-group.opened {
     z-index: 999;
 }
 
-
-flx-filter flx-tag div.bootstrap-tagsinput:nth-last-child(2):hover,
-flx-filter flx-multicombo div:not(.mobileinputdiv) div.bootstrap-tagsinput:hover,
-flx-filter flx-multicombo div:not(.mobileinputdiv).input-group.opened div.bootstrap-tagsinput {
-    height: auto;
-    overflow: visible;
+flx-filter flx-multicombo ul {
+    margin-top: 7px;
 }
-
-
 
 
 //DISABLED CONTROLS
@@ -327,6 +335,15 @@ flx-dbcombo > ul li:hover, flx-multicombo > ul li:hover {
 flx-dbcombo > ul li.selected {
     background-color: dbColor(OutstandingColor);
 }
+
+//Creamos el seleccionador del multicombo
+flx-multicombo > ul li.selected {
+    background-color: dbColor(OutstandingColor);
+}
+flx-multicombo > ul li.selected .txt-outstanding {
+    color: dbColor(txtOutstandingColor);
+}
+
 
 flx-dbcombo > ul li.selected .txt-outstanding {
     color: dbColor(txtOutstandingColor);
@@ -745,7 +762,7 @@ flx-image .cpr-btn-save-imagemanager, .flx-cpr-image .cpr-btn-save-imagemanager 
 }
 //End Image
 //WhiteBoard
-flx-whiteboard .cpr-view-container {
+flx-whiteboard .cpr-view-container, flx-wacom .cpr-view-container {
     width: 100%;
     height: ~"calc(100% - 15px)";
     display: flex;
@@ -800,7 +817,7 @@ flx-whiteboard .cpr-btn-browse, .flx-cpr-image .cpr-btn-browse {
     margin: 8px auto;
     width: 100%;
 }*/
-flx-whiteboard .cpr-span, .flx-cpr-image .cpr-span {
+flx-whiteboard .cpr-span, flx-wacom .cpr-span, .flx-cpr-image .cpr-span {
     position: absolute;
     width: 97%;
     text-align: center;
@@ -808,7 +825,7 @@ flx-whiteboard .cpr-span, .flx-cpr-image .cpr-span {
     opacity: .4;
 }
 
-flx-whiteboard .cpr-dragging, .flx-cpr-image .cpr-dragging {
+flx-whiteboard .cpr-dragging,flx-wacom .cpr-dragging, .flx-cpr-image .cpr-dragging {
     filter: blur(3px) grayscale(67%);
 }
 
@@ -816,7 +833,7 @@ flx-whiteboard .cpr-dragging, .flx-cpr-image .cpr-dragging {
     margin: 0 auto;
 }
 
-flx-whiteboard .ctl-container {
+flx-whiteboard .ctl-container, flx-wacom .ctl-container {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -832,20 +849,20 @@ flx-whiteboard .ctl-container {
     border-radius: 4px;
 }
 
-flx-whiteboard .ctl-image {
+flx-whiteboard .ctl-image, flx-wacom .ctl-image {
     max-height: 100%;
 }
 
-flx-whiteboard .ctl-container-locked {
+flx-whiteboard .ctl-container-locked, flx-wacom .ctl-container-locked {
     cursor: not-allowed !important;
     background-color: #eee !important;
 }
 
-flx-whiteboard .ctl-image-locked {
+flx-whiteboard .ctl-image-locked, flx-wacom .ctl-image-locked {
     filter: grayscale(100%);
 }
 
-flx-whiteboard .ctl-icon {
+flx-whiteboard .ctl-icon, flx-wacom .ctl-icon {
     position: absolute;
     font-size: 35px;
     z-index: 1;
@@ -854,36 +871,36 @@ flx-whiteboard .ctl-icon {
     transform: scale(1.5);
 }
 
-flx-whiteboard div.ctl-hover:hover {
+flx-whiteboard div.ctl-hover:hover, flx-wacom div.ctl-hover:hover {
     box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
     -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
     -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
 }
 
-flx-whiteboard div.ctl-hover:hover .ctl-image {
+flx-whiteboard div.ctl-hover:hover .ctl-image, flx-wacom div.ctl-hover:hover .ctl-image {
     opacity: .7;
     transform: scale(1.1);
     filter: grayscale(75%);
 }
 
-flx-whiteboard div.ctl-hover:hover .ctl-icon {
+flx-whiteboard div.ctl-hover:hover .ctl-icon, flx-wacom div.ctl-hover:hover .ctl-icon {
     opacity: 1;
     visibility: visible;
     transform: scale(1);
 }
 
-flx-whiteboard .ctl-cpr-transition, .flx-cpr-image .ctl-cpr-transition {
+flx-whiteboard .ctl-cpr-transition, flx-wacom .ctl-cpr-transition, .flx-cpr-image .ctl-cpr-transition {
     transition: .3s cubic-bezier(.25, .8, .25, 1);
     -webkit-transition: all .3s cubic-bezier(.25, .8, .25, 1);
     -moz-transition: all .3s cubic-bezier(.25, .8, .25, 1);
     -o-transition: all .3s cubic-bezier(.25, .8, .25, 1);
 }
 
-flx-whiteboard {
+flx-whiteboard, flx-wacom {
     height: inherit;
 }
 
-flx-whiteboard .cpr-btn-save-imagemanager, .flx-cpr-image .cpr-btn-save-imagemanager {
+flx-whiteboard .cpr-btn-save-imagemanager, flx-wacom .cpr-btn-save-imagemanager, .flx-cpr-image .cpr-btn-save-imagemanager {
     width: 100% !important;
 }
 //END whiteboard
@@ -1429,14 +1446,32 @@ label > span.help-icon, legend > span.help-icon {
     color: dbColor(txtNavColor);
 }
 
+label > span.danger-icon, legend > span.danger-icon {
+    font-size: 12px;
+    color: lighten(dbColor(DangerColor), 20);
+}
+
 label:hover > span.help-icon, legend:hover > span.help-icon {
     cursor: pointer;
     color: dbColor(OutstandingColor);
 }
 
+label:hover > span.danger-icon, legend:hover > span.danger-icon {
+    cursor: pointer;
+    color: dbColor(DangerColor);
+}
+
 label > span.help-icon:before, legend > span.help-icon:before {
     font-family: 'Flexygo-icons';
     content: "\f233";
+    margin-left: 5px;
+    position: relative;
+    top: 1px;
+}
+
+label > span.danger-icon:before, legend > span.danger-icon:before {
+    font-family: 'Flexygo-icons';
+    content: "\ebf7";
     margin-left: 5px;
     position: relative;
     top: 1px;
@@ -1685,4 +1720,25 @@ body > div.barcode-scanner {
 
 .barcodeLock {
     overflow: hidden;
+}
+
+/*NEW STYLES EDIT VIEW AND EDIT GRID*/
+
+flx-edit flx-tag div.bootstrap-tagsinput:nth-last-child(2), flx-edit flx-multicombo div:not(.mobileinputdiv) div.bootstrap-tagsinput {
+    height: 15px;
+    overflow: auto
+}
+//EDIT GRID
+
+flx-propertymanager flx-tag div.bootstrap-tagsinput:nth-last-child(2), flx-propertymanager flx-multicombo div:not(.mobileinputdiv) div.bootstrap-tagsinput {
+    display: flex;
+    margin:2px;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 15px;
+    overflow: auto;
+}
+
+flx-propertymanager flx-tag span.tag.label.label-info, flx-propertymanager flx-multicombo div:not(.mobileinputdiv) div.bootstrap-tagsinput span.tag.label.label-info{
+    margin: 1px;
 }

@@ -24,7 +24,7 @@ declare namespace flexygo.ui.wc {
         modTemplate: string;
         targetItem: JQuery;
         connectedCallback(): void;
-        static readonly observedAttributes: string[];
+        observedAttributes(): string[];
         disconnectedCallback(): void;
         attributeChangedCallback(attrName: string, oldVal: any, newVal: any): void;
         init(): void;
@@ -34,10 +34,10 @@ declare namespace flexygo.ui.wc {
         updateModule(module: flexygo.obj.Entity, form?: string): void;
         saveModuleConfig(): void;
         loadCurrentPage(): void;
-        private loadLayoutPanel();
-        private loadNodes();
-        private setSorting(itms);
-        private setActionButtons(items);
-        private getModulePosition(module);
+        private loadLayoutPanel;
+        private loadNodes;
+        private setSorting;
+        private setActionButtons;
+        private getModulePosition;
     }
 }

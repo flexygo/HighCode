@@ -99,7 +99,7 @@ declare namespace flexygo.ui.wc {
         nodeClick(params: any): void;
         onModuleResize(e: flexygo.events.FlexygoEvent): void;
         nodeContext(params: any): boolean;
-        private onNewNode(node, parent, navnode);
-        private toUnicode(name);
+        private onNewNode;
+        private toUnicode;
     }
 }

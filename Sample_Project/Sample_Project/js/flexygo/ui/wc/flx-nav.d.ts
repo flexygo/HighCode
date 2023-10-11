@@ -161,6 +161,6 @@ declare namespace flexygo.ui.wc {
          * @hideAfterClick navItemClick
         */
         hideAfterClick(): void;
-        private toUnicode(name);
+        private toUnicode;
     }
 }

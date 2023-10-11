@@ -59,7 +59,7 @@ declare namespace flexygo.ui.wc {
         nextMonth(): any;
         prevMonth(): any;
         formatDate(date: Date, month: string, day: string, year: number): string;
-        translate(str: string): string;
+        flxTranslate(str: string): string;
         startLoading(): void;
         stopLoading(): void;
     }

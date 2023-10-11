@@ -22,9 +22,9 @@ declare namespace flexygo.ui.wc {
        */
         connected: boolean;
         /**
-       * Array of observed attributes.
-       * @property observedAttributes {Array}
-       */
+          * Array of observed attributes.
+          * @property observedAttributes {Array}
+        */
         static readonly observedAttributes: string[];
         /**
         * Fires when the attribute value of the element is changed.
@@ -71,7 +71,7 @@ declare namespace flexygo.ui.wc {
        * @param {string} str
        * @return {string}
        */
-        translate(str: string): string;
+        flxTranslate(str: string): string;
         /**
        * Start loading.
        * @method startLoading

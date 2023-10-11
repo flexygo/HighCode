@@ -57,13 +57,6 @@ var flexygo;
                     }
                 }
                 /**
-              * Array of observed attributes.
-              * @property observedAttributes {Array}
-              */
-                static get observedAttributes() {
-                    return ['modulename', 'value', 'mode', 'mapType'];
-                }
-                /**
                * Fires when the attribute value of the element is changed.
                * @method attributeChangedCallback
                */
@@ -110,7 +103,7 @@ var flexygo;
                         flexygo.ajax.post('~/api/Map', 'GetHTML', params, (response) => {
                             if (response) {
                                 for (let i = 0, x; x = response.Markers[i++];) {
-                                    let html = $('<marker/>').attr('lat', x.lat).attr('lng', x.lng).attr('address', x.address).attr('title', x.title).attr('icon', x.icon).attr('label', x.label).attr('zIndex', x.zIndex).html(x.content);
+                                    let html = $('<marker/>').attr('lat', x.lat).attr('lng', x.lng).attr('address', x.address).attr('radius', x.radius).attr('radiuscolor', x.radiuscolor).attr('title', x.title).attr('icon', x.icon).attr('label', x.label).attr('zIndex', x.zIndex).html(x.content);
                                     me.append(html);
                                 }
                                 this.options = response.Options;
@@ -287,15 +280,15 @@ var flexygo;
                                     if (this.dotted)
                                         createRouteDot(positionMarker, x.getAttribute('title'), x.innerHTML, this.lineColor, x.getAttribute('label'));
                                     if (icon.url) {
-                                        createMarker(positionMarker, x.getAttribute('title'), x.innerHTML, icon, x.getAttribute('label'), x.getAttribute('zIndex'));
+                                        createMarker(positionMarker, x.getAttribute('title'), x.innerHTML, icon, x.getAttribute('label'), x.getAttribute('zIndex'), null, null);
                                     }
                                 }
                                 else
-                                    createMarker(positionMarker, x.getAttribute('title'), x.innerHTML, icon, x.getAttribute('label'), x.getAttribute('zIndex'));
+                                    createMarker(positionMarker, x.getAttribute('title'), x.innerHTML, icon, x.getAttribute('label'), x.getAttribute('zIndex'), parseInt(x.getAttribute('radius')), x.getAttribute('radiuscolor'));
                             }
                             else {
                                 if (x.getAttribute('address') && x.getAttribute('address') != '') {
-                                    geocoderAddress(x.getAttribute('address'), x.getAttribute('title'), x.innerHTML, icon, x.getAttribute('label'), x.getAttribute('zIndex'));
+                                    geocoderAddress(x.getAttribute('address'), x.getAttribute('title'), x.innerHTML, icon, x.getAttribute('label'), x.getAttribute('zIndex'), parseInt(x.getAttribute('radius')), x.getAttribute('radiuscolor'));
                                 }
                             }
                         }
@@ -419,7 +412,7 @@ var flexygo;
                             var longitude = event.latLng.lng();
                             var coordinate = new google.maps.LatLng(parseFloat(latitude), parseFloat(longitude));
                             setMapOnAll(null);
-                            createMarker(coordinate, null, null, null, null, null);
+                            createMarker(coordinate, null, null, null, null, null, null, null);
                             if (latitude != null) {
                                 this.lat = latitude;
                             }
@@ -427,13 +420,13 @@ var flexygo;
                                 this.lng = longitude;
                             }
                         });
-                        function setMapOnAll(map) {
-                            for (var i = 0; i < cluster.length; i++) {
-                                cluster[i].setMap(map);
-                            }
-                            cluster.length = 0;
-                            cluster = [];
+                    }
+                    function setMapOnAll(map) {
+                        for (var i = 0; i < cluster.length; i++) {
+                            cluster[i].setMap(map);
                         }
+                        cluster.length = 0;
+                        cluster = [];
                     }
                     // Limit the zoom level
                     google.maps.event.addListener(map, 'zoom_changed', function () {
@@ -448,7 +441,7 @@ var flexygo;
                             map.setMapTypeId(color);
                         }
                     });
-                    function geocoderAddress(address, title, content, icon, label, zIndex) {
+                    function geocoderAddress(address, title, content, icon, label, zIndex, radius, radiuscolor) {
                         let geocoder = new google.maps.Geocoder();
                         geocoder.geocode({ 'address': address }, function (results, status) {
                             if (status == google.maps.GeocoderStatus.OK) {
@@ -458,11 +451,11 @@ var flexygo;
                                 if (results[0].geometry.location.lng() != null) {
                                     map.lng = results[0].geometry.location.lng();
                                 }
-                                createMarker(results[0].geometry.location, title, content, icon, label, zIndex);
+                                createMarker(results[0].geometry.location, title, content, icon, label, zIndex, radius, radiuscolor);
                             }
                             else if (status === google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
                                 setTimeout(function () {
-                                    geocoderAddress(address, title, content, icon, label, zIndex);
+                                    geocoderAddress(address, title, content, icon, label, zIndex, radius, radiuscolor);
                                 }, 200);
                             }
                             else {
@@ -493,7 +486,19 @@ var flexygo;
                             return JSON.parse(str.replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, '"$2": '));
                         }
                     }
-                    function createMarker(position, title, content, icon, label, zIndex) {
+                    function createMarker(position, title, content, icon, label, zIndex, radius, radiuscolor) {
+                        if (radius) {
+                            var circle = new google.maps.Circle({
+                                map: map,
+                                center: position,
+                                radius: radius,
+                                strokeColor: radiuscolor,
+                                strokeOpacity: 0.8,
+                                strokeWeight: 0.5,
+                                fillColor: radiuscolor,
+                                fillOpacity: 0.35
+                            });
+                        }
                         if (position.lat() != null) {
                             map.lat = position.lat();
                         }
@@ -691,10 +696,10 @@ var flexygo;
                         let latSouth = (map.getBounds() ? map.getBounds().getSouthWest().lat() : '');
                         ;
                         let newLat;
-                        if (latNorth < 85 && latSouth > -85)
+                        if (latNorth < 85 && latSouth > -85) /* in both side -> it's ok */
                             return;
                         else {
-                            if (latNorth > 85 && latSouth < -85)
+                            if (latNorth > 85 && latSouth < -85) /* out both side -> it's ok */
                                 return;
                             else {
                                 if (latNorth > 85)
@@ -709,7 +714,7 @@ var flexygo;
                         }
                     }
                 }
-                translate(str) {
+                flxTranslate(str) {
                     return flexygo.localization.translate(str);
                 }
                 startLoading() {
@@ -723,6 +728,11 @@ var flexygo;
                     }
                 }
             }
+            /**
+          * Array of observed attributes.
+          * @property observedAttributes {Array}
+          */
+            FlxMapElement.observedAttributes = ['modulename', 'value', 'mode', 'mapType'];
             wc.FlxMapElement = FlxMapElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

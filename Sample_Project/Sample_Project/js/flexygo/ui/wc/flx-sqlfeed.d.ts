@@ -34,7 +34,7 @@ declare namespace flexygo.ui.wc {
         attributeChangedCallback(attrName: string, oldVal: any, newVal: any): void;
         refresh(): void;
         init(): void;
-        translate(str: string): string;
+        flxTranslate(str: string): string;
         startLoading(): void;
         stopLoading(): void;
     }

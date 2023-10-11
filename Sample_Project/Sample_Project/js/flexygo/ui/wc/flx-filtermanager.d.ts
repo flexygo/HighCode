@@ -81,6 +81,11 @@ declare namespace flexygo.ui.wc {
        */
         editFilter(): void;
         /**
+         * Validate if can save the filter
+         * @method validateSaveProcess
+         */
+        validateSaveProcess(): void;
+        /**
         * Save a filter
         * @method saveFilter
         */
@@ -104,7 +109,7 @@ declare namespace flexygo.ui.wc {
         * @method appendFields
         */
         appendFields(): void;
-        private createField(fld);
-        private findPath(obj);
+        private createField;
+        private findPath;
     }
 }

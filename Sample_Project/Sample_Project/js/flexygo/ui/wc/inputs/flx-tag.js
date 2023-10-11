@@ -177,13 +177,6 @@ var flexygo;
                     this.connected = true;
                 }
                 /**
-              * Array of observed attributes.
-              * @property observedAttributes {Array}
-              */
-                static get observedAttributes() {
-                    return ['type', 'property', 'required', 'separator', 'disabled', 'requiredmessage', 'style', 'class', 'placeholder', 'iconclass', 'hide', 'regexp', 'regexptext'];
-                }
-                /**
               * Fires when the attribute value of the element is changed.
               * @method attributeChangedCallback
               */
@@ -395,7 +388,7 @@ var flexygo;
                                 sender: this,
                                 masterIdentity: this.property
                             };
-                            flexygo.events.trigger(ev);
+                            flexygo.events.trigger(ev, me);
                         }
                     });
                     me.html(control);
@@ -486,7 +479,28 @@ var flexygo;
                 setOptions() {
                     let me = $(this);
                     let input = me.find('input');
+                    let filter = null;
+                    let hasFilterDependencyProperty = false;
+                    if (me.closest('flx-filter').length > 0) {
+                        filter = me.closest('flx-filter')[0];
+                        let filterProperties = filter.settings[filter.active].Properties;
+                        for (let propertyKey in filterProperties) {
+                            if (filterProperties[propertyKey].PropertyName == me.attr("property") && (filterProperties[propertyKey].DependingFilterProperties).length > 0) {
+                                hasFilterDependencyProperty = true;
+                                break;
+                            }
+                        }
+                    }
                     input.on('change.refreshvalue', (e) => {
+                        if (hasFilterDependencyProperty) {
+                            let ev = {
+                                class: "property",
+                                type: "changed",
+                                sender: this,
+                                masterIdentity: this.property
+                            };
+                            flexygo.events.trigger(ev, me);
+                        }
                         me.attr('value', input.tagsinput('items').join(this.options.Separator));
                     });
                     if (this.options && this.options.Name && this.options.Name !== '') {
@@ -513,7 +527,7 @@ var flexygo;
                                 sender: this,
                                 masterIdentity: this.property
                             };
-                            flexygo.events.trigger(ev);
+                            flexygo.events.trigger(ev, me);
                         });
                     }
                     if (this.options && this.options.PlaceHolder) {
@@ -641,6 +655,11 @@ var flexygo;
                     input.trigger('change');
                 }
             }
+            /**
+          * Array of observed attributes.
+          * @property observedAttributes {Array}
+          */
+            FlxTagElement.observedAttributes = ['type', 'property', 'required', 'separator', 'disabled', 'requiredmessage', 'style', 'class', 'placeholder', 'iconclass', 'hide', 'regexp', 'regexptext'];
             wc.FlxTagElement = FlxTagElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

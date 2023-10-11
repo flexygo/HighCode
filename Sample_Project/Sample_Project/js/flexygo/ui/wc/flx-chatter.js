@@ -187,13 +187,6 @@ var flexygo;
                                                                                                                                  </div>`;
                 }
                 /**
-                * Array of observed attributes. REQUIRED
-                * @property observedAttributes {Array}
-                */
-                static get observedAttributes() {
-                    return ['ModuleName', 'ObjectName', 'ObjectWhere', 'objectId'];
-                }
-                /**
                 * Init the webcomponent. REQUIRED.
                 * @method init
                 */
@@ -603,7 +596,7 @@ var flexygo;
                                     for (var key in customSettings.templates) {
                                         customSettings.templates[key] = eval(customSettings.templates[key]);
                                     }
-                                    this.defaultSettings = Object.assign({}, this.defaultSettings, customSettings);
+                                    this.defaultSettings = Object.assign(Object.assign({}, this.defaultSettings), customSettings);
                                 }
                                 me.find('textarea.chatter_composer_textarea').mentionsInput(this.defaultSettings);
                             }
@@ -631,6 +624,7 @@ var flexygo;
                         me.find('textarea.chatter_composer_textarea').mentionsInput('getMentions', (data) => {
                             mentions = JSON.stringify(data);
                         });
+                        let chatterLink = btoa(JSON.stringify(flexygo.history.get(this)));
                         params = {
                             DestinationObjectName: this.destinationObjectName,
                             DestinationObjectId: this.destinationObjectId,
@@ -638,7 +632,8 @@ var flexygo;
                             Content: me.find('textarea.chatter_composer_textarea').val().trim(),
                             Attachments: this.composerAttachments,
                             ContentMarked: contentMarked,
-                            Mentions: mentions
+                            Mentions: mentions,
+                            ChatterLink: chatterLink
                         };
                         flexygo.ajax.post('~/api/Chatter', 'SetMessage', params, (response) => {
                             //TODO:  create own prepend function for chatter
@@ -673,6 +668,7 @@ var flexygo;
                         parent.find('textarea.chatter_composer_textarea_edit').mentionsInput('getMentions', (data) => {
                             mentions = JSON.stringify(data);
                         });
+                        let chatterLink = btoa(JSON.stringify(flexygo.history.get(this)));
                         params = {
                             MessageId: id,
                             Content: parent.find('textarea.chatter_composer_textarea_edit').val().trim(),
@@ -681,6 +677,7 @@ var flexygo;
                             Mentions: mentions,
                             DestinationObjectName: this.destinationObjectName,
                             DestinationObjectId: this.destinationObjectId,
+                            ChatterLink: chatterLink
                         };
                         flexygo.ajax.post('~/api/Chatter', 'UpdateMessage', params, (response) => {
                             parent.find('#messageContent').first().html(response.content);
@@ -838,6 +835,11 @@ var flexygo;
                     }
                 }
             }
+            /**
+            * Array of observed attributes. REQUIRED
+            * @property observedAttributes {Array}
+            */
+            FlxChatterElement.observedAttributes = ['ModuleName', 'ObjectName', 'ObjectWhere', 'objectId'];
             wc.FlxChatterElement = FlxChatterElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

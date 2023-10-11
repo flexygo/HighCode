@@ -40,6 +40,7 @@ declare namespace flexygo.ui.wc {
         removeKeys: boolean;
         page: number;
         pageSize: number;
+        pageSizeDefault: number;
         pagesButtons: number;
         maxRows: number;
         maxPages: number;
@@ -243,7 +244,7 @@ declare namespace flexygo.ui.wc {
         * @method refreshPager
         */
         refreshPager(): void;
-        private addButtons(btns, pageNum);
+        private addButtons;
         /**
        * Moves to next page.
        * @method nextPage
@@ -316,7 +317,7 @@ declare namespace flexygo.ui.wc {
        * @param {string} str
        * @return {string}
        */
-        translate(str: string): string;
+        flxTranslate(str: string): string;
         _getButton(btn: flexygo.api.ToolbarButton, objectname: string, objectwhere: string, objectdefaults: string): JQuery;
         _getTemplateButton(json: any, typeId: string, IconClass: string, Text: string, TargetId: string): string;
         /**

@@ -78,7 +78,7 @@ declare namespace flexygo.ui.wc {
         configure(): void;
         paintProperties(data: any, template: string): string;
         parseEditString(str: string): string;
-        translate(str: string): string;
+        flxTranslate(str: string): string;
         getModuleFullId(): string;
     }
 }

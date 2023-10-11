@@ -33,13 +33,6 @@ var flexygo;
                     this.hideValue = null;
                 }
                 /**
-                * Array of observed attributes. REQUIRED
-                * @property observedAttributes {Array}
-                */
-                static get observedAttributes() {
-                    return ['ObjectName', 'ObjectWhere', 'ModuleName', 'label', 'value'];
-                }
-                /**
                 * Init the webcomponent. REQUIRED.
                 * @method init
                 */
@@ -270,6 +263,11 @@ var flexygo;
                     }
                 }
             }
+            /**
+            * Array of observed attributes. REQUIRED
+            * @property observedAttributes {Array}
+            */
+            FlxEasyLine.observedAttributes = ['ObjectName', 'ObjectWhere', 'ModuleName', 'label', 'value'];
             wc.FlxEasyLine = FlxEasyLine;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

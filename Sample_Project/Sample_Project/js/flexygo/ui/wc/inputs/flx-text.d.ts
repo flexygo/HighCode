@@ -40,6 +40,7 @@ declare namespace flexygo.ui.wc {
         initViewMode(): void;
         tactilModeAvailable: boolean;
         firefoxNav: boolean;
+        edgeNav: boolean;
         initEditMode(): void;
         setUrlLink(): void;
         setPhoneNumber(): void;

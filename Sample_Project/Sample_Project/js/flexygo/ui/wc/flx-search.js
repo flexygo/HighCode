@@ -62,7 +62,7 @@ var flexygo;
                 * Monitor the list of observed attribute for changes.
                 * @property observedAttributes
                 */
-                static get observedAttributes() {
+                observedAttributes() {
                     return ['modulename'];
                 }
                 attributeChangedCallback(attrName, oldVal, newVal) {
@@ -477,7 +477,7 @@ var flexygo;
                     tbody.append(tr);
                     return tbody.html();
                 }
-                translate(str) {
+                flxTranslate(str) {
                     return flexygo.localization.translate(str);
                 }
                 refreshPager() {

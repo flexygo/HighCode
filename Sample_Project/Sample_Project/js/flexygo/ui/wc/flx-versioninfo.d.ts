@@ -59,16 +59,16 @@ declare namespace flexygo.ui.wc {
        * @method render
         */
         render(): void;
-        private renderIcon();
-        private renderPage();
-        private infoVersion(v);
-        private showChanges(parent);
-        private deleteVersion(v);
-        private setActiveVersion(v, force?);
-        private onSuccessUpdateProgress(response, inter);
-        private onFailureUpdateProgress(error, inter);
-        private showUpdateSuccessful();
-        private updateProgress();
-        private updateNewVersion(force);
+        private renderIcon;
+        private renderPage;
+        private infoVersion;
+        private showChanges;
+        private deleteVersion;
+        private setActiveVersion;
+        private onSuccessUpdateProgress;
+        private onFailureUpdateProgress;
+        private showUpdateSuccessful;
+        private updateProgress;
+        private updateNewVersion;
     }
 }

@@ -39,13 +39,6 @@ var flexygo;
                     }
                 }
                 /**
-                * Array of observed attributes.
-                * @property observedAttributes {Array}
-                */
-                static get observedAttributes() {
-                    return ['ObjectName', 'ObjectWhere', 'modulename', 'value', 'additionalwhere'];
-                }
-                /**
                 * Fires when the attribute value of the element is changed.
                 * @method attributeChangedCallback
                 */
@@ -418,8 +411,8 @@ var flexygo;
                                             }]
                                     }
                                 };
-                                let overwriteOptionsLine = Object.assign({}, defaultOptions, optionsLine);
-                                !flexygo.utils.isBlank(this.options) ? overwriteOptionsLine = Object.assign({}, overwriteOptionsLine, JSON.parse(this.options)) : overwriteOptionsLine;
+                                let overwriteOptionsLine = Object.assign(Object.assign({}, defaultOptions), optionsLine);
+                                !flexygo.utils.isBlank(this.options) ? overwriteOptionsLine = Object.assign(Object.assign({}, overwriteOptionsLine), JSON.parse(this.options)) : overwriteOptionsLine;
                                 this.chart = new Chart(ctxx, {
                                     type: this.type,
                                     data: {
@@ -508,8 +501,8 @@ var flexygo;
                                         backgroundColor: options.ToolTipBackgroundColor
                                     }
                                 };
-                                let overwriteOptionsBubble = Object.assign({}, defaultOptions, optionsBubble);
-                                !flexygo.utils.isBlank(this.options) ? overwriteOptionsBubble = Object.assign({}, overwriteOptionsBubble, JSON.parse(this.options)) : overwriteOptionsBubble;
+                                let overwriteOptionsBubble = Object.assign(Object.assign({}, defaultOptions), optionsBubble);
+                                !flexygo.utils.isBlank(this.options) ? overwriteOptionsBubble = Object.assign(Object.assign({}, overwriteOptionsBubble), JSON.parse(this.options)) : overwriteOptionsBubble;
                                 this.chart = new Chart(ctxx, {
                                     type: this.type,
                                     data: {
@@ -526,7 +519,7 @@ var flexygo;
                                     //for (let i = 0; i < label.length; i++) {
                                     let valor;
                                     for (let x = 0; x < this.data.length; x++) {
-                                        if (series[z]["serial"] == this.data[x].serie) {
+                                        if (series[z]["serial"] == this.data[x].serie) { //label[i] == this.data[x].label &&
                                             valor = parseFloat(this.data[x].value.toString().replace(',', '.'));
                                         }
                                     }
@@ -561,8 +554,8 @@ var flexygo;
                                         }
                                     }
                                 };
-                                let overwriteOptionsDoughnut = Object.assign({}, defaultOptions, optionsDoughnut);
-                                !flexygo.utils.isBlank(this.options) ? overwriteOptionsDoughnut = Object.assign({}, overwriteOptionsDoughnut, JSON.parse(this.options)) : overwriteOptionsDoughnut;
+                                let overwriteOptionsDoughnut = Object.assign(Object.assign({}, defaultOptions), optionsDoughnut);
+                                !flexygo.utils.isBlank(this.options) ? overwriteOptionsDoughnut = Object.assign(Object.assign({}, overwriteOptionsDoughnut), JSON.parse(this.options)) : overwriteOptionsDoughnut;
                                 this.chart = new Chart(ctxx, {
                                     type: 'doughnut',
                                     data: {
@@ -633,8 +626,8 @@ var flexygo;
                                         backgroundColor: options.ToolTipBackgroundColor
                                     },
                                 };
-                                let overwriteOptionsRadar = Object.assign({}, defaultOptions, optionsRadar);
-                                !flexygo.utils.isBlank(this.options) ? overwriteOptionsRadar = Object.assign({}, overwriteOptionsRadar, JSON.parse(this.options)) : overwriteOptionsRadar;
+                                let overwriteOptionsRadar = Object.assign(Object.assign({}, defaultOptions), optionsRadar);
+                                !flexygo.utils.isBlank(this.options) ? overwriteOptionsRadar = Object.assign(Object.assign({}, overwriteOptionsRadar), JSON.parse(this.options)) : overwriteOptionsRadar;
                                 this.chart = new Chart(ctxx, {
                                     type: this.type,
                                     data: {
@@ -689,8 +682,8 @@ var flexygo;
                                         }
                                     },
                                 };
-                                let overwritePolarArea = Object.assign({}, defaultOptions, optionsPolarArea);
-                                !flexygo.utils.isBlank(this.options) ? overwritePolarArea = Object.assign({}, overwritePolarArea, JSON.parse(this.options)) : overwritePolarArea;
+                                let overwritePolarArea = Object.assign(Object.assign({}, defaultOptions), optionsPolarArea);
+                                !flexygo.utils.isBlank(this.options) ? overwritePolarArea = Object.assign(Object.assign({}, overwritePolarArea), JSON.parse(this.options)) : overwritePolarArea;
                                 this.chart = new Chart(ctxx, {
                                     type: 'polarArea',
                                     data: {
@@ -753,7 +746,7 @@ var flexygo;
                                     Datasets.push({ label: series[z].serial, backgroundColor: flexygo.utils.isBlank(series[z]["backgroundColor"]) ? options.BackgroundColor[z] : series[z]["backgroundColor"], borderColor: flexygo.utils.isBlank(series[z]["borderColor"]) ? options.BorderColor[z] : series[z]["borderColor"], hoverBackgroundColor: flexygo.utils.isBlank(series[z]["borderColor"]) ? options.BorderColor[z] : series[z]["borderColor"], borderWidth: 1, data: value });
                                 }
                                 let overwriteBar = defaultOptions;
-                                !flexygo.utils.isBlank(this.options) ? overwriteBar = Object.assign({}, overwriteBar, JSON.parse(this.options)) : overwriteBar;
+                                !flexygo.utils.isBlank(this.options) ? overwriteBar = Object.assign(Object.assign({}, overwriteBar), JSON.parse(this.options)) : overwriteBar;
                                 this.chart = new Chart(ctxx, {
                                     type: this.type.toLowerCase() === 'horizontalbar' ? 'horizontalBar' : this.type,
                                     data: {
@@ -801,8 +794,8 @@ var flexygo;
                                     },
                                     cutoutPercentage: 0,
                                 };
-                                let overwritePie = Object.assign({}, defaultOptions, optionsPie);
-                                !flexygo.utils.isBlank(this.options) ? overwritePie = Object.assign({}, overwritePie, JSON.parse(this.options)) : overwritePie;
+                                let overwritePie = Object.assign(Object.assign({}, defaultOptions), optionsPie);
+                                !flexygo.utils.isBlank(this.options) ? overwritePie = Object.assign(Object.assign({}, overwritePie), JSON.parse(this.options)) : overwritePie;
                                 this.chart = new Chart(ctxx, {
                                     type: this.type,
                                     data: {
@@ -889,6 +882,11 @@ var flexygo;
                     }
                 }
             }
+            /**
+            * Array of observed attributes.
+            * @property observedAttributes {Array}
+            */
+            FlxChartElement.observedAttributes = ['ObjectName', 'ObjectWhere', 'modulename', 'value', 'additionalwhere'];
             wc.FlxChartElement = FlxChartElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

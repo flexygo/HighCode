@@ -6,11 +6,16 @@ flx-filtermanager span i, flx-viewmanager span i{
     color:lighten(dbColor(PrimaryColor),10);
 }
 
-flx-filtermanager .comment, flx-viewmanager .comment{
-    color:lighten(dbColor(PrimaryColor),10);
+flx-filtermanager .comment, flx-viewmanager .comment {
+    color: lighten(dbColor(PrimaryColor),10);
     font-size: .8em;
     font-style: italic;
     float: right;
+    text-align: end;
+}
+
+flx-viewmanager .comment i:first-child {
+    margin-right:5px;
 }
 
 flx-filtermanager ul, flx-viewmanager ul{
@@ -184,6 +189,27 @@ flx-sortmanager .used .asc i:first-child, flx-sortmanager .used .dsc i:first-chi
     -moz-osx-font-smoothing: grayscale;
 }
 
+//NEW STYLES TO PROPERTY FILTER STRUCTURE
 
 
+
+flx-filtermanager ul > li.filterField {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: -5px;
+}
+
+flx-filtermanager ul > li.filterField > div {
+    display: flex;
+    align-items: center;
+}
+
+flx-filtermanager ul > li.filterField > div:nth-child(2) {
+    flex-grow: 1;
+    justify-content: start;
+}
+
+flx-filtermanager ul > li.filterField > div:first-child {
+    margin-left:7px;
+}
 

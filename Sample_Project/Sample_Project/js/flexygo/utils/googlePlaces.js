@@ -40,7 +40,7 @@ var flexygo;
                     if (address1Field) {
                         let defOptions = { types: ["address"] };
                         if (options) {
-                            defOptions = Object.assign({}, defOptions, options);
+                            defOptions = Object.assign(Object.assign({}, defOptions), options);
                         }
                         autocomplete = new google.maps.places.Autocomplete(address1Field, defOptions);
                         autocomplete.addListener("place_changed", () => {

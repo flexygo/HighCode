@@ -167,7 +167,7 @@ declare namespace flexygo.utils {
     * @param {number} milliseconds - number of milliseconds to stop.
     * @method asyncSleep
     */
-    function asyncSleep(milliseconds: any): Promise<{}>;
+    function asyncSleep(milliseconds: any): Promise<any>;
     /**
     * Check if text is base64
     * @param {string} str - text base64.
@@ -253,6 +253,7 @@ declare namespace flexygo.utils {
     */
     function skinModeEffect(dark: boolean): any;
     function getErrorMessage(err: any): string;
+    function showDependencyError(elm: any, width: number): void;
     /**
     * Generate random color based on a text seed.
     * @method randomColor
@@ -260,6 +261,9 @@ declare namespace flexygo.utils {
     * @return {string} Color in
     */
     function randomColor(seed: string): any;
+    function formatFileSize(size: number): string;
+    function totalFileWeight(itm: any): void;
+    function formRelatedDep_Childs(ObjectName: string, PropertyName: string, e: any): void;
     var colors: Array<string>;
 }
 declare namespace flexygo.utils.querystring {
@@ -334,4 +338,12 @@ declare namespace flexygo.utils.offline {
     * @returns {any} Value of "is" or "notIs"
     */
     function isEmptyAttribute(element: Element, attributeName: string, is: string, notIs: string): any;
+}
+declare namespace flexygo.utils.maintenance {
+    function isActive(): boolean;
+    function set(maintenanceDate: any): void;
+    function check(): void;
+    function enable(): void;
+    function disable(): void;
+    function setAdvice(): void;
 }

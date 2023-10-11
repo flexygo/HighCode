@@ -58,7 +58,7 @@ var flexygo;
                 * Monitor the list of observed attribute for changes.
                 * @property observedAttributes
                 */
-                static get observedAttributes() {
+                observedAttributes() {
                     return ['modulename', 'objectname', 'objectwhere', 'objectid', 'singleimage', 'empty', 'mode'];
                 }
                 /**
@@ -387,6 +387,7 @@ var flexygo;
                                     this.closest('flx-imagemanager').orderImage(this);
                                 }, 700);
                             },
+                            //onGapFound: function () {}
                         });
                         this.wall.fitWidth();
                         this.wall.sortBy(function (a, b) {

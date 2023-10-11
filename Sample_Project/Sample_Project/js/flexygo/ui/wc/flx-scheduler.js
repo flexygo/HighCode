@@ -35,13 +35,6 @@ var flexygo;
                     this.hasPendingRefresh = false;
                 }
                 /**
-               * Array of observed attributes.
-               * @property observedAttributes {Array}
-               */
-                static get observedAttributes() {
-                    return ['ObjectName', 'ObjectWhere', 'ModuleName'];
-                }
-                /**
                 * Refresh de webcomponent.
                 * @method refresh
                 */
@@ -795,6 +788,11 @@ var flexygo;
                     flexygo.events.off(this, "dialog", "closed");
                 }
             }
+            /**
+           * Array of observed attributes.
+           * @property observedAttributes {Array}
+           */
+            FlxScheduler.observedAttributes = ['ObjectName', 'ObjectWhere', 'ModuleName'];
             wc.FlxScheduler = FlxScheduler;
             class FlxSchedulerElement extends HTMLElement {
                 /**

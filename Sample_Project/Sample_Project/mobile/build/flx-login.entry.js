@@ -1,7 +1,6 @@
 import { r as registerInstance, j as h } from './index-86ac49ff.js';
 import './ionic-global-0f98fe97.js';
-import { W as Webapi } from './webapi-79a1d3db.js';
-import { h as gps, C as ConftokenProvider, m as msg, u as util, n as nav, i as flxSync } from './conftoken-950775a1.js';
+import { h as gps, W as Webapi, C as ConftokenProvider, m as msg, u as util, i as flxSync, n as nav } from './conftoken-38d23b50.js';
 import { j as jquery } from './jquery-5df58adb.js';
 import './utils-16079bfd.js';
 import './helpers-719f4c54.js';
@@ -45,7 +44,7 @@ const FlxLogin = class {
     async refresh() {
         let api = new Webapi();
         let auth = await api.getAuth();
-        let config = (await ConftokenProvider.config());
+        let config = await ConftokenProvider.config();
         let urlConfig = (config ? config.urlConfig : null);
         if (auth) {
             this.url = auth.url;
@@ -78,7 +77,8 @@ const FlxLogin = class {
         this.logUser(api, loader, true);
     }
     logUser(api, loader, firstTime) {
-        api.login(this.url, this.user, this.pass).then((_value) => {
+        let GUID = util.GUID();
+        api.login(this.url, this.user, this.pass, GUID).then((_value) => {
             //Check apps.
             api.getCollection('sysOfflineApp').then((apps) => {
                 loader.dismiss();
@@ -86,31 +86,20 @@ const FlxLogin = class {
                     msg.showError('No apps found', false);
                 }
                 else if (apps.length == 1) {
-                    const baseOldUrl = this.oldUrl.replace('https://', '').replace('http://', '');
-                    const baseNewUrl = this.url.replace('https://', '').replace('http://', '');
-                    ConftokenProvider.setApp(apps[0], (baseOldUrl === baseNewUrl && this.oldUser === this.user)).then((sameApp) => {
-                        nav.goHome();
-                        if (!sameApp) {
-                            let redirect;
-                            if (window.cordova) {
-                                redirect = "document.location.href='./home'";
-                            }
-                            else {
-                                redirect = "document.location.href='./index.html#/home'";
-                            }
-                            flxSync.syncData(false, redirect);
-                        }
+                    ConftokenProvider.setApp(apps[0], this.url, this.user, GUID, _value).then(async (data) => {
+                        this.afterAppIsSet(data);
                     });
                 }
                 else {
                     this.apps = apps;
-                    this.appsList(apps);
+                    this.appsList(apps, GUID, _value);
                 }
             }).catch(error => {
                 loader.dismiss();
                 this.catchErr(error);
             });
-        }).catch(error => {
+        }).catch(async (error) => {
+            await ConftokenProvider.removeApp(GUID);
             if (firstTime && error.error !== 'invalid_grant') {
                 this.toggleHttpExtension();
                 this.logUser(api, loader, false);
@@ -209,13 +198,12 @@ const FlxLogin = class {
             icon.attr('name', 'eye');
         }
     }
-    appsList(apps) {
-        const modalContent = document.createElement('modal-content');
-        let html;
-        html = `
+    appsList(apps, GUID, authToken) {
+        let html = `
+    <span>
       <ion-header fullscreen>
         <ion-toolbar class='applist'>
-          <ion-title>` + util.translate('login.appsListTitle') + `</ion-title>
+          <ion-title>${util.translate('login.appsListTitle')}</ion-title>
         </ion-toolbar>
       </ion-header>
       <ion-content class="loginpage"> 
@@ -223,10 +211,10 @@ const FlxLogin = class {
     `;
         for (var i = 0; i < apps.length; i++) {
             html += `
-          <ion-item>
-            <ion-label id=` + i + ` onclick="$('flx-login')[0].navToSelectedApp(this.id);">
-              <h2><i class="flx-icon icon-` + apps[i].IconName + `"></i> ` + apps[i].AppName + `</h2>
-              <p>` + apps[i].Descrip + `</p>
+          <ion-item id="${i}">
+            <ion-label>
+              <h2><i class="flx-icon icon-${apps[i].IconName}"></i> ${apps[i].AppName}</h2>
+              <p>${apps[i].Descrip ? apps[i].Descrip : ''}</p>
             </ion-label>
           </ion-item>
       `;
@@ -234,29 +222,33 @@ const FlxLogin = class {
         html += `
         </ion-list>
       </ion-content>
+    </span>
     `;
-        modalContent.innerHTML = html;
-        const modal = document.createElement('ion-modal');
-        modal.component = modalContent;
-        document.body.appendChild(modal);
-        modal.present();
-        this.modal = modal;
-    }
-    async navToSelectedApp(appName) {
-        this.closeAppSelector();
-        await ConftokenProvider.setApp(this.apps[appName], (this.oldUrl === this.url && this.oldUser === this.user)).then((sameApp) => {
-            nav.goHome();
-            if (!sameApp) {
-                let redirect;
-                if (window.cordova) {
-                    redirect = "document.location.href='./home'";
-                }
-                else {
-                    redirect = "document.location.href='./index.html#/home'";
-                }
-                flxSync.syncData(false, redirect);
-            }
+        let content = jquery(html);
+        content.find('ion-item[id]').on('click', el => {
+            this.navToSelectedApp(el.currentTarget.id, GUID, authToken);
         });
+        this.modal = document.createElement('ion-modal');
+        this.modal.component = content[0];
+        document.body.appendChild(this.modal);
+        this.modal.present();
+    }
+    async navToSelectedApp(appName, GUID, authToken) {
+        this.closeAppSelector();
+        ConftokenProvider.setApp(this.apps[appName], this.url, this.user, GUID, authToken).then(async (data) => {
+            this.afterAppIsSet(data);
+        });
+    }
+    async afterAppIsSet(data) {
+        if (data.new) {
+            let redirect = "flexygo.nav._nav('/home','root').then(() => { document.location.reload(); });";
+            flxSync.syncData(false, redirect);
+        }
+        else {
+            await ConftokenProvider.changeCurrentApp(data.GUID);
+            await nav._nav('/home', 'root');
+            document.location.reload();
+        }
     }
     async closeAppSelector() {
         this.modal.dismiss();

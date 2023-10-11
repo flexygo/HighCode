@@ -141,7 +141,7 @@ flx-objectmanager .config-btn{
     display:none;
 }
 
-flx-propertymanager .addProps, flx-propertymanager .createProps, flx-propertymanager .cloneDependencies {
+flx-propertymanager .addProps, flx-propertymanager .createProps, flx-propertymanager .cloneDependencies, flx-propertymanager .relatedDep {
     display: inline-block;
     font-size: .8em;
 }
@@ -250,7 +250,7 @@ flx-propertymanager label.locked span.status:after {
     padding-left: 5px;
 }
 
-flx-propertymanager span.depStatus {
+flx-propertymanager span.depStatus, flx-propertymanager .detachedProp {
     color: #818181;
     font-size: 13px;
 }
@@ -278,4 +278,45 @@ flx-objectmanager .icombo .input-group-addon:hover {
     background-color: #0091d9;
     color: white;
     font-size: 22px;
+}
+
+flx-propertymanager div[data-tag="control"] {
+    position: relative;
+
+    .propertymanager-default {
+        position: absolute;
+        top: 4px;
+        right: 38px;
+        z-index: 12;
+        font-size: 12px;
+    }
+}
+
+
+.flx-related-dep {
+    display: flex;
+    flex-wrap: wrap;
+
+    .tree {
+        /*        float: left;
+        width: 400px;*/
+
+        li.parent_li > span {
+            width: 200px;
+
+            &:hover, &:hover + ul {
+                i, small {
+                    color: black;
+                }
+            }
+        }
+
+        ul ul {
+            padding-top: 3px;
+
+            li:hover {
+                background-color: transparent;
+            }
+        }
+    }
 }

@@ -27,7 +27,7 @@ declare namespace flexygo.ui.wc {
         properties: flexygo.api.ObjectPropertyCollection;
         propArr: flexygo.api.ObjectProperty[];
         connectedCallback(): void;
-        static readonly observedAttributes: string[];
+        observedAttributes(): string[];
         attributeChangedCallback(attrName: string, oldVal: any, newVal: any): void;
         refresh(): void;
         onPropertyChanged(e: flexygo.events.FlexygoEvent): void;
@@ -37,7 +37,7 @@ declare namespace flexygo.ui.wc {
         render(): void;
         toogleSortMode(btns: JQuery): void;
         _resizeGridProps(): void;
-        private addConfigToolbar();
+        private addConfigToolbar;
         addFields(fieldName: string, fieldType: string, fieldTable: string): void;
         addDetachedProperty(propertyName: string, propertyLabel: string): void;
         addProperties(checks: JQuery): void;
@@ -54,6 +54,6 @@ declare namespace flexygo.ui.wc {
         loadExtendedMenu(row: flexygo.api.ObjectProperty, btMenuId: string): void;
         getExtendedToolsMenu(row: flexygo.api.ObjectProperty, btMenuId?: string): JQuery;
         parseEditString(str: string): string;
-        translate(str: string): string;
+        flxTranslate(str: string): string;
     }
 }

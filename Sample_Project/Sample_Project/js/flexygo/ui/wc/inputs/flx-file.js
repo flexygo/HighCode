@@ -30,13 +30,6 @@ var flexygo;
                     this.mode = 'object';
                 }
                 /**
-                * Array of observed attributes.
-                * @property observedAttributes {Array}
-                */
-                static get observedAttributes() {
-                    return ['ObjectName', 'ObjectWhere', 'ModuleName', 'RootPath', 'Path', 'Property', 'Type', 'Mode', 'disabled'];
-                }
-                /**
                 * Init the webcomponent.
                 * @method init
                 */
@@ -123,7 +116,7 @@ var flexygo;
                             }
                         }
                         let params = {
-                            'Mode': this.mode,
+                            'Mode': this.mode ? this.mode : 'edit',
                             'ObjectName': this.options.ProcessName || this.options.ReportName || this.options.ObjectName,
                             'PropertyName': this.options.Name,
                             'Base64': base64,
@@ -141,7 +134,7 @@ var flexygo;
                                         sender: this,
                                         masterIdentity: this.property
                                     };
-                                    flexygo.events.trigger(ev);
+                                    flexygo.events.trigger(ev, $(this));
                                 }
                                 flexygo.msg.success('file.saved');
                             }
@@ -354,6 +347,11 @@ var flexygo;
                     }
                 }
             }
+            /**
+            * Array of observed attributes.
+            * @property observedAttributes {Array}
+            */
+            FlxFileWcElement.observedAttributes = ['ObjectName', 'ObjectWhere', 'ModuleName', 'RootPath', 'Path', 'Property', 'Type', 'Mode', 'disabled'];
             wc.FlxFileWcElement = FlxFileWcElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

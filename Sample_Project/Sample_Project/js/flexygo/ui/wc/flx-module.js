@@ -2,10 +2,11 @@
  * @namespace flexygo.ui.wc
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -223,7 +224,7 @@ var flexygo;
                         type: "refreshed",
                         sender: this
                     };
-                    flexygo.events.trigger(ev);
+                    flexygo.events.trigger(ev, me);
                 }
                 moduleLoaded(wc) {
                     //TODO_TS: wc es un WebControl
@@ -255,7 +256,7 @@ var flexygo;
                         type: "loaded",
                         sender: this
                     };
-                    flexygo.events.trigger(ev);
+                    flexygo.events.trigger(ev, me);
                 }
                 toggle() {
                     $(this).find('.icon-minus, .icon-plus').toggleClass("icon-minus icon-plus");
@@ -338,7 +339,7 @@ var flexygo;
                         return groupedBtns;
                     }, {});
                     //Combines the previous ctxMenuValues and the newBtns (for when toolbars are loaded on an flx-list or in the template and in the smae module toolbar)
-                    this.ctxMenusValues = Object.assign({}, this.ctxMenusValues, newBtns);
+                    this.ctxMenusValues = Object.assign(Object.assign({}, this.ctxMenusValues), newBtns);
                     parentIds.forEach(id => {
                         let btn = container.find(`[buttonid="${id}"]`);
                         let uniqueId = flexygo.utils.uniqueUUID();
@@ -347,6 +348,14 @@ var flexygo;
                             btn.attr("id", uniqueId);
                             btn.append('<span class="caret"/>');
                             btn.attr('onclick', flexygo.utils.functionToString(`this.closest('flx-module').printToolbarContextMenu`, [uniqueId, id, objectname, objectwhere, defString, reportname, reportwhere, processname]));
+                        }
+                        else if (btn.attr('data-type') === 'objectmenu') {
+                            btn.attr("objectname", objectname);
+                            btn.attr("objectwhere", objectwhere);
+                            btn.attr("defString", defString);
+                            btn.attr("reportname", reportname);
+                            btn.attr("reportwhere", reportwhere);
+                            btn.attr("processname", processname);
                         }
                         else {
                             let showMenuBtn = $(`<button id="${uniqueId}" subButtonid="${id}" class="${(btn[0] ? btn[0].className : 'btn btn-default')}"><span class="caret"/></button>`);
@@ -416,17 +425,17 @@ var flexygo;
                 }
                 showSubmenu(ev, btns, parentId, objectname, objectwhere, defString, reportname, reportwhere, processname, trueElement) {
                     ev.stopPropagation();
-                    var menu = $('<div submenu/>'), parent = (trueElement ? trueElement : $(ev.currentTarget));
+                    var menu = $('<div flxsubmenu/>'), parent = (trueElement ? trueElement : $(ev.currentTarget));
                     let menuUl = this.setMenuButtons(btns, parentId, objectname, objectwhere, defString, reportname, reportwhere, processname);
                     menu.append(menuUl);
                     menuUl.find('li').addClass('isSubMenu');
-                    let ctxMenu = $('body flx-contextmenu .flx-contextmenu');
-                    let subMenu = ctxMenu.find(`[submenu]`);
+                    let ctxMenu = $('body flx-contextmenu .flx-contextmenu:visible');
+                    let subMenu = ctxMenu.find(`[flxsubmenu]`);
                     if (subMenu.length > 0 && !parent.hasClass('isSubMenu')) {
                         subMenu.remove();
                     }
                     ctxMenu.append(menu);
-                    $(this).find('[submenu]:visible').hide();
+                    $(this).find('[flxsubmenu]:visible').hide();
                     menu.show();
                     menu.position({
                         my: "left top",
@@ -575,12 +584,12 @@ var flexygo;
                             break;
                         case 'saveview':
                             htmlBTN.addClass("saveButton");
-                            htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.ui.wc.FlxModuleElement.prototype.saveModule', [objectname, objectwhere], ['$(`[buttonId="${$(this).attr("parentId")}"]`).closest(\'flx-module\')', '$(this)', '\'view\'', objectdefaults]));
+                            htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.ui.wc.FlxModuleElement.prototype.saveModule', [objectname, objectwhere], ['$(`[buttonId="${$(this).attr("parentId") ? $(this).attr("parentId") : $(this).attr("buttonId") }"]`).closest(\'flx-module\')', '$(this)', '\'view\'', objectdefaults]));
                             htmlBTN.tooltip({ title: flexygo.localization.translate('flxmodule.save'), placement: 'bottom' });
                             break;
                         case 'saveandnew':
                             htmlBTN.addClass("saveButton");
-                            htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.ui.wc.FlxModuleElement.prototype.saveModule', [objectname, objectwhere], ['$(`[buttonId="${$(this).attr("parentId")}"]`).closest(\'flx-module\')', '$(this)', '\'edit\'', objectdefaults]));
+                            htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.ui.wc.FlxModuleElement.prototype.saveModule', [objectname, objectwhere], ['$(`[buttonId="${$(this).attr("parentId") ? $(this).attr("parentId") : $(this).attr("buttonId") }"]`).closest(\'flx-module\')', '$(this)', '\'edit\'', objectdefaults]));
                             htmlBTN.tooltip({ title: flexygo.localization.translate('flxmodule.save'), placement: 'bottom' });
                             break;
                         case 'saverow':
@@ -734,7 +743,7 @@ var flexygo;
                         type: "resized",
                         sender: this
                     };
-                    flexygo.events.trigger(ev);
+                    flexygo.events.trigger(ev, me);
                 }
                 setObjectDescrip(objDescrip) {
                     let me = $(this);
@@ -806,7 +815,7 @@ var flexygo;
                             masterIdentity: list.collectionname,
                             detailIdentity: { moduleFilter: currentFilter, selectedItems: flexygo.selection.getArray(objectname) }
                         };
-                        flexygo.events.trigger(ev);
+                        flexygo.events.trigger(ev, mod);
                     }
                     if (selectionLength > 0) {
                         this.activeBagButtons(mod);
@@ -1103,7 +1112,7 @@ var flexygo;
                     }
                 }
                 saveReportParams(reportname, reportwhere, objectname, objectwhere, objectdefaults, module, button) {
-                    if ($(module)[0].componentString == 'flx-edit') {
+                    if ($(module)[0].componentString.includes('flx-edit')) {
                         let edit = module.find('flx-edit')[0];
                         edit.validateSQLProperties();
                     }
@@ -1132,7 +1141,7 @@ var flexygo;
                     }
                 }
                 execProcessParams(processname, objectname, objectwhere, defaults, module, button) {
-                    if ($(module)[0].componentString == 'flx-edit') {
+                    if ($(module)[0].componentString.includes('flx-edit')) {
                         let edit = module.find('flx-edit')[0];
                         edit.validateSQLProperties();
                     }
@@ -1171,7 +1180,7 @@ var flexygo;
                         masterIdentity: objectname,
                         detailIdentity: objectwhere
                     };
-                    flexygo.events.trigger(ev);
+                    flexygo.events.trigger(ev, module);
                 }
                 startLoading() {
                     $(this).find('.icon-sincronize').addClass('icon-spin txt-outstanding');
@@ -1218,7 +1227,7 @@ var flexygo;
                                         sender: dlg.data('context')
                                     };
                                     dlg.addClass("closing");
-                                    flexygo.events.trigger(ev);
+                                    flexygo.events.trigger(ev, me);
                                     dlg.dialog('close');
                                     //dlg.dialog('destroy').remove();
                                 }

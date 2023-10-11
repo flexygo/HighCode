@@ -418,8 +418,22 @@ input::-webkit-inner-spin-button {
 }
 
 #LineDown {
-    background-color: rgba(0, 0, 0, .8);
     color: dbColor(DangerColor);
+}
+
+.fullbackground {
+    color: white;
+}
+
+.centerContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#LineDown, .fullbackground {
+    background-color: rgba(0, 0, 0, .8);
     font-size: 3em;
     display: flex;
     flex-direction: column;
@@ -427,7 +441,7 @@ input::-webkit-inner-spin-button {
     align-items: center;
 }
 
-#LineDown > div {
+#LineDown > div, .fullbackground > div {
     width: 50%;
     text-align: center;
 }
@@ -808,6 +822,10 @@ body.develop .develop-hidden {
 
 .clickable {
     cursor: pointer;
+}
+
+.cursor-auto {
+    cursor: auto !important;
 }
 //font Size and input classes
 .form-control, .bootstrap-tagsinput {
@@ -2179,11 +2197,17 @@ b.badge {
     line-height: normal;
 }
 
-blink {
+blink, .blink, .blink :before {
     display: inline;
     color: inherit;
     animation: blink 1s steps(1) infinite;
     -webkit-animation: blink 1s steps(1) infinite;
+}
+
+.blink {
+    animation: blink 1s steps(1) infinite;
+    -webkit-animation: blink 1s steps(1) infinite;
+    transition: all .3s ease-in 0s;
 }
 
 @keyframes blink {
@@ -2250,7 +2274,7 @@ legend {
     border-bottom: 1px solid dbColor(borderModuleColor);
 }
 
-input[type=number], flx-text[type=number] label.input-view {
+input[type=number], flx-text[type=number] label.input-view, flx-text[type=thousandSeparator] label.input-view {
     text-align: right;
 }
 
@@ -2355,10 +2379,11 @@ input[type='search']::-webkit-search-cancel-button {
     width: ~"calc(50% - 16px)";
 }
 
-
+.sweet-modal-overlay {
+    z-index: 9999999;
+}
 /*Offline*/
 @import "mixins.less";
-
 /*Replace icon with prefix*/
 .offline-prefix {
     span.input-group-addon {
@@ -2847,26 +2872,186 @@ input[type='search']::-webkit-search-cancel-button {
 }
 
 //MAILCHIMP INTEGRATION
+
+flx-view[modulename*="mailchimp"] {
+    label {
+        margin-bottom: 0px;
+    }
+}
+
+flx-module button.btn-style {
+    border-radius: 5px !important;
+    padding: 6px !important;
+}
+
+flx-module.toolbar-right {
+    .moduleButtons {
+        float: right;
+    }
+}
+
 flx-module.superclean:not(.config):not(.fullscreen) {
     border: none;
     background-color: unset;
     .cntHeader, .cntBodyHeader { background-color: unset; }
 }
 
-[modulename="sysmod-mailchimp-navbar"] {
+.stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card-style {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #e6eaf1;
+    border-radius: 10px;
+    box-shadow: 0px 0px 4px 2px #f3f3f3;
+}
+
+.simple-label {
+    display: flex;
+    flex-direction: column;
+    width: 120px;
+    align-items: center;
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #e6eaf1;
+    border-radius: 10px;
+    box-shadow: 0px 0px 4px 2px #f3f3f3;
+
+    .label-value {
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .label-text {
+        font-size: 11px;
+        text-align: center;
+    }
+}
+
+body[mode="dark"] .simple-label {
+    border: 1px solid #060606;
+    box-shadow: 0px 0px 4px 2px #181818;
+}
+
+.mailchimp-list-label {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.mailchimp-label {
+    display: flex;
+    align-items: center;
+    width: 140px;
+
+    i {
+        font-size: 20px;
+    }
+
+    .mailchimp-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-left: 10px;
+
+        .mailchimp-info-value {
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .mailchimp-info-text {
+            font-size: 12px;
+        }
+    }
+}
+
+#realMain[pagename*="mailchimp"]:not([pagename="syspage-view-mailchimpcampaigns"]):not([pagename="syspage-view-mailchimpcontact"]) {
+    display: flex;
+    flex-wrap: wrap;
+    /*height: 100%;*/
+    padding: 25px;
+
+    .panel, .panel-default > .panel-heading {
+        border-color: #e3e3e3;
+    }
+
+    flx-module.clean .cntHeader {
+        border-bottom: 2px dotted #e2e6ebe0;
+    }
+}
+
+flx-module[modulename="sysmod-mailchimp-config"] .cntBody{
+    padding-left: 0px !important;
+}
+
+flx-html[modulename="sysmod-mailchimp-navbar"] {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .nav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        text-align: center;
+
+        li {
+            cursor: pointer;
+            font-size: 15.5px;
+            border-bottom: 3px solid #d4d7dd;
+            width: 225px;
+            font-weight: 600;
+
+            &.active {
+                border-bottom: 3px solid #2eafe7;
+
+                a {
+                    color: darken(dbColor(OutstandingColor), 10);
+                }
+            }
+
+            a {
+                color: #929ba5;
+
+                &:hover {
+                    background-color: unset;
+                    color: darken(dbColor(OutstandingColor), 10);
+                }
+            }
+        }
+    }
+}
+
+/*[modulename="sysmod-mailchimp-navbar"] {
     li > a {
         cursor: pointer;
         font-size: 15.5px;
-        &:hover { background-color: #ddd; }
+
+        &:hover {
+            background-color: #ddd;
+        }
+
         i {
             color: #C1BFBD;
             font-size: 24px;
             vertical-align: middle;
         }
     }
+
     li.active > a, li.active > a:hover {
-        background-color: dbColor(OutstandingColor);
-        i { color: white; }
+        color: dbColor(OutstandingColor);
+    }
+}*/
+
+[modulename="sysmod-mailchimp-contacts-edit"] {
+    table {
+        width: 98% !important;
     }
 }
 
@@ -2875,36 +3060,59 @@ flx-module.superclean:not(.config):not(.fullscreen) {
     .cntHeader .cntIcon, .cntHeader .cntTitle {
         margin: 0 !important;
     }
+
     table.flxRszTbl {
-        border: 1px solid #ccc;
+        /*border: 1px solid #ccc;*/
         border-collapse: unset;
-        border-radius: 6px;
-        background-color: #fff;
+        padding-right: 0px;
+        width: 98%;
+
         td, th {
             text-align: left;
+
             @media (min-width: dbSize(medium)) {
                 padding: 10px 6px !important;
             }
         }
+
         thead {
             th {
                 text-align: left;
                 font-weight: bold;
-                color: dbColor(txtColor); 
-                &:not(:hover) { background-color: #ddd; }
-                &:hover { color: #fff; }
-            }
-        }
-        tr:not(.rowHeader) { 
-            &:not(:hover) { 
-                background-color: unset !important; 
-                td:nth-of-type(2) { color: dbColor(OutstandingColor); }
-            }
-            td:nth-of-type(2) { 
-                font-weight: bold;
+                color: dbColor(txtColor);
+                font-weight: 600;
             }
         }
 
+        tr:not(.rowHeader) {
+            &:not(:hover) {
+                background-color: unset !important;
+
+                td:nth-of-type(2) {
+                    color: dbColor(OutstandingColor);
+                }
+            }
+
+            td:nth-of-type(2) {
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+body:not([mode="dark"]) {
+    [modulename="sysmod-mailchimp-campaigns"], [modulename="sysmod-mailchimp-templates"], [modulename="sysmod-mailchimp-lists"], [modulename=sysmod-mailchimp-objects-contacts], [modulename="sysmod-mailchimp-contacts"] {
+        table.flxRszTbl {
+            background-color: #fff;
+
+            thead th:not(:hover) {
+                background-color: #f9fafc;
+            }
+        }
+    }
+
+    #realMain[pagename*="mailchimp"]:not([pagename="syspage-view-mailchimpcampaigns"]):not([pagename="syspage-view-mailchimpcontact"]) {
+        background-color: white;
     }
 }
 
@@ -2913,10 +3121,11 @@ flx-module.superclean:not(.config):not(.fullscreen) {
         color: #c1bfbd;
         font-size: 24px;
     }
+
     hr {
-        margin-top: 10px; 
-        margin-bottom: 15px; 
-        padding: 0.5px; 
+        margin-top: 10px;
+        margin-bottom: 15px;
+        padding: 0.5px;
         opacity: 0.3;
     }
 }
@@ -2928,7 +3137,7 @@ flx-module.superclean:not(.config):not(.fullscreen) {
         right:-14px;
     }
 }
-
+/*
 [modulename="sysmod-view-campaignInfo"] .stats {
     border: solid 1px #ccd5dd;
     > div {
@@ -2958,7 +3167,8 @@ flx-module.superclean:not(.config):not(.fullscreen) {
         }
     &:hover .marcador {font-weight: 600;}
     }
-}
+}*/
+
 
 //DDBB
 #dataModel {
@@ -3798,6 +4008,10 @@ button.btnHelp {
     border-radius: 10px;
     min-width: 190px;
 
+    //Filtermenu scroll
+    max-height: 70vh;
+    overflow: auto;
+
     div {
         padding: 2px 0;
     }
@@ -3983,3 +4197,449 @@ flx-module .cntBodyFooter .pager:not(.onlyPageInfo):not(:empty) {
     margin-left: 16px;
     margin-right: 16px;
 }
+
+//Structure styles starts
+.structureObject {
+    border: 1px solid rgba(0,0,0,.1);
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+
+    &:hover {
+        box-shadow: 0 0 11px rgba(33,33,33,.2);
+        transition: 0.7s ease-out;
+    }
+}
+
+.structureObjectImg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flx-structure-cards {
+    color: #322c2c;
+    display: flex;
+    flex-flow: wrap;
+
+    a {
+        color: #369af0;
+    }
+
+    .txt-muted {
+        color: #bec6cc;
+    }
+
+    .flx-structure-card {
+        display: flex;
+        justify-content: center;
+        padding: 7px;
+
+
+        > div {
+            display: flex;
+            flex-flow: wrap;
+            flex-grow: 1;
+            align-content: center;
+            align-items: center;
+            border: 1px solid #e9eef7;
+            border-radius: 3px;
+            transition: all 0.3s ease-in-out 0s;
+            background-color: #d2e4f338;
+
+            &:hover {
+                box-shadow: 0px 4px 6px 1px #E5ECF5;
+            }
+
+            .flx-structure-card-icon-phone {
+                padding: 7px 8px;
+                color: #b3bbc8;
+                border: 1px solid #b3bbc8;
+                border-radius: 25px;
+                margin: 2px;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: lighten(dbColor(outstandingColor),42);
+                }
+            }
+
+            .flx-structure-card-icon-email {
+                padding: 7px;
+                color: #b3bbc8;
+                border: 1px solid #b3bbc8;
+                border-radius: 25px;
+                margin: 2px;
+                cursor: pointer;
+            }
+
+            > div {
+                transition: all 0.3s ease-in-out 0s;
+
+                > div:first-of-type img {
+                    width: 100%;
+                    max-width: 100px;
+                }
+            }
+        }
+    }
+}
+
+.flx-structure-table {
+    background-color: white;
+    border-top: 1px solid #E5E5E5;
+    color: #322c2c;
+
+    > div {
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+    a {
+        color: #369af0;
+    }
+
+    .flx-structure-table-header {
+        color: #9FA2B4;
+        font-weight: bold;
+        border-bottom: 1px solid #E5E5E5;
+        padding: 10px 7px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 12px;
+
+        & > div {
+            &[data-sort]:not(.sortAsc, .sortDsc):after {
+                font: normal normal normal 10px/1 FontAwesome;
+                content: "\f0dc";
+                margin-left: 0.5em;
+            }
+        }
+    }
+
+    > div:not(.flx-structure-table-header):hover {
+        background-color: lighten(dbColor(OutstandingColor),42);
+        box-shadow: 1px 2px 2px 1px rgba(0,0,0,0.14);
+    }
+
+    .txt-muted {
+        color: #bec6cc;
+    }
+}
+.flx-structure-dashboard {
+    display: flex;
+
+    .flx-structure-dashboard-box {
+        background-color: white;
+        padding: 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 5px;
+        flex-basis: 100%;
+
+        div:first-child {
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        &:hover {
+            box-shadow: 0px 5px 7px -1px rgba(0,0,0,0.10);
+            transition-duration: 0.4s;
+        }
+
+        .flx-structure-icon {
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .success {
+            color: dbColor(SuccessColor);
+            background-color: lighten(dbColor(SuccessColor), 60);
+        }
+
+        .tools {
+            color: dbColor(ToolsColor);
+            background-color: lighten(dbColor(ToolsColor), 35);
+        }
+
+        .notify {
+            color: dbColor(NotifyColor);
+            background-color: lighten(dbColor(NotifyColor), 35);
+        }
+
+        .warning {
+            color: dbColor(WarningColor);
+            background-color: lighten(dbColor(WarningColor), 40);
+        }
+
+        .danger {
+            color: dbColor(DangerColor);
+            background-color: lighten(dbColor(DangerColor), 40);
+        }
+
+        .outstanding {
+            color: dbColor(OutstandingColor);
+            background-color: lighten(dbColor(OutstandingColor), 40);
+        }
+
+        .size-l {
+            font-size: 19px;
+        }
+    }
+}
+
+.flx-structures-nomargin-nopadding {
+    margin-bottom: 0;
+
+    .cntBody {
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+
+    .cntBodyFooter {
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+}
+
+.flx-structures-scheduler {
+    .schedulerView {
+        background: white;
+    }
+
+    .details {
+        background: darken(dbColor(bgColor), 10);
+    }
+
+    .header {
+        background: white !important;
+    }
+
+    .header h1 {
+        color: dbColor(txtModuleColor);
+    }
+
+    .day.other {
+        color: #c5c5c5;
+    }
+
+    .day {
+        color: dbColor(txtModuleColor);
+    }
+}
+
+.flx-state-badge {
+    padding: 3px 7px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    display: inline;
+    vertical-align: middle;
+}
+
+.flx-state-danger {
+    background-color: lighten(dbColor(DangerColor), 40%);
+    color: dbColor(DangerColor);
+}
+
+.flx-state-success {
+    background-color: lighten(dbColor(SuccessColor), 55%);
+    color: dbColor(SuccessColor);
+}
+
+.flx-state-info {
+    background-color: lighten(dbColor(InfoColor), 40%);
+    color: dbColor(InfoColor);
+}
+
+.flx-state-primary {
+    background-color: lighten(dbColor(PrimaryColor), 50%);
+    color: dbColor(PrimaryColor);
+}
+
+.flx-state-warning {
+    background-color: lighten(dbColor(WarningColor), 45%);
+    color: dbColor(WarningColor);
+}
+
+.flx-state-tools {
+    background-color: lighten(dbColor(ToolsColor), 35%);
+    color: dbColor(ToolsColor);
+}
+
+.flx-card-view {
+    color: #322c2c;
+
+    a {
+        color: #369af0;
+    }
+
+    .txt-muted {
+        color: #bec6cc;
+    }
+}
+
+.flx-big-icon {
+    font-size: 40px;
+    padding: 25px;
+    border-radius: 20px;
+    color: white;  
+}
+
+.flx-big-icon-notify {
+    background-color: dbColor(NotifyColor);
+}
+
+.flx-big-icon-outstanding {
+    background-color: dbColor(OutstandingColor);
+}
+
+.flx-big-icon-tools {
+    background-color: dbColor(ToolsColor);
+}
+
+.flx-big-icon-warning {
+    background-color: dbColor(WarningColor);
+}
+
+.flx-big-icon-success {
+    background-color: dbColor(SuccessColor);
+}
+
+.flx-big-icon-danger {
+    background-color: dbColor(DangerColor);
+}
+
+.flx-big-icon-primary {
+    background-color: dbColor(PrimaryColor);
+}
+
+.flx-big-icon-info {
+    background-color: dbColor(InfoColor);
+}
+
+.flx-box-notes {
+    padding: 20px;
+    border: 1px solid #e8da4b;
+    background-color: #fffdee;
+    border-radius: 10px;
+    margin: 20px;
+    text-align: justify;
+}
+//Structure styles ends
+
+//flexygo assistance starts
+.assistance {
+    position: fixed;
+    right: 0;
+    bottom: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    animation: appear 1.2s 0s linear;
+    transition: all 1.2s ease-in-out;
+}
+.assistance-img {
+    width: 200px;
+}
+
+@keyframes appear {
+    from {
+        right: -400px;
+    }
+    to {
+        right: 5px;
+    }
+}
+
+.assistance-box {
+    background: white;
+    //width: 280px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    font-size: 15px;
+    line-height: 23px; 
+}
+
+.assistance-box:after {
+    content: "";
+    position: absolute;
+    margin: -2.8em 21.2em;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid rgb(255, 255, 255);
+}
+
+.assistance-buttons {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0 -4px;
+    margin-top: 8px;
+}
+
+.assistance-button {
+    cursor: pointer;
+    padding: 4px;
+    margin-right: 12px;
+}
+//flexygo assistance ends
+
+//flexygo startpage starts
+.start-container {
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+
+    @media (max-width: dbSize(large)) {
+        width: 100%;
+    }
+
+    @media (max-width: dbSize(medium)) {
+        width: 100%;
+    }
+
+    @media (max-width: dbSize(small)) {
+        width: 100%;
+    }
+}
+
+.start-box {
+    padding: 20px;
+    background-color: white;
+    margin: 20px 0;
+    border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    div > i {
+        padding: 20px;
+        border-radius: 45px;
+        font-size: 40px;
+    }
+
+    .icon-tools {
+        background-color: lighten(dbColor(ToolsColor), 40%);
+        color: dbColor(ToolsColor);
+    }
+
+    .icon-info {
+        background-color: lighten(dbColor(WarningColor), 45%);
+        color: dbColor(WarningColor);
+    }
+
+    .icon-success {
+        background-color: lighten(dbColor(NotifyColor), 35%);
+        color: dbColor(NotifyColor);
+    }
+}
+//flexygo startpage ends

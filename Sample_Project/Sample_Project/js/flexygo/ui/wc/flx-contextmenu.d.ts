@@ -32,6 +32,7 @@ declare namespace flexygo.ui.wc {
         createItemsMenu(items: JQuery): JQuery;
         showObjectMenu(proc: flexygo.api.entity.GetProcessesResponse, parent: JQuery, coord?: JQueryCoordinates): void;
         processSubMenus(list: JQuery): void;
-        createObjectMenu(proc: flexygo.api.entity.GetProcessesResponse): JQuery;
+        createObjectMenu(proc: flexygo.api.entity.GetProcessesResponse, btn: JQuery): JQuery;
+        addChildButtons(menuUl: JQuery, module: FlxModuleElement, parentId: string, objectname: any, objectwhere: any, defString: any, reportname: any, reportwhere: any, processname: any): JQuery;
     }
 }

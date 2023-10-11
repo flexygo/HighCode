@@ -435,10 +435,10 @@
 
                 $(this.currentForm)
                     .on("focusin.validate focusout.validate keyup.validate",
-                        ":text, [type='password'], [type='file'], select, textarea, [type='number'], [type='search'], " +
-                        "[type='tel'], [type='url'], [type='email'], [type='datetime'], [type='date'], [type='month'], " +
-                        "[type='week'], [type='time'], [type='datetime-local'], [type='range'], [type='color'], " +
-                        "[type='radio'], [type='checkbox'], [contenteditable]", delegate)
+                        ":text, :not(flx-text)[type='password'], :not(flx-text)[type='file'], select, textarea, :not(flx-text)[type='number'], :not(flx-text)[type='search'], " +
+                        ":not(flx-text)[type='tel'], :not(flx-text)[type='url'], :not(flx-text)[type='email'], :not(flx-text)[type='datetime'], :not(flx-text)[type='date'], :not(flx-text)[type='month'], " +
+                        ":not(flx-text)[type='week'], :not(flx-text)[type='time'], :not(flx-text)[type='datetime-local'], :not(flx-text)[type='range'], :not(flx-text)[type='color'], " +
+                        ":not(flx-text)[type='radio'], :not(flx-text)[type='checkbox'], :not(flx-text)[contenteditable]", delegate)
 
                     // Support: Chrome, oldIE
                     // "select" is provided as event.target when clicking a option

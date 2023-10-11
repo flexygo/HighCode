@@ -120,7 +120,7 @@ var flexygo;
                                     typeF = propFormat.substring(propFormat.indexOf(':'), 0).toLowerCase().trim();
                                     strFormat = propFormat.substring(propFormat.indexOf(':') + 1).trim();
                                 }
-                                if (typeF == 'date') {
+                                if (typeF == 'date') { /*{{datevalue|date:LLL}*/
                                     if (strFormat == '') {
                                         strFormat = defDateFormat;
                                     }
@@ -146,7 +146,7 @@ var flexygo;
                                         }
                                     }
                                 }
-                                else if (typeF == 'fromnow') {
+                                else if (typeF == 'fromnow') { /*{{datevalue|fromnow:LLL}*/
                                     if (rValue && rValue != '' && moment.utc(rValue).isValid()) {
                                         if (AddTimeZone) {
                                             rValue = moment(rValue).locale(flexygo.profiles.culture).fromNow();
@@ -156,7 +156,7 @@ var flexygo;
                                         }
                                     }
                                 }
-                                else if (typeF == 'tonow') {
+                                else if (typeF == 'tonow') { /*{{datevalue|tonow:LLL}*/
                                     if (rValue && rValue != '' && moment.utc(rValue).isValid()) {
                                         if (AddTimeZone) {
                                             rValue = moment(rValue).locale(flexygo.profiles.culture).toNow();
@@ -166,7 +166,7 @@ var flexygo;
                                         }
                                     }
                                 }
-                                else if (typeF == 'decimal') {
+                                else if (typeF == 'decimal') { /*{{value|decimal:3}*/
                                     if (rValue && rValue != '' && $.isNumeric(rValue)) {
                                         if (strFormat && strFormat != '') {
                                             if (flexygo.profiles.culture.toLowerCase() == 'es-es') {
@@ -186,12 +186,17 @@ var flexygo;
                                         }
                                     }
                                 }
-                                else if (typeF == 'url') {
+                                else if (typeF == 'url') { /*{{RelativeFilepath|url}*/
                                     if (rValue && rValue != '') {
                                         rValue = flexygo.utils.resolveUrl(rValue);
                                     }
                                 }
-                                else if (typeF == 'switch') {
+                                else if (typeF == 'units') {
+                                    if (rValue && rValue != '') {
+                                        rValue = flexygo.utils.formatFileSize(rValue);
+                                    }
+                                }
+                                else if (typeF == 'switch') { /*{{value|switch:[true:icon-check,false:icon-noncheck,null:icon-cancel,else:]}*/
                                     let found = false;
                                     if (rValue == null) {
                                         rValue = 'null';
@@ -226,7 +231,7 @@ var flexygo;
                                         }
                                     }
                                 }
-                                else if (typeF == 'string') {
+                                else if (typeF == 'string') { /*{{str|string:lower}*/ /*{{str|string:upper}*/ /*{{str|string:255}*/
                                     if (rValue && rValue != '') {
                                         rValue = flexygo.string.HTMLtoText(rValue);
                                         if (strFormat.toLowerCase() == 'lower') {
@@ -244,7 +249,7 @@ var flexygo;
                                         rValue = '';
                                     }
                                 }
-                                else if (typeF == 'isnull') {
+                                else if (typeF == 'isnull') { /*{{str|isnull:value}*/
                                     let arrFormat = strFormat.split(',');
                                     if (rValue == null || rValue === '' || rValue == 'null') {
                                         rValue = arrFormat[0];
@@ -253,7 +258,7 @@ var flexygo;
                                         rValue = strFormat.substring(strFormat.indexOf(',') + 1);
                                     }
                                 }
-                                else if (typeF == 'bool') {
+                                else if (typeF == 'bool') { /*{{value|bool:'true value','false 0 empty or null value'}*/
                                     let arrFormat = strFormat.split(',');
                                     if (typeof rValue == 'undefined' || rValue == null || !rValue || rValue == '' || rValue == '0' || rValue.toString().toLowerCase() == 'false' || rValue.toString().toLowerCase() == 'null') {
                                         if (arrFormat.length > 1) {
@@ -436,8 +441,14 @@ var flexygo;
                     if (prop) {
                         return val[prop];
                     }
-                    else {
+                    else if (typeof val.Text != 'undefined') {
                         return val.Text;
+                    }
+                    else if (typeof val.toISOString == 'function') {
+                        return val.toISOString();
+                    }
+                    else {
+                        return val;
                     }
                 }
                 else {

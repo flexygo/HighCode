@@ -35,13 +35,6 @@ var flexygo;
                     this.iframeLoaded = false;
                 }
                 /**
-                * Array of observed attributes. REQUIRED
-                * @property observedAttributes {Array}
-                */
-                static get observedAttributes() {
-                    return ['ModuleName', 'url', 'mode'];
-                }
-                /**
                 * Init the webcomponent. REQUIRED.
                 * @method init
                 */
@@ -226,6 +219,11 @@ var flexygo;
                     }
                 }
             }
+            /**
+            * Array of observed attributes. REQUIRED
+            * @property observedAttributes {Array}
+            */
+            FlxOfflineEmulator.observedAttributes = ['ModuleName', 'url', 'mode'];
             wc.FlxOfflineEmulator = FlxOfflineEmulator;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

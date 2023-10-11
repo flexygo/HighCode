@@ -20,6 +20,7 @@ declare namespace flexygo.ui.wc {
         options: flexygo.api.ObjectProperty;
         mode: string;
         property: string;
+        open: boolean;
         page: number;
         input: JQuery;
         datalist: JQuery;
@@ -49,8 +50,8 @@ declare namespace flexygo.ui.wc {
         showOptions(): void;
         hideOptions(): void;
         loadValues(page: number, fromvalue?: boolean, value?: string, append?: boolean): void;
-        private addComboItems(data, append?);
-        private getListItem(value, text, template);
+        private addComboItems;
+        private getListItem;
         addValue(value: any, text?: string): void;
         getIconButtons(): JQuery;
         setOptions(): void;

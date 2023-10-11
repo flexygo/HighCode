@@ -14,6 +14,9 @@ var flexygo;
     * @return {GenericKeyValueObject} .
     */
         class FlexyGoEventSubscriber {
+            constructor() {
+                this.onlyChilds = false;
+            }
         }
         /**
         * api for FlexygoEvent
@@ -39,7 +42,7 @@ var flexygo;
             * @param {flexygo.events.FlexygoEvent} eventDefinition - The FlexygoEvent to subscribe to in form of class.type (Example: entity.all)
             * @param {object} callback - Callback function to be called
             */
-        function on(context, eventClass, eventType, callback) {
+        function on(context, eventClass, eventType, callback, onlyChilds = false) {
             let event = {
                 class: eventClass,
                 type: eventType
@@ -48,7 +51,8 @@ var flexygo;
                 let s = {
                     context: context,
                     event: event,
-                    callback: callback
+                    callback: callback,
+                    onlyChilds: onlyChilds
                 };
                 subscribers.push(s);
                 let dbg = $(document).find('#divflxeventviewer');
@@ -96,7 +100,7 @@ var flexygo;
                                         }
                                     }
                                 }
-                                else {
+                                else { //all types
                                     //not remove element
                                 }
                             }
@@ -131,7 +135,7 @@ var flexygo;
           * @method trigger
           * @param {flexygo.events.FlexygoEvent} event - Event to be triggered
           */
-        function trigger(event) {
+        function trigger(event, triggerElement) {
             if (event && event.class && event.type) {
                 let dbg = $(document).find('#divflxeventviewer');
                 if (dbg.length > 0) {
@@ -159,8 +163,16 @@ var flexygo;
                     if (e.event.class === "all" || e.event.class === event.class) {
                         if (e.event.type === "all" || e.event.type === event.type) {
                             event.context = e.context;
-                            e.callback.call(e.context, event);
-                            //(<any>e.callback)(event);
+                            //Fire event only if the trigger is inside the subscriber
+                            if (e.onlyChilds) {
+                                if ($(e.context).find(triggerElement).length > 0) {
+                                    e.callback.call(e.context, event);
+                                }
+                            }
+                            else {
+                                //Trigger event for all subscribers
+                                e.callback.call(e.context, event);
+                            }
                         }
                     }
                 });

@@ -41,7 +41,7 @@ var flexygo;
                 * Monitor the list of observed attribute for changes.
                 * @property observedAttributes
                 */
-                static get observedAttributes() {
+                observedAttributes() {
                     return [];
                 }
                 /**

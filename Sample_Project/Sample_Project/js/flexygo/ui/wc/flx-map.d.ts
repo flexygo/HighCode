@@ -48,7 +48,7 @@ declare namespace flexygo.ui.wc {
         init(): void;
         render(): void;
         initMap(): void;
-        translate(str: string): string;
+        flxTranslate(str: string): string;
         startLoading(): void;
         stopLoading(): void;
     }

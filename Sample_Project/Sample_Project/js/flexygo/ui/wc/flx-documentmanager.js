@@ -68,7 +68,7 @@ var flexygo;
                 * Monitor the list of observed attribute for changes.
                 * @property observedAttributes
                 */
-                static get observedAttributes() {
+                observedAttributes() {
                     return ['modulename', 'objectname', 'objectwhere', 'objectid', 'mode'];
                 }
                 /**
@@ -867,7 +867,7 @@ var flexygo;
                                 multiselect: true,
                                 folderselect: false,
                                 iframe: false,
-                                extensions: [],
+                                extensions: [], // Optional.
                             };
                             if (method === 'upload') {
                                 if (value === 'disk') {
@@ -1218,6 +1218,8 @@ var flexygo;
                             };
                             flexygo.ajax.post('~/api/DocumentManager', 'UpdateDocument', params, (response) => {
                                 if (response && !response.documentError) {
+                                    let ev = { class: "document", type: "updated", sender: this, masterIdentity: response.docGuid, detailIdentity: response };
+                                    flexygo.events.trigger(ev, me);
                                     flexygo.msg.success('documentmanager.saved');
                                 }
                                 else {
@@ -1679,7 +1681,7 @@ var flexygo;
                                     this.manager.renderDocument(response.docGuid, response.path, response.downloadLink, response.name, response.origin, response.iconClass, response.creationDate, response.category, response.categoryId, response.description, response.documentType, response.extension, false);
                                     this.manager.documentEvents();
                                     let ev = { class: "document", type: "uploaded", sender: this, masterIdentity: response.docGuid, detailIdentity: response };
-                                    flexygo.events.trigger(ev);
+                                    flexygo.events.trigger(ev, me);
                                     flexygo.msg.success('documentmanager.saved');
                                 }
                                 else {

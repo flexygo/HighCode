@@ -25,13 +25,6 @@ var flexygo;
                     this.connected = false;
                 }
                 /**
-                * Array of observed attributes.
-                * @property observedAttributes {Array}
-                */
-                static get observedAttributes() {
-                    return ['ObjectName', 'ObjectWhere'];
-                }
-                /**
                 * Fires when element is attached to DOM
                 * @method connectedCallback
                 */
@@ -189,7 +182,7 @@ var flexygo;
                         ctx.nodes.update(node);
                         let details = node.objectdetails;
                         let param = null;
-                        if (details === false) {
+                        if (details === false) { //Click on relation node, call for details
                             let parent = null;
                             ctx.edges.forEach((item, id) => {
                                 if (item.to == node.id) {
@@ -220,7 +213,7 @@ var flexygo;
                         //console.log(param);
                         flexygo.ajax.post('~/api/Network', 'GetData', param, (response) => {
                             if (response) {
-                                if (details === false) {
+                                if (details === false) { //Draw child items
                                     $.each(response.Nodes, (i, e) => {
                                         if (e.id > ctx.maxId) {
                                             ctx.maxId = e.id;
@@ -248,7 +241,7 @@ var flexygo;
                                 else {
                                     let newNodeId = 0;
                                     $.each(response.Nodes, (i, e) => {
-                                        if (i === 0) {
+                                        if (i === 0) { //First node is the clicked node
                                             newNodeId = e.id;
                                         }
                                         else {
@@ -315,12 +308,12 @@ var flexygo;
                         left: params.event.clientX,
                         top: params.event.clientY
                     };
-                    if (node.objectdetails === true) {
+                    if (node.objectdetails === true) { //Entity
                         params.event.preventDefault();
                         //console.log(params.event);
                         flexygo.nav.getObjectMenu(node.objectname, node.objectwhere, null, me, cord);
                     }
-                    else {
+                    else { //Relation
                         let parent = null;
                         ctx.edges.forEach((item, id) => {
                             if (item.to == node.id) {
@@ -333,7 +326,7 @@ var flexygo;
                         }
                         let menu = $('<div class="flx-menu item-opened"></div>');
                         let menuUl = $('<ul/>');
-                        if (!parent) {
+                        if (!parent) { //Initial node
                             let proc = new flexygo.obj.Entity(node.objectname, node.objectwhere).processes('');
                             if (proc.ObjectLink && Object.keys(proc.ObjectLink.ChildNodes).length > 0) {
                                 let nNode = $('<li><span class="item-closed"><i class="flx-icon icon-properties-relations-1" /><span> ' + flexygo.localization.translate('flxmodule.new') + '</span></span><ul></ul></li>');
@@ -368,13 +361,13 @@ var flexygo;
                     }
                 }
                 onNewNode(node, parent, navnode) {
-                    if (parent) {
+                    if (parent) { //Object relation
                         let obj = new flexygo.obj.Entity(parent.objectname, parent.objectwhere);
                         obj.read();
                         let defaults = JSON.parse(flexygo.utils.parser.compile(obj.data, node.objectdefaults));
                         flexygo.nav.openPage('edit', node.objectchildname, '', defaults, 'modal1024x768');
                     }
-                    else {
+                    else { //Initial node
                         let obj = new flexygo.obj.Entity(navnode.ObjectName, '');
                         let cfg = obj.getConfig();
                         let strdefaults = JSON.stringify(navnode.ObjectDefaults);
@@ -392,6 +385,11 @@ var flexygo;
                     return JSON.parse('"\\u' + code.toString(16) + '"');
                 }
             }
+            /**
+            * Array of observed attributes.
+            * @property observedAttributes {Array}
+            */
+            FlxNetworkElement.observedAttributes = ['ObjectName', 'ObjectWhere'];
             wc.FlxNetworkElement = FlxNetworkElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

@@ -28,6 +28,16 @@
 
     <script>        
 
+        function TokenSaved() {
+            let event = {};
+            event.class = 'page';
+            event.type = 'closed';
+            event.masterIdentity = 'gettoken';
+
+            window.opener.flexygo.events.trigger(event);
+            window.close();
+        }
+
      function initLoginPage(){
          var isLogout = false;
          sessionStorage.removeItem('DevelopMode');

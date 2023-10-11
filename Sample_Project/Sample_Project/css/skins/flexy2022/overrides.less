@@ -447,11 +447,23 @@ flx-module .cntBodyFooter {
     color: dbcolor(txtColor);
 }
 //toolbar
-.btn-toolbar .btn {
-    color: dbColor(ToolbarbtntextColor)!important;
-    background-color: dbColor(ToolbarbtnColor);
-    border-color: dbColor(ToolbarbtnborderColor);
-    border-radius: unset;
+.btn-toolbar {
+    .btn {
+        color: dbColor(ToolbarbtntextColor);
+        background-color: dbColor(ToolbarbtnColor);
+        border-radius: unset;
+
+        &:not([class*="bg-"]) {
+            border-color: dbColor(ToolbarbtnborderColor);
+        }
+    }
+
+    .saveButton, .saveReportButton, .execProcessButton {
+        color: dbColor(ToolbarbtntextColor) !important;
+        background-color: dbColor(ToolbarbtnColor) !important;
+        border-color: dbColor(ToolbarbtnborderColor);
+        border-radius: unset;
+    }
 }
 
 .btn-toolbar .btn:hover {
@@ -558,8 +570,8 @@ flx-list .flxRszTbl tr:nth-child(odd):not(.rowHeader).rowInsert flx-dbcombo inpu
 }
 
 flx-list .flxRszTbl tr:nth-child(odd):not(.rowHeader).rowInsert input:not([disabled]),
-flx-list .flxRszTbl tr:nth-child(odd):not(.rowHeader).rowInsert div.btn-group i {
-    color: white !important;
+flx-list .flxRszTbl tr:nth-child(odd):not(.rowHeader).rowInsert div.btn-group:not(.cronButtons) i {
+    color: white;
 }
 
 flx-list[mode="edit"] {
@@ -864,6 +876,7 @@ flx-nav[mode=nav] li > .active:hover {
 }
 
 .ui-dialog .ui-dialog-titlebar-buttonpane > a {
+    right: 0 !important;
     float: right;
     line-height: 1.8em;
 }
@@ -1400,13 +1413,25 @@ body[mode="dark"] flx-list .flxRszTbl .bootstrap-datetimepicker-widget tr:nth-ch
     background-color: transparent !important;
 }
 
-body[mode=""] label > span.help-icon {
-    color: darken(dbColor(txtNavColor), 20);
+
+body[mode=""] label {
+    > span.help-icon {
+        color: darken(dbColor(txtNavColor), 20);
+
+        &:hover {
+            color: dbColor(OutstandingColor);
+        }
+    }
+
+    > span.danger-icon {
+        color: lighten(dbColor(DangerColor), 20);
+
+        &:hover {
+            color: dbColor(DangerColor);
+        }
+    }
 }
 
-body[mode=""] label > span.help-icon:hover {
-    color: dbColor(OutstandingColor);
-}
 
 body[mode="dark"] {
     flx-sortmanager .fieldPanel, flx-sortmanager .fieldSortItem, .modal-content {
@@ -1431,4 +1456,33 @@ body[mode="dark"] .flx-info-viewers {
         background-color: #272727;
         color: #fff;
     }
+}
+
+/*New Styles for tabs of collapse views*/
+
+//header tab style
+#dialog-extend-fixed-container > .ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.flx-dialog.ui-resizable {
+    width: auto !important;
+}
+//Tab text style
+#dialog-extend-fixed-container > .ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.flx-dialog.ui-resizable > div .ui-dialog-titlebar.ui-widget-header.ui-corner-all.ui-helper-clearfix.ui-draggable-handle > span {
+    padding-right: 20px;
+}
+
+//generic boxCard style
+
+body[mode="dark"] .flxboxCard {
+    background-color: #373737;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+body:not([mode="dark"]) .flxboxCard {
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+//style of popovers in attachments files module
+flx-module [modulename="sysmod-mailattachment-list"] div.popover{
+    width:initial;
 }

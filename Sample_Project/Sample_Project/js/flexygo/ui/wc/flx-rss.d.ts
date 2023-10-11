@@ -42,7 +42,7 @@ declare namespace flexygo.ui.wc {
         * @method init
         */
         init(): void;
-        private translate(str);
+        private flxTranslate;
         startLoading(): void;
         stopLoading(): void;
     }

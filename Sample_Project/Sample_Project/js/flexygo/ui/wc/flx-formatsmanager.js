@@ -17,6 +17,7 @@ var flexygo;
             class FlxFormatsManagerElement extends HTMLElement {
                 constructor() {
                     super();
+                    this.offline = false;
                     /**
                     * Set if element has been connected to DOM
                     * @property connected {boolean}
@@ -52,13 +53,6 @@ var flexygo;
                     * @property optionsSwitchNum {number}
                     */
                     this.optionsSwitchNum = 0;
-                }
-                /**
-                * Array of observed attributes. REQUIRED
-                * @property observedAttributes {Array}
-                */
-                static get observedAttributes() {
-                    return ['ObjectName', 'ObjectWhere', 'ModuleName', 'asd'];
                 }
                 /**
                 * Init the webcomponent. REQUIRED.
@@ -142,12 +136,14 @@ var flexygo;
                 <option value="switch">` + flexygo.localization.translate('formatsmanager.switchformat') + ` (switch)</option>
                 <option value="date">` + flexygo.localization.translate('formatsmanager.isdate') + ` (date)</option>
                 <option value="translate">` + flexygo.localization.translate('formatsmanager.translate') + ` (translate)</option>
-                <option value="url">URL (url)</option>
                 <option value="html">HTML (html)</option>
                 <option value="js">JavaScript (js)</option>
-                <option value="sql">SQL (sql)</option>
-                <option value="qr">QR (qr)</option>
-                </flx-combo></span></div>`;
+                <option value="sql">SQL (sql)</option>`;
+                    if ($("flx-formatsmanager").attr("offline") === "false") {
+                        render += `<option value="url">URL (url)</option>
+                <option value="qr">QR (qr)</option>`;
+                    }
+                    render += `</flx-combo></span></div>`;
                     //Field to format
                     render += '<div class=" col-6 padding-m" id="fieldContainer"><label>' + flexygo.localization.translate('formatsmanager.field') + ':<i class="txt-danger">*</i></label>';
                     render += '<span><flx-combo class="size-m" name="fields"  PlaceHolder="' + flexygo.localization.translate('formatsmanager.selectfield') +
@@ -196,10 +192,12 @@ var flexygo;
                 * Get Object Data Fields
                 * @method getDataFields
                 */
-                getDataFields(target) {
+                getDataFields(target, offline = false) {
                     let aObjectName = $(target).find('[name="ObjectName"]').val();
                     let aObject = new flexygo.obj.Entity(aObjectName);
-                    let aData = $(target).find('[name="ViewName"]').val().split(" ");
+                    //En caso de que offline sea true aData estará vacio(que significa que es del Offline) y en caso se ser negativo entrará en el Online
+                    // If "offline" is true, "aData" will be empty (which means it's in offline mode), and if it's false, it will enter online mode
+                    let aData = offline ? '' : $(target).find('[name="ViewName"]').val().split(" ");
                     let html = '<option value=""></option>';
                     if (aData != '') {
                         let aViewName = aData[1];
@@ -506,23 +504,34 @@ var flexygo;
                 *
                 * @method openWizard
                 */
-                openWizard(e) {
+                openWizard(e, offline = false) {
                     let histObj = new flexygo.nav.FlexygoHistory();
                     histObj.targetid = 'modal1024x480';
+                    let mod = e.closest("flx-module");
+                    let aObjectName = $(mod).find('[name="ObjectName"]').val();
+                    if (flexygo.utils.isBlank(aObjectName)) {
+                        flexygo.msg.warning(flexygo.localization.translate('formatsmanager.requiredobject'));
+                        return;
+                    }
                     let modal = flexygo.targets.createContainer(histObj, true, null, true);
                     if (!modal) {
                         return;
                     }
                     modal.empty();
                     modal.closest('.ui-dialog').find('.ui-dialog-title').html(flexygo.localization.translate('develop.modulemanager'));
-                    modal.append('<flx-formatsmanager></flx-formatsmanager>');
+                    modal.append(`<flx-formatsmanager offline="${offline.toString()}"></flx-formatsmanager>`);
                     let cb = modal.find('flx-formatsmanager')[0];
                     cb.targetItem = e.closest("flx-module");
                     cb.targetTextbox = e.closest("flx-code");
-                    let html = this.getDataFields(cb.targetItem);
+                    let html = this.getDataFields(cb.targetItem, offline);
                     $(cb).find('[name="fields"] .form-control').append(html);
                 }
             }
+            /**
+            * Array of observed attributes. REQUIRED
+            * @property observedAttributes {Array}
+            */
+            FlxFormatsManagerElement.observedAttributes = ['ObjectName', 'ObjectWhere', 'ModuleName', 'asd'];
             wc.FlxFormatsManagerElement = FlxFormatsManagerElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

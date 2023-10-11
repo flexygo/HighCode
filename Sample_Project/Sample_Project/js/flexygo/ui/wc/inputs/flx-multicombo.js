@@ -26,6 +26,7 @@ var flexygo;
                     this.options = null;
                     this.mode = 'object';
                     this.property = null;
+                    this.open = true;
                     this.page = 0;
                     this.mobileInput = null;
                     this.additionalWhere = null;
@@ -203,13 +204,6 @@ var flexygo;
                         element.html('<template/>');
                         element.find('template').html(this.options.Template);
                     }
-                }
-                /**
-              * Array of observed attributes.
-              * @property observedAttributes {Array}
-              */
-                static get observedAttributes() {
-                    return ['type', 'property', 'objectname', 'viewname', 'sqlvaluefield', 'sqldisplayfield', 'required', 'disabled', 'requiredmessage', 'style', 'class', 'placeholder', 'iconclass', 'template', 'helpid', 'additionalwhere', 'sqlfilter', 'pagesize', 'cnnstring'];
                 }
                 /**
                 * Fires when the attribute value of the element is changed.
@@ -431,6 +425,12 @@ var flexygo;
                             if (!this.mobileInput) {
                                 input.on('blur', (e) => {
                                     this.hideOptions();
+                                    //Quitamos la clase selected al hacer click fuera del multicombo
+                                    let itm = this.datalist.children('.selected');
+                                    itm.removeClass('selected');
+                                    //Limpiamos el search
+                                    $(e.target.closest('ul')).find('li input').val('');
+                                    this.loadValues(0);
                                 });
                             }
                             else {
@@ -443,9 +443,97 @@ var flexygo;
                                     this.hideOptions();
                                 });
                             }
-                            input.on('keyup search', (e) => {
+                            input.on('keydown', (e) => {
+                                if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp' && e.key !== 'Enter' && e.key !== 'Tab') {
+                                    this.loadValues(0);
+                                    this.showOptions();
+                                }
+                            });
+                            input.on('keyup', (e) => {
+                                if (e.key === 'ArrowDown') {
+                                    if (this.open) {
+                                        if (this.datalist.children('li').length > 0) {
+                                            if (this.datalist.children('.selected').length == 0) {
+                                                this.datalist.find('li').not('.search').first().addClass('selected');
+                                            }
+                                            else {
+                                                let itm = this.datalist.children('.selected');
+                                                let nxtItm = itm.next();
+                                                if (nxtItm.length === 0) {
+                                                    nxtItm = this.datalist.find('li').not('.search').first().addClass('selected');
+                                                }
+                                                itm.removeClass('selected');
+                                                nxtItm.addClass('selected');
+                                            }
+                                        }
+                                    }
+                                    else {
+                                        this.showOptions();
+                                    }
+                                    e.stopPropagation();
+                                    e.preventDefault();
+                                    return false;
+                                }
+                                if (e.key === 'ArrowUp') {
+                                    if (this.open) {
+                                        if (this.datalist.children('li').length > 0) {
+                                            if (this.datalist.children('.selected').length == 0) {
+                                                this.datalist.find('li').not('.search').last().addClass('selected');
+                                            }
+                                            else {
+                                                let itm = this.datalist.children('.selected');
+                                                let prevItm = itm.prev(':not(.search)');
+                                                if (prevItm.length === 0) {
+                                                    prevItm = this.datalist.find('li').not('.search').last().addClass('selected');
+                                                }
+                                                itm.removeClass('selected');
+                                                prevItm.addClass('selected');
+                                            }
+                                        }
+                                    }
+                                    else {
+                                        this.showOptions();
+                                    }
+                                    e.stopPropagation();
+                                    e.preventDefault();
+                                    return false;
+                                }
+                                if (e.key === 'Enter' || e.key === 'Tab') {
+                                    if (!this.open)
+                                        return false;
+                                    let tags = this.getValue().split(this.separator);
+                                    let listInput = this.datalist.find('li input');
+                                    let selectedLi = this.datalist.find('li.selected');
+                                    let listValues = this.datalist.find('li:not(.search)');
+                                    if (selectedLi.length > 0) {
+                                        selectedLi.trigger("mousedown");
+                                    }
+                                    //Si el input est� vac�o Y no hay valor seleccionado Y (hay m�s de un resulatado O el resultado que hay ya ha sido a�adido) debe filtrar
+                                    if (listInput.val() === '' && selectedLi.length === 0 && (listValues.length > 1 || (listValues.length === 1 && tags.indexOf(listValues.attr('data-value')) !== -1))) {
+                                        return;
+                                    }
+                                    //Si el valor ya ha sido a�adido se filtrar�
+                                    if (tags.indexOf(selectedLi.attr('data-value')) !== -1) {
+                                        return;
+                                    }
+                                    if (e.key === 'Enter') {
+                                        e.preventDefault();
+                                    }
+                                    //Si solo queda un valor (ya se ha comprobado previamente que es nuevo) limpiamos el input de b�squeda
+                                    if (listValues.length == 1) {
+                                        this.addValue(listValues.attr('data-value'), listValues.attr('data-text'));
+                                        listInput.val('');
+                                        this.loadValues(0);
+                                        this.showOptions();
+                                    }
+                                    return;
+                                }
                                 this.loadValues(0);
                                 this.showOptions();
+                            }).off('change').on('change', (e) => {
+                                me.attr('value', this.getValue());
+                                e.stopPropagation();
+                                e.preventDefault();
                             });
                             inputli.append(input);
                             this.datalist.append(inputli);
@@ -564,19 +652,19 @@ var flexygo;
                             }
                             if (parseInt((ubicElement.offset().top - dialogTop + this.input.outerHeight() / 2 - headerHeight / 2).toFixed()) > parseInt((winHeight / 2).toFixed())) {
                                 if (dialogTop == 0) {
-                                    this.datalist.css({ position: 'fixed', top: 'auto', bottom: (winHeight - ubicElement.offset().top), width: parseInt((me.children('div').width()).toFixed()), 'max-height': parseInt((ubicElement.offset().top - headerHeight).toFixed()), 'box-shadow': '0 -6px 20px 4px rgba(0, 0, 0, 0.15), 0 -2px 10px 0px rgba(0, 0, 0, 0.20)' });
+                                    this.datalist.css({ position: 'fixed', 'margin-top': 5, top: 'auto', bottom: (winHeight - ubicElement.offset().top), width: parseInt((me.children('div').width()).toFixed()), 'max-height': parseInt((ubicElement.offset().top - headerHeight).toFixed()), 'box-shadow': '0 -6px 20px 4px rgba(0, 0, 0, 0.15), 0 -2px 10px 0px rgba(0, 0, 0, 0.20)' });
                                 }
                                 else {
-                                    this.datalist.css({ position: 'fixed', top: 'auto', bottom: (winHeight - (ubicElement.offset().top - dialogTop - headerHeight - 10)), width: parseInt((me.children('div').width()).toFixed()), 'max-height': parseInt((ubicElement.offset().top - headerHeight).toFixed()), 'box-shadow': '0 -6px 20px 4px rgba(0, 0, 0, 0.15), 0 -2px 10px 0px rgba(0, 0, 0, 0.20)' });
+                                    this.datalist.css({ position: 'fixed', 'margin-top': 5, top: 'auto', bottom: (winHeight - (ubicElement.offset().top - dialogTop - headerHeight - 10)), width: parseInt((me.children('div').width()).toFixed()), 'max-height': parseInt((ubicElement.offset().top - headerHeight).toFixed()), 'box-shadow': '0 -6px 20px 4px rgba(0, 0, 0, 0.15), 0 -2px 10px 0px rgba(0, 0, 0, 0.20)' });
                                 }
                             }
                             else {
-                                this.datalist.css({ position: 'fixed', bottom: 'auto', top: (ubicElement.offset().top + ubicElement.outerHeight() - $(window).scrollTop()), width: parseInt((me.children('div').width()).toFixed()), 'max-height': parseInt((winHeight - (ubicElement.offset().top - dialogTop) - 60).toFixed()), 'box-shadow': '0 6px 20px 4px rgba(0, 0, 0, 0.15), 0 2px 10px 0px rgba(0, 0, 0, 0.20)' });
+                                this.datalist.css({ position: 'fixed', 'margin-top': 5, bottom: 'auto', top: (ubicElement.offset().top + ubicElement.outerHeight() - $(window).scrollTop()), width: parseInt((me.children('div').width()).toFixed()), 'max-height': parseInt((winHeight - (ubicElement.offset().top - dialogTop) - 60).toFixed()), 'box-shadow': '0 6px 20px 4px rgba(0, 0, 0, 0.15), 0 2px 10px 0px rgba(0, 0, 0, 0.20)' });
                             }
                             this.datalist.slideDown(250);
                         }
                         else {
-                            this.datalist.css({ position: 'fixed', top: 3, left: 5, width: "calc(100% - 10px)", 'max-height': (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) ? '48%' : (flexygo.utils.isTactilModeActive ? '50%' : '98%'), 'padding-top': 30 });
+                            this.datalist.css({ position: 'fixed', 'margin-top': 5, top: 3, left: 5, width: "calc(100% - 10px)", 'max-height': (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) ? '48%' : (flexygo.utils.isTactilModeActive ? '50%' : '98%'), 'padding-top': 30 });
                             me.append('<div class="mobilebackground"/>');
                             this.datalist.fadeIn(250);
                             me.find('.mobileinputdiv .bootstrap-tagsinput input').hide();
@@ -597,6 +685,8 @@ var flexygo;
                             $(this).find('div.mobilebackground').remove();
                         }
                     }
+                    //Quitas la clase selecionado de el elemento que acabas de agregar
+                    this.datalist.find('.selected').removeClass('selected');
                 }
                 loadValues(page, fromvalue, value, append) {
                     let params;
@@ -811,8 +901,20 @@ var flexygo;
                     if (this.options && this.options.IsRequiredMessage) {
                         this.input.attr('data-msg-required', this.options.IsRequiredMessage);
                     }
+                    let parentCtl = $(this).closest('flx-edit, flx-filter,flx-propertymanager, flx-view, flx-list');
+                    let hasFilterDependencies = false;
+                    if (parentCtl && parentCtl.length > 0 && parentCtl.is('flx-filter')) {
+                        let wcParent = parentCtl[0];
+                        let properties = wcParent.settings[wcParent.active].Properties;
+                        for (let key in properties) {
+                            if (properties[key].DependingFilterProperties.length > 0 && properties[key].ObjectName == this.options.ObjectName && properties[key].PropertyName == this.property) {
+                                hasFilterDependencies = true;
+                                break;
+                            }
+                        }
+                    }
                     const module = me.closest('flx-module')[0];
-                    if ((this.options && this.options.CauseRefresh) || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
+                    if ((this.options && this.options.CauseRefresh) || hasFilterDependencies || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
                         this.input.on('change', () => {
                             //$(document).trigger('refreshProperty', [this.input.closest('flx-edit'), this.options.Name]);
                             let ev = {
@@ -821,11 +923,13 @@ var flexygo;
                                 sender: this,
                                 masterIdentity: this.property
                             };
-                            flexygo.events.trigger(ev);
+                            flexygo.events.trigger(ev, me);
                         });
                     }
-                    if (me.closest('div.ui-dialog').length === 0)
+                    //En el caso de que no esté en un modal y el input ya sea visible (por lo que tiene el tamaño correcto) se le añade un min-width
+                    if (me.closest('div.ui-dialog').length === 0 && me.children('div')[0].offsetParent) {
                         me.children('ul').css('min-width', (me.children('div').width()).toFixed() + 'px');
+                    }
                 }
                 changeSQLData(newSQL, newOptions) {
                     if (newSQL && newSQL != '') {
@@ -892,6 +996,11 @@ var flexygo;
                     this.input.trigger('change');
                 }
             }
+            /**
+          * Array of observed attributes.
+          * @property observedAttributes {Array}
+          */
+            FlxMultiComboElement.observedAttributes = ['type', 'property', 'objectname', 'viewname', 'sqlvaluefield', 'sqldisplayfield', 'required', 'disabled', 'requiredmessage', 'style', 'class', 'placeholder', 'iconclass', 'template', 'helpid', 'additionalwhere', 'sqlfilter', 'pagesize', 'cnnstring'];
             wc.FlxMultiComboElement = FlxMultiComboElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

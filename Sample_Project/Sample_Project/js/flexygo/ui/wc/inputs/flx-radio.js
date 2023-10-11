@@ -152,13 +152,6 @@ var flexygo;
                     this.connected = true;
                 }
                 /**
-               * Array of observed attributes. REQUIRED
-               * @property observedAttributes {Array}
-               */
-                static get observedAttributes() {
-                    return ['type', 'property', 'required', 'disabled', 'multiple', 'separator', 'requiredmessage', 'style', 'class', 'iconclass', 'hide', 'validatormessage'];
-                }
-                /**
                * Fires when the attribute value of the element is changed.
                * @method attributeChangedCallback
                */
@@ -191,7 +184,12 @@ var flexygo;
                         else {
                             this.options.IsRequired = false;
                         }
-                        element.find('input').prop('required', this.options.IsRequired);
+                        if (this.options.Multiple) {
+                            element.find('input.radioValInput').prop('required', this.options.IsRequired);
+                        }
+                        else {
+                            element.find('input').prop('required', this.options.IsRequired);
+                        }
                     }
                     if (attrName.toLowerCase() === 'disabled') {
                         if (!this.options) {
@@ -314,6 +312,9 @@ var flexygo;
                             label.append(input).append(this.options.DropDownValues[i][this.options.SQLDisplayField]);
                             control.append(label);
                         }
+                        if (this.options.Multiple) {
+                            control.append(`<input class="hidden radioValInput" name="${this.name}"/>`);
+                        }
                         checked.map((i, e) => {
                             let checkInput = control.find('input[value="' + e.value + '"]')[0];
                             if (checkInput)
@@ -347,7 +348,7 @@ var flexygo;
                                 sender: this,
                                 masterIdentity: this.property
                             };
-                            flexygo.events.trigger(ev);
+                            flexygo.events.trigger(ev, me);
                         });
                     }
                     if (this.options && this.options.Locked) {
@@ -363,7 +364,12 @@ var flexygo;
                         me.children('div').addClass(this.options.CssClass);
                     }
                     if (this.options && this.options.IsRequired) {
-                        control.find('input').prop('required', this.options.IsRequired);
+                        if (this.options.Multiple) {
+                            control.find('input.radioValInput').prop('required', this.options.IsRequired);
+                        }
+                        else {
+                            control.find('input').prop('required', this.options.IsRequired);
+                        }
                     }
                     if (this.options && this.options.IsRequiredMessage) {
                         control.find('input').attr('data-msg-required', this.options.IsRequiredMessage);
@@ -454,15 +460,22 @@ var flexygo;
                     //    return this.value;
                     //}
                     let input = me.find('input:checked');
+                    let val;
                     if (input.length === 0 || input.val() === '') {
-                        return null;
+                        val = null;
                     }
                     else if (input.length === 1) {
-                        return input.val();
+                        val = input.val();
                     }
                     else {
-                        return input.map((i, e) => { return e.value; }).get().join(this.options.Separator);
+                        val = input.map((i, e) => { return e.value; }).get().join(this.options.Separator);
                     }
+                    //Set value into the hidden input when multicheck
+                    let valueInput = $(this).find('input.radioValInput')[0];
+                    if (valueInput) {
+                        valueInput.value = val;
+                    }
+                    return val;
                 }
                 /**
                 * Trigger Dependencies.
@@ -478,6 +491,11 @@ var flexygo;
                     input.trigger('change');
                 }
             }
+            /**
+           * Array of observed attributes. REQUIRED
+           * @property observedAttributes {Array}
+           */
+            FlxRadioElement.observedAttributes = ['type', 'property', 'required', 'disabled', 'multiple', 'separator', 'requiredmessage', 'style', 'class', 'iconclass', 'hide', 'validatormessage'];
             wc.FlxRadioElement = FlxRadioElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

@@ -163,6 +163,15 @@ function initPage() {
     }
     $('body').show(500, function () { loadPage(hist); });
     flexygo.utils.onlineCheck(60000);
+    flexygo.utils.maintenance.check();
+    flexygo.events.on(this, 'process', 'executed', (ev) => {
+        if (ev.masterIdentity == 'ToggleMaintenanceMode') {
+            flexygo.utils.maintenance.set(ev.detailIdentity);
+        }
+        else if (ev.masterIdentity == 'RefreshScreenFromServer') {
+            document.location.reload();
+        }
+    });
 }
 /**
 * Resize Main.

@@ -111,13 +111,6 @@ var flexygo;
                     this.connected = true;
                 }
                 /**
-               * Array of observed attributes.
-               * @property observedAttributes {Array}
-               */
-                static get observedAttributes() {
-                    return ['property', 'style', 'class', 'decimalplaces', 'iconclass', 'helpid', 'hide'];
-                }
-                /**
                 * Fires when the attribute value of the element is changed.
                 * @method attributeChangedCallback
                 */
@@ -294,6 +287,11 @@ var flexygo;
                     }
                 }
             }
+            /**
+           * Array of observed attributes.
+           * @property observedAttributes {Array}
+           */
+            FlxInputViewElement.observedAttributes = ['property', 'style', 'class', 'decimalplaces', 'iconclass', 'helpid', 'hide'];
             wc.FlxInputViewElement = FlxInputViewElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

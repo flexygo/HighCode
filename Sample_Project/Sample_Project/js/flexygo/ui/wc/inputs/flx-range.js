@@ -208,13 +208,6 @@ var flexygo;
                     this.connected = true;
                 }
                 /**
-               * Array of observed attributes.
-               * @property observedAttributes {Array}
-               */
-                static get observedAttributes() {
-                    return ['type', 'property', 'required', 'disabled', 'requiredmessage', 'mask', 'style', 'class', 'decimalplaces', 'minvalue', 'maxvalue', 'maxvaluemessage', 'minvaluemessage', 'regexp', 'regexptext', 'placeholder', 'iconclass', 'helpid', 'allownewfunction', 'allownewobject'];
-                }
-                /**
                * Fires when the attribute value of the element is changed.
                * @method attributeChangedCallback
                */
@@ -518,7 +511,19 @@ var flexygo;
                         input.mask(this.options.Mask);
                     }
                     const module = me.closest('flx-module')[0];
-                    if ((this.options && this.options.CauseRefresh) || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
+                    let filter = null;
+                    let hasFilterDependencyProperty = false;
+                    if (me.closest('flx-filter').length > 0) {
+                        filter = me.closest('flx-filter')[0];
+                        let filterProperties = filter.settings[filter.active].Properties;
+                        for (let propertyKey in filterProperties) {
+                            if (filterProperties[propertyKey].PropertyName == me.attr("property") && (filterProperties[propertyKey].DependingFilterProperties).length > 0) {
+                                hasFilterDependencyProperty = true;
+                                break;
+                            }
+                        }
+                    }
+                    if ((this.options && this.options.CauseRefresh) || hasFilterDependencyProperty || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
                         input.on('change', () => {
                             //$(document).trigger('refreshProperty', [input.closest('flx-edit'), this.options.Name]);
                             let ev = {
@@ -527,7 +532,7 @@ var flexygo;
                                 sender: this,
                                 masterIdentity: this.property
                             };
-                            flexygo.events.trigger(ev);
+                            flexygo.events.trigger(ev, me);
                         });
                     }
                     if (this.options && this.options.DecimalPlaces && this.options.DecimalPlaces.toString() != '' && this.options.DecimalPlaces > 0) {
@@ -574,7 +579,7 @@ var flexygo;
                     }
                     else if (this.type == 'datetime-local') {
                         this.inputmin.attr('type', this.type);
-                        this.inputmin.val(moment(valorMin).format('YYYY-MM-DD hh:mm'));
+                        this.inputmin.val(moment.utc(valorMin).format('YYYY-MM-DD HH:mm'));
                     }
                     else {
                         this.inputmin.val(valorMin);
@@ -588,7 +593,7 @@ var flexygo;
                     }
                     else if (this.type == 'datetime-local') {
                         this.inputmax.attr('type', this.type);
-                        this.inputmax.val(moment(valorMax).format('YYYY-MM-DD hh:mm'));
+                        this.inputmax.val(moment.utc(valorMax).format('YYYY-MM-DD HH:mm'));
                     }
                     else {
                         this.inputmax.val(valorMax);
@@ -634,6 +639,11 @@ var flexygo;
                     input.trigger('change');
                 }
             }
+            /**
+           * Array of observed attributes.
+           * @property observedAttributes {Array}
+           */
+            FlxRangeElement.observedAttributes = ['type', 'property', 'required', 'disabled', 'requiredmessage', 'mask', 'style', 'class', 'decimalplaces', 'minvalue', 'maxvalue', 'maxvaluemessage', 'minvaluemessage', 'regexp', 'regexptext', 'placeholder', 'iconclass', 'helpid', 'allownewfunction', 'allownewobject'];
             wc.FlxRangeElement = FlxRangeElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

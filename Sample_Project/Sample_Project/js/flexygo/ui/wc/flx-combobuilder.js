@@ -29,13 +29,6 @@ var flexygo;
                     this.targetItem = null;
                 }
                 /**
-                * Array of observed attributes. REQUIRED
-                * @property observedAttributes {Array}
-                */
-                static get observedAttributes() {
-                    return ['ObjectName', 'ObjectWhere', 'ModuleName', 'asd'];
-                }
-                /**
                 * Init the webcomponent. REQUIRED.
                 * @method init
                 */
@@ -331,6 +324,11 @@ var flexygo;
                     }
                 }
             }
+            /**
+            * Array of observed attributes. REQUIRED
+            * @property observedAttributes {Array}
+            */
+            FlxComboBuilderElement.observedAttributes = ['ObjectName', 'ObjectWhere', 'ModuleName', 'asd'];
             wc.FlxComboBuilderElement = FlxComboBuilderElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

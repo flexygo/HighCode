@@ -36,13 +36,6 @@ var flexygo;
                     this.init();
                 }
                 /**
-                * Array of observed attributes.
-                * @property observedAttributes {Array}
-                */
-                static get observedAttributes() {
-                    return [];
-                }
-                /**
                 * Fires when element is attached to DOM
                 * @method connectedCallback
                 */
@@ -60,6 +53,8 @@ var flexygo;
                     me.html('<div class="side-items hidden-m"></div><div class="side-panels hidden-m"></div>');
                     me.find('.side-panels').on('mouseout', (e) => {
                         this.lastTimer = setTimeout(() => {
+                            if (document.activeElement && document.activeElement.closest('flx-sidepanel'))
+                                return;
                             let lastActive = me.find('.active');
                             lastActive.removeClass('active');
                             lastActive.each((i, el) => {
@@ -103,7 +98,7 @@ var flexygo;
                     }
                     else {
                         let ev = new flexygo.events.FlexygoEvent("panel", "loading", this);
-                        flexygo.events.trigger(ev);
+                        flexygo.events.trigger(ev, me);
                         lastActive.removeClass('active');
                         lastActive.each((i, e) => {
                             this.panels[$(e).attr('name')].panel.hide('blind', { direction: 'left' }, 500);
@@ -124,6 +119,11 @@ var flexygo;
                     }
                 }
             }
+            /**
+            * Array of observed attributes.
+            * @property observedAttributes {Array}
+            */
+            FlxSidePanelElement.observedAttributes = [];
             wc.FlxSidePanelElement = FlxSidePanelElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

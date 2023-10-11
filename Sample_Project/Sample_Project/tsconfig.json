@@ -1,0 +1,22 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "declaration": true,
+    "lib": [
+      "dom",
+      "ES6"
+    ],
+    "noEmitOnError": true,
+    "noImplicitAny": false,
+    "removeComments": false,
+    "sourceMap": true,
+    "target": "ES6"
+  },
+  "exclude": [
+    "node_modules",
+    "wwwroot",
+    "mobile",
+    "packages",
+    "obj"
+  ]
+}

@@ -165,14 +165,14 @@ declare namespace flexygo.ui.wc {
         * @param {flexygo.api.timeline.visTimelineItem} object item object.
         * @param {string} action action.
         */
-        objectActions(object: flexygo.api.timeline.visTimelineItem, action: ('insert' | 'update' | 'edit' | 'delete')): Promise<flexygo.api.timeline.visTimelineItem>;
+        objectActions(object: flexygo.api.timeline.visTimelineItem, action: ('insert' | 'update' | 'edit' | 'delete')): Promise<flexygo.api.timeline.visTimelineItem | flexygo.api.timeline.visDataItem>;
         /**
         * Open Object Edit.
         * @method openObjectEdit
         * @param {flexygo.api.timeline.visTimelineItem} object item object.
         * @param {flexygo.obj.Entity} objectEntity object Entity.
         */
-        openObjectEdit(object: flexygo.api.timeline.visTimelineItem, objectEntity: flexygo.obj.Entity): Promise<flexygo.api.timeline.visTimelineItem>;
+        openObjectEdit(object: flexygo.api.timeline.visTimelineItem, objectEntity: flexygo.obj.Entity): Promise<flexygo.api.timeline.visTimelineItem | flexygo.api.timeline.visDataItem>;
         /**
         * Get Object Where.
         * @method getObjectWhere

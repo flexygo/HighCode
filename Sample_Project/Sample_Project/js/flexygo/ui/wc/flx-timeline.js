@@ -25,13 +25,6 @@ var flexygo;
                     this.timelineRanges = { Hour: 18E5, Day: 432E5, Week: 3024E5, Month: 1296E6, Year: 158112E5 };
                 }
                 /**
-                * Array of observed attributes. REQUIRED
-                * @property observedAttributes {Array}
-                */
-                static get observedAttributes() {
-                    return ['ModuleName', 'ObjectName', 'ObjectWhere'];
-                }
-                /**
                 * Init the webcomponent. REQUIRED.
                 * @method init
                 */
@@ -659,6 +652,16 @@ var flexygo;
                             new Function('item', `return new Promise((resolve, reject) => { try {${this.timelineSetting.OnMovingFunction}} catch (ex) { reject(ex); } });`).call(this, item).then(function (data) { callback(data); }, function (error) { callback(item); console.error('FlexyGo Timeline', 'onMovingFunction', error); });
                         };
                     }
+                    if (this.timelineSetting.Advanced && !flexygo.utils.isBlank(this.timelineSetting.OnMoveFunction)) {
+                        visOptions.onMove = (item, callback) => {
+                            new Function('item', `return new Promise((resolve, reject) => { try {${this.timelineSetting.OnMoveFunction}} catch (ex) { reject(ex); } });`).call(this, item).then(function (data) { callback(data); }, function (error) { callback(item); console.error('FlexyGo Timeline', 'onMoveFunction', error); });
+                        };
+                    }
+                    if (this.timelineSetting.Advanced && !flexygo.utils.isBlank(this.timelineSetting.OnAddFunction)) {
+                        visOptions.onAdd = (item, callback) => {
+                            new Function('item', `return new Promise((resolve, reject) => { try {${this.timelineSetting.OnAddFunction}} catch (ex) { reject(ex); } });`).call(this, item).then(function (data) { callback(data); }, function (error) { callback(item); console.error('FlexyGo Timeline', 'onAddFunction', error); });
+                        };
+                    }
                     if (this.timelineSetting.Advanced && !flexygo.utils.isBlank(this.timelineSetting.ItemVisibleFrameTemplate)) {
                         visOptions.visibleFrameTemplate = (item, element) => {
                             return (item && item.data) ? flexygo.utils.parser.recursiveCompile(item.data, this.timelineSetting.ItemVisibleFrameTemplate) : '';
@@ -707,7 +710,7 @@ var flexygo;
                 buildVisGroup(data, order) {
                     return (data) ? {
                         value: order,
-                        id: data[this.timelineSetting.GroupIdField] || data[this.timelineSetting.PropertyGroup],
+                        id: ((typeof data[this.timelineSetting.GroupIdField] != 'undefined' && data[this.timelineSetting.GroupIdField] != null) ? data[this.timelineSetting.GroupIdField] : data[this.timelineSetting.PropertyGroup]),
                         content: (this.timelineSetting.GroupContentTemplate) ? flexygo.utils.parser.recursiveCompile(data, this.timelineSetting.GroupContentTemplate) : data[this.timelineSetting.GroupDescripField] || data[this.timelineSetting.PropertyGroup],
                         //title: data[this.timelineSetting.GroupDescripField] || data[this.timelineSetting.PropertyGroup],
                         className: (this.timelineSetting.Advanced) ? data[this.timelineSetting.GroupClassNameField] : null,
@@ -970,6 +973,11 @@ var flexygo;
                     }
                 }
             }
+            /**
+            * Array of observed attributes. REQUIRED
+            * @property observedAttributes {Array}
+            */
+            FlxTimelineElement.observedAttributes = ['ModuleName', 'ObjectName', 'ObjectWhere'];
             wc.FlxTimelineElement = FlxTimelineElement;
             /**
             * Library for the FlxTimelineProgressBar
@@ -987,13 +995,6 @@ var flexygo;
                     * @property connected {boolean}
                     */
                     this.connected = false;
-                }
-                /**
-                * Array of observed attributes. REQUIRED
-                * @property observedAttributes {Array}
-                */
-                static get observedAttributes() {
-                    return ['color', 'percentage'];
                 }
                 /**
                 * Init the webcomponent. REQUIRED.
@@ -1053,6 +1054,11 @@ var flexygo;
                     }
                 }
             }
+            /**
+            * Array of observed attributes. REQUIRED
+            * @property observedAttributes {Array}
+            */
+            FlxTimelineProgressBar.observedAttributes = ['color', 'percentage'];
             wc.FlxTimelineProgressBar = FlxTimelineProgressBar;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

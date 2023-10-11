@@ -28,7 +28,7 @@ declare namespace flexygo.events {
         * @param {flexygo.events.FlexygoEvent} eventDefinition - The FlexygoEvent to subscribe to in form of class.type (Example: entity.all)
         * @param {object} callback - Callback function to be called
         */
-    function on(context: object | string, eventClass: EventClass, eventType: EventType, callback: object): void;
+    function on(context: object | string, eventClass: EventClass, eventType: EventType, callback: object, onlyChilds?: boolean): void;
     /**
        * Method to unsubscribe to flexygo events
        * @method off
@@ -41,7 +41,7 @@ declare namespace flexygo.events {
       * @method trigger
       * @param {flexygo.events.FlexygoEvent} event - Event to be triggered
       */
-    function trigger(event: FlexygoEvent): void;
+    function trigger(event: FlexygoEvent, triggerElement?: JQuery): void;
     /**
        * Method to register a module to manage its events
        * @method registerModule

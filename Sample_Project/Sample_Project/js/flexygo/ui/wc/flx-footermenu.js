@@ -25,13 +25,6 @@ var flexygo;
                 connectedCallback() {
                 }
                 /**
-               * Array of observed attributes.
-               * @property observedAttributes {Array}
-               */
-                static get observedAttributes() {
-                    return [];
-                }
-                /**
                 * Fires when the attribute value of the element is changed.
                 * @method attributeChangedCallback
                 */
@@ -71,6 +64,11 @@ var flexygo;
                     $(this).empty();
                 }
             }
+            /**
+           * Array of observed attributes.
+           * @property observedAttributes {Array}
+           */
+            FlxFooterMenuElement.observedAttributes = [];
             wc.FlxFooterMenuElement = FlxFooterMenuElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

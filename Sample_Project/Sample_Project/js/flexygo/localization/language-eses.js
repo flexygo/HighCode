@@ -9,6 +9,7 @@ var flexygo;
         (function (eses) {
             eses.process = {
                 executing: 'Ejecutando proceso...',
+                loadingdata: 'Cargando datos...'
             };
             eses.dependecymanager = {
                 sort: 'Ordenar',
@@ -21,6 +22,7 @@ var flexygo;
                 CustomProperty: 'Custom Property Dep.',
                 save: 'Guardar',
                 addmore: 'Añadir mas propiedades dependientes',
+                addmorefilter: 'Añadir mas filtros dependientes',
                 sqlvalue: 'SQL Valor',
                 sqlclass: 'SQL Clase',
                 sqlcombofilter: 'Filtro SQL para desplegable',
@@ -99,6 +101,7 @@ var flexygo;
                 appendwarning: 'Seleccione un tipo y nombre de campo.',
                 createfields: 'Añadir campos',
                 enterfieldname: 'Nombre del campo',
+                reservedword: 'es una palabra reservada',
                 selecttype: 'Seleccione Tipo de datos',
                 seedependencies: 'Ver dependencias',
                 templates: 'Plantillas',
@@ -131,7 +134,10 @@ var flexygo;
                 hasdependingproperties: 'Afectado por dependencias',
                 withchangeprocess: 'Con proceso de cambio',
                 throwto: 'Lanza a',
-                affectedby: 'Afectada por'
+                affectedby: 'Afectada por',
+                persistdefaultvalue: 'Valor por defecto persistente',
+                defaultvalue: 'Valor por defecto',
+                detachedproperty: 'Propiedad desconectada'
             };
             eses.flxeditgrid = {
                 addrow: 'Añadir fila',
@@ -261,8 +267,14 @@ var flexygo;
                 add: 'Añadir',
                 errornofilter: 'Por favor, añada primero un nuevo filtro.',
                 errornofields: 'Por favor, añada al menos un campo de filtro.',
+                fieldnotappend: 'No se ha podido agregar la siguiente propiedad porque ya existe una con el mismo nombre:',
+                fieldsnotappend: 'No se han podido agregar las siguientes propiedades porque ya existe una con el mismo nombre:',
                 save: 'Guardar',
                 delete: 'Eliminar',
+                hasfilterdependencies: 'Lanza dependencias',
+                hasfilterdependingproperties: 'Afectado por dependencias',
+                throwto: 'Lanza a',
+                affectedby: 'Afectada por'
             };
             eses.sortmanager = {
                 sort: 'Ordenar',
@@ -470,7 +482,8 @@ var flexygo;
                 deletenode: 'Borrar nodo',
                 deletenodequestion: '¿Está seguro de que desea eliminar este nodo?',
                 addfields: 'Añadir campos',
-                cloneDependencies: 'Clonar dependencias del objeto'
+                cloneDependencies: 'Clonar dependencias del objeto',
+                relationshipOfDependencies: 'Relación de dependencias'
             };
             eses.objectmanager = {
                 selecticon: 'Seleccione un icono',
@@ -598,6 +611,7 @@ var flexygo;
             };
             eses.templates = {
                 addnewtemplate: 'Añadir plantilla',
+                openiconlist: 'Abrir lista de iconos',
             };
             eses.flxscheduler = {
                 objects: 'Objetos',
@@ -787,6 +801,7 @@ var flexygo;
                 option: 'Opción',
                 result: 'Resultado',
                 elseoption: 'Por defecto',
+                requiredobject: 'Primero debe seleccionar un objeto',
             };
             eses.imports = {
                 template: 'Archivo de plantilla',
@@ -802,6 +817,44 @@ var flexygo;
                 noCamera: 'No se ha encontrado ninguna cámara',
                 IOSerr: 'Esta funcionalidad no está disponible en IOS',
                 noCode: 'No se puede encontrar ningún código en esta imagen.'
+            };
+            eses.abhSign = {
+                save: 'Guardar',
+                title: 'Seleccione un documento',
+                help: 'Ayuda Abh Sign',
+                lastPage: 'Última página'
+            };
+            eses.maintenance = {
+                logoMini: 'Mantenimiento',
+                title: 'Volveremos pronto!',
+                subtitle: 'Disculpen las molestias. En estos momentos estamos realizando tareas de mantenimiento.',
+                time: 'Modo de mantenimiento'
+            };
+            eses.flxWacom = {
+                titleError: 'Error al capturar la firma',
+                serviceNotDetected: 'No se ha detecta el servicio de firma',
+                sigDataError: 'Error en GetSigData',
+                additionalDataError: 'Error en GetSigData',
+                renderBitmapError: 'Error en la renderizacion del Bitmap',
+                extraDataError: 'Error en PutExtraData',
+                sigCtrlCaptureError: 'Error de captura del SigCtl',
+                sigCtrlConstructorError: 'Error en el constructor de SigCtl',
+                DynCaptureError: 'Error en el Dynamic Capture',
+                error100: "Dispositivo no conectado",
+                error101: "No se pudo capturar",
+                error102: "Clave de integridad inválida",
+                error200: "No se pudo analizar el contenido"
+            };
+            eses.mail = {
+                fileSize: "Tamaño de archivo excedido",
+                mailSize: "Tamaño de correo excedido",
+                maxSize: "Tamaño máximo",
+            };
+            eses.databaseScript = {
+                infoGenerate: "Los archivos se generarán directamente sobre la carpeta predeteminada",
+                infoDownload: "Los archivos se comprimirán en un zip y serán descargados",
+                generate: "Generar archivos",
+                download: "Descargar archivos"
             };
         })(eses = culture.eses || (culture.eses = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

@@ -64,337 +64,772 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Antlr3.Runtime.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Antlr3.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Castle.Core.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Common.Logging.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Common.Logging.dll</HintPath>
     </Reference>
     <Reference Include="Common.Logging.Core, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Common.Logging.Core.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Common.Logging.Core.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.ReportAppServer.CommLayer, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\CrystalDecisions.ReportAppServer.CommLayer.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\CrystalDecisions.ReportAppServer.CommLayer.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="CrystalDecisions.ReportAppServer.CommonObjectModel, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\CrystalDecisions.ReportAppServer.CommonObjectModel.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\CrystalDecisions.ReportAppServer.CommonObjectModel.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="CrystalDecisions.ReportAppServer.CubeDefModel, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\CrystalDecisions.ReportAppServer.CubeDefModel.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\CrystalDecisions.ReportAppServer.CubeDefModel.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="CrystalDecisions.ReportAppServer.DataSetConversion, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\CrystalDecisions.ReportAppServer.DataSetConversion.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\CrystalDecisions.ReportAppServer.DataSetConversion.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.ReportAppServer.ObjectFactory, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\CrystalDecisions.ReportAppServer.ObjectFactory.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\CrystalDecisions.ReportAppServer.ObjectFactory.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="CrystalDecisions.ReportAppServer.Prompting, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\CrystalDecisions.ReportAppServer.Prompting.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\CrystalDecisions.ReportAppServer.Prompting.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="CrystalDecisions.ReportAppServer.ReportDefModel, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\CrystalDecisions.ReportAppServer.ReportDefModel.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\CrystalDecisions.ReportAppServer.ReportDefModel.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="CrystalDecisions.ReportAppServer.XmlSerialize, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\CrystalDecisions.ReportAppServer.XmlSerialize.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\CrystalDecisions.ReportAppServer.XmlSerialize.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="CrystalDecisions.ReportSource, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\CrystalDecisions.ReportSource.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\CrystalDecisions.ReportSource.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.Shared, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\CrystalDecisions.Shared.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\CrystalDecisions.Shared.dll</HintPath>
     </Reference>
     <Reference Include="DocumentFormat.OpenXml, Version=2.15.0.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
     <Reference Include="dotless.Core, Version=1.5.2.0, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\dotless.Core.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\dotless.Core.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Flexygo, Version=5.0.0.12, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Flexygo.dll</HintPath>
+    <Reference Include="Flexygo, Version=5.5.0.10, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Flexygo.dll</HintPath>
     </Reference>
-    <Reference Include="flxAccount, Version=5.0.0.12, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\flxAccount.dll</HintPath>
+    <Reference Include="flxAccount, Version=5.5.0.10, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxAccount.dll</HintPath>
     </Reference>
-    <Reference Include="flxCrystal, Version=5.0.0.12, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\flxCrystal.dll</HintPath>
+    <Reference Include="flxCrystal, Version=5.5.0.10, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxCrystal.dll</HintPath>
     </Reference>
-    <Reference Include="flxDataManager, Version=5.0.0.12, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\flxDataManager.dll</HintPath>
+    <Reference Include="flxDataManager, Version=5.5.0.10, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxDataManager.dll</HintPath>
     </Reference>
-    <Reference Include="flxEncoder, Version=5.0.0.12, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\flxEncoder.dll</HintPath>
+    <Reference Include="flxEncrypter, Version=5.5.0.10, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxEncrypter.dll</HintPath>
     </Reference>
-    <Reference Include="flxEntity, Version=5.0.0.12, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\flxEntity.dll</HintPath>
+    <Reference Include="flxEntity, Version=5.5.0.10, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxEntity.dll</HintPath>
     </Reference>
-    <Reference Include="flxEnvironment, Version=5.0.0.12, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\flxEnvironment.dll</HintPath>
+    <Reference Include="flxEnvironment, Version=5.5.0.10, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxEnvironment.dll</HintPath>
     </Reference>
-    <Reference Include="flxExcel, Version=5.0.0.12, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\flxExcel.dll</HintPath>
+    <Reference Include="flxExcel, Version=5.5.0.10, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxExcel.dll</HintPath>
     </Reference>
-    <Reference Include="flxGlobals, Version=5.0.0.12, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\flxGlobals.dll</HintPath>
+    <Reference Include="flxGlobals, Version=5.5.0.10, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxGlobals.dll</HintPath>
     </Reference>
-    <Reference Include="flxLocalization, Version=5.0.0.12, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\flxLocalization.dll</HintPath>
+    <Reference Include="flxLocalization, Version=5.5.0.10, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxLocalization.dll</HintPath>
     </Reference>
-    <Reference Include="flxMail, Version=5.0.0.12, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\flxMail.dll</HintPath>
+    <Reference Include="flxMail, Version=5.5.0.10, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxMail.dll</HintPath>
     </Reference>
-    <Reference Include="flxMock, Version=5.0.0.12, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\flxMock.dll</HintPath>
+    <Reference Include="flxMock, Version=5.5.0.10, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxMock.dll</HintPath>
     </Reference>
-    <Reference Include="flxObjectConfig, Version=5.0.0.12, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\flxObjectConfig.dll</HintPath>
+    <Reference Include="flxObjectConfig, Version=5.5.0.10, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxObjectConfig.dll</HintPath>
     </Reference>
-    <Reference Include="flxPlugins, Version=5.0.0.12, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\flxPlugins.dll</HintPath>
+    <Reference Include="flxPlugins, Version=5.5.0.10, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxPlugins.dll</HintPath>
     </Reference>
-    <Reference Include="flxPowerBI, Version=5.0.0.12, Culture=neutral, PublicKeyToken=59fa6f3044588661, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\flxPowerBI.dll</HintPath>
+    <Reference Include="flxPowerBI, Version=5.5.0.10, Culture=neutral, PublicKeyToken=59fa6f3044588661, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxPowerBI.dll</HintPath>
     </Reference>
-    <Reference Include="flxSearch, Version=5.0.0.12, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\flxSearch.dll</HintPath>
+    <Reference Include="flxSearch, Version=5.5.0.10, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxSearch.dll</HintPath>
     </Reference>
-    <Reference Include="flxSecurity, Version=5.0.0.12, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\flxSecurity.dll</HintPath>
+    <Reference Include="flxSecurity, Version=5.5.0.10, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxSecurity.dll</HintPath>
     </Reference>
-    <Reference Include="flxSession, Version=5.0.0.12, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\flxSession.dll</HintPath>
+    <Reference Include="flxSession, Version=5.5.0.10, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxSession.dll</HintPath>
     </Reference>
-    <Reference Include="flxSettings, Version=5.0.0.12, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\flxSettings.dll</HintPath>
+    <Reference Include="flxSettings, Version=5.5.0.10, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxSettings.dll</HintPath>
     </Reference>
-    <Reference Include="flxSignalR, Version=5.0.0.12, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\flxSignalR.dll</HintPath>
+    <Reference Include="flxSignalR, Version=5.5.0.10, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxSignalR.dll</HintPath>
     </Reference>
-    <Reference Include="flxSysProcess, Version=5.0.0.12, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\flxSysProcess.dll</HintPath>
+    <Reference Include="flxSysAbhProcess, Version=5.5.0.10, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxSysAbhProcess.dll</HintPath>
     </Reference>
-    <Reference Include="flxUI, Version=5.0.0.12, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\flxUI.dll</HintPath>
+    <Reference Include="flxSysProcess, Version=5.5.0.10, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxSysProcess.dll</HintPath>
     </Reference>
-    <Reference Include="flxUtilities, Version=5.0.0.12, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\flxUtilities.dll</HintPath>
+    <Reference Include="flxUI, Version=5.5.0.10, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxUI.dll</HintPath>
     </Reference>
-    <Reference Include="flxWebAPI, Version=5.0.0.12, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\flxWebAPI.dll</HintPath>
+    <Reference Include="flxUtilities, Version=5.5.0.10, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxUtilities.dll</HintPath>
+    </Reference>
+    <Reference Include="flxWebAPI, Version=5.5.0.10, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxWebAPI.dll</HintPath>
     </Reference>
     <Reference Include="Google.Apis, Version=1.27.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Google.Apis.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Google.Apis.dll</HintPath>
     </Reference>
     <Reference Include="Google.Apis.Core, Version=1.27.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Google.Apis.Core.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Google.Apis.Core.dll</HintPath>
     </Reference>
     <Reference Include="Google.Apis.Translate.v2, Version=1.27.1.875, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Google.Apis.Translate.v2.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Google.Apis.Translate.v2.dll</HintPath>
     </Reference>
     <Reference Include="Mail, Version=3.0.19134.1431, Culture=neutral, PublicKeyToken=6dc438ab78a525b3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Mail.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Mail.dll</HintPath>
     </Reference>
     <Reference Include="MailChimp.Net, Version=5.3.1.0, Culture=neutral, PublicKeyToken=37d26d538413c581, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\MailChimp.Net.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\MailChimp.Net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.FriendlyUrls, Version=1.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Microsoft.AspNet.FriendlyUrls.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.AspNet.FriendlyUrls.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.AspNet.Identity.Owin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.AspNet.SignalR.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis, Version=4.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Microsoft.CodeAnalysis.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.CodeAnalysis.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis.CSharp, Version=4.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Data.Tools.Schema.Sql, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Microsoft.Data.Tools.Schema.Sql.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.Data.Tools.Schema.Sql.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Data.Tools.Utilities, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Microsoft.Data.Tools.Utilities.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.Data.Tools.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.OpenApi, Version=1.0.1.0, Culture=neutral, PublicKeyToken=3f5743946376f042, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Microsoft.OpenApi.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.OpenApi.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.OpenApi.Readers, Version=1.0.1.0, Culture=neutral, PublicKeyToken=3f5743946376f042, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Microsoft.OpenApi.Readers.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.OpenApi.Readers.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Microsoft.Owin.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.Owin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Cors, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Microsoft.Owin.Cors.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.Owin.Cors.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Microsoft.Owin.Security.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.Owin.Security.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Security.Cookies, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Microsoft.Owin.Security.Cookies.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.Owin.Security.Cookies.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Security.OAuth, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Microsoft.Owin.Security.OAuth.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.Owin.Security.OAuth.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.PowerBI.Api, Version=3.11.0.20084, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Microsoft.PowerBI.Api.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.PowerBI.Api.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Rest.ClientRuntime, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Microsoft.Rest.ClientRuntime.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.Rest.ClientRuntime.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SqlServer.Dac, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Microsoft.SqlServer.Dac.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.SqlServer.Dac.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SqlServer.Dac.Extensions, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Microsoft.SqlServer.Dac.Extensions.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.SqlServer.Dac.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SqlServer.TransactSql.ScriptDom, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Microsoft.SqlServer.TransactSql.ScriptDom.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.SqlServer.TransactSql.ScriptDom.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SqlServer.Types, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Microsoft.SqlServer.Types.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.SqlServer.Types.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Microsoft.Web.Infrastructure.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.Primitives, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Moq, Version=4.7.8.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Moq.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Moq.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data, Version=6.10.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\MySql.Data.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\netstandard.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\netstandard.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Oracle.ManagedDataAccess, Version=4.122.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Oracle.ManagedDataAccess.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Oracle.ManagedDataAccess.dll</HintPath>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Owin.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Owin.dll</HintPath>
     </Reference>
     <Reference Include="Passbook.Generator, Version=3.0.1.0, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Passbook.Generator.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Passbook.Generator.dll</HintPath>
     </Reference>
     <Reference Include="Quartz, Version=2.6.1.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\Quartz.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\Quartz.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp, Version=106.11.7.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\RestSharp.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="SharpYaml, Version=1.6.1.0, Culture=neutral, PublicKeyToken=1ced8108e942bc02, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\SharpYaml.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\SharpYaml.dll</HintPath>
     </Reference>
     <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\stdole.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\stdole.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.AppContext, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.AppContext.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Buffers.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Collections.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Collections.Concurrent, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Collections.Concurrent.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Collections.Immutable, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Collections.Immutable.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.NonGeneric, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Collections.NonGeneric.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Collections.Specialized, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Collections.Specialized.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.ComponentModel.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.EventBasedAsync, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.ComponentModel.EventBasedAsync.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.Primitives, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.ComponentModel.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.TypeConverter, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.ComponentModel.TypeConverter.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Console, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Console.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Common, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Data.Common.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.SqlClient, Version=4.6.1.5, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Data.SqlClient.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.Contracts, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Diagnostics.Contracts.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Diagnostics.Debug, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Diagnostics.Debug.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Diagnostics.EventLog, Version=5.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Diagnostics.EventLog.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.FileVersionInfo, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Diagnostics.FileVersionInfo.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Diagnostics.Process, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Diagnostics.Process.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Diagnostics.StackTrace, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Diagnostics.StackTrace.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Diagnostics.TextWriterTraceListener, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Diagnostics.TextWriterTraceListener.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Diagnostics.Tools, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Diagnostics.Tools.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Diagnostics.TraceSource, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Diagnostics.TraceSource.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Diagnostics.Tracing, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Diagnostics.Tracing.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Common, Version=4.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Drawing.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Drawing.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Dynamic.Runtime, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Dynamic.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Globalization, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Globalization.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Globalization.Calendars, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Globalization.Calendars.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Globalization.Extensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Globalization.Extensions.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.IO.Compression.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression.ZipFile, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.IO.FileSystem.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.DriveInfo, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.IO.FileSystem.DriveInfo.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Watcher, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.IO.FileSystem.Watcher.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.IsolatedStorage, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.IO.IsolatedStorage.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.MemoryMappedFiles, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.IO.MemoryMappedFiles.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Pipes, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.IO.Pipes.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.UnmanagedMemoryStream, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.IO.UnmanagedMemoryStream.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Linq, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Linq.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Linq.Expressions, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Linq.Expressions.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Linq.Parallel, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Linq.Parallel.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Linq.Queryable, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Linq.Queryable.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Memory.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Memory.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Net.Http.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Net.Http.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http.Formatting, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Net.Http.Formatting.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.NameResolution, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Net.NameResolution.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.NetworkInformation, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Net.NetworkInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Ping, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Net.Ping.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Primitives, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Net.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Requests, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Net.Requests.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Security, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Net.Security.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Sockets, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Net.Sockets.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.WebHeaderCollection, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Net.WebHeaderCollection.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.WebSockets, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Net.WebSockets.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.WebSockets.Client, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Net.WebSockets.Client.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Numerics.Vectors.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ObjectModel, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.ObjectModel.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reflection, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Reflection.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reflection.Extensions, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Reflection.Extensions.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Reflection.Metadata, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Reflection.Metadata.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Reflection.Metadata.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Reflection.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Resources.Reader, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Resources.Reader.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Resources.ResourceManager, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Resources.ResourceManager.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Resources.Writer, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Resources.Writer.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
-    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Security.Cryptography.Algorithms.dll</HintPath>
+    <Reference Include="System.Runtime.CompilerServices.VisualC, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Runtime.CompilerServices.VisualC.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+    <Reference Include="System.Runtime.Extensions, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Runtime.Extensions.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Handles, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Runtime.Handles.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Runtime.InteropServices.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Numerics, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Runtime.Numerics.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Formatters, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Runtime.Serialization.Formatters.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Json, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Runtime.Serialization.Json.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Primitives, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Runtime.Serialization.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Xml, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Runtime.Serialization.Xml.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Claims, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Security.Claims.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Csp, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Security.Cryptography.Csp.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Security.Cryptography.Pkcs, Version=4.0.3.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Security.Cryptography.Pkcs.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Security.Cryptography.Pkcs.dll</HintPath>
     </Reference>
-    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Security.Cryptography.X509Certificates.dll</HintPath>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Principal, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Security.Principal.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.SecureString, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Security.SecureString.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Text.Encoding, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Text.Encoding.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Text.Encoding.CodePages, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Text.Encoding.CodePages.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encoding.Extensions, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Text.Encoding.Extensions.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Text.RegularExpressions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Text.RegularExpressions.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Threading, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Threading.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Threading.Overlapped, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Threading.Overlapped.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Threading.Tasks, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Threading.Tasks.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Threading.Tasks.Extensions.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Parallel, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Threading.Tasks.Parallel.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Threading.Thread, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Threading.Thread.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Threading.ThreadPool, Version=4.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Threading.ThreadPool.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Threading.Timer, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Threading.Timer.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Cors, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Web.Cors.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Web.Cors.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -403,51 +838,81 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Web.Helpers.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Web.Helpers.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Web.Http.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Web.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.Cors, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Web.Http.Cors.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Web.Http.Cors.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.Owin, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Web.Http.Owin.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Web.Http.Owin.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Web.Http.WebHost.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Web.Mvc.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Web.Optimization.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Web.Optimization.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Optimization.Less, Version=1.3.0.0, Culture=neutral, PublicKeyToken=9b7581e0240fe480, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Web.Optimization.Less.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Web.Optimization.Less.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Web.Razor.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Web.WebPages.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Web.WebPages.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Web.WebPages.Deployment.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Web.WebPages.Deployment.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\System.Web.WebPages.Razor.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="UnitTest, Version=5.0.0.12, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\UnitTest.dll</HintPath>
+    <Reference Include="System.Xml.ReaderWriter, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.XDocument, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Xml.XDocument.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.XmlDocument, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Xml.XmlDocument.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.XmlSerializer, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Xml.XmlSerializer.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.XPath, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Xml.XPath.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.XPath.XDocument, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\System.Xml.XPath.XDocument.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="UnitTest, Version=5.5.0.10, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\UnitTest.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flexygo.5.0.0.12\lib\net46\WebGrease.dll</HintPath>
+      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\WebGrease.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -765,6 +1230,11 @@
     <Content Include="img\Emulators\mobile-portrait.png" />
     <Content Include="img\Emulators\tablet-landscape.png" />
     <Content Include="img\Emulators\tablet-portrait.png" />
+    <Content Include="img\Help\AbhSign\AbhSignOperation.png" />
+    <Content Include="img\Help\AbhSign\AbhSignReports.png" />
+    <Content Include="img\Help\AbhSign\AbhSignSettings.png" />
+    <Content Include="img\Help\AbhSign\SelectSign.png" />
+    <Content Include="img\Help\AbhSms\AbhSmsSettings.png" />
     <Content Include="img\Help\AhoraERP\ahora.svg" />
     <Content Include="img\Help\AhoraERP\ReferenceSubreference.png" />
     <Content Include="img\Help\AzureAdIntegration\azure-logo.png" />
@@ -779,6 +1249,11 @@
     <Content Include="img\Help\Chatter\ChatterConf1.png" />
     <Content Include="img\Help\Chatter\ChatterConf2.png" />
     <Content Include="img\Help\Chatter\ChatterConf3.png" />
+    <Content Include="img\Help\Chatter\email_notification.png" />
+    <Content Include="img\Help\Chatter\link_configuration.png" />
+    <Content Include="img\Help\Chatter\mention_config.png" />
+    <Content Include="img\Help\Chatter\mention_notifications.png" />
+    <Content Include="img\Help\Chatter\subject_definition.png" />
     <Content Include="img\Help\Controls\CustomContDepSelect.png" />
     <Content Include="img\Help\Controls\CustomContDepValues.png" />
     <Content Include="img\Help\Courses\LowCode.png" />
@@ -829,13 +1304,18 @@
     <Content Include="img\Help\MailChimp\acces.png" />
     <Content Include="img\Help\MailChimp\apikey.png" />
     <Content Include="img\Help\MailChimp\campaign.png" />
+    <Content Include="img\Help\MailChimp\campaigns.png" />
+    <Content Include="img\Help\MailChimp\campaign_save.png" />
     <Content Include="img\Help\MailChimp\configuration.png" />
+    <Content Include="img\Help\MailChimp\contacts_presets.png" />
+    <Content Include="img\Help\MailChimp\list.png" />
     <Content Include="img\Help\MailChimp\lists.png" />
     <Content Include="img\Help\MailChimp\mailchimp.png" />
     <Content Include="img\Help\MailChimp\MailchimpLogoBlack.png" />
     <Content Include="img\Help\MailChimp\MailChimpLogoSquad.png" />
     <Content Include="img\Help\MailChimp\MailchimpLogo_BlackH.png" />
     <Content Include="img\Help\MailChimp\object.png" />
+    <Content Include="img\Help\MailChimp\template.png" />
     <Content Include="img\Help\MailChimp\upload.png" />
     <Content Include="img\Help\ModuleManagement\ModuleManagement.png" />
     <Content Include="img\Help\ModuleManagement\ModuleManagement_2.JPG" />
@@ -1060,6 +1540,7 @@
     <Content Include="img\Help\Timeline\Timeline_Items_Types.png" />
     <Content Include="img\Help\Typography\CleanRounded.png" />
     <Content Include="img\Help\Typography\clearBoth.jpg" />
+    <Content Include="img\Help\Typography\ColumnSeparator.png" />
     <Content Include="img\Help\Typography\cursorPointer.jpg" />
     <Content Include="img\Help\Typography\docSection.jpg" />
     <Content Include="img\Help\Typography\fullScreen.jpg" />
@@ -1072,6 +1553,11 @@
     <Content Include="img\Help\Typography\ShowEmptyColumn.png" />
     <Content Include="img\Help\Typography\StickyHeader.png" />
     <Content Include="img\Help\Typography\StickyToolbar.png" />
+    <Content Include="img\Help\Wacom\first_ss.png" />
+    <Content Include="img\Help\Wacom\name_demostration.png" />
+    <Content Include="img\Help\Wacom\style_demostration.png" />
+    <Content Include="img\Help\Wacom\title_demostration.png" />
+    <Content Include="img\Help\Wacom\Wacom_Logo_WhiteType.svg" />
     <Content Include="img\icons\icon-128x128.png" />
     <Content Include="img\icons\icon-144x144.png" />
     <Content Include="img\icons\icon-152x152.png" />
@@ -1114,8 +1600,19 @@
     <Content Include="img\logo.png" />
     <Content Include="img\mails\empty.png" />
     <Content Include="img\mails\empty.svg" />
+    <Content Include="img\mails\messageNotification.png" />
     <Content Include="img\mails\settings.svg" />
     <Content Include="img\resp_flexygo_horizontal.png" />
+    <Content Include="img\Structures\Account.png" />
+    <Content Include="img\Structures\Action.png" />
+    <Content Include="img\Structures\Clientes.png" />
+    <Content Include="img\Structures\Contact.png" />
+    <Content Include="img\Structures\Empleados.png" />
+    <Content Include="img\Structures\Employee.png" />
+    <Content Include="img\Structures\Product.png" />
+    <Content Include="img\Structures\Proyecto.png" />
+    <Content Include="img\Structures\Seguimientos.png" />
+    <Content Include="img\Structures\Tareas.png" />
     <Content Include="img\TemplateSamples\appointments.PNG" />
     <Content Include="img\TemplateSamples\basiclistwithicon.png" />
     <Content Include="img\TemplateSamples\basicpersonlistwithfoto.png" />
@@ -1345,10 +1842,14 @@
     <Content Include="js\flexygo\ui\wc\inputs\flx-text.min.js" />
     <Content Include="js\flexygo\ui\wc\inputs\flx-textarea.js" />
     <Content Include="js\flexygo\ui\wc\inputs\flx-textarea.min.js" />
+    <Content Include="js\flexygo\ui\wc\inputs\flx-wacom.js" />
+    <Content Include="js\flexygo\ui\wc\inputs\flx-wacom.min.js" />
     <Content Include="js\flexygo\ui\wc\inputs\flx-whiteboard.js" />
     <Content Include="js\flexygo\ui\wc\inputs\flx-whiteboard.min.js" />
     <Content Include="js\flexygo\ui\wc\_flx-samplewc.js" />
     <Content Include="js\flexygo\ui\wc\_flx-samplewc.min.js" />
+    <Content Include="js\flexygo\utils\abhSign.js" />
+    <Content Include="js\flexygo\utils\abhSign.min.js" />
     <Content Include="js\flexygo\utils\googlePlaces.js" />
     <Content Include="js\flexygo\utils\googlePlaces.min.js" />
     <Content Include="js\flexygo\utils\help.js" />
@@ -1361,6 +1862,7 @@
     <Content Include="js\flexygo\utils\util.min.js" />
     <Content Include="js\init.js" />
     <Content Include="js\init.min.js" />
+    <Content Include="js\plugins\assistance-animation\lottie.min.js" />
     <Content Include="js\plugins\bootstrap-tagsinput\bootstrap-tagsinput.css" />
     <Content Include="js\plugins\bootstrap-tagsinput\bootstrap-tagsinput.js" />
     <Content Include="js\plugins\bootstrap-tagsinput\bootstrap-tagsinput.min.js" />
@@ -1485,6 +1987,8 @@
     <Content Include="js\plugins\jquery-areyousure\jquery.are-you-sure.min.js" />
     <Content Include="js\plugins\jquery-destroyevent\jquery.destroy-event.js" />
     <Content Include="js\plugins\jquery-destroyevent\jquery.destroy-event.min.js" />
+    <Content Include="js\plugins\jquery-maskedinput\jquery.inputmask.js" />
+    <Content Include="js\plugins\jquery-maskedinput\jquery.inputmask.min.js" />
     <Content Include="js\plugins\jquery-maskedinput\jquery.maskedinput.js" />
     <Content Include="js\plugins\jquery-maskedinput\jquery.maskedinput.min.js" />
     <Content Include="js\plugins\jquery-mentionsInput\jquery.mentionsInput.css" />
@@ -1686,6 +2190,8 @@
     <Content Include="js\plugins\notify\notify.min.js" />
     <Content Include="js\plugins\nprogress\nprogress.js" />
     <Content Include="js\plugins\nprogress\nprogress.min.js" />
+    <Content Include="js\plugins\pdfjs\pdf.min.js" />
+    <Content Include="js\plugins\pdfjs\pdf.worker.min.js" />
     <Content Include="js\plugins\powerbi\powerbi.js" />
     <Content Include="js\plugins\powerbi\powerbi.min.js" />
     <Content Include="js\plugins\qrcode\qrcode.js" />
@@ -1846,6 +2352,10 @@
     <Content Include="js\plugins\visjs\vis.js" />
     <Content Include="js\plugins\visjs\vis.min.css" />
     <Content Include="js\plugins\visjs\vis.min.js" />
+    <Content Include="js\plugins\wacomSignature\SigCaptX-Globals.js" />
+    <Content Include="js\plugins\wacomSignature\SigCaptX-Globals.min.js" />
+    <Content Include="js\plugins\wacomSignature\wgssSigCaptX.js" />
+    <Content Include="js\plugins\wacomSignature\wgssSigCaptX.min.js" />
     <Content Include="js\plugins\wc-polyfills\custom-elements.min.js" />
     <Content Include="js\tests\utils.tests.js" />
     <Content Include="mobile\assets\fonts\flags\flag-icon.css" />
@@ -1878,13 +2388,13 @@
     <Content Include="mobile\assets\img\sync-restore.png" />
     <Content Include="mobile\assets\img\sync-templates.png" />
     <Content Include="mobile\build\animation-10ea33c3.js" />
-    <Content Include="mobile\build\app-globals-a4d1a0a6.js" />
+    <Content Include="mobile\build\app-globals-304360b7.js" />
     <Content Include="mobile\build\app-root.entry.js" />
     <Content Include="mobile\build\app.css" />
     <Content Include="mobile\build\app.esm.js" />
     <Content Include="mobile\build\app.js" />
     <Content Include="mobile\build\button-active-8835373c.js" />
-    <Content Include="mobile\build\conftoken-950775a1.js" />
+    <Content Include="mobile\build\conftoken-38d23b50.js" />
     <Content Include="mobile\build\css-shim-0d35df9f.js" />
     <Content Include="mobile\build\cubic-bezier-93f47170.js" />
     <Content Include="mobile\build\dom-99c5763a.js" />
@@ -2022,7 +2532,7 @@
     <Content Include="mobile\build\md.transition-6d74e584.js" />
     <Content Include="mobile\build\menu-toggle-util-037e9872.js" />
     <Content Include="mobile\build\overlays-5302658e.js" />
-    <Content Include="mobile\build\parser-791f85ed.js" />
+    <Content Include="mobile\build\parser-d0b021b4.js" />
     <Content Include="mobile\build\pwa-action-sheet.entry.js" />
     <Content Include="mobile\build\pwa-camera-modal-instance.entry.js" />
     <Content Include="mobile\build\pwa-camera-modal.entry.js" />
@@ -3370,15 +3880,14 @@
     <Content Include="mobile\build\tap-click-a7f9f959.js" />
     <Content Include="mobile\build\theme-f934266c.js" />
     <Content Include="mobile\build\utils-16079bfd.js" />
-    <Content Include="mobile\build\web-24a2aae0.js" />
-    <Content Include="mobile\build\web-5ef40f6e.js" />
-    <Content Include="mobile\build\web-764ac06f.js" />
-    <Content Include="mobile\build\web-7b927e85.js" />
-    <Content Include="mobile\build\web-a27d1f00.js" />
-    <Content Include="mobile\build\web-d1ebbb91.js" />
-    <Content Include="mobile\build\web-d6b116c2.js" />
-    <Content Include="mobile\build\web-f913b99c.js" />
-    <Content Include="mobile\build\webapi-79a1d3db.js" />
+    <Content Include="mobile\build\web-0f42f0be.js" />
+    <Content Include="mobile\build\web-59a71c0b.js" />
+    <Content Include="mobile\build\web-5d79c0d8.js" />
+    <Content Include="mobile\build\web-60a05a43.js" />
+    <Content Include="mobile\build\web-6775e203.js" />
+    <Content Include="mobile\build\web-98018a42.js" />
+    <Content Include="mobile\build\web-af5344ba.js" />
+    <Content Include="mobile\build\web-dd8097d0.js" />
     <Content Include="mobile\build\whiteboard-658b1b9f.js" />
     <Content Include="mobile\capacitor.js" />
     <Content Include="mobile\index.html" />
@@ -3460,6 +3969,7 @@
     <Content Include="js\plugins\bootstrap\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="js\flexygo\dynamic\context.ashx" />
     <Content Include="img\Layouts\Layouts.psd" />
+    <Content Include="img\flexygo-robot.json" />
     <Content Include="Forms\Documents\Download.ashx" />
     <Content Include="Errors\Web.config" />
     <Content Include="db\mergeSSDTScripts.ps1" />
@@ -3600,6 +4110,7 @@
     </None>
     <None Include="packages.config" />
     <Content Include="Web.config" />
+    <Content Include="tsconfig.json" />
     <Content Include="Service References\FlexyGoServices\FLEXYGO.FlexyGoServices.VersionInfo.datasource" />
     <Content Include="Service References\FlexyGoServices\FLEXYGO.FlexyGoServices.AutoUpdaterUpdateInfo.datasource" />
     <Content Include="Service References\FlexyGoServices\FLEXYGO.FlexyGoServices.AutoUpdaterCheckInfo.datasource" />
@@ -3632,6 +4143,14 @@
     <TypeScriptCompile Include="js\flexygo\events\events.d.ts" />
     <TypeScriptCompile Include="js\flexygo\exceptions\exceptions.d.ts" />
     <TypeScriptCompile Include="js\flexygo\history\history.d.ts" />
+    <TypeScriptCompile Include="js\flexygo\integrations\scales.d.ts" />
+    <TypeScriptCompile Include="js\flexygo\localization\language-caes.d.ts" />
+    <TypeScriptCompile Include="js\flexygo\localization\language-dede.d.ts" />
+    <TypeScriptCompile Include="js\flexygo\localization\language-engb.d.ts" />
+    <TypeScriptCompile Include="js\flexygo\localization\language-eses.d.ts" />
+    <TypeScriptCompile Include="js\flexygo\localization\language-frfr.d.ts" />
+    <TypeScriptCompile Include="js\flexygo\localization\language-itit.d.ts" />
+    <TypeScriptCompile Include="js\flexygo\localization\language-ptpt.d.ts" />
     <TypeScriptCompile Include="js\flexygo\localization\translate.d.ts" />
     <TypeScriptCompile Include="js\flexygo\msg\msg.d.ts" />
     <TypeScriptCompile Include="js\flexygo\push\push.d.ts" />
@@ -3645,6 +4164,8 @@
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-accordion.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-area.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-chart.d.ts" />
+    <TypeScriptCompile Include="js\flexygo\ui\wc\flx-chatter.d.ts" />
+    <TypeScriptCompile Include="js\flexygo\ui\wc\flx-combobuilder.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-contextmenu.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-dependencymanager.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-documentmanager.d.ts" />
@@ -3653,17 +4174,23 @@
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-easypie.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-edit.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-editgrid.d.ts" />
+    <TypeScriptCompile Include="js\flexygo\ui\wc\flx-filebrowser.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-filter.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-filtermanager.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-footermenu.d.ts" />
+    <TypeScriptCompile Include="js\flexygo\ui\wc\flx-formatsmanager.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-funnel.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-genericsearch.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-gipecontroller.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-gipedesigner.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-html.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-imagemanager.d.ts" />
+    <TypeScriptCompile Include="js\flexygo\ui\wc\flx-img.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-kanban.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-list.d.ts" />
+    <TypeScriptCompile Include="js\flexygo\ui\wc\flx-maillist.d.ts" />
+    <TypeScriptCompile Include="js\flexygo\ui\wc\flx-mailnotification.d.ts" />
+    <TypeScriptCompile Include="js\flexygo\ui\wc\flx-mailview.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-map.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-menumanager.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-module.d.ts" />
@@ -3676,7 +4203,9 @@
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-notification.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-objectmanager.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-objectrelations.d.ts" />
+    <TypeScriptCompile Include="js\flexygo\ui\wc\flx-offline-emulator.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-orgchart.d.ts" />
+    <TypeScriptCompile Include="js\flexygo\ui\wc\flx-powerbi.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-propertymanager.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-rss.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\flx-scheduler.d.ts" />
@@ -3712,13 +4241,19 @@
     <TypeScriptCompile Include="js\flexygo\ui\wc\inputs\flx-tag.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\inputs\flx-text.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\inputs\flx-textarea.d.ts" />
+    <TypeScriptCompile Include="js\flexygo\ui\wc\inputs\flx-wacom.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\inputs\flx-whiteboard.d.ts" />
     <TypeScriptCompile Include="js\flexygo\ui\wc\_flx-samplewc.d.ts" />
+    <TypeScriptCompile Include="js\flexygo\utils\abhSign.d.ts" />
     <TypeScriptCompile Include="js\flexygo\utils\googlePlaces.d.ts" />
+    <TypeScriptCompile Include="js\flexygo\utils\help.d.ts" />
     <TypeScriptCompile Include="js\flexygo\utils\parser.d.ts" />
     <TypeScriptCompile Include="js\flexygo\utils\string.d.ts" />
     <TypeScriptCompile Include="js\flexygo\utils\util.d.ts" />
+    <TypeScriptCompile Include="js\init.d.ts" />
+    <TypeScriptCompile Include="sample_project\js\nested_modules.d.ts" />
     <TypeScriptCompile Include="sample_project\js\nested_modules.ts" />
+    <TypeScriptCompile Include="sample_project\js\wc\afl-carousel.d.ts" />
     <TypeScriptCompile Include="sample_project\js\wc\afl-carousel.ts" />
     <TypeScriptCompile Include="Scripts\typings\bootstrap\index.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\chartjs\chart.d.ts" />
@@ -3728,8 +4263,10 @@
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\lobibox\lobibox.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\moment\moment.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\pdfjs\pdf.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\rgbquant\rgbquant.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\visjs\index.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\wacom\wacom.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

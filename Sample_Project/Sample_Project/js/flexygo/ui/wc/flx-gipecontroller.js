@@ -15,13 +15,6 @@ var flexygo;
                     this.connected = false;
                 }
                 /**
-                * Array of observed attributes. REQUIRED
-                * @property observedAttributes {Array}
-                */
-                static get observedAttributes() {
-                    return [];
-                }
-                /**
                 * Fires when element is attached to DOM
                 * @method connectedCallback
                 */
@@ -247,6 +240,11 @@ var flexygo;
                     });
                 }
             }
+            /**
+            * Array of observed attributes. REQUIRED
+            * @property observedAttributes {Array}
+            */
+            FlxGipeControllerElement.observedAttributes = [];
             wc.FlxGipeControllerElement = FlxGipeControllerElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

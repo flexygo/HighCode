@@ -73,13 +73,6 @@ var flexygo;
                     flexygo.events.off(this, "property", "changed", this.onPropertyChanged);
                 }
                 /**
-                * Array of observed attributes.
-                * @property observedAttributes {Array}
-                */
-                static get observedAttributes() {
-                    return ['modulename'];
-                }
-                /**
                * Fires when the attribute value of the element is changed.
                * @method attributeChangedCallback
                */
@@ -103,7 +96,7 @@ var flexygo;
                     //Remove WebControl events
                     flexygo.events.off(this, "property", "changed", this.onPropertyChanged);
                     //Capture WebControl events
-                    flexygo.events.on(this, "property", "changed", this.onPropertyChanged);
+                    flexygo.events.on(this, "property", "changed", this.onPropertyChanged, true);
                     //Remove handler on DOM element remove
                     $(this).on("destroy", () => {
                         flexygo.events.off(this, "property", "changed", this.onPropertyChanged);
@@ -135,7 +128,10 @@ var flexygo;
                                     if (target.find('.item #flx-dependency-loader, .grid-stack-item #flx-dependency-loader').length === 0) {
                                         if (!target.find('> div').hasClass('has-error')) {
                                             let control = $(this).find("[tabindex=" + index + "]");
-                                            if (control.closest('flx-multicombo').length === 0) {
+                                            if (control.closest('flx-text').attr('type') === "thousandSeparator") {
+                                                control.select().click();
+                                            }
+                                            else if (control.closest('flx-multicombo').length === 0) {
                                                 control.select().focus();
                                             }
                                             else {
@@ -792,7 +788,7 @@ var flexygo;
                             //    value = objDef[propName]
                             //}
                             if (obj && obj.data && obj.data[propName]) {
-                                ctl.setValue((value || obj.data[propName].Value), this.data[propName].Text);
+                                ctl.setValue((flexygo.utils.isBlank(value) ? obj.data[propName].Value : value), this.data[propName].Text);
                             }
                             else {
                                 ctl.setValue((value), this.data[propName].Text);
@@ -881,7 +877,7 @@ var flexygo;
                                             prop.addClass(this.properties[row.name].LabelCssClass);
                                         }
                                         if (this.properties[row.name].HelpId != '') {
-                                            let helpIcon = $('<span class="help-icon"><i/></span><flx-tooltip mode="popover" container="body" helpId="' + this.properties[row.name].HelpId + '"></flx-tooltip>');
+                                            let helpIcon = $('<span class="help-icon"><i/><flx-tooltip mode="popover" container="body" helpId="' + this.properties[row.name].HelpId + '"></flx-tooltip></span>');
                                             prop.append(helpIcon);
                                         }
                                         prop.attr('lblproperty', row.name);
@@ -938,7 +934,7 @@ var flexygo;
                * @param {string} str
                * @return {string}
                */
-                translate(str) {
+                flxTranslate(str) {
                     return flexygo.localization.translate(str);
                 }
                 /**
@@ -1073,6 +1069,43 @@ var flexygo;
                         }
                         if (itm.cascadeDependencies) {
                             prop[0].triggerDependencies();
+                        }
+                    }
+                    if (itm.dependencyErrors.length > 0) {
+                        let dependencyType = {
+                            0: [flexygo.localization.translate('dependecymanager.valuedep'), 'flx-icon icon-tag'],
+                            1: [flexygo.localization.translate('dependecymanager.classdep'), 'flx-icon icon-custom'],
+                            2: [flexygo.localization.translate('dependecymanager.combodep'), 'flx-icon icon-listbox-2'],
+                            3: [flexygo.localization.translate('dependecymanager.enabledep'), 'flx-icon icon-lock-1'],
+                            4: [flexygo.localization.translate('dependecymanager.visibledep'), 'flx-icon icon-eye'],
+                            5: [flexygo.localization.translate('dependecymanager.requireddep'), 'flx-icon icon-checked'],
+                            6: [flexygo.localization.translate('dependecymanager.CustomProperty'), 'flx-icon icon-wizard-1']
+                        };
+                        let lblTriggerElement = $(this).find('[lblproperty="' + itm.TriggerPropertyName + '"]');
+                        for (let i = 0; i < itm.dependencyErrors.length; i++) {
+                            let depType = itm.dependencyErrors[i].Type;
+                            let depLastExceptionMessage = itm.dependencyErrors[i].LastExceptionMessage;
+                            let depSentence = itm.dependencyErrors[i].SqlSentence;
+                            if (lblTriggerElement.find('.danger-icon').length == 0) {
+                                let dangerIcon = $(`<span class="danger-icon blink develop-only"><i/><flx-tooltip mode="popover" container="body"></flx-tooltip></span>`);
+                                lblTriggerElement.append(dangerIcon);
+                            }
+                            let flxtool = lblTriggerElement.find('.danger-icon flx-tooltip')[0];
+                            let newContent = flxtool.innerContent;
+                            let templateContent = $(`<div>${newContent}</div>`)[0];
+                            if ($(templateContent).find(`#dep-${itm.PropertyName}-${itm.TriggerPropertyName}-${depType}`).length == 0) {
+                                lblTriggerElement.removeAttr('data-content');
+                                newContent += `<li id="dep-${itm.PropertyName}-${itm.TriggerPropertyName}-${depType}" class="nolist">
+                                            <i title="${dependencyType[depType][0]}" class="${dependencyType[depType][1]} margin-right-s"/>
+                                            <b>${itm.PropertyName} : </b>${depLastExceptionMessage}
+                                            <button class="btn padding-xs margin-bottom-xs margin-top-xs margin-left-s size-xs clickable" onclick="flexygo.utils.showDependencyError(this, '35%',)">
+                                                <i class="flx-icon icon-sql-letters icon-lg "/>
+                                                <span class="flx-sentence hidden">${depSentence}</span>
+                                            </button>
+                                        </li>`;
+                                flxtool.innerContent = newContent;
+                                flxtool.refresh();
+                            }
                         }
                     }
                 }
@@ -1457,6 +1490,11 @@ var flexygo;
                     }
                 }
             }
+            /**
+            * Array of observed attributes.
+            * @property observedAttributes {Array}
+            */
+            FlxEditElement.observedAttributes = ['modulename'];
             wc_1.FlxEditElement = FlxEditElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

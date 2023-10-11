@@ -45,6 +45,7 @@ var flexygo;
                     this.removeKeys = false;
                     this.page = 0;
                     this.pageSize = null;
+                    this.pageSizeDefault = null;
                     this.pagesButtons = 3;
                     this.maxRows = 0;
                     this.maxPages = 0;
@@ -114,13 +115,10 @@ var flexygo;
                 disconnectedCallback() {
                     flexygo.events.off(this, "entity", "all", this.onEntityChanged);
                     flexygo.events.off(this, "property", "changed", this.onPropertyChanged);
-                }
-                /**
-               * Array of observed attributes.
-               * @property observedAttributes {Array}
-               */
-                static get observedAttributes() {
-                    return ['modulename', 'objectname', 'objectwhere'];
+                    let activeFilter = $(this).closest('flx-module').find('flx-filter')[0];
+                    if (activeFilter) {
+                        flexygo.events.off(activeFilter, "property", "changed", activeFilter.onPropertyChanged);
+                    }
                 }
                 /**
                 * Fires when the attribute value of the element is changed.
@@ -156,7 +154,9 @@ var flexygo;
                         }
                     }
                     if (this.connected === true && (isDirty === true)) {
-                        this.init();
+                        if ($(this).attr('manualInit') != 'true') {
+                            this.init();
+                        }
                     }
                 }
                 /**
@@ -164,8 +164,12 @@ var flexygo;
                 * @method refresh
                 */
                 refresh() {
+                    let activeFilter = $(this).closest('flx-module').find('flx-filter')[0];
+                    if (activeFilter) {
+                        flexygo.events.off(activeFilter, "property", "changed", activeFilter.onPropertyChanged);
+                    }
                     if ($(this).attr('manualInit') != 'true') {
-                        this.initGrid(false, true, this.page);
+                        this.initGrid(true, true, this.page);
                     }
                 }
                 /**
@@ -182,7 +186,7 @@ var flexygo;
                     //Remove WebControl events
                     flexygo.events.off(this, "property", "changed", this.onPropertyChanged);
                     //Capture WebControl events
-                    flexygo.events.on(this, "property", "changed", this.onPropertyChanged);
+                    flexygo.events.on(this, "property", "changed", this.onPropertyChanged, true);
                     //Remove handler on DOM element remove
                     $(this).on("destroy", () => {
                         flexygo.events.off(this, "entity", "all", this.onEntityChanged);
@@ -333,7 +337,7 @@ var flexygo;
                         detailIdentity: this.presetId
                     };
                     this.savePresetValueHistory();
-                    flexygo.events.trigger(ev);
+                    flexygo.events.trigger(ev, $(this));
                 }
                 changePresetText() {
                     let me = $(this);
@@ -417,6 +421,7 @@ var flexygo;
                         FilterValues: this.filterValues,
                         TemplateId: this.templateId,
                         ViewId: this.viewId,
+                        PageSize: this.pageSize,
                         PresetId: this.presetId,
                         GroupsInfo: (this.groups ? this.groups : { 'nogroup': null })
                     };
@@ -441,6 +446,7 @@ var flexygo;
                                 this.cryptedSql = template.TableSQL;
                                 this.removeKeys = template.RemoveKeys;
                                 this.pageSize = template.PageSize;
+                                this.pageSizeDefault = (this.pageSizeDefault) ? this.pageSizeDefault : template.PageSize;
                                 this.groups = template.Groups;
                                 this.groupList = template.GroupList;
                                 this.viewId = template.DataViewName;
@@ -1282,6 +1288,21 @@ var flexygo;
                     this.pager.find('.activePage').html(String(this.page + 1));
                     this.pager.find('.numPages').html(String(this.maxPages));
                     this.pager.find('.numRows').html(String(this.maxRows));
+                    //Checks if the ComboBox has a value equal to pageSize.        
+                    if (this.pageSizeDefault && this.pager.find('.pagination option[value="' + String(this.pageSizeDefault) + '"]').length == 0) {
+                        this.pager.find('.pagination').append('<option value="' + String(this.pageSizeDefault) + '">' + String(this.pageSizeDefault) + '</option>');
+                        let options = $(this.pager.find('.pagination')[0]).find('option').sort(function (a, b) { return parseInt(a.value) > parseInt(b.value) ? 1 : -1; });
+                        this.pager.find('.pagination').html(options);
+                    }
+                    this.pager.find('.pagination').val(String(this.pageSize));
+                    this.pager.find('.pagination').on('change', (e) => {
+                        let currentCombo = e.currentTarget;
+                        this.pageSize = parseInt($(currentCombo).val());
+                        this.pager.find('.pagination').not($(currentCombo)).val(String(this.pageSize));
+                        this.loadCount();
+                        this.page = 0;
+                        this.loadPage(this.page);
+                    });
                     this.pager.find('.prevPage').on('click', () => {
                         this.previousPage();
                     });
@@ -1482,7 +1503,7 @@ var flexygo;
                     }
                     let module = me.closest('flx-module');
                     let pane = module.find('.cntBodyHeader .filterPanel');
-                    if (pane.length == 0 && this.moduleButtons && Object.keys(this.moduleButtons).length > 0) {
+                    if (pane.length == 0) {
                         pane = $('<div class="filterPanel" />');
                         module.find('.cntBodyHeader').append(pane);
                     }
@@ -1746,7 +1767,7 @@ var flexygo;
                * @param {string} str
                * @return {string}
                */
-                translate(str) {
+                flxTranslate(str) {
                     return flexygo.localization.translate(str);
                 }
                 _getButton(btn, objectname, objectwhere, objectdefaults) {
@@ -1868,6 +1889,11 @@ var flexygo;
                     }
                 }
             } //class
+            /**
+           * Array of observed attributes.
+           * @property observedAttributes {Array}
+           */
+            FlxListElement.observedAttributes = ['modulename', 'objectname', 'objectwhere'];
             wc_1.FlxListElement = FlxListElement;
             function clearRow(list, btn) {
                 let listEl = list[0];
@@ -1895,7 +1921,8 @@ var flexygo;
                                 newValue = (newValue || cell.attr('def-value') || null);
                             }
                             if (newValue) {
-                                newValue = flexygo.utils.parser.compile(null, newValue, null, null);
+                                let def = JSON.parse(flexygo.utils.parser.replaceAll(flexygo.history.getDefaults(listEl.objectname, $(listEl)), "'", '"'));
+                                newValue = flexygo.utils.parser.compile(def, newValue, null, null);
                             }
                             ctl.setValue(newValue, cell.attr('def-text') || null);
                         }

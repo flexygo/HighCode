@@ -9,6 +9,7 @@ var flexygo;
         (function (caes) {
             caes.process = {
                 executing: 'Executant el procés...',
+                loadingdata: 'Carregant dades...'
             };
             caes.dependecymanager = {
                 sort: 'Ordena',
@@ -21,6 +22,7 @@ var flexygo;
                 CustomProperty: 'Custom Property Dep.',
                 save: 'Desa',
                 addmore: 'Afegeix més propietats depenents',
+                addmorefilter: 'Afegir més filtres dependents',
                 sqlvalue: 'Valor SQL',
                 sqlclass: 'Classe SQL',
                 sqlcombofilter: 'Filtre combo SQL',
@@ -107,6 +109,7 @@ var flexygo;
                 appendwarning: 'Selecciona un tipus de camp i un nom de camp',
                 createfields: 'Create new table fields',
                 enterfieldname: 'Field Name',
+                reserveword: 'és una paraula reservada',
                 selecttype: 'Selecciona el tipus de dades',
                 seedependencies: 'Veure dependències',
                 templates: 'Plantilles',
@@ -138,7 +141,10 @@ var flexygo;
                 hasdependingproperties: 'Afectada per dependències',
                 withchangeprocess: 'Amb procés de canvi',
                 throwto: 'Llança a',
-                affectedby: 'Afectada per'
+                affectedby: 'Afectada per',
+                persistdefaultvalue: 'Valor per defecte persistent',
+                defaultvalue: 'Valor per defecte',
+                detachedproperty: 'Propietat desconnectada'
             };
             caes.flxeditgrid = {
                 addrow: 'Afegeix fila',
@@ -260,8 +266,14 @@ var flexygo;
                 add: 'Afegir',
                 errornofilter: 'Afegeix un filtre nou primer.',
                 errornofields: 'Afegeix alguns camps primer.',
+                fieldnotappend: 'No s\'ha pogut afegir la següent propietat perquè ja existeix una amb el mateix nom:',
+                fieldsnotappend: 'No s\'han pogut afegir les següents propietats perquè ja existeix una amb el mateix nom:',
                 save: 'Desa',
                 delete: 'Esborrar',
+                hasfilterdependencies: 'Llança dependències',
+                hasfilterdependingproperties: 'Afectada per dependències',
+                throwto: 'Llança a',
+                affectedby: 'Afectada per'
             };
             caes.sortmanager = {
                 sort: 'Ordenar',
@@ -468,7 +480,8 @@ var flexygo;
                 deletenode: 'Eliminar el node',
                 deletenodequestion: 'Esteu segur que voleu eliminar aquest node?',
                 addfields: 'Afegir camps',
-                cloneDependencies: 'Clonar dependències dels objectes'
+                cloneDependencies: 'Clonar dependències dels objectes',
+                relationshipOfDependencies: 'Relació de dependències'
             };
             caes.objectmanager = {
                 selecticon: 'Seleccionar la icona',
@@ -596,6 +609,7 @@ var flexygo;
             };
             caes.templates = {
                 addnewtemplate: 'Afegeix una plantilla nova',
+                openiconlist: "Obrir llista d'icones",
             };
             caes.flxscheduler = {
                 objects: 'Objectes',
@@ -785,6 +799,7 @@ var flexygo;
                 option: 'Opció',
                 result: 'Resultat',
                 elseoption: 'Per defecte',
+                requiredobject: 'Primer heu de seleccionar un objecte',
             };
             caes.imports = {
                 template: 'Fitxer de plantilla',
@@ -800,6 +815,44 @@ var flexygo;
                 noCamera: 'No s\'ha trobat una càmera disponible',
                 IOSerr: 'Aquesta funcionalitat no està disponible a IOS',
                 noCode: 'No es pot trobar cap codi en aquesta imatge.'
+            };
+            caes.abhSign = {
+                save: 'Guardar',
+                title: 'Seleccioneu un document',
+                help: 'Ajuda Abh Sign',
+                lastPage: 'Última pàgina'
+            };
+            caes.maintenance = {
+                logoMini: 'Manteniment',
+                title: 'Tronem prompte!',
+                subtitle: 'Disculpeu les molesties. En aquest moment estem realitzant treball de mantenimient.',
+                time: 'Mode manteniment'
+            };
+            caes.flxWacom = {
+                titleError: 'Error en la Captura de la Signatura',
+                serviceNotDetected: 'Servei del SDK de Signatura no detectat',
+                sigDataError: `Error en l'obtenció de les dades de la signatura`,
+                additionalDataError: `Error en l'obtenció de les dades addicionals`,
+                renderBitmapError: 'Error en la creació del mapa de bits de la signatura',
+                extraDataError: `Error en l'afegiment de dades addicionals`,
+                sigCtrlCaptureError: 'Error en la captura de SigCtl',
+                sigCtrlConstructorError: 'Error en la construcció de SigCtl',
+                DynCaptureError: 'Error en la construcció de la captura dinàmica',
+                error100: "Dispositiu no connectat",
+                error101: "No s'ha pogut capturar",
+                error102: "Clau d'integritat no vàlida",
+                error200: "No s'ha pogut analitzar el contingut"
+            };
+            caes.mail = {
+                fileSize: "S'ha superat la mida del fitxer",
+                mailSize: "S'ha superat la mida del correu",
+                maxSize: "Mida màxima",
+            };
+            caes.databaseScript = {
+                infoGenerate: "Els fitxers es generaran directament sobre la carpeta predeterminada",
+                infoDownload: "Els fitxers es comprimiran en un zip i seran descarregats",
+                generate: "Generar fitxers",
+                download: "Descarregar fitxers"
             };
         })(caes = culture.caes || (culture.caes = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

@@ -152,13 +152,6 @@ var flexygo;
                     this.connected = true;
                 }
                 /**
-               * Array of observed attributes.
-               * @property observedAttributes {Array}
-               */
-                static get observedAttributes() {
-                    return ['type', 'property', 'required', 'disabled', 'requiredmessage', 'mask', 'style', 'class', 'decimalplaces', 'minvalue', 'maxvalue', 'maxvaluemessage', 'minvaluemessage', 'regexp', 'regexptext', 'validatormessage', 'placeholder', 'iconclass', 'helpid', 'allownewfunction', 'allownewobject', 'hide', 'tag', 'barcodereaders'];
-                }
-                /**
                 * Fires when the attribute value of the element is changed.
                 * @method attributeChangedCallback
                 */
@@ -376,6 +369,7 @@ var flexygo;
                                 width: { min: 640 }
                             },
                             type: 'ImageStream',
+                            //target: document.querySelector(`#barcode-${this.property}`)
                         },
                         lastResult: null,
                         locate: true,
@@ -607,7 +601,7 @@ var flexygo;
                                 sender: this,
                                 masterIdentity: this.property
                             };
-                            flexygo.events.trigger(ev);
+                            flexygo.events.trigger(ev, me);
                             if ($(this).find('input[type=text].error').length > 0) {
                                 $(this).find('> div').addClass('has-error');
                                 $(this).find('> div > label').addClass('has-error txt-danger');
@@ -672,6 +666,11 @@ var flexygo;
                     input.trigger('change');
                 }
             }
+            /**
+           * Array of observed attributes.
+           * @property observedAttributes {Array}
+           */
+            FlxBarcodeElement.observedAttributes = ['type', 'property', 'required', 'disabled', 'requiredmessage', 'mask', 'style', 'class', 'decimalplaces', 'minvalue', 'maxvalue', 'maxvaluemessage', 'minvaluemessage', 'regexp', 'regexptext', 'validatormessage', 'placeholder', 'iconclass', 'helpid', 'allownewfunction', 'allownewobject', 'hide', 'tag', 'barcodereaders'];
             wc.FlxBarcodeElement = FlxBarcodeElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

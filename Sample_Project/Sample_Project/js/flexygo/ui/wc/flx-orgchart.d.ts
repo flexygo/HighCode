@@ -80,7 +80,7 @@ declare namespace flexygo.ui.wc {
         * @param {string} str
         * @return {string}
         */
-        translate(str: string): string;
+        flxTranslate(str: string): string;
         /**
         * Start loading.
         * @method startLoading

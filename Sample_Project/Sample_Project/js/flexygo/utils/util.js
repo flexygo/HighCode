@@ -2,10 +2,11 @@
  * @namespace flexygo.utils
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -244,7 +245,7 @@ var flexygo;
                 flexygo.msg.success("Tactil Mode Activated");
             }
             flexygo.storage.local.save();
-            window.location.reload(true);
+            window.location.reload();
             $('flx-nav#mainMenu > ul > li[title="Tools"] > ul').slideToggle();
         }
         utils.toggleTactilMode = toggleTactilMode;
@@ -530,6 +531,7 @@ var flexygo;
             setTimeout(function () {
                 flexygo.ajax.post('~/api/Sys', 'IsConnectionAlive', null, (response) => {
                     if (response) {
+                        flexygo.utils.maintenance.set(response.maintenanceMode);
                         if ($('#LineDown').length > 0) {
                             $('#LineDown').remove();
                         }
@@ -987,6 +989,24 @@ var flexygo;
             return text;
         }
         utils.getErrorMessage = getErrorMessage;
+        function showDependencyError(elm, width) {
+            $('body').click();
+            let sentence = $(elm).find('.flx-sentence');
+            $('.sweet-modal-overlay').remove();
+            $.sweetModal({
+                width: width,
+                classes: ['flxdependency-modal-sentence'],
+                content: `<div class="row margin-top-m">
+                        <pre><b><i title="Copy" class="flx-icon icon-copy-file icon-lg clickable pull-right"></i></b><code>${sentence.html()}</code></pre>
+                    </div>`,
+                onOpen: function (sweetModal) {
+                    $(sweetModal).find("i").on('click', (ev) => {
+                        flexygo.utils.copyClipboard($(ev.target).closest('.row').find('code')[0].innerHTML);
+                    });
+                }
+            });
+        }
+        utils.showDependencyError = showDependencyError;
         /**
         * Generate random color based on a text seed.
         * @method randomColor
@@ -1011,6 +1031,52 @@ var flexygo;
             return this.colors[value];
         }
         utils.randomColor = randomColor;
+        function formatFileSize(size) {
+            const units = ["B", "KB", "MB", "GB", "TB"];
+            let currentSize = size;
+            let index = 0;
+            while (currentSize >= 1024 && index < units.length - 1) {
+                currentSize /= 1024;
+                index += 1;
+            }
+            return `${Number(currentSize.toFixed(2))} ${units[index]}`;
+        }
+        utils.formatFileSize = formatFileSize;
+        function totalFileWeight(itm) {
+            let files = $(itm[0]).find('flx-list .flxboxCard');
+            let totalFileSize = Array.from(files).reduce((sum, file) => {
+                let fileSize = Number(file.getAttribute('filesize'));
+                if (!flexygo.utils.isBlank(flexygo.utils.MaxSizeAttachment)) {
+                    let iconWarning = $(file).find('.icon-attention-2');
+                    let maxSizeAttachment = parseFloat(flexygo.utils.MaxSizeAttachment);
+                    if ((fileSize / (1024 * 1024)) > maxSizeAttachment) {
+                        $(iconWarning[0]).html(`<flx-tooltip mode="popover"><span>${flexygo.localization.translate('mail.fileSize')}.</span> <br><span><strong>${flexygo.localization.translate('mail.maxSize')}</strong>: ${flexygo.utils.MaxSizeAttachment}MB</span></flx-tooltip>`);
+                        $(iconWarning[0]).removeClass('hidden');
+                    }
+                }
+                return sum + fileSize;
+            }, 0);
+            let totalWeightElement = $($(itm[0]).find('#totalWeight')[0]);
+            let htmlContent = `Total: ${flexygo.utils.formatFileSize(totalFileSize)}`;
+            if (!flexygo.utils.isBlank(flexygo.utils.MaxSizeMail)) {
+                let MaxSizeMail = parseFloat(flexygo.utils.MaxSizeMail);
+                if ((totalFileSize / (1024 * 1024)) > MaxSizeMail) {
+                    htmlContent += `<i class="flx-icon icon-attention-2 clickable txt-warning" style="margin-left: 4px;"><flx-tooltip mode="popover"><span>${flexygo.localization.translate('mail.mailSize')}.</span> <br><span><strong>${flexygo.localization.translate('mail.maxSize')}</strong>: ${flexygo.utils.MaxSizeMail}MB</span></flx-tooltip></i>`;
+                }
+            }
+            totalWeightElement.html(htmlContent);
+        }
+        utils.totalFileWeight = totalFileWeight;
+        function formRelatedDep_Childs(ObjectName, PropertyName, e) {
+            if ($(e).closest('.parent_li').find('.tree_childs').length == 0) {
+                let template = flexygo.environment.getTemplate('sysObjectPropertyDependency', '', 'sys_form_related_dependencies', '', `Objects_Properties_Dependencies.ObjectName='${ObjectName}' AND Objects_Properties_Dependencies.PropertyName='${PropertyName}'`);
+                let tChilds = $(template).find('.tree_childs');
+                tChilds.css('display', 'none');
+                $(e).closest('.parent_li').append(tChilds);
+            }
+            $(e).closest('.parent_li').find('.tree_childs').slideToggle(250); //.toggleClass('hide');
+        }
+        utils.formRelatedDep_Childs = formRelatedDep_Childs;
         utils.colors = ['#EF9A9A',
             '#F48FB1',
             '#CE93D9',
@@ -1138,7 +1204,7 @@ var flexygo;
     $.fn.data = function (key, value) {
         var getController = false;
         if (key && key === "controller") {
-            if (arguments && arguments.length && arguments.length === 1) {
+            if (arguments && arguments.length && arguments.length === 1) { //
                 getController = true;
             }
         }
@@ -1207,11 +1273,15 @@ jQuery.fn.print = function (title) {
     // Create an iFrame with the new name.
     var jFrame = $("<iframe name='" + strFrameName + "'>");
     jFrame
+        //.css("width", width + "px")
+        //1000 so grid wont be displayed as lists
         .css("width", "1000px")
         .css("z-index", "100")
         .css("height", "800px")
         .css("position", "absolute")
         .css("left", "-9999px")
+        // .css("top", "0px")
+        // .css("left", "0px")
         .appendTo($("body:first"));
     // Get a FRAMES reference to the new frame.
     var objFrame = window.frames[strFrameName];
@@ -1576,6 +1646,89 @@ $(function () {
             }
             offline.isEmptyAttribute = isEmptyAttribute;
         })(offline = utils.offline || (utils.offline = {}));
+    })(utils = flexygo.utils || (flexygo.utils = {}));
+})(flexygo || (flexygo = {}));
+(function (flexygo) {
+    var utils;
+    (function (utils) {
+        var maintenance;
+        (function (maintenance) {
+            function isActive() {
+                if (flexygo.utils.maintenanceMode) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            maintenance.isActive = isActive;
+            function set(maintenanceDate) {
+                flexygo.utils.maintenanceMode = (maintenanceDate ? maintenanceDate : null);
+                check();
+            }
+            maintenance.set = set;
+            function check() {
+                if (isActive()) {
+                    if ((moment.utc(flexygo.utils.maintenanceMode).local() < moment())) {
+                        enable();
+                    }
+                    else {
+                        setAdvice();
+                        setTimeout(() => { check(); }, 10000);
+                    }
+                }
+                else {
+                    disable();
+                }
+            }
+            maintenance.check = check;
+            function enable() {
+                if ($('#maintenanceAdvice').length > 0) {
+                    $('#maintenanceAdvice').remove();
+                }
+                if ($('#maintenanceMode').length === 0) {
+                    if (flexygo.profiles.username.toLocaleLowerCase() == 'admin') {
+                        $('body > header #mainLogo').prepend(`<div id="maintenanceMode" onclick="event.stopPropagation();event.preventDefault();flexygo.nav.execProcess('DisableMaintenanceMode','','',null,null,'modal600x600',false,$(this),false);" class="fullbackground" style="font-size:1em;height:100%">
+                                <div>
+                                        <i class="flx-icon icon-settings icon-spin"></i><b>${flexygo.localization.translate('maintenance.logoMini')}</b>
+                                        
+                                </div>
+                            </div>`);
+                    }
+                    else {
+                        $('body').append(`<div id="maintenanceMode" class="fullscreen fullbackground">
+                                <div>
+                                        <i style="animation-duration:6s" class="flx-icon icon-settings icon-spin icon-5x"></i>
+                                        <div><b>${flexygo.localization.translate('maintenance.title')}</b></div>
+                                    <h1>${flexygo.localization.translate('maintenance.subtitle')}</h1>
+                                </div>
+                            </div>`);
+                    }
+                }
+            }
+            maintenance.enable = enable;
+            function disable() {
+                if ($('#maintenanceMode').length > 0) {
+                    $('#maintenanceMode').remove();
+                }
+                if ($('#maintenanceAdvice').length > 0) {
+                    $('#maintenanceAdvice').remove();
+                }
+            }
+            maintenance.disable = disable;
+            function setAdvice() {
+                if ($('#maintenanceMode').length > 0) {
+                    $('#maintenanceMode').remove();
+                }
+                if ($('#mainMenu > ul > li#maintenanceAdvice').length === 0) {
+                    $('#mainMenu > ul').prepend(`<li id="maintenanceAdvice" title="${flexygo.localization.translate('maintenance.time')} ${moment.utc(flexygo.utils.maintenanceMode).local().locale(flexygo.profiles.culture).fromNow()}" class="right noText blink">
+                <span><span><i class="fa fa-info-circle txt-danger"></i></span></span>
+            </li>`);
+                }
+                $('#maintenanceAdvice').attr('title', flexygo.localization.translate('maintenance.time') + ' ' + moment.utc(flexygo.utils.maintenanceMode).local().locale(flexygo.profiles.culture).fromNow());
+            }
+            maintenance.setAdvice = setAdvice;
+        })(maintenance = utils.maintenance || (utils.maintenance = {}));
     })(utils = flexygo.utils || (flexygo.utils = {}));
 })(flexygo || (flexygo = {}));
 //# sourceMappingURL=util.js.map

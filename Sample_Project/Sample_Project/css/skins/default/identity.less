@@ -109,8 +109,8 @@ overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width:100%;
 }
 
 .bg-module {
-    background-color: dbColor(ModuleHeaderColor);
-    color: dbColor(txtModuleHeaderColor);
+    background-color: dbColor(ModuleHeaderColor) !important;
+    color: dbColor(txtModuleHeaderColor) !important;
     padding: .5em;
 }
 
@@ -119,8 +119,8 @@ overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width:100%;
 }
 
 .bg-outstanding {
-    background-color: dbColor(OutstandingColor);
-    color: dbColor(txtOutstandingColor);
+    background-color: dbColor(OutstandingColor) !important;
+    color: dbColor(txtOutstandingColor) !important;
     padding: .5em;
 }
 
@@ -171,8 +171,8 @@ button.bg-outstanding {
 }
 
 .bg-primary {
-    background-color: dbColor(PrimaryColor);
-    color: dbColor(txtPrimaryColor);
+    background-color: dbColor(PrimaryColor) !important;
+    color: dbColor(txtPrimaryColor) !important;
     padding: .5em;
 }
 
@@ -222,8 +222,8 @@ button.bg-primary {
 }
 
 .bg-success {
-    background-color: dbColor(SuccessColor);
-    color: dbColor(txtSuccessColor);
+    background-color: dbColor(SuccessColor) !important;
+    color: dbColor(txtSuccessColor) !important;
     padding: .5em;
 }
 
@@ -273,8 +273,8 @@ button.bg-success {
 }
 
 .bg-info {
-    background-color: dbColor(InfoColor);
-    color: dbColor(txtInfoColor);
+    background-color: dbColor(InfoColor) !important;
+    color: dbColor(txtInfoColor) !important;
     padding: .5em;
 }
 
@@ -325,8 +325,8 @@ button.bg-info {
 }
 
 .bg-warning {
-    background-color: dbColor(WarningColor);
-    color: dbColor(txtWarningColor);
+    background-color: dbColor(WarningColor) !important;
+    color: dbColor(txtWarningColor) !important;
     padding: .5em;
 }
 
@@ -376,8 +376,8 @@ button.bg-warning {
 }
 
 .bg-danger {
-    background-color: dbColor(DangerColor);
-    color: dbColor(txtDangerColor);
+    background-color: dbColor(DangerColor) !important;
+    color: dbColor(txtDangerColor) !important;
     padding: .5em;
 }
 
@@ -427,8 +427,8 @@ button.bg-danger {
 }
 
 .bg-tools {
-    background-color: dbColor(ToolsColor);
-    color: dbColor(txtToolsColor);
+    background-color: dbColor(ToolsColor) !important;
+    color: dbColor(txtToolsColor) !important;
     padding: .5em;
 }
 
@@ -478,8 +478,8 @@ button.bg-tools {
 }
 
 .bg-notify {
-    background-color: dbColor(NotifyColor);
-    color: dbColor(txtNotifyColor);
+    background-color: dbColor(NotifyColor) !important;
+    color: dbColor(txtNotifyColor) !important;
     padding: .5em;
 }
 
@@ -529,8 +529,8 @@ button.bg-notify {
 }
 
 .bg-white {
-    background-color: white;
-    color: dbColor(PrimaryColor);
+    background-color: white !important;
+    color: dbColor(PrimaryColor) !important;
     padding: .5em;
 }
 
@@ -1786,4 +1786,14 @@ html.tactilMode li.flx-tactilModeIcon {
 
 .flx-striped > :nth-child(odd) {
     background-color: fade(dbColor(PrimaryColor),6%);
+}
+
+div.flx-slide [pagename="db6ce0fb-2f28-4056-b14e-e9aed2769f97"] flx-module{
+    width: unset;
+}
+
+div.flx-slide [pagename="syspage-list-icons-simplified"] flx-module[modulename="sysmod-search-icons"] {
+    position: sticky;
+    top: 0;
+    z-index: 9;
 }

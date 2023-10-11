@@ -9,6 +9,7 @@ var flexygo;
         (function (frfr) {
             frfr.process = {
                 executing: 'Exécution du processus...',
+                loadingdata: 'Chargement des données...'
             };
             frfr.dependecymanager = {
                 sort: 'Trier',
@@ -21,6 +22,7 @@ var flexygo;
                 CustomProperty: 'Propriété personnalisée',
                 save: 'Sauvegarder',
                 addmore: 'Ajouter d’autres propriétés en attente',
+                addmorefilter: 'Ajouter d\'autres filtres en attente',
                 sqlvalue: 'SQL Valeur',
                 sqlclass: 'SQL Classe',
                 sqlcombofilter: 'Filtre SQL pour déroulant',
@@ -100,6 +102,7 @@ var flexygo;
                 appendwarning: 'Sélectionnez un type et un nom de champ.',
                 createfields: 'Ajouter des champs',
                 enterfieldname: ' Nom du champ',
+                reserveword: 'est un mot réservé',
                 selecttype: 'Sélectionner le type de données',
                 seedependencies: 'Afficher dépendances',
                 templates: 'Modèles',
@@ -132,7 +135,10 @@ var flexygo;
                 hasdependingproperties: 'Affecté par les dépendances',
                 withchangeprocess: 'Avec processus de changement',
                 throwto: 'Jeter à',
-                affectedby: 'Affecté par'
+                affectedby: 'Affecté par',
+                persistdefaultvalue: 'Par défaut persistant',
+                defaultvalue: 'Valeur par défaut',
+                detachedproperty: 'Propriété déconnectée'
             };
             frfr.flxeditgrid = {
                 addrow: 'Ajouter ligne',
@@ -262,8 +268,14 @@ var flexygo;
                 add: 'Ajouter',
                 errornofilter: 'Veuillez d’abord ajouter un nouveau filtre.',
                 errornofields: 'Veuillez ajouter au moins un champ de filtre.',
+                fieldnotappend: 'La propriété suivante n\'a pas pu être ajoutée car une autre avec le même nom existe déjà:',
+                fieldsnotappend: 'Les propriétés suivantes n\'ont pas pu être ajoutées car une autre avec le même nom existe déjà:',
                 save: 'Sauvegarder',
                 delete: 'Supprimer',
+                hasfilterdependencies: 'Lance des dépendances',
+                hasfilterdependingproperties: 'Affecté par les dépendances',
+                throwto: 'Jeter à',
+                affectedby: 'Affecté par'
             };
             frfr.sortmanager = {
                 sort: 'Ordre',
@@ -470,7 +482,8 @@ var flexygo;
                 deletenode: 'Supprimer nœud',
                 deletenodequestion: 'Êtes-vous sûr de vouloir supprimer ce nœud?',
                 addfields: 'Ajouter champs',
-                cloneDependencies: 'Cloner les dépendances d\'objet'
+                cloneDependencies: 'Cloner les dépendances d\'objet',
+                relationshipOfDependencies: 'Relation de dépendances'
             };
             frfr.objectmanager = {
                 selecticon: 'Sélectionnez une icône ',
@@ -598,6 +611,7 @@ var flexygo;
             };
             frfr.templates = {
                 addnewtemplate: 'Ajouter modèle',
+                openiconlist: 'Ouvrir la liste des icônes',
             };
             frfr.flxscheduler = {
                 objects: 'Objets',
@@ -787,6 +801,7 @@ var flexygo;
                 option: 'Option',
                 result: 'Resultat',
                 elseoption: "Option par défaut",
+                requiredobject: 'Vous devez d\'abord sélectionner un objet',
             };
             frfr.imports = {
                 template: 'Fichier modèle',
@@ -802,6 +817,44 @@ var flexygo;
                 noCamera: 'Aucune caméra disponible trouvée',
                 IOSerr: 'Cette fonctionnalité n\'est pas disponible sur IOS',
                 noCode: 'Aucun code ne peut être trouvé dans cette image.'
+            };
+            frfr.abhSign = {
+                save: 'Enregistrer',
+                title: 'Sélectionnez un document',
+                help: 'Aide Abh Sign',
+                lastPage: 'Dernière page'
+            };
+            frfr.maintenance = {
+                logoMini: 'Maintenance',
+                title: 'Nous serons bientôt de retour !',
+                subtitle: 'Désolé pour la gêne occasionnée. Nous effectuons actuellement des travaux de maintenance.',
+                time: 'Mode maintenance'
+            };
+            frfr.flxWacom = {
+                titleError: 'Erreur de capture de signature',
+                serviceNotDetected: 'Service Signature SDK non détecté',
+                sigDataError: 'Erreur lors de la récupération des données de signature',
+                additionalDataError: 'Erreur lors de la récupération des données supplémentaires',
+                renderBitmapError: 'Erreur de rendu de la signature en bitmap',
+                extraDataError: `Erreur lors de l'ajout de données supplémentaires à la signature`,
+                sigCtrlCaptureError: 'Erreur de capture SigCtl',
+                sigCtrlConstructorError: 'Erreur de construction de SigCtl',
+                DynCaptureError: 'Erreur de construction de capture dynamique',
+                error100: "Appareil non connecté",
+                error101: "Impossible de capturer",
+                error102: "Clé d'intégrité invalide",
+                error200: "Impossible d'analyser le contenu"
+            };
+            frfr.mail = {
+                fileSize: "Taille de fichier dépassée",
+                mailSize: "Taille du courrier dépassée",
+                maxSize: "Taille maximum",
+            };
+            frfr.databaseScript = {
+                infoGenerate: "Les fichiers seront générés directement sur le dossier par défaut",
+                infoDownload: "Les fichiers seront compressés dans un zip et téléchargés",
+                generate: "Générer des fichiers",
+                download: "Telecharger des fichiers"
             };
         })(frfr = culture.frfr || (culture.frfr = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

@@ -178,3 +178,26 @@ flx-editgrid td > b {
         border-radius: 5px;
     }
 }
+
+
+//Grid column separator
+
+flx-module.grid-column-separator flx-list[mode="edit"] {
+    tr th, tr td {
+        border-right: dotted 1px #c9d0d5;
+
+        body[mode="dark"] & {
+            border-right: dotted 1px #666868;
+        }
+    }
+
+    tr:nth-child(odd):not(.rowHeader).rowInsert.form {
+        td {
+            border-right: dotted 1px fade(white, 50);
+
+            body[mode="dark"] & {
+                border-right: dotted 1px #2b2b2b;
+            }
+        }
+    }
+}

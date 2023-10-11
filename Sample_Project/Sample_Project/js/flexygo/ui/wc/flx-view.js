@@ -50,13 +50,6 @@ var flexygo;
                     }
                 }
                 /**
-                * Array of observed attributes.
-                * @property observedAttributes {Array}
-                */
-                static get observedAttributes() {
-                    return ['modulename'];
-                }
-                /**
                * Fires when the attribute value of the element is changed.
                * @method attributeChangedCallback
                */
@@ -477,7 +470,7 @@ var flexygo;
                     }
                     return flexygo.utils.parser.compile(obj, str, this);
                 }
-                translate(str) {
+                flxTranslate(str) {
                     return flexygo.localization.translate(str);
                 }
                 getModuleFullId() {
@@ -491,6 +484,11 @@ var flexygo;
                     return page.pagename + '|' + page.objectname + '|' + this.moduleName;
                 }
             }
+            /**
+            * Array of observed attributes.
+            * @property observedAttributes {Array}
+            */
+            FlxViewElement.observedAttributes = ['modulename'];
             wc_1.FlxViewElement = FlxViewElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

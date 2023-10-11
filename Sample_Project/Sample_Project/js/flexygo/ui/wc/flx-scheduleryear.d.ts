@@ -45,7 +45,7 @@ declare namespace flexygo.ui.wc {
         drawEvents(day: any): void;
         getObjectWhere(table: string, key: string[], id: string[]): string;
         formatDate(date: Date, month: string, day: string, year: number): string;
-        translate(str: string): string;
+        flxTranslate(str: string): string;
         startLoading(): void;
         stopLoading(): void;
     }

@@ -72,7 +72,7 @@ declare namespace flexygo.ui.wc {
         showSubmenu(ev: any, btns: any, parentId: any, objectname: any, objectwhere: any, defString: any, reportname: any, reportwhere: any, processname: any, trueElement?: any): void;
         getTemplateToolbar(buttons: flexygo.api.Toolbar, objectname: string, objectwhere: string, reportname?: string, processname?: string, reportwhere?: string): object;
         refreshButtons(buttons: flexygo.api.Toolbar, objectname: string, objectwhere: string, reportname?: string, processname?: string): void;
-        private addGroup(position, btnGroup);
+        private addGroup;
         refreshButton(htmlBtn: JQuery, btn: flexygo.api.ToolbarButton, objectname: string, objectwhere: string, objectdefaults: string, reportname?: string, reportwhere?: string, processname?: string): void;
         getButton(btn: flexygo.api.ToolbarButton, objectname: string, objectwhere: string, objectdefaults: string, reportname?: string, reportwhere?: string, processname?: string, notABtn?: boolean): JQuery;
         changeTemplate(): void;

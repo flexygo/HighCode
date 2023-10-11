@@ -184,6 +184,10 @@ flx-nav[mode=box] .box a.expand, .cardbox .box a.expand {
     left: 0;
     right: 0;
     bottom: 10px;
+
+    span.minus {
+        color: white;
+    }
 }
 
 flx-nav[mode=box] .box a.expand span.minus, .cardbox .box a.expand span.minus {
@@ -758,35 +762,35 @@ flx-nav[mode=nav] ul li span.active:not(.item-opened):not(.item-closed):after {
     }
 
     @media (min-width: dbSize(large)) {
-        flx-nav[mode=nav] .noText > span > span {
+        flx-nav[mode=nav] .noText > span > span.navTextSpan {
             display: none;
         }
     }
 
 @media (max-width: dbSize(large)) {
-    flx-nav[mode=menu] .mNoText > span > span {
+    flx-nav[mode=menu] .mNoText > span > span.navTextSpan {
         display: none;
     }
 
-    flx-nav[mode=panel] .mNoText > span > span {
+    flx-nav[mode=panel] .mNoText > span > span.navTextSpan {
         display: none;
     }
 
-    flx-nav[mode=box] .mNoText > span > span {
+    flx-nav[mode=box] .mNoText > span > span.navTextSpan {
         display: none;
     }
 }
 
 @media (max-width: dbSize(medium)) {
-    flx-nav[mode=menu] .sNoText > span > span {
+    flx-nav[mode=menu] .sNoText > span > span.navTextSpan {
         display: none;
     }
 
-    flx-nav[mode=panel] .sNoText > span > span {
+    flx-nav[mode=panel] .sNoText > span > span.navTextSpan {
         display: none;
     }
 
-    flx-nav[mode=box] .sNoText > span > span {
+    flx-nav[mode=box] .sNoText > span > span.navTextSpan {
         display: none;
     }
 }

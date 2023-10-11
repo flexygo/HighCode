@@ -10,6 +10,7 @@ declare namespace flexygo.ui.wc {
         order: number;
         parentmenuid: string;
         title: string;
+        childMenus: NavigationMenu[];
         strtype: string;
     }
     class HierarchicalMenu {

@@ -177,7 +177,7 @@ declare namespace flexygo.ui.wc {
        * @param {string} str
        * @return {string}
        */
-        translate(str: string): string;
+        flxTranslate(str: string): string;
         /**
       * Refreshes a property
       * @method refreshProperty

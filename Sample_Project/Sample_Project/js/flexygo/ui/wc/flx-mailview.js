@@ -47,13 +47,6 @@ var flexygo;
   </div>`;
                 }
                 /**
-                * Array of observed attributes. REQUIRED
-                * @property observedAttributes {Array}
-                */
-                static get observedAttributes() {
-                    return ['mode', 'mailid', 'objectName', 'objectId'];
-                }
-                /**
                 * Init the webcomponent. REQUIRED.
                 * @method init
                 */
@@ -280,6 +273,11 @@ var flexygo;
                     }
                 }
             }
+            /**
+            * Array of observed attributes. REQUIRED
+            * @property observedAttributes {Array}
+            */
+            FlxMailView.observedAttributes = ['mode', 'mailid', 'objectName', 'objectId'];
             wc.FlxMailView = FlxMailView;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

@@ -52,8 +52,20 @@ declare namespace flexygo.ui.wc {
       * @method renderFilter
       */
         renderFilter(active: string, filterValues?: FlxFilterInfo[]): void;
-        private saveActiveFilter(active);
-        private setProperties(props);
+        private saveActiveFilter;
+        private setProperties;
+        onPropertyChanged(e: flexygo.events.FlexygoEvent): void;
+        /**
+       * Paint a Loading animation in active filter.
+       * @method paintLoadingFilter
+       */
+        paintLoadingFilter(e: flexygo.events.FlexygoEvent): void;
+        /**
+      * Remove the Loading animation of the active filter.
+      * @method removeLoadingFilter
+      */
+        removeLoadingFilter(e: flexygo.events.FlexygoEvent): void;
+        refreshProperty(itm: flexygo.api.edit.FilterDependencyAction, prop: JQuery): void;
         /**
        * Pushes filter values into filter object.
        * @method getfilterValues
@@ -94,12 +106,12 @@ declare namespace flexygo.ui.wc {
        * @param {string} active - active
        * @param { FlxFilterInfo[]} filtes - filter info
        */
-        private saveFilterValueHistory(active, filters);
+        private saveFilterValueHistory;
         /**
      * Clears filter values.
      * @method clearFilters
      * @param {boolean} norefresh - disable automatic refreshing
      */
-        clearFilters(norefresh?: boolean): void;
+        clearFilters(norefresh?: boolean, triggerEv?: boolean): void;
     }
 }

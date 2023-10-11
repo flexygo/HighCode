@@ -1,7 +1,6 @@
 import { r as registerInstance, j as h } from './index-86ac49ff.js';
 import './ionic-global-0f98fe97.js';
-import './webapi-79a1d3db.js';
-import { i as flxSync, C as ConftokenProvider, s as sql, u as util, m as msg, n as nav } from './conftoken-950775a1.js';
+import { i as flxSync, C as ConftokenProvider, s as sql, u as util, m as msg, n as nav } from './conftoken-38d23b50.js';
 import { j as jquery } from './jquery-5df58adb.js';
 import './utils-16079bfd.js';
 import './helpers-719f4c54.js';

@@ -31,13 +31,6 @@ var flexygo;
                     this.currentDirPath = "/";
                 }
                 /**
-                * Array of observed attributes. REQUIRED
-                * @property observedAttributes {Array}
-                */
-                static get observedAttributes() {
-                    return ['ObjectName', 'ObjectWhere', 'ModuleName', 'asd'];
-                }
-                /**
                 * Init the webcomponent. REQUIRED.
                 * @method init
                 */
@@ -70,26 +63,26 @@ var flexygo;
                         <div class="row padding-top-0">
                             <div class="col-1 col-l-1 col-m-1">
                                 <button type="button" class="btn _clickable btn-default bg-outstanding fb-up">
-                                    <i class="fa fa-level-up" flx-fw=""></i><span class="hidden-xs"> ${this.translate("goback")}</span>
+                                    <i class="fa fa-level-up" flx-fw=""></i><span class="hidden-xs"> ${this.flxTranslate("goback")}</span>
                                 </button>
                             </div>
                             <div class="col-11 col-l-11 col-m-11 text-center">
 
                                 <button type="button" class="btn btn-default bg-outstanding fb-upload">
-                                    <i class="flx-icon icon-upload" flx-fw=""></i><span class="hidden-xs"> ${this.translate("uploadfiles")} </span>
+                                    <i class="flx-icon icon-upload" flx-fw=""></i><span class="hidden-xs"> ${this.flxTranslate("uploadfiles")} </span>
                                 </button>
                             <input class="fb-input-upload hide" method="upload" value="disk" type="file" multiple>
                                 <button type="button" method="opendialog" value="upload" class="btn btn-default bg-outstanding fb-add">
-                                    <i class="flx-icon icon-folder-add"></i><span class="hidden-xs"> ${this.translate("addfolder")}
+                                    <i class="flx-icon icon-folder-add"></i><span class="hidden-xs"> ${this.flxTranslate("addfolder")}
                                     </span>
                                 </button>
                                 <button type="button" class="btn btn-default bg-outstanding fb-download" disabled>
-                                    <i class="flx-icon icon-download"></i><span class="hidden-xs"> ${this.translate("download")}
+                                    <i class="flx-icon icon-download"></i><span class="hidden-xs"> ${this.flxTranslate("download")}
                                     </span>
                                 </button>
                                 
                                 <button type="button" class="btn btn-default bg-outstanding fb-delete" disabled>
-                                    <i class="flx-icon icon-delete-2"></i><span class="hidden-xs"> ${this.translate("delete")}
+                                    <i class="flx-icon icon-delete-2"></i><span class="hidden-xs"> ${this.flxTranslate("delete")}
                                     </span>
                                 </button>
                                 
@@ -99,7 +92,7 @@ var flexygo;
 
                         <div class="row fb-path-info" >
                             <div class="col-12 col-l-12 col-m-12 text-center">
-                                <span> ${this.translate('currentfolder')}: ${this.currentDirPath} </span>
+                                <span> ${this.flxTranslate('currentfolder')}: ${this.currentDirPath} </span>
 
                             </div>
                         </div>
@@ -111,7 +104,7 @@ var flexygo;
                  * @returns {string} The footer html
                  */
                 renderFooter() {
-                    let itemsSelectedTranslation = this.translate('itemsselected');
+                    let itemsSelectedTranslation = this.flxTranslate('itemsselected');
                     return `<div class="fb-footer"><span class="fb-info-selected">0 ${itemsSelectedTranslation}</span></div>`;
                 }
                 /**
@@ -138,19 +131,19 @@ var flexygo;
                     flexygo.ajax.post('~/api/FileBrowser', 'getData', params, (response) => {
                         if (response) {
                             rendered += this.renderHeader();
-                            if (response.length == 0) {
+                            if (response.length == 0) { // If there is nothing in current path
                                 rendered += `<div class="dir-entry dir-empty">
                                             <div class="dir-icon">
                                                 <i class="transition-all dir flx-icon icon-folder icon-5x"></i>
                                             </div>
-                                            <div class="dir-name">${this.translate('emptyfolder')}</div>
+                                            <div class="dir-name">${this.flxTranslate('emptyfolder')}</div>
                                         </div>`;
                             }
-                            else {
+                            else { // If there are entries in current path
                                 response
                                     .sort((a, b) => a.Type - b.Type)
                                     .forEach(value => {
-                                    if (value.Type == 0) {
+                                    if (value.Type == 0) { // If is dir
                                         let dirpath = this.currentDirPath + value.Name;
                                         rendered += `
                                         <div class="dir-entry animated fadeIn">
@@ -163,9 +156,9 @@ var flexygo;
                                             <div class="fb-check"></div>
                                         </div>`;
                                     }
-                                    else {
+                                    else { // If is file
                                         let filepath = this.currentDirPath + value.Name;
-                                        if (this.isImage(value.Name)) {
+                                        if (this.isImage(value.Name)) { // If is a known img format
                                             rendered += `
                                             <div class="dir-entry animated fadeIn">
                                                 <div class="dir-img shadow clickable transition-all image"><img data-path="${filepath}"
@@ -174,7 +167,7 @@ var flexygo;
                                                 <div class="fb-check"></div>
                                             </div>`;
                                         }
-                                        else {
+                                        else { // If we don't know format or is flx-download.zip
                                             rendered += `
                                     <div class="dir-entry animated fadeIn ${value.Name == 'flx-download.zip' ? 'hidden' : ''}">
                                         <div class="dir-icon"><a href="${value.Url.split("/").splice(1).join("/")}"><i data-path="${filepath}" class="clickable file transition-all ${flexygo.utils.getFileIcon(value.Name.split(".").pop())} icon-4x"></i></a>
@@ -194,7 +187,7 @@ var flexygo;
                         }
                     });
                 }
-                translate(str) {
+                flxTranslate(str) {
                     return flexygo.localization.translate(`flxfilebrowser.${str}`);
                 }
                 startFileUpload(files) {
@@ -221,8 +214,8 @@ var flexygo;
                     // If we found existing files
                     if (found.length > 0) {
                         let msg = `
-                        <div>${this.translate('existingfiles')}</div>
-                        <div>${this.translate('overwritefiles')}</div>`;
+                        <div>${this.flxTranslate('existingfiles')}</div>
+                        <div>${this.flxTranslate('overwritefiles')}</div>`;
                         flexygo.msg.confirm(msg, shouldProceed => {
                             if (shouldProceed) {
                                 this.disableEvents();
@@ -292,8 +285,8 @@ var flexygo;
                     });
                     // On dir entry delete
                     $(".fb-delete", me).on("click", e => {
-                        let msg = `<div>${this.translate('saving')} (${this.selectedEntries.length}) ${this.translate('items')}</div>
-                           <div>${this.translate('sure')}</div>`;
+                        let msg = `<div>${this.flxTranslate('saving')} (${this.selectedEntries.length}) ${this.flxTranslate('items')}</div>
+                           <div>${this.flxTranslate('sure')}</div>`;
                         flexygo.msg.confirm(msg, shouldDelete => {
                             if (shouldDelete) {
                                 this.getData(this.currentDirPath, "remove");
@@ -305,7 +298,7 @@ var flexygo;
                         this.disableEvents();
                         let downloadButton = $(".fb-download", me);
                         downloadButton.fadeOut("fast", e => {
-                            downloadButton.html(`<i class='dir flx-icon icon-sincronize icon-spin'></i><span class='hidden-xs'> ${this.translate("processingdownload")}</span>`);
+                            downloadButton.html(`<i class='dir flx-icon icon-sincronize icon-spin'></i><span class='hidden-xs'> ${this.flxTranslate("processingdownload")}</span>`);
                             downloadButton.fadeIn("slow");
                         });
                         this.getData(this.currentDirPath, "download");
@@ -338,7 +331,7 @@ var flexygo;
                             let path = $("[data-path]", parent).data("path");
                             return path;
                         }));
-                        let itemsSelectedTranslation = this.translate('itemsselected');
+                        let itemsSelectedTranslation = this.flxTranslate('itemsselected');
                         $(".fb-info-selected", me).html(`${this.selectedEntries.length} ${itemsSelectedTranslation}`);
                         if (this.selectedEntries.length > 0) {
                             $(".fb-delete", me).prop("disabled", false);
@@ -422,6 +415,11 @@ var flexygo;
                     }
                 }
             }
+            /**
+            * Array of observed attributes. REQUIRED
+            * @property observedAttributes {Array}
+            */
+            FlxFileBrowserElement.observedAttributes = ['ObjectName', 'ObjectWhere', 'ModuleName', 'asd'];
             wc.FlxFileBrowserElement = FlxFileBrowserElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

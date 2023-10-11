@@ -56,19 +56,17 @@ var flexygo;
                     this.src = canvas.toDataURL();
                 }
                 /**
-                * Array of observed attributes.
-                * @property observedAttributes {Array}
-                */
-                static get observedAttributes() {
-                    return [];
-                }
-                /**
                 * Fires when the attribute value of the element is changed.
                 * @method attributeChangedCallback
                 */
                 attributeChangedCallback(attrName, oldVal, newVal) {
                 }
             }
+            /**
+            * Array of observed attributes.
+            * @property observedAttributes {Array}
+            */
+            FlxImgElement.observedAttributes = [];
             wc.FlxImgElement = FlxImgElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

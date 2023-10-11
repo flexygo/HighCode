@@ -335,13 +335,6 @@ var flexygo;
                     }
                 }
                 /**
-               * Array of observed attributes.
-               * @property observedAttributes {Array}
-               */
-                static get observedAttributes() {
-                    return ['type', 'property', 'objectname', 'viewname', 'sqlvaluefield', 'sqldisplayfield', 'required', 'disabled', 'requiredmessage', 'style', 'class', 'placeholder', 'iconclass', 'template', 'helpid', 'hide', 'additionalwhere', 'sqlfilter', 'pagesize', 'validatormessage', 'cnnstring'];
-                }
-                /**
                * Fires when the attribute value of the element is changed.
                * @method attributeChangedCallback
                */
@@ -808,7 +801,7 @@ var flexygo;
                 }
                 showOptions() {
                     let me = $(this);
-                    if (!this.open && !this.input.prop('readonly')) {
+                    if (!this.open && !this.input.prop('readonly')) { //!this.datalist.is(':visible')
                         if (!this.mobileInput) {
                             let winHeight;
                             let dialogTop;
@@ -1308,7 +1301,7 @@ var flexygo;
                                 sender: this,
                                 masterIdentity: this.property
                             };
-                            flexygo.events.trigger(ev);
+                            flexygo.events.trigger(ev, me);
                         });
                     }
                     if (this.options && this.options.Hide) {
@@ -1376,6 +1369,9 @@ var flexygo;
                 setValueView(value) {
                     this.value = value;
                     $(this).find('label').text(value);
+                    if (value !== null) {
+                        $(this).find('label').attr('title', value);
+                    }
                 }
                 getValue() {
                     let me = $(this);
@@ -1409,6 +1405,11 @@ var flexygo;
                     return $(this);
                 }
             }
+            /**
+           * Array of observed attributes.
+           * @property observedAttributes {Array}
+           */
+            FlxDbComboElement.observedAttributes = ['type', 'property', 'objectname', 'viewname', 'sqlvaluefield', 'sqldisplayfield', 'required', 'disabled', 'requiredmessage', 'style', 'class', 'placeholder', 'iconclass', 'template', 'helpid', 'hide', 'additionalwhere', 'sqlfilter', 'pagesize', 'validatormessage', 'cnnstring'];
             wc.FlxDbComboElement = FlxDbComboElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

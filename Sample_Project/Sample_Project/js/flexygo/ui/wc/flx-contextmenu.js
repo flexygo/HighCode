@@ -125,7 +125,7 @@ var flexygo;
                     if (!parent.is(this.parent)) {
                         this.destroy();
                         this.createMenu(parent);
-                        this.createObjectMenu(proc);
+                        this.createObjectMenu(proc, parent);
                         this.show(coord);
                     }
                     this.processing = false;
@@ -139,7 +139,7 @@ var flexygo;
                         this.createSubMenu(ul, parent);
                     });
                 }
-                createObjectMenu(proc) {
+                createObjectMenu(proc, btn) {
                     let menuUl = $('<ul/>');
                     this.menu.html(menuUl);
                     var myObj = $(document).find('flx-nav')[0];
@@ -167,6 +167,45 @@ var flexygo;
                     if (menuUl.children().length == 0) {
                         menuUl.append('<li><span>' + flexygo.localization.translate('navigation.noelements') + '</span></li>');
                     }
+                    if (btn.attr('data-type') === 'objectmenu') {
+                        let module = btn.closest('flx-module')[0];
+                        let btnId = btn.attr('buttonId');
+                        let objectname = btn.attr("objectname");
+                        let objectwhere = btn.attr("objectwhere");
+                        let defString = btn.attr("defString");
+                        let reportname = btn.attr("reportname");
+                        let reportwhere = btn.attr("reportwhere");
+                        let processname = btn.attr("processname");
+                        menuUl = this.addChildButtons(menuUl, module, btnId, objectname, objectwhere, defString, reportname, reportwhere, processname);
+                    }
+                    return menuUl;
+                }
+                addChildButtons(menuUl, module, parentId, objectname, objectwhere, defString, reportname, reportwhere, processname) {
+                    if (!module.ctxMenusValues[parentId])
+                        return;
+                    let menuLi, button;
+                    module.ctxMenusValues[parentId].forEach(btn => {
+                        menuLi = $('<li/>');
+                        button = module.getButton(btn, objectname, objectwhere, defString, reportname, reportwhere, processname, true);
+                        button.attr('parentId', parentId);
+                        menuUl.append(menuLi.append(button));
+                        let subMenuBtns = module.ctxMenusValues[btn.ButtonId];
+                        if (subMenuBtns && subMenuBtns.length > 0) {
+                            menuLi.find('> span').append('<span gotSubmenus/>');
+                            let rightArrow = menuLi.find('span[gotSubmenus]');
+                            if (btn.TypeId === 'Text') {
+                                menuLi.click(ev => {
+                                    module.showSubmenu(ev, subMenuBtns, btn.ButtonId, objectname, objectwhere, defString, reportname, reportwhere, processname);
+                                });
+                            }
+                            else {
+                                rightArrow.click(ev => {
+                                    ev.stopPropagation();
+                                    module.showSubmenu(ev, subMenuBtns, btn.ButtonId, objectname, objectwhere, defString, reportname, reportwhere, processname, $(ev.currentTarget).closest('li'));
+                                });
+                            }
+                        }
+                    });
                     return menuUl;
                 }
             }

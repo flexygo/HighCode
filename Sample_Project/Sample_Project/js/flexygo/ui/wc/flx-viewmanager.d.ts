@@ -36,9 +36,9 @@ declare namespace flexygo.ui.wc {
         setView(view: flexygo.api.ObjectView): void;
         loadObj(ObjectName: string, elm: JQuery, first: boolean): void;
         appendFields(): void;
-        private getLabel(label);
-        private createField(fld);
-        private findPath(obj);
+        private getLabel;
+        private createField;
+        private findPath;
         /**
         *
         * @method openWizard

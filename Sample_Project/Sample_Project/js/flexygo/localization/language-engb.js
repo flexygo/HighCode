@@ -9,6 +9,7 @@ var flexygo;
         (function (engb) {
             engb.process = {
                 executing: 'Executing process...',
+                loadingdata: 'Loading data...'
             };
             engb.dependecymanager = {
                 sort: 'Sort',
@@ -21,6 +22,7 @@ var flexygo;
                 CustomProperty: 'Custom Property Dep.',
                 save: 'Save',
                 addmore: 'Add more depending properties',
+                addmorefilter: 'Add more depending filters',
                 sqlvalue: 'SQL Value',
                 sqlclass: 'SQL Class',
                 sqlcombofilter: 'SQL Combo Filter',
@@ -107,6 +109,7 @@ var flexygo;
                 appendwarning: 'Please select a field type and a field name',
                 createfields: 'Create new table fields',
                 enterfieldname: 'Field Name',
+                reserveword: 'is a reserved word',
                 selecttype: 'Select data type',
                 seedependencies: 'See dependencies',
                 templates: 'Templates',
@@ -139,7 +142,10 @@ var flexygo;
                 hasdependingproperties: 'Affected by dependencies',
                 withchangeprocess: 'With change process',
                 throwto: 'Throw to',
-                affectedby: 'Affected by'
+                affectedby: 'Affected by',
+                persistdefaultvalue: 'Persistent default value',
+                defaultvalue: 'Default value',
+                detachedproperty: 'Disconnected property'
             };
             engb.flxeditgrid = {
                 addrow: 'Add row',
@@ -261,8 +267,14 @@ var flexygo;
                 add: 'Add',
                 errornofilter: 'Please, add new filter first.',
                 errornofields: 'Please, append some fields first.',
+                fieldnotappend: 'The following property could not be added because one with the same name already exists:',
+                fieldsnotappend: 'The following properties could not be added because ones with the same name already exist:',
                 save: 'Save',
                 delete: 'Delete',
+                hasfilterdependencies: 'Throw dependencies',
+                hasfilterdependingproperties: 'Affected by dependencies',
+                throwto: 'Throw to',
+                affectedby: 'Affected by'
             };
             engb.sortmanager = {
                 sort: 'Sort',
@@ -470,7 +482,8 @@ var flexygo;
                 deletenode: 'Delete node',
                 deletenodequestion: 'Are you sure you want to delete this node?',
                 addfields: 'Add fields',
-                cloneDependencies: 'Clone object dependencies'
+                cloneDependencies: 'Clone object dependencies',
+                relationshipOfDependencies: 'Relationship of dependencies'
             };
             engb.objectmanager = {
                 selecticon: 'Select icon',
@@ -598,6 +611,7 @@ var flexygo;
             };
             engb.templates = {
                 addnewtemplate: 'Add new Template',
+                openiconlist: 'Open icon list',
             };
             engb.flxscheduler = {
                 objects: 'Objects',
@@ -787,6 +801,7 @@ var flexygo;
                 option: 'Option',
                 result: 'Result',
                 elseoption: 'Else',
+                requiredobject: 'You must first select an object',
             };
             engb.imports = {
                 template: 'Template file',
@@ -802,6 +817,44 @@ var flexygo;
                 noCamera: 'No available camera found',
                 IOSerr: 'This functionalitie isn\'t available on IOS',
                 noCode: 'Can\'t find any code on this picture.'
+            };
+            engb.abhSign = {
+                save: 'Save',
+                title: 'Select a document',
+                help: 'Help Abh Sign',
+                lastPage: 'Last Page'
+            };
+            engb.maintenance = {
+                logoMini: 'Maintenance',
+                title: 'We�ll be back soon!',
+                subtitle: 'Sorry for the inconvenience. We�re performing some maintenance at the moment.',
+                time: 'Maintenance mode'
+            };
+            engb.flxWacom = {
+                titleError: 'Error Capturing Signature',
+                serviceNotDetected: 'Signature SDK service not detected',
+                sigDataError: 'Error on GetSigData',
+                additionalDataError: 'Error on GetAdditionalData',
+                renderBitmapError: 'Signature Render Bitmap error',
+                extraDataError: 'Signature PutExtraData error',
+                sigCtrlCaptureError: 'SigCtl capture error',
+                sigCtrlConstructorError: 'SigCtl constructor error',
+                DynCaptureError: 'Dynamic Capture constructor error',
+                error100: "Device not connected",
+                error101: "Could not capture",
+                error102: "Invalid integrity key",
+                error200: "Could not parse contents"
+            };
+            engb.mail = {
+                fileSize: "File size exceeded",
+                mailSize: "Mail size exceeded",
+                maxSize: "Maximum size",
+            };
+            engb.databaseScript = {
+                infoGenerate: "Scripts will be directly generated in the default scripts folder",
+                infoDownload: "Scripts will be compressed as a zip and sent as a download",
+                generate: "Generate files",
+                download: "Download files"
             };
         })(engb = culture.engb || (culture.engb = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

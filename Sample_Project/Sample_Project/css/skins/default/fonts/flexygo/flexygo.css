@@ -1,7 +1,7 @@
 @font-face {
     font-family: 'Flexygo-icons';
-    src: url('./Flexygo-icons.eot?jwe2wc');
-    src: url('./Flexygo-icons.eot?jwe2wc#iefix') format('embedded-opentype'), url('./Flexygo-icons.ttf?jwe2wc') format('truetype'), url('./Flexygo-icons.woff?jwe2wc') format('woff'), url('./Flexygo-icons.svg?jwe2wc#Flexygo-icons') format('svg');
+    src: url('./Flexygo-icons.eot?rqsxbr');
+    src: url('./Flexygo-icons.eot?rqsxbr#iefix') format('embedded-opentype'), url('./Flexygo-icons.ttf?rqsxbr') format('truetype'), url('./Flexygo-icons.woff?rqsxbr') format('woff'), url('./Flexygo-icons.svg?rqsxbr#Flexygo-icons') format('svg');
     font-weight: normal;
     font-style: normal;
     font: normal normal normal 14px/1;
@@ -10946,3 +10946,159 @@
 .flx-icon.icon-zoomout:before {
   content: "\f1eb";
 }
+
+.flx-icon.icon-isotope-ahora:before {
+  content: "\f33c";
+}
+
+.flx-icon.icon-generate_delivery_note:before {
+  content: "\f33d";
+}
+
+.flx-icon.icon-create_calendar:before {
+  content: "\f33e";
+}
+
+.flx-icon.icon-start_date:before {
+  content: "\f337";
+}
+
+.flx-icon.icon-end-date:before {
+  content: "\f33f";
+}
+
+.flx-icon.icon-promotion1:before {
+  content: "\f338";
+}
+
+.flx-icon.icon-treasury-letters:before {
+  content: "\f340";
+}
+
+.flx-icon.icon-treasury:before {
+  content: "\f339";
+}
+
+.flx-icon.icon-situation-workshop:before {
+  content: "\f341";
+}
+
+.flx-icon.icon-black-isotope:before {
+  content: "\f342";
+}
+
+.flx-icon.icon-warranty:before {
+  content: "\f343";
+}
+
+.flx-icon.icon-ahora-2:before {
+  content: "\f344";
+}
+
+.flx-icon.icon-ahora:before {
+  content: "\f345";
+}
+
+.flx-icon.icon-letter-a:before {
+  content: "\f346";
+}
+
+.flx-icon.icon-letter-b:before {
+  content: "\f347";
+}
+
+.flx-icon.icon-letter-c:before {
+  content: "\f348";
+}
+
+.flx-icon.icon-letter-d:before {
+  content: "\f349";
+}
+
+.flx-icon.icon-letter-e:before {
+  content: "\f34a";
+}
+
+.flx-icon.icon-letter-f:before {
+  content: "\f34b";
+}
+
+.flx-icon.icon-letter-g:before {
+  content: "\f34c";
+}
+
+.flx-icon.icon-letter-h:before {
+  content: "\f34d";
+}
+
+.flx-icon.icon-letter-i:before {
+  content: "\f34e";
+}
+
+.flx-icon.icon-letter-j:before {		   
+  content: "\f350";
+}
+
+.flx-icon.icon-letter-k:before {
+  content: "\f351";
+}
+
+.flx-icon.icon-letter-l:before {
+  content: "\f352";
+}
+
+.flx-icon.icon-letter-m:before {
+  content: "\f353";
+}
+
+.flx-icon.icon-letter-n:before {
+  content: "\f354";
+}
+
+.flx-icon.icon-letter-o:before {
+  content: "\f355";
+}
+
+.flx-icon.icon-letter-p:before {
+  content: "\f33a";
+}
+
+.flx-icon.icon-letter-q:before {
+  content: "\f356";
+}
+
+.flx-icon.icon-letter-r:before {
+  content: "\f357";
+}
+
+.flx-icon.icon-letter-s:before {
+  content: "\f358";
+}
+
+.flx-icon.icon-letter-t:before {
+  content: "\f359";
+}
+
+.flx-icon.icon-letter-u:before {
+  content: "\f35a";
+}
+
+.flx-icon.icon-letter-v:before {
+  content: "\f35b";
+}
+
+.flx-icon.icon-letter-w:before {
+  content: "\f35c";
+}
+
+.flx-icon.icon-letter-x:before {
+  content: "\f35d";
+}
+
+.flx-icon.icon-letter-y:before {
+  content: "\f35e";
+}
+
+.flx-icon.icon-letter-z:before {
+  content: "\f33b";
+}								 

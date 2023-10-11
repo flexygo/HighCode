@@ -28,6 +28,7 @@ var flexygo;
                     this.value = null;
                     this.tactilModeAvailable = false;
                     this.firefoxNav = false;
+                    this.edgeNav = false;
                 }
                 /**
                 * Fires when element is attached to DOM
@@ -234,13 +235,6 @@ var flexygo;
                         this.setValue(Value);
                     }
                     this.connected = true;
-                }
-                /**
-               * Array of observed attributes.
-               * @property observedAttributes {Array}
-               */
-                static get observedAttributes() {
-                    return ['type', 'property', 'required', 'disabled', 'requiredmessage', 'mask', 'style', 'class', 'decimalplaces', 'minvalue', 'maxvalue', 'maxvaluemessage', 'minvaluemessage', 'regexp', 'regexptext', 'validatormessage', 'placeholder', 'iconclass', 'helpid', 'allownewfunction', 'allownewobject', 'hide', 'tag'];
                 }
                 /**
                 * Fires when the attribute value of the element is changed.
@@ -509,7 +503,7 @@ var flexygo;
                     let iconsRight = this.getIconButtons();
                     let control = $('<div>');
                     let input;
-                    this.firefoxNav = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+                    navigator.userAgent.toLowerCase().indexOf('firefox') > -1 ? this.firefoxNav = true : navigator.userAgent.toLowerCase().indexOf('edg') > -1 ? this.edgeNav = true : null;
                     if ((flexygo.utils.isTactilModeActive() || this.firefoxNav) && (this.type === 'datetime-local' || this.type === 'date' || this.type === 'time') && $(`<div class='date' id='dtpicker'><input class="hidden" type='text'/></div>`).datetimepicker) {
                         input = $(`<input type="${this.type}" class="form-control" />`);
                         this.tactilModeAvailable = true;
@@ -522,6 +516,39 @@ var flexygo;
                     }
                     else if (this.options && this.options.MaxNumOfChars && this.options.MaxNumOfChars > 0 && this.type !== 'date' && this.type !== 'datetime-local') {
                         input = $('<input type="' + this.type + '" class="form-control"  maxLength="' + this.options.MaxNumOfChars + '"/>');
+                    }
+                    else if (this.type === 'thousandSeparator') {
+                        input = $('<input type="' + this.type + '" class="form-control"/>');
+                        let thousandSeparator;
+                        let decimalSeparator;
+                        switch (flexygo.context.currentUserLang) {
+                            case 'ca':
+                            case 'pt':
+                            case 'it':
+                            case 'de':
+                            case 'es':
+                                thousandSeparator = '.';
+                                decimalSeparator = ',';
+                                break;
+                            case 'en':
+                                thousandSeparator = ',';
+                                decimalSeparator = '.';
+                                break;
+                            case 'fr':
+                                thousandSeparator = ' ';
+                                decimalSeparator = ',';
+                                break;
+                        }
+                        input.inputmask({
+                            alias: 'numeric',
+                            groupSeparator: thousandSeparator,
+                            digits: this.options.DecimalPlaces,
+                            allowMinus: true,
+                            max: 9999999999999999,
+                            digitsOptional: this.options.DecimalPlaces == 0 ? true : false,
+                            radixPoint: decimalSeparator,
+                            rightAlign: true,
+                        });
                     }
                     else {
                         input = $('<input type="' + this.type + '" class="form-control" />');
@@ -724,7 +751,7 @@ var flexygo;
                 showCronGenerator(itm) {
                     let input = $(this).find('input');
                     itm.popover('show');
-                    var htmlContent = '<div class="cronExpression inline" onclick="" ></div><div class="icon-margin-left btn-group"><button class="acpt btn btn-default" onclick=""><i class="flx-icon icon-checked"></i></button><button class="cncl btn btn-default" onclick=""><i class="flx-icon icon-remove"></i></button></div>';
+                    var htmlContent = '<div class="cronExpression inline" onclick="" ></div><div class="cronButtons icon-margin-left btn-group"><button class="acpt btn btn-default" onclick=""><i class="flx-icon icon-checked"></i></button><button class="cncl btn btn-default" onclick=""><i class="flx-icon icon-remove"></i></button></div>';
                     itm.data("bs.popover").options.content = htmlContent;
                     itm.data("bs.popover").options.html = true;
                     let me = $(this);
@@ -852,8 +879,25 @@ var flexygo;
                     let me = $(this);
                     let input = me.find('input');
                     input.on('change.refreshvalue', (e) => {
-                        me.attr('value', input.val());
+                        let value = '';
+                        if (input.inputmask("hasMaskedValue")) {
+                            value = input.inputmask("unmaskedvalue").replace(input.inputmask("option", "radixPoint"), ".");
+                        }
+                        else {
+                            value = input.val();
+                        }
+                        me.attr('value', value);
                     });
+                    if (this.type == 'thousandSeparator') {
+                        input.on('blur', (e) => {
+                            if (input.inputmask("hasMaskedValue")) {
+                                let currentVal = input.inputmask("unmaskedvalue").replace(input.inputmask("option", "radixPoint"), ".");
+                                if (currentVal != me.attr('value')) {
+                                    me.attr('value', currentVal);
+                                }
+                            }
+                        });
+                    }
                     if (this.options && this.options.Name && this.options.Name !== '') {
                         input.attr('name', this.options.Name);
                     }
@@ -893,10 +937,13 @@ var flexygo;
                     const module = me.closest('flx-module')[0];
                     if ((this.options && (this.options.CauseRefresh || this.options.SQLValidator != null)) || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
                         if (this.tactilModeAvailable) {
-                            input.on('click', () => {
+                            input.on('click', (e) => {
                                 //Sets old value
                                 me.attr('old', this.getValue());
-                                //Hides other posible opened datePickers
+                                if (!this.edgeNav || flexygo.utils.isTactilModeActive() && this.type == 'time') {
+                                    e.preventDefault();
+                                }
+                                //Hides other posible opened dataPickers
                                 if ($('#dtpicker').length > 0) {
                                     $('#dtpicker')[0].remove();
                                 }
@@ -966,18 +1013,15 @@ var flexygo;
                                         };
                                         if (this.type === 'date') {
                                             if (this.getValue() == null || (this.getValue().getFullYear() >= 1900 && this.getValue().getFullYear() <= 2079)) {
-                                                flexygo.events.trigger(ev);
+                                                flexygo.events.trigger(ev, me);
                                             }
                                         }
                                         else {
-                                            flexygo.events.trigger(ev);
+                                            flexygo.events.trigger(ev, me);
                                         }
                                     }
                                     datetimePicker[0].remove();
                                 });
-                                if (this.firefoxNav) {
-                                    setTimeout(() => { me.find('> div > input').trigger('blur'); }, 20);
-                                }
                             });
                         }
                         else if (this.type === 'time' || this.type === 'date' || this.type === 'datetime-local') {
@@ -994,11 +1038,11 @@ var flexygo;
                                     };
                                     if (this.type === 'date') {
                                         if (this.getValue() == null || (this.getValue().getFullYear() >= 1900 && this.getValue().getFullYear() <= 2079)) {
-                                            flexygo.events.trigger(ev);
+                                            flexygo.events.trigger(ev, me);
                                         }
                                     }
                                     else {
-                                        flexygo.events.trigger(ev);
+                                        flexygo.events.trigger(ev, me);
                                     }
                                 }
                             });
@@ -1016,7 +1060,7 @@ var flexygo;
                                     sender: this,
                                     masterIdentity: this.property
                                 };
-                                flexygo.events.trigger(ev);
+                                flexygo.events.trigger(ev, me);
                                 if ($(this).find('input.error').length > 0) {
                                     $(this).find('> div').addClass('has-error');
                                     $(this).find('> div > label').addClass('has-error txt-danger');
@@ -1051,7 +1095,7 @@ var flexygo;
                             });
                         });
                     }
-                    if (this.options && this.options.DecimalPlaces && this.options.DecimalPlaces.toString() !== '' && (this.options.DecimalPlaces > 0)) {
+                    if (this.options && this.type !== "thousandSeparator" && this.options.DecimalPlaces && this.options.DecimalPlaces.toString() !== '' && (this.options.DecimalPlaces > 0)) {
                         let step = '0.';
                         for (let i = 1; i <= this.options.DecimalPlaces; i++) {
                             if (i === this.options.DecimalPlaces) {
@@ -1108,7 +1152,7 @@ var flexygo;
                             input.attr('type', 'datetime-local');
                             value = moment.utc(value).format('YYYY-MM-DD[T]HH:mm');
                         }
-                        if (this.type === 'time' && !(value === null)) {
+                        else if (this.type === 'time' && !(value === null)) {
                             input.attr('type', 'time');
                             if (typeof value == 'object') {
                                 value = moment.utc(value).format('HH:mm:ss');
@@ -1116,14 +1160,18 @@ var flexygo;
                             if (value)
                                 value = value.trim();
                         }
-                        if (this.type === 'number' && $.isNumeric(value) && this.options && this.options.DecimalPlaces && this.options.DecimalPlaces.toString() !== '' && (this.options.DecimalPlaces > 0)) {
+                        else if (this.type === 'number' && $.isNumeric(value) && this.options && this.options.DecimalPlaces && this.options.DecimalPlaces.toString() !== '' && (this.options.DecimalPlaces > 0)) {
                             value = parseFloat(value).toFixed(this.options.DecimalPlaces);
                         }
                         me.attr('value', value);
+                        if (this.type === 'thousandSeparator') {
+                            value = value ? value.toString().replace(".", input.inputmask("option", "radixPoint")) : '';
+                        }
                         input.val(value);
                     }
                 }
                 setValueView(value) {
+                    let me = $(this)[0];
                     this.value = value;
                     let input = $(this).find('label');
                     let regExp = /[&<>"'`=\/]/mi;
@@ -1144,15 +1192,53 @@ var flexygo;
                                 value = parseInt(value).toLocaleString(flexygo.profiles.culture);
                             }
                         }
+                        input.attr('title', value);
+                    }
+                    else if (this.type === 'thousandSeparator') {
+                        let thousandSeparator;
+                        let decimalSeparator;
+                        switch (flexygo.context.currentUserLang) {
+                            case 'ca':
+                            case 'pt':
+                            case 'it':
+                            case 'de':
+                            case 'es':
+                                thousandSeparator = '.';
+                                decimalSeparator = ',';
+                                break;
+                            case 'en':
+                                thousandSeparator = ',';
+                                decimalSeparator = '.';
+                                break;
+                            case 'fr':
+                                thousandSeparator = ' ';
+                                decimalSeparator = ',';
+                                break;
+                        }
+                        value = Inputmask.format(value.replace(',', decimalSeparator), {
+                            alias: 'numeric',
+                            groupSeparator: thousandSeparator,
+                            digits: me.options.DecimalPlaces,
+                            digitsOptional: me.options.DecimalPlaces == 0 ? true : false,
+                            autoGroup: true,
+                            allowMinus: true,
+                            radixPoint: decimalSeparator,
+                            rightAlign: true,
+                        });
                     }
                     else if (this.type === 'date' && value !== null) {
                         value = moment.utc(value).locale(flexygo.profiles.culture).format('L');
+                        input.attr('title', value);
                     }
                     else if (this.type === 'datetime-local' && value !== null) {
                         value = moment.utc(value).locale(flexygo.profiles.culture).format('L LT');
+                        input.attr('title', value);
                     }
-                    else if (this.type === 'text' && value !== null && regExp.test(value)) {
-                        value = flexygo.string.escapeHTML(value);
+                    else if (this.type === 'text' && value !== null) {
+                        input.attr('title', value);
+                        if (regExp.test(value)) {
+                            value = flexygo.string.escapeHTML(value);
+                        }
                     }
                     input.html(value);
                 }
@@ -1170,6 +1256,9 @@ var flexygo;
                         var date = new Date(Date.UTC(utcDate.year(), utcDate.month(), utcDate.date(), utcDate.hours(), utcDate.minutes(), utcDate.seconds(), utcDate.milliseconds()));
                         return date;
                     }
+                    else if (this.type === 'thousandSeparator') {
+                        return input.inputmask("unmaskedvalue").replace(input.inputmask("option", "radixPoint"), ".");
+                    }
                     else {
                         return input.val();
                     }
@@ -1186,6 +1275,11 @@ var flexygo;
                     input.trigger('change');
                 }
             }
+            /**
+           * Array of observed attributes.
+           * @property observedAttributes {Array}
+           */
+            FlxTextElement.observedAttributes = ['type', 'property', 'required', 'disabled', 'requiredmessage', 'mask', 'style', 'class', 'decimalplaces', 'minvalue', 'maxvalue', 'maxvaluemessage', 'minvaluemessage', 'regexp', 'regexptext', 'validatormessage', 'placeholder', 'iconclass', 'helpid', 'allownewfunction', 'allownewobject', 'hide', 'tag'];
             wc.FlxTextElement = FlxTextElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

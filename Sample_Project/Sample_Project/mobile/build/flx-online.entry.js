@@ -1,5 +1,19 @@
 import { r as registerInstance, j as h } from './index-86ac49ff.js';
-import { b as storage, W as Webapi } from './webapi-79a1d3db.js';
+import './ionic-global-0f98fe97.js';
+import { W as Webapi } from './conftoken-38d23b50.js';
+import './jquery-5df58adb.js';
+import './utils-16079bfd.js';
+import './helpers-719f4c54.js';
+import './animation-10ea33c3.js';
+import './index-7173f7a2.js';
+import './ios.transition-95375ac9.js';
+import './md.transition-6d74e584.js';
+import './cubic-bezier-93f47170.js';
+import './index-7fe827c3.js';
+import './index-b40d441b.js';
+import './hardware-back-button-aacf3d12.js';
+import './index-50651ccc.js';
+import './overlays-5302658e.js';
 
 const flxOnlineCss = "";
 
@@ -16,7 +30,7 @@ const FlxOnline = class {
         if (this.externalUrl)
             this.url = atob(this.externalUrl);
         else {
-            let site = await storage.get('flexyAuth');
+            let site = await (new Webapi).getAuth();
             this.url = site.url;
             if (this.report)
                 this.url = this.url + '/forms/Reports?id=' + this.report;

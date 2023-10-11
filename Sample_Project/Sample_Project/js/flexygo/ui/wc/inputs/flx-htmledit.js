@@ -130,13 +130,6 @@ var flexygo;
                     }
                     this.connected = true;
                 }
-                /**
-               * Array of observed attributes. REQUIRED
-               * @property observedAttributes {Array}
-               */
-                static get observedAttributes() {
-                    return ['type', 'property', 'required', 'disabled', 'requiredmessage', 'class', 'iconclass', 'helpid', 'hide'];
-                }
                 attributeChangedCallback(attrName, oldVal, newVal) {
                     let element = $(this);
                     if (!this.connected) {
@@ -346,7 +339,7 @@ var flexygo;
                                 sender: this,
                                 masterIdentity: this.property
                             };
-                            flexygo.events.trigger(ev);
+                            flexygo.events.trigger(ev, me);
                         });
                     }
                 }
@@ -398,6 +391,11 @@ var flexygo;
                     input.trigger('change');
                 }
             }
+            /**
+           * Array of observed attributes. REQUIRED
+           * @property observedAttributes {Array}
+           */
+            FlxHtmlEditElement.observedAttributes = ['type', 'property', 'required', 'disabled', 'requiredmessage', 'class', 'iconclass', 'helpid', 'hide'];
             wc.FlxHtmlEditElement = FlxHtmlEditElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

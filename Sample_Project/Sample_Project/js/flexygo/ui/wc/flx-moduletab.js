@@ -49,13 +49,6 @@ var flexygo;
                     }
                 }
                 /**
-               * Array of observed attributes.
-               * @property observedAttributes {Array}
-               */
-                static get observedAttributes() {
-                    return ['modulename', 'mode'];
-                }
-                /**
                * Fires when the attribute value of the element is changed.
                * @method attributeChangedCallback
                */
@@ -308,7 +301,7 @@ var flexygo;
                     }
                     flexygo.history.replace(history, me, false);
                 }
-                translate(str) {
+                flxTranslate(str) {
                     return flexygo.localization.translate(str);
                 }
                 startLoading() {
@@ -322,6 +315,11 @@ var flexygo;
                     }
                 }
             }
+            /**
+           * Array of observed attributes.
+           * @property observedAttributes {Array}
+           */
+            FlxModuleTabElement.observedAttributes = ['modulename', 'mode'];
             wc.FlxModuleTabElement = FlxModuleTabElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

@@ -131,13 +131,6 @@ var flexygo;
                     }
                     this.connected = true;
                 }
-                /**
-               * Array of observed attributes. REQUIRED
-               * @property observedAttributes {Array}
-               */
-                static get observedAttributes() {
-                    return ['type', 'property', 'required', 'disabled', 'requiredmessage', 'class', 'placeholder', 'iconclass', 'helpid', 'hide'];
-                }
                 attributeChangedCallback(attrName, oldVal, newVal) {
                     let element = $(this);
                     if (!this.connected) {
@@ -346,7 +339,7 @@ var flexygo;
                                 sender: this,
                                 masterIdentity: this.property
                             };
-                            flexygo.events.trigger(ev);
+                            flexygo.events.trigger(ev, me);
                         });
                     }
                 }
@@ -369,6 +362,7 @@ var flexygo;
                 }
                 initWhiteBoard() {
                     let property = this.property;
+                    let itm = $(this);
                     let whiteBoardCanvas;
                     let whiteBoardContext;
                     let inputControlToSave;
@@ -381,8 +375,8 @@ var flexygo;
                     let position;
                     lineColor = "rgb(105, 105, 105)";
                     lineWeight = 0.5;
-                    inputControlToSave = $("flx-whiteboard[property='" + property + "']").find('input');
-                    imgControlToSave = $("flx-whiteboard[property='" + property + "']").find('img');
+                    inputControlToSave = itm.find('input');
+                    imgControlToSave = itm.find('img');
                     let pizarraHtml = `<div id="WBContainer" style="z-index:999999;width:100%;height:100%;position:fixed;margin:0px;padding:0px;top:0px;left:0px;background-color:white;text-align:center;">
                <canvas id="WBcanvas"></canvas>               
                    <nav class="WBButtonsContainer">
@@ -393,9 +387,11 @@ var flexygo;
                    <a id="WBControlButton" class="WBColorButtons clickable" ></a>
                   </nav>
                    <!-- <i id="WBUpload"  tooltip="Subir Imagen" class="WBActionButtons"><input id="subirImagen" type="file" name="files[]" accept="image/*"></i>-->
-                  <i id="WBSave" tooltip="Guardar"   class="WBActionButtons"></i>
+                  <div>
+                    <i id="WBSave" tooltip="Guardar"   class="WBActionButtons"></i>
                     <i id="WBDelete" tooltip="Borrar" class="WBActionButtons"></i>               
-                <i id="WBClose" tooltip="Cerrar" class="WBActionButtons"></i>
+                    <i id="WBClose" tooltip="Cerrar" class="WBActionButtons"></i>
+                  </div>
                </div>`;
                     $('#WBContainer').remove();
                     $('body').append(pizarraHtml);
@@ -421,8 +417,8 @@ var flexygo;
                             whiteBoardContext.drawImage(img, whiteBoardCanvas.width / 2 - whiteBoardCanvas.height * img.width / img.height / 2, 0, whiteBoardCanvas.height * img.width / img.height, whiteBoardCanvas.height);
                         }
                     }
-                    inputControlToSave = $("flx-whiteboard[property='" + property + "']").find('input');
-                    imgControlToSave = $("flx-whiteboard[property='" + property + "']").find('img');
+                    inputControlToSave = itm.find('input');
+                    imgControlToSave = itm.find('img');
                     whiteBoardContext.strokeStyle = lineColor;
                     whiteBoardContext.lineWidth = lineWeight;
                     whiteBoardContext.shadowBlur = 0.4;
@@ -660,6 +656,11 @@ var flexygo;
                     input.trigger('change');
                 }
             }
+            /**
+           * Array of observed attributes. REQUIRED
+           * @property observedAttributes {Array}
+           */
+            FlxWhiteBoardElement.observedAttributes = ['type', 'property', 'required', 'disabled', 'requiredmessage', 'class', 'placeholder', 'iconclass', 'helpid', 'hide'];
             wc.FlxWhiteBoardElement = FlxWhiteBoardElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

@@ -75,7 +75,7 @@ declare namespace flexygo.ui.wc {
         * Monitor the list of observed attribute for changes.
         * @property observedAttributes
         */
-        static readonly observedAttributes: string[];
+        observedAttributes(): string[];
         attributeChangedCallback(attrName: string, oldVal: any, newVal: any): void;
         init(): void;
         refresh(): void;
@@ -106,7 +106,7 @@ declare namespace flexygo.ui.wc {
         paintHeader(row: any): string;
         paintFooter(row: any): string;
         paintBody(row: any): string;
-        translate(str: string): string;
+        flxTranslate(str: string): string;
         refreshPager(): void;
         _addBtns(btns: JQuery, pageNum: number): void;
         getValue(value: any): string;

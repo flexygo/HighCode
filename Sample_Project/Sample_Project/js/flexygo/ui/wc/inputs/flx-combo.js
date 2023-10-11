@@ -206,9 +206,6 @@ var flexygo;
                     }
                     this.connected = true;
                 }
-                static get observedAttributes() {
-                    return ['property', 'required', 'disabled', 'multiple', 'separator', 'requiredmessage', 'style', 'class', 'iconclass', 'helpid', 'hide', 'objectname', 'viewname', 'sqlvaluefield', 'sqldisplayfield', 'pagesize', 'additionalwhere', 'validatormessage', 'cnnstring'];
-                }
                 attributeChangedCallback(attrName, oldVal, newVal) {
                     let element = $(this);
                     let isDirty = false;
@@ -695,7 +692,7 @@ var flexygo;
                                 sender: this,
                                 masterIdentity: this.property
                             };
-                            flexygo.events.trigger(ev);
+                            flexygo.events.trigger(ev, me);
                         });
                     }
                     if (this.options && this.options.Hide) {
@@ -795,6 +792,9 @@ var flexygo;
                 setValueView(value) {
                     this.value = value;
                     $(this).find('label').text(value);
+                    if (value !== null) {
+                        $(this).find('label').attr('title', value);
+                    }
                 }
                 getValue() {
                     let me = $(this);
@@ -827,6 +827,7 @@ var flexygo;
                     input.trigger('change');
                 }
             }
+            FlxComboElement.observedAttributes = ['property', 'required', 'disabled', 'multiple', 'separator', 'requiredmessage', 'style', 'class', 'iconclass', 'helpid', 'hide', 'objectname', 'viewname', 'sqlvaluefield', 'sqldisplayfield', 'pagesize', 'additionalwhere', 'validatormessage', 'cnnstring'];
             wc.FlxComboElement = FlxComboElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

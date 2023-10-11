@@ -31,13 +31,6 @@ var flexygo;
                     this.moduleButtons = null;
                 }
                 /**
-                * Array of observed attributes. REQUIRED
-                * @property observedAttributes {Array}
-                */
-                static get observedAttributes() {
-                    return ['ObjectName', 'ObjectWhere', 'ModuleName', 'AdditionalWhere'];
-                }
-                /**
                 * Init the webcomponent. REQUIRED.
                 * @method init
                 */
@@ -291,7 +284,7 @@ var flexygo;
                         masterIdentity: newState,
                         detailIdentity: oldState
                     };
-                    flexygo.events.trigger(ev);
+                    flexygo.events.trigger(ev, $(this));
                 }
                 getConfig() {
                     var cards = [];
@@ -553,6 +546,11 @@ var flexygo;
                     }
                 }
             }
+            /**
+            * Array of observed attributes. REQUIRED
+            * @property observedAttributes {Array}
+            */
+            FlxKanban.observedAttributes = ['ObjectName', 'ObjectWhere', 'ModuleName', 'AdditionalWhere'];
             wc.FlxKanban = FlxKanban;
         })(wc = ui_1.wc || (ui_1.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

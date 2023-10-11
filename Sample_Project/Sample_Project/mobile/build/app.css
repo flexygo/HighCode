@@ -1209,6 +1209,10 @@ sub {
     --ion-color-outstanding-light-tint: #42beb8;
 }
 
+:root {
+    --ion-color-light: #f4f5f8;
+}
+
 .ion-color-outstanding-light {
     --ion-color-base: var(--ion-color-outstanding-light);
     --ion-color-base-rgb: var(--ion-color-outstanding-light-rgb);

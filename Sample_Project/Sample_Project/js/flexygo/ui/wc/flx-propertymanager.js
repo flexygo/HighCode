@@ -49,16 +49,16 @@ var flexygo;
                     }
                     this.mode = mode;
                     //Remove entity events
-                    flexygo.events.on(this, "entity", "all", this.onPropertyChanged);
+                    flexygo.events.off(this, "entity", "all", this.onPropertyChanged);
                     //Capture entity events
-                    flexygo.events.on(this, "entity", "all", this.onPropertyChanged);
+                    flexygo.events.on(this, "entity", "all", this.onPropertyChanged, true);
                     //Remove handler on DOM element remove
                     $(this).on("destroy", () => {
                         flexygo.events.off(this, "entity", "all", this.onPropertyChanged);
                     });
                     this.refresh();
                 }
-                static get observedAttributes() {
+                observedAttributes() {
                     return ['objectname', 'reportname', 'processname'];
                 }
                 attributeChangedCallback(attrName, oldVal, newVal) {
@@ -321,6 +321,10 @@ var flexygo;
                     let me = $(this);
                     var ObjectName = me.attr('ObjectName');
                     let btnProp = $('<button class="addProps btn btn-default txt-tools"><i class="flx-icon icon-add"></i> ' + flexygo.localization.translate('nodemanager.addfields') + '</button>');
+                    let btnRelatedDep = $('<button class="relatedDep btn btn-outstanding margin-right-s"><i class="flx-icon icon-properties-relations"></i> ' + flexygo.localization.translate('nodemanager.relationshipOfDependencies') + '</button>');
+                    btnRelatedDep.on('click', (e) => {
+                        flexygo.nav.openPageName('sys_form_property_related_dependencies', this.objectname, '', JSON.stringify({ 'objectname': this.objectname }), 'sliderightx80%', true, $(e.currentTarget));
+                    });
                     if (this.mode == 'process') {
                         btnProp.on('click', (e) => {
                             flexygo.nav.openPage('edit', 'sysProcessParam', null, JSON.stringify({ ProcessName: this.processName }), 'popup', true, $(e.currentTarget));
@@ -410,10 +414,14 @@ var flexygo;
                     let dest = me.find('.propHeader');
                     if (dest.length == 0) {
                         me.find('.addProps').remove();
+                        me.find('.relatedDep').remove();
+                        me.prepend(btnRelatedDep);
                         me.prepend(btnProp);
                     }
                     else {
                         dest.find('.addProps').remove();
+                        dest.find('.relatedDep').remove();
+                        dest.append(btnRelatedDep);
                         dest.append(btnProp);
                     }
                 }
@@ -421,6 +429,10 @@ var flexygo;
                     let me = $(this);
                     if (!fieldName || fieldName == '') {
                         flexygo.msg.warning('flxedit.enterfieldname');
+                        return;
+                    }
+                    else if (fieldName.toLowerCase() === "json") {
+                        flexygo.msg.warning(`${fieldName} ${flexygo.localization.translate('flxedit.reserveword')}`);
                         return;
                     }
                     else if (!fieldType || fieldType == '') {
@@ -521,7 +533,8 @@ var flexygo;
                 getValue(row, tag) {
                     if (tag.toLowerCase() == 'control') {
                         let prop = this.properties[row.name];
-                        return '<' + prop.WebComponent + ' disabled property="' + row.name + '" />';
+                        let defVal = (row.defaultvalue !== null ? `<span title="${flexygo.localization.translate('flxedit.defaultvalue')}" class="propertymanager-default txt-muted">${(row.persistdefaultvalue ? `<i title="${flexygo.localization.translate('flxedit.persistdefaultvalue')}" class="flx-icon icon-pin margin-right-s"/>` : '')}${row.defaultvalue}</span>` : '');
+                        return '<' + prop.WebComponent + ' disabled property="' + row.name + '" />' + defVal;
                     }
                     else {
                         let value = row[tag];
@@ -576,12 +589,16 @@ var flexygo;
                                     let tag = prop.data('tag').toLowerCase();
                                     if (tag.toLowerCase() == 'label') {
                                         if (this.properties[row.name].ControlType != 'separator' && this.properties[row.name].ControlType != 'placeholder') {
-                                            var inp = $('<input type="text" class="lblEdit" autocomplete="off" />');
+                                            var inp = $(`<input type="text" class="lblEdit ${(this.properties[row.name].FormDisplay ? '' : 'strike')}" autocomplete="off" />`);
                                             var status = $('<span class="status" />');
                                             var depStatus = $('<span class="depStatus margin-left-s" />');
+                                            var detachedProp = $(`<i title="${flexygo.localization.translate('flxedit.detachedproperty')}" class="detachedProp fa fa-unlink margin-left-s" />`);
                                             prop.html(inp);
                                             prop.append(status);
                                             prop.append(depStatus);
+                                            if (this.properties[row.name].DetachedFromDB) {
+                                                prop.prepend(detachedProp);
+                                            }
                                             inp.attr('value', this.getValue(row, tag));
                                             if (this.properties[row.name].IsRequired) {
                                                 prop.addClass("required");
@@ -968,7 +985,7 @@ var flexygo;
                     }
                     return flexygo.utils.parser.compile(obj, str, this);
                 }
-                translate(str) {
+                flxTranslate(str) {
                     return flexygo.localization.translate(str);
                 }
             }

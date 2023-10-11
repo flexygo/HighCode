@@ -4,14 +4,14 @@ var flexygo;
     (function (ui_1) {
         var wc;
         (function (wc) {
-            var eStepResult;
+            let eStepResult;
             (function (eStepResult) {
                 eStepResult[eStepResult["NoResult"] = 0] = "NoResult";
                 eStepResult[eStepResult["OK"] = 1] = "OK";
                 eStepResult[eStepResult["Error"] = 2] = "Error";
                 eStepResult[eStepResult["Warning"] = 3] = "Warning";
             })(eStepResult || (eStepResult = {}));
-            var eStepStatus;
+            let eStepStatus;
             (function (eStepStatus) {
                 eStepStatus[eStepStatus["Initiliazing"] = 0] = "Initiliazing";
                 eStepStatus[eStepStatus["Running"] = 1] = "Running";
@@ -81,13 +81,6 @@ var flexygo;
                     */
                     this.templateFilter = null;
                     this.fixedPropertiesDialog = false;
-                }
-                /**
-                * Array of observed attributes. REQUIRED
-                * @property observedAttributes {Array}
-                */
-                static get observedAttributes() {
-                    return ["objectname", "objectwhere"];
                 }
                 /**
                 * Fires when element is attached to DOM
@@ -2405,7 +2398,7 @@ var flexygo;
                                     cboParent.prop('disabled', true);
                                     cboParam.prop('disabled', true);
                                     break;
-                                default:
+                                default: //IO,OO
                                     cboParent.prop('disabled', false);
                                     cboParam.prop('disabled', false);
                                     cboParam.html();
@@ -2795,6 +2788,11 @@ var flexygo;
                     }
                 }
             }
+            /**
+            * Array of observed attributes. REQUIRED
+            * @property observedAttributes {Array}
+            */
+            FlxGipeDesignerElement.observedAttributes = ["objectname", "objectwhere"];
             wc.FlxGipeDesignerElement = FlxGipeDesignerElement;
         })(wc = ui_1.wc || (ui_1.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

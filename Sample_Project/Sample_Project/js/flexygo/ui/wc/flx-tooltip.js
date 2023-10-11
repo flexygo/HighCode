@@ -30,6 +30,7 @@ var flexygo;
                     this.desktopOnly = false;
                     this.opened = false;
                     this.elementid = "";
+                    this.innerContent = "";
                 }
                 /**
                 * Fires when element is attached to DOM
@@ -51,7 +52,9 @@ var flexygo;
                     if (me.attr("desktoponly") && me.attr("desktoponly").toLocaleLowerCase() == 'true') {
                         this.desktopOnly = true;
                     }
-                    this.innerContent = me.html();
+                    if (this.innerContent == "" || me.html() != '') {
+                        this.innerContent = me.html();
+                    }
                     me.html("");
                     this.init();
                 }
@@ -68,7 +71,7 @@ var flexygo;
                 * Monitor the list of observed attribute for changes.
                 * @property observedAttributes
                 */
-                static get observedAttributes() {
+                observedAttributes() {
                     return ["objectname", "objectwhere", "templateid", "placement", "container", "mode", "helpId"];
                 }
                 /**
@@ -214,7 +217,7 @@ var flexygo;
                             }
                         });
                     }
-                    else {
+                    else { //manual (click)
                         parent.off("click.flxtooltip").on("click.flxtooltip", () => {
                             if (this.opened === false) {
                                 this.opened = true;

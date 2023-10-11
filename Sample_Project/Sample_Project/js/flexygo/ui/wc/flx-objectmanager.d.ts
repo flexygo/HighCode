@@ -23,7 +23,7 @@ declare namespace flexygo.ui.wc {
         wzButtons: JQuery;
         wzPanels: JQuery;
         connectedCallback(): void;
-        static readonly observedAttributes: string[];
+        observedAttributes(): string[];
         attributeChangedCallback(attrName: string, oldVal: any, newVal: any): void;
         refresh(): void;
         onViewChanged(e: flexygo.events.FlexygoEvent): void;

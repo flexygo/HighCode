@@ -90,7 +90,17 @@ var flexygo;
                     $('.sysObjConfigCombo flx-dbcombo').val(currentPageObject);
                 }
             });
-            container.append(`<section class="sysObjConfigCombo"><flx-dbcombo AllowNewFunction="flexygo.debug.showObject('edit');" SearchFunction="flexygo.debug.showObject('list');" placeholder="Select object to get settings" iconclass="flx-icon icon-object" objectname="SysObject" viewname="Objects_Config_Combo" sqlvaluefield="ObjectName" sqldisplayfield="Descrip" value="${currentObject}" control-class="size-m" additionalwhere="Iscollection=0"></flx-dbcombo></section>`);
+            container.append(`<section class="sysObjConfigCombo">
+                            <flx-dbcombo AllowNewFunction="flexygo.debug.showObject('edit');" SearchFunction="flexygo.debug.showObject('list');" placeholder="Select object to get settings"
+                            iconclass="flx-icon icon-object" objectname="SysObject" viewname="Objects_Config_Combo" sqlvaluefield="ObjectName" sqldisplayfield="Descrip" value="${currentObject}" 
+                            control-class="size-m" sqlfilter="(ObjectName LIKE '%{{FindString}}%' OR Descrip LIKE '%{{FindString}}%')" additionalwhere="Iscollection=0">
+                                <template>
+            	                    <span>
+   					                    {{Descrip}} <small class="txt-notify">({{ObjectName}})</small>   
+                                    </span>
+ 			                    </template>  
+                            </flx-dbcombo>
+                        </section>`);
             let panel = $('<flx-accordion class="props-accordion" />');
             let panelCtx = panel[0];
             if (panelCtx) {
