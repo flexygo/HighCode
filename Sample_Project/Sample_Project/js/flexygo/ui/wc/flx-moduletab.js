@@ -41,6 +41,13 @@ var flexygo;
                     if (tabMode && tabMode !== '') {
                         this.mode = tabMode;
                     }
+                    let pageType = flexygo.history.get($(this)).pagetypeid;
+                    if (pageType == "view" || pageType == "edit") {
+                        let obj = new flexygo.obj.Entity(element.attr("objectname"), "");
+                        obj.read();
+                        let objConf = obj.getConfig();
+                        element.attr("objectname", (objConf.DefaultChild) ? objConf.DefaultChild : objConf.ObjectName);
+                    }
                     this.moduleName = element.attr("modulename");
                     if (this.moduleName) {
                         if (element.attr('manualInit') != 'true') {

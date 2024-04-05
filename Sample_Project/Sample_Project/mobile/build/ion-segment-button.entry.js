@@ -1,5 +1,5 @@
-import { r as registerInstance, o as forceUpdate, j as h, l as Host, k as getElement } from './index-86ac49ff.js';
-import { g as getIonMode } from './ionic-global-0f98fe97.js';
+import { r as registerInstance, l as forceUpdate, k as h, n as Host, m as getElement } from './index-d0d1673d.js';
+import { g as getIonMode } from './ionic-global-f9661584.js';
 import { b as addEventListener, a as removeEventListener } from './helpers-719f4c54.js';
 import { h as hostContext } from './theme-f934266c.js';
 
@@ -9,97 +9,97 @@ const segmentButtonMdCss = ":host{--color:initial;--color-hover:var(--color);--c
 
 let ids = 0;
 const SegmentButton = class {
-    constructor(hostRef) {
-        registerInstance(this, hostRef);
-        this.segmentEl = null;
-        this.checked = false;
-        /**
-         * If `true`, the user cannot interact with the segment button.
-         */
-        this.disabled = false;
-        /**
-         * Set the layout of the text and icon in the segment.
-         */
-        this.layout = 'icon-top';
-        /**
-         * The type of the button.
-         */
-        this.type = 'button';
-        /**
-         * The value of the segment button.
-         */
-        this.value = 'ion-sb-' + (ids++);
-        this.updateStyle = () => {
-            forceUpdate(this);
-        };
-        this.updateState = () => {
-            if (this.segmentEl) {
-                this.checked = this.segmentEl.value === this.value;
-            }
-        };
+  constructor(hostRef) {
+    registerInstance(this, hostRef);
+    this.segmentEl = null;
+    this.checked = false;
+    /**
+     * If `true`, the user cannot interact with the segment button.
+     */
+    this.disabled = false;
+    /**
+     * Set the layout of the text and icon in the segment.
+     */
+    this.layout = 'icon-top';
+    /**
+     * The type of the button.
+     */
+    this.type = 'button';
+    /**
+     * The value of the segment button.
+     */
+    this.value = 'ion-sb-' + (ids++);
+    this.updateStyle = () => {
+      forceUpdate(this);
+    };
+    this.updateState = () => {
+      if (this.segmentEl) {
+        this.checked = this.segmentEl.value === this.value;
+      }
+    };
+  }
+  connectedCallback() {
+    const segmentEl = this.segmentEl = this.el.closest('ion-segment');
+    if (segmentEl) {
+      this.updateState();
+      addEventListener(segmentEl, 'ionSelect', this.updateState);
+      addEventListener(segmentEl, 'ionStyle', this.updateStyle);
     }
-    connectedCallback() {
-        const segmentEl = this.segmentEl = this.el.closest('ion-segment');
-        if (segmentEl) {
-            this.updateState();
-            addEventListener(segmentEl, 'ionSelect', this.updateState);
-            addEventListener(segmentEl, 'ionStyle', this.updateStyle);
-        }
+  }
+  disconnectedCallback() {
+    const segmentEl = this.segmentEl;
+    if (segmentEl) {
+      removeEventListener(segmentEl, 'ionSelect', this.updateState);
+      removeEventListener(segmentEl, 'ionStyle', this.updateStyle);
+      this.segmentEl = null;
     }
-    disconnectedCallback() {
-        const segmentEl = this.segmentEl;
-        if (segmentEl) {
-            removeEventListener(segmentEl, 'ionSelect', this.updateState);
-            removeEventListener(segmentEl, 'ionStyle', this.updateStyle);
-            this.segmentEl = null;
-        }
+  }
+  get hasLabel() {
+    return !!this.el.querySelector('ion-label');
+  }
+  get hasIcon() {
+    return !!this.el.querySelector('ion-icon');
+  }
+  get tabIndex() {
+    if (this.disabled) {
+      return -1;
     }
-    get hasLabel() {
-        return !!this.el.querySelector('ion-label');
+    const hasTabIndex = this.el.hasAttribute('tabindex');
+    if (hasTabIndex) {
+      return this.el.getAttribute('tabindex');
     }
-    get hasIcon() {
-        return !!this.el.querySelector('ion-icon');
-    }
-    get tabIndex() {
-        if (this.disabled) {
-            return -1;
-        }
-        const hasTabIndex = this.el.hasAttribute('tabindex');
-        if (hasTabIndex) {
-            return this.el.getAttribute('tabindex');
-        }
-        return 0;
-    }
-    render() {
-        const { checked, type, disabled, hasIcon, hasLabel, layout, segmentEl, tabIndex } = this;
-        const mode = getIonMode(this);
-        const hasSegmentColor = () => segmentEl !== null && segmentEl.color !== undefined;
-        return (h(Host, { role: "tab", "aria-selected": checked ? 'true' : 'false', "aria-disabled": disabled ? 'true' : null, tabIndex: tabIndex, class: {
-                [mode]: true,
-                'in-toolbar': hostContext('ion-toolbar', this.el),
-                'in-toolbar-color': hostContext('ion-toolbar[color]', this.el),
-                'in-segment': hostContext('ion-segment', this.el),
-                'in-segment-color': hasSegmentColor(),
-                'segment-button-has-label': hasLabel,
-                'segment-button-has-icon': hasIcon,
-                'segment-button-has-label-only': hasLabel && !hasIcon,
-                'segment-button-has-icon-only': hasIcon && !hasLabel,
-                'segment-button-disabled': disabled,
-                'segment-button-checked': checked,
-                [`segment-button-layout-${layout}`]: true,
-                'ion-activatable': true,
-                'ion-activatable-instant': true,
-                'ion-focusable': true,
-            } }, h("button", { type: type, tabIndex: -1, class: "button-native", part: "native", disabled: disabled }, h("span", { class: "button-inner" }, h("slot", null)), mode === 'md' && h("ion-ripple-effect", null)), h("div", { part: "indicator", class: {
-                'segment-button-indicator': true,
-                'segment-button-indicator-animated': true
-            } }, h("div", { part: "indicator-background", class: "segment-button-indicator-background" }))));
-    }
-    get el() { return getElement(this); }
+    return 0;
+  }
+  render() {
+    const { checked, type, disabled, hasIcon, hasLabel, layout, segmentEl, tabIndex } = this;
+    const mode = getIonMode(this);
+    const hasSegmentColor = () => segmentEl !== null && segmentEl.color !== undefined;
+    return (h(Host, { role: "tab", "aria-selected": checked ? 'true' : 'false', "aria-disabled": disabled ? 'true' : null, tabIndex: tabIndex, class: {
+        [mode]: true,
+        'in-toolbar': hostContext('ion-toolbar', this.el),
+        'in-toolbar-color': hostContext('ion-toolbar[color]', this.el),
+        'in-segment': hostContext('ion-segment', this.el),
+        'in-segment-color': hasSegmentColor(),
+        'segment-button-has-label': hasLabel,
+        'segment-button-has-icon': hasIcon,
+        'segment-button-has-label-only': hasLabel && !hasIcon,
+        'segment-button-has-icon-only': hasIcon && !hasLabel,
+        'segment-button-disabled': disabled,
+        'segment-button-checked': checked,
+        [`segment-button-layout-${layout}`]: true,
+        'ion-activatable': true,
+        'ion-activatable-instant': true,
+        'ion-focusable': true,
+      } }, h("button", { type: type, tabIndex: -1, class: "button-native", part: "native", disabled: disabled }, h("span", { class: "button-inner" }, h("slot", null)), mode === 'md' && h("ion-ripple-effect", null)), h("div", { part: "indicator", class: {
+        'segment-button-indicator': true,
+        'segment-button-indicator-animated': true
+      } }, h("div", { part: "indicator-background", class: "segment-button-indicator-background" }))));
+  }
+  get el() { return getElement(this); }
 };
 SegmentButton.style = {
-    ios: segmentButtonIosCss,
-    md: segmentButtonMdCss
+  ios: segmentButtonIosCss,
+  md: segmentButtonMdCss
 };
 
 export { SegmentButton as ion_segment_button };

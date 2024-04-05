@@ -1,13 +1,14 @@
-﻿
+﻿@import "../CssVars.less";
+
 /*flx-voicesearch .input-group-addon {
-    background-color: dbColor(OutstandingColor);
-    color: dbColor(txtOutstandingColor);
+    background-color: @outstanding-color;
+    color: @txt-outstanding-color;
 }
 
 flx-voicesearch .input-group-addon {
     padding: 2px 4px 2px 4px;
     text-align: center;
-    border: 1px solid dbColor(OutstandingColor);
+    border: 1px solid @outstanding-color;
     border-radius: 4px;
 }*/
 
@@ -41,7 +42,7 @@ flx-voicesearch .search:hover .hidden {
     transition: width 0.4s ease-in-out;
 }
 
-@media (max-width: dbSize(medium)) {
+@media (max-width: @medium) {
     flx-voicesearch .search .hidden {
         display: table !important;
         position: relative !important;
@@ -61,8 +62,8 @@ flx-voicesearch .search:hover .hidden {
 }
 
 flx-voicesearch .main-search-btn i {
-    background-color: dbColor(OutstandingColor);
-    color: dbColor(PrimaryColor);
+    background-color: @outstanding-color;
+    color: @primary-color;
     padding: 2px;
     border-radius: 50%;
 }
@@ -108,7 +109,7 @@ li flx-voicesearch .form-control {
 }
 
 
-@media (max-width: dbSize(medium)) {
+@media (max-width: @medium) {
     flx-voicesearch .input-group {
         width: 100%;
         height: inherit;
@@ -123,7 +124,7 @@ li flx-voicesearch .form-control {
         height: inherit
     }
 }
-@media (min-width: dbSize(medium)) {
+@media (min-width: @medium) {
     flx-voicesearch {
         > div.search {
             position: absolute;
@@ -161,7 +162,7 @@ flx-voicesearch .search-screen {
     position: fixed;
     width: 100%;
     height: 0;
-    background-color: dbColor(HeaderColor);
+    background-color: @header-color;
     opacity: 0.85;
     display: flex;
     align-items: center;
@@ -226,19 +227,19 @@ flx-voicesearch .search-screen.fullScreen .search-box,
     opacity: 1;
 }
 
-@media (min-width: dbSize(medium)) {
+@media (min-width: @medium) {
     flx-voicesearch #search-after {
         display: none
     }
 }
 
-@media (max-width: dbSize(small)) {
+@media (max-width: @small) {
 
     flx-voicesearch .search-screen {
         position: fixed;
         width: 100%;
         height: 0;
-        background-color: dbColor(HeaderColor);
+        background-color: @header-color;
         opacity: 0.85;
         display: flex;
         align-items: center;
@@ -267,7 +268,7 @@ flx-voicesearch .search-screen.fullScreen .search-box,
         right: 45px;
         font-size: 15px;
         cursor: pointer;
-        color: dbColor(txtHeaderColor);
+        color: @txt-header-color;
     }
 
     flx-voicesearch .close-icon {
@@ -276,6 +277,6 @@ flx-voicesearch .search-screen.fullScreen .search-box,
         right: 10px;
         font-size: 15px;
         cursor: pointer;
-        color: dbColor(txtHeaderColor);
+        color: @txt-header-color;
     }
 }

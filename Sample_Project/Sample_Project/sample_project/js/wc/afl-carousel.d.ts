@@ -15,7 +15,7 @@ declare namespace ahoraflexy.ui.wc {
         * Array of observed attributes. REQUIRED
         * @property observedAttributes {Array}
         */
-        static readonly observedAttributes: string[];
+        static get observedAttributes(): string[];
         /**
         * Set if element has been connected to DOM
         * @property connected {boolean}

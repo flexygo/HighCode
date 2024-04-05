@@ -101,7 +101,7 @@ var flexygo;
         Base64.keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
         history.Base64 = Base64;
         //if (typeof flexygo.history.historyLog == 'undefined') { flexygo.history.historyLog = new Object(); }
-        function go(hist) {
+        function go(hist, excludeHist = true) {
             if (typeof hist.hideNavbar != 'undefined' && hist.hideNavbar) {
                 $('#mainNav').hide();
                 $('#mainNav').attr('minimized', 'True');
@@ -115,22 +115,22 @@ var flexygo;
             $('#realMain').data('context', hist);
             switch (hist.navigateFun.toLowerCase()) {
                 case 'openpage':
-                    flexygo.nav.openPage(hist.pagetypeid, hist.objectname, hist.objectwhere, hist.defaults, hist.targetid, true, null, null, hist);
+                    flexygo.nav.openPage(hist.pagetypeid, hist.objectname, hist.objectwhere, hist.defaults, hist.targetid, excludeHist, null, null, hist);
                     break;
                 case 'openpagename':
-                    flexygo.nav.openPageName(hist.pagename, hist.objectname, hist.objectwhere, hist.defaults, hist.targetid, true, null, null, hist);
+                    flexygo.nav.openPageName(hist.pagename, hist.objectname, hist.objectwhere, hist.defaults, hist.targetid, excludeHist, null, null, hist);
                     break;
                 case 'openhelpid':
-                    flexygo.nav.openHelpId(hist.helpid, hist.targetid, true);
+                    flexygo.nav.openHelpId(hist.helpid, hist.targetid, excludeHist);
                     break;
                 case 'openedittable':
-                    flexygo.nav.openEditTable(hist.tablename, hist.targetid, hist.tabledescrip, true);
+                    flexygo.nav.openEditTable(hist.tablename, hist.targetid, hist.tabledescrip, excludeHist);
                     break;
                 case 'openreportsparams':
-                    flexygo.nav.openReportsParams(hist.reportname, hist.reportwhere, hist.objectname, hist.objectwhere, hist.defaults, hist.targetid, true);
+                    flexygo.nav.openReportsParams(hist.reportname, hist.reportwhere, hist.objectname, hist.objectwhere, hist.defaults, hist.targetid, excludeHist);
                     break;
                 case 'openprocessparams':
-                    flexygo.nav.openProcessParams(hist.processname, hist.objectname, hist.objectwhere, hist.defaults, hist.targetid, true);
+                    flexygo.nav.openProcessParams(hist.processname, hist.objectname, hist.objectwhere, hist.defaults, hist.targetid, excludeHist, null, hist.pagename);
                     break;
             }
         }
@@ -233,7 +233,7 @@ var flexygo;
             }
             historyLog.add = add;
             function show(triggerElement) {
-                var list = flexygo.storage.local.get('historyLog');
+                var list = flexygo.storage.local.get('historyLog', el => el.userid === flexygo.context.currentUserId);
                 var ulList = triggerElement.closest('li').find('ul');
                 if (ulList.length == 0) {
                     ulList = $('<ul/>');
@@ -295,7 +295,7 @@ var flexygo;
                 }
                 var ret = $('<li/>').append('<span><i class="' + histItm.icon + '" /> ' + histItm.description + '<small class="text-muted pull-right">' + pageType + '</small></span>');
                 ret.on('click', function () {
-                    flexygo.history.go(histItm);
+                    flexygo.history.go(histItm, false);
                 });
                 return ret;
             }

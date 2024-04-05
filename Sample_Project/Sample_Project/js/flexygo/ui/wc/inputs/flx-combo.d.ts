@@ -14,6 +14,7 @@ declare namespace flexygo.ui.wc {
         property: string;
         value: string;
         mode: string;
+        renderMode: string;
         type: string;
         options: flexygo.api.ObjectProperty;
         /**

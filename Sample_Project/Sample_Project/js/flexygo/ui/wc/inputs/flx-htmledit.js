@@ -4,7 +4,7 @@
 var flexygo;
 (function (flexygo) {
     var ui;
-    (function (ui) {
+    (function (ui_1) {
         var wc;
         (function (wc) {
             /**
@@ -255,7 +255,7 @@ var flexygo;
                 }
                 initEditMode() {
                     let me = $(this);
-                    let txtArea = $('<textarea id="txtHTMLEdit" class="summernote" style="min-height:100%;width:100%;"></textarea>');
+                    let txtArea = $('<textarea class="summernote" style="min-height:100%;width:100%;"></textarea>');
                     me.html(txtArea);
                     if (me.attr("onchange") && me.attr("onchange") !== '') {
                         txtArea.off('change');
@@ -273,46 +273,78 @@ var flexygo;
                     this.setOptions();
                 }
                 setOptions() {
+                    var _a;
                     let me = $(this);
                     let maxnumofchars = 0;
                     if (this.options && this.options.MaxNumOfChars && this.options.MaxNumOfChars > 0) {
                         maxnumofchars = this.options.MaxNumOfChars;
                     }
-                    me.find('.summernote').summernote({
-                        minHeight: 100,
-                        maxHeight: null,
-                        dialogsInBody: true,
-                        callbacks: {
-                            onKeydown: function (e) {
-                                var t = e.currentTarget.innerText;
-                                if (maxnumofchars != 0 && t.length >= maxnumofchars) {
-                                    if (e.keyCode != 8 && !(e.keyCode >= 37 && e.keyCode <= 40) && e.keyCode != 46 && !(e.keyCode == 88 && e.ctrlKey) && !(e.keyCode == 67 && e.ctrlKey)) {
-                                        e.preventDefault();
-                                    }
+                    var UIButton = null;
+                    var summernoteOptions = {};
+                    summernoteOptions.toolbar = [
+                        ['style', ['style']],
+                        ['font', ['bold', 'italic', 'underline', 'clear']],
+                        ['fontname', ['fontname']],
+                        ['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['height', ['height']],
+                        ['table', ['table']],
+                        ['insert', ['link', 'picture', 'hr', 'video']],
+                        ['view', ['fullscreen', 'codeview']],
+                        ['help', ['help']],
+                        ['mybutton', ['ui']]
+                    ];
+                    if ((_a = this.options) === null || _a === void 0 ? void 0 : _a.ChatGPTSettingId) {
+                        UIButton = function (context) {
+                            var ui = $.summernote.ui;
+                            // create button
+                            var button = ui.button({
+                                contents: '<i class="flx-icon icon-roboto-logo"/> Lowdy',
+                                tooltip: 'Lowdy',
+                                click: function () {
+                                    // invoke insertText method with 'hello' on editor module.
+                                    flexygo.ui.wc.FlxAIElement.prototype.open($(this).closest('flx-htmledit'));
                                 }
-                            },
-                            onKeyup: function (e) {
-                                var t = e.currentTarget.innerText;
-                                if (maxnumofchars != 0 && t.length >= maxnumofchars) {
-                                    if (e.keyCode != 8 && !(e.keyCode >= 37 && e.keyCode <= 40) && e.keyCode != 46 && !(e.keyCode == 88 && e.ctrlKey) && !(e.keyCode == 67 && e.ctrlKey)) {
-                                        e.preventDefault();
-                                    }
-                                }
-                            },
-                            onPaste: function (e) {
-                                var t = e.currentTarget.innerText;
-                                var bufferText = ((e.originalEvent || e).clipboardData).getData('Text');
-                                e.preventDefault();
-                                var maxPaste = bufferText.length;
-                                if (maxnumofchars != 0 && t.length + bufferText.length > maxnumofchars) {
-                                    maxPaste = maxnumofchars - t.length;
-                                }
-                                if (maxPaste > 0) {
-                                    document.execCommand('insertText', false, bufferText.substring(0, maxPaste));
+                            });
+                            return button.render(); // return button as jquery object
+                        };
+                        summernoteOptions.buttons = { ui: UIButton };
+                    }
+                    summernoteOptions.minHeight = 100;
+                    summernoteOptions.maxHeight = null;
+                    summernoteOptions.dialogsInBody = true;
+                    summernoteOptions.callbacks = {
+                        onKeydown: function (e) {
+                            var t = e.currentTarget.innerText;
+                            if (maxnumofchars != 0 && t.length >= maxnumofchars) {
+                                if (e.keyCode != 8 && !(e.keyCode >= 37 && e.keyCode <= 40) && e.keyCode != 46 && !(e.keyCode == 88 && e.ctrlKey) && !(e.keyCode == 67 && e.ctrlKey)) {
+                                    e.preventDefault();
                                 }
                             }
+                        },
+                        onKeyup: function (e) {
+                            var t = e.currentTarget.innerText;
+                            if (maxnumofchars != 0 && t.length >= maxnumofchars) {
+                                if (e.keyCode != 8 && !(e.keyCode >= 37 && e.keyCode <= 40) && e.keyCode != 46 && !(e.keyCode == 88 && e.ctrlKey) && !(e.keyCode == 67 && e.ctrlKey)) {
+                                    e.preventDefault();
+                                }
+                            }
+                        },
+                        onPaste: function (e) {
+                            var t = e.currentTarget.innerText;
+                            var bufferText = ((e.originalEvent || e).clipboardData).getData('Text');
+                            e.preventDefault();
+                            var maxPaste = bufferText.length;
+                            if (maxnumofchars != 0 && t.length + bufferText.length > maxnumofchars) {
+                                maxPaste = maxnumofchars - t.length;
+                            }
+                            if (maxPaste > 0) {
+                                document.execCommand('insertText', false, bufferText.substring(0, maxPaste));
+                            }
                         }
-                    });
+                    };
+                    me.find('.summernote').summernote(summernoteOptions);
+                    this.readonly && me.find('.summernote').summernote('disable');
                     let input = me.find('textarea');
                     if (this.options && this.options.Name && this.options.Name !== '') {
                         input.attr('name', this.options.Name);
@@ -397,7 +429,7 @@ var flexygo;
            */
             FlxHtmlEditElement.observedAttributes = ['type', 'property', 'required', 'disabled', 'requiredmessage', 'class', 'iconclass', 'helpid', 'hide'];
             wc.FlxHtmlEditElement = FlxHtmlEditElement;
-        })(wc = ui.wc || (ui.wc = {}));
+        })(wc = ui_1.wc || (ui_1.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));
 })(flexygo || (flexygo = {}));
 window.customElements.define('flx-htmledit', flexygo.ui.wc.FlxHtmlEditElement);

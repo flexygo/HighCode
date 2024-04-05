@@ -168,7 +168,12 @@ var flexygo;
                                 let info = flexygo.utils.parser.compile(this.settings, flexygo.localization.translate('flxversioninfo.lastversion'));
                                 me.append('<div class="box-success"></div>');
                                 let box = me.find(".box-success").first();
-                                box.append('<button name="btn-info" class="btn bg-success"><i class="flx-icon icon-information-3"></i></button><button name="btn-update" class="btn bg-success"><i class="flx-icon icon-download"></i></button><span class="l-size">' + info + '</span>');
+                                if (flexygo.utils.isBlank(v.ReleaseNotes)) {
+                                    box.append('<button name="btn-update" style="padding: 6px 27px 2px 27px;" class="btn bg-success"><i class="flx-icon icon-download"></i></button><span class="l-size">' + info + '</span>');
+                                }
+                                else {
+                                    box.append('<button name="btn-info" class="btn bg-success"><i class="flx-icon icon-information-3"></i></button><button name="btn-update" class="btn bg-success"><i class="flx-icon icon-download"></i></button><span class="l-size">' + info + '</span>');
+                                }
                                 let btnUpdate = box.find('[name="btn-update"]');
                                 btnUpdate.attr("title", flexygo.localization.translate('flxversioninfo.update'));
                                 btnUpdate.off("click").on("click", () => {
@@ -178,11 +183,13 @@ var flexygo;
                                         }
                                     });
                                 });
-                                let btnInfo = box.find('[name="btn-info"]');
-                                btnInfo.attr("title", flexygo.localization.translate('flxversioninfo.info'));
-                                btnInfo.off("click").on("click", () => {
-                                    this.infoVersion(v);
-                                });
+                                if (!flexygo.utils.isBlank(v.ReleaseNotes)) {
+                                    let btnInfo = box.find('[name="btn-info"]');
+                                    btnInfo.attr("title", flexygo.localization.translate('flxversioninfo.info'));
+                                    btnInfo.off("click").on("click", () => {
+                                        this.infoVersion(v);
+                                    });
+                                }
                                 return false;
                             }
                         });

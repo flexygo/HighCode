@@ -276,9 +276,10 @@
         });
         return source;
     };
+    
 
     $.extend($.validator, {
-
+        
         defaults: {
             messages: {},
             groups: {},
@@ -368,7 +369,7 @@
         setDefaults: function (settings) {
             $.extend($.validator.defaults, settings);
         },
-
+        
         messages: {
             required: "This field is required.",
             remote: "Please fix this field.",

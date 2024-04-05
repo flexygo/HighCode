@@ -286,7 +286,7 @@ var flexygo;
                     itm.attr('mode', 'imap');
                     itm.attr('ObjectName', this.linkObj);
                     itm.attr('ObjectId', this.linkKey);
-                    let cont = flexygo.targets.createContainer({ targetid: 'popup1280x1024' }, false, $(this));
+                    let cont = flexygo.targets.createContainer({ targetid: 'popup1280x1024', userid: flexygo.context.currentUserId }, false, $(this));
                     if (!cont) {
                         return;
                     }

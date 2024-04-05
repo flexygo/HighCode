@@ -1,4 +1,5 @@
-﻿//Notify
+﻿@import "../CssVars.less";
+//Notify
 .notifypopover {
     min-width: 600px;
 }
@@ -12,18 +13,18 @@
 }
 
 .notify .active {
-    background-color: lighten(dbColor(NotifyColor), 60);
-    color: dbColor(NotifyColor);
+    background-color: lighten(@notify-color, 60);
+    color: @notify-color;
 }
 
 .notifypopover .notify .active {
-    border-left: solid 5px dbColor(NotifyColor);
+    border-left: solid 5px @notify-color;
     padding: .5em;
 }
 
 .notify div.row.row-line:not(.active) {
     background-color: darken(white,5);
-    color: dbColor(PrimaryColor);
+    color: @primary-color;
     opacity: .60;
 }
 

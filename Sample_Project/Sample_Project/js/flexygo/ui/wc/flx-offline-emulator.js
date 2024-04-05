@@ -118,6 +118,8 @@ var flexygo;
                 renderHelpOptions() {
                     return (`<div class="help-options">
                    <i data-action="refreshpages" class="flx-icon icon-refresh" data-toggle="tooltip" data-placement="bottom" title="Refresh"/>
+                   <i data-action="resetemulator" class="flx-icon icon-clean" data-toggle="tooltip" data-placement="bottom" title="Reset emulator"/>
+                   <i data-action="externalemulatordb" class="flx-icon icon-database" data-toggle="tooltip" data-placement="bottom" title="External emulator DB"/>
                    <i data-action="externalemulator" class="flx-icon icon-new-link" data-toggle="tooltip" data-placement="bottom" title="External emulator"/>
                   </div>`);
                 }
@@ -151,6 +153,18 @@ var flexygo;
                                 break;
                             case 'externalemulator':
                                 window.open(this.buildUrl());
+                                break;
+                            case 'externalemulatordb':
+                                this.ionicWindow.eval(`flexygo.sql.saveToStore();`);
+                                window.open(this.buildUrl() + "#/indexeddb");
+                                break;
+                            case 'resetemulator':
+                                flexygo.msg.confirm(flexygo.localization.translate('offlineemulator.refreshemulatorconfirm'), (result) => {
+                                    if (result) {
+                                        localStorage.removeItem("CapacitorStorage.flexyApp");
+                                        this.refresh();
+                                    }
+                                });
                                 break;
                         }
                     });

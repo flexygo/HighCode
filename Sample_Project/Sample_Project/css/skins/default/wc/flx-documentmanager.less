@@ -1,4 +1,6 @@
-﻿flx-documentmanager, .flx-documentmanager {
+﻿@import "../CssVars.less";
+
+flx-documentmanager, .flx-documentmanager {
     &[documentviewer] {
         display: flex;
         flex-wrap: wrap;
@@ -25,7 +27,7 @@
             }
 
             &.active {
-                background-color: lighten(DbColor(OutstandingColor),45%);
+                background-color: lighten(@outstanding-color,45%);
             }
         }
     }
@@ -49,10 +51,10 @@
         }
 
         &[documenttype*=disk] {
-            border-left: 3px solid DbColor(OutstandingColor);
+            border-left: 3px solid @outstanding-color;
 
             .dtc-icontype {
-                color: DbColor(OutstandingColor);
+                color: @outstanding-color;
 
                 &:before {
                     content: "\f0a0";
@@ -95,7 +97,7 @@
 
         .dtc-progressbar {
             position: absolute;
-            background-color: fade(DbColor(OutstandingColor),50%);
+            background-color: fade(@outstanding-color,50%);
             top: 0px;
             bottom: 0px;
         }
@@ -103,7 +105,7 @@
         .dtc-progresstext {
             position: absolute;
             text-align: center;
-            color: DbColor(txtOutstandingColor);
+            color: @txt-outstanding-color;
             font-weight: bold;
             padding-top: 12px;
             font-size: 2em;
@@ -311,10 +313,10 @@
     .link {
         cursor: pointer;
         transition: all 0.15s cubic-bezier(0.65, 0.05, 0.36, 1);
-        color: dbColor(txtColor);
+        color: @txt-color;
 
         &:hover {
-            color: dbColor(OutstandingColor);
+            color: @outstanding-color;
         }
     }
 
@@ -356,7 +358,7 @@
     }
 
     .disk {
-        color: DbColor(OutstandingColor);
+        color: @outstanding-color;
     }
 }
 
@@ -404,7 +406,7 @@
 
 main:not(.ui-dialog-content) flx-documentmanager, .flx-documentmanager {
 
-    @media (min-width: dbSize(small)) AND (max-width: dbSize(large)) {
+    @media (min-width: @small) AND (max-width: @large) {
         .dtc-container {
             flex-wrap: wrap;
 
@@ -421,7 +423,7 @@ main:not(.ui-dialog-content) flx-documentmanager, .flx-documentmanager {
     }
 }
 
-@media (max-width: dbSize(medium)) {
+@media (max-width: @medium) {
     .dtc-container {
         flex-wrap: nowrap !important;
 
@@ -436,7 +438,7 @@ main:not(.ui-dialog-content) flx-documentmanager, .flx-documentmanager {
     }
 }
 
-@media (min-width: dbSize(medium)) {
+@media (min-width: @medium) {
     flx-module.fullscreen flx-documentmanager .dtc-pry-container, flx-module.fullscreen .flx-documentmanager .dtc-pry-container {
         max-height: 80vh;
     }

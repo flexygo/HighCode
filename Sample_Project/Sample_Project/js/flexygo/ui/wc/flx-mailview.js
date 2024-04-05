@@ -34,7 +34,7 @@ var flexygo;
             <ul class="list-unstyled">
             <li class="messageid hidden">{{MessageId}}</li>
             <li class="from">{{FromName|isnull:{{FromAddress}}}}</li>
-            <li><small class="date">{{MailDate|date:DD/MM/YYYY hh:mm}}</small></li>
+            <li><small class="date">{{MailDate|date:DD/MM/YYYY HH:mm}}</small></li>
             <li><span class="subject">{{Subject}}</span></li>
             </ul>
    
@@ -122,7 +122,7 @@ var flexygo;
                 render(ret) {
                     let me = $(this);
                     ret.BodyText = flexygo.utils.parser.replaceAll(ret.BodyText, ',', '&#44;');
-                    me.find('.mailItem').html(flexygo.utils.parser.recursiveCompile(ret, this.viewtemplate));
+                    me.find('.mailItem').html(flexygo.utils.parser.recursiveCompile(ret, this.viewtemplate, null, null, true));
                     let frameContent = me.find('.iframe');
                     for (let i = 0; i < ret.Images.length; i++) {
                         let imgAtt = ret.Images[i];

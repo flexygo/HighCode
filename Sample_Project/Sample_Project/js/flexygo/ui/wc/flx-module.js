@@ -147,6 +147,21 @@ var flexygo;
                         });
                         me.find('.cntButtons').append(btnConfig);
                     }
+                    let moduleObject = this.getObjectName(0);
+                    if (!flexygo.utils.isBlank(moduleObject)) {
+                        var btnWizard = $('<b class="flx-icon icon-wizard-1 develop-only" />').on('click', () => {
+                            let modObj = this.getObjectName();
+                            if (!flexygo.utils.isBlank(modObj) && !modObj.includes("{{")) {
+                                let mobj = new flexygo.obj.Entity(modObj);
+                                let mcnf = mobj.getConfig();
+                                flexygo.nav.openPageName('syspage-generic-objectwizard', 'sysObject', "ObjectName='" + mcnf.ObjectName + "'", '{"step":7}', 'current', false, $(this));
+                            }
+                            else {
+                                flexygo.msg.warning(flexygo.localization.translate('formatsmanager.requiredobject'));
+                            }
+                        });
+                        me.find('.cntButtons').append(btnWizard);
+                    }
                     if (this.canEnlarge) {
                         var btnFullScreen = $('<b class="flx-icon icon-resize" />').on('click', () => {
                             this.toggleFullScreen();
@@ -193,12 +208,36 @@ var flexygo;
                         }
                     });
                 }
+                getObjectName(type = 1) {
+                    let modObj;
+                    if (this.moduleConfig) {
+                        if (this.moduleConfig.WebComponent.toLowerCase() == 'flx-moduletab') {
+                            modObj = (type == 0 ? "0" : this.module[0].activeModule.ModuleObjectName);
+                        }
+                        else {
+                            modObj = this.module[0].objectname;
+                        }
+                        if (modObj == null || modObj == undefined || modObj == "") {
+                            modObj = this.moduleConfig.ModuleObjectName;
+                        }
+                    }
+                    return modObj;
+                }
                 /**
               * Refresh module.
               * @method refresh
               */
                 refresh() {
                     let me = $(this);
+                    for (let i = 0; i < $(this).find('flx-view,flx-edit').find('flx-code[editor="monaco"]').length; i++) {
+                        let monacoEditor = $(this).find('flx-code[editor="monaco"]')[i];
+                        if (monacoEditor.monaco) {
+                            monacoEditor.monaco.dispose();
+                        }
+                        flexygo.events.off(monacoEditor, 'property', 'resized');
+                        flexygo.events.off(monacoEditor, 'module', 'resized');
+                        flexygo.events.off(monacoEditor, 'dialog', 'resized');
+                    }
                     me.find(".moduleToolbar > .btn-group > .tooltip").tooltip('hide');
                     me.find('*:not(flx-inputview,flx-input,flx-filter,flx-multicombo,flx-combo,flx-dbcombo)').filter((i, s) => {
                         return /^flx\-/i.test(s.nodeName);
@@ -579,22 +618,22 @@ var flexygo;
                             break;
                         case 'save':
                             htmlBTN.addClass("saveButton");
-                            htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.ui.wc.FlxModuleElement.prototype.saveModule', [objectname, objectwhere], ['$(this).closest(\'flx-module\')', '$(this)']));
+                            htmlBTN.attr('onclick', "flexygo.ui.wc.FlxModuleElement.prototype.checkNewComboObjectsMessage($(this).closest('flx-module')).then((res) => { if(res) " + flexygo.utils.functionToString('flexygo.ui.wc.FlxModuleElement.prototype.saveModule', [objectname, objectwhere], ['$(this).closest(\'flx-module\')', '$(this)']) + ";})");
                             htmlBTN.tooltip({ title: flexygo.localization.translate('flxmodule.save'), placement: 'bottom' });
                             break;
                         case 'saveview':
                             htmlBTN.addClass("saveButton");
-                            htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.ui.wc.FlxModuleElement.prototype.saveModule', [objectname, objectwhere], ['$(`[buttonId="${$(this).attr("parentId") ? $(this).attr("parentId") : $(this).attr("buttonId") }"]`).closest(\'flx-module\')', '$(this)', '\'view\'', objectdefaults]));
+                            htmlBTN.attr('onclick', "flexygo.ui.wc.FlxModuleElement.prototype.checkNewComboObjectsMessage(this.closest('flx-contextmenu').parent.closest('flx-module')).then((res) => { if(res) " + flexygo.utils.functionToString('flexygo.ui.wc.FlxModuleElement.prototype.saveModule', [objectname, objectwhere], ['$(`[buttonId="${$(this).attr("parentId") ? $(this).attr("parentId") : $(this).attr("buttonId") }"]`).closest(\'flx-module\')', '$(this)', '\'view\'', objectdefaults]) + ";})");
                             htmlBTN.tooltip({ title: flexygo.localization.translate('flxmodule.save'), placement: 'bottom' });
                             break;
                         case 'saveandnew':
                             htmlBTN.addClass("saveButton");
-                            htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.ui.wc.FlxModuleElement.prototype.saveModule', [objectname, objectwhere], ['$(`[buttonId="${$(this).attr("parentId") ? $(this).attr("parentId") : $(this).attr("buttonId") }"]`).closest(\'flx-module\')', '$(this)', '\'edit\'', objectdefaults]));
+                            htmlBTN.attr('onclick', "flexygo.ui.wc.FlxModuleElement.prototype.checkNewComboObjectsMessage(this.closest('flx-contextmenu').parent.closest('flx-module')).then((res) => { if(res) " + flexygo.utils.functionToString('flexygo.ui.wc.FlxModuleElement.prototype.saveModule', [objectname, objectwhere], ['$(`[buttonId="${$(this).attr("parentId") ? $(this).attr("parentId") : $(this).attr("buttonId") }"]`).closest(\'flx-module\')', '$(this)', '\'edit\'', objectdefaults]) + ";})");
                             htmlBTN.tooltip({ title: flexygo.localization.translate('flxmodule.save'), placement: 'bottom' });
                             break;
                         case 'saverow':
                             htmlBTN.addClass("saveRowButton");
-                            htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.ui.wc.saveRow', [objectname, objectwhere], ['$(this).closest(\'flx-list\')', '$(this)']));
+                            htmlBTN.attr('onclick', "flexygo.ui.wc.FlxModuleElement.prototype.checkNewComboObjectsMessage($(this).closest('tr')).then((res) => { if(res) " + flexygo.utils.functionToString('flexygo.ui.wc.saveRow', [objectname, objectwhere], ['$(this).closest(\'flx-list\')', '$(this)']) + ";})");
                             htmlBTN.tooltip({ title: flexygo.localization.translate('flxmodule.save'), placement: 'bottom' });
                             break;
                         case 'new':
@@ -621,7 +660,7 @@ var flexygo;
                             //break;
                             htmlBTN.append('<span class="caret"></span>');
                             htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.ui.exports.printListMenu', [objectname, objectwhere, objectdefaults], ['$(this)']));
-                            htmlBTN.tooltip({ title: flexygo.localization.translate('flxmodule.print'), placement: 'top', trigger: 'hover' });
+                            htmlBTN.tooltip({ title: flexygo.localization.translate('flxmodule.print'), placement: 'bottom', trigger: 'hover' });
                             break;
                         case 'help':
                             htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.nav.openHelpId', [btn.HelpId, btn.TargetId, false], ['$(this)']));
@@ -630,11 +669,13 @@ var flexygo;
                         case 'templates':
                             htmlBTN.append('<span class="caret"></span>');
                             htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.ui.templates.templateList', [objectname], ['$(this).closest(\'flx-module\')', '$(this)']));
-                            htmlBTN.tooltip({ title: flexygo.localization.translate('flxmodule.templates'), placement: 'top' });
+                            htmlBTN.tooltip({ title: flexygo.localization.translate('flxmodule.templates'), placement: 'bottom' });
                             break;
                         case 'objectmenu':
                             htmlBTN.append('<span class="caret"></span>');
                             htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.nav.getObjectMenu', [objectname, objectwhere, objectdefaults], ['$(this)', null]));
+                            if (htmlBTN.attr('title'))
+                                htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
                             break;
                         case 'process':
                             let retFunction = flexygo.utils.functionToString('flexygo.nav.execProcess', [btn.ProcessName, objectname, objectwhere, objectdefaults, null, btn.TargetId, false], ['$(this)']);
@@ -658,22 +699,32 @@ var flexygo;
                         case 'processmenu':
                             htmlBTN.append('<span class="caret"></span>');
                             htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.nav.getObjectMenu', [objectname, objectwhere, objectdefaults], ['$(this)', null, "'processes'"]));
+                            if (htmlBTN.attr('title'))
+                                htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
                             break;
                         case 'relations':
                             htmlBTN.append('<span class="caret"></span>');
                             htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.nav.getObjectMenu', [objectname, objectwhere, objectdefaults], ['$(this)', null, "'relations'"]));
+                            if (htmlBTN.attr('title'))
+                                htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
                             break;
                         case 'reportmenu':
                             htmlBTN.append('<span class="caret"></span>');
                             htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.nav.getObjectMenu', [objectname, objectwhere, objectdefaults], ['$(this)', null, "'reports'"]));
+                            if (htmlBTN.attr('title'))
+                                htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
                             break;
                         case 'runreport':
                             htmlBTN.addClass("saveReportButton");
                             htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.ui.wc.FlxModuleElement.prototype.saveReportParams', [reportname, reportwhere, objectname, objectwhere, objectdefaults], ['$(this).closest(\'flx-module\')', '$(this)']));
+                            if (htmlBTN.attr('title'))
+                                htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
                             break;
                         case 'runprocess':
                             htmlBTN.addClass("execProcessButton");
                             htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.ui.wc.FlxModuleElement.prototype.execProcessParams', [processname, objectname, objectwhere, objectdefaults], ['$(this).closest(\'flx-module\')', '$(this)']));
+                            if (htmlBTN.attr('title'))
+                                htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
                             break;
                         case 'back':
                             htmlBTN.on('click', () => {
@@ -684,32 +735,46 @@ var flexygo;
                         case 'filter':
                             htmlBTN.append('<span class="caret"></span>');
                             htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.ui.wc.loadFilter', [objectname], ['$(this).closest(\'flx-module\')', '$(this)']));
+                            if (htmlBTN.attr('title'))
+                                htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
                             break;
                         case 'presets':
                             htmlBTN.append('<span class="caret"></span>');
                             htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.ui.wc.loadPresets', [objectname], ['$(this).closest(\'flx-module\')', '$(this)']));
+                            if (htmlBTN.attr('title'))
+                                htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
                             break;
                         case 'savedsearches':
                             htmlBTN.append('<span class="caret"></span>');
                             htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.ui.wc.loadSavedSearches', [objectname], ['$(this).closest(\'flx-module\')', '$(this)']));
+                            if (htmlBTN.attr('title'))
+                                htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
                             break;
                         case 'select':
                             htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.ui.wc.FlxModuleElement.prototype.execSelectEntity', [objectname, objectwhere], ['$(this).closest(\'flx-module\')', '$(this)']));
+                            if (htmlBTN.attr('title'))
+                                htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
                             break;
                         case 'bag':
                             htmlBTN.addClass('bagButton');
                             htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.ui.wc.FlxModuleElement.prototype.toggleBag', [objectname, objectwhere], ['$(this)']));
+                            if (htmlBTN.attr('title'))
+                                htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
                             break;
                         case 'clearrow':
                             htmlBTN.attr('onclick', 'flexygo.ui.wc.clearRow($(this).closest(\'flx-module\'),$(this));');
+                            if (htmlBTN.attr('title'))
+                                htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
                             break;
                         case 'export':
                             htmlBTN.append('<span class="caret"></span>');
                             htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.ui.exports.exportListMenu', [objectname, objectwhere, objectdefaults], ['$(this)']));
-                            htmlBTN.tooltip({ title: flexygo.localization.translate('flxmodule.export'), placement: 'top', trigger: 'hover' });
+                            htmlBTN.tooltip({ title: flexygo.localization.translate('flxmodule.export'), placement: 'bottom', trigger: 'hover' });
                             break;
                         case 'sort':
                             htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.ui.templates.showSortManager', [objectname], ['$(this).closest(\'flx-module\')', '$(this)']));
+                            if (htmlBTN.attr('title'))
+                                htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
                             break;
                         case 'text':
                             if (htmlBTN.attr('title'))
@@ -838,8 +903,10 @@ var flexygo;
                     module[0].refresh();
                 }
                 bagSelectionAll(objectName, objectWhere, module, button, cllbck) {
-                    let currentFilter = module.find('flx-list')[0].processwhere;
-                    flexygo.ajax.post('~/api/List', 'GetBagPage', { ObjectName: objectName, ObjectWhere: currentFilter }, (response) => {
+                    let flxList = module.find('flx-list')[0];
+                    let currentFilter = flxList.processwhere;
+                    let additionalWhere = flxList.additionalWhere;
+                    flexygo.ajax.post('~/api/List', 'GetBagPage', { ObjectName: objectName, ObjectWhere: currentFilter, AdditionalWhere: additionalWhere }, (response) => {
                         if (response.length > 0) {
                             let newArray = flexygo.selection.getArray(objectName).concat(response);
                             flexygo.selection.appendArray(objectName, newArray);
@@ -927,10 +994,11 @@ var flexygo;
                     });
                 }
                 saveModule(objectName, objectWhere, module, button, afterSaveGoTo = '', defaults = null, lastObj, lastProcessName, lastAfterProcessName) {
+                    var _a;
                     if (objectWhere.includes('&quot;')) {
                         objectWhere = objectWhere.replace(/&quot;/g, '"');
                     }
-                    if (!button || !button.is(':disabled')) {
+                    if (!button || !button.is(':disabled') || lastObj) {
                         if (module.find('flx-edit').length > 0) {
                             let edit = module.find('flx-edit')[0];
                             if (edit.loadingDependencies > 0) {
@@ -941,21 +1009,26 @@ var flexygo;
                         }
                         //check if moduletab and editgrid
                         let isEditGridOnTab = false;
-                        if ($(module)[0].componentString == 'flx-moduletab') {
+                        if (!lastObj && $(module)[0].componentString == 'flx-moduletab') {
                             if ($(module).find('.modulediv flx-list').length > 0 && $(module).find('.modulediv flx-list').attr('mode') == 'edit') {
                                 isEditGridOnTab = true;
                             }
                         }
-                        // check if edit grid
-                        if ($(module)[0].componentString != 'flx-list mode="edit"' && !isEditGridOnTab) {
+                        // Checks if is an edit grid, (if = edit, else = edit-grid)
+                        if (((lastObj || $(module)[0]).componentString != 'flx-list mode="edit"') && !isEditGridOnTab) {
                             if ($(module)[0].componentString == 'flx-edit') {
                                 let edit = module.find('flx-edit')[0];
                                 edit.validateSQLProperties();
                             }
-                            if (module.find('form').valid()) {
-                                $('.saveButton').prop('disabled', true);
-                                let props = module.find('[property]');
-                                if (props.length > 0) {
+                            if (module.find('form').valid() || lastObj) {
+                                //We check for possible combo with values that should be saved before object itself
+                                this.checkAndSaveNewComboValues(module);
+                                let props;
+                                if (!lastObj) {
+                                    $('.saveButton').prop('disabled', true);
+                                    props = module.find('[property]');
+                                }
+                                if (lastObj || props.length > 0) {
                                     let obj;
                                     if (!lastObj) {
                                         obj = new flexygo.obj.Entity(objectName, objectWhere);
@@ -1042,7 +1115,7 @@ var flexygo;
                                         //$(document).trigger(eventName, [obj, editModule.edit]);
                                         var context = flexygo.history.get(module);
                                         if (context) {
-                                            if (obj.objectName.toLowerCase() == context.objectname.toLowerCase()) {
+                                            if (obj.objectName.toLowerCase() == ((_a = context.objectname) === null || _a === void 0 ? void 0 : _a.toLowerCase())) {
                                                 let params = {
                                                     StrType: context.pagetypeid,
                                                     ObjectName: obj.objectName,
@@ -1110,6 +1183,83 @@ var flexygo;
                             }
                         }
                     }
+                }
+                checkAndSaveNewComboValues(container) {
+                    let combos_with_objects = container.find('[AddValuesToObject="true"]');
+                    if (!combos_with_objects.length)
+                        return;
+                    combos_with_objects.each((_, combo) => {
+                        let res;
+                        const display_field = combo.options.ComboAllowSave_DisplayField;
+                        const value_field = combo.options.ComboAllowSave_ValueField;
+                        //DBCombos will just insert its current new value
+                        if (combo.type === 'dbcombo') {
+                            res = this.addNewComboValue(container, combo, combo.getValue(), display_field);
+                            if (res.success) {
+                                combo.setValue(res.object.data[value_field].Value);
+                                combo.removeAttribute("AddValuesToObject");
+                            }
+                            else {
+                                //Falta traducir
+                                throw new Error(flexygo.localization.translate('Ha habido un error en la inserción de x'));
+                            }
+                            return;
+                        }
+                        //MultiCombos will insert every new value they contain
+                        combo.querySelectorAll('.label-warning').forEach(value_div => {
+                            res = this.addNewComboValue(container, combo, value_div.textContent, display_field);
+                            if (res.success) {
+                                value_div.children[0].click();
+                                combo.addValue(res.object.data[value_field].Value);
+                            }
+                            else {
+                                //Falta traducir
+                                throw new Error(flexygo.localization.translate('Ha habido un error en la inserción de x'));
+                            }
+                        });
+                    });
+                }
+                //Inserts a new value that has been created using a dbcombo/multicombo
+                addNewComboValue(container, combo, value, display_field) {
+                    let new_object = new flexygo.obj.Entity(combo.options.ComboAllowSave_Object);
+                    new_object.read();
+                    new_object.data[display_field].Value = value;
+                    if (combo.options.ComboAllowSave_Defaults) {
+                        let json_values = {};
+                        const props = container.find('[property]');
+                        props.each((i, prop) => {
+                            json_values[prop.property] = prop.getValue();
+                        });
+                        const defaults = flexygo.utils.parser.recursiveCompile(json_values, combo.options.ComboAllowSave_Defaults);
+                        const json_defaults = JSON.parse(defaults);
+                        for (const property in json_defaults) {
+                            new_object.data[property].Value = json_defaults[property];
+                        }
+                    }
+                    return { success: new_object.insert(), object: new_object };
+                }
+                checkNewComboObjectsMessage(container) {
+                    return __awaiter(this, void 0, void 0, function* () {
+                        let combos_with_objects = container.find('[AddValuesToObject="true"]');
+                        if (combos_with_objects.length) {
+                            let i = 0, show_warning_message = false, objects_to_save = [];
+                            while (i < combos_with_objects.length) {
+                                let current_combo = combos_with_objects[i];
+                                //The confirm message will show up only if its a combo with an assigned new value
+                                if (current_combo.options.ComboAllowSave_WarningMessage && current_combo.options.ComboAllowSave_Object && (current_combo.type === 'dbcombo' || current_combo.querySelector('.label-warning'))) {
+                                    objects_to_save.push(current_combo.options.ComboAllowSave_Object);
+                                    show_warning_message = true;
+                                }
+                                i++;
+                            }
+                            if (show_warning_message) {
+                                //Falta traducción
+                                const warning_message = flexygo.localization.translate('comboTexts.warningMessage').replace('@', objects_to_save.join(', '));
+                                return yield flexygo.msg.confirm(warning_message);
+                            }
+                        }
+                        return true;
+                    });
                 }
                 saveReportParams(reportname, reportwhere, objectname, objectwhere, objectdefaults, module, button) {
                     if ($(module)[0].componentString.includes('flx-edit')) {
@@ -1183,12 +1333,12 @@ var flexygo;
                     flexygo.events.trigger(ev, module);
                 }
                 startLoading() {
-                    $(this).find('.icon-sincronize').addClass('icon-spin txt-outstanding');
+                    $(this).find('.icon-sincronize').addClass('icon-spin-reverse txt-outstanding');
                     $(this).addClass('loading');
                     NProgress.start();
                 }
                 stopLoading() {
-                    $(this).find('.icon-sincronize').removeClass('icon-spin txt-outstanding');
+                    $(this).find('.icon-sincronize').removeClass('icon-spin-reverse txt-outstanding');
                     $(this).removeClass('loading');
                     NProgress.done();
                 }

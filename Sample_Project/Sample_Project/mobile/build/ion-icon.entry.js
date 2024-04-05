@@ -1,5 +1,5 @@
-import { r as registerInstance, h as Build, j as h, l as Host, k as getElement } from './index-86ac49ff.js';
-import { i as isStr, g as getUrl, a as getName } from './utils-16079bfd.js';
+import { r as registerInstance, h as Build, k as h, n as Host, m as getElement } from './index-d0d1673d.js';
+import { i as isStr, g as getUrl, a as getName } from './utils-0a0c7da4.js';
 
 const validateContent = (svgContent) => {
   const div = document.createElement('div');
@@ -78,107 +78,107 @@ const getSvgContent = (url, sanitize) => {
 const iconCss = ":host{display:inline-block;width:1em;height:1em;contain:strict;fill:currentColor;box-sizing:content-box !important}:host .ionicon{stroke:currentColor}.ionicon-fill-none{fill:none}.ionicon-stroke-width{stroke-width:32px;stroke-width:var(--ionicon-stroke-width, 32px)}.icon-inner,.ionicon,svg{display:block;height:100%;width:100%}:host(.flip-rtl) .icon-inner{transform:scaleX(-1)}:host(.icon-small){font-size:18px !important}:host(.icon-large){font-size:32px !important}:host(.ion-color){color:var(--ion-color-base) !important}:host(.ion-color-primary){--ion-color-base:var(--ion-color-primary, #3880ff)}:host(.ion-color-secondary){--ion-color-base:var(--ion-color-secondary, #0cd1e8)}:host(.ion-color-tertiary){--ion-color-base:var(--ion-color-tertiary, #f4a942)}:host(.ion-color-success){--ion-color-base:var(--ion-color-success, #10dc60)}:host(.ion-color-warning){--ion-color-base:var(--ion-color-warning, #ffce00)}:host(.ion-color-danger){--ion-color-base:var(--ion-color-danger, #f14141)}:host(.ion-color-light){--ion-color-base:var(--ion-color-light, #f4f5f8)}:host(.ion-color-medium){--ion-color-base:var(--ion-color-medium, #989aa2)}:host(.ion-color-dark){--ion-color-base:var(--ion-color-dark, #222428)}";
 
 const Icon = class {
-    constructor(hostRef) {
-        registerInstance(this, hostRef);
-        this.iconName = null;
-        this.isVisible = false;
-        /**
-         * The mode determines which platform styles to use.
-         */
-        this.mode = getIonMode();
-        /**
-         * If enabled, ion-icon will be loaded lazily when it's visible in the viewport.
-         * Default, `false`.
-         */
-        this.lazy = false;
-        /**
-         * When set to `false`, SVG content that is HTTP fetched will not be checked
-         * if the response SVG content has any `<script>` elements, or any attributes
-         * that start with `on`, such as `onclick`.
-         * @default true
-         */
-        this.sanitize = true;
+  constructor(hostRef) {
+    registerInstance(this, hostRef);
+    this.iconName = null;
+    this.isVisible = false;
+    /**
+     * The mode determines which platform styles to use.
+     */
+    this.mode = getIonMode();
+    /**
+     * If enabled, ion-icon will be loaded lazily when it's visible in the viewport.
+     * Default, `false`.
+     */
+    this.lazy = false;
+    /**
+     * When set to `false`, SVG content that is HTTP fetched will not be checked
+     * if the response SVG content has any `<script>` elements, or any attributes
+     * that start with `on`, such as `onclick`.
+     * @default true
+     */
+    this.sanitize = true;
+  }
+  connectedCallback() {
+    // purposely do not return the promise here because loading
+    // the svg file should not hold up loading the app
+    // only load the svg if it's visible
+    this.waitUntilVisible(this.el, '50px', () => {
+      this.isVisible = true;
+      this.loadIcon();
+    });
+  }
+  disconnectedCallback() {
+    if (this.io) {
+      this.io.disconnect();
+      this.io = undefined;
     }
-    connectedCallback() {
-        // purposely do not return the promise here because loading
-        // the svg file should not hold up loading the app
-        // only load the svg if it's visible
-        this.waitUntilVisible(this.el, '50px', () => {
-            this.isVisible = true;
-            this.loadIcon();
-        });
-    }
-    disconnectedCallback() {
-        if (this.io) {
-            this.io.disconnect();
-            this.io = undefined;
+  }
+  waitUntilVisible(el, rootMargin, cb) {
+    if (Build.isBrowser && this.lazy && typeof window !== 'undefined' && window.IntersectionObserver) {
+      const io = (this.io = new window.IntersectionObserver((data) => {
+        if (data[0].isIntersecting) {
+          io.disconnect();
+          this.io = undefined;
+          cb();
         }
+      }, { rootMargin }));
+      io.observe(el);
     }
-    waitUntilVisible(el, rootMargin, cb) {
-        if (Build.isBrowser && this.lazy && typeof window !== 'undefined' && window.IntersectionObserver) {
-            const io = (this.io = new window.IntersectionObserver((data) => {
-                if (data[0].isIntersecting) {
-                    io.disconnect();
-                    this.io = undefined;
-                    cb();
-                }
-            }, { rootMargin }));
-            io.observe(el);
+    else {
+      // browser doesn't support IntersectionObserver
+      // so just fallback to always show it
+      cb();
+    }
+  }
+  loadIcon() {
+    if (Build.isBrowser && this.isVisible) {
+      const url = getUrl(this);
+      if (url) {
+        if (ioniconContent.has(url)) {
+          // sync if it's already loaded
+          this.svgContent = ioniconContent.get(url);
         }
         else {
-            // browser doesn't support IntersectionObserver
-            // so just fallback to always show it
-            cb();
+          // async if it hasn't been loaded
+          getSvgContent(url, this.sanitize).then(() => (this.svgContent = ioniconContent.get(url)));
         }
+      }
     }
-    loadIcon() {
-        if (Build.isBrowser && this.isVisible) {
-            const url = getUrl(this);
-            if (url) {
-                if (ioniconContent.has(url)) {
-                    // sync if it's already loaded
-                    this.svgContent = ioniconContent.get(url);
-                }
-                else {
-                    // async if it hasn't been loaded
-                    getSvgContent(url, this.sanitize).then(() => (this.svgContent = ioniconContent.get(url)));
-                }
-            }
-        }
-        const label = this.iconName = getName(this.name, this.icon, this.mode, this.ios, this.md);
-        if (!this.ariaLabel && this.ariaHidden !== 'true') {
-            // user did not provide a label
-            // come up with the label based on the icon name
-            if (label) {
-                this.ariaLabel = label.replace(/\-/g, ' ');
-            }
-        }
+    const label = this.iconName = getName(this.name, this.icon, this.mode, this.ios, this.md);
+    if (!this.ariaLabel && this.ariaHidden !== 'true') {
+      // user did not provide a label
+      // come up with the label based on the icon name
+      if (label) {
+        this.ariaLabel = label.replace(/\-/g, ' ');
+      }
     }
-    render() {
-        const { iconName } = this;
-        const mode = this.mode || 'md';
-        const flipRtl = this.flipRtl ||
-            (iconName &&
-                (iconName.indexOf('arrow') > -1 || iconName.indexOf('chevron') > -1) &&
-                this.flipRtl !== false);
-        return (h(Host, { role: "img", class: Object.assign(Object.assign({ [mode]: true }, createColorClasses(this.color)), { [`icon-${this.size}`]: !!this.size, 'flip-rtl': !!flipRtl && this.el.ownerDocument.dir === 'rtl' }) }, Build.isBrowser && this.svgContent ? (h("div", { class: "icon-inner", innerHTML: this.svgContent })) : (h("div", { class: "icon-inner" }))));
-    }
-    static get assetsDirs() { return ["svg"]; }
-    get el() { return getElement(this); }
-    static get watchers() { return {
-        "name": ["loadIcon"],
-        "src": ["loadIcon"],
-        "icon": ["loadIcon"]
-    }; }
+  }
+  render() {
+    const { iconName } = this;
+    const mode = this.mode || 'md';
+    const flipRtl = this.flipRtl ||
+      (iconName &&
+        (iconName.indexOf('arrow') > -1 || iconName.indexOf('chevron') > -1) &&
+        this.flipRtl !== false);
+    return (h(Host, { role: "img", class: Object.assign(Object.assign({ [mode]: true }, createColorClasses(this.color)), { [`icon-${this.size}`]: !!this.size, 'flip-rtl': !!flipRtl && this.el.ownerDocument.dir === 'rtl' }) }, Build.isBrowser && this.svgContent ? (h("div", { class: "icon-inner", innerHTML: this.svgContent })) : (h("div", { class: "icon-inner" }))));
+  }
+  static get assetsDirs() { return ["svg"]; }
+  get el() { return getElement(this); }
+  static get watchers() { return {
+    "name": ["loadIcon"],
+    "src": ["loadIcon"],
+    "icon": ["loadIcon"]
+  }; }
 };
 const getIonMode = () => (Build.isBrowser && typeof document !== 'undefined' && document.documentElement.getAttribute('mode')) || 'md';
 const createColorClasses = (color) => {
-    return color
-        ? {
-            'ion-color': true,
-            [`ion-color-${color}`]: true,
-        }
-        : null;
+  return color
+    ? {
+      'ion-color': true,
+      [`ion-color-${color}`]: true,
+    }
+    : null;
 };
 Icon.style = iconCss;
 

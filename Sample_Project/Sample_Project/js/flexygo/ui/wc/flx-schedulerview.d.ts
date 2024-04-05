@@ -22,6 +22,7 @@ declare namespace flexygo.ui.wc {
         me: any;
         today: any;
         additionalWhere: string;
+        initialDate: string;
         /**
        * Fires when element is attached to DOM
        * @method connectedCallback

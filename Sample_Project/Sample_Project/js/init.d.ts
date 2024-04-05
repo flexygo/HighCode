@@ -25,3 +25,4 @@ declare function loadPage(hist: flexygo.nav.FlexygoHistory): void;
 * @return {flexygo.nav.FlexygoHistory}
 */
 declare function getUrlObject(): flexygo.nav.FlexygoHistory;
+declare function initValidateTranslate(): void;

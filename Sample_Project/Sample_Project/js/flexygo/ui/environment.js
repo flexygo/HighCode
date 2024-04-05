@@ -172,17 +172,76 @@ var flexygo;
         * @param {string} Text - Button text
         * @param {string} TargetId - Button targetid
        */
-        function _getTemplateButton(json, typeId, IconClass, Text, TargetId) {
+        function _getTemplateButton(json, typeId, IconClass, Text, TargetId, buttonId) {
             let btn = new flexygo.api.ToolbarButton();
             btn.TypeId = typeId;
             btn.IconClass = IconClass;
             btn.Text = Text;
             btn.TargetId = TargetId;
+            if (!flexygo.utils.isBlank(buttonId) && typeId.toLowerCase() == "process") {
+                btn.ButtonId = buttonId;
+                try {
+                    let toolbarButton = new flexygo.obj.Entity("sysButton", `ButtonId='${buttonId}'`);
+                    toolbarButton.read();
+                    btn.ProcessName = toolbarButton.data["ProcessName"].Text;
+                    btn.ToolTip = toolbarButton.data["Text"].Text;
+                }
+                catch (e) {
+                    console.log(e.Message);
+                }
+            }
             //var jBtn = flexygo.ui.wc.flxmodule()._getButton(btn, json._objectname, json._objectwhere, json._objectdefaults);
             var jBtn = flexygo.ui.wc.FlxModuleElement.prototype.getButton(btn, json._objectname, json._objectwhere, json._objectdefaults);
             return $('<div>').append(jBtn).html();
         }
         environment._getTemplateButton = _getTemplateButton;
+        /**
+         * This function adjusts the visibility of a button based on the presence or absence of a license.
+         * @method _setButtonVisibilityByLicense
+         * @param {string} buttonId - The unique identifier of the button.
+         * @param {string} modulelicense - The name of the module license.
+         * @param {any} context - Whether the function is called within a template (json) or during an edit (ObjectName).
+         * @param {boolean} inTemplate - A boolean value specifying whether the button is within a template
+        */
+        function _setButtonVisibilityByLicense(buttonId, modulelicense, context, inTemplate) {
+            if (inTemplate) {
+                for (let licence of flexygo.context.modules) {
+                    if (licence.toLowerCase() == modulelicense) {
+                        return _getTemplateButton(context, 'Process', 'flx-icon icon-design', '', 'current', buttonId);
+                    }
+                }
+                return '&#160;';
+            }
+            else {
+                try {
+                    let button = new flexygo.obj.Entity('sysButton', `ToolBars_Buttons.ButtonId='${buttonId}'`);
+                    button.read();
+                    let processName = button.data["ProcessName"].Value;
+                    if (flexygo.context.modules.includes(modulelicense) && button.data["Disabled"].Value == true) {
+                        button.data["Disabled"].Value = false;
+                        button.update();
+                    }
+                    else if (button.data["Disabled"].Value == false && !flexygo.context.modules.includes(modulelicense)) {
+                        button.data["Disabled"].Value = true;
+                        button.update();
+                    }
+                    let logicMenu = new flexygo.obj.Entity('sysObjectProcess', `Objects_Processes.ObjectName='${context}' and Objects_Processes.ProcessName='${processName}'`);
+                    logicMenu.read();
+                    if (flexygo.context.modules.includes(modulelicense) && logicMenu.data["Active"].Value == false) {
+                        logicMenu.data["Active"].Value = true;
+                        logicMenu.update();
+                    }
+                    else if (logicMenu.data["Active"].Value == true && !flexygo.context.modules.includes(modulelicense)) {
+                        logicMenu.data["Active"].Value = false;
+                        logicMenu.update();
+                    }
+                }
+                catch (ex) {
+                    return;
+                }
+            }
+        }
+        environment._setButtonVisibilityByLicense = _setButtonVisibilityByLicense;
     })(environment = flexygo.environment || (flexygo.environment = {}));
 })(flexygo || (flexygo = {}));
 //# sourceMappingURL=environment.js.map

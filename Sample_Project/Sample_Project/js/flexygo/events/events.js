@@ -192,11 +192,14 @@ var flexygo;
                                         }
                                         break;
                                     case "property":
-                                        catched = true;
+                                        const property_name = event.sender.property;
+                                        if (ee.PropertyFilter === "" || ee.PropertyFilter.toLowerCase() === property_name.toLowerCase()) {
+                                            catched = true;
+                                        }
                                         break;
                                     case "process":
                                         let processName = event.masterIdentity;
-                                        if (ee.ProcessFilter === "" || ee.ProcessFilter.toLowerCase() === processName.toLowerCase()) {
+                                        if (ee.ProcessFilter === "" || ee.ProcessFilter.toLowerCase() === (processName === null || processName === void 0 ? void 0 : processName.toLowerCase())) {
                                             catched = true;
                                         }
                                         break;
@@ -231,7 +234,7 @@ var flexygo;
                                             e.refresh();
                                             break;
                                         case "process":
-                                            flexygo.nav.execProcess(ee.ProcessName, (event.class == "entity") ? event.masterIdentity : e.objectname, (event.class == "entity") ? event.detailIdentity : e.objectwhere, null, null, null, false, $(e), null, null);
+                                            flexygo.nav.execProcess(ee.ProcessName, (event.class == "entity") ? event.masterIdentity : e.objectname, (event.class == "entity") ? event.detailIdentity : e.objectwhere, null, null, null, false, $(e), null, null, null, null, event);
                                             break;
                                         default:
                                             console.warn('Event Action: ' + ee.EventAction);

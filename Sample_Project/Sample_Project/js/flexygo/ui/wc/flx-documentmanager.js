@@ -2,6 +2,15 @@
  * @namespace flexygo.ui.wc
  */
 //TODO_AL: temporal
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 /////////////////////////////////////////////////////////////PRUEBAS AL
 var flexygo;
 (function (flexygo) {
@@ -1005,13 +1014,7 @@ var flexygo;
                     modal.closest('.ui-dialog').find('.ui-dialog-title').html(filename);
                     modal.append('<embed style="height:100%;width:100%" src="' + content + '"></embed>');
                 }
-                /**
-                * Remove document.
-                * @method removeDocument
-                * @param {string} Document ID.
-                * @param {string} Object ID.
-                */
-                removeDocument(docGuid) {
+                removeDocument(docGuid, lastProcessName, lastAfterProcessName, endMethodExecuted = false) {
                     try {
                         if ((this.rObjectId || this.rObjectId == 0)) {
                             let me = $(this);
@@ -1020,26 +1023,66 @@ var flexygo;
                                 'DocGuid': docGuid,
                                 'ObjectName': this.rObjectName,
                                 'ObjectId': this.rObjectId,
+                                'LastProcessName': lastProcessName,
+                                'LastAfterProcessName': lastAfterProcessName,
                             };
                             flexygo.ajax.post('~/api/DocumentManager', 'RemoveDocument', params, (response) => {
-                                if (response && !response.documentError) {
-                                    me.find('div#' + docGuid).remove();
-                                    flexygo.msg.success('documentmanager.removed');
+                                if (response === null || response === void 0 ? void 0 : response.jsCode) {
+                                    let executeJS = () => __awaiter(this, void 0, void 0, function* () {
+                                        if (response.lastProcessName || response.lastAfterProcessName) {
+                                            //This if will save the response values after the insert to set div values
+                                            if (response.lastAfterProcessName && !this.response_after_delete)
+                                                this.response_after_delete = response;
+                                            var proc = new flexygo.obj.Entity('SysProcesses', `ProcessName='${(response.lastProcessName || response.lastAfterProcessName)}'`);
+                                            proc.read();
+                                            if (proc.data && proc.data.ConfirmText && proc.data.ConfirmText.Value) {
+                                                let res = yield flexygo.msg.confirm(proc.data.ConfirmText.Value);
+                                                if (!res)
+                                                    return;
+                                            }
+                                            if (response.lastAfterProcessName) {
+                                                this.endRemoveMethod(response, docGuid);
+                                                endMethodExecuted = true;
+                                            }
+                                        }
+                                        flexygo.utils.execAsyncFunction(response.jsCode).then((res) => {
+                                            if (res === false)
+                                                return;
+                                            this.removeDocument(docGuid, response.lastProcessName, response.lastAfterProcessName, endMethodExecuted);
+                                        }).catch((err) => {
+                                            flexygo.msg.error(flexygo.utils.getErrorMessage(err));
+                                        });
+                                    });
+                                    executeJS();
+                                    return true;
                                 }
-                                else {
-                                    if (!response.permissionError) {
-                                        flexygo.msg.error('documentmanager.errorremoving');
-                                    }
-                                    else {
-                                        flexygo.msg.warning('documentmanager.permissionerror');
-                                    }
-                                }
+                                if (!endMethodExecuted)
+                                    this.endRemoveMethod(response, docGuid);
                             }, null, () => { this.closeLoading(false); }, () => { this.showLoading(false); });
                         }
                     }
                     catch (ex) {
                         console.log(ex);
                     }
+                }
+                endRemoveMethod(response, docGuid) {
+                    let me = $(this);
+                    let data = this.response_after_delete || response;
+                    if (data && !data.documentError) {
+                        let ev = { class: "document", type: "deleted", sender: this, masterIdentity: data.docGuid, detailIdentity: data };
+                        flexygo.events.trigger(ev, me);
+                        me.find('div#' + docGuid).remove();
+                        flexygo.msg.success('documentmanager.removed');
+                    }
+                    else {
+                        if (!data.permissionError) {
+                            flexygo.msg.error('documentmanager.errorremoving');
+                        }
+                        else {
+                            flexygo.msg.warning('documentmanager.permissionerror');
+                        }
+                    }
+                    this.response_after_delete = null;
                 }
                 /**
                 * Set document.
@@ -1193,7 +1236,7 @@ var flexygo;
                * @method editFinishDocument
                * @param {string} Document ID.
                */
-                editFinishDocument(docGuid) {
+                editFinishDocument(docGuid, lastProcessName, lastAfterProcessName, endMethodExecuted = false) {
                     try {
                         if ((this.rObjectId || this.rObjectId == 0)) {
                             let me = $(this);
@@ -1214,37 +1257,69 @@ var flexygo;
                                 'ObjectId': this.rObjectId,
                                 'Name': name,
                                 'Description': description,
-                                'CategoryId': categoryId
+                                'CategoryId': categoryId,
+                                'LastProcessName': lastProcessName,
+                                'LastAfterProcessName': lastAfterProcessName
                             };
                             flexygo.ajax.post('~/api/DocumentManager', 'UpdateDocument', params, (response) => {
-                                if (response && !response.documentError) {
-                                    let ev = { class: "document", type: "updated", sender: this, masterIdentity: response.docGuid, detailIdentity: response };
-                                    flexygo.events.trigger(ev, me);
-                                    flexygo.msg.success('documentmanager.saved');
+                                if (response.jsCode) {
+                                    let executeJS = () => __awaiter(this, void 0, void 0, function* () {
+                                        if (response.lastProcessName || response.lastAfterProcessName) {
+                                            var proc = new flexygo.obj.Entity('SysProcesses', `ProcessName='${(response.lastProcessName || response.lastAfterProcessName)}'`);
+                                            proc.read();
+                                            if (proc.data && proc.data.ConfirmText && proc.data.ConfirmText.Value) {
+                                                let res = yield flexygo.msg.confirm(proc.data.ConfirmText.Value);
+                                                if (!res)
+                                                    return;
+                                            }
+                                            if (response.lastAfterProcessName) {
+                                                this.endUpdateMethod(response, doc, name, categoryId, category, description);
+                                                endMethodExecuted = true;
+                                            }
+                                        }
+                                        flexygo.utils.execAsyncFunction(response.jsCode).then((res) => {
+                                            if (res === false)
+                                                return;
+                                            this.editFinishDocument(docGuid, response.lastProcessName, response.lastAfterProcessName, endMethodExecuted);
+                                        }).catch((err) => {
+                                            flexygo.msg.error(flexygo.utils.getErrorMessage(err));
+                                        });
+                                    });
+                                    executeJS();
+                                    return true;
                                 }
-                                else {
-                                    name = doc.find('input.dtc-name').attr('firstvalue');
-                                    categoryId = doc.find('select.dtc-category').attr('firstvalue');
-                                    category = doc.find('select.dtc-category').attr('firsttext');
-                                    description = doc.find('textarea.dtc-description').attr('firstvalue');
-                                    if (!response.permissionError) {
-                                        flexygo.msg.error('documentmanager.errorsaving');
-                                    }
-                                    else {
-                                        flexygo.msg.warning('documentmanager.permissionerror');
-                                    }
-                                }
+                                if (!endMethodExecuted)
+                                    this.endUpdateMethod(response, doc, name, categoryId, category, description);
                             });
-                            doc.find('i[method="saveedit"]').removeClass('txt-info icon-save-4').addClass('icon-pencil txt-primary').attr('method', 'edit').attr('title', flexygo.localization.translate('documentmanager.edit')).tooltip('fixTitle');
-                            doc.find('i[method="return"]').removeClass('txt-primary icon-arrow-2 icon-flip-horizontal').addClass('icon-delete-2 txt-danger').attr('method', 'remove').attr('title', flexygo.localization.translate('documentmanager.remove')).tooltip('fixTitle');
-                            doc.find('input.dtc-name').replaceWith('<span class="size-l dtc-name">' + name + '</span>');
-                            doc.find('select.dtc-category').replaceWith('<span class="dtc-category size-m" value="' + categoryId + '">' + category + '</span>');
-                            doc.find('textarea.dtc-description').replaceWith('<span class="dtc-description size-m">' + description + '</span>');
                         }
                     }
                     catch (ex) {
                         console.log(ex);
                     }
+                }
+                endUpdateMethod(response, doc, name, categoryId, category, description) {
+                    if (response && !response.documentError) {
+                        let ev = { class: "document", type: "updated", sender: this, masterIdentity: response.docGuid, detailIdentity: response };
+                        flexygo.events.trigger(ev, $(this));
+                        flexygo.msg.success('documentmanager.saved');
+                    }
+                    else {
+                        name = doc.find('input.dtc-name').attr('firstvalue');
+                        categoryId = doc.find('select.dtc-category').attr('firstvalue');
+                        category = doc.find('select.dtc-category').attr('firsttext');
+                        description = doc.find('textarea.dtc-description').attr('firstvalue');
+                        if (!response.permissionError) {
+                            flexygo.msg.error('documentmanager.errorsaving');
+                        }
+                        else {
+                            flexygo.msg.warning('documentmanager.permissionerror');
+                        }
+                    }
+                    doc.find('i[method="saveedit"]').removeClass('txt-info icon-save-4').addClass('icon-pencil txt-primary').attr('method', 'edit').attr('title', flexygo.localization.translate('documentmanager.edit')).tooltip('fixTitle');
+                    doc.find('i[method="return"]').removeClass('txt-primary icon-arrow-2 icon-flip-horizontal').addClass('icon-delete-2 txt-danger').attr('method', 'remove').attr('title', flexygo.localization.translate('documentmanager.remove')).tooltip('fixTitle');
+                    doc.find('input.dtc-name').replaceWith('<span class="size-l dtc-name">' + name + '</span>');
+                    doc.find('select.dtc-category').replaceWith('<span class="dtc-category size-m" value="' + categoryId + '">' + category + '</span>');
+                    doc.find('textarea.dtc-description').replaceWith('<span class="dtc-description size-m">' + description + '</span>');
                 }
                 /**
                 * Exit edit mode.
@@ -1628,6 +1703,11 @@ var flexygo;
                             this.documentContainer.find('.dtc-progresstext').html(this.percentDone() + '%');
                             this.currentPosition += this.bufferSize;
                             this.upload_file();
+                            if (lastAppend && response.documentError != true) {
+                                let ev = { class: "document", type: "uploaded", sender: this, masterIdentity: response.docGuid, detailIdentity: response };
+                                flexygo.events.trigger(ev, $(this));
+                                flexygo.msg.success('documentmanager.saved');
+                            }
                         }
                         else {
                             this.removeDocument();
@@ -1638,16 +1718,18 @@ var flexygo;
                     console.log(ex);
                 }
             }
-            setDocument(base64, documentName, multipart) {
+            setDocument(base64, documentName, multipart, lastProcessName, lastAfterProcessName, endMethodExecuted = false) {
                 try {
                     if ((this.objectid || this.objectid == '0') && this.objectname) {
                         let me = $(this);
                         var params;
-                        if (base64) {
-                            base64 = base64.split(',')[1];
-                        }
-                        else {
-                            base64 = null;
+                        if (!lastProcessName && !lastAfterProcessName) {
+                            if (base64) {
+                                base64 = base64.split(',')[1];
+                            }
+                            else {
+                                base64 = null;
+                            }
                         }
                         if ((this.documentType.toLowerCase() === "diskfile" || this.documentType.toLowerCase() === "diskfolder") && !base64) {
                             flexygo.msg.warning('documentmanager.documentempty');
@@ -1665,34 +1747,41 @@ var flexygo;
                             'DocAction': this.action,
                             'PartialUpload': multipart,
                             'CategoryId': this.categoryId,
+                            'LastProcessName': lastProcessName,
+                            'LastAfterProcessName': lastAfterProcessName
                         };
                         flexygo.ajax.post('~/api/DocumentManager', 'SetDocument', params, (response) => {
-                            if (multipart) {
-                                this.documentId = response.docGuid;
-                                this.manager.renderDocument(response.docGuid, response.path, response.downloadLink, response.name, response.origin, response.iconClass, response.creationDate, response.category, response.categoryId, response.description, response.documentType, response.extension, false);
-                                this.manager.documentEvents();
-                                this.documentContainer = $(this.manager).find('#' + response.docGuid);
-                                this.documentContainer.append('<div class="dtc-inprogress"><div class="dtc-progressbar" style="width:' + this.percentDone() + '%"></div><div class="dtc-progresstext">' + this.percentDone() + '%</div></div>');
-                                this.currentPosition += this.bufferSize;
-                                this.upload_file();
-                            }
-                            else {
-                                if (response && !response.documentError) {
-                                    this.manager.renderDocument(response.docGuid, response.path, response.downloadLink, response.name, response.origin, response.iconClass, response.creationDate, response.category, response.categoryId, response.description, response.documentType, response.extension, false);
-                                    this.manager.documentEvents();
-                                    let ev = { class: "document", type: "uploaded", sender: this, masterIdentity: response.docGuid, detailIdentity: response };
-                                    flexygo.events.trigger(ev, me);
-                                    flexygo.msg.success('documentmanager.saved');
-                                }
-                                else {
-                                    if (!response.permissionError) {
-                                        flexygo.msg.error('documentmanager.errorsaving');
+                            if (response.jsCode) {
+                                let executeJS = () => __awaiter(this, void 0, void 0, function* () {
+                                    if (response.lastProcessName || response.lastAfterProcessName) {
+                                        //This if will save the response values after the insert to set div values
+                                        if (response.lastAfterProcessName && !this.response_after_insert)
+                                            this.response_after_insert = response;
+                                        var proc = new flexygo.obj.Entity('SysProcesses', `ProcessName='${(response.lastProcessName || response.lastAfterProcessName)}'`);
+                                        proc.read();
+                                        if (proc.data && proc.data.ConfirmText && proc.data.ConfirmText.Value) {
+                                            let res = yield flexygo.msg.confirm(proc.data.ConfirmText.Value);
+                                            if (!res)
+                                                return;
+                                        }
+                                        if (response.lastAfterProcessName) {
+                                            this.endSetMethod(response, multipart);
+                                            endMethodExecuted = true;
+                                        }
                                     }
-                                    else {
-                                        flexygo.msg.warning('documentmanager.permissionerror');
-                                    }
-                                }
+                                    flexygo.utils.execAsyncFunction(response.jsCode).then((res) => {
+                                        if (res === false)
+                                            return;
+                                        this.setDocument(base64, documentName, multipart, response.lastProcessName, response.lastAfterProcessName, endMethodExecuted);
+                                    }).catch((err) => {
+                                        flexygo.msg.error(flexygo.utils.getErrorMessage(err));
+                                    });
+                                });
+                                executeJS();
+                                return true;
                             }
+                            if (!endMethodExecuted)
+                                this.endSetMethod(response, multipart);
                         });
                     }
                 }
@@ -1700,7 +1789,38 @@ var flexygo;
                     console.log(ex);
                 }
             }
+            endSetMethod(response, multipart) {
+                let data = this.response_after_insert || response;
+                if (multipart) {
+                    this.documentId = data.docGuid;
+                    this.manager.renderDocument(data.docGuid, data.path, data.downloadLink, data.name, data.origin, data.iconClass, data.creationDate, data.category, data.categoryId, data.description, data.documentType, data.extension, false);
+                    this.manager.documentEvents();
+                    this.documentContainer = $(this.manager).find('#' + data.docGuid);
+                    this.documentContainer.append('<div class="dtc-inprogress"><div class="dtc-progressbar" style="width:' + this.percentDone() + '%"></div><div class="dtc-progresstext">' + this.percentDone() + '%</div></div>');
+                    this.currentPosition += this.bufferSize;
+                    this.upload_file();
+                }
+                else {
+                    if (data && !data.documentError) {
+                        this.manager.renderDocument(data.docGuid, data.path, data.downloadLink, data.name, data.origin, data.iconClass, data.creationDate, data.category, data.categoryId, data.description, data.documentType, data.extension, false);
+                        this.manager.documentEvents();
+                        let ev = { class: "document", type: "uploaded", sender: this, masterIdentity: data.docGuid, detailIdentity: data };
+                        flexygo.events.trigger(ev, $(this));
+                        flexygo.msg.success('documentmanager.saved');
+                    }
+                    else {
+                        if (!response.permissionError) {
+                            flexygo.msg.error('documentmanager.errorsaving');
+                        }
+                        else {
+                            flexygo.msg.warning('documentmanager.permissionerror');
+                        }
+                    }
+                }
+                this.response_after_insert = null;
+            }
             removeDocument() {
+                let me = $(this);
                 try {
                     var params;
                     params = {
@@ -1716,6 +1836,10 @@ var flexygo;
                             else {
                                 flexygo.msg.warning('documentmanager.permissionerror');
                             }
+                        }
+                        else {
+                            let ev = { class: "document", type: "deleted", sender: this, masterIdentity: response.docGuid, detailIdentity: response };
+                            flexygo.events.trigger(ev, me);
                         }
                     });
                 }

@@ -19,7 +19,7 @@ declare namespace flexygo.debug {
      * @param {bool} enable - Sets enabled or disabled.
      * @param {bool} showAnimation - Sets if the animation must be shown.
      */
-    function enableDevelopMode(enable: boolean, showAnimation: boolean): void;
+    function enableDevelopMode(enable: boolean, showAnimation: boolean, firstTime?: boolean): void;
     function showObject(mode: any): void;
     /**
      * Configure and returns sidebar config page panel.
@@ -38,6 +38,7 @@ declare namespace flexygo.debug {
      * @method launchAnimation
      */
     function launchAnimation(): void;
+    function launchOriginAnimation(): void;
     /**
      * Display a window with de dependency manager
      * @method manageDependencies

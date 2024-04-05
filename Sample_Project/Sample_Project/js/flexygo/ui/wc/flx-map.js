@@ -185,6 +185,10 @@ var flexygo;
                     });
                     if (this.mode == 'coord') {
                         map.setOptions({ disableDefaultUI: true, zoomControl: true });
+                        if (me.attr('zoom') && me.attr('zoom') != '') {
+                            zoom = parseInt(me.attr('zoom'));
+                            map.setZoom(zoom);
+                        }
                     }
                     if (me.attr('cluster') && me.attr('cluster') != '') {
                         cl = me.attr('cluster');

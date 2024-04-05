@@ -1,5 +1,5 @@
-import { r as registerInstance, m as createEvent, j as h, l as Host } from './index-86ac49ff.js';
-import { g as getIonMode } from './ionic-global-0f98fe97.js';
+import { r as registerInstance, o as createEvent, k as h, n as Host } from './index-d0d1673d.js';
+import { g as getIonMode } from './ionic-global-f9661584.js';
 import { GESTURE_CONTROLLER } from './index-7fe827c3.js';
 
 const backdropIosCss = ":host{left:0;right:0;top:0;bottom:0;display:block;position:absolute;transform:translateZ(0);contain:strict;cursor:pointer;opacity:0.01;touch-action:none;z-index:2}:host(.backdrop-hide){background:transparent}:host(.backdrop-no-tappable){cursor:auto}:host{background-color:var(--ion-backdrop-color, #000)}";
@@ -7,57 +7,57 @@ const backdropIosCss = ":host{left:0;right:0;top:0;bottom:0;display:block;positi
 const backdropMdCss = ":host{left:0;right:0;top:0;bottom:0;display:block;position:absolute;transform:translateZ(0);contain:strict;cursor:pointer;opacity:0.01;touch-action:none;z-index:2}:host(.backdrop-hide){background:transparent}:host(.backdrop-no-tappable){cursor:auto}:host{background-color:var(--ion-backdrop-color, #000)}";
 
 const Backdrop = class {
-    constructor(hostRef) {
-        registerInstance(this, hostRef);
-        this.ionBackdropTap = createEvent(this, "ionBackdropTap", 7);
-        this.blocker = GESTURE_CONTROLLER.createBlocker({
-            disableScroll: true
-        });
-        /**
-         * If `true`, the backdrop will be visible.
-         */
-        this.visible = true;
-        /**
-         * If `true`, the backdrop will can be clicked and will emit the `ionBackdropTap` event.
-         */
-        this.tappable = true;
-        /**
-         * If `true`, the backdrop will stop propagation on tap.
-         */
-        this.stopPropagation = true;
+  constructor(hostRef) {
+    registerInstance(this, hostRef);
+    this.ionBackdropTap = createEvent(this, "ionBackdropTap", 7);
+    this.blocker = GESTURE_CONTROLLER.createBlocker({
+      disableScroll: true
+    });
+    /**
+     * If `true`, the backdrop will be visible.
+     */
+    this.visible = true;
+    /**
+     * If `true`, the backdrop will can be clicked and will emit the `ionBackdropTap` event.
+     */
+    this.tappable = true;
+    /**
+     * If `true`, the backdrop will stop propagation on tap.
+     */
+    this.stopPropagation = true;
+  }
+  connectedCallback() {
+    if (this.stopPropagation) {
+      this.blocker.block();
     }
-    connectedCallback() {
-        if (this.stopPropagation) {
-            this.blocker.block();
-        }
+  }
+  disconnectedCallback() {
+    this.blocker.unblock();
+  }
+  onMouseDown(ev) {
+    this.emitTap(ev);
+  }
+  emitTap(ev) {
+    if (this.stopPropagation) {
+      ev.preventDefault();
+      ev.stopPropagation();
     }
-    disconnectedCallback() {
-        this.blocker.unblock();
+    if (this.tappable) {
+      this.ionBackdropTap.emit();
     }
-    onMouseDown(ev) {
-        this.emitTap(ev);
-    }
-    emitTap(ev) {
-        if (this.stopPropagation) {
-            ev.preventDefault();
-            ev.stopPropagation();
-        }
-        if (this.tappable) {
-            this.ionBackdropTap.emit();
-        }
-    }
-    render() {
-        const mode = getIonMode(this);
-        return (h(Host, { tabindex: "-1", "aria-hidden": "true", class: {
-                [mode]: true,
-                'backdrop-hide': !this.visible,
-                'backdrop-no-tappable': !this.tappable,
-            } }));
-    }
+  }
+  render() {
+    const mode = getIonMode(this);
+    return (h(Host, { tabindex: "-1", "aria-hidden": "true", class: {
+        [mode]: true,
+        'backdrop-hide': !this.visible,
+        'backdrop-no-tappable': !this.tappable,
+      } }));
+  }
 };
 Backdrop.style = {
-    ios: backdropIosCss,
-    md: backdropMdCss
+  ios: backdropIosCss,
+  md: backdropMdCss
 };
 
 export { Backdrop as ion_backdrop };

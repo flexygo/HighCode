@@ -1,11 +1,11 @@
-import { r as registerInstance, m as createEvent, j as h, l as Host, k as getElement } from './index-86ac49ff.js';
-import { g as getIonMode, c as config } from './ionic-global-0f98fe97.js';
-import './helpers-719f4c54.js';
-import { c as createAnimation } from './animation-10ea33c3.js';
+import { r as registerInstance, o as createEvent, k as h, n as Host, m as getElement } from './index-d0d1673d.js';
+import { g as getIonMode, c as config } from './ionic-global-f9661584.js';
+import { B as BACKDROP, a as prepareOverlay, b as present, d as dismiss, e as eventMethod } from './overlays-177438ad.js';
 import { s as sanitizeDOMString } from './index-b40d441b.js';
-import './hardware-back-button-aacf3d12.js';
-import { B as BACKDROP, a as prepareOverlay, b as present, d as dismiss, e as eventMethod } from './overlays-5302658e.js';
 import { g as getClassMap } from './theme-f934266c.js';
+import { c as createAnimation } from './animation-10ea33c3.js';
+import './hardware-back-button-aacf3d12.js';
+import './helpers-719f4c54.js';
 
 /**
  * iOS Loading Enter Animation
@@ -112,100 +112,100 @@ const loadingIosCss = ".sc-ion-loading-ios-h{--min-width:auto;--width:auto;--min
 const loadingMdCss = ".sc-ion-loading-md-h{--min-width:auto;--width:auto;--min-height:auto;--height:auto;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;left:0;right:0;top:0;bottom:0;display:flex;position:fixed;align-items:center;justify-content:center;outline:none;font-family:var(--ion-font-family, inherit);contain:strict;touch-action:none;user-select:none;z-index:1001}.overlay-hidden.sc-ion-loading-md-h{display:none}.loading-wrapper.sc-ion-loading-md{display:flex;align-items:inherit;justify-content:inherit;width:var(--width);min-width:var(--min-width);max-width:var(--max-width);height:var(--height);min-height:var(--min-height);max-height:var(--max-height);background:var(--background);opacity:0;z-index:10}.spinner-lines.sc-ion-loading-md,.spinner-lines-small.sc-ion-loading-md,.spinner-bubbles.sc-ion-loading-md,.spinner-circles.sc-ion-loading-md,.spinner-crescent.sc-ion-loading-md,.spinner-dots.sc-ion-loading-md{color:var(--spinner-color)}.sc-ion-loading-md-h{--background:var(--ion-color-step-50, #f2f2f2);--max-width:280px;--max-height:90%;--spinner-color:var(--ion-color-primary, #3880ff);--backdrop-opacity:var(--ion-backdrop-opacity, 0.32);color:var(--ion-color-step-850, #262626);font-size:14px}.loading-wrapper.sc-ion-loading-md{border-radius:2px;padding-left:24px;padding-right:24px;padding-top:24px;padding-bottom:24px;box-shadow:0 16px 20px rgba(0, 0, 0, 0.4)}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){.loading-wrapper.sc-ion-loading-md{padding-left:unset;padding-right:unset;-webkit-padding-start:24px;padding-inline-start:24px;-webkit-padding-end:24px;padding-inline-end:24px}}.loading-spinner.sc-ion-loading-md+.loading-content.sc-ion-loading-md{margin-left:16px}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){.loading-spinner.sc-ion-loading-md+.loading-content.sc-ion-loading-md{margin-left:unset;-webkit-margin-start:16px;margin-inline-start:16px}}";
 
 const Loading = class {
-    constructor(hostRef) {
-        registerInstance(this, hostRef);
-        this.didPresent = createEvent(this, "ionLoadingDidPresent", 7);
-        this.willPresent = createEvent(this, "ionLoadingWillPresent", 7);
-        this.willDismiss = createEvent(this, "ionLoadingWillDismiss", 7);
-        this.didDismiss = createEvent(this, "ionLoadingDidDismiss", 7);
-        this.presented = false;
-        /**
-         * If `true`, the keyboard will be automatically dismissed when the overlay is presented.
-         */
-        this.keyboardClose = true;
-        /**
-         * Number of milliseconds to wait before dismissing the loading indicator.
-         */
-        this.duration = 0;
-        /**
-         * If `true`, the loading indicator will be dismissed when the backdrop is clicked.
-         */
-        this.backdropDismiss = false;
-        /**
-         * If `true`, a backdrop will be displayed behind the loading indicator.
-         */
-        this.showBackdrop = true;
-        /**
-         * If `true`, the loading indicator will be translucent.
-         * Only applies when the mode is `"ios"` and the device supports
-         * [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
-         */
-        this.translucent = false;
-        /**
-         * If `true`, the loading indicator will animate.
-         */
-        this.animated = true;
-        this.onBackdropTap = () => {
-            this.dismiss(undefined, BACKDROP);
-        };
-    }
-    connectedCallback() {
-        prepareOverlay(this.el);
-    }
-    componentWillLoad() {
-        if (this.spinner === undefined) {
-            const mode = getIonMode(this);
-            this.spinner = config.get('loadingSpinner', config.get('spinner', mode === 'ios' ? 'lines' : 'crescent'));
-        }
-    }
+  constructor(hostRef) {
+    registerInstance(this, hostRef);
+    this.didPresent = createEvent(this, "ionLoadingDidPresent", 7);
+    this.willPresent = createEvent(this, "ionLoadingWillPresent", 7);
+    this.willDismiss = createEvent(this, "ionLoadingWillDismiss", 7);
+    this.didDismiss = createEvent(this, "ionLoadingDidDismiss", 7);
+    this.presented = false;
     /**
-     * Present the loading overlay after it has been created.
+     * If `true`, the keyboard will be automatically dismissed when the overlay is presented.
      */
-    async present() {
-        await present(this, 'loadingEnter', iosEnterAnimation, mdEnterAnimation, undefined);
-        if (this.duration > 0) {
-            this.durationTimeout = setTimeout(() => this.dismiss(), this.duration + 10);
-        }
-    }
+    this.keyboardClose = true;
     /**
-     * Dismiss the loading overlay after it has been presented.
-     *
-     * @param data Any data to emit in the dismiss events.
-     * @param role The role of the element that is dismissing the loading.
-     * This can be useful in a button handler for determining which button was
-     * clicked to dismiss the loading.
-     * Some examples include: ``"cancel"`, `"destructive"`, "selected"`, and `"backdrop"`.
+     * Number of milliseconds to wait before dismissing the loading indicator.
      */
-    dismiss(data, role) {
-        if (this.durationTimeout) {
-            clearTimeout(this.durationTimeout);
-        }
-        return dismiss(this, data, role, 'loadingLeave', iosLeaveAnimation, mdLeaveAnimation);
-    }
+    this.duration = 0;
     /**
-     * Returns a promise that resolves when the loading did dismiss.
+     * If `true`, the loading indicator will be dismissed when the backdrop is clicked.
      */
-    onDidDismiss() {
-        return eventMethod(this.el, 'ionLoadingDidDismiss');
-    }
+    this.backdropDismiss = false;
     /**
-     * Returns a promise that resolves when the loading will dismiss.
+     * If `true`, a backdrop will be displayed behind the loading indicator.
      */
-    onWillDismiss() {
-        return eventMethod(this.el, 'ionLoadingWillDismiss');
+    this.showBackdrop = true;
+    /**
+     * If `true`, the loading indicator will be translucent.
+     * Only applies when the mode is `"ios"` and the device supports
+     * [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
+     */
+    this.translucent = false;
+    /**
+     * If `true`, the loading indicator will animate.
+     */
+    this.animated = true;
+    this.onBackdropTap = () => {
+      this.dismiss(undefined, BACKDROP);
+    };
+  }
+  connectedCallback() {
+    prepareOverlay(this.el);
+  }
+  componentWillLoad() {
+    if (this.spinner === undefined) {
+      const mode = getIonMode(this);
+      this.spinner = config.get('loadingSpinner', config.get('spinner', mode === 'ios' ? 'lines' : 'crescent'));
     }
-    render() {
-        const { message, spinner, htmlAttributes } = this;
-        const mode = getIonMode(this);
-        return (h(Host, Object.assign({ tabindex: "-1" }, htmlAttributes, { style: {
-                zIndex: `${40000 + this.overlayIndex}`
-            }, onIonBackdropTap: this.onBackdropTap, class: Object.assign(Object.assign({}, getClassMap(this.cssClass)), { [mode]: true, 'loading-translucent': this.translucent }) }), h("ion-backdrop", { visible: this.showBackdrop, tappable: this.backdropDismiss }), h("div", { tabindex: "0" }), h("div", { class: "loading-wrapper ion-overlay-wrapper", role: "dialog" }, spinner && (h("div", { class: "loading-spinner" }, h("ion-spinner", { name: spinner, "aria-hidden": "true" }))), message && h("div", { class: "loading-content", innerHTML: sanitizeDOMString(message) })), h("div", { tabindex: "0" })));
+  }
+  /**
+   * Present the loading overlay after it has been created.
+   */
+  async present() {
+    await present(this, 'loadingEnter', iosEnterAnimation, mdEnterAnimation, undefined);
+    if (this.duration > 0) {
+      this.durationTimeout = setTimeout(() => this.dismiss(), this.duration + 10);
     }
-    get el() { return getElement(this); }
+  }
+  /**
+   * Dismiss the loading overlay after it has been presented.
+   *
+   * @param data Any data to emit in the dismiss events.
+   * @param role The role of the element that is dismissing the loading.
+   * This can be useful in a button handler for determining which button was
+   * clicked to dismiss the loading.
+   * Some examples include: ``"cancel"`, `"destructive"`, "selected"`, and `"backdrop"`.
+   */
+  dismiss(data, role) {
+    if (this.durationTimeout) {
+      clearTimeout(this.durationTimeout);
+    }
+    return dismiss(this, data, role, 'loadingLeave', iosLeaveAnimation, mdLeaveAnimation);
+  }
+  /**
+   * Returns a promise that resolves when the loading did dismiss.
+   */
+  onDidDismiss() {
+    return eventMethod(this.el, 'ionLoadingDidDismiss');
+  }
+  /**
+   * Returns a promise that resolves when the loading will dismiss.
+   */
+  onWillDismiss() {
+    return eventMethod(this.el, 'ionLoadingWillDismiss');
+  }
+  render() {
+    const { message, spinner, htmlAttributes } = this;
+    const mode = getIonMode(this);
+    return (h(Host, Object.assign({ tabindex: "-1" }, htmlAttributes, { style: {
+        zIndex: `${40000 + this.overlayIndex}`
+      }, onIonBackdropTap: this.onBackdropTap, class: Object.assign(Object.assign({}, getClassMap(this.cssClass)), { [mode]: true, 'loading-translucent': this.translucent }) }), h("ion-backdrop", { visible: this.showBackdrop, tappable: this.backdropDismiss }), h("div", { tabindex: "0" }), h("div", { class: "loading-wrapper ion-overlay-wrapper", role: "dialog" }, spinner && (h("div", { class: "loading-spinner" }, h("ion-spinner", { name: spinner, "aria-hidden": "true" }))), message && h("div", { class: "loading-content", innerHTML: sanitizeDOMString(message) })), h("div", { tabindex: "0" })));
+  }
+  get el() { return getElement(this); }
 };
 Loading.style = {
-    ios: loadingIosCss,
-    md: loadingMdCss
+  ios: loadingIosCss,
+  md: loadingMdCss
 };
 
 export { Loading as ion_loading };

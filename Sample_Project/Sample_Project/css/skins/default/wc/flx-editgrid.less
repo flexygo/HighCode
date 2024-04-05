@@ -1,4 +1,6 @@
-﻿flx-editgrid table {
+﻿@import "../CssVars.less";
+
+flx-editgrid table {
     padding-right: 5px;
     border-spacing: 0 8px;
     min-width: 100%;
@@ -9,7 +11,7 @@
 }
 
 flx-editgrid th {
-    color: lighten(dbColor(txtColor),40);
+    color: lighten(@txt-color,40);
     text-align: left;
     white-space: nowrap;
     padding-right: 20px;
@@ -36,13 +38,13 @@ flx-editgrid td i {
 
 flx-editgrid th i {
     font-size: 1.2em;
-    color: darken(dbColor(txtColor),10);
+    color: darken(@txt-color,10);
     margin-left: .5em;
     cursor: pointer;
 }
 
 flx-editgrid th i:hover {
-    color: lighten(dbColor(OutstandingColor),20);
+    color: lighten(@outstanding-color,20);
 }
 
 flx-editgrid tr td:first-child {
@@ -61,12 +63,12 @@ flx-editgrid .rowInsert td:first-child {
 }
 
 flx-editgrid .rowInsert {
-    background-color: lighten(dbColor(HeaderColor),10) !important;
+    background-color: lighten(@header-color,10) !important;
     /*color: white;*/
 }
 
 flx-editgrid i:hover {
-    color: darken(dbColor(txtOutstandingColor),10);
+    color: darken(@txt-outstanding-color,10);
 }
 
 flx-editgrid .rowInsert input {
@@ -80,7 +82,7 @@ flx-editgrid .rowInsert input:focus {
 }
 
 flx-editgrid input, flx-editgrid select, flx-editgrid textarea {
-    color: dbColor(txtColor);
+    color: @txt-color;
     height: 1.5em;
 }
 
@@ -113,23 +115,23 @@ flx-editgrid .rowEdit .icon-edit, flx-editgrid .rowEdit .icon-trash {
 
 
 flx-editgrid select > option:first-child {
-    color: dbColor(borderModuleColor);
+    color: @border-module-color;
 }
 
 
 flx-editgrid tr:not(.rowHeader) {
-    background-color: dbColor(ModuleColor)
+    background-color: @module-color;
 }
 
 flx-editgrid tr.selected:not(.rowHeader) {
-    background-color: lighten(dbColor(OutstandingColor),10);
-    color: dbColor(txtOutstandingColor);
+    background-color: lighten(@outstanding-color,10);
+    color: @txt-outstanding-color;
 }
 
 
 flx-editgrid tr:not(.rowHeader):not(.rowInsert):hover {
-    background-color: dbColor(OutstandingColor);
-    color: dbColor(txtOutstandingColor);
+    background-color: @outstanding-color;
+    color: @txt-outstanding-color;
 }
 
 flx-editgrid .sortAsc:after {
@@ -152,7 +154,7 @@ flx-editgrid td > b {
     display: none;
 }
 
-@media (max-width: dbSize(medium)) {
+@media (max-width: @medium) {
 
     flx-editgrid td > b {
         display: inline;

@@ -134,7 +134,7 @@ var flexygo;
         * @method loadingMsg
         * @return {string} HTML String
         */
-        function loadingMsg() { return '<div ><button class="btn btn-lg bg-primary"><span class="flx-icon icon-refresh icon-spin"></span> Loading...</button></div>'; }
+        function loadingMsg() { return '<div ><button class="btn btn-lg bg-primary"><span class="flx-icon icon-refresh icon-spin-reverse"></span> Loading...</button></div>'; }
         utils.loadingMsg = loadingMsg;
         /**
         * Transform object keys into lower case.
@@ -591,7 +591,6 @@ var flexygo;
                         params.RemoveElement = removeElement;
                         flexygo.ajax.post('~/api/Page', 'IsObserverModule', params, (response) => {
                             if (response) {
-                                console.log(response);
                                 refreshModuleViewersInfo(module, response);
                             }
                         }, (err) => {
@@ -1067,9 +1066,19 @@ var flexygo;
             totalWeightElement.html(htmlContent);
         }
         utils.totalFileWeight = totalFileWeight;
-        function formRelatedDep_Childs(ObjectName, PropertyName, e) {
+        function formRelatedDep_Childs(mode, ObjectName, PropertyName, e) {
             if ($(e).closest('.parent_li').find('.tree_childs').length == 0) {
-                let template = flexygo.environment.getTemplate('sysObjectPropertyDependency', '', 'sys_form_related_dependencies', '', `Objects_Properties_Dependencies.ObjectName='${ObjectName}' AND Objects_Properties_Dependencies.PropertyName='${PropertyName}'`);
+                let template = '';
+                switch (mode) {
+                    case 'process':
+                        template = flexygo.environment.getTemplate('sysProcessParamDependency', '', 'sys_form_param_related_dependencies', '', `Processes_Params_Dependencies.ProcessName='${ObjectName}' AND Processes_Params_Dependencies.ParamName='${PropertyName}'`);
+                        break;
+                    case 'report':
+                        template = flexygo.environment.getTemplate('sysReportParamDependency', '', 'sys_form_report_related_dependencies', '', `Reports_Params_Dependencies.ReportName='${ObjectName}' AND Reports_Params_Dependencies.ParamName='${PropertyName}'`);
+                        break;
+                    default:
+                        template = flexygo.environment.getTemplate('sysObjectPropertyDependency', '', 'sys_form_related_dependencies', '', `Objects_Properties_Dependencies.ObjectName='${ObjectName}' AND Objects_Properties_Dependencies.PropertyName='${PropertyName}'`);
+                }
                 let tChilds = $(template).find('.tree_childs');
                 tChilds.css('display', 'none');
                 $(e).closest('.parent_li').append(tChilds);
@@ -1114,6 +1123,236 @@ var flexygo;
             '#6D4C41',
             '#757575',
             '#546E7A'];
+        /**
+    * Extract the tables using in a query for monaco-editor.
+    * @method extractTables
+    * @param {text} sentence query.
+    * @return {Array} table array
+    */
+        function extractTables(sentence, ConnStringId, subqueries) {
+            let fullTables = [];
+            let keywords = monacoVars.keywords.sql;
+            let words = sentence.toUpperCase().split(/\s+/); // Divide la consulta en palabras
+            let listSubqueries = [];
+            let index = 0;
+            while (index < words.length) {
+                if (words[index] === "FROM" || words[index] === "JOIN" || words[index] === "APPLY") {
+                    let currentWords = words.slice(index + 1, words.length);
+                    //search the index of first keyword after FROM or JOIN to cut the string to extract only the tables part
+                    let firstIndex = currentWords.findIndex(palabra => keywords.includes(palabra) && palabra !== 'AS');
+                    let tablePart = firstIndex != -1 ? currentWords.slice(0, firstIndex).join(' ') : currentWords.join(' ');
+                    //Remove the "[" and "]" to prevent the table not being found
+                    tablePart = tablePart.replace(/[\[\]]/g, "");
+                    let parts;
+                    let tableData;
+                    if (words[index] === "FROM" && tablePart && tablePart.includes(',')) {
+                        const tables = tablePart.split(',').map(tabla => tabla.trim());
+                        fullTables.push(...tables.map(table => {
+                            //removing the Data Connection of the string
+                            parts = table.replace(/\{~(.*?)~\}\.dbo\./gim, "").split(" ");
+                            if (/^#SUBQUERY_\d+#$/i.exec(parts[0])) {
+                                if (subqueries.has(`[${parts[0].toLowerCase()}]`)) {
+                                    let subquery = { Name: parts[0], TableAlias: parts.length == 2 ? parts[1] : parts.length == 3 ? parts[2] : "", DataConnection: ConnStringId, Query: subqueries.get(`[${parts[0].toLowerCase()}]`), Columns: [] };
+                                    listSubqueries.push(subquery);
+                                }
+                            }
+                            else {
+                                tableData =
+                                    {
+                                        Name: parts[0],
+                                        TableAlias: parts.length == 2 ? parts[1] : parts.length == 3 ? parts[2] : "",
+                                        DataConnection: table.match(/\{~(.*?)~\}/g) ? table.match(/\{~(.*?)~\}/g)[0].replace(/\{~|~\}/g, '') : ConnStringId
+                                    };
+                            }
+                            return tableData;
+                        }));
+                    }
+                    else if ((words[index] === "JOIN" || words[index] === "APPLY" || words[index] === "FROM") && tablePart && !tablePart.includes(',')) {
+                        //removing the Data Connection of the string
+                        parts = tablePart.replace(/\{~(.*?)~\}\.dbo\./gim, "").split(" ");
+                        if (/^#SUBQUERY_\d+#$/i.exec(parts[0])) {
+                            if (subqueries.has(`[${parts[0].toLowerCase()}]`)) {
+                                let subquery = { Name: parts[0], TableAlias: parts.length == 2 ? parts[1] : parts.length == 3 ? parts[2] : "", DataConnection: ConnStringId, Query: subqueries.get(`[${parts[0].toLowerCase()}]`), Columns: [] };
+                                listSubqueries.push(subquery);
+                            }
+                        }
+                        else {
+                            tableData = {
+                                Name: parts[0],
+                                TableAlias: parts.length == 2 ? parts[1] : parts.length == 3 ? parts[2] : "",
+                                DataConnection: tablePart.match(/\{~(.*?)~\}/g) ? tablePart.match(/\{~(.*?)~\}/g)[0].replace(/\{~|~\}/g, '') : ConnStringId
+                            };
+                            fullTables.push(tableData);
+                        }
+                    }
+                }
+                index++;
+            }
+            if (listSubqueries.length > 0) {
+                flexygo.ajax.syncPost('~/api/Sys', "getSubqueriesColumns", { subqueries: JSON.stringify(listSubqueries), connStringId: ConnStringId }, (response) => {
+                    if (response) {
+                        fullTables = [...fullTables, ...response];
+                    }
+                });
+            }
+            return fullTables;
+        }
+        utils.extractTables = extractTables;
+        function checkRegexWithWorker(regex, content) {
+            return new Promise((resolve, reject) => {
+                //create the temp file and fill it with the code
+                const workerBlob = new Blob([`
+            onmessage = function(e) {
+                var regex = e.data.regexString;
+                var inputString = e.data.inputString;
+                try {
+                    var result = regex.test(inputString);
+                    postMessage(result);
+                } catch (error) {
+                    postMessage(false); // En caso de error, devolver false
+                }
+            };
+            `], { type: 'application/javascript' });
+                const workerBlobURL = URL.createObjectURL(workerBlob);
+                const worker = new Worker(workerBlobURL);
+                worker.onmessage = function (e) {
+                    const result = e.data;
+                    //Release the Blob URL and terminate the worker after using it
+                    URL.revokeObjectURL(workerBlobURL);
+                    worker.terminate();
+                    resolve(result);
+                };
+                //when crash/error
+                worker.onerror = function (error) {
+                    console.log(error);
+                    //Release the Blob URL and terminate the worker after using it
+                    URL.revokeObjectURL(workerBlobURL);
+                    worker.terminate();
+                    resolve(false);
+                };
+                setTimeout(() => {
+                    URL.revokeObjectURL(workerBlobURL);
+                    worker.terminate();
+                    resolve(false);
+                }, 250);
+                //send parameters to worker
+                worker.postMessage({
+                    regexString: regex,
+                    inputString: content,
+                });
+            });
+        }
+        utils.checkRegexWithWorker = checkRegexWithWorker;
+        function wizardSetStep(e) {
+            let def;
+            let pageDef = flexygo.history.get($(e).closest('main')).defaults;
+            if (pageDef) {
+                if (typeof pageDef == 'string') {
+                    def = JSON.parse(pageDef);
+                }
+                else {
+                    def = pageDef;
+                }
+                if (def) {
+                    if (def["step"] !== null && def["step"] !== undefined && def["step"] !== "") {
+                        var initDate = Date.now();
+                        var wizardInterval = setInterval(function () {
+                            var wizardSteps = $(`flx-objectmanager .wizardnodes [href="#tab${def["step"]}"]`);
+                            if (wizardSteps.length > 0) {
+                                wizardSteps.click();
+                                clearInterval(wizardInterval);
+                            }
+                            else {
+                                var nowDate = Date.now();
+                                if (nowDate - initDate > 10000) {
+                                    clearInterval(wizardInterval);
+                                }
+                            }
+                        }, 100);
+                    }
+                }
+            }
+        }
+        utils.wizardSetStep = wizardSetStep;
+        utils.showLoading = (element, text, position) => {
+            var _a;
+            let zIndex;
+            if (isBlank(element)) {
+                element = $('#mainContent');
+            }
+            //If there's already a loading shown on the same element we just don't show this one to avoid overlapping
+            if ($(element).find('> .flx-loading-effect').length)
+                return;
+            if (((_a = element[0]) === null || _a === void 0 ? void 0 : _a.id) !== 'mainContent') {
+                $(element).css('position', 'relative');
+                zIndex = getZIndexElement(element);
+            }
+            let template = `
+            <section ${zIndex ? `style="z-index: ${parseInt(zIndex) + 1};"` : ""}class="flx-loading-effect fadeIn animated${position ? " " + position : ""}">
+                <span class="flx-loader-effect"></span>
+                <div class="flx-loader-text">${text ? text : flexygo.localization.translate('utils.loading')}...</div>
+            </section>`;
+            $(element).append(template);
+        };
+        utils.showLoadingEffect = (time = 5000, element = null, text, position, noTimer = false) => {
+            utils.showLoading(element, text, position);
+            if (!noTimer) {
+                setTimeout(function () {
+                    flexygo.utils.removeLoadingEffect(element);
+                }, time);
+            }
+        };
+        utils.removeLoadingEffect = (element = null) => {
+            if (isBlank(element)) {
+                element = $('#mainContent');
+            }
+            const loading_element = $(element).find('> .flx-loading-effect');
+            loading_element.addClass('fadeOut');
+            loading_element.fadeOut("slow", function () {
+                $(this).remove();
+                if ($(element)[0].id != 'mainContent') {
+                    $(element).css('position', '');
+                }
+            });
+        };
+        function getZIndexElement(elm) {
+            let zindex;
+            if (elm != undefined && $(elm)[0] !== $(document)[0]) {
+                zindex = parseInt(getComputedStyle($(elm)[0]).getPropertyValue('z-index'));
+                if (isNaN(zindex)) {
+                    return getZIndexElement($(elm).parent()[0]);
+                }
+                return zindex;
+            }
+            else {
+                if (isNaN(zindex)) {
+                    return 0;
+                }
+                else {
+                    return zindex;
+                }
+            }
+        }
+        function getObjectName(collection_name) {
+            let obj = new flexygo.obj.Entity('sysObject', `ObjectName='${collection_name}'`);
+            obj.read();
+            return obj.data.ObjectChildName.Value;
+        }
+        utils.getObjectName = getObjectName;
+        function saveFilterValueHistory(history, moduleName, activeFilter, filters) {
+            let page = 0;
+            if (!history.filtersValues) {
+                history.filtersValues = new flexygo.nav.ModuleFilterHistory();
+            }
+            let histElem = {
+                activeFilter: activeFilter,
+                activePage: page,
+                properties: filters
+            };
+            history.filtersValues[moduleName] = histElem;
+            flexygo.history.historyLog.add('', history.description, history);
+        }
+        utils.saveFilterValueHistory = saveFilterValueHistory;
     })(utils = flexygo.utils || (flexygo.utils = {}));
 })(flexygo || (flexygo = {}));
 (function (flexygo) {
@@ -1256,6 +1495,7 @@ function printText(text) {
 }
 // Create a jquery plugin that prints the given element.
 jQuery.fn.print = function (title) {
+    flexygo.utils.showLoading(null, flexygo.localization.translate('flxmodule.printing'));
     // NOTE: We are trimming the jQuery collection down to the
     // first element in the collection.
     if (this.size() > 1) {
@@ -1291,7 +1531,18 @@ jQuery.fn.print = function (title) {
     // document so that we capture look and feel of
     // the current document.
     // Create a temp document DIV to hold the style tags.
-    var jStyleDiv = $("<div>").append($("style").clone()).append($("link").clone()).append('<link href="./css/skins/default/print.css" rel="stylesheet">');
+    var jStyleDiv = $("<div>")
+        .append($("style").clone())
+        .append($("link").clone())
+        .append($("script").clone())
+        .append('<link href="./css/skins/default/print.css" rel="stylesheet">');
+    //We clone the print data and modify there the flx- that are not charts so they manualInit to avoid filters and other possible effects to not be applied
+    let cloned_main = this.clone();
+    cloned_main.find('*').filter(function () {
+        const tag_name = this.tagName.toLowerCase();
+        const needs_manualInit = tag_name.indexOf('flx-') === 0 && tag_name.indexOf('flx-chart') !== 0 && tag_name.indexOf('flx-easypie') !== 0 && tag_name.indexOf('flx-sparkline') !== 0;
+        return needs_manualInit;
+    }).attr('ManualInit', true);
     // Write the HTML for the document. In this, we will
     // write out the HTML of the current element.
     objDoc.open();
@@ -1308,7 +1559,7 @@ jQuery.fn.print = function (title) {
     //objDoc.write(SrcDiv.html());
     objDoc.write("</head>");
     objDoc.write("<body>");
-    objDoc.write(this.html());
+    objDoc.write(cloned_main.html());
     objDoc.write("</body>");
     objDoc.write("</html>");
     objDoc.close();
@@ -1345,19 +1596,9 @@ jQuery.fn.print = function (title) {
         }
     });
     setTimeout(function () {
-        //clone canvas content
-        let oldCnvs = $('canvas');
-        let newCnvs = $(objDoc).find('canvas');
-        for (let i = 0; i < newCnvs.length; i++) {
-            $(newCnvs[i]).width($(newCnvs[i]).closest('div').width() * 0.88);
-            $(newCnvs[i]).height($(newCnvs[i]).closest('div').height() * 0.88);
-            $(newCnvs[i]).attr('width', $(newCnvs[i]).closest('div').width());
-            $(newCnvs[i]).attr('height', $(newCnvs[i]).closest('div').height());
-            var context = newCnvs[i].getContext('2d');
-            context.drawImage(oldCnvs[i], 0, 0, $(newCnvs[i]).width(), $(newCnvs[i]).height());
-        }
-        setTimeout(function () { objFrame.print(); }, 1000);
-    }, 2000);
+        objFrame.print();
+        flexygo.utils.removeLoadingEffect();
+    }, 5500);
     // Have the frame remove itself in about a minute so that
     // we don't build up too many of these frames.
     setTimeout(function () {
@@ -1448,7 +1689,7 @@ $(function () {
             itm.attr('mode', 'bd');
             itm.attr('objectName', objectName);
             itm.attr('objectId', objectId);
-            let cont = flexygo.targets.createContainer({ targetid: 'popup1280x1024' }, false, $(this));
+            let cont = flexygo.targets.createContainer({ targetid: 'popup1280x1024', userid: flexygo.context.currentUserId }, false, $(this));
             if (!cont) {
                 return;
             }

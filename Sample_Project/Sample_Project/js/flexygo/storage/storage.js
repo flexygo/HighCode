@@ -168,13 +168,16 @@ var flexygo;
              * @param {string} value - element value.
              * @return {object} - Object from local storage.
              */
-            function get(key) {
+            function get(key, filter) {
                 var value = localStorage.getItem(flexygo.profiles.projectName + '-' + key);
                 if (value == null || value == '') {
                     return null;
                 }
                 else {
-                    return JSON.parse(value);
+                    let values_array = JSON.parse(value);
+                    if (filter)
+                        values_array = values_array.filter(el => filter(el));
+                    return values_array;
                 }
             }
             local.get = get;
@@ -340,7 +343,7 @@ var flexygo;
                     }
                     else if (flexygo.utils.objectsAreEquivalent(arr[i].filters, filters)) {
                         arr[i].response = value;
-                        arr[i].expiredDate = moment().add('minutes', minutesToExpire);
+                        arr[i].expiredDate = moment().add(minutesToExpire, 'minutes');
                         found = true;
                     }
                 }
@@ -351,7 +354,7 @@ var flexygo;
                     let itm = new cacheResponse();
                     itm.filters = filters;
                     itm.response = value;
-                    itm.expiredDate = moment().add('minutes', minutesToExpire);
+                    itm.expiredDate = moment().add(minutesToExpire, 'minutes');
                     arr.push(itm);
                 }
                 flexygo.storage.session.add(key, arr);

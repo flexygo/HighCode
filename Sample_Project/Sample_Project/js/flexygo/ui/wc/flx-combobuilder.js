@@ -27,11 +27,18 @@ var flexygo;
                     * @property targetItem {JQuery}
                     */
                     this.targetItem = null;
+                    /**
+                    * name of the property to fill in
+                    * @property sqlProperty {string}
+                    */
+                    this.sqlProperty = null;
+                    /**
+                    * Init the webcomponent. REQUIRED.
+                    * @method init
+                    */
+                    this.openQuote = "[";
+                    this.closeQuote = "]";
                 }
-                /**
-                * Init the webcomponent. REQUIRED.
-                * @method init
-                */
                 init() {
                     this.render();
                 }
@@ -49,6 +56,14 @@ var flexygo;
                 render() {
                     let me = $(this);
                     me.html(this.formComponents());
+                    if ($(me[0]).find('flx-code[editor="monaco"]').length > 0) {
+                        var ev = {
+                            class: "property",
+                            type: "resized",
+                            masterIdentity: "flx-edit"
+                        };
+                        flexygo.events.trigger(ev, $(this));
+                    }
                     let connstring = me.find('[name="cnnstring"]');
                     let tableName = me.find('[name="tablename"]');
                     let valueField = me.find('[name="valuefield"]');
@@ -69,23 +84,22 @@ var flexygo;
                         else {
                             tableName.attr('disabled', 'true');
                         }
+                        tableName.attr('ViewName', '');
+                        valueField.attr('ViewName', '');
+                        displayField.attr('ViewName', '');
+                        orderField.attr('ViewName', '');
+                        additionalFields.attr('ViewName', '');
                         tableName.attr('CnnString', $(e.currentTarget).val());
                         valueField.attr('CnnString', $(e.currentTarget).val());
                         displayField.attr('CnnString', $(e.currentTarget).val());
                         orderField.attr('CnnString', $(e.currentTarget).val());
                         additionalFields.attr('CnnString', $(e.currentTarget).val());
+                        this.setViewNameByDbType();
                     });
                     originSwitch.on('change', (e) => {
-                        switch ($(e.currentTarget).attr('value')) {
-                            case 'false':
-                                tableName.attr('ViewName', 'DataTables');
-                                break;
-                            case 'true':
-                                tableName.attr('ViewName', 'DataViews');
-                                break;
-                        }
                         tableName.val('');
                         this.enableComboFields();
+                        this.setViewNameByDbType();
                     });
                     tableName.on('change', (e) => {
                         this.enableComboFields();
@@ -120,7 +134,7 @@ var flexygo;
                             $(this.targetItem).find('[property="SQLValueField"]').val(valueField.val());
                             $(this.targetItem).find('[property="SQLDisplayField"]').val(displayField.val());
                             $(this.targetItem).find('[property="ConnStringId"]').val(connstring.val());
-                            $(this.targetItem).find('[property="SQlSentence"]').val(sqlSentence.val());
+                            $(this.targetItem).find(`[property="${this.sqlProperty}"]`).val(sqlSentence.val());
                             flexygo.msg.success(flexygo.localization.translate('combobuilder.saved'));
                             flexygo.nav.closePage(me);
                         }
@@ -128,6 +142,52 @@ var flexygo;
                     me.find('[name="cancel-button"]').on('click', (e) => {
                         flexygo.nav.closePage(me);
                     });
+                }
+                setViewNameByDbType() {
+                    let tableName = $(this).find('[name="tablename"]');
+                    let valueField = $(this).find('[name="valuefield"]');
+                    let displayField = $(this).find('[name="displayfield"]');
+                    let additionalFields = $(this).find('[name="additionalfields"]');
+                    let orderField = $(this).find('[name="orderfield"]');
+                    let DbType = $(this).find('[name="cnnstring"] li.selected span').attr('typeid');
+                    let origin = $(this).find('[name="origin-switch"]').val();
+                    switch (DbType) {
+                        case 'SQL':
+                            if (origin === false) {
+                                tableName.attr('ViewName', 'DataTables');
+                            }
+                            else {
+                                tableName.attr('ViewName', 'DataViews');
+                            }
+                            valueField.attr('ViewName', 'nameColsTable');
+                            displayField.attr('ViewName', 'nameColsTable');
+                            additionalFields.attr('ViewName', 'nameColsTable');
+                            orderField.attr('ViewName', 'nameColsTable');
+                            this.openQuote = "[";
+                            this.closeQuote = "]";
+                            break;
+                        case 'ORACLE':
+                            if (origin === false) {
+                                tableName.attr('ViewName', 'DataTablesOracle');
+                            }
+                            else {
+                                tableName.attr('ViewName', 'DataViewsOracle');
+                            }
+                            valueField.attr('ViewName', 'nameColsTableOracle');
+                            displayField.attr('ViewName', 'nameColsTableOracle');
+                            additionalFields.attr('ViewName', 'nameColsTableOracle');
+                            orderField.attr('ViewName', 'nameColsTableOracle');
+                            this.openQuote = "\"";
+                            this.closeQuote = "\"";
+                            break;
+                        default:
+                            tableName.attr('ViewName', '');
+                            valueField.attr('ViewName', '');
+                            displayField.attr('ViewName', '');
+                            additionalFields.attr('ViewName', '');
+                            orderField.attr('ViewName', '');
+                            break;
+                    }
                 }
                 /**
                 * Sets the html form structure
@@ -145,12 +205,12 @@ var flexygo;
                     render += '<div class="col-6 col-m-12 col-s-12 padding-m">';
                     //conn string
                     render += '<div class="padding-m"><label>' + flexygo.localization.translate('combobuilder.cnnstring') + ':<i class="txt-danger">*</i></label>';
-                    render += '<span><flx-dbcombo class="size-m" name="cnnstring"  PlaceHolder="' + flexygo.localization.translate('combobuilder.selectcnnstring') + '" iconClass="flx-icon icon-sql" ObjectName="SysObject" ViewName="CnnStrings" SQLValueField="ConnStringid" SQLDisplayField="Descrip" required data-msg-required="' + flexygo.localization.translate('combobuilder.validselectcnnstring') + '"></flx-dbcombo></span></div>';
+                    render += '<span><flx-dbcombo class="size-m" name="cnnstring"  PlaceHolder="' + flexygo.localization.translate('combobuilder.selectcnnstring') + '" iconClass="flx-icon icon-sql" ObjectName="SysObject" ViewName="CnnStrings" SQLValueField="ConnStringid" SQLDisplayField="Descrip" required data-msg-required="' + flexygo.localization.translate('combobuilder.validselectcnnstring') + '"><template><span TypeId="{{DbTypeId}}">{{Descrip}}</span></template></flx-dbcombo></span></div>';
                     //origin
                     render += '<div class="padding-m" style="margin-bottom: -0.8em;"><label>' + flexygo.localization.translate('combobuilder.origin') + ':<i class="txt-danger">*</i></label>';
                     render += '<div class="switch-elements">';
                     render += '<div class="switch-cont"><label style="margin-right:1em" >' + flexygo.localization.translate('combobuilder.fromtable') + '</label> <flx-switch name="origin-switch"></flx-switch><label style="margin-left:1em">' + flexygo.localization.translate('combobuilder.fromview') + '</label></div>';
-                    render += '<span class="switch-cbox"><flx-dbcombo  class="size-m" name="tablename" id="tablename"  PlaceHolder="' + flexygo.localization.translate('combobuilder.selecttable') + '" iconClass="flx-icon icon-sql" ObjectName="SysObject" ViewName="DataTables" SQLValueField="table_name" SQLDisplayField="table_name" required data-msg-required="' + flexygo.localization.translate('combobuilder.validorigin') + '"></flx-dbcombo></span>';
+                    render += '<span class="switch-cbox"><flx-dbcombo  class="size-m" name="tablename" id="tablename"  PlaceHolder="' + flexygo.localization.translate('combobuilder.selecttable') + '" iconClass="flx-icon icon-sql" ObjectName="SysObject" SQLValueField="table_name" SQLDisplayField="table_name" required data-msg-required="' + flexygo.localization.translate('combobuilder.validorigin') + '"></flx-dbcombo></span>';
                     render += '</div></div>';
                     //sql
                     render += '<div class="padding-m" id="sql-cont" ><label>' + flexygo.localization.translate('combobuilder.sqlsentence') + ':</label>';
@@ -161,16 +221,16 @@ var flexygo;
                     render += '<div class="col-6 col-m-12 col-s-12 padding-m">';
                     //value field
                     render += '<div class="padding-m"><label>' + flexygo.localization.translate('combobuilder.valuefield') + ':<i class="txt-danger">*</i></label>';
-                    render += '<span><flx-dbcombo class="size-m"   name="valuefield" PlaceHolder="' + flexygo.localization.translate('combobuilder.selectvaluefield') + '" iconClass="flx-icon icon-bullet-list-1" ObjectName="sysObject" ViewName="nameColsTable" SQLValueField="COLUMN_NAME" SQLDisplayField="COLUMN_NAME" required data-msg-required="' + flexygo.localization.translate('combobuilder.validvaluefield') + '"></flx-dbcombo></span></div>';
+                    render += '<span><flx-dbcombo class="size-m"   name="valuefield" PlaceHolder="' + flexygo.localization.translate('combobuilder.selectvaluefield') + '" iconClass="flx-icon icon-bullet-list-1" ObjectName="sysObject" SQLValueField="COLUMN_NAME" SQLDisplayField="COLUMN_NAME" required data-msg-required="' + flexygo.localization.translate('combobuilder.validvaluefield') + '"></flx-dbcombo></span></div>';
                     //display field
                     render += '<div class="padding-m"><label>' + flexygo.localization.translate('combobuilder.displayfield') + ':<i class="txt-danger">*</i></label>';
-                    render += '<span><flx-dbcombo class="size-m" name="displayfield" PlaceHolder="' + flexygo.localization.translate('combobuilder.selectdisplayfield') + '" iconClass="flx-icon icon-bullet-list-1" ObjectName="sysObject" ViewName="nameColsTable" SQLValueField="COLUMN_NAME" SQLDisplayField="COLUMN_NAME" required data-msg-required="' + flexygo.localization.translate('combobuilder.validdisplayfield') + '"></flx-dbcombo></span></div>';
+                    render += '<span><flx-dbcombo class="size-m" name="displayfield" PlaceHolder="' + flexygo.localization.translate('combobuilder.selectdisplayfield') + '" iconClass="flx-icon icon-bullet-list-1" ObjectName="sysObject" SQLValueField="COLUMN_NAME" SQLDisplayField="COLUMN_NAME" required data-msg-required="' + flexygo.localization.translate('combobuilder.validdisplayfield') + '"></flx-dbcombo></span></div>';
                     //multicombo addtionals
                     render += '<div class="padding-m"><label>' + flexygo.localization.translate('combobuilder.additionalfield') + ':</label>';
-                    render += '<flx-multicombo class="size-m" name= "additionalfields"  PlaceHolder="' + flexygo.localization.translate('combobuilder.selectadditionalfield') + '" iconclass="flx-icon icon-icons" ObjectName="sysObject" ViewName="nameColsTable" SQLValueField="COLUMN_NAME" SQLDisplayField="COLUMN_NAME"></flx-multicombo></div>';
+                    render += '<flx-multicombo class="size-m" name= "additionalfields"  PlaceHolder="' + flexygo.localization.translate('combobuilder.selectadditionalfield') + '" iconclass="flx-icon icon-icons" ObjectName="sysObject" SQLValueField="COLUMN_NAME" SQLDisplayField="COLUMN_NAME"></flx-multicombo></div>';
                     //order field
                     render += '<div class="padding-m"><label>' + flexygo.localization.translate('combobuilder.orderfield') + ':<i class="txt-danger">*</i></label>';
-                    render += '<div class="switch-elements"><span class="switch-cbox"><flx-dbcombo class="size-m"  name="orderfield" PlaceHolder="' + flexygo.localization.translate('combobuilder.selectorderfield') + '" iconClass="flx-icon icon-bullet-list-1" ObjectName="sysObject" ViewName="nameColsTable" SQLValueField="COLUMN_NAME" SQLDisplayField="COLUMN_NAME" required data-msg-required="' + flexygo.localization.translate('combobuilder.validorderfield') + '"></flx-dbcombo></span>';
+                    render += '<div class="switch-elements"><span class="switch-cbox"><flx-dbcombo class="size-m"  name="orderfield" PlaceHolder="' + flexygo.localization.translate('combobuilder.selectorderfield') + '" iconClass="flx-icon icon-bullet-list-1" ObjectName="sysObject" SQLValueField="COLUMN_NAME" SQLDisplayField="COLUMN_NAME" required data-msg-required="' + flexygo.localization.translate('combobuilder.validorderfield') + '"></flx-dbcombo></span>';
                     render += '<div class="switch-cont" id="order-labels"><label class="margin-right-s";">ASC</label><flx-switch name="order-switch"></flx-switch><label>DESC</label></div></div></div>';
                     //RIGHT  end
                     render += '</div>';
@@ -223,17 +283,21 @@ var flexygo;
                     let additionalFields = me.find('[name="additionalfields"]').val();
                     let orderField = me.find('[name="orderfield"]').val();
                     let orderSwitch = me.find('[name="order-switch"]').val();
+                    valueField = !flexygo.utils.isBlank(valueField) ? `${this.openQuote}${valueField}${this.closeQuote}` : null;
+                    displayField = !flexygo.utils.isBlank(displayField) ? `${this.openQuote}${displayField}${this.closeQuote}` : null;
+                    tableName = !flexygo.utils.isBlank(tableName) ? `${this.openQuote}${tableName}${this.closeQuote}` : null;
+                    orderField = !flexygo.utils.isBlank(orderField) ? `${this.openQuote}${orderField}${this.closeQuote}` : null;
                     let sql = 'SELECT ';
                     sql += valueField;
                     if (valueField != displayField && displayField != null) {
                         sql += ', ' + displayField;
                     }
-                    let additionals = additionalFields;
-                    if (additionals != 0) {
-                        sql += ', ' + additionals.replaceAll('|', ', ');
+                    if (!flexygo.utils.isBlank(additionalFields)) {
+                        additionalFields = additionalFields.split("|").map((field) => { return `${this.openQuote}${field}${this.closeQuote}`; }).join(", ");
+                        sql += ', ' + additionalFields;
                     }
                     sql += ' \nFROM ' + tableName;
-                    if (orderField != null) {
+                    if (!flexygo.utils.isBlank(orderField)) {
                         sql += ' \nORDER BY ' + orderField;
                         if (orderSwitch) {
                             sql += ' DESC';
@@ -275,6 +339,7 @@ var flexygo;
                     modal.append('<flx-combobuilder></flx-combobuilder>');
                     let cb = modal.find('flx-combobuilder')[0];
                     cb.targetItem = module;
+                    cb.sqlProperty = e.property;
                 }
                 /**
                *

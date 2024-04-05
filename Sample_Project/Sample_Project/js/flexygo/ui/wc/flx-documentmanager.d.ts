@@ -240,7 +240,9 @@ declare namespace flexygo.ui.wc {
         * @param {string} Document ID.
         * @param {string} Object ID.
         */
-        removeDocument(docGuid: string): void;
+        response_after_delete: any;
+        removeDocument(docGuid: string, lastProcessName?: string, lastAfterProcessName?: string, endMethodExecuted?: boolean): void;
+        endRemoveMethod(response: any, docGuid: any): void;
         /**
         * Set document.
         * @method setDocument
@@ -277,7 +279,8 @@ declare namespace flexygo.ui.wc {
        * @method editFinishDocument
        * @param {string} Document ID.
        */
-        editFinishDocument(docGuid: string): void;
+        editFinishDocument(docGuid: string, lastProcessName?: string, lastAfterProcessName?: string, endMethodExecuted?: boolean): void;
+        endUpdateMethod(response: any, doc: any, name: any, categoryId: any, category: any, description: any): void;
         /**
         * Exit edit mode.
         * @method editReturn
@@ -368,7 +371,9 @@ declare namespace flexygo.io {
         percentDone(): number;
         upload_file(): void;
         appendToDocument(base64: string, lastAppend: boolean): void;
-        setDocument(base64: string, documentName: string, multipart: boolean): void;
+        response_after_insert: any;
+        setDocument(base64: string, documentName: string, multipart: boolean, lastProcessName?: string, lastAfterProcessName?: string, endMethodExecuted?: boolean): void;
+        endSetMethod(response: any, multipart: any): void;
         removeDocument(): void;
     }
 }

@@ -1,4 +1,5 @@
-﻿
+﻿@import "../CssVars.less";
+
 flx-user {
     display: block;
 
@@ -7,7 +8,7 @@ flx-user {
         align-items: center;
 
         &:hover {
-            color: dbColor(outstandingColor);
+            color: @outstanding-color;
         }
 
         div {
@@ -23,7 +24,7 @@ flx-user {
             span {
                 font-size: .8em;
 
-                @media (max-width: dbSize(medium)) {
+                @media (max-width: @medium) {
                     font-size:unset;
                 }
             }

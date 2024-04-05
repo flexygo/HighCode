@@ -1,4 +1,6 @@
-﻿flx-search table, .flx-search table {
+﻿@import "../CssVars.less";
+
+flx-search table, .flx-search table {
     padding-right: 5px;
     border-spacing: 0;
     min-width: 100%;
@@ -6,7 +8,7 @@
 }
 
 flx-search th, .flx-search th {
-    color: lighten(dbColor(txtColor),40);
+    color: lighten(@txt-color,40);
     text-align: center;
     white-space: nowrap;
     padding-right: 20px;
@@ -19,21 +21,21 @@ flx-search .empty {
 }
 
 flx-search th, .flx-search th {
-    border-right: solid 1px dbColor(borderModuleColor);
+    border-right: solid 1px @border-module-color;
     padding: 8px;
-    background-color: dbColor(bgColor);
+    background-color: @bg-color;
 }
 
 flx-search th:hover, .flx-search th:hover {
-    background-color: lighten(dbColor(txtColor),40);
-    color: dbColor(bgColor);
+    background-color: lighten(@txt-color,40);
+    color: @bg-color;
 }
 
 flx-search td, .flx-search td {
     width: 1px;
     padding: 5px;
     white-space: nowrap;
-    border-top: solid 1px dbColor(borderModuleColor);
+    border-top: solid 1px @border-module-color;
 }
 
 flx-search td i, .flx-search td i {
@@ -44,7 +46,7 @@ flx-search td i, .flx-search td i {
 
 flx-search th i, .flx-search th i {
     font-size: 1.3em;
-    color: darken(dbColor(txtColor),10);
+    color: darken(@txt-color,10);
     margin-left: .5em;
     cursor: pointer;
 }
@@ -76,12 +78,12 @@ flx-search td .btn-group button > span {
 }
 
 flx-search th i:hover, .flx-search th i:hover {
-    color: lighten(dbColor(OutstandingColor),20);
+    color: lighten(@outstanding-color,20);
 }
 
 flx-search tr:not(.rowHeader):not(.rowInsert):hover, .flx-search tr:not(.rowHeader):not(.rowInsert):hover {
-    background-color: dbColor(OutstandingColor);
-    color: dbColor(txtOutstandingColor);
+    background-color: @outstanding-color;
+    color: @txt-outstanding-color;
 }
 
 flx-search .sortAsc:after, .flx-search .sortAsc:after {
@@ -105,7 +107,7 @@ flx-search td > b, .flx-search td > b {
 }
 
 flx-search tr:nth-child(even):not(.rowHeader), .flx-search tr:nth-child(even):not(.rowHeader) {
-    background-color: dbColor(bgColor);
+    background-color: @bg-color;
     color: lighten(black,30);
 }
 
@@ -116,11 +118,11 @@ flx-search tr:nth-child(odd):not(.rowHeader), .flx-search tr:nth-child(odd):not(
 
 
 flx-module.empty flx-search tr:nth-child(odd):not(.rowHeader), .flx-module.empty flx-search tr:nth-child(odd):not(.rowHeader) {
-    background-color: dbColor(ModuleColor)
+    background-color: @module-color;
 }
 
 flx-module.empty flx-search tr:nth-child(even):not(.rowHeader), .flx-module.empty flx-search tr:nth-child(even):not(.rowHeader) {
-    background-color: dbColor(ModuleColor)
+    background-color: @module-color;
 }
 
 
@@ -147,7 +149,7 @@ flx-search .search {
     margin-bottom: 4px;
 }
 
-@media (max-width: dbSize(medium)) {
+@media (max-width: @medium) {
 
     flx-search td > b, .flx-search td > b {
         display: inline;
@@ -172,7 +174,7 @@ flx-search .search {
         box-shadow: none;
         padding: 5px;
         border-radius: none;
-        border-bottom: solid 1px dbColor(borderModuleColor);
+        border-bottom: solid 1px @border-module-color;
     }
 
 
@@ -195,7 +197,7 @@ flx-search .search {
     }
 
     flx-search tr:nth-child(even):not(.rowHeader), flx-search tr:nth-child(even):not(.rowHeader):hover, .flx-search tr:nth-child(even):not(.rowHeader), .flx-search tr:nth-child(even):not(.rowHeader):hover {
-        background-color: dbColor(bgColor);
+        background-color: @bg-color;
         color: lighten(black,30);
     }
 

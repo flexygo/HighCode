@@ -1,0 +1,323 @@
+/* This file is auto-generated. Modify the '../../../_common/generate_sprite.js'*/
+.icon {
+  font-size: 12px;
+}
+
+img.icon,
+.icon.dx-acc-s,
+.icon:not(.dx-acc-s):before {
+  content: ' ';
+  vertical-align: middle;
+  display: inline-block;
+  background-image: url("sprite.svg?v=7702426d00d562ef7cf64a0fdc0c28e6199206a3");
+  background-repeat: no-repeat;
+  background-size: 8.5em 74.33333333333333em;
+}
+
+.no-svg .icon:before {
+  background-image: url("sprite.png?v=7702426d00d562ef7cf64a0fdc0c28e6199206a3");
+}
+
+img.icon.angle-down,
+.icon.angle-down.dx-acc-s,
+.icon.angle-down:not(.dx-acc-s):before {
+  background-position: -0.08333333333333333em -0.08333333333333333em;
+  width: 1em;
+  height: 1em;
+}
+
+img.icon.angle-right,
+.icon.angle-right.dx-acc-s,
+.icon.angle-right:not(.dx-acc-s):before {
+  background-position: -0.08333333333333333em -1.25em;
+  width: 1em;
+  height: 1em;
+}
+
+img.icon.arrow-left,
+.icon.arrow-left.dx-acc-s,
+.icon.arrow-left:not(.dx-acc-s):before {
+  background-position: -0.08333333333333333em -2.416666666666667em;
+  width: 1.8333333333333333em;
+  height: 1.8333333333333333em;
+}
+
+img.icon.arrow-right,
+.icon.arrow-right.dx-acc-s,
+.icon.arrow-right:not(.dx-acc-s):before {
+  background-position: -0.08333333333333333em -4.416666666666666em;
+  width: 1.8333333333333333em;
+  height: 1.8333333333333333em;
+}
+
+img.icon.arrow-right-long,
+.icon.arrow-right-long.dx-acc-s,
+.icon.arrow-right-long:not(.dx-acc-s):before {
+  background-position: -0.08333333333333333em -6.416666666666666em;
+  width: 1.1666666666666667em;
+  height: 1.1666666666666667em;
+}
+
+img.icon.arrow-right-long-selected,
+.icon.arrow-right-long-selected.dx-acc-s,
+.icon.arrow-right-long-selected:not(.dx-acc-s):before {
+  background-position: -0.08333333333333333em -7.75em;
+  width: 1.1666666666666667em;
+  height: 1.1666666666666667em;
+}
+
+img.icon.clear-button,
+.icon.clear-button.dx-acc-s,
+.icon.clear-button:not(.dx-acc-s):before {
+  background-position: -0.08333333333333333em -9.083333333333334em;
+  width: 1.6666666666666667em;
+  height: 1.6666666666666667em;
+}
+
+img.icon.cog,
+.icon.cog.dx-acc-s,
+.icon.cog:not(.dx-acc-s):before {
+  background-position: -0.08333333333333333em -10.916666666666668em;
+  width: 1.8333333333333333em;
+  height: 1.8333333333333333em;
+}
+
+img.icon.copy,
+.icon.copy.dx-acc-s,
+.icon.copy:not(.dx-acc-s):before {
+  background-position: -0.08333333333333333em -12.916666666666668em;
+  width: 2.1666666666666665em;
+  height: 2.1666666666666665em;
+}
+
+.icon.copy.dxbButtonHover:before {
+  background-position: -0.08333333333333333em -15.25em;
+  width: 2.1666666666666665em;
+  height: 2.1666666666666665em;
+}
+
+.icon.copy.dxbButtonPressed:before {
+  background-position: -0.08333333333333333em -17.583333333333332em;
+  width: 2.1666666666666665em;
+  height: 2.1666666666666665em;
+}
+
+img.icon.download,
+.icon.download.dx-acc-s,
+.icon.download:not(.dx-acc-s):before {
+  background-position: -0.08333333333333333em -19.916666666666664em;
+  width: 1.8333333333333333em;
+  height: 1.8333333333333333em;
+}
+
+img.icon.drop-down,
+.icon.drop-down.dx-acc-s,
+.icon.drop-down:not(.dx-acc-s):before {
+  background-position: -0.08333333333333333em -21.916666666666664em;
+  width: 1em;
+  height: 1em;
+}
+
+img.icon.font,
+.icon.font.dx-acc-s,
+.icon.font:not(.dx-acc-s):before {
+  background-position: -0.08333333333333333em -23.083333333333332em;
+  width: 1em;
+  height: 1em;
+}
+
+img.icon.menu,
+.icon.menu.dx-acc-s,
+.icon.menu:not(.dx-acc-s):before {
+  background-position: -0.08333333333333333em -24.25em;
+  width: 2.1666666666666665em;
+  height: 2.1666666666666665em;
+}
+
+img.icon.phone,
+.icon.phone.dx-acc-s,
+.icon.phone:not(.dx-acc-s):before {
+  background-position: -0.08333333333333333em -26.583333333333332em;
+  width: 6.666666666666667em;
+  height: 6.666666666666667em;
+}
+
+img.icon.phone-selected,
+.icon.phone-selected.dx-acc-s,
+.icon.phone-selected:not(.dx-acc-s):before {
+  background-position: -0.08333333333333333em -33.41666666666667em;
+  width: 6.666666666666667em;
+  height: 6.666666666666667em;
+}
+
+img.icon.play-button,
+.icon.play-button.dx-acc-s,
+.icon.play-button:not(.dx-acc-s):before {
+  background-position: -0.08333333333333333em -40.25em;
+  width: 8.333333333333334em;
+  height: 8.333333333333334em;
+}
+
+img.icon.rotate,
+.icon.rotate.dx-acc-s,
+.icon.rotate:not(.dx-acc-s):before {
+  background-position: -0.08333333333333333em -48.75em;
+  width: 6.666666666666667em;
+  height: 6.666666666666667em;
+}
+
+img.icon.search,
+.icon.search.dx-acc-s,
+.icon.search:not(.dx-acc-s):before {
+  background-position: -0.08333333333333333em -55.583333333333336em;
+  width: 1.75em;
+  height: 1.75em;
+}
+
+img.icon.shopping-cart,
+.icon.shopping-cart.dx-acc-s,
+.icon.shopping-cart:not(.dx-acc-s):before {
+  background-position: -0.08333333333333333em -57.5em;
+  width: 1.8333333333333333em;
+  height: 1.8333333333333333em;
+}
+
+img.icon.tablet,
+.icon.tablet.dx-acc-s,
+.icon.tablet:not(.dx-acc-s):before {
+  background-position: -0.08333333333333333em -59.5em;
+  width: 6.666666666666667em;
+  height: 6.666666666666667em;
+}
+
+img.icon.tablet-selected,
+.icon.tablet-selected.dx-acc-s,
+.icon.tablet-selected:not(.dx-acc-s):before {
+  background-position: -0.08333333333333333em -66.33333333333333em;
+  width: 6.666666666666667em;
+  height: 6.666666666666667em;
+}
+
+img.icon.three-dots,
+.icon.three-dots.dx-acc-s,
+.icon.three-dots:not(.dx-acc-s):before {
+  background-position: -0.08333333333333333em -73.16666666666666em;
+  width: 1.0833333333333333em;
+  height: 1.0833333333333333em;
+}
+
+.icon.angle-down.dx-acc-s:before {
+  left: -0.08333333333333333em;
+  top: -0.08333333333333333em;
+}
+
+.icon.angle-right.dx-acc-s:before {
+  left: -0.08333333333333333em;
+  top: -1.25em;
+}
+
+.icon.arrow-left.dx-acc-s:before {
+  left: -0.08333333333333333em;
+  top: -2.416666666666667em;
+}
+
+.icon.arrow-right.dx-acc-s:before {
+  left: -0.08333333333333333em;
+  top: -4.416666666666666em;
+}
+
+.icon.arrow-right-long.dx-acc-s:before {
+  left: -0.08333333333333333em;
+  top: -6.416666666666666em;
+}
+
+.icon.arrow-right-long-selected.dx-acc-s:before {
+  left: -0.08333333333333333em;
+  top: -7.75em;
+}
+
+.icon.clear-button.dx-acc-s:before {
+  left: -0.08333333333333333em;
+  top: -9.083333333333334em;
+}
+
+.icon.cog.dx-acc-s:before {
+  left: -0.08333333333333333em;
+  top: -10.916666666666668em;
+}
+
+.icon.copy.dx-acc-s:before {
+  left: -0.08333333333333333em;
+  top: -12.916666666666668em;
+}
+
+.icon.download.dx-acc-s:before {
+  left: -0.08333333333333333em;
+  top: -19.916666666666664em;
+}
+
+.icon.drop-down.dx-acc-s:before {
+  left: -0.08333333333333333em;
+  top: -21.916666666666664em;
+}
+
+.icon.font.dx-acc-s:before {
+  left: -0.08333333333333333em;
+  top: -23.083333333333332em;
+}
+
+.icon.menu.dx-acc-s:before {
+  left: -0.08333333333333333em;
+  top: -24.25em;
+}
+
+.icon.phone.dx-acc-s:before {
+  left: -0.08333333333333333em;
+  top: -26.583333333333332em;
+}
+
+.icon.phone-selected.dx-acc-s:before {
+  left: -0.08333333333333333em;
+  top: -33.41666666666667em;
+}
+
+.icon.play-button.dx-acc-s:before {
+  left: -0.08333333333333333em;
+  top: -40.25em;
+}
+
+.icon.rotate.dx-acc-s:before {
+  left: -0.08333333333333333em;
+  top: -48.75em;
+}
+
+.icon.search.dx-acc-s:before {
+  left: -0.08333333333333333em;
+  top: -55.583333333333336em;
+}
+
+.icon.shopping-cart.dx-acc-s:before {
+  left: -0.08333333333333333em;
+  top: -57.5em;
+}
+
+.icon.tablet.dx-acc-s:before {
+  left: -0.08333333333333333em;
+  top: -59.5em;
+}
+
+.icon.tablet-selected.dx-acc-s:before {
+  left: -0.08333333333333333em;
+  top: -66.33333333333333em;
+}
+
+.icon.three-dots.dx-acc-s:before {
+  left: -0.08333333333333333em;
+  top: -73.16666666666666em;
+}
+
+.icon.dx-acc-s:before {
+  content: url("sprite.svg?v=7702426d00d562ef7cf64a0fdc0c28e6199206a3");
+  position: absolute;
+  margin: 0;
+}

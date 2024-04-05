@@ -1,0 +1,55 @@
+﻿.cr-text { color: Black; }
+.cr-text-html { color: Black; }
+
+.cr-keyword { color: #ff7a05; font-weight: 600; }
+.cr-keyword-html { color: #2B91AF; }
+.cr-keyword-css { color: #A31515; }
+
+.cr-operator { color: Black; }
+
+.cr-preproc { color: #2B91AF; }
+.cr-preproc-html { background-color: #FFEE62; color: Black; }
+
+.cr-string { color: #ff7a05; }
+.cr-string-html { color: Black; }
+.cr-string-css { color: Blue; }
+
+.cr-number { color: Black; }
+
+.cr-identifier { color: Black; }
+
+.cr-htmlserverscript { background-color: #f99c4a; color: white; padding: 0 2px;}
+
+.cr-htmlstring { background-color: Blue; }
+
+.cr-unknown { color: Black; }
+
+.cr-comment { color: Green; }
+
+.cr-xmlcomment { color: Green; }
+
+.cr-csscomment { color: Green; }
+
+.cr-csskeyword { color: black; }
+
+.cr-csspropertyname { color: #FF0000; }
+
+.cr-csspropertyvalue { color: Blue; }
+
+.cr-cssselector { color: #800000; }
+
+.cr-cssstringvalue { color: Blue; }
+
+.cr-htmlelementname { color: #272727; }
+
+.cr-htmlentity { color: Black; }
+
+.cr-htmloperator { color: #808080; }
+
+.cr-htmlcomment { color: Green; }
+
+.cr-htmlattributename { color: #f78119; }
+
+.cr-htmlattributevalue { color: #4c4c4c; }
+
+.cr-htmltagdelimiter { color: #808080; }

@@ -229,6 +229,13 @@ var flexygo;
                         }
                         this.options.Tag = Tag;
                     }
+                    let mode = element.attr('mode');
+                    if (!flexygo.utils.isBlank(mode)) {
+                        this.mode = mode.toLowerCase();
+                    }
+                    else {
+                        this.mode = "edit";
+                    }
                     this.init();
                     let Value = element.attr('Value');
                     if (Value && Value !== '') {
@@ -436,12 +443,7 @@ var flexygo;
                 }
                 init() {
                     let me = $(this);
-                    if (me.attr('mode') && me.attr('mode').toLowerCase() === 'view') {
-                        this.initViewMode();
-                    }
-                    else {
-                        this.initEditMode();
-                    }
+                    this.mode == "view" ? this.initViewMode() : this.initEditMode();
                 }
                 initViewMode() {
                     let me = $(this);
@@ -462,7 +464,6 @@ var flexygo;
                         iconsRight.append(icon1);
                     }
                     let control = $('<div>');
-                    me.html(control);
                     let input = $('<label class="form-control input-view" />');
                     if (this.options && this.options.IconClass && this.options.IconClass !== '') {
                         iconsLeft = $('<span class="input-group-addon" ><i class="' + this.options.IconClass + '" /></span>');
@@ -496,6 +497,7 @@ var flexygo;
                     if (this.options && this.options.Hide) {
                         me.addClass("hideControl");
                     }
+                    me.html(control);
                 }
                 initEditMode() {
                     let me = $(this);
@@ -553,7 +555,17 @@ var flexygo;
                     else {
                         input = $('<input type="' + this.type + '" class="form-control" />');
                     }
-                    if (me.attr("disablescroll") === 'true') {
+                    if (this.type == "datetime-local") {
+                        if (!this.firefoxNav) {
+                            input.attr("max", "9999-12-31T23:59");
+                        }
+                    }
+                    else if (this.type == "date") {
+                        if (!this.firefoxNav) {
+                            input.attr("max", "9999-12-31");
+                        }
+                    }
+                    if (me.attr("disablescroll") === 'true' && this.mode != "preview") {
                         input.on('wheel', (e) => { $(e.target).trigger('blur'); });
                     }
                     input.on('blur', (e) => { me.trigger('blur'); });
@@ -810,24 +822,45 @@ var flexygo;
                     let lng = "";
                     var latField = '';
                     var lngField = '';
-                    if (tag != '' && marker != '') {
-                        var tagArr = tag.split("|");
+                    let tagProp = '';
+                    let zoom = 10; //Default zoom
+                    let mapPlacesConfig = {}, mapPlacesOptions = {};
+                    if (tag != '') {
+                        if (flexygo.utils.isJSON(tag)) {
+                            let tagJSON = JSON.parse(tag);
+                            tagProp = (flexygo.utils.isBlank(tagJSON["properties"]) ? tagProp : tagJSON["properties"]);
+                            zoom = (flexygo.utils.isBlank(tagJSON["mapConfig"]) ? zoom : tagJSON["mapConfig"]["zoom"]);
+                            mapPlacesConfig = (flexygo.utils.isBlank(tagJSON["mapPlacesConfig"]) ? mapPlacesConfig : tagJSON["mapPlacesConfig"]);
+                            mapPlacesOptions = (flexygo.utils.isBlank(tagJSON["mapPlacesOptions"]) ? mapPlacesOptions : tagJSON["mapPlacesOptions"]);
+                        }
+                        else {
+                            tagProp = tag;
+                        }
+                    }
+                    if (tagProp != '' && marker != '') {
+                        var tagArr;
+                        tagArr = tagProp.split("|");
                         latField = tagArr[0];
                         lngField = tagArr[1];
                         if ((latField != '' && lngField != '') && (lat == '' && lng == '')) {
                             lat = $('flx-text[property =  "' + latField + '"]').val();
                             lng = $('flx-text[property =  "' + lngField + '"]').val().replace(" ", "");
-                            modal.append('<input class="srch"  style="width:94.5%;" type="text" placeholder="Search adress"/><button class="srch btn btn-default" type="button" > <i class="flx-icon icon-search " /></button><button class="acpt btn btn-default" type="button" ><i class="flx-icon icon-save-2"/></button><flx-map cluster="false" mode="coord" zoom="3" width="auto" height="96%"><marker lat="' + lat + '" lng="' + lng + '"></marker></flx-map>');
+                            if (flexygo.utils.isBlank(lat) || flexygo.utils.isBlank(lng)) {
+                                zoom = 3;
+                            }
+                            modal.append('<input id="flx-searchFieldMap" class="srch"  style="width:94.5%;" type="text" placeholder="Search adress"/><button class="srch btn btn-default" type="button" > <i class="flx-icon icon-search " /></button><button class="acpt btn btn-default" type="button" ><i class="flx-icon icon-save-2"/></button><flx-map cluster="false" mode="coord" zoom="' + zoom + '" width="auto" height="96%"><marker lat="' + lat + '" lng="' + lng + '"></marker></flx-map>');
                         }
                     }
                     else if (marker != "") {
                         marker = marker.split(",");
                         lat = marker[0];
-                        lng = marker[1].replace(" ", "");
-                        modal.append('<input class="srch"  style="width:94.5%;" type="text" placeholder="Search adress"/><button class="srch btn btn-default" type="button" > <i class="flx-icon icon-search " /></button><button class="acpt btn btn-default" type="button" ><i class="flx-icon icon-save-2"/></button><flx-map cluster="false" mode="coord" zoom="3" width="auto" height="96%"><marker lat="' + lat + '" lng="' + lng + '"></marker></flx-map>');
+                        if (marker.length > 1) {
+                            lng = marker[1].replace(" ", "");
+                        }
+                        modal.append('<input id="flx-searchFieldMap" class="srch"  style="width:94.5%;" type="text" placeholder="Search adress"/><button class="srch btn btn-default" type="button" > <i class="flx-icon icon-search " /></button><button class="acpt btn btn-default" type="button" ><i class="flx-icon icon-save-2"/></button><flx-map cluster="false" mode="coord" zoom="' + zoom + '" width="auto" height="96%"><marker lat="' + lat + '" lng="' + lng + '"></marker></flx-map>');
                     }
                     else {
-                        modal.append('<input class="srch"  style="width:94.5%;" type="text" placeholder="Search adress"/><button class="srch btn btn-default" type="button" > <i class="flx-icon icon-search" /></button><button class="acpt btn btn-default" type="button" > <i class="flx-icon icon-save-2"/></button><flx-map cluster="false" mode="coord" zoom="3" width="auto" height="96%"></flx-map>');
+                        modal.append('<input id="flx-searchFieldMap" class="srch"  style="width:94.5%;" type="text" placeholder="Search adress"/><button class="srch btn btn-default" type="button" > <i class="flx-icon icon-search" /></button><button class="acpt btn btn-default" type="button" > <i class="flx-icon icon-save-2"/></button><flx-map cluster="false" mode="coord" zoom="' + zoom + '" width="auto" height="96%"></flx-map>');
                     }
                     modal.find('button.acpt').on('click', (ev) => {
                         var coordinate = '';
@@ -842,11 +875,11 @@ var flexygo;
                         else if ($(mapbt).attr("lat") != null || $(mapbt).attr("lng") != null) {
                             coordinate = $(mapbt).attr("lat") + ', ' + $(mapbt).attr("lng");
                         }
-                        if (tag != '' && coordinate != '') {
+                        if (tagProp != '' && coordinate != '') {
                             var coordinateArr = coordinate.split(",");
                             lat = coordinateArr[0];
                             lng = coordinateArr[1].replace(" ", "");
-                            var tagArr = tag.split("|");
+                            var tagArr = tagProp.split("|");
                             latField = tagArr[0];
                             lngField = tagArr[1];
                         }
@@ -863,17 +896,21 @@ var flexygo;
                             var address = $(this).parent().find('input.srch').val();
                             if (address != '') {
                                 $('flx-map').remove();
-                                modal.append('<flx-map cluster="false" mode="coord" zoom="3" width="auto" height="96%"><marker address="' + address + '"></marker></flx-map>');
+                                modal.append('<flx-map cluster="false" mode="coord" zoom="' + zoom + '" width="auto" height="96%"><marker address="' + address + '"></marker></flx-map>');
                             }
                         }
                     });
                     modal.find('button.srch').on('click', function (ev) {
                         var address = $(this).parent().find('input.srch').val();
+                        //zoom = 10;
                         if (address != '') {
                             $('flx-map').remove();
-                            modal.append('<flx-map cluster="false" mode="coord" zoom="3" width="auto" height="96%"><marker address="' + address + '"></marker></flx-map>');
+                            modal.append('<flx-map cluster="false" mode="coord" zoom="' + zoom + '" width="auto" height="96%"><marker address="' + address + '"></marker></flx-map>');
                         }
                     });
+                    setTimeout(() => {
+                        flexygo.utils.googlePlaces.autocomplete.init('flx-searchFieldMap', mapPlacesConfig, mapPlacesOptions, function (ret) { modal.find('button.srch').click(); });
+                    }, 1000);
                 }
                 setOptions() {
                     let me = $(this);
@@ -1163,10 +1200,10 @@ var flexygo;
                         else if (this.type === 'number' && $.isNumeric(value) && this.options && this.options.DecimalPlaces && this.options.DecimalPlaces.toString() !== '' && (this.options.DecimalPlaces > 0)) {
                             value = parseFloat(value).toFixed(this.options.DecimalPlaces);
                         }
-                        me.attr('value', value);
-                        if (this.type === 'thousandSeparator') {
-                            value = value ? value.toString().replace(".", input.inputmask("option", "radixPoint")) : '';
+                        else if (this.type === 'thousandSeparator') {
+                            value = !flexygo.utils.isBlank(value) ? value.toString().replace(".", input.inputmask("option", "radixPoint")) : '';
                         }
+                        me.attr('value', value);
                         input.val(value);
                     }
                 }

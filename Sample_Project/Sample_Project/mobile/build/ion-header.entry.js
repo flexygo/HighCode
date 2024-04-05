@@ -1,5 +1,5 @@
-import { n as readTask, f as writeTask, r as registerInstance, j as h, l as Host, k as getElement } from './index-86ac49ff.js';
-import { g as getIonMode } from './ionic-global-0f98fe97.js';
+import { q as readTask, f as writeTask, r as registerInstance, k as h, n as Host, m as getElement } from './index-d0d1673d.js';
+import { g as getIonMode } from './ionic-global-f9661584.js';
 import { f as clamp, i as inheritAttributes } from './helpers-719f4c54.js';
 import { h as hostContext } from './theme-f934266c.js';
 
@@ -142,132 +142,132 @@ const headerIosCss = "ion-header{display:block;position:relative;order:-1;width:
 const headerMdCss = "ion-header{display:block;position:relative;order:-1;width:100%;z-index:10}ion-header ion-toolbar:first-of-type{padding-top:var(--ion-safe-area-top, 0)}.header-md::after{left:0;bottom:-5px;background-position:left 0 top -2px;position:absolute;width:100%;height:5px;background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAHBAMAAADzDtBxAAAAD1BMVEUAAAAAAAAAAAAAAAAAAABPDueNAAAABXRSTlMUCS0gBIh/TXEAAAAaSURBVAjXYxCEAgY4UIICBmMogMsgFLtAAQCNSwXZKOdPxgAAAABJRU5ErkJggg==);background-repeat:repeat-x;content:\"\"}[dir=rtl] .header-md::after,:host-context([dir=rtl]) .header-md::after{left:unset;right:unset;right:0}[dir=rtl] .header-md::after,:host-context([dir=rtl]) .header-md::after{background-position:right 0 top -2px}.header-collapse-condense{display:none}.header-md.ion-no-border::after{display:none}";
 
 const Header = class {
-    constructor(hostRef) {
-        registerInstance(this, hostRef);
-        this.collapsibleHeaderInitialized = false;
-        this.inheritedAttributes = {};
-        /**
-         * If `true`, the header will be translucent.
-         * Only applies when the mode is `"ios"` and the device supports
-         * [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
-         *
-         * Note: In order to scroll content behind the header, the `fullscreen`
-         * attribute needs to be set on the content.
-         */
-        this.translucent = false;
+  constructor(hostRef) {
+    registerInstance(this, hostRef);
+    this.collapsibleHeaderInitialized = false;
+    this.inheritedAttributes = {};
+    /**
+     * If `true`, the header will be translucent.
+     * Only applies when the mode is `"ios"` and the device supports
+     * [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
+     *
+     * Note: In order to scroll content behind the header, the `fullscreen`
+     * attribute needs to be set on the content.
+     */
+    this.translucent = false;
+  }
+  componentWillLoad() {
+    this.inheritedAttributes = inheritAttributes(this.el, ['role']);
+  }
+  async componentDidLoad() {
+    await this.checkCollapsibleHeader();
+  }
+  async componentDidUpdate() {
+    await this.checkCollapsibleHeader();
+  }
+  disconnectedCallback() {
+    this.destroyCollapsibleHeader();
+  }
+  async checkCollapsibleHeader() {
+    // Determine if the header can collapse
+    const hasCollapse = this.collapse === 'condense';
+    const canCollapse = (hasCollapse && getIonMode(this) === 'ios') ? hasCollapse : false;
+    if (!canCollapse && this.collapsibleHeaderInitialized) {
+      this.destroyCollapsibleHeader();
     }
-    componentWillLoad() {
-        this.inheritedAttributes = inheritAttributes(this.el, ['role']);
+    else if (canCollapse && !this.collapsibleHeaderInitialized) {
+      const pageEl = this.el.closest('ion-app,ion-page,.ion-page,page-inner');
+      const contentEl = (pageEl) ? pageEl.querySelector('ion-content') : null;
+      // Cloned elements are always needed in iOS transition
+      writeTask(() => {
+        const title = cloneElement('ion-title');
+        title.size = 'large';
+        cloneElement('ion-back-button');
+      });
+      await this.setupCollapsibleHeader(contentEl, pageEl);
     }
-    async componentDidLoad() {
-        await this.checkCollapsibleHeader();
+  }
+  destroyCollapsibleHeader() {
+    if (this.intersectionObserver) {
+      this.intersectionObserver.disconnect();
+      this.intersectionObserver = undefined;
     }
-    async componentDidUpdate() {
-        await this.checkCollapsibleHeader();
+    if (this.scrollEl && this.contentScrollCallback) {
+      this.scrollEl.removeEventListener('scroll', this.contentScrollCallback);
+      this.contentScrollCallback = undefined;
     }
-    disconnectedCallback() {
-        this.destroyCollapsibleHeader();
+    if (this.collapsibleMainHeader) {
+      this.collapsibleMainHeader.classList.remove('header-collapse-main');
+      this.collapsibleMainHeader = undefined;
     }
-    async checkCollapsibleHeader() {
-        // Determine if the header can collapse
-        const hasCollapse = this.collapse === 'condense';
-        const canCollapse = (hasCollapse && getIonMode(this) === 'ios') ? hasCollapse : false;
-        if (!canCollapse && this.collapsibleHeaderInitialized) {
-            this.destroyCollapsibleHeader();
-        }
-        else if (canCollapse && !this.collapsibleHeaderInitialized) {
-            const pageEl = this.el.closest('ion-app,ion-page,.ion-page,page-inner');
-            const contentEl = (pageEl) ? pageEl.querySelector('ion-content') : null;
-            // Cloned elements are always needed in iOS transition
-            writeTask(() => {
-                const title = cloneElement('ion-title');
-                title.size = 'large';
-                cloneElement('ion-back-button');
-            });
-            await this.setupCollapsibleHeader(contentEl, pageEl);
-        }
+  }
+  async setupCollapsibleHeader(contentEl, pageEl) {
+    if (!contentEl || !pageEl) {
+      console.error('ion-header requires a content to collapse, make sure there is an ion-content.');
+      return;
     }
-    destroyCollapsibleHeader() {
-        if (this.intersectionObserver) {
-            this.intersectionObserver.disconnect();
-            this.intersectionObserver = undefined;
-        }
-        if (this.scrollEl && this.contentScrollCallback) {
-            this.scrollEl.removeEventListener('scroll', this.contentScrollCallback);
-            this.contentScrollCallback = undefined;
-        }
-        if (this.collapsibleMainHeader) {
-            this.collapsibleMainHeader.classList.remove('header-collapse-main');
-            this.collapsibleMainHeader = undefined;
-        }
+    if (typeof IntersectionObserver === 'undefined') {
+      return;
     }
-    async setupCollapsibleHeader(contentEl, pageEl) {
-        if (!contentEl || !pageEl) {
-            console.error('ion-header requires a content to collapse, make sure there is an ion-content.');
-            return;
-        }
-        if (typeof IntersectionObserver === 'undefined') {
-            return;
-        }
-        this.scrollEl = await contentEl.getScrollElement();
-        const headers = pageEl.querySelectorAll('ion-header');
-        this.collapsibleMainHeader = Array.from(headers).find((header) => header.collapse !== 'condense');
-        if (!this.collapsibleMainHeader) {
-            return;
-        }
-        const mainHeaderIndex = createHeaderIndex(this.collapsibleMainHeader);
-        const scrollHeaderIndex = createHeaderIndex(this.el);
-        if (!mainHeaderIndex || !scrollHeaderIndex) {
-            return;
-        }
-        setHeaderActive(mainHeaderIndex, false);
-        mainHeaderIndex.toolbars.forEach(toolbar => {
-            setToolbarBackgroundOpacity(toolbar, 0);
-        });
-        /**
-         * Handle interaction between toolbar collapse and
-         * showing/hiding content in the primary ion-header
-         * as well as progressively showing/hiding the main header
-         * border as the top-most toolbar collapses or expands.
-         */
-        const toolbarIntersection = (ev) => { handleToolbarIntersection(ev, mainHeaderIndex, scrollHeaderIndex, this.scrollEl); };
-        this.intersectionObserver = new IntersectionObserver(toolbarIntersection, { root: contentEl, threshold: [0.25, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1] });
-        this.intersectionObserver.observe(scrollHeaderIndex.toolbars[scrollHeaderIndex.toolbars.length - 1].el);
-        /**
-         * Handle scaling of large iOS titles and
-         * showing/hiding border on last toolbar
-         * in primary header
-         */
-        this.contentScrollCallback = () => { handleContentScroll(this.scrollEl, scrollHeaderIndex, contentEl); };
-        this.scrollEl.addEventListener('scroll', this.contentScrollCallback);
-        writeTask(() => {
-            if (this.collapsibleMainHeader !== undefined) {
-                this.collapsibleMainHeader.classList.add('header-collapse-main');
-            }
-        });
-        this.collapsibleHeaderInitialized = true;
+    this.scrollEl = await contentEl.getScrollElement();
+    const headers = pageEl.querySelectorAll('ion-header');
+    this.collapsibleMainHeader = Array.from(headers).find((header) => header.collapse !== 'condense');
+    if (!this.collapsibleMainHeader) {
+      return;
     }
-    render() {
-        const { translucent, inheritedAttributes } = this;
-        const mode = getIonMode(this);
-        const collapse = this.collapse || 'none';
-        // banner role must be at top level, so remove role if inside a menu
-        const roleType = hostContext('ion-menu', this.el) ? 'none' : 'banner';
-        return (h(Host, Object.assign({ role: roleType, class: {
-                [mode]: true,
-                // Used internally for styling
-                [`header-${mode}`]: true,
-                [`header-translucent`]: this.translucent,
-                [`header-collapse-${collapse}`]: true,
-                [`header-translucent-${mode}`]: this.translucent,
-            } }, inheritedAttributes), mode === 'ios' && translucent &&
-            h("div", { class: "header-background" }), h("slot", null)));
+    const mainHeaderIndex = createHeaderIndex(this.collapsibleMainHeader);
+    const scrollHeaderIndex = createHeaderIndex(this.el);
+    if (!mainHeaderIndex || !scrollHeaderIndex) {
+      return;
     }
-    get el() { return getElement(this); }
+    setHeaderActive(mainHeaderIndex, false);
+    mainHeaderIndex.toolbars.forEach(toolbar => {
+      setToolbarBackgroundOpacity(toolbar, 0);
+    });
+    /**
+     * Handle interaction between toolbar collapse and
+     * showing/hiding content in the primary ion-header
+     * as well as progressively showing/hiding the main header
+     * border as the top-most toolbar collapses or expands.
+     */
+    const toolbarIntersection = (ev) => { handleToolbarIntersection(ev, mainHeaderIndex, scrollHeaderIndex, this.scrollEl); };
+    this.intersectionObserver = new IntersectionObserver(toolbarIntersection, { root: contentEl, threshold: [0.25, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1] });
+    this.intersectionObserver.observe(scrollHeaderIndex.toolbars[scrollHeaderIndex.toolbars.length - 1].el);
+    /**
+     * Handle scaling of large iOS titles and
+     * showing/hiding border on last toolbar
+     * in primary header
+     */
+    this.contentScrollCallback = () => { handleContentScroll(this.scrollEl, scrollHeaderIndex, contentEl); };
+    this.scrollEl.addEventListener('scroll', this.contentScrollCallback);
+    writeTask(() => {
+      if (this.collapsibleMainHeader !== undefined) {
+        this.collapsibleMainHeader.classList.add('header-collapse-main');
+      }
+    });
+    this.collapsibleHeaderInitialized = true;
+  }
+  render() {
+    const { translucent, inheritedAttributes } = this;
+    const mode = getIonMode(this);
+    const collapse = this.collapse || 'none';
+    // banner role must be at top level, so remove role if inside a menu
+    const roleType = hostContext('ion-menu', this.el) ? 'none' : 'banner';
+    return (h(Host, Object.assign({ role: roleType, class: {
+        [mode]: true,
+        // Used internally for styling
+        [`header-${mode}`]: true,
+        [`header-translucent`]: this.translucent,
+        [`header-collapse-${collapse}`]: true,
+        [`header-translucent-${mode}`]: this.translucent,
+      } }, inheritedAttributes), mode === 'ios' && translucent &&
+      h("div", { class: "header-background" }), h("slot", null)));
+  }
+  get el() { return getElement(this); }
 };
 Header.style = {
-    ios: headerIosCss,
-    md: headerMdCss
+  ios: headerIosCss,
+  md: headerMdCss
 };
 
 export { Header as ion_header };

@@ -21,6 +21,7 @@ declare namespace flexygo.ui.wc {
         options: flexygo.api.ObjectProperty;
         value: any;
         name: string;
+        mode: string;
         /**
         * Fires when element is attached to DOM
         * @method connectedCallback
@@ -38,6 +39,7 @@ declare namespace flexygo.ui.wc {
         attributeChangedCallback(attrName: any, oldVal: any, newVal: any): void;
         refresh(): void;
         init(): void;
+        initPreviewMode(): void;
         setOptions(): void;
         changeSQLData(newSQL: string, newOptions: flexygo.api.edit.KeyValuePair[]): void;
         setValue(value: any, text?: string): void;

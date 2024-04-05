@@ -57,6 +57,7 @@ declare namespace flexygo.ui.wc {
         * @method loadHeader
         */
         loadHeader(): void;
+        getObjectName(type?: number): string;
         /**
       * Refresh module.
       * @method refresh
@@ -89,6 +90,9 @@ declare namespace flexygo.ui.wc {
         deleteModule(objectName: string, objectWhere: string, module: JQuery, button: JQuery, cllbck?: any): void;
         deleteModuleResponse(objectName: string, objectWhere: string, module: JQuery, button: JQuery, cllbck?: any, lastProcessName?: string, lastAfterProcessName?: string): Promise<void>;
         saveModule(objectName: string, objectWhere: string, module: JQuery, button: JQuery, afterSaveGoTo?: string, defaults?: any, lastObj?: any, lastProcessName?: string, lastAfterProcessName?: string): boolean;
+        checkAndSaveNewComboValues(container: any): void;
+        private addNewComboValue;
+        checkNewComboObjectsMessage(container: JQuery): Promise<boolean | void>;
         saveReportParams(reportname: string, reportwhere: string, objectname: string, objectwhere: string, objectdefaults: string, module: JQuery, button: JQuery): void;
         execProcessParams(processname: string, objectname: string, objectwhere: string, defaults: any, module: JQuery, button: JQuery): void;
         execSelectEntity(objectname: string, objectwhere: string, module: JQuery, button: JQuery): void;

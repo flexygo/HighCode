@@ -112,8 +112,28 @@ var flexygo;
                     buttons: buttons
                 }).dialogExtend({
                     "closable": true,
-                    "maximizable": true,
-                    "minimizable": true,
+                    "maximizable": !flexygo.utils.isSizeMobile(),
+                    "minimizable": !flexygo.utils.isSizeMobile(),
+                    "restore": (e) => {
+                        if ($(e.target).find('flx-code').length > 0) {
+                            var ev = {
+                                class: "dialog",
+                                type: "resized",
+                                masterIdentity: "flx-edit"
+                            };
+                            flexygo.events.trigger(ev, $(this));
+                        }
+                    },
+                    "maximize": (e) => {
+                        if ($(e.target).find('flx-code').length > 0) {
+                            var ev = {
+                                class: "dialog",
+                                type: "resized",
+                                masterIdentity: "flx-edit"
+                            };
+                            flexygo.events.trigger(ev, $(this));
+                        }
+                    },
                     "minimizeLocation": 'left',
                     "collapsable": false,
                     "dblclick": false,
@@ -136,6 +156,7 @@ var flexygo;
                     width = ($(window).width()) * 0.9;
                     height = ($(window).height()) * 0.9;
                 }
+                let modalId = Date.now();
                 pageContainer.dialog({
                     position: { my: "center center", at: "center middle", of: $('body') },
                     width: width,
@@ -153,9 +174,40 @@ var flexygo;
                     },
                     buttons: buttons
                 }).dialogExtend({
+                    "load": ev => {
+                        const modal = ev.target.parentElement;
+                        modal.id = modalId;
+                        modal.nextElementSibling.id = "backdrop" + modalId;
+                    },
                     "closable": true,
-                    "maximizable": true,
-                    "minimizable": false,
+                    "maximizable": !flexygo.utils.isSizeMobile(),
+                    "minimizable": !flexygo.utils.isSizeMobile(),
+                    "beforeMinimize": () => {
+                        document.getElementById("backdrop" + modalId).style.display = 'none';
+                    },
+                    "beforeRestore": () => {
+                        document.getElementById("backdrop" + modalId).style.display = 'block';
+                    },
+                    "restore": (e) => {
+                        if ($(e.target).find('flx-code').length > 0) {
+                            var ev = {
+                                class: "dialog",
+                                type: "resized",
+                                masterIdentity: "flx-edit"
+                            };
+                            flexygo.events.trigger(ev, $(this));
+                        }
+                    },
+                    "maximize": (e) => {
+                        if ($(e.target).find('flx-code').length > 0) {
+                            var ev = {
+                                class: "dialog",
+                                type: "resized",
+                                masterIdentity: "flx-edit"
+                            };
+                            flexygo.events.trigger(ev, $(this));
+                        }
+                    },
                     "collapsable": false,
                     "dblclick": false,
                     "modal": true,
@@ -202,8 +254,28 @@ var flexygo;
                     }
                 }).dialogExtend({
                     "closable": false,
-                    "maximizable": false,
-                    "minimizable": false,
+                    "maximizable": !flexygo.utils.isSizeMobile(),
+                    "minimizable": !flexygo.utils.isSizeMobile(),
+                    "restore": (e) => {
+                        if ($(e.target).find('flx-code').length > 0) {
+                            var ev = {
+                                class: "dialog",
+                                type: "resized",
+                                masterIdentity: "flx-edit"
+                            };
+                            flexygo.events.trigger(ev, $(this));
+                        }
+                    },
+                    "maximize": (e) => {
+                        if ($(e.target).find('flx-code').length > 0) {
+                            var ev = {
+                                class: "dialog",
+                                type: "resized",
+                                masterIdentity: "flx-edit"
+                            };
+                            flexygo.events.trigger(ev, $(this));
+                        }
+                    },
                     "collapsable": false,
                     "dblclick": false,
                     "modal": false,
@@ -326,6 +398,12 @@ var flexygo;
                         $(this).dialog('destroy').remove();
                     },
                     beforeClose: function (event, ui) {
+                        let ev = {
+                            class: "dialog",
+                            type: "closing",
+                            sender: $(this).data('context')
+                        };
+                        flexygo.events.trigger(ev);
                         let widget = $(this).dialog("widget");
                         if (position == 'right') {
                             widget.animate({ left: "100%" }, duration);
@@ -364,7 +442,16 @@ var flexygo;
                             pageContainer.css('height', height - titleBarHeight);
                             widget.addClass('flx-slidebottom');
                         }
-                        setTimeout(function () { widget.addClass('flx-slide-fullLoaded'); widget.removeClass('flx-slide-loading'); }, duration + 100);
+                        setTimeout(function () {
+                            widget.addClass('flx-slide-fullLoaded');
+                            widget.removeClass('flx-slide-loading');
+                            let ev = {
+                                class: "page",
+                                type: "slideComplete",
+                                sender: $(widget.find('main')[0])
+                            };
+                            flexygo.events.trigger(ev);
+                        }, duration + 100);
                         $(this).closest('div.ui-dialog').find('.ui-dialog-titlebar-close').off("click").on("click", (e) => {
                             let dirtyModules = $(this).find("form.dirty");
                             if (dirtyModules.length != 0) {
@@ -410,7 +497,16 @@ var flexygo;
                 }
                 let btn = $('<a class="flx-icon icon-select icon-margin-right ui-corner-all ui-state-default ' + onlyDevelop + '" href="#" title="Put in main frame" role="button"></a>');
                 btn.on('click', function () {
-                    let mainCnt = $(this).closest('.ui-dialog').find('.pageContainer').data('context');
+                    let dialog = $(this).closest('.ui-dialog');
+                    let mainCnt = null;
+                    if ($(dialog).find('.pageContainer').length > 0) {
+                        mainCnt = $(dialog).find('.pageContainer').data('context');
+                    }
+                    else {
+                        let identifier = $(dialog).attr("aria-describedby");
+                        mainCnt = $(`.ui-dialog[aria-describedby="${identifier}"] .pageContainer`).data('context');
+                    }
+                    //let mainCnt = $(this).closest('.ui-dialog').find('.pageContainer').data('context');
                     mainCnt.targetid = 'main';
                     $('#realMain').data('context', mainCnt);
                     flexygo.history.set(mainCnt);

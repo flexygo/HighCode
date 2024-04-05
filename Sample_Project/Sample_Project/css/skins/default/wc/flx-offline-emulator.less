@@ -1,8 +1,10 @@
-﻿@import '../mixins.less';
+﻿@import "../CssVars.less";
+@import '../mixins.less';
+
 flx-offline-emulator {
     display: grid;
 
-    @media (max-width: dbsize(medium)) {
+    @media (max-width: @medium) {
         & {
             display: none;
         }
@@ -25,7 +27,7 @@ flx-offline-emulator {
 
                 button {
                     &[mode="ios"] {
-                        color: dbColor(TxtOutstandingColor);
+                        color: @txt-outstanding-color;
                         cursor: unset;
                     }
                 }
@@ -41,7 +43,7 @@ flx-offline-emulator {
 
                 button {
                     &[mode="md"] {
-                        color: dbColor(TxtOutstandingColor);
+                        color: @txt-outstanding-color;
                         cursor: unset;
                     }
                 }
@@ -52,7 +54,7 @@ flx-offline-emulator {
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: dbColor(TxtOutstandingColor);
+            background-color: @txt-outstanding-color;
             border-radius: @toggle-radius;
             position: relative;
             height: 28px;
@@ -60,11 +62,11 @@ flx-offline-emulator {
             max-width: 240px;
             min-width: 120px;
             transition: .15s background-color ease-in-out;
-            box-shadow: 0 0 10px fade(dbColor(OutstandingColor),10%);
+            box-shadow: 0 0 10px fade(@outstanding-color,10%);
 
             &:before {
                 content: "";
-                background-color: dbColor(OutstandingColor);
+                background-color: @outstanding-color;
                 width: 50%;
                 height: 100%;
                 position: absolute;
@@ -73,14 +75,14 @@ flx-offline-emulator {
             }
 
             &.chage-mode {
-                background-color: fade(dbColor(OutstandingColor),15%)
+                background-color: fade(@outstanding-color,15%)
             }
 
             button {
                 background-color: transparent;
                 border: none;
                 border-radius: @toggle-radius;
-                color: dbColor(OutstandingColor);
+                color: @outstanding-color;
                 font-size: 20px;
                 font-weight: 700;
                 letter-spacing: 0.1em;
@@ -94,7 +96,7 @@ flx-offline-emulator {
                 cursor: pointer;
 
                 &:not(.rippled) {
-                    .ripple(dbColor(txtOutstandingColor));
+                    .ripple(@txt-outstanding-color);
                 }
 
                 &:focus,
@@ -211,17 +213,17 @@ flx-offline-emulator {
         padding-top: 1rem;
 
         i {
-            padding: 8px 40px;
-            background-color: fade(dbColor(OutstandingColor), 10%);
-            color: dbColor(OutstandingColor);
+            padding: 8px 30px;
+            background-color: fade(@outstanding-color, 10%);
+            color: @outstanding-color;
             border-radius: 6px;
             cursor: pointer;
             transition: all 0.15s ease-in-out 0s;
             margin: 0 5px;
-            .ripple(dbColor(TxtOutstandingColor));
+            .ripple(@txt-outstanding-color);
             &:hover {
-                color: dbColor(TxtOutstandingColor);
-                background-color: dbColor(OutstandingColor);
+                color: @txt-outstanding-color;
+                background-color: @outstanding-color;
             }
         }
     }

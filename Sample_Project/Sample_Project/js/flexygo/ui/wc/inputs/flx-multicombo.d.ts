@@ -19,6 +19,7 @@ declare namespace flexygo.ui.wc {
         type: string;
         options: flexygo.api.ObjectProperty;
         mode: string;
+        renderMode: string;
         property: string;
         open: boolean;
         page: number;
@@ -52,11 +53,13 @@ declare namespace flexygo.ui.wc {
         loadValues(page: number, fromvalue?: boolean, value?: string, append?: boolean): void;
         private addComboItems;
         private getListItem;
-        addValue(value: any, text?: string): void;
+        onClickItem(ev: JQueryEventObject): void;
+        addValue(value: any, text?: string, is_new?: boolean): void;
         getIconButtons(): JQuery;
         setOptions(): void;
         changeSQLData(newSQL: string, newOptions: string): void;
         setValue(value: string, text?: string): void;
+        private getTextByValue;
         getValue(): any;
         getText(): any;
         /**

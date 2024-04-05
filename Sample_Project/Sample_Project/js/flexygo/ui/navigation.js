@@ -65,7 +65,8 @@ var flexygo;
                 defaults: defaults,
                 pagetypeid: pagetypeid,
                 filtersValues: (previousHist && previousHist.filtersValues) ? previousHist.filtersValues : null,
-                presetsValues: (previousHist && previousHist.presetsValues) ? previousHist.presetsValues : null
+                presetsValues: (previousHist && previousHist.presetsValues) ? previousHist.presetsValues : null,
+                userid: flexygo.context.currentUserId
             };
             if (targetid && targetid.indexOf('new') == 0) {
                 flexygo.targets.openNewWindow(histObj, targetid);
@@ -83,6 +84,7 @@ var flexygo;
                     detailIdentity: objectwhere
                 };
                 flexygo.events.trigger(ev);
+                objectwhere ? objectwhere = objectwhere.replaceAll("&quot;", "\"") : null;
                 flexygo.ajax.post('~/api/Page', 'GetPageByObject', { "StrType": pagetypeid, "ObjectName": objectname, "ObjectWhere": objectwhere, "IsClone": isClone }, (ret) => {
                     histObj.pagename = ret.PageName;
                     var pageContainer = flexygo.targets.createContainer(histObj, excludeHist, triggerElement);
@@ -170,7 +172,8 @@ var flexygo;
                 defaults: defaults,
                 pagename: pagename,
                 filtersValues: (previousHist && previousHist.filtersValues) ? previousHist.filtersValues : null,
-                presetsValues: (previousHist && previousHist.presetsValues) ? previousHist.presetsValues : null
+                presetsValues: (previousHist && previousHist.presetsValues) ? previousHist.presetsValues : null,
+                userid: flexygo.context.currentUserId
             };
             if (targetid && targetid.indexOf('new') == 0) {
                 flexygo.targets.openNewWindow(histObj, targetid);
@@ -233,9 +236,12 @@ var flexygo;
         * @param {function} callBack - callback to be called after execute
         * @param {boolean} showprogress - false to hide progress indicator
        */
-        function execProcess(processname, objectname, objectwhere, defaults, processparams, targetid, excludeHist, triggerElement, callBack, showProgress, originalProcess) {
+        function execProcess(processname, objectname, objectwhere, defaults, processparams, targetid, excludeHist, triggerElement, callBack, showProgress, originalProcess, errorCallback, eventData) {
             if (typeof event != 'undefined') {
                 event.preventDefault();
+            }
+            if (objectwhere === null || objectwhere === void 0 ? void 0 : objectwhere.includes('&quot;')) {
+                objectwhere = objectwhere.replace(/&quot;/g, '"');
             }
             var proc = new flexygo.Process(processname, objectname, objectwhere);
             proc.read();
@@ -266,7 +272,7 @@ var flexygo;
             }
             else {
                 if (!processparams && defaults) {
-                    let jsonDefaults = JSON.parse(flexygo.utils.parser.replaceAll(defaults, "'", '"'));
+                    let jsonDefaults = typeof defaults === 'object' ? defaults : JSON.parse(flexygo.utils.parser.replaceAll(defaults, "'", '"'));
                     let paramsDefaults = [];
                     for (let key in jsonDefaults) {
                         let jsonValue = {};
@@ -279,13 +285,13 @@ var flexygo;
                 if (typeof proc.config.ConfirmText != 'undefined' && proc.config.ConfirmText && proc.config.ConfirmText != '') {
                     let resultCallback = (result) => {
                         if (result) {
-                            proc.run(processparams, callBack, target, excludeHist, triggerElement);
+                            proc.run(processparams, callBack, target, excludeHist, triggerElement, null, errorCallback, eventData);
                         }
                     };
                     flexygo.msg.confirm(proc.config.ConfirmText, resultCallback);
                 }
                 else {
-                    proc.run(processparams, callBack, target, excludeHist, triggerElement);
+                    proc.run(processparams, callBack, target, excludeHist, triggerElement, null, errorCallback, eventData);
                 }
             }
         }
@@ -310,6 +316,7 @@ var flexygo;
                     resizeMain();
                 }
                 pageContainer.attr('pageName', pageConf.PageName);
+                pageContainer.attr('layoutname', pageConf.LayoutName);
                 //else {
                 //    pageContainer.attr('class', 'pageContainer ' + bodyClass);
                 //}
@@ -327,6 +334,7 @@ var flexygo;
                     pageContainer.append('<style name="custom-style">' + pageConf.Style + '</style>');
                 }
                 var modules = flexygo.utils.sortObject(pageConf.Modules, 'Order');
+                flexygo.utils.isBlank(presets) && (presets = undefined);
                 let parsedPresets = flexygo.utils.isJSON(flexygo.utils.parser.replaceAll(presets, "'", '"')) ? JSON.parse(flexygo.utils.parser.replaceAll(presets, "'", '"')) : presets;
                 let presetHistoryValue = new PresetHistoryValue();
                 if (parsedPresets != null) {
@@ -441,9 +449,9 @@ var flexygo;
        * @param {boolean} excludeHist - True to not store in history
        * @param {JQuery} triggerElement - Relative element to open the page
       */
-        function openProcessParams(processname, objectname, objectwhere, defaults, targetid, excludeHist, triggerElement) {
+        function openProcessParams(processname, objectname, objectwhere, defaults, targetid, excludeHist, triggerElement, pagename = 'syspage-processparams-default') {
             //process param page is currenty syspage-processparams-default
-            flexygo.nav.openProcessParamsPage('syspage-processparams-default', processname, objectname, objectwhere, defaults, targetid, excludeHist, triggerElement);
+            flexygo.nav.openProcessParamsPage(pagename, processname, objectname, objectwhere, defaults, targetid, excludeHist, triggerElement);
         }
         nav.openProcessParams = openProcessParams;
         /**
@@ -475,12 +483,14 @@ var flexygo;
                 targetid = getCurrentOpener(triggerElement);
             }
             var histObj = {
+                pagename: pagename,
                 navigateFun: 'openProcessParams',
                 targetid: targetid,
                 objectname: objectname,
                 objectwhere: objectwhere,
                 defaults: defaults,
-                processname: processname
+                processname: processname,
+                userid: flexygo.context.currentUserId
             };
             if (targetid && targetid.indexOf('new') == 0) {
                 flexygo.targets.openNewWindow(histObj, targetid);
@@ -561,7 +571,8 @@ var flexygo;
                 objectwhere: objectwhere,
                 defaults: defaults,
                 reportname: reportname,
-                reportwhere: reportwhere
+                reportwhere: reportwhere,
+                userid: flexygo.context.currentUserId
             };
             if (targetid && targetid.indexOf('new') == 0) {
                 flexygo.targets.openNewWindow(histObj, targetid);
@@ -610,7 +621,7 @@ var flexygo;
                 }
                 //html report
                 if (reportConfig.TypeId == 'html') {
-                    $('body').append('<div class="aboveLoading"><div class="centerLoading"> <div id="flx-dependency-loader" class="reportSpinner margin-top-l margin-right-s" style="position: initial;width: 30px;height: 30px;"/><h1 class="margin-left-s loadingTitle">' + flexygo.localization.translate('htmlreport.generate') + '</h1></div></div>');
+                    flexygo.utils.showLoading(null, flexygo.localization.translate('htmlreport.generate'));
                     flexygo.utils.asyncSleep(0).then(() => {
                         let templateId = reportConfig.TemplateId;
                         filter = flexygo.utils.parser.compile(paramsJSON, (reportConfig.AdditionalWhere == null ? "" : reportConfig.AdditionalWhere));
@@ -728,7 +739,8 @@ var flexygo;
                 tablename: tablename,
                 targetid: targetid,
                 navigateFun: 'openedittable',
-                tabledescrip: tabledescrip
+                tabledescrip: tabledescrip,
+                userid: flexygo.context.currentUserId
             };
             if (targetid && targetid.indexOf('new') == 0) {
                 flexygo.targets.openNewWindow(histObj, targetid);
@@ -804,7 +816,8 @@ var flexygo;
             var histObj = {
                 targetid: targetid,
                 navigateFun: 'openhelpid',
-                helpid: helpid
+                helpid: helpid,
+                userid: flexygo.context.currentUserId
             };
             if (targetid && targetid.indexOf('new') == 0) {
                 flexygo.targets.openNewWindow(histObj, targetid);
@@ -822,8 +835,11 @@ var flexygo;
                         if (pageContainer.is('#realMain')) {
                             document.title = ret.Title;
                         }
+                        let define = window['define'];
+                        window['define'] = undefined;
                         pageContainer.html(ret.HTMLText);
                         pageContainer.prepend('<div class="develop-only help-button help-fixed"><button class="btn btn-default" onclick="flexygo.nav.openPage(\'edit\',\'sysHelp\',\'(HelpId=\\\'' + helpid + '\\\')\',null,\'current\',false,$(this))"><i class="flx-icon icon-pencil"></i> </button></div>');
+                        window['define'] = define;
                         //$(document).trigger('helpLoaded', [helpid, pageContainer]);
                         var ev = {
                             class: "page",
@@ -870,7 +886,6 @@ var flexygo;
             //    pageContainer.html(repbody);
             //    pageContainer.find('.report').html(htmlText);
             $(htmlText).print(descrip);
-            $('body > .aboveLoading').remove();
         }
         nav.openPrintPage = openPrintPage;
         /**
@@ -1074,7 +1089,8 @@ var flexygo;
                     event.preventDefault();
                 }
                 var histObj = {
-                    targetid: targetid
+                    targetid: targetid,
+                    userid: flexygo.context.currentUserId
                 };
                 externalTarget(appname, histObj);
             }
@@ -1100,7 +1116,8 @@ var flexygo;
                     objectname: objectname,
                     objectwhere: objectwhere,
                     defaults: defaults,
-                    pagetypeid: pagetypeid
+                    pagetypeid: pagetypeid,
+                    userid: flexygo.context.currentUserId
                 };
                 externalTarget(appname, histObj);
             }
@@ -1127,6 +1144,7 @@ var flexygo;
                     objectwhere: objectwhere,
                     defaults: defaults,
                     pagename: pagename,
+                    userid: flexygo.context.currentUserId
                 };
                 externalTarget(appname, histObj);
             }

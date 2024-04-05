@@ -65,6 +65,15 @@ var flexygo;
                     }
                 }
                 refresh() {
+                    for (let i = 0; i < $(this).find('flx-code[editor="monaco"]').length; i++) {
+                        let monacoEditor = $(this).find('flx-code[editor="monaco"]')[i];
+                        if (monacoEditor.monaco) {
+                            monacoEditor.monaco.dispose();
+                        }
+                        flexygo.events.off(monacoEditor, 'property', 'resized');
+                        flexygo.events.off(monacoEditor, 'module', 'resized');
+                        flexygo.events.off(monacoEditor, 'dialog', 'resized');
+                    }
                     if ($(this).attr('manualInit') != 'true') {
                         this.templateId = null;
                         this.init();
@@ -77,12 +86,29 @@ var flexygo;
                     me.html('');
                     flexygo.ui.templates.setDefaultTemplate(this);
                     //let loadRet = this.loadRet;
+                    let objDef;
+                    let histObj = flexygo.history.get(me);
+                    if (typeof histObj != 'undefined' && histObj.defaults) {
+                        if (typeof histObj.defaults == 'string') {
+                            objDef = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
+                        }
+                        else {
+                            objDef = histObj.defaults;
+                        }
+                    }
+                    if (objDef == null) {
+                        let wcMod = me.closest('flx-module')[0];
+                        if (wcMod) {
+                            objDef = wcMod.objectdefaults;
+                        }
+                    }
                     let params = {
                         ObjectName: me.attr('ObjectName'),
                         ObjectWhere: me.attr('ObjectWhere'),
                         ModuleName: this.moduleName,
                         PageName: flexygo.history.getPageName(me),
-                        TemplateId: this.templateId
+                        TemplateId: this.templateId,
+                        Defaults: flexygo.utils.dataToArray(objDef)
                     };
                     flexygo.ajax.post('~/api/View', 'GetViewTemplate', params, (response) => {
                         if (response) {
@@ -201,6 +227,20 @@ var flexygo;
                     this.processLoadDependencies();
                     var hideControls = me.find('.resizable-row').find('.hideControlGridStack [property]');
                     me.find('.resizable-row').gridstack(options);
+                    if ($(me[0]).find('flx-code[editor="monaco"]').length > 0) {
+                        var ev = {
+                            class: "property",
+                            type: "resized",
+                            masterIdentity: "flx-view"
+                        };
+                        flexygo.events.trigger(ev, $(this));
+                        for (let i = 0; i < $(me[0]).find('flx-code[editor="monaco"]').length; i++) {
+                            let monacoEditor = $(this).find('flx-code[editor="monaco"]')[i];
+                            flexygo.events.off(monacoEditor, 'property', 'resized');
+                            flexygo.events.off(monacoEditor, 'module', 'resized');
+                            flexygo.events.off(monacoEditor, 'dialog', 'resized');
+                        }
+                    }
                     //detach hideControls before gridstack in order to avoid field gaps
                     hideControls.each((index, elem) => { this.removeStack($(elem)); });
                     let parentModule = me.closest('flx-module');
@@ -339,7 +379,7 @@ var flexygo;
                         let propName = $(controls[i]).attr('property');
                         let ctl = $(controls[i])[0];
                         if (ctl && ctl.setValue) {
-                            if (this.data[propName].WebComponent == 'flx-dbcombo' || this.data[propName].WebComponent.includes('flx-radio')) {
+                            if (this.data[propName].WebComponent == 'flx-dbcombo' || this.data[propName].WebComponent == 'flx-multicombo' || this.data[propName].WebComponent.includes('flx-radio')) {
                                 ctl.setValue(this.data[propName].Value, this.data[propName].Text);
                             }
                             else if ($(ctl).attr('type') && ($(ctl).attr('type').toLowerCase() === 'datetime-local' || $(ctl).attr('type').toLowerCase() === 'date' || $(ctl).attr('type').toLowerCase() === 'number')) {

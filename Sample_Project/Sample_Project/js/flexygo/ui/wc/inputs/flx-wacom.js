@@ -288,7 +288,6 @@ var flexygo;
                     let input;
                     let img;
                     let icon;
-                    me.parent('div[data-tag="control"]').attr('style', 'height:94%;');
                     this.control = $('<div class="ctl-container ctl-cpr-transition ctl-hover">');
                     input = $('<input src=""  type="hidden"/>');
                     icon = $('<i class="flx-icon icon-pencil ctl-icon ctl-cpr-transition" ></i> ');

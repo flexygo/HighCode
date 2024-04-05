@@ -257,6 +257,9 @@ var flexygo;
                             if (e.context = placeHolder) {
                                 setTimeout(() => {
                                     placeHolder.collapse('show');
+                                    placeHolder.find('flx-code[editor="monaco"]').each((index, element) => {
+                                        element.setCodeEditor();
+                                    });
                                 }, 100); /*0*/
                                 flexygo.events.off(placeHolder, 'module', 'loaded');
                             }

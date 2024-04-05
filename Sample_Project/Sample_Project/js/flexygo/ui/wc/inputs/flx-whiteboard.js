@@ -272,8 +272,7 @@ var flexygo;
                     let input;
                     let img;
                     let icon;
-                    me.parent('div[data-tag="control"]').attr('style', 'height:94%;');
-                    this.control = $('<div class="ctl-container ctl-cpr-transition ctl-hover">');
+                    this.control = $('<div class="ctl-container ctl-cpr-transition ctl-hover form-control">');
                     input = $('<input src=""  type="hidden"/>');
                     icon = $('<i class="flx-icon icon-pencil ctl-icon ctl-cpr-transition" ></i> ');
                     img = $('<img src="" class="img-responsive ctl-image ctl-cpr-transition"/>');
@@ -388,9 +387,9 @@ var flexygo;
                   </nav>
                    <!-- <i id="WBUpload"  tooltip="Subir Imagen" class="WBActionButtons"><input id="subirImagen" type="file" name="files[]" accept="image/*"></i>-->
                   <div>
-                    <i id="WBSave" tooltip="Guardar"   class="WBActionButtons"></i>
-                    <i id="WBDelete" tooltip="Borrar" class="WBActionButtons"></i>               
-                    <i id="WBClose" tooltip="Cerrar" class="WBActionButtons"></i>
+                    <i id="WBSave"   tooltip="Guardar" class="WBActionButtons"></i>
+                    <i id="WBDelete" tooltip="Borrar"  class="WBActionButtons"></i>
+                    <i id="WBClose"  tooltip="Cerrar"  class="WBActionButtons"></i>
                   </div>
                </div>`;
                     $('#WBContainer').remove();

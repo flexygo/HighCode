@@ -1,0 +1,193 @@
+﻿.ViewerSelectorButton {
+    display: inline-block;
+    font-size: 16px;
+    color: #F88E1D !important;
+    text-decoration: none;
+    vertical-align: top;
+    float: right;
+    margin-right: 0px;
+    margin-top: 20px !important;
+}
+
+.ViewerSelectorButton .Icon
+        {
+            width: 28px;
+            height: 28px;
+            background-position: -62px 0;
+            vertical-align: middle;
+            margin-top: -5px;
+        }
+
+.ViewerSelectorButton .Glyph
+        {
+            width: 9px;
+            height: 5px;
+            background-position: -62px -36px;
+            vertical-align: middle;
+            margin-left: 2px;
+            margin-top: -2px;
+        }
+.ViewerSelectorSelectorPopup
+{
+    background-color: transparent!important;
+    border: 0!important;
+}
+
+    .ViewerSelectorSelectorPopup .dxpc-content
+    {
+        padding: 0!important;
+        font: 13px 'Segoe UI', 'Helvetica Neue', Helvetica, 'Droid Sans', Tahoma, Geneva, sans-serif;
+        color: #3c3c3c;
+    }
+
+    .ViewerSelectorSelectorPopup .ContainerTopBorder
+    {
+        float: left;
+        width: 311px;
+        height: 2px;
+        overflow: hidden;
+        padding: 8px 0 0 0;
+        margin: 39px -10px -2px 8px;
+    }
+    .ViewerSelectorSelectorPopup .TopBorder
+    {
+        float: left;
+        width: 316px;
+        height: 1px;
+        border-top: 1px solid #b0b0b0;
+        -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.345);
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.345);
+    }
+    .ViewerSelectorSelectorPopup .ButtonWrapper
+    {
+        overflow: hidden;
+        padding: 8px 10px 0 10px;
+        float: right;
+    }
+
+        .ViewerSelectorSelectorPopup .ButtonWrapper .ViewerSelectorButtonBorder
+        {
+            border: 1px solid #b0b0b0;
+            border-bottom-width: 0;
+            width: 136px;
+            height: 40px;
+        }
+
+    .ViewerSelectorSelectorPopup .ButtonWrapperBtmBorder
+    {
+        position: absolute;
+        width: 136px;
+        height: 1px;
+        background-color: white;
+        z-index: 1000;
+        top: 48px;
+        left: 321px;
+    }
+
+    .ViewerSelectorSelectorPopup .ContainerWrapper
+    {
+        padding: 0 10px 20px 10px;
+        overflow: hidden;
+        width: 448px;
+        display: inline-block;
+        margin-top: -1px;
+    }
+
+        .ViewerSelectorSelectorPopup .ContainerWrapper .ViewerSelectorContainer
+        {
+            background-color: white;
+            border: 1px solid #b0b0b0;
+            -webkit-box-shadow: 0 10px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 12px rgba(0, 0, 0, 0.2); 
+            padding: 17px 25px;
+            clear: both;
+            height: 378px; /* for IE7 */
+        }
+
+        .ViewerSelectorSelectorPopup .ContainerWrapper .ViewerSelectorContainer .ViewerSelectorColumnLeft
+        {
+            width: 170px;
+            float:left;
+        }
+        .ViewerSelectorSelectorPopup .ContainerWrapper .ViewerSelectorContainer .ViewerSelectorColumnRight  
+        {
+            float: right;
+            width: 160px;
+        }
+        
+
+        .ViewerSelectorSelectorPopup .ContainerWrapper .ViewerSelectorContainer .ViewerSelectorGroup 
+        {
+            color: #999999;
+            font-size: 14px;
+            margin: 10px 0 5px 0;
+        }
+        .ViewerSelectorSelectorPopup .ContainerWrapper .ViewerSelectorContainer .ViewerSelectorGroupMenu
+        {
+            background-color: transparent!important;
+            border: 0!important;
+            padding: 0!important;
+        }
+        .ViewerSelectorSelectorPopup .ContainerWrapper .ViewerSelectorContainer .ViewerSelectorGroupMenu .dxm-item,
+        .ViewerSelectorSelectorPopup .ContainerWrapper .ViewerSelectorContainer .ViewerSelectorGroupMenu .dxm-hover,
+        .ViewerSelectorSelectorPopup .ContainerWrapper .ViewerSelectorContainer .ViewerSelectorGroupMenu .dxm-selected,
+        .ViewerSelectorSelectorPopup .ContainerWrapper .ViewerSelectorContainer .ViewerSelectorGroupMenu .dxm-content
+        {
+            background-color: transparent!important;
+            border: 0!important;
+            padding: 0!important;
+            font: 13px 'Segoe UI', 'Helvetica Neue', Helvetica, 'Droid Sans', Tahoma, Geneva, sans-serif;
+            color: #3c3c3c;
+        }
+        .ViewerSelectorSelectorPopup .ContainerWrapper .ViewerSelectorContainer .ViewerSelectorGroupMenu .dxm-content > a {
+            margin: 0;
+        }
+        .ViewerSelectorSelectorPopup .ContainerWrapper .ViewerSelectorContainer .ViewerSelectorGroupMenu .ViewerSelectorIco
+        {
+            vertical-align: middle;
+            margin: 1px 7px 3px 2px;
+            display: inline-block;
+            width: 40px;
+            height: 19px;
+            padding: 1px;
+            zoom: 1;
+            *display: inline;
+        }
+
+        .ViewerSelectorSelectorPopup .ContainerWrapper .ViewerSelectorContainer .ViewerSelectorGroupMenu .dxm-selected .ViewerSelectorIco
+        {
+            border: #ff8400 solid 2px;
+            margin: -1px 4px 1px 0;
+        }
+
+.ViewerSelectorIcon {
+    background: url('../Content/ViewerSelector.png') no-repeat !important;
+    width: 28px;
+    height: 28px;
+    background-position: -62px 0;
+    vertical-align: middle;
+    margin-top: -5px;
+}
+
+.ViewerSelectorPopup .ButtonWrapperBtmBorder {
+    left: 83px;
+}
+
+.ViewerSelectorPopup .ViewerSelectorContainerWrapper {
+    width: 210px !important;
+    height: auto !important;
+}
+
+    .ViewerSelectorPopup .ViewerSelectorContainerWrapper .ViewerSelectorContainer {
+        width: auto !important;
+        height: auto !important;
+    }
+
+        .ViewerSelectorPopup .ViewerSelectorContainerWrapper .ViewerSelectorContainer .ViewerSelectorGroupMenu .ViewerSelectorIco {
+            height: 39px !important;
+            background-position: center;
+        }
+
+.viewer-selector-html5 {
+    background: url('../Content/ViewerSelector_WebDocumentViewer.png') no-repeat;
+}

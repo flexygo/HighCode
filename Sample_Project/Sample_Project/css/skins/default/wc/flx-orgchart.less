@@ -50,13 +50,13 @@
     text-rendering: auto;
 }
 */
-
+@import "../CssVars.less";
 /*ZOOM*/
 flx-orgchart .zoomElements .sliderZoom {
     -webkit-appearance: none;
     height: 10px;
     border-radius: 20px;
-    background: dbColor(borderModuleColor);
+    background: @border-module-color;
     outline: none;
     -webkit-transition: .2s;
     transition: opacity .2s;
@@ -67,7 +67,7 @@ flx-orgchart .zoomElements .sliderZoom::-webkit-slider-thumb {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: dbColor(OutstandingColor);
+    background: @outstanding-color;
 }
 flx-orgchart .zoomElements .sliderZoom::-webkit-slider-thumb:hover {
     width: 30px;
@@ -75,7 +75,7 @@ flx-orgchart .zoomElements .sliderZoom::-webkit-slider-thumb:hover {
 }
 
 flx-orgchart .zoomElements .sliderZoom:hover {
-    background: darken(dbColor(borderModuleColor), 10%);
+    background: darken(@border-module-color, 10%);
 }
 flx-orgchart .zoomElements {
     padding: 20px;
@@ -86,7 +86,7 @@ flx-orgchart .zoomElements {
     width: 50%;
     margin-bottom: 20px;
     margin-top: -15px;
-    background-color: fade(dbColor(txtOutstandingColor),80%);
+    background-color: fade(@txt-outstanding-color,80%);
     backdrop-filter: blur(0.5rem);
     border-radius: 15px;
     transform: scale(0.5);
@@ -95,7 +95,7 @@ flx-orgchart .zoomElements {
 
 flx-orgchart .zoomElements .zoom-ic {
     font-size: 2em;
-    color: dbColor(OutstandingColor);
+    color: @outstanding-color;
 }
 
 flx-orgchart .zoomElements .zoom-ic, .zoomElements .sliderZoom {

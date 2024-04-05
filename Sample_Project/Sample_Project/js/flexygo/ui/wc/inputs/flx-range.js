@@ -396,8 +396,8 @@ var flexygo;
                         if (this.type === 'datetime-local' && me.closest('flx-module')[0] && me.closest('flx-module')[0].getAttribute('moduleName') === 'LoginsAndLocations') {
                             control = $('<div style="width: 300px;">');
                         }
-                        this.inputmin = $('<input type="text" onfocus="(this.type=\'' + this.type + '\')" class="form-control" />');
-                        this.inputmax = $('<input type="text" onfocus="(this.type=\'' + this.type + '\')" class="form-control" />');
+                        this.inputmin = $('<input type="text" onfocus="(this.type=\'' + this.type + '\')" class="form-control minVal" />');
+                        this.inputmax = $('<input type="text" onfocus="(this.type=\'' + this.type + '\')" class="form-control maxVal" />');
                     }
                     else {
                         this.inputmin = $('<input type="' + this.type + '" class="form-control" />');
@@ -405,9 +405,111 @@ var flexygo;
                     }
                     control.append(this.inputmin);
                     control.append(this.inputmax);
+                    let firefoxNav, edgeNav;
+                    navigator.userAgent.toLowerCase().indexOf('firefox') > -1 ? firefoxNav = true : navigator.userAgent.toLowerCase().indexOf('edg') > -1 ? edgeNav = true : null;
+                    if (flexygo.utils.isTactilModeActive() || firefoxNav) {
+                        let inputs = control.find('input');
+                        inputs.on('click', (ev) => {
+                            //Sets old value
+                            me.attr('old', this.getValue());
+                            if (!edgeNav || flexygo.utils.isTactilModeActive() && this.type == 'time') {
+                                ev.preventDefault();
+                            }
+                            //Hides other posible opened dataPickers
+                            if ($('#dtpicker').length > 0) {
+                                $('#dtpicker')[0].remove();
+                            }
+                            //DateTimePicker creation
+                            let datetimePicker = $(`<div class='date' id='dtpicker'><input class="hidden" type='text'/></div>`);
+                            if (flexygo.utils.isTactilModeActive() || !firefoxNav)
+                                datetimePicker.append('<div class="def-flx-backdrop" ng-if="showForm"></div>');
+                            me.find(' > div').css('position', 'relative');
+                            me.find(' > div').append(datetimePicker);
+                            datetimePicker.datetimepicker();
+                            datetimePicker.data("DateTimePicker").options({
+                                format: (this.type === 'datetime-local' ? 'YYYY/MM/DD[T]HH:mm' : (this.type === 'date' ? 'YYYY/MM/DD' : 'HH:mm')),
+                                showClose: true,
+                                locale: flexygo.profiles.culture,
+                                showClear: true,
+                                keepOpen: true,
+                                date: this.getValue(),
+                                toolbarPlacement: 'bottom'
+                            });
+                            //Show DateTimePicker
+                            datetimePicker.data("DateTimePicker").show();
+                            //Added the detection of when the user clicks outside of the picker to close it
+                            $(document).off('click.datepicker').on('click.datepicker', (e) => {
+                                if (inputs.is(e.target) || inputs.has(e.target).length > 0)
+                                    return;
+                                let picker = $('.bootstrap-datetimepicker-widget');
+                                if (!picker.is(e.target) && picker.has(e.target).length === 0) {
+                                    datetimePicker[0].remove();
+                                    $(document).off('click.datepicker');
+                                }
+                            });
+                            //Setting custom css to make input adapt to the screen (only for tactil mode)
+                            if (flexygo.utils.isTactilModeActive() || !firefoxNav) {
+                                let dtp = datetimePicker.find('> div.bootstrap-datetimepicker-widget');
+                                dtp.css('position', 'fixed');
+                                dtp.css('top', '50%');
+                                dtp.css('left', '50%');
+                                dtp.css('width', '50%');
+                                dtp.css('margin-top', -dtp.height() / 2);
+                                dtp.css('margin-left', -dtp.width() / 2);
+                                dtp.css('height', dtp.find('> ul').height() + 20);
+                            }
+                            //Clear button click event is overwritten to change the real value
+                            datetimePicker.find('.glyphicon.glyphicon-trash').on('click', () => {
+                                datetimePicker.data("DateTimePicker").hide();
+                                if (ev.target.classList.contains('minVal'))
+                                    this.setValue('', this.inputmax.val());
+                                else
+                                    this.setValue(this.inputmin.val(), '');
+                            });
+                            //On hide event
+                            datetimePicker.on('dp.hide', (e) => {
+                                //Set value
+                                let stringValue;
+                                if (this.type === 'time') {
+                                    stringValue = (e.date.hour() < 10 ? '0' : '') + e.date.hour() + ":" + (e.date.minutes() < 10 ? '0' : '') + e.date.minutes();
+                                }
+                                else {
+                                    stringValue = e.date.year() + "/" + (e.date.month() + 1) + "/" + e.date.date() + " " + e.date.hour() + ":" + e.date.minutes();
+                                }
+                                if (ev.target.classList.contains('minVal'))
+                                    this.setValue(stringValue, this.inputmax.val());
+                                else
+                                    this.setValue(this.inputmin.val(), stringValue);
+                                //Call onChange event
+                                if (this.getValue() != me.attr('old')) {
+                                    let flxEv = {
+                                        class: "property",
+                                        type: "changed",
+                                        sender: this,
+                                        masterIdentity: this.property
+                                    };
+                                    if (this.type === 'date') {
+                                        let res = this.getValue();
+                                        res = ev.target.classList.contains('minVal') ? res.split('|').shift() : res.split('|').pop();
+                                        res = new Date(res);
+                                        if (res === null || ((res === null || res === void 0 ? void 0 : res.getFullYear()) >= 1900 && (res === null || res === void 0 ? void 0 : res.getFullYear()) <= 2079)) {
+                                            flexygo.events.trigger(flxEv, me);
+                                        }
+                                    }
+                                    else {
+                                        flexygo.events.trigger(flxEv, me);
+                                    }
+                                }
+                                datetimePicker[0].remove();
+                            });
+                        });
+                    }
                     control.find('input').on('change', ev => {
                         let input = ev.currentTarget;
-                        input.setAttribute('value', input.value);
+                        if (input.value)
+                            input.setAttribute('value', input.value);
+                        else
+                            input.removeAttribute('value');
                     });
                     //if (iconsRight) {
                     //    control.append(iconsRight)

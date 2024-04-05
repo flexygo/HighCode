@@ -1,7 +1,7 @@
 declare namespace flexygo.ui.exports {
     /**
      * Create export list menu.
-     * @function                       exportListMenu
+     * @function exportListMenu
     * @param {string} objectname  Object name.
     * @param {string} objectwhere  Object where.
     * @param {defaults} defaults  defaults
@@ -28,4 +28,5 @@ declare namespace flexygo.ui.exports {
     * @returns                        This function return nothing.
     */
     function printListMenu(objectname: string, objectwhere: string, defaults: string, triggerElement: JQuery): void;
+    function showExcelExportModal(objectname: string, objectwhere: string, modal_name: string, template_id: string, list_element: flexygo.ui.wc.FlxListElement): void;
 }

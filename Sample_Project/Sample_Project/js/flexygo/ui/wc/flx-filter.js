@@ -204,7 +204,8 @@ var flexygo;
                                 moduleName = list.moduleName;
                             }
                             let history = flexygo.history.get(me);
-                            if (history && history.filtersValues && history.filtersValues[moduleName]) {
+                            let filterHistory = history ? history.filtersValues ? history.filtersValues[moduleName] : null : null;
+                            if (filterHistory && !flexygo.utils.isBlank(filterHistory.properties)) {
                                 let state = history.filtersValues[moduleName];
                                 this.active = state.activeFilter;
                                 this.renderFilter(this.active, state.properties);
@@ -315,6 +316,14 @@ var flexygo;
                         filterBtn.append(btnApply).append(btnClear);
                         btnApply.on('click', () => { this.applyFilters(); });
                         btnClear.on('click', () => { this.clearFilters(); });
+                        let ev = {
+                            class: "filter",
+                            type: "loaded",
+                            sender: $(this)[0],
+                            masterIdentity: this.settings[this.active].ObjectName,
+                            detailIdentity: this.active
+                        };
+                        flexygo.events.trigger(ev, $(this));
                     }
                 }
                 saveActiveFilter(active) {
@@ -341,6 +350,7 @@ var flexygo;
                         prop.ObjectName = e.ObjectName;
                         prop.ObjectPath = e.ObjectPath;
                         prop.PlaceHolder = e.Label;
+                        prop.Label = e.Label;
                         prop.Locked = false;
                         prop.AllowNewFunction = "";
                         prop.AllowNewObject = "";

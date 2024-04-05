@@ -20,6 +20,7 @@ declare namespace flexygo.ui.wc {
         property: string;
         options: flexygo.api.ObjectProperty;
         value: any;
+        mode: string;
         /**
         * Fires when element is attached to DOM
         * @method connectedCallback

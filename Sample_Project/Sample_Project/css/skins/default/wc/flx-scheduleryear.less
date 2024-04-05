@@ -1,4 +1,6 @@
-﻿flx-scheduleryear .align-items-center {
+﻿@import "../CssVars.less";
+
+flx-scheduleryear .align-items-center {
     -webkit-box-align: center !important;
     -ms-flex-align: center !important;
     align-items: center !important;
@@ -148,7 +150,7 @@ flx-scheduleryear .combo {
       text-align:left;
 }
 
-@media (max-width: dbSize(small)) {
+@media (max-width: @small) {
     flx-scheduleryear .jqyc-month {
         margin-left: 0;
     }
@@ -159,7 +161,7 @@ flx-scheduleryear .combo {
 }
 
 
-@media (max-width: dbSize(medium)) {
+@media (max-width: @medium) {
     flx-scheduleryear .jqyc-month {
         margin-left: 0;
     }

@@ -1,11 +1,13 @@
-﻿flx-footermenu{
+﻿@import "../CssVars.less";
+
+flx-footermenu{
     display:none;
     position:fixed;
     bottom:0px;
     width: 100%;
     height: 60px;
-    background-color: dbColor(OutstandingColor);
-    color: dbColor(txtOutstandingColor);
+    background-color: @outstanding-color;
+    color: @txt-outstanding-color;
     box-sizing: border-box;
     
 }
@@ -34,6 +36,6 @@ flx-footermenu span{
 }
 
 flx-footermenu .item:hover{
-  color:dbColor(txtOutstandingColor);
-  background-color:lighten(dbColor(OutstandingColor),25%);
+  color:@txt-outstanding-color;
+  background-color:lighten(@outstanding-color,25%);
 }

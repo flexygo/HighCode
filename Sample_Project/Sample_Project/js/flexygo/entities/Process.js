@@ -60,7 +60,7 @@ var flexygo;
         * @param {string} [excludeHist] - Exclude history regs. For navigation process.
         * @param {object} [triggerElement] - The item that launches de process (Usually the button).
         */
-        run(processparams, cllback, targetid, excludeHist = true, triggerElement, lastProcessName) {
+        run(processparams, cllback, targetid, excludeHist = true, triggerElement, lastProcessName, errorCallback, eventData) {
             var params = {
                 "ProcessName": this.processName,
                 "ObjectName": this.objectName,
@@ -97,7 +97,7 @@ var flexygo;
                                 el = triggerElement[0];
                             }
                             let objTrick = Object; //This is declared only to avoid outdated ts errors
-                            let funcParams = { processname: this.processName, objectname: this.objectName, objectwhere: this.objectWhere, targetid: targetid, excludeHist: excludeHist, triggerElement: triggerElement, currentProcess: this };
+                            let funcParams = { processname: this.processName, objectname: this.objectName, objectwhere: this.objectWhere, targetid: targetid, excludeHist: excludeHist, triggerElement: triggerElement, currentProcess: this, eventData: eventData };
                             res = yield flexygo.utils.execAsyncFunction(response.JSCode, objTrick.keys(funcParams), objTrick.values(funcParams)).catch((err) => {
                                 flexygo.msg.error(flexygo.utils.getErrorMessage(err));
                                 throw err;
@@ -138,7 +138,7 @@ var flexygo;
                     }
                 });
             }
-            flexygo.ajax.post('~/api/Process', 'execProcessByName', params, cllback, null, () => { this.closeLoading(); }, () => { this.showLoading(); });
+            flexygo.ajax.post('~/api/Process', 'execProcessByName', params, cllback, errorCallback, () => { this.closeLoading(); }, () => { this.showLoading(); });
         }
         /**
         * Show loading funcion before executing process

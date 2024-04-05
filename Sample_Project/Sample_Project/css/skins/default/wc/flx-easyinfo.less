@@ -1,4 +1,6 @@
-﻿.easy-list {
+﻿@import "../CssVars.less";
+
+.easy-list {
     display: block;
     list-style: none;
     margin: 0;
@@ -95,8 +97,8 @@ a flx-easyinfo {
 
 .easy-info:hover {
     box-sizing: border-box;
-    background-color: lighten(dbColor(WarningColor),30);
-    border: solid 1px darken(dbColor(WarningColor),5);
+    background-color: lighten(@warning-color,30);
+    border: solid 1px darken(@warning-color,5);
     cursor: pointer;
 }
 
@@ -116,11 +118,15 @@ flx-easyinfo h5 span {
     line-height: 20px;
     margin: 0;
     text-transform: none;
-    color: dbColor(OutstandingColor);
+    color: @outstanding-color;
     text-align: center;
 }
 
 flx-easyinfo h5 i {
-    color: dbColor(OutstandingColor);
+    color: @outstanding-color;
     margin-right: 4px;
+}
+
+flx-easyinfo label {
+    cursor: pointer;
 }

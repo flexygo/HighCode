@@ -178,6 +178,10 @@ var flexygo;
                         $(this).empty();
                         let arrOrdered = flexygo.utils.sortObject(response, 'Order');
                         this.loadNodesRet(arrOrdered);
+                        let parentModule = this.closest('flx-module');
+                        if (parentModule) {
+                            parentModule.moduleLoaded(this);
+                        }
                     });
                 }
                 /**
@@ -540,7 +544,7 @@ var flexygo;
                             break;
                         case 'object': // Object Link
                             if (json.pagetypeid && json.pagetypeid != '') {
-                                retFunction = flexygo.utils.functionToString('flexygo.nav.openPage', [json.pagetypeid, json.objectname, json.objectwhere, objDef, json.targetid], [false, '$(this)']);
+                                retFunction = flexygo.utils.functionToString('flexygo.nav.openPage', [json.pagetypeid, json.objectname, json.objectwhere, objDef, json.targetid], [false, '$(this)', false, null, `\'${json.presetname}\'`]);
                             }
                             else if (json.pagename && json.pagename != '') {
                                 retFunction = flexygo.utils.functionToString('flexygo.nav.openPageName', [json.pagename, json.objectname, json.objectwhere, objDef, json.targetid], [false, '$(this)']);

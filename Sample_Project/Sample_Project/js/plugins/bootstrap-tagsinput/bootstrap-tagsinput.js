@@ -2,8 +2,14 @@
   "use strict";
 
   var defaultOptions = {
-    tagClass: function(item) {
-      return 'label label-info';
+    tagClass: function (item) {
+        if (!item.tagClass)
+              return 'label label-info';
+
+        if (typeof item.tagClass === 'function')
+            return item.tagClass();
+        
+        return item.tagClass;
     },
     itemValue: function(item) {
       return item ? item.toString() : item;

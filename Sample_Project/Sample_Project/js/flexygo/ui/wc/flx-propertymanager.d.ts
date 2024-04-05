@@ -41,6 +41,7 @@ declare namespace flexygo.ui.wc {
         addFields(fieldName: string, fieldType: string, fieldTable: string): void;
         addDetachedProperty(propertyName: string, propertyLabel: string): void;
         addProperties(checks: JQuery): void;
+        filterProperties(e: JQuery): void;
         refreshConfigMode(): void;
         getValue(row: flexygo.api.ObjectPropertyLoweredKey, tag: string): any;
         paintProperties(data: any, template: string): string;

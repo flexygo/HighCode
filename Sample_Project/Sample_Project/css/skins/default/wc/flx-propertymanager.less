@@ -1,0 +1,365 @@
+﻿@import "../CssVars.less";
+@margin-grid : 3px;
+@prop-height: 30px;
+flx-propertymanager[mode="list"] {
+
+    flx-propertymanager .addProps, flx-propertymanager .createProps, flx-propertymanager .cloneDependencies, flx-propertymanager .relatedDep {
+        display: inline-block;
+        font-size: .8em;
+    }
+
+    .cntBody {
+
+        table {
+            tr:nth-child(odd):not(.rowHeader):hover {
+                background-color: @module-color !important;
+            }
+
+            th:hover {
+                /*border-left: dotted 2px @border-module-color;*/
+            }
+
+            td {
+                min-width: 100px;
+
+                &[data-tag="property-toolbar"] {
+
+                    div.btn-group {
+                        display: flex;
+                        margin-right: @margin-grid;
+                        margin-left: @margin-grid;
+
+                        span.btn.btn-default {
+                            flex: 1;
+                        }
+                    }
+                }
+            }
+
+            tfoot {
+              
+                td {
+                    height: @prop-height;
+
+                    button, i {
+                        cursor: not-allowed;
+                    }
+                }
+            }
+        }
+    }
+
+    .sortProps {
+        margin-right: 5px;
+    }
+
+    button {
+        font-size: .8em;
+    }
+
+    label > input[type=text] {
+        border-radius: 5px;
+        font-size: 12px;
+        border: solid 1px rgb(231, 231, 231);
+        margin-top: 2px;
+        margin-left: 2px;
+    }
+}
+//CONTROLS IN GRID
+flx-propertymanager[mode="list"] {
+    --prop-height: @prop-height;
+
+    flx-dbcombo[mode="preview"] {
+        label.form-control {
+            margin: 0px;
+        }
+    }
+
+    flx-code[mode="preview"] {
+        button {
+            display: none;
+        }
+    }
+    table {
+        :is(flx-htmledit,flx-upload,flx-image,flx-whiteboard,flx-textarea,flx-radio) {
+            > div {
+                height: var(--prop-height);
+                min-height: var(--prop-height);
+            }
+        }
+
+        &:has(:focus), &:has(:hover) {
+            :is(flx-htmledit,flx-upload,flx-image,flx-whiteboard,flx-textarea,flx-radio) > div {
+                --prop-height: 100%;
+            }
+        }
+    }
+
+    flx-htmledit div {
+        margin: 0px;
+    }
+    
+    flx-upload {
+        user-select: none;
+    }
+}
+
+flx-propertymanager {
+
+    .propHeader {
+        text-align: right;
+
+        .popover {
+            position: fixed;
+
+            .popover-content {
+                color: @txt-module-color;
+
+                .propertyList {
+                    overflow-y: auto;
+                    max-height: 180px;
+                    margin-top: 10px;
+                }
+
+                label > div {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: block;
+                    float: right;
+                    max-width: 105px;
+                }
+
+                flx-propertymanager .propHeader {
+                    text-align: right;
+                }
+            }
+        }
+    }
+
+    .cntBody {
+        color: @txt-module-color;
+        background-color: @module-color;
+        border: solid 1px @border-module-color;
+        padding: 10px;
+        margin-bottom: 50px;
+    }
+
+    .addProps, .cloneDependencies, .relatedDep {
+        display: inline-block;
+        font-size: .8em;
+    }
+
+    .grid-stack-item {
+
+        &:not(.ui-draggable-disabled):not(.ui-resizable-disabled) .grid-stack-item-content {
+            border: dashed 1px @border-module-color;
+            margin-bottom: 2px;
+            margin-top: 5px;
+
+            .property-toolbar > div.btn-group > span.btn {
+                z-index: 1;
+            }
+
+            .property-toolbar {
+                display: inline-block;
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+        }
+
+        &.ui-draggable-disabled.ui-resizable-disabled .grid-stack-item-content {
+            height: 100%
+        }
+
+        .item {
+            margin: 5px;
+            height: 100%;
+
+            &:after {
+                content: ' ';
+                display: block;
+                position: absolute;
+                z-index: 10;
+                top: 15px;
+                left: 0;
+                right: 0;
+                bottom: 0;
+            }
+
+            label[lblproperty] {
+                margin-bottom: 7px;
+
+                &.locked {
+                    span.status:after {
+                        font-family: 'Flexygo-icons';
+                        content: "\ee77";
+                        color: #818181;
+                        font-size: 10px;
+                        padding-left: 5px;
+                    }
+                }
+
+                &.required {
+                    span.status:before {
+                        content: "*";
+                        color: @danger-color;
+                    }
+                }
+
+                input[type="text"].lblEdit {
+                    border-radius: 5px;
+                    font-size: 12px;
+                    border: none;
+                    margin-top: 2px;
+                    margin-left: 2px;
+                }
+
+                .lblName {
+                    position: absolute;
+                    left: 0;
+                    background-color: #f4f6f7;
+                    width: 142px;
+                    color: #434a4d;
+                    height: 22px;
+                    border-radius: 5px;
+                    padding: 3px;
+                }
+
+                .depStatus, .detachedProp {
+                    color: #818181;
+                    font-size: 13px;
+                }
+            }
+
+            div[data-tag="property-toolbar"] {
+                background: @module-color;
+
+                .btn-group span.btn-default:last-of-type {
+                    border-radius: 0 5px 5px 0;
+                }
+
+                .btn-group, .btn-default {
+                    background-color: transparent;
+                }
+            }
+
+            div[data-tag="control"] {
+                position: relative;
+                /*height: auto;*/
+    bottom: 5px;
+
+    .propertymanager-default {
+        position: absolute;
+        top: 4px;
+        right: 38px;
+        z-index: 12;
+        font-size: 12px;
+    }
+}
+        }
+    }
+}
+
+flx-propertymanager .grid-stack .grid-stack-placeholder > .placeholder-content {
+    background-color: #ffffde;
+}
+
+
+//FORM CONTROLS
+flx-propertymanager {
+    /*FLX-TEXTAREA*/
+    flx-textarea[mode="preview"] {
+        .input-group {
+            border: 1px solid #ccc;
+            border-radius: @border-radius;
+
+            textarea.form-control {
+                overflow: hidden;
+                border: none;
+                border-right: 1px solid #ccc;
+            }
+
+            span.input-group-addon {
+                border: none;
+
+                button {
+                    background: none;
+                }
+            }
+        }
+    }
+    /*FLX-IMAGE*/
+    /*FLX-WHITEBOARD*/
+    :is(flx-image[mode="preview"],flx-whiteboard[mode="preview"]) > div.ctl-container.ctl-cpr-transition.form-control.ctl-container-locked {
+        container-type: size;
+
+        i.ctl-icon.ctl-cpr-transition {
+            font-size: ~"max(14px, calc(30cqh - 5px))";
+            visibility: visible;
+            opacity: 1;
+            color: #ccc;
+        }
+    }
+
+    flx-upload[mode="preview"] .upload-container .upload-drag-container {
+        container-type: size;
+
+        span {
+            font-size: ~"max(21px,calc(20cqh - 5px))";
+        }
+    }
+    /*FLX-CODE*/
+    flx-code[mode="preview"] {
+        button.btn.btn-assistant {
+            top: 1px;
+            right: 1px;
+            background: transparent;
+        }
+    }
+    /*buttons*/
+    [mode="preview"] {
+        .input-group-btn {
+            border: none;
+
+            button {
+                background: transparent;
+                border: none;
+            }
+        }
+    }
+
+    flx-upload[mode="preview"] .upload-container .upload-btn, flx-file[mode="preview"] .input-group .input-group-btn label.disabled {
+        background-color: #ccc;
+    }
+
+    flx-radio[mode="preview"] div {
+        counter-reset: labelList;
+
+        label::after {
+            counter-increment: labelList;
+            content: " "counter(labelList);
+        }
+    }
+
+    flx-multicombo[mode="preview"] .input-group div.bootstrap-tagsinput {
+        box-shadow: none;
+        margin: 0px;
+        counter-reset: multiLabelList;
+        align-items: center;
+
+        span.tag::before {
+            counter-increment: multiLabelList;
+            content: " "counter(multiLabelList);
+            margin-left: 2px;
+        }
+    }
+
+    :is(flx-dbcombo, flx-combo) label.form-control.input-view {
+        text-align: right;
+
+        .caret {
+            margin-right: 10px;
+        }
+    }
+}

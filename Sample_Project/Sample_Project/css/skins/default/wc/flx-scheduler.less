@@ -1,4 +1,6 @@
-﻿flx-scheduler .collapsing {
+﻿@import "../CssVars.less";
+
+flx-scheduler .collapsing {
     -webkit-transition: none;
     transition: none;
     //display: none;
@@ -35,7 +37,7 @@ flx-scheduler .margin-filter{
     margin-left:170px;
 }
 
-@media (max-width: dbSize(small)) {
+@media (max-width: @small) {
     flx-scheduler .filter:after {
      content:"\a";
      white-space: pre;
@@ -53,7 +55,7 @@ flx-scheduler .margin-filter{
 }
 
 
-@media (max-width: dbSize(medium)) {
+@media (max-width: @medium) {
     flx-scheduler .filter:after {
         content:"\a";
          white-space: pre;

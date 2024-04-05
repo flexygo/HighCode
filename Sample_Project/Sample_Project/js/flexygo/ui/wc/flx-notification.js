@@ -76,7 +76,7 @@ var flexygo;
                         });
                     }
                     else {
-                        let tooltip = '<flx-tooltip container="body" mode="popover" placement="bottom"><div class="notifypopover"><flx-list objectname="sysNotices" objectwhere="" templateId="sysNotiFyListPopup"></flx-list></div></flx-tooltip>';
+                        let tooltip = '<flx-tooltip container="body" mode="popover" placement="bottom"><div class="notifypopover"><flx-list objectname="sysNotices" objectwhere="" templateId="sysNotiFyListPopup" modulename="sysmod-Notification-list"></flx-list></div></flx-tooltip>';
                         ctx.prepend(tooltip);
                     }
                     this.refreshBadge();

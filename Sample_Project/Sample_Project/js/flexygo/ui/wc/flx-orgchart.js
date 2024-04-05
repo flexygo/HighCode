@@ -16,6 +16,7 @@ var flexygo;
                     super();
                     this.objectname = null;
                     this.objectwhere = null;
+                    this.AdditionalWhere = null;
                     this.data = null;
                     this.tHeader = null;
                     this.tBody = null;
@@ -71,6 +72,12 @@ var flexygo;
                             isDirty = true;
                         }
                     }
+                    if (this && attrName.toLowerCase() == 'additionalwhere' && newVal && newVal != '') {
+                        this.AdditionalWhere = newVal;
+                        if (this.AdditionalWhere) {
+                            isDirty = true;
+                        }
+                    }
                     if (this.connected === true && (isDirty === true)) {
                         this.refresh();
                     }
@@ -95,11 +102,23 @@ var flexygo;
                     me.empty();
                     this.options = { chart: { connectors: { type: 'step' }, node: { HTMLclass: 'orgchartnode' }, hideRootNode: true, animteOnInit: true } };
                     if (this.moduleName) {
+                        let def;
+                        let histObj = flexygo.history.get(me);
+                        if (typeof histObj != 'undefined' && histObj.defaults) {
+                            if (typeof histObj.defaults == 'string') {
+                                def = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
+                            }
+                            else {
+                                def = histObj.defaults;
+                            }
+                        }
                         let params = {
-                            ObjectName: this.objectname,
-                            ObjectWhere: this.objectwhere,
-                            ModuleName: this.moduleName,
-                            PageName: flexygo.history.getPageName(me)
+                            ObjectName: me.attr('ObjectName'),
+                            ObjectWhere: me.attr('ObjectWhere'),
+                            ModuleName: me.attr('ModuleName'),
+                            PageName: flexygo.history.getPageName(me),
+                            Defaults: flexygo.utils.dataToArray(def),
+                            AdditionalWhere: this.AdditionalWhere,
                         };
                         flexygo.ajax.post('~/api/OrgChart', 'GetNodes', params, (response) => {
                             if (response) {
@@ -290,7 +309,7 @@ var flexygo;
            * Array of observed attributes.
            * @property observedAttributes {Array}
            */
-            FlxOrgChartElement.observedAttributes = ['modulename', 'objectname', 'objectwhere'];
+            FlxOrgChartElement.observedAttributes = ['modulename', 'objectname', 'objectwhere', 'additionalwhere'];
             wc.FlxOrgChartElement = FlxOrgChartElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

@@ -40,7 +40,7 @@ declare namespace flexygo {
         run(processparams: string | {
             Key: string;
             Value: any;
-        }[], cllback?: any, targetid?: string, excludeHist?: boolean, triggerElement?: JQuery, lastProcessName?: string): void;
+        }[], cllback?: any, targetid?: string, excludeHist?: boolean, triggerElement?: JQuery, lastProcessName?: string, errorCallback?: any, eventData?: any): void;
         /**
         * Show loading funcion before executing process
         * @method showLoading

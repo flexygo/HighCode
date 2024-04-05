@@ -10,6 +10,7 @@ declare namespace flexygo.ui.wc {
     * @return {FlxImgElement} .
     */
     class FlxImgElement extends HTMLImageElement {
+        length: number;
         constructor();
         /**
        * Set if element has been connected to DOM

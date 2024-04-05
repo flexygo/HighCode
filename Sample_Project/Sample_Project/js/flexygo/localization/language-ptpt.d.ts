@@ -67,6 +67,7 @@ declare namespace flexygo.culture.ptpt {
         chatter: string;
         users: string;
         roles: string;
+        processes: string;
     };
     const history: {
         historyempty: string;
@@ -289,6 +290,7 @@ declare namespace flexygo.culture.ptpt {
         savefilter: string;
         selectfilterfirst: string;
         save: string;
+        pagerInfo: string;
     };
     const flxmail: {
         nomails: string;
@@ -313,6 +315,7 @@ declare namespace flexygo.culture.ptpt {
         edit: string;
         view: string;
         print: string;
+        printing: string;
         printpage: string;
         printmodule: string;
         help: string;
@@ -420,6 +423,7 @@ declare namespace flexygo.culture.ptpt {
     };
     const upload: {
         uploaded: string;
+        someerror: string;
         error: string;
         info: string;
         extension: string;
@@ -497,12 +501,15 @@ declare namespace flexygo.culture.ptpt {
         fromnewtable: string;
         selectcnnstring: string;
         validcnnstring: string;
+        selectschema: string;
+        validschema: string;
         selecttable: string;
         validorigin: string;
         newtablename: string;
         validnewtablename: string;
         viewkeyfields: string;
-        validviewkeyfields: string;
+        tablekeyfields: string;
+        validkeyfields: string;
         savecontinue: string;
         continue: string;
         listtemplate: string;
@@ -541,6 +548,7 @@ declare namespace flexygo.culture.ptpt {
         save: string;
         close: string;
         hasdefinition: string;
+        valueTemplate: string;
     };
     const flxversioninfo: {
         currentversion: string;
@@ -719,6 +727,7 @@ declare namespace flexygo.culture.ptpt {
     const offlineemulator: {
         ios: string;
         md: string;
+        refreshemulatorconfirm: string;
     };
     const combobuilder: {
         datasource: string;
@@ -850,5 +859,56 @@ declare namespace flexygo.culture.ptpt {
         infoDownload: string;
         generate: string;
         download: string;
+    };
+    const flxcode: {
+        readonlyMode: string;
+    };
+    const validateform: {
+        required: string;
+        remote: string;
+        email: string;
+        url: string;
+        date: string;
+        dateISO: string;
+        number: string;
+        digits: string;
+        equalTo: string;
+        maxlength: string;
+        minlength: string;
+        rangelength: string;
+        range: string;
+        max: string;
+        min: string;
+        step: string;
+    };
+    const flxrelationship: {
+        invalidSintaxis: string;
+        invalidProperties: string;
+        zoomInButton: string;
+        zoomOutButton: string;
+        suggestionsButton: string;
+        clearButton: string;
+    };
+    const originSelector: {
+        title: string;
+    };
+    const flxai: {
+        beginMessage: string;
+        alertInfoMessage: string;
+        settingNotFound: string;
+    };
+    const excelExport: {
+        title: string;
+        generate: string;
+        generated: string;
+        selectall: string;
+        deselectall: string;
+    };
+    const comboTexts: {
+        addValue: string;
+        warningMessage: string;
+    };
+    const utils: {
+        loading: string;
     };
 }

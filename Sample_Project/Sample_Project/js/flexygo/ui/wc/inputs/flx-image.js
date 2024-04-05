@@ -312,8 +312,7 @@ var flexygo;
                     if (me.attr('rootpath') && me.attr('rootpath') !== '') {
                         this.options.RootPath = me.attr('rootpath');
                     }
-                    me.parent('div[data-tag="control"]').attr('style', 'height:94%;');
-                    this.control = $('<div class="ctl-container ctl-cpr-transition ctl-hover">');
+                    this.control = $('<div class="ctl-container ctl-cpr-transition ctl-hover form-control">');
                     input = $('<input type="hidden"/>');
                     icon = $('<i class="flx-icon icon-pencil ctl-icon ctl-cpr-transition" flx-fw=""></i> ');
                     img = $('<img src="" class="img-responsive ctl-image ctl-cpr-transition"/>');
@@ -493,8 +492,10 @@ var flexygo;
                             };
                             if ($(this).parents('flx-list').length > 0) {
                                 flexygo.ajax.syncPost('~/api/Image', 'SaveFile', params, (ret) => {
-                                    if (ret.Value != 'errorrootpath')
+                                    if (ret.Value != 'errorrootpath') {
                                         this.setValue(ret.Value, ret.Text);
+                                        this.triggerDependencies();
+                                    }
                                     else {
                                         flexygo.msg.error('image.errorrootpath');
                                     }
@@ -502,8 +503,10 @@ var flexygo;
                             }
                             else {
                                 flexygo.ajax.post('~/api/Image', 'SaveFile', params, (ret) => {
-                                    if (ret.Value != 'errorrootpath')
+                                    if (ret.Value != 'errorrootpath') {
                                         this.setValue(ret.Value, ret.Text);
+                                        this.triggerDependencies();
+                                    }
                                     else {
                                         flexygo.msg.error('image.errorrootpath');
                                     }
@@ -629,7 +632,7 @@ var flexygo;
                                                     </div>
                                                     <div class="panel-body cpr-cropper">
                                                             <span class="cpr-span">` + flexygo.localization.translate('image.infotostart') + `</span>
-                                                            <img class="img-responsive" src="` + image + `">
+                                                            <img class="img-responsive" src="${image ? image : ""}">
                                                     </div>
                                                 </div>
                                                 <label class="btn btn-default btn-file bg-outstanding cpr-btn-browse">`

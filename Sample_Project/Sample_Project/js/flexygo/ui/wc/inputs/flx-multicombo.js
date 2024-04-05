@@ -57,6 +57,13 @@ var flexygo;
                         }
                         this.property = propName;
                     }
+                    let renderMode = element.attr("mode");
+                    if (!flexygo.utils.isBlank(renderMode)) {
+                        this.renderMode = renderMode.toLowerCase();
+                    }
+                    else {
+                        this.renderMode = "edit";
+                    }
                     let ObjectName = element.attr('ObjectName');
                     if (ObjectName && ObjectName != '') {
                         if (!this.options) {
@@ -187,6 +194,13 @@ var flexygo;
                     if (cnnString && cnnString !== '') {
                         this.cnnString = cnnString;
                     }
+                    let HasSecurityObject = element.attr('HasSecurityObject');
+                    if (typeof HasSecurityObject !== 'undefined') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.HasSecurityObject = HasSecurityObject.toLowerCase() !== 'false';
+                    }
                     this.separator = (this.options.Separator ? this.options.Separator : "|");
                     this.init();
                     let Value = element.attr('Value');
@@ -241,7 +255,7 @@ var flexygo;
                         this.options.ObjectName = newVal;
                         this.refresh();
                     }
-                    if (attrName.toLowerCase() == 'viewname' && newVal && newVal != '') {
+                    if (attrName.toLowerCase() == 'viewname' && newVal != oldVal) {
                         if (!this.options) {
                             this.options = new flexygo.api.ObjectProperty();
                         }
@@ -384,9 +398,10 @@ var flexygo;
                 }
                 init() {
                     if (this.options) {
+                        if (this.options.ComboAllowSave && this.options.ComboAllowSave_Object) {
+                            this.setAttribute('AddValuesToObject', 'true');
+                        }
                         let me = $(this);
-                        let parentCtl = $(this).closest('flx-view');
-                        let viewMode = parentCtl.length > 0;
                         let iconsLeft;
                         let iconsRight = this.getIconButtons();
                         let control = $('<div class="input-group" style="width:100%">');
@@ -413,7 +428,7 @@ var flexygo;
                         this.input = input;
                         this.datalist = datalist;
                         this.container = container;
-                        if (!viewMode) {
+                        if (this.renderMode == "edit") {
                             this.datalist.off('scroll.multicombo').on('scroll.multicombo', (e) => {
                                 if (this.datalist[0].offsetHeight + this.datalist[0].scrollTop >= this.datalist[0].scrollHeight) {
                                     this.loadValues(this.page + 1, false, null, true);
@@ -508,20 +523,29 @@ var flexygo;
                                     if (selectedLi.length > 0) {
                                         selectedLi.trigger("mousedown");
                                     }
-                                    //Si el input est� vac�o Y no hay valor seleccionado Y (hay m�s de un resulatado O el resultado que hay ya ha sido a�adido) debe filtrar
+                                    //If the input is empty AND there's no selected value AND (there's more than just one result OR the result has already been set) it must filter
                                     if (listInput.val() === '' && selectedLi.length === 0 && (listValues.length > 1 || (listValues.length === 1 && tags.indexOf(listValues.attr('data-value')) !== -1))) {
                                         return;
                                     }
-                                    //Si el valor ya ha sido a�adido se filtrar�
+                                    //If the value has already been set it must filter
                                     if (tags.indexOf(selectedLi.attr('data-value')) !== -1) {
                                         return;
                                     }
                                     if (e.key === 'Enter') {
                                         e.preventDefault();
                                     }
-                                    //Si solo queda un valor (ya se ha comprobado previamente que es nuevo) limpiamos el input de b�squeda
+                                    //If only there's a value left (it has already been checked to be a new value) we clean the search input
                                     if (listValues.length == 1) {
-                                        this.addValue(listValues.attr('data-value'), listValues.attr('data-text'));
+                                        let value, text, is_new = false;
+                                        if (listValues.is('.newValueField')) {
+                                            value = listValues.find('.currentlyTyping').text();
+                                            is_new = true;
+                                        }
+                                        else {
+                                            value = listValues.attr('data-value');
+                                            text = listValues.attr('data-text');
+                                        }
+                                        this.addValue(value, text, is_new);
                                         listInput.val('');
                                         this.loadValues(0);
                                         this.showOptions();
@@ -548,7 +572,7 @@ var flexygo;
                             control.append(iconsLeft);
                         }
                         control.append(container);
-                        if (!viewMode && !this.options.Locked) {
+                        if (this.renderMode == "edit" && !this.options.Locked) {
                             $(`<label class="cleared input-group-btn">
                             <label class="clickable margin-0">
                             <i title="${flexygo.localization.translate('sortmanager.clean')}" class="flx-icon icon-arrow-2 flx-icon icon-close-11" />
@@ -559,7 +583,7 @@ var flexygo;
                             control.append(iconsRight);
                         }
                         control.append(datalist);
-                        if (!viewMode && !this.options.Locked) {
+                        if (this.renderMode == "edit" && !this.options.Locked) {
                             control.find('label.cleared > label.clickable').on('click', (e) => {
                                 let oldValue = this.getValue();
                                 if (!$(this).attr('disabled')) {
@@ -578,7 +602,7 @@ var flexygo;
                         me.append(datalist);
                         this.setOptions();
                         //this.loadValues(0);
-                        if (!viewMode) {
+                        if (this.renderMode == "edit") {
                             if (this.options && this.options.DropDownValues && this.options && this.options.DropDownValues.length > 0) {
                                 this.addComboItems(this.options.DropDownValues);
                             }
@@ -587,6 +611,13 @@ var flexygo;
                             }
                         }
                         this.container.tagsinput({ freeInput: false, itemValue: 'value', itemText: 'text', separator: this.separator });
+                        if (this.renderMode === "view") {
+                            $(this).find('.bootstrap-tagsinput').addClass("form-control");
+                        }
+                        else if (this.renderMode === "preview") {
+                            let item = `<span class="tag label label-info">${flexygo.localization.translate("flxpropertymanager.valueTemplate")}</span>`;
+                            $(this).find('.bootstrap-tagsinput').html(`${item}${item}${item}`);
+                        }
                         if (this.mobileInput) {
                             this.container.on('itemAdded', (event) => {
                                 if (event.item) {
@@ -607,7 +638,7 @@ var flexygo;
                                 }
                             });
                         }
-                        if (!viewMode) {
+                        if (this.renderMode == "edit") {
                             this.container.on('itemRemoved', (event) => {
                                 if (event.item) {
                                     this.triggerDependencies();
@@ -692,6 +723,7 @@ var flexygo;
                     let params;
                     let method;
                     this.page = page;
+                    let inFilter = $(this.closest('flx-module')).find('flx-filter').length > 0;
                     if (this.options.ViewName && this.options.ViewName != '') {
                         params = {
                             "ObjectName": this.options.ObjectName,
@@ -702,7 +734,8 @@ var flexygo;
                             "PageSize": this.options.PageSize,
                             "AdditionalWhere": this.additionalWhere,
                             "SQLFilter": this.options.SQLFilter,
-                            "CnnString": this.cnnString
+                            "CnnString": this.cnnString,
+                            "HasSecurityObject": this.options.HasSecurityObject
                         };
                         method = 'GetComboDataView';
                     }
@@ -712,7 +745,7 @@ var flexygo;
                                 Mode: this.mode,
                                 ObjectName: this.options.ProcessName || this.options.ReportName || this.options.ObjectName,
                                 PropertyName: this.options.Name,
-                                CryptedSql: this.options.SQLEditSentence || this.options.SQLSentence,
+                                CryptedSql: this.options.SQLEditSentence && !inFilter ? this.options.SQLEditSentence : this.options.SQLSentence,
                                 CryptedFilter: this.options.SQLFilter,
                                 Value: value,
                                 Page: page,
@@ -726,7 +759,7 @@ var flexygo;
                                 "Mode": this.mode,
                                 "ObjectName": this.options.ProcessName || this.options.ReportName || this.options.ObjectName,
                                 "PropertyName": this.options.Name,
-                                "CryptedSql": this.options.SQLSentence,
+                                "CryptedSql": this.options.SQLEditSentence && !inFilter ? this.options.SQLEditSentence : this.options.SQLSentence,
                                 "CryptedFilter": this.options.SQLFilter,
                                 "Value": this.input.val(),
                                 "Page": page,
@@ -736,11 +769,13 @@ var flexygo;
                             method = 'GetComboData';
                         }
                     }
-                    flexygo.ajax.syncPost('~/api/Edit', method, params, (response) => {
-                        if (response) {
-                            this.addComboItems(response, append);
-                        }
-                    });
+                    if (method) {
+                        flexygo.ajax.syncPost('~/api/Edit', method, params, (response) => {
+                            if (response) {
+                                this.addComboItems(response, append);
+                            }
+                        });
+                    }
                 }
                 addComboItems(data, append) {
                     if (append) {
@@ -750,6 +785,17 @@ var flexygo;
                         this.datalist.find('li:not(.search)').remove();
                         this.datalist.find('> div.load-more').remove();
                     }
+                    let input_value = this.input.val();
+                    if (this.options.ComboAllowSave && this.datalist.find('.newValueField').length === 0 && (!data || !data.some(el => (el[this.options.SQLDisplayField] + "").toLowerCase() === (input_value + "").toLowerCase()))) {
+                        let new_value_field = $(`<li class="newValueField ${input_value ? '' : 'hidden'}">
+                        <span><i class="fa fa-plus"></i><span class="currentlyTyping">${input_value}</span></span>
+                        <small class="txt-muted">(${flexygo.localization.translate('comboTexts.addValue')})</small>
+                    </li>`);
+                        this.datalist.append(new_value_field);
+                        new_value_field.on('mousedown', ev => {
+                            this.onClickItem(ev);
+                        });
+                    }
                     if (data) {
                         for (let i = 0; i < data.length; i++) {
                             let elm;
@@ -758,6 +804,9 @@ var flexygo;
                             }
                             else {
                                 elm = this.getListItem(data[i][this.options.SQLValueField], data[i][this.options.SQLDisplayField], data[i][this.options.SQLDisplayField]);
+                            }
+                            if (!flexygo.utils.isBlank(this.input.val()) && i == 0) {
+                                elm.addClass("selected");
                             }
                             //if (this.datalist.find('[data-value="' + elm.attr("data-value") + '"]').length == 0) {
                             this.datalist.append(elm);
@@ -776,36 +825,57 @@ var flexygo;
                     }
                 }
                 getListItem(value, text, template) {
-                    let me = $(this);
                     if (!text && text != '0') {
                         text = value;
                     }
                     if (!template) {
                         template = text;
                     }
-                    return $('<li/>').html(template).attr('data-value', value).attr('data-text', text).on('mousedown', (e) => {
-                        this.addValue($(e.currentTarget).attr('data-value'), $(e.currentTarget).attr('data-text'));
-                        if (!this.mobileInput) {
-                            let ubicElement = me.find('.bootstrap-tagsinput');
-                            let winHeight = $(window).height();
-                            if ((ubicElement.offset().top + this.datalist.outerHeight()) > winHeight) {
-                                this.datalist.css({ position: "fixed", top: "auto", bottom: (winHeight - ubicElement.offset().top + $(window).scrollTop() - 10) });
-                            }
-                            else {
-                                this.datalist.css({ position: "fixed", bottom: "auto", top: (ubicElement.offset().top + ubicElement.outerHeight() - $(window).scrollTop()) });
-                            }
-                        }
-                        e.stopPropagation();
-                        e.preventDefault();
+                    return $('<li/>').html(template).attr('data-value', value).attr('data-text', text).on('mousedown', (ev) => {
+                        this.onClickItem(ev);
                         return false;
                     });
                 }
-                addValue(value, text) {
+                onClickItem(ev) {
+                    const item = ev.currentTarget;
+                    let value, text, is_new = false;
+                    if (item.classList.contains('newValueField')) {
+                        value = item.querySelector('.currentlyTyping').textContent;
+                        is_new = true;
+                    }
+                    else {
+                        value = $(item).attr('data-value');
+                        text = $(item).attr('data-text');
+                    }
+                    this.addValue(value, text, is_new);
+                    if (!this.mobileInput) {
+                        let ubicElement = $(this).find('.bootstrap-tagsinput');
+                        let winHeight = $(window).height();
+                        if ((ubicElement.offset().top + this.datalist.outerHeight()) > winHeight) {
+                            this.datalist.css({ position: "fixed", top: "auto", bottom: (winHeight - ubicElement.offset().top + $(window).scrollTop() - 10) });
+                        }
+                        else {
+                            this.datalist.css({ position: "fixed", bottom: "auto", top: (ubicElement.offset().top + ubicElement.outerHeight() - $(window).scrollTop()) });
+                        }
+                    }
+                    ev.stopPropagation();
+                    ev.preventDefault();
+                }
+                addValue(value, text, is_new = false) {
+                    //If the value is a new value but it already exists with different upper or lower cases it could be added, so here we check if it's really a new value
+                    //and if it already exist we set the value to the already added value to still get the already set animation
+                    if (is_new) {
+                        const current_values = this.getValue().split(this.separator);
+                        const old_value = current_values.find(el => el.toLowerCase() === value.toLowerCase());
+                        if (old_value) {
+                            value = old_value;
+                        }
+                    }
                     let me = $(this);
                     if (typeof text == 'undefined' || typeof text == null) {
                         text = value;
                     }
-                    this.container.tagsinput('add', { "value": value, "text": text });
+                    this.container.tagsinput('add', { "value": value, "text": text, tagClass: is_new ? 'label label-warning' : '' });
                     me.find('.bootstrap-tagsinput input').attr('placeholder', '');
                     me.attr('value', this.getValue());
                     me.attr('text', this.getText());
@@ -870,6 +940,7 @@ var flexygo;
                     }
                 }
                 setOptions() {
+                    var _a;
                     let me = $(this);
                     if (this.options && this.options.Name && this.options.Name != '') {
                         this.input.attr('name', this.options.Name);
@@ -907,7 +978,7 @@ var flexygo;
                         let wcParent = parentCtl[0];
                         let properties = wcParent.settings[wcParent.active].Properties;
                         for (let key in properties) {
-                            if (properties[key].DependingFilterProperties.length > 0 && properties[key].ObjectName == this.options.ObjectName && properties[key].PropertyName == this.property) {
+                            if (((_a = properties[key].DependingFilterProperties) === null || _a === void 0 ? void 0 : _a.length) > 0 && properties[key].ObjectName == this.options.ObjectName && properties[key].PropertyName == this.property) {
                                 hasFilterDependencies = true;
                                 break;
                             }
@@ -932,10 +1003,11 @@ var flexygo;
                     }
                 }
                 changeSQLData(newSQL, newOptions) {
-                    if (newSQL && newSQL != '') {
-                        this.options.SQLSentence = newSQL;
+                    this.options.SQLSentence = newSQL;
+                    this.options.SQLEditSentence = newSQL;
+                    if (this.options.SQLSentence || this.options.SQLEditSentence) {
+                        this.loadValues(0);
                     }
-                    this.loadValues(0);
                 }
                 setValue(value, text) {
                     let me = $(this);
@@ -946,9 +1018,31 @@ var flexygo;
                     else {
                         let txts = (text) ? text.split(this.separator) : null;
                         $.each(value.split(this.separator), (i, e) => {
+                            var _a;
+                            let TextToPut = "";
+                            if (((_a = this.datalist) === null || _a === void 0 ? void 0 : _a.find(`li[data-value="${e}"]`).length) === 0) {
+                                if (!txts || txts && !txts[i]) {
+                                    TextToPut = this.getTextByValue(e);
+                                }
+                                else {
+                                    TextToPut = txts[i];
+                                }
+                            }
+                            else {
+                                if (txts && txts[i]) {
+                                    TextToPut = txts[i];
+                                }
+                                else {
+                                    TextToPut = this.datalist.find(`li[data-value="${e}"]`).attr('data-text');
+                                }
+                            }
                             this.container.tagsinput('add', {
-                                'value': e, 'text': (txts && txts[i]) ? txts[i] : (this.datalist && this.datalist.find(`li[data-value="${e}"]`).attr('data-text')) ? this.datalist.find(`li[data-value="${e}"]`).attr('data-text') : e
+                                'value': e,
+                                'text': TextToPut
                             });
+                            //this.container.tagsinput('add', {
+                            //    'value': e, 'text': (txts && txts[i]) ? txts[i] : (this.datalist && this.datalist.find(`li[data-value="${e}"]`).attr('data-text')) ? this.datalist.find(`li[data-value="${e}"]`).attr('data-text') : e
+                            //});
                         });
                     }
                     let parentCtl = $(this).closest('flx-view');
@@ -963,6 +1057,43 @@ var flexygo;
                     }
                     me.attr('value', this.getValue());
                     me.attr('text', this.getText());
+                }
+                getTextByValue(value) {
+                    if (this.options.SQLValueField !== this.options.SQLDisplayField) {
+                        if (!this.options.ViewName || this.options.ViewName === '') {
+                            let params = {
+                                Mode: this.mode,
+                                ObjectName: this.options.ProcessName || this.options.ReportName || this.options.ObjectName,
+                                PropertyName: this.options.Name,
+                                CryptedSql: this.options.SQLEditSentence || this.options.SQLSentence,
+                                CryptedFilter: this.options.SQLFilter,
+                                Value: value,
+                                Page: 0,
+                                //PageSize: 1,                       
+                                AdditionalWhere: this.additionalWhere,
+                                SQLValueField: this.options.SQLValueField
+                            };
+                            flexygo.ajax.syncPost('~/api/Edit', 'GetComboText', params, (response) => {
+                                if (response) {
+                                    value = response[0][this.options.SQLDisplayField];
+                                }
+                            });
+                        }
+                        else {
+                            let params = {
+                                ObjectName: this.options.ObjectName,
+                                ViewName: this.options.ViewName,
+                                ValueField: this.options.SQLValueField,
+                                Value: value
+                            };
+                            flexygo.ajax.syncPost('~/api/Edit', 'GetComboTextByView', params, (response) => {
+                                if (response) {
+                                    value = response[0][this.options.SQLDisplayField];
+                                }
+                            });
+                        }
+                    }
+                    return value;
                 }
                 getValue() {
                     let values = '';

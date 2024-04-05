@@ -1,14 +1,14 @@
-import { r as registerInstance, m as createEvent, f as writeTask, j as h, l as Host, k as getElement } from './index-86ac49ff.js';
-import { g as getIonMode, c as config } from './ionic-global-0f98fe97.js';
-import { f as clamp } from './helpers-719f4c54.js';
+import { r as registerInstance, o as createEvent, f as writeTask, k as h, n as Host, m as getElement } from './index-d0d1673d.js';
+import { g as getIonMode, c as config } from './ionic-global-f9661584.js';
+import { a as attachComponent, d as detachComponent } from './framework-delegate-1fd39b54.js';
+import { B as BACKDROP, a as prepareOverlay, b as present, h as activeAnimations, d as dismiss, e as eventMethod } from './overlays-177438ad.js';
+import { g as getClassMap } from './theme-f934266c.js';
+import { d as deepReady } from './index-06bb8825.js';
 import { c as createAnimation } from './animation-10ea33c3.js';
-import { d as deepReady } from './index-7173f7a2.js';
 import { g as getTimeGivenProgression } from './cubic-bezier-93f47170.js';
 import { createGesture } from './index-7fe827c3.js';
+import { f as clamp } from './helpers-719f4c54.js';
 import './hardware-back-button-aacf3d12.js';
-import { B as BACKDROP, a as prepareOverlay, b as present, h as activeAnimations, d as dismiss, e as eventMethod } from './overlays-5302658e.js';
-import { g as getClassMap } from './theme-f934266c.js';
-import { a as attachComponent, d as detachComponent } from './framework-delegate-1fd39b54.js';
 
 // Defaults for the card swipe animation
 const SwipeToCloseDefaults = {
@@ -311,170 +311,170 @@ const modalIosCss = ".sc-ion-modal-ios-h{--width:100%;--min-width:auto;--max-wid
 const modalMdCss = ".sc-ion-modal-md-h{--width:100%;--min-width:auto;--max-width:auto;--height:100%;--min-height:auto;--max-height:auto;--overflow:hidden;--border-radius:0;--border-width:0;--border-style:none;--border-color:transparent;--background:var(--ion-background-color, #fff);--box-shadow:none;--backdrop-opacity:0;left:0;right:0;top:0;bottom:0;display:flex;position:absolute;align-items:center;justify-content:center;outline:none;contain:strict}.overlay-hidden.sc-ion-modal-md-h{display:none}.modal-wrapper.sc-ion-modal-md,.modal-shadow.sc-ion-modal-md{border-radius:var(--border-radius);width:var(--width);min-width:var(--min-width);max-width:var(--max-width);height:var(--height);min-height:var(--min-height);max-height:var(--max-height);border-width:var(--border-width);border-style:var(--border-style);border-color:var(--border-color);background:var(--background);box-shadow:var(--box-shadow);overflow:var(--overflow);z-index:10}.modal-shadow.sc-ion-modal-md{position:absolute;background:transparent}@media only screen and (min-width: 768px) and (min-height: 600px){.sc-ion-modal-md-h{--width:600px;--height:500px;--ion-safe-area-top:0px;--ion-safe-area-bottom:0px;--ion-safe-area-right:0px;--ion-safe-area-left:0px}}@media only screen and (min-width: 768px) and (min-height: 768px){.sc-ion-modal-md-h{--width:600px;--height:600px}}.sc-ion-modal-md-h:first-of-type{--backdrop-opacity:var(--ion-backdrop-opacity, 0.32)}@media only screen and (min-width: 768px) and (min-height: 600px){.sc-ion-modal-md-h{--border-radius:2px}.sc-ion-modal-md-h:first-of-type{--box-shadow:0 28px 48px rgba(0, 0, 0, 0.4)}}.modal-wrapper.sc-ion-modal-md{transform:translate3d(0,  40px,  0);opacity:0.01}";
 
 const Modal = class {
-    constructor(hostRef) {
-        registerInstance(this, hostRef);
-        this.didPresent = createEvent(this, "ionModalDidPresent", 7);
-        this.willPresent = createEvent(this, "ionModalWillPresent", 7);
-        this.willDismiss = createEvent(this, "ionModalWillDismiss", 7);
-        this.didDismiss = createEvent(this, "ionModalDidDismiss", 7);
-        // Whether or not modal is being dismissed via gesture
-        this.gestureAnimationDismissing = false;
-        this.presented = false;
-        /**
-         * If `true`, the keyboard will be automatically dismissed when the overlay is presented.
-         */
-        this.keyboardClose = true;
-        /**
-         * If `true`, the modal will be dismissed when the backdrop is clicked.
-         */
-        this.backdropDismiss = true;
-        /**
-         * If `true`, a backdrop will be displayed behind the modal.
-         */
-        this.showBackdrop = true;
-        /**
-         * If `true`, the modal will animate.
-         */
-        this.animated = true;
-        /**
-         * If `true`, the modal can be swiped to dismiss. Only applies in iOS mode.
-         */
-        this.swipeToClose = false;
-        this.onBackdropTap = () => {
-            this.dismiss(undefined, BACKDROP);
-        };
-        this.onDismiss = (ev) => {
-            ev.stopPropagation();
-            ev.preventDefault();
-            this.dismiss();
-        };
-        this.onLifecycle = (modalEvent) => {
-            const el = this.usersElement;
-            const name = LIFECYCLE_MAP[modalEvent.type];
-            if (el && name) {
-                const ev = new CustomEvent(name, {
-                    bubbles: false,
-                    cancelable: false,
-                    detail: modalEvent.detail
-                });
-                el.dispatchEvent(ev);
-            }
-        };
-    }
-    swipeToCloseChanged(enable) {
-        if (this.gesture) {
-            this.gesture.enable(enable);
-        }
-        else if (enable) {
-            this.initSwipeToClose();
-        }
-    }
-    connectedCallback() {
-        prepareOverlay(this.el);
-    }
+  constructor(hostRef) {
+    registerInstance(this, hostRef);
+    this.didPresent = createEvent(this, "ionModalDidPresent", 7);
+    this.willPresent = createEvent(this, "ionModalWillPresent", 7);
+    this.willDismiss = createEvent(this, "ionModalWillDismiss", 7);
+    this.didDismiss = createEvent(this, "ionModalDidDismiss", 7);
+    // Whether or not modal is being dismissed via gesture
+    this.gestureAnimationDismissing = false;
+    this.presented = false;
     /**
-     * Present the modal overlay after it has been created.
+     * If `true`, the keyboard will be automatically dismissed when the overlay is presented.
      */
-    async present() {
-        if (this.presented) {
-            return;
-        }
-        const container = this.el.querySelector(`.modal-wrapper`);
-        if (!container) {
-            throw new Error('container is undefined');
-        }
-        const componentProps = Object.assign(Object.assign({}, this.componentProps), { modal: this.el });
-        this.usersElement = await attachComponent(this.delegate, container, this.component, ['ion-page'], componentProps);
-        await deepReady(this.usersElement);
-        writeTask(() => this.el.classList.add('show-modal'));
-        await present(this, 'modalEnter', iosEnterAnimation, mdEnterAnimation, this.presentingElement);
-        if (this.swipeToClose) {
-            this.initSwipeToClose();
-        }
-    }
-    initSwipeToClose() {
-        if (getIonMode(this) !== 'ios') {
-            return;
-        }
-        // All of the elements needed for the swipe gesture
-        // should be in the DOM and referenced by now, except
-        // for the presenting el
-        const animationBuilder = this.leaveAnimation || config.get('modalLeave', iosLeaveAnimation);
-        const ani = this.animation = animationBuilder(this.el, this.presentingElement);
-        this.gesture = createSwipeToCloseGesture(this.el, ani, () => {
-            /**
-             * While the gesture animation is finishing
-             * it is possible for a user to tap the backdrop.
-             * This would result in the dismiss animation
-             * being played again. Typically this is avoided
-             * by setting `presented = false` on the overlay
-             * component; however, we cannot do that here as
-             * that would prevent the element from being
-             * removed from the DOM.
-             */
-            this.gestureAnimationDismissing = true;
-            this.animation.onFinish(async () => {
-                await this.dismiss(undefined, 'gesture');
-                this.gestureAnimationDismissing = false;
-            });
+    this.keyboardClose = true;
+    /**
+     * If `true`, the modal will be dismissed when the backdrop is clicked.
+     */
+    this.backdropDismiss = true;
+    /**
+     * If `true`, a backdrop will be displayed behind the modal.
+     */
+    this.showBackdrop = true;
+    /**
+     * If `true`, the modal will animate.
+     */
+    this.animated = true;
+    /**
+     * If `true`, the modal can be swiped to dismiss. Only applies in iOS mode.
+     */
+    this.swipeToClose = false;
+    this.onBackdropTap = () => {
+      this.dismiss(undefined, BACKDROP);
+    };
+    this.onDismiss = (ev) => {
+      ev.stopPropagation();
+      ev.preventDefault();
+      this.dismiss();
+    };
+    this.onLifecycle = (modalEvent) => {
+      const el = this.usersElement;
+      const name = LIFECYCLE_MAP[modalEvent.type];
+      if (el && name) {
+        const ev = new CustomEvent(name, {
+          bubbles: false,
+          cancelable: false,
+          detail: modalEvent.detail
         });
-        this.gesture.enable(true);
+        el.dispatchEvent(ev);
+      }
+    };
+  }
+  swipeToCloseChanged(enable) {
+    if (this.gesture) {
+      this.gesture.enable(enable);
     }
-    /**
-     * Dismiss the modal overlay after it has been presented.
-     *
-     * @param data Any data to emit in the dismiss events.
-     * @param role The role of the element that is dismissing the modal. For example, 'cancel' or 'backdrop'.
-     */
-    async dismiss(data, role) {
-        if (this.gestureAnimationDismissing && role !== 'gesture') {
-            return false;
-        }
-        const enteringAnimation = activeAnimations.get(this) || [];
-        const dismissed = await dismiss(this, data, role, 'modalLeave', iosLeaveAnimation, mdLeaveAnimation, this.presentingElement);
-        if (dismissed) {
-            await detachComponent(this.delegate, this.usersElement);
-            if (this.animation) {
-                this.animation.destroy();
-            }
-            enteringAnimation.forEach(ani => ani.destroy());
-        }
-        this.animation = undefined;
-        return dismissed;
+    else if (enable) {
+      this.initSwipeToClose();
     }
-    /**
-     * Returns a promise that resolves when the modal did dismiss.
-     */
-    onDidDismiss() {
-        return eventMethod(this.el, 'ionModalDidDismiss');
+  }
+  connectedCallback() {
+    prepareOverlay(this.el);
+  }
+  /**
+   * Present the modal overlay after it has been created.
+   */
+  async present() {
+    if (this.presented) {
+      return;
     }
-    /**
-     * Returns a promise that resolves when the modal will dismiss.
-     */
-    onWillDismiss() {
-        return eventMethod(this.el, 'ionModalWillDismiss');
+    const container = this.el.querySelector(`.modal-wrapper`);
+    if (!container) {
+      throw new Error('container is undefined');
     }
-    render() {
-        const { htmlAttributes } = this;
-        const mode = getIonMode(this);
-        return (h(Host, Object.assign({ "no-router": true, "aria-modal": "true", tabindex: "-1" }, htmlAttributes, { style: {
-                zIndex: `${20000 + this.overlayIndex}`,
-            }, class: Object.assign({ [mode]: true, [`modal-card`]: this.presentingElement !== undefined && mode === 'ios' }, getClassMap(this.cssClass)), onIonBackdropTap: this.onBackdropTap, onIonDismiss: this.onDismiss, onIonModalDidPresent: this.onLifecycle, onIonModalWillPresent: this.onLifecycle, onIonModalWillDismiss: this.onLifecycle, onIonModalDidDismiss: this.onLifecycle }), h("ion-backdrop", { visible: this.showBackdrop, tappable: this.backdropDismiss }), mode === 'ios' && h("div", { class: "modal-shadow" }), h("div", { tabindex: "0" }), h("div", { role: "dialog", class: "modal-wrapper ion-overlay-wrapper" }), h("div", { tabindex: "0" })));
+    const componentProps = Object.assign(Object.assign({}, this.componentProps), { modal: this.el });
+    this.usersElement = await attachComponent(this.delegate, container, this.component, ['ion-page'], componentProps);
+    await deepReady(this.usersElement);
+    writeTask(() => this.el.classList.add('show-modal'));
+    await present(this, 'modalEnter', iosEnterAnimation, mdEnterAnimation, this.presentingElement);
+    if (this.swipeToClose) {
+      this.initSwipeToClose();
     }
-    get el() { return getElement(this); }
-    static get watchers() { return {
-        "swipeToClose": ["swipeToCloseChanged"]
-    }; }
+  }
+  initSwipeToClose() {
+    if (getIonMode(this) !== 'ios') {
+      return;
+    }
+    // All of the elements needed for the swipe gesture
+    // should be in the DOM and referenced by now, except
+    // for the presenting el
+    const animationBuilder = this.leaveAnimation || config.get('modalLeave', iosLeaveAnimation);
+    const ani = this.animation = animationBuilder(this.el, this.presentingElement);
+    this.gesture = createSwipeToCloseGesture(this.el, ani, () => {
+      /**
+       * While the gesture animation is finishing
+       * it is possible for a user to tap the backdrop.
+       * This would result in the dismiss animation
+       * being played again. Typically this is avoided
+       * by setting `presented = false` on the overlay
+       * component; however, we cannot do that here as
+       * that would prevent the element from being
+       * removed from the DOM.
+       */
+      this.gestureAnimationDismissing = true;
+      this.animation.onFinish(async () => {
+        await this.dismiss(undefined, 'gesture');
+        this.gestureAnimationDismissing = false;
+      });
+    });
+    this.gesture.enable(true);
+  }
+  /**
+   * Dismiss the modal overlay after it has been presented.
+   *
+   * @param data Any data to emit in the dismiss events.
+   * @param role The role of the element that is dismissing the modal. For example, 'cancel' or 'backdrop'.
+   */
+  async dismiss(data, role) {
+    if (this.gestureAnimationDismissing && role !== 'gesture') {
+      return false;
+    }
+    const enteringAnimation = activeAnimations.get(this) || [];
+    const dismissed = await dismiss(this, data, role, 'modalLeave', iosLeaveAnimation, mdLeaveAnimation, this.presentingElement);
+    if (dismissed) {
+      await detachComponent(this.delegate, this.usersElement);
+      if (this.animation) {
+        this.animation.destroy();
+      }
+      enteringAnimation.forEach(ani => ani.destroy());
+    }
+    this.animation = undefined;
+    return dismissed;
+  }
+  /**
+   * Returns a promise that resolves when the modal did dismiss.
+   */
+  onDidDismiss() {
+    return eventMethod(this.el, 'ionModalDidDismiss');
+  }
+  /**
+   * Returns a promise that resolves when the modal will dismiss.
+   */
+  onWillDismiss() {
+    return eventMethod(this.el, 'ionModalWillDismiss');
+  }
+  render() {
+    const { htmlAttributes } = this;
+    const mode = getIonMode(this);
+    return (h(Host, Object.assign({ "no-router": true, "aria-modal": "true", tabindex: "-1" }, htmlAttributes, { style: {
+        zIndex: `${20000 + this.overlayIndex}`,
+      }, class: Object.assign({ [mode]: true, [`modal-card`]: this.presentingElement !== undefined && mode === 'ios' }, getClassMap(this.cssClass)), onIonBackdropTap: this.onBackdropTap, onIonDismiss: this.onDismiss, onIonModalDidPresent: this.onLifecycle, onIonModalWillPresent: this.onLifecycle, onIonModalWillDismiss: this.onLifecycle, onIonModalDidDismiss: this.onLifecycle }), h("ion-backdrop", { visible: this.showBackdrop, tappable: this.backdropDismiss }), mode === 'ios' && h("div", { class: "modal-shadow" }), h("div", { tabindex: "0" }), h("div", { role: "dialog", class: "modal-wrapper ion-overlay-wrapper" }), h("div", { tabindex: "0" })));
+  }
+  get el() { return getElement(this); }
+  static get watchers() { return {
+    "swipeToClose": ["swipeToCloseChanged"]
+  }; }
 };
 const LIFECYCLE_MAP = {
-    'ionModalDidPresent': 'ionViewDidEnter',
-    'ionModalWillPresent': 'ionViewWillEnter',
-    'ionModalWillDismiss': 'ionViewWillLeave',
-    'ionModalDidDismiss': 'ionViewDidLeave',
+  'ionModalDidPresent': 'ionViewDidEnter',
+  'ionModalWillPresent': 'ionViewWillEnter',
+  'ionModalWillDismiss': 'ionViewWillLeave',
+  'ionModalDidDismiss': 'ionViewDidLeave',
 };
 Modal.style = {
-    ios: modalIosCss,
-    md: modalMdCss
+  ios: modalIosCss,
+  md: modalMdCss
 };
 
 export { Modal as ion_modal };

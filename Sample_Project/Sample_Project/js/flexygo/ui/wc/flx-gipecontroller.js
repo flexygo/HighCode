@@ -121,7 +121,8 @@ var flexygo;
                         objectname: data.objectName,
                         objectwhere: data.objectWhere,
                         defaults: null,
-                        processname: data.processName
+                        processname: data.processName,
+                        userid: flexygo.context.currentUserId
                     };
                     let defaults = null; ///OJO!!!!!!!
                     var pageContainer = flexygo.targets.createContainer(histObj, false, null);

@@ -72,6 +72,7 @@ var flexygo;
                 chatter: 'Chatter',
                 users: 'Usuaris',
                 roles: 'Rols',
+                processes: 'Processos',
             };
             caes.history = {
                 historyempty: 'Historial de la navegació buit',
@@ -293,6 +294,7 @@ var flexygo;
                 savefilter: 'Desa el filtre',
                 selectfilterfirst: 'Seleccioneu primer un filtre',
                 save: 'Desa',
+                pagerInfo: 'Pàgina-de-Total'
             };
             caes.flxmail = {
                 nomails: 'No hi ha cap correu trobat ',
@@ -316,7 +318,8 @@ var flexygo;
                 new: 'Nou',
                 edit: 'Editar',
                 view: 'Vista',
-                print: 'Imprimir',
+                print: 'Imprimint',
+                printing: 'Imprimiendo',
                 printpage: 'Imprimir pàgina',
                 printmodule: 'Imprimir mòdul',
                 help: 'Ajuda',
@@ -423,6 +426,7 @@ var flexygo;
             };
             caes.upload = {
                 uploaded: 'Carregat',
+                someerror: 'alguns fitxers no han pogut ser pujats',
                 error: 'Error de càrrega ',
                 info: 'Arrossegueu per carregar',
                 extension: 'No s’accepta l’extensió de fitxer.',
@@ -500,12 +504,15 @@ var flexygo;
                 fromnewtable: 'D&#39;una taula nova',
                 selectcnnstring: 'Seleccioneu la cadena de connexió',
                 validcnnstring: 'Heu d&#39;introduir una cadena de connexió vàlida',
+                selectschema: 'Seleccioneu l\'esquema de la base de dades',
+                validschema: 'Has de seleccionar un esquema',
                 selecttable: 'Seleccioneu l&#39;origen',
                 validorigin: 'Heu d&#39;introduir un origen vàlid',
                 newtablename: 'Nom de la taula nova',
                 validnewtablename: 'Heu d&#39;introduir un nom de taula',
                 viewkeyfields: 'Veure els camps clau',
-                validviewkeyfields: 'Heu d&#39;introduir una vista de camps clau',
+                tablekeyfields: 'Camps clau de la taula',
+                validkeyfields: 'Heu d&#39;introduir una vista de camps clau',
                 savecontinue: 'Desa i continuar',
                 continue: 'Continuar',
                 listtemplate: 'Llista de plantilla',
@@ -544,6 +551,7 @@ var flexygo;
                 save: 'Desa',
                 close: 'Tancar',
                 hasdefinition: 'Revisi a la taula la propietat:',
+                valueTemplate: 'Valor',
             };
             caes.flxversioninfo = {
                 currentversion: 'Versió actual ({{CurrentVersion}}).',
@@ -722,6 +730,7 @@ var flexygo;
             caes.offlineemulator = {
                 ios: 'Commuta el mode iOS',
                 md: 'Commuta el mode Android',
+                refreshemulatorconfirm: '¿Esteu segur que voleu netejar totes les dades de l\'emulador?',
             };
             caes.combobuilder = {
                 datasource: 'Origen de dades',
@@ -853,6 +862,58 @@ var flexygo;
                 infoDownload: "Els fitxers es comprimiran en un zip i seran descarregats",
                 generate: "Generar fitxers",
                 download: "Descarregar fitxers"
+            };
+            caes.flxcode = {
+                readonlyMode: 'No pots editar en mode de visualització',
+                propertyLocked: 'Propietat bloquejada'
+            };
+            caes.validateform = {
+                required: "Aquest camp és requerit.",
+                remote: "Si us plau, arregleu aquest camp.",
+                email: "Si us plau introduïu un mail vàlid.",
+                url: "Introduïu un URL vàlid.",
+                date: "Si us plau introduïu una data vàlida.",
+                dateISO: "Si us plau introduïu una data vàlida ( ISO ).",
+                number: "Introduïu un número vàlid.",
+                digits: "Si us plau introduïu només dígits.",
+                equalTo: "Si us plau introduïu el mateix valor.",
+                maxlength: "Si us plau no introduïu més de {0} caràcters.",
+                minlength: "Si us plau introduïu almenys {0} characters.",
+                rangelength: "Introduïu entre {0} i {1} caràcters.",
+                range: "Introduïu un valor entre {0} i {1}.",
+                max: "Introduïu un valor inferior o igual a {0}.",
+                min: "Introduïu un valor més gran o igual a {0}.",
+                step: "Si us plau introduïu un múltiple de {0}."
+            };
+            caes.flxrelationship = {
+                invalidSintaxis: 'Algunes relacions no tenien una sintaxi vàlida',
+                invalidProperties: 'les propietats seleccionades no existeixen a la relació',
+                zoomInButton: 'Apropa',
+                zoomOutButton: 'Allunya',
+                suggestionsButton: 'Relacions Suggerides',
+                clearButton: 'Netejar Relacions',
+            };
+            caes.originSelector = {
+                title: "Selecciona l'origen sobre el que vols treballar:"
+            };
+            caes.flxai = {
+                beginMessage: 'Hola!\nCom puc ajudar-te?',
+                alertInfoMessage: 'No has configurat el Token Berear, si us plau, revisa la documentació.',
+                settingNotFound: 'No s\'ha pogut obtenir la configuració de l\'assistent amb SettindId "{0}".'
+            };
+            caes.excelExport = {
+                title: "Trieu els camps que voleu mostrar a Excel",
+                generate: "Generar Excel",
+                generated: "Excel generat correctament",
+                selectall: "Selecciona-ho tot",
+                deselectall: "Desmarcar-ho tot"
+            };
+            caes.comboTexts = {
+                addValue: 'Afegir valor',
+                warningMessage: '<p>Estàs segur que vols desar? amb aquestes dades també es guardaran nous registres a:</p><b class="txt-info">@</b>'
+            };
+            caes.utils = {
+                loading: 'Carregant'
             };
         })(caes = culture.caes || (culture.caes = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

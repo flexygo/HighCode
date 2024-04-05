@@ -1,10 +1,12 @@
+@import "../../../css/skins/default/CssVars.less";
+
 // Make clicks pass-through
 #nprogress {
     pointer-events: none;
 }
 
 #nprogress .bar {
-    background: lighten(dbColor(OutstandingColor),20);
+    background: lighten(@outstanding-color,20);
     position: fixed;
     z-index: 1031;
     top: 0;
@@ -20,7 +22,7 @@
     right: 0;
     width: 100px;
     height: 100%;
-    box-shadow: 0 0 10px dbColor(OutstandingColor), 0 0 5px dbColor(OutstandingColor);
+    box-shadow: 0 0 10px @outstanding-color, 0 0 5px @outstanding-color;
     opacity: 1.0;
     -webkit-transform: rotate(3deg) translate(0px, -4px);
     -ms-transform: rotate(3deg) translate(0px, -4px);
@@ -41,8 +43,8 @@
     height: 18px;
     box-sizing: border-box;
     border: solid 2px transparent;
-    border-top-color: dbColor(OutstandingColor);
-    border-left-color: dbColor(OutstandingColor);
+    border-top-color: @outstanding-color;
+    border-left-color: @outstanding-color;
     border-radius: 50%;
     -webkit-animation: nprogress-spinner 400ms linear infinite;
     animation: nprogress-spinner 400ms linear infinite;

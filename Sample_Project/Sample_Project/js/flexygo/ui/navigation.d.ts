@@ -39,6 +39,7 @@ declare namespace flexygo.nav {
         presetsValues?: ModulePresetHistory;
         successMessage?: string;
         errorMessage?: string;
+        userid?: string;
     }
     /**
      * Opens the default object page
@@ -88,7 +89,7 @@ declare namespace flexygo.nav {
     * @param {function} callBack - callback to be called after execute
     * @param {boolean} showprogress - false to hide progress indicator
    */
-    function execProcess(processname: string, objectname: string, objectwhere: string, defaults: any, processparams: any, targetid: string, excludeHist: boolean, triggerElement: JQuery, callBack?: any, showProgress?: boolean, originalProcess?: flexygo.Process): void;
+    function execProcess(processname: string, objectname: string, objectwhere: string, defaults: any, processparams: any, targetid: string, excludeHist: boolean, triggerElement: JQuery, callBack?: any, showProgress?: boolean, originalProcess?: flexygo.Process, errorCallback?: any, eventData?: any): void;
     function openPageReturn(pageConf: flexygo.api.pages.Page, objectname: string, objectwhere: string, defaults: any, pageContainer: JQuery, reportname: string, processname?: string, isClone?: boolean, reportwhere?: string, presets?: string): void;
     /**
    * Opens the parameter process page
@@ -101,7 +102,7 @@ declare namespace flexygo.nav {
    * @param {boolean} excludeHist - True to not store in history
    * @param {JQuery} triggerElement - Relative element to open the page
   */
-    function openProcessParams(processname: string, objectname: string, objectwhere: string, defaults: any, targetid: string, excludeHist: boolean, triggerElement?: JQuery): void;
+    function openProcessParams(processname: string, objectname: string, objectwhere: string, defaults: any, targetid: string, excludeHist: boolean, triggerElement?: JQuery, pagename?: string): void;
     /**
      * Opens the parameter process page
      * @method openProcessParamsPage

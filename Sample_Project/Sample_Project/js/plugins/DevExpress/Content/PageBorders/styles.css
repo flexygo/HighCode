@@ -1,0 +1,8 @@
+﻿td.PageBorder_tlc {background-image:url(top-left-corner.png);}
+td.PageBorder_blc {background-image:url(bottom-left-corner.png);}
+td.PageBorder_trc {background-image:url(top-right-corner.png);}
+td.PageBorder_brc {background-image:url(bottom-right-corner.png);}
+td.PageBorder_t {background-image:url(top.png); background-repeat:repeat-x;}
+td.PageBorder_l {background-image:url(left.png); background-repeat:repeat-y;}
+td.PageBorder_b {background-image:url(bottom.png); background-repeat:repeat-x;}
+td.PageBorder_r {background-image:url(right.png); background-repeat:repeat-y;}

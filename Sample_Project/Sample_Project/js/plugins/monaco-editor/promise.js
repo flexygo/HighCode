@@ -1,0 +1,1 @@
+var require = { paths: { vs: './js/plugins/monaco-editor/min/vs' } };

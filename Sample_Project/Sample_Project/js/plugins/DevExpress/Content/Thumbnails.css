@@ -1,0 +1,10 @@
+﻿.float_left {
+    float: left;
+}
+
+.right_panel {
+    float: left;
+    padding: 12px;
+    margin-left: 16px;
+    margin-right: -300px;
+}

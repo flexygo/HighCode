@@ -72,6 +72,7 @@ var flexygo;
                 chatter: 'Chatter',
                 users: 'Utenti',
                 roles: 'Ruoli',
+                processes: 'Processi',
             };
             itit.history = {
                 historyempty: 'Cronologia di navigazione vuota',
@@ -294,6 +295,7 @@ var flexygo;
                 savefilter: 'Salvare filtro',
                 selectfilterfirst: 'Seleziona prima un filtro',
                 save: 'Salvare',
+                pagerInfo: 'Pagina-di-Totale'
             };
             itit.flxmail = {
                 nomails: 'Nessun messaggio è stato trovato ',
@@ -318,6 +320,7 @@ var flexygo;
                 edit: 'Modificare',
                 view: 'Vedere',
                 print: 'Stampare',
+                printing: 'Stampa',
                 printpage: 'Stampare Pagina',
                 printmodule: 'Stampare modulo',
                 help: 'Aiuto',
@@ -423,6 +426,7 @@ var flexygo;
             };
             itit.upload = {
                 uploaded: 'Caricato',
+                someerror: 'alcuni file non sono riusciti a caricare',
                 error: 'Errore di caricamento',
                 info: 'Trascina per caricare',
                 extension: 'Estensione file non accettata.',
@@ -500,12 +504,15 @@ var flexygo;
                 fromnewtable: 'Da una nuova tabella',
                 selectcnnstring: 'Seleziona la stringa di connessione',
                 validcnnstring: 'Devi selezionare una stringa di connessione',
+                selectschema: 'Seleziona lo schema del database',
+                validschema: 'Devi selezionare uno schema',
                 selecttable: 'Seleziona una fonte',
                 validorigin: 'Si prega di indicare un&#39;origine valida',
                 newtablename: 'Nuovo nome della tabella',
                 validnewtablename: 'Inserisci il nome della nuova tabella',
                 viewkeyfields: 'Campi chiave della vista',
-                validviewkeyfields: 'Inserisci i campi chiave',
+                tablekeyfields: 'Campi chiave della tabella',
+                validkeyfields: 'Inserisci i campi chiave',
                 savecontinue: 'Salva e continua',
                 continue: 'Continua',
                 listtemplate: 'Modello di elenco',
@@ -544,6 +551,7 @@ var flexygo;
                 save: 'Salvare',
                 close: 'Chiudere',
                 hasdefinition: 'Controlla la tabella per la proprietà:',
+                valueTemplate: 'Valore',
             };
             itit.flxversioninfo = {
                 currentversion: 'Versione corrente ({{CurrentVersion}}).',
@@ -722,6 +730,7 @@ var flexygo;
             itit.offlineemulator = {
                 ios: 'Passa alla modalità iOS',
                 md: 'Passa alla modalità Android',
+                refreshemulatorconfirm: 'Sei sicuro di voler cancellare tutti i dati dall\'emulatore?',
             };
             itit.combobuilder = {
                 datasource: 'Origine dei dati',
@@ -853,6 +862,58 @@ var flexygo;
                 infoDownload: "I file verranno compressi in una zip e scaricati",
                 generate: "Genera file",
                 download: "Scaricare files"
+            };
+            itit.flxcode = {
+                readonlyMode: 'Non puoi modificare in modalità di visualizzazione',
+                propertyLocked: 'Proprietà bloccata'
+            };
+            itit.validateform = {
+                required: "Questo campo è obbligatorio.",
+                remote: "Correggi questo campo.",
+                email: "Si prega di inserire un indirizzo email valido.",
+                url: "Per favore, inserisci un URL valido.",
+                date: "Per favore, inserisci una data valida.",
+                dateISO: "Inserisci una data valida (ISO).",
+                number: "Please enter a valid number.",
+                digits: "Per favore, inserire un numero valido.",
+                equalTo: "Per favore inserisci lo stesso valore un'altra volta.",
+                maxlength: "Inserisci non più di {0} caratteri.",
+                minlength: "Inserisci almeno {0} caratteri.",
+                rangelength: "Inserisci un valore compreso tra {0} e {1} caratteri.",
+                range: "Inserisci un valore compreso tra {0} e {1}.",
+                max: "Inserisci un valore inferiore o uguale a {0}.",
+                min: "Inserisci un valore maggiore o uguale a {0}.",
+                step: "Inserisci un multiplo di {0}."
+            };
+            itit.flxrelationship = {
+                invalidSintaxis: 'Alcune relazioni non avevano una sintassi valida',
+                invalidProperties: 'Le proprietà selezionate non esistono nella relazione',
+                zoomInButton: 'Ingrandisci',
+                zoomOutButton: 'Riduci',
+                suggestionsButton: 'Relazioni Suggerite',
+                clearButton: 'Cancella Relazioni',
+            };
+            itit.originSelector = {
+                title: 'Seleziona su quale origine vorresti lavorare:'
+            };
+            itit.flxai = {
+                beginMessage: 'Ciao!\nCome posso aiutarti?',
+                alertInfoMessage: 'Non hai configurato il Token Berear, controlla la documentazione.',
+                settingNotFound: 'Impossibile ottenere la configurazione dell\'assistente con SettindId "{0}".'
+            };
+            itit.excelExport = {
+                title: "Scegli i campi che desideri visualizzare in Excel",
+                generate: "Genera Excel",
+                generated: "L'Excel è stato generato correttamente",
+                selectall: "Seleziona tutto",
+                deselectall: "Deseleziona tutto"
+            };
+            itit.comboTexts = {
+                addValue: 'Valore aggiunto',
+                warningMessage: '<p>Siete sicuri di voler salvare? Con questi dati verranno salvati anche i nuovi record: </p><b class="txt-info">@<b>'
+            };
+            itit.utils = {
+                loading: 'Ricarica'
             };
         })(itit = culture.itit || (culture.itit = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

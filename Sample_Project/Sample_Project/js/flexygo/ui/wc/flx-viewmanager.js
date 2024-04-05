@@ -87,9 +87,15 @@ var flexygo;
                             case 'btn-sql':
                                 me.find('.pnlFields').hide();
                                 me.find('.pnlSQL').show();
-                                let myCm = me.find('.txtSQL')[0].myCM;
-                                if (myCm) {
-                                    myCm.refresh();
+                                let codeEditor = me.find("flx-code")[0];
+                                if (codeEditor.editor == "monaco") {
+                                    codeEditor.setCodeEditor();
+                                }
+                                else {
+                                    let myCm = me.find('.txtSQL')[0].myCM;
+                                    if (myCm) {
+                                        myCm.refresh();
+                                    }
                                 }
                                 break;
                         }

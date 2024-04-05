@@ -1,6 +1,15 @@
 /**
  * @namespace flexygo.ui.wc
  */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var flexygo;
 (function (flexygo) {
     var ui;
@@ -572,22 +581,17 @@ var flexygo;
                         console.log(ex);
                     }
                 }
-                /**
-                * set image.
-                * @method setImage
-                * @param {string} Name.
-                * @param {string} Base64.
-                */
-                setImage(name, base64) {
+                setImage(name, base64, lastProcessName, lastAfterProcessName, endMethodExecuted = false) {
                     try {
                         if (!flexygo.utils.isBlank(this.rObjectId) && this.rObjectName) {
-                            let me = $(this);
                             var params;
-                            if (base64) {
-                                base64 = base64.split(',')[1];
-                            }
-                            else {
-                                base64 = null;
+                            if (!lastProcessName && !lastAfterProcessName) {
+                                if (base64) {
+                                    base64 = base64.split(',')[1];
+                                }
+                                else {
+                                    base64 = null;
+                                }
                             }
                             if (!base64) {
                                 flexygo.msg.warning('imagemanager.imageepmty');
@@ -599,35 +603,71 @@ var flexygo;
                                 'Name': name,
                                 'Base64': base64,
                                 'ImageClassId': this.imageClassId,
+                                'LastProcessName': lastProcessName,
+                                'LastAfterProcessName': lastAfterProcessName
                             };
                             let url = '~/api/ImageManager';
                             if (this.mode == 'recognition') {
                                 url = '~/api/ImageRecognitionManager';
                             }
                             flexygo.ajax.post(url, 'SetImage', params, (response) => {
-                                if (response && !response.imageError) {
-                                    this.imagesPreRender.push(response);
-                                    if (this.imagesLength === this.imagesPreRender.length) {
-                                        for (let file of this.imagesPreRender) {
-                                            this.renderImage(file.imageId, file.name, file.descrip, file.classId, file.classDescrip, file.mainImage, file.orderNumber, file.path, file.haveFaceEncoding, file.lastError);
-                                            flexygo.msg.success('imagemanager.uploaded');
+                                if (response.jsCode) {
+                                    let executeJS = () => __awaiter(this, void 0, void 0, function* () {
+                                        if (response.lastProcessName || response.lastAfterProcessName) {
+                                            //This if will save the response values after the insert to set div values
+                                            if (response.lastAfterProcessName && !this.response_after_insert)
+                                                this.response_after_insert = response;
+                                            var proc = new flexygo.obj.Entity('SysProcesses', `ProcessName='${(response.lastProcessName || response.lastAfterProcessName)}'`);
+                                            proc.read();
+                                            if (proc.data && proc.data.ConfirmText && proc.data.ConfirmText.Value) {
+                                                let res = yield flexygo.msg.confirm(proc.data.ConfirmText.Value);
+                                                if (!res)
+                                                    return;
+                                            }
+                                            if (response.lastAfterProcessName) {
+                                                this.endSetMethod(response);
+                                                endMethodExecuted = true;
+                                            }
                                         }
-                                    }
+                                        flexygo.utils.execAsyncFunction(response.jsCode).then((res) => {
+                                            if (res === false)
+                                                return;
+                                            this.setImage(name, base64, response.lastProcessName, response.lastAfterProcessName, endMethodExecuted);
+                                        }).catch((err) => {
+                                            flexygo.msg.error(flexygo.utils.getErrorMessage(err));
+                                        });
+                                    });
+                                    executeJS();
+                                    return true;
                                 }
-                                else {
-                                    if (!response.permissionError) {
-                                        flexygo.msg.error('imagemanager.erroruploading');
-                                    }
-                                    else {
-                                        flexygo.msg.warning('imagemanager.permissionerror');
-                                    }
-                                }
+                                if (!endMethodExecuted)
+                                    this.endSetMethod(response);
                             });
                         }
                     }
                     catch (ex) {
                         console.log(ex);
                     }
+                }
+                endSetMethod(response) {
+                    if (response && !response.imageError) {
+                        this.imagesPreRender.push(this.response_after_insert || response);
+                        if (this.imagesLength === this.imagesPreRender.length) {
+                            for (let file of this.imagesPreRender) {
+                                this.renderImage(file.imageId, file.name, file.descrip, file.classId, file.classDescrip, file.mainImage, file.orderNumber, file.path, file.haveFaceEncoding, file.lastError);
+                                flexygo.msg.success('imagemanager.uploaded');
+                            }
+                        }
+                    }
+                    else {
+                        if (!response.permissionError) {
+                            flexygo.msg.error('imagemanager.erroruploading');
+                        }
+                        else {
+                            flexygo.msg.warning('imagemanager.permissionerror');
+                        }
+                    }
+                    this.response_after_insert = null;
                 }
                 /**
                 * Get image.
@@ -764,49 +804,83 @@ var flexygo;
                         console.log(ex);
                     }
                 }
-                /**
-                * Remove image.
-                * @method removeImage
-                * @param {string} Image ID.
-                */
-                removeImage(imageId, objectName) {
+                removeImage(imageId, objectName, lastProcessName, lastAfterProcessName, endMethodExecuted = false) {
                     try {
                         let me = $(this);
                         var params;
                         params = {
                             'ImageId': imageId,
                             'ObjectName': objectName,
+                            'LastProcessName': lastProcessName,
+                            'LastAfterProcessName': lastAfterProcessName
                         };
                         let url = '~/api/ImageManager';
                         if (this.mode == 'recognition') {
                             url = '~/api/ImageRecognitionManager';
                         }
                         flexygo.ajax.post(url, 'RemoveImage', params, (response) => {
-                            if (response && !response.imageError) {
-                                me.find('div[imageid="' + imageId + '"]').remove();
-                                this.wall.fitWidth();
-                                //this.refresh();
-                                flexygo.msg.success('imagemanager.removed');
-                                this.setGallery();
-                                if (response.imageId.length != 0) {
-                                    me.find('div.im-item div.im-data div.im-mainimage').attr('value', 'false').removeClass('im-mi-mainimage').find('div.im-item-corner').removeClass('im-mi-item-corner');
-                                    me.find('div[imageid="' + response.imageId + '"]').find('div.im-data div.im-mainimage').attr('value', 'true').addClass('im-mi-mainimage').find('div.im-item-corner').addClass('im-mi-item-corner');
-                                }
-                                this.orderImage();
+                            if (response.jsCode) {
+                                let executeJS = () => __awaiter(this, void 0, void 0, function* () {
+                                    if (response.lastProcessName || response.lastAfterProcessName) {
+                                        //This if will save the response values after the insert to set div values
+                                        if (response.lastAfterProcessName && !this.response_after_remove)
+                                            this.response_after_remove = response;
+                                        var proc = new flexygo.obj.Entity('SysProcesses', `ProcessName='${(response.lastProcessName || response.lastAfterProcessName)}'`);
+                                        proc.read();
+                                        if (proc.data && proc.data.ConfirmText && proc.data.ConfirmText.Value) {
+                                            let res = yield flexygo.msg.confirm(proc.data.ConfirmText.Value);
+                                            if (!res)
+                                                return;
+                                        }
+                                        if (response.lastAfterProcessName) {
+                                            this.endRemoveMethod(response, imageId);
+                                            endMethodExecuted = true;
+                                        }
+                                    }
+                                    flexygo.utils.execAsyncFunction(response.jsCode).then((res) => {
+                                        if (res === false)
+                                            return;
+                                        this.removeImage(imageId, objectName, response.lastProcessName, response.lastAfterProcessName, endMethodExecuted);
+                                    }).catch((err) => {
+                                        flexygo.msg.error(flexygo.utils.getErrorMessage(err));
+                                    });
+                                });
+                                executeJS();
+                                return true;
                             }
-                            else {
-                                if (!response.permissionError) {
-                                    flexygo.msg.error('imagemanager.errorremoving');
-                                }
-                                else {
-                                    flexygo.msg.warning('imagemanager.permissionerror');
-                                }
-                            }
+                            if (!endMethodExecuted)
+                                this.endRemoveMethod(response, imageId);
                         });
                     }
                     catch (ex) {
                         console.log(ex);
                     }
+                }
+                endRemoveMethod(response, imageId) {
+                    var _a;
+                    const me = $(this);
+                    let data = this.response_after_remove || response;
+                    if (data && !data.imageError) {
+                        me.find('div[imageid="' + imageId + '"]').remove();
+                        this.wall.fitWidth();
+                        //this.refresh();
+                        flexygo.msg.success('imagemanager.removed');
+                        this.setGallery();
+                        if (((_a = data.imageId) === null || _a === void 0 ? void 0 : _a.length) != 0) {
+                            me.find('div.im-item div.im-data div.im-mainimage').attr('value', 'false').removeClass('im-mi-mainimage').find('div.im-item-corner').removeClass('im-mi-item-corner');
+                            me.find('div[imageid="' + data.imageId + '"]').find('div.im-data div.im-mainimage').attr('value', 'true').addClass('im-mi-mainimage').find('div.im-item-corner').addClass('im-mi-item-corner');
+                        }
+                        this.orderImage();
+                    }
+                    else {
+                        if (!data.permissionError) {
+                            flexygo.msg.error('imagemanager.errorremoving');
+                        }
+                        else {
+                            flexygo.msg.warning('imagemanager.permissionerror');
+                        }
+                    }
+                    this.response_after_remove = null;
                 }
                 /**
                 * Remove all images.

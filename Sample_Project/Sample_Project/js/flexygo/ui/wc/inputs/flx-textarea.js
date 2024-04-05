@@ -168,6 +168,13 @@ var flexygo;
                         }
                         this.options.Hide = Hide == 'true';
                     }
+                    let mode = element.attr('mode');
+                    if (!flexygo.utils.isBlank(mode)) {
+                        this.mode = mode.toLowerCase();
+                    }
+                    else {
+                        this.mode = "edit";
+                    }
                     this.init();
                     let Value = element.attr('Value');
                     if (Value && Value !== '') {
@@ -317,12 +324,7 @@ var flexygo;
                 init() {
                     let me = $(this);
                     let val = this.getValue();
-                    if (me.attr('mode') && me.attr('mode').toLowerCase() === 'view') {
-                        this.initViewMode();
-                    }
-                    else {
-                        this.initEditMode();
-                    }
+                    this.mode == 'view' ? this.initViewMode() : this.initEditMode();
                     if (val && val !== "") {
                         this.setValue(val);
                     }
@@ -385,17 +387,21 @@ var flexygo;
                     if (iconsLeft || (iconsRight && iconsRight.length > 0)) {
                         control.addClass("input-group");
                     }
+                    if (this.mode != "preview") {
+                        control.resizable();
+                    }
                     me.html(control);
                     this.setOptions();
                 }
                 getIconButtons() {
+                    var _a;
                     let me = $(this);
-                    let ret = $('<div class="input-group-btn" />');
+                    let ret = $('<span class="input-group-addon" style="border-left: none;"/>');
                     let icon1;
                     let editCtl = me.closest('flx-edit, flx-list')[0];
                     let parseEdit = function (val, ctx, property) { return val; };
                     if (this.options && (this.options.SearchCollection || this.options.SearchFunction) && !this.options.Locked) {
-                        icon1 = $('<button class="btn btn-default" type="button"><i class="flx-icon icon-search" /></button>').on('click', (e) => {
+                        icon1 = $('<button class="btn btn-default" type="button" style="border: none;"><i class="flx-icon icon-search" /></button>').on('click', (e) => {
                             if (this.options.SearchFunction) {
                                 flexygo.utils.execDynamicCode.call(this, editCtl.parseEditString(this.options.SearchFunction, editCtl, this));
                             }
@@ -418,13 +424,13 @@ var flexygo;
                         ret.append(icon1);
                     }
                     if (this.options && this.options.ObjNameLink && this.options.ObjWhereLink) {
-                        icon1 = $('<button class="btn btn-default" type="button"><i class="flx-icon icon-link" /></button>').on('click', (e) => {
+                        icon1 = $('<button class="btn btn-default" type="button" style="border: none;"><i class="flx-icon icon-link" /></button>').on('click', (e) => {
                             flexygo.nav.openPage('view', editCtl.parseEditString(this.options.ObjNameLink, editCtl, this), editCtl.parseEditString(this.options.ObjWhereLink, editCtl, this), null, this.options.TargetIdLink);
                         });
                         ret.append(icon1);
                     }
                     if (this.options && (this.options.AllowNewFunction || this.options.AllowNewObject) && !this.options.Locked) {
-                        icon1 = $('<button class="btn btn-default" type="button"><i class="fa fa-plus" /></button>').on('click', (e) => {
+                        icon1 = $('<button class="btn btn-default" type="button" style="border: none;"><i class="fa fa-plus" /></button>').on('click', (e) => {
                             if (this.options.AllowNewFunction) {
                                 flexygo.utils.execDynamicCode.call(this, editCtl.parseEditString(this.options.AllowNewFunction, editCtl, this));
                             }
@@ -457,6 +463,10 @@ var flexygo;
                     //    });
                     //    ret.append(icon1);
                     //}
+                    if ((_a = this.options) === null || _a === void 0 ? void 0 : _a.ChatGPTSettingId) {
+                        icon1 = $('<button class="btn btn-assistant" style="border: none;" type= "button" name="AIButton" title="Lowdy" onclick="flexygo.ui.wc.FlxAIElement.prototype.open($(this).closest(\'flx-textarea\'));"><i class="flx-icon icon-roboto-logo"></i></button>');
+                        ret.append(icon1);
+                    }
                     if (ret.html() === '') {
                         return null;
                     }
@@ -529,7 +539,7 @@ var flexygo;
                 }
                 setValue(value) {
                     let me = $(this);
-                    if (me.attr('mode') && me.attr('mode').toLowerCase() === 'view') {
+                    if (this.mode == "view") {
                         this.setValueView(value);
                         me.attr('Value', value);
                     }

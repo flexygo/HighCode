@@ -1,0 +1,3070 @@
+/* DARK THEME */
+/* Reset */
+html, body, form, div, li,
+h1, h2, h3, h4, h5, h6,
+pre, form, fieldset,
+p, blockquote
+{
+    margin: 0;
+    padding: 0;
+}
+fieldset, img
+{
+    border: 0;
+}
+ol, ul
+{
+    list-style: none;
+    margin: 0;
+}
+h1, h2, h3, h4, h5, h6
+{
+    font-size: 100%;
+    font-weight: normal;
+}
+/* End Reset */
+img.icon:before
+{
+    content: none !important;
+}
+.text-content p,
+.text-content ul li,
+.text-content ol li,
+.text-content code
+{
+    margin-bottom: 10px;
+}
+.text-content ul,
+.text-content ol
+{
+    list-style: outside;
+    padding: 0;
+    margin-left: 32px;
+}
+.text-content ul
+{
+    list-style-type: disc;
+}
+.text-content ol
+{
+    list-style-type: decimal;
+}
+@font-face
+{
+    font-family: OpenSansCondensedBold;
+    src: url("fonts/OpenSans-CondBold.woff");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face
+{
+    font-family: OverpassSemibold;
+    src: url("fonts/overpass-semibold.woff");
+    font-weight: normal;
+    font-style: normal;
+}
+/* DARK THEME */
+.dxTheme-Office365Dark .defaultFont,
+.dxTheme-Office365Dark .footer-text a
+{
+    color: rgba(255,255,255,0.8);
+}
+.dxTheme-Office365Dark .logo .primary-text,
+.dxTheme-Office365Dark main .intro-wrapper .featured-demo-item h2 a,
+.dxTheme-Office365Dark main .intro-wrapper .video-item h2 a
+{
+    color: white;
+}
+.dxTheme-Office365Dark .icon.search, .dxTheme-Office365Dark .icon.angle-right, .dxTheme-Office365Dark .icon.angle-down, .dxTheme-Office365Dark .icon.arrow-left, .dxTheme-Office365Dark .icon.arrow-right, .dxTheme-Office365Dark .icon.copy,
+.dxTheme-Office365Dark .icon.drop-down, .dxTheme-Office365Dark .icon.font, .dxTheme-Office365Dark .icon.phone, .dxTheme-Office365Dark .icon.rotate, .dxTheme-Office365Dark .icon.tablet, .dxTheme-Office365Dark .icon.three-dots
+{
+    background-size: auto;
+    background-position: center !important;
+    background-repeat: no-repeat;
+}
+.dxTheme-Office365Dark .icon.search
+{
+    background-image: url(../Content/IconsDark/search.svg);
+}
+.dxTheme-Office365Dark .icon.angle-right
+{
+    background-image: url(../Content/IconsDark/angle-right.svg);
+}
+.dxTheme-Office365Dark .icon.angle-right::before
+{
+    background-image: none !important;
+}
+.dxTheme-Office365Dark .icon.angle-down
+{
+    background-image: url(../Content/IconsDark/angle-down.svg);
+}
+.dxTheme-Office365Dark .icon.arrow-left
+{
+    background-image: url(../Content/IconsDark/arrow-left.svg);
+}
+.dxTheme-Office365Dark .icon.arrow-right
+{
+    background-image: url(../Content/IconsDark/arrow-right.svg);
+}
+.dxTheme-Office365Dark .icon.copy
+{
+    background-image: url(../Content/IconsDark/copy.svg);
+}
+.dxTheme-Office365Dark .icon.drop-down
+{
+    background-image: url(../Content/IconsDark/drop-down.svg);
+}
+.dxTheme-Office365Dark .icon.font
+{
+    background-image: url(../Content/IconsDark/font.svg);
+}
+.dxTheme-Office365Dark img.icon, .dxTheme-Office365Dark .icon.dx-acc-s,
+.dxTheme-Office365Dark .icon:not(.dx-acc-s):before
+{
+    background-image: url("../Content/IconsDark/sprite.svg");
+}
+.dxTheme-Office365Dark .device-icon-wrapper:hover
+{
+    background-color: #333333;
+}
+.dxTheme-Office365Dark .icon.three-dots
+{
+    background-image: url(../Content/IconsDark/three-dots.svg);
+}
+.dxTheme-Office365Dark .device-icon-item:hover
+{
+    background-color: #333333;
+}
+.dxTheme-Office365Dark .qrcode img
+{
+    border: none;
+}
+.dxTheme-Office365Dark .dxtcLoadingPanel span
+{
+    color: white;
+}
+.dxTheme-Office365Dark .dxpnlControl.navigation-panel
+{
+    background-color: #222222;
+    border: 0px solid black;
+    box-shadow: 0px 2px 18px 0 rgba(0,0,0,0.32);
+}
+.dxTheme-Office365Dark main .tabs-section .page-control .tab
+{
+    background-color: #222222;
+}
+.dxTheme-Office365Dark main .tabs-section .page-control .tab a
+{
+    color: #F78119;
+}
+.dxTheme-Office365Dark main .tabs-section .page-control .code,
+.dxTheme-Office365Dark main .tabs-section .page-control code
+{
+    background-color: #222222;
+}
+.dxTheme-Office365Dark .cr-htmlelementname, .dxTheme-Office365Dark .cr-keyword
+{
+    color: #569cd6;
+}
+.dxTheme-Office365Dark .cr-htmlserverscript
+{
+    background-color: #d2d295;
+    color: #41000b;
+}
+.dxTheme-Office365Dark .cr-htmlattributename, .dxTheme-Office365Dark .cr-csspropertyname
+{
+    color: #9cdcfe;
+}
+.dxTheme-Office365Dark .cr-htmloperator, .dxTheme-Office365Dark .cr-htmlattributevalue
+{
+    color: #b4b4b4;
+}
+.dxTheme-Office365Dark .cr-identifier, .dxTheme-Office365Dark .cr-text, .dxTheme-Office365Dark .cr-operator, .dxTheme-Office365Dark .cr-text-html, .dxTheme-Office365Dark .cr-csspropertyvalue
+{
+    color: #dcdcdc;
+}
+.dxTheme-Office365Dark .cr-cssselector
+{
+    color: #d7ba7d;
+}
+.dxTheme-Office365Dark .cr-string
+{
+    color: #d69d85;
+}
+.dxTheme-Office365Dark .cr-comment
+{
+    color: #57a64a;
+}
+.dxTheme-Office365Dark .cr-xmlcomment
+{
+    color: #608b4e;
+}
+.dxTheme-Office365Dark main .tabs-section .page-control .dxtc-sb
+{
+    background-color: black;
+    padding: 24px;
+}
+.dxTheme-Office365Dark main .tabs-section .page-control .dxtc-sb .dxWeb_tcScrollLeft
+{
+    background-image: url(../Content/IconsDark/scrollLeft.svg);
+    background-position: 0px 0px;
+    width: 11px;
+    height: 11px;
+}
+.dxTheme-Office365Dark main .tabs-section .page-control .dxtc-sb .dxWeb_tcScrollLeftDisabled
+{
+    opacity: 0.5;
+}
+.dxTheme-Office365Dark main .tabs-section .page-control .dxtc-sb .dxWeb_tcScrollRight
+{
+    background-image: url(../Content/IconsDark/scrollRight.svg);
+    background-position: 0px 0px;
+    width: 11px;
+    height: 11px;
+}
+.dxTheme-Office365Dark main .tabs-section .page-control .dxtc-sb .dxWeb_tcScrollRightDisabled
+{
+    opacity: 0.5;
+}
+.dxTheme-Office365Dark main h1,
+.dxTheme-Office365Dark main h2
+{
+    color: white;
+}
+.dxTheme-Office365Dark main > .intro-wrapper > h1,
+.dxTheme-Office365Dark main > .intro-wrapper .featured-demos .annotation h2 > a
+{
+    color: white;
+}
+.dxTheme-Office365Dark main > .intro-wrapper .featured-demos .annotation p
+{
+    color: rgba(255,255,255,0.8);
+}
+.dxTheme-Office365Dark main .featured-demos a > img:first-child
+{
+    border-radius: 4px;
+    box-shadow: 0px 6px 12px 0 rgba(0,0,0,0.24);
+}
+.dxTheme-Office365Dark main .description-section p,
+.dxTheme-Office365Dark main .description-section ul,
+.dxTheme-Office365Dark main .description-section .responsive-text
+{
+    color: rgba(255,255,255,0.8);
+}
+.dxTheme-Office365Dark main .description-section .localDemoContainer .localDemoPanelContent
+{
+    color: rgba(255,255,255,0.8) !important;
+}
+.dxTheme-Office365Dark .top-panel.top-panel-dark
+{
+    background-color: #333333;
+    border-bottom: 1px black solid;
+}
+.dxTheme-Office365Dark .top-panel.top-panel-dark ul.breadcrumbs li a
+{
+    color: white;
+}
+.dxTheme-Office365Dark .top-panel.top-panel-dark ul.breadcrumbs li span.last-breadcrumbs-item
+{
+    color: #a7a7a7;
+}
+.dxTheme-Office365Dark .top-panel.top-panel-dark .theme-settings-menu-button
+{
+    color: white;
+}
+@media (min-width: 1200px)
+{
+    .dxTheme-Office365Dark .top-panel.top-panel-dark .theme-settings-menu-button
+    {
+        background: #333333;
+    }
+}
+.dxTheme-Office365Dark .dxpnlControl.header-panel
+{
+    background-color: #222222;
+    box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.2);
+}
+.dxTheme-Office365Dark .search-input
+{
+    background-color: #333333;
+    border-color: #333333;
+}
+.dxTheme-Office365Dark .search-input .dxic .dxeEditAreaSys
+{
+    color: #a7a7a7;
+}
+.dxTheme-Office365Dark .search-wrapper
+{
+    background-color: #333333;
+    border-bottom: 1px black solid;
+}
+.dxTheme-Office365Dark .dxeEditArea
+{
+    background-color: transparent;
+}
+.dxTheme-Office365Dark .dxpnlControl.navigation-panel .nav-control .navigation-breadcrumbs-button
+{
+    border-color: black;
+    background: #222222;
+    color: #a7a7a7;
+}
+.dxTheme-Office365Dark .dxpnlControl.navigation-panel .nav-control .nav-tree-view .breadCrumbs
+{
+    color: white;
+}
+.dxTheme-Office365Dark .dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control .group-node span
+{
+    color: white;
+}
+.dxTheme-Office365Dark .dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control .demo-node span
+{
+    color: #a7a7a7;
+}
+.dxTheme-Office365Dark .dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control ul > li:hover ul:hover
+{
+    background-color: #222222;
+}
+.dxTheme-Office365Dark .dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control ul > li.selected .dxtv-elbNoLn
+{
+    background-color: black;
+    border-left: 4px solid black;
+}
+.dxTheme-Office365Dark .dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control ul > li.selected .group-node
+{
+    background-color: black;
+}
+@media (min-width: 365px)
+{
+    .dxTheme-Office365Dark .dxpnlControl.navigation-panel .footer
+    {
+        border-top: 1px solid black;
+        background-color: #222222;
+    }
+}
+.dxTheme-Office365Dark .tabs-content
+{
+    background-color: #222222;
+}
+.dxTheme-Office365Dark main .control-section
+{
+    border-bottom: 1px black solid;
+}
+.dxTheme-Office365Dark .localDemoContainer
+{
+    border-top: 1px solid black;
+}
+.dxTheme-Office365Dark .localDemoContainer .localDemoPanel, .dxTheme-Office365Dark .localDemoContainer .localDemoPanel .dxrpcontent
+{
+    background-color: #222222 !important;
+}
+.dxTheme-Office365Dark .localDemoContainer .btnOpenSolution
+{
+    background-color: #F78119;
+    color: white;
+}
+.dxTheme-Office365Dark .localDemoContainer .btnOpenSolution:hover
+{
+    background-color: #db6307;
+}
+.dxTheme-Office365Dark .localDemoContainer .expandButtonImage
+{
+    background-image: url(../Content/IconsDark/arrowDown.svg);
+}
+.dxTheme-Office365Dark .localDemoContainer .collapseButtonImage
+{
+    background-image: url(../Content/IconsDark/arrowUp.svg);
+}
+.dxTheme-Office365Dark .dxpnlControl.theme-settings-panel
+{
+    background: #222222;
+}
+.dxTheme-Office365Dark .dxpnlControl.theme-settings-panel.theme-settings-panel-expanded
+{
+    border-left: 1px black solid;
+}
+.dxTheme-Office365Dark .dxpnlControl.theme-settings-panel .dxeListBox.themes-list
+{
+    background-color: #222222;
+}
+.dxTheme-Office365Dark .dxpnlControl.theme-settings-panel .theme-settings-menu-button, .dxTheme-Office365Dark .dxpnlControl.theme-settings-panel .top-panel
+{
+    background: #222222;
+}
+.dxTheme-Office365Dark .dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-list-caption,
+.dxTheme-Office365Dark .dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-parameters-caption,
+.dxTheme-Office365Dark .dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-caption
+{
+    font-family: "Segoe UI", "Helvetica Neue", Helvetica, "Droid Sans", Tahoma, Geneva, sans-serif;
+    color: white;
+}
+.dxTheme-Office365Dark .dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-list .item
+{
+    color: #a7a7a7;
+}
+.dxTheme-Office365Dark .dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-list .item-hover
+{
+    background-color: #333333;
+}
+.dxTheme-Office365Dark .dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-list .item-selected
+{
+    color: white;
+    background-color: black;
+}
+.dxTheme-Office365Dark .dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-list .new-item::after
+{
+    background-color: #F78119;
+    color: white;
+}
+.dxTheme-Office365Dark .dxpnlControl.theme-settings-panel .theme-settings-panel-content .show-all-themes-button
+{
+    background: #333333;
+    color: white;
+}
+.dxTheme-Office365Dark .dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-parameters-container .themes-parameters-editor
+{
+    background-color: #222222;
+    border-color: black;
+}
+.dxTheme-Office365Dark .dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-parameters-container .themes-parameters-editor input
+{
+    background-color: #222222;
+}
+.dxTheme-Office365Dark .dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-parameters-container .themes-parameters-editor .themes-parameters-button-edit
+{
+    background: #222222;
+}
+.dxTheme-Office365Dark .dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-parameters-container .themes-parameters-listbox
+{
+    color: white;
+    border-color: #222222;
+    background-color: #222222;
+}
+.dxTheme-Office365Dark .dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-parameters-container .themes-parameters-listbox .dxeListBoxItemRow td
+{
+    border: none;
+}
+.dxTheme-Office365Dark .dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-parameters-container .themes-parameters-listbox .dxeListBoxItemSelected
+{
+    background-color: #333333;
+}
+.dxTheme-Office365Dark .dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-parameters-container .themes-parameters-listbox .dxeListBoxItemHover
+{
+    background-color: black;
+    color: white;
+}
+.dxTheme-Office365Dark .footer-text hr,
+.dxTheme-Office365Dark .video-separator
+{
+    border-top: 1px solid black;
+}
+.dxTheme-Office365Dark .feedbackPanelContainer .feedbackPanel
+{
+    background-color: #333333;
+}
+.dxTheme-Office365Dark .feedbackPanelContainer .feedbackPanel .label
+{
+    color: white;
+}
+.dxTheme-Office365Dark .feedbackPanelContainer .feedbackPanel .feedbackContentPage
+{
+    background-color: #222222;
+    color: white;
+    opacity: 1;
+}
+.dxTheme-Office365Dark .feedbackPanelContainer .feedbackPanel .dxrpcontent
+{
+    background-color: #222222 !important;
+    border-bottom: 1px solid black !important;
+    border-right: 1px solid black !important;
+    border-left: 1px solid black !important;
+}
+.dxTheme-Office365Dark .feedbackPanelContainer .feedbackPanel a.feedbackSClink
+{
+    color: #F78119 !important;
+}
+.dxTheme-Office365Dark .feedbackPanelContainer .feedbackPanel .feedbackText
+{
+    border: 1px solid black !important;
+    background-color: #333333;
+}
+.dxTheme-Office365Dark .feedbackPanelContainer .feedbackPanel .feedbackText textarea
+{
+    background-color: #333333;
+    color: white;
+}
+.dxTheme-Office365Dark .feedbackPanelContainer .feedbackPanel .feedbackText.dxeFocused
+{
+    border: 1px solid #F78119 !important;
+}
+.dxTheme-Office365Dark .feedbackPanelContainer .feedbackPanel .btnSendFeedback.dxbDisabled
+{
+    background-color: #333333;
+}
+.dxTheme-Office365Dark .feedbackPanelContainer .feedbackHeaderPanel
+{
+    background-color: #333333;
+}
+.dxTheme-Office365Dark .feedbackPanelContainer .compactButtonContainer
+{
+    background-color: #333333;
+    border-color: black;
+}
+.dxTheme-Office365Dark .options-container .form-layout > .group > * > .cell
+{
+    border: 1px solid black;
+}
+.dxTheme-Office365Dark .options-container .form-layout .item-caption
+{
+    color: white;
+}
+.dxTheme-Office365Dark .options-container .form-layout .group-box-caption
+{
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    color: white;
+}
+.dxTheme-Office365Dark .options-container .apply-button-container
+{
+    border: 1px solid black;
+}
+.dxTheme-Office365Dark .options-container .form-layout > .group > .dxflGroupContainerSys:not(.dxflChildInFirstRowSys) > .cell
+{
+    border-top-width: 0;
+}
+.dxTheme-Office365Dark .device-viewer
+{
+    background-color: black;
+}
+.dxTheme-Office365Dark .device-viewer-screen
+{
+    background-color: #222222;
+}
+.dxTheme-Office365Dark .device-viewer,
+.dxTheme-Office365Dark .device-viewer-border,
+.dxTheme-Office365Dark .device-viewer-screen
+{
+    border-color: black;
+}
+.dxTheme-Office365Dark .cr-operator,
+.dxTheme-Office365Dark .cr-number,
+.dxTheme-Office365Dark .cr-unknown,
+.dxTheme-Office365Dark .cr-text-html
+{
+    color: white;
+}
+.dxTheme-Office365Dark main .options-container
+{
+    box-shadow: none;
+}
+.dxTheme-Office365Dark main .options-container .form-layout .group-box
+{
+    margin-top: 0 !important;
+}
+.dxTheme-Office365Dark main .control-section .header-wrapper .top-right-menu-region
+{
+    box-shadow: none;
+    background-color: black;
+}
+.dxTheme-Office365Dark main .control-section .header-wrapper .top-right-menu-region > a
+{
+    color: white;
+}
+.dxTheme-Office365Dark .dxssControlSys
+{
+    color: black;
+}
+.dxTheme-Office365Dark .search-results .search-results-container a.search-result-item
+{
+    color: white;
+}
+.dxTheme-Office365Dark .search-results .search-results-container a.search-result-item:hover
+{
+    background-color: #222222;
+}
+.dxTheme-Office365Dark .search-results .search-results-container a.search-result-item .additional-info
+{
+    color: #a7a7a7;
+}
+.dxTheme-Office365Dark .widgetPanel
+{
+    background-color: #333333;
+    border-color: black;
+}
+.dxTheme-Office365Dark #EventLog, .dxTheme-Office365Dark .EventLog, .dxTheme-Office365Dark .Logger, .dxTheme-Office365Dark #ImagesVirtualPagingLog.Logger
+{
+    background-color: #444444;
+    color: white;
+    border-color: black;
+}
+.dxTheme-Office365Dark .featured-demo-item-wrapper hr
+{
+    border-top: 1px solid black;
+}
+.dxTheme-Office365Dark .EventLogPanel .dxbButtonSys
+{
+    width: 96px;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+}
+html:not(.dxTouchUI).dxTheme-Office365Dark .dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control .demo-node.dxtv-ndHov:not(.demo-selected), html:not(.dxTouchUI).dxTheme-Office365Dark .dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control .demo-node:hover:not(.demo-selected)
+{
+    background-color: #333333;
+}
+html:not(.dxTouchUI).dxTheme-Office365Dark .dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control ul > li:not(.selected) .dxtv-elbNoLn:hover,
+html:not(.dxTouchUI).dxTheme-Office365Dark .dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control ul > li:not(.selected) .dxtv-elbNoLn:hover + .group-node,
+html:not(.dxTouchUI).dxTheme-Office365Dark .dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control ul > li:not(.selected) .group-node:hover,
+html:not(.dxTouchUI).dxTheme-Office365Dark .dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control ul > li:not(.selected).hovered .dxtv-elbNoLn
+{
+    background-color: black;
+}
+/* Old Styles */
+.Clear
+{
+    display: block;
+    clear: both;
+    overflow: hidden;
+    width: 1px;
+    height: 0;
+}
+.LeftPadding
+{
+    padding-left: 12px;
+}
+.TopPadding
+{
+    padding-top: 6px;
+}
+.BottomPadding
+{
+    padding-bottom: 6px;
+}
+.AlignCenter
+{
+    margin: 0 auto;
+}
+.TopMargin
+{
+    margin-top: 6px;
+}
+.BottomMargin
+{
+    margin-bottom: 6px;
+}
+.TopLargeMargin
+{
+    margin-top: 16px;
+}
+.BottomLargeMargin
+{
+    margin-bottom: 16px;
+}
+.Note
+{
+    margin: 10px 0;
+}
+div.Spacer
+{
+    overflow: hidden;
+    width: 1px;
+    height: 1px;
+    clear: both;
+}
+.NoWrap
+{
+    white-space: nowrap;
+}
+.NoBorder
+{
+    border-style: none !important;
+}
+.OptionsTable > tbody > tr > td,
+.OptionsCell
+{
+    padding: 2px 8px 2px 0;
+}
+.OptionsCell
+{
+    float: right;
+}
+.OptionsTable > tbody > tr > td.edit
+{
+    padding-right: 18px;
+}
+.OptionsTable > tbody > tr > td > label
+{
+    white-space: nowrap;
+}
+.OptionsBottomMargin,
+.OptionsCell
+{
+    /*margin-bottom: 19px;*/
+}
+.OptionsRightMarign
+{
+    margin-right: 9px;
+}
+.NewLine
+{
+    clear: both;
+}
+.helplink
+{
+    font-weight: bold;
+}
+.uploadFilesContainerPanel .dxrpCW
+{
+    overflow-y: auto;
+    max-height: 320px;
+}
+.fullscreenlinksContainer
+{
+    line-height: 2em;
+    text-align: center;
+    width: 100%;
+}
+.fullscreenlinksContainer > span
+{
+    font-size: 1.1em !important;
+    width: 540px;
+    display: inline-block;
+}
+.fullscreenlinksContainer .links
+{
+    margin: 20px auto;
+    width: 840px;
+}
+.fullscreenlinksContainer .link
+{
+    margin: 0 12px;
+    float: left;
+}
+.fullscreenlinksContainer .link > a
+{
+    display: inline-block;
+}
+@media (max-width: 840px)
+{
+    .fullscreenlinksContainer .links
+    {
+        width: inherit;
+    }
+    .fullscreenlinksContainer .link
+    {
+        height: 157px;
+        min-width: 168px;
+        width: calc(33% - 38px);
+    }
+    .fullscreenlinksContainer .link .qrcode
+    {
+        padding-right: 12px;
+    }
+}
+@media (max-width: 625px)
+{
+    .fullscreenlinksContainer .link
+    {
+        height: 157px;
+        min-width: 168px;
+        width: calc(50% - 25px);
+    }
+}
+@media (max-width: 430px)
+{
+    .fullscreenlinksContainer .link
+    {
+        height: 157px;
+        min-width: 168px;
+        width: calc(100% - 25px);
+    }
+}
+.qrcode
+{
+    background-color: white;
+    display: inline-block;
+    padding: 12px 32px 12px 12px;
+}
+.qrcode img
+{
+    border: 1px solid #c3c3c3;
+    padding: 1px;
+    width: 120px;
+    height: 120px;
+}
+.root-intro
+{
+    max-width: 1070px;
+    padding-left: 16px;
+    text-align: center;
+    margin: 0 auto;
+}
+.root-intro .slogan
+{
+    margin-top: 26px;
+    margin-bottom: 28px;
+}
+.root-intro .slogan h1
+{
+    font-size: 24px;
+    color: #666;
+}
+.root-intro .slogan h2
+{
+    margin-top: 2px;
+}
+.root-intro .products-wrapper
+{
+    text-align: left;
+}
+@media (min-width: 1000px)
+{
+    .root-intro .products-wrapper
+    {
+        text-align: center;
+    }
+}
+.root-intro .products-wrapper .product-item-wrapper
+{
+    text-align: left;
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 0 20px 16px 0;
+    width: 100%;
+    vertical-align: top;
+}
+@media (min-width: 700px)
+{
+    .root-intro .products-wrapper .product-item-wrapper
+    {
+        width: 50%;
+    }
+}
+@media (min-width: 1000px)
+{
+    .root-intro .products-wrapper .product-item-wrapper
+    {
+        width: 33.3%;
+    }
+}
+@media (min-width: 1054px)
+{
+    .root-intro .products-wrapper .product-item-wrapper
+    {
+        padding-right: calc((100% - 960px)/3);
+    }
+}
+@media (min-width: 1102px)
+{
+    .root-intro .products-wrapper .product-item-wrapper
+    {
+        padding-right: 36px;
+    }
+}
+.root-intro .products-wrapper .product-item a
+{
+    display: block;
+    color: #444;
+    text-decoration: none;
+}
+.root-intro .products-wrapper .product-item a:hover
+{
+    text-decoration: underline;
+}
+.root-intro .products-wrapper .product-item a img
+{
+    width: 100%;
+    position: relative;
+    top: 0;
+    box-shadow: 0px 2px 8px 0 rgba(0,0,0,0.2);
+    transition: box-shadow 0.3s, top 0.3s;
+}
+@media (min-width: 1000px)
+{
+    .root-intro .products-wrapper .product-item a img
+    {
+        max-width: 320px;
+    }
+}
+html:not(.dxTouchUI) .root-intro .products-wrapper .product-item a img:hover
+{
+    top: -4px;
+    box-shadow: 0px 5px 14px 2px rgba(0,0,0,0.2);
+}
+.root-intro .products-wrapper .product-item .description
+{
+    height: 148px;
+    overflow: auto;
+    box-sizing: border-box;
+}
+.root-intro .products-wrapper .product-item .description h2
+{
+    display: inline-block;
+    margin: 14px 0;
+    color: #444;
+    font-size: 20px;
+    font-weight: 600;
+}
+.root-intro .products-wrapper-other
+{
+    text-align: left;
+}
+.root-intro .products-wrapper-other .product-item .description
+{
+    height: auto;
+    padding-bottom: 24px;
+}
+.root-intro .products-wrapper-other .product-item .description h2
+{
+    margin-bottom: 0;
+    font-size: 16px;
+}
+/* Event monitor */
+.EventLogPanel
+{
+    clear: both;
+    float: left;
+    padding: 0 10px 0 0;
+}
+#EventListContainer
+{
+    overflow: auto;
+}
+.EventListPanel
+{
+    line-height: 200%;
+    float: left;
+    white-space: nowrap;
+}
+.EventListPanel input
+{
+    vertical-align: middle;
+}
+#EventLog,
+.EventLog
+{
+    background-color: White;
+    border: solid 1px #9d9d9d;
+    color: Black;
+    font-family: Tahoma, Sans-Serif;
+    font-size: 11px;
+    overflow: auto;
+    padding: 5px;
+    width: 550px;
+    height: 200px;
+    margin-bottom: 8px;
+}
+.Logger
+{
+    margin-top: 5px;
+    width: 100%;
+    height: 200px;
+    resize: none;
+}
+#ImagesVirtualPagingLog
+{
+    background-color: White;
+    border: solid 1px #9d9d9d;
+    color: Black;
+    overflow: auto;
+    margin-bottom: 8px;
+}
+#ImagesVirtualPagingLog > table
+{
+    margin: 8px;
+}
+/* End Old Styles */
+.clearfix::after
+{
+    content: "";
+    clear: both;
+    display: table;
+}
+.horizontal-center-aligned
+{
+    margin-left: auto;
+    margin-right: auto;
+}
+.defaultFont
+{
+    font: 14px "Segoe UI", "Helvetica Neue", Helvetica, "Droid Sans", Tahoma, Geneva, sans-serif;
+    color: #777;
+    -moz-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+a
+{
+    color: #F78119;
+}
+.dxpnlControl.header-panel
+{
+    box-shadow: 0px 2px 10px 0 rgba(0,0,0,0.1);
+    /*border-bottom: 1px $panelShadowColor solid;*/
+    border-bottom-width: 0;
+    padding: 0;
+    padding-right: 12px;
+    background: white;
+}
+@media (min-width: 1200px)
+{
+    .dxpnlControl.header-panel
+    {
+        padding-right: 18px;
+    }
+}
+.menu-button,
+.logo
+{
+    float: left;
+}
+.menu.icon:before
+{
+    position: absolute;
+    margin: 17px;
+}
+.menu-button
+{
+    height: 60px;
+    background: #F78119;
+    border-width: 0;
+    border-radius: 0;
+    cursor: pointer;
+    outline: none;
+}
+.menu-button:hover
+{
+    background-color: #f99c4a;
+}
+.menu-button:focus
+{
+    border-width: 0;
+}
+.logo
+{
+    padding: 0 6px 0 24px;
+}
+.logo .primary-text,
+.logo .secondary-text
+{
+    display: block;
+}
+.logo .primary-text
+{
+    height: 42px;
+    padding-top: 2px;
+    font-family: OpenSansCondensedBold;
+    font-size: 30px;
+    color: #666;
+}
+.dxSafari .logo .primary-text
+{
+    height: 39px;
+}
+.logo .secondary-text
+{
+    font-size: 10px;
+    font-family: OverpassSemibold;
+    color: #BABABA;
+}
+.right-button
+{
+    float: right;
+    height: 36px;
+    border-radius: 18px;
+    margin-left: 8px;
+    margin-top: 12px;
+    background-color: #F78119;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 22px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.875rem;
+    box-sizing: border-box;
+    padding: 7px;
+}
+.right-button span
+{
+    margin-left: 8px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+.right-button img.download
+{
+    margin-left: 6px;
+}
+.right-button:hover
+{
+    background-color: #f99c4a;
+}
+.right-button:not(.right-button-toggle-themes-panel)
+{
+    display: none;
+}
+@media (min-width: 365px)
+{
+    .right-button:not(.right-button-toggle-themes-panel)
+    {
+        display: block;
+    }
+}
+.icon.download:before,
+.icon.cog:before
+{
+    margin: 7px;
+}
+.icon.shopping-cart:before
+{
+    margin: 8px;
+}
+@media (min-width: 1200px)
+{
+    .right-button-toggle-themes-panel
+    {
+        display: none;
+    }
+}
+.search-wrapper
+{
+    box-sizing: border-box;
+    padding: 16px 0;
+    border-bottom: 1px #F7F7F7 solid;
+}
+.root-intro .search-wrapper
+{
+    padding: 0;
+    margin-right: 20px;
+    margin-bottom: 32px;
+}
+@media (min-width: 1054px)
+{
+    .root-intro .search-wrapper
+    {
+        margin-right: calc((100% - 960px)/3);
+    }
+}
+@media (min-width: 1102px)
+{
+    .root-intro .search-wrapper
+    {
+        margin-right: 36px;
+    }
+}
+.search-wrapper.expanded
+{
+    border-bottom-width: 0;
+    box-shadow: 0px 6px 10px 0 rgba(0,0,0,0.1);
+}
+div:not(.root-intro) .search-wrapper.expanded
+{
+    margin-bottom: 10px;
+}
+.search-input
+{
+    margin: 0 18px;
+    height: 32px;
+    border: 1px #E8E8E8 solid;
+    border-radius: 2px;
+    width: calc(100% - 18px*2);
+    font: 14px "Segoe UI", "Helvetica Neue", Helvetica, "Droid Sans", Tahoma, Geneva, sans-serif;
+    background-size: 21px;
+    background-position: 12px 5px;
+}
+.root-intro .search-input
+{
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+    height: 42px;
+    background-position: 12px 10px;
+    box-shadow: 0px 2px 8px 0 rgba(0,0,0,0.2);
+}
+.search-input .dxic .dxeEditAreaSys
+{
+    color: #777;
+}
+.search-input .clear-button
+{
+    margin-right: 4px;
+    width: 20px;
+}
+.search-input.icon
+{
+    font: 14px "Segoe UI", "Helvetica Neue", Helvetica, "Droid Sans", Tahoma, Geneva, sans-serif;
+}
+.search-input .dxeButtonLeft
+{
+    background: transparent none;
+    border: none;
+    padding: 1px 5px 0 10px;
+    cursor: text;
+}
+.root-intro .search-mark.icon.search:before
+{
+    margin-top: 12px;
+}
+.search-results
+{
+    font: 14px "Segoe UI", "Helvetica Neue", Helvetica, "Droid Sans", Tahoma, Geneva, sans-serif;
+    height: 0;
+    transition: height 0.4s ease 0s;
+    overflow: hidden;
+}
+.root-intro .search-results
+{
+    text-align: left;
+}
+.search-results .search-results-container
+{
+    margin-top: 8px;
+    margin-bottom: 8px;
+    padding: 0;
+    color: #666;
+}
+@media (min-width: 600px)
+{
+    .root-intro .search-results .search-results-container
+    {
+        display: table;
+        width: 100%;
+    }
+}
+.search-results .search-results-container a.search-result-item
+{
+    display: block;
+    padding: 6px 18px;
+    white-space: normal;
+    color: #444;
+    text-decoration: none;
+    line-height: 14px;
+}
+.root-intro .search-results .search-results-container a.search-result-item
+{
+    padding-left: 14px;
+    padding-right: 14px;
+}
+@media (min-width: 600px)
+{
+    .root-intro .search-results .search-results-container a.search-result-item
+    {
+        display: table-row;
+    }
+}
+.search-results .search-results-container a.search-result-item .demo-title,
+.search-results .search-results-container a.search-result-item .additional-info
+{
+    display: inline-block;
+    margin: 3px 0;
+    width: auto !important;
+}
+@media (min-width: 600px)
+{
+    .root-intro .search-results .search-results-container a.search-result-item .demo-title, .root-intro
+    .search-results .search-results-container a.search-result-item .additional-info
+    {
+        display: table-cell;
+        margin: 0;
+        padding: 10px 16px;
+    }
+}
+.search-results .search-results-container a.search-result-item .demo-title.no-ai,
+.search-results .search-results-container a.search-result-item .additional-info.no-ai
+{
+    font-size: 17px;
+    color: #444;
+}
+@media (min-width: 600px)
+{
+    .root-intro .search-results .search-results-container a.search-result-item .demo-title.no-ai, .root-intro
+    .search-results .search-results-container a.search-result-item .additional-info.no-ai
+    {
+        border-bottom: 1px #ebebeb solid;
+    }
+}
+.search-results .search-results-container a.search-result-item .demo-title.no-ai span,
+.search-results .search-results-container a.search-result-item .additional-info.no-ai span
+{
+    display: none;
+}
+.search-results .search-results-container a.search-result-item .demo-title
+{
+    font-weight: 700;
+    display: block;
+}
+.search-results .search-results-container a.search-result-item .demo-title.no-ai
+{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+@media (min-width: 600px)
+{
+    .root-intro .search-results .search-results-container a.search-result-item .demo-title
+    {
+        width: 1% !important;
+        white-space: nowrap;
+    }
+}
+.search-results .search-results-container a.search-result-item .additional-info
+{
+    color: rgba(0,0,0,0.75);
+}
+.search-results .search-results-container a.search-result-item .additional-info.no-ai
+{
+    display: none;
+}
+@media (min-width: 600px)
+{
+    .root-intro .search-results .search-results-container a.search-result-item .additional-info.no-ai
+    {
+        display: table-cell;
+    }
+}
+.search-results .search-results-container a.search-result-item b
+{
+    color: white;
+    background-color: #F78119;
+    padding: 0 1px;
+    font-weight: 600;
+}
+.search-results .search-results-container a.search-result-item .right-arrow
+{
+    display: inline-block;
+    width: 20px;
+    height: 14px;
+    margin: 0 4px 0 3px;
+    background-size: 13px;
+    background-position-x: 4px;
+    background-position-y: 3px;
+}
+.search-results .search-results-container a.search-result-item .right-arrow:before
+{
+    margin-top: -3px;
+    margin-left: 4px;
+}
+.search-results .search-results-container a.search-result-item .arrow-right-long-selected
+{
+    display: none;
+}
+.search-results .search-results-container a.search-result-item:hover .demo-title, .search-results .search-results-container a.search-result-item.search-result-item-selected .demo-title
+{
+    text-decoration: underline;
+}
+.search-results .search-results-container a.search-result-item:hover
+{
+    background-color: #F2F2F2;
+}
+.search-results .search-results-container a.search-result-item.search-result-item-selected
+{
+    background-color: #F78119;
+}
+.search-results .search-results-container a.search-result-item.search-result-item-selected .demo-title,
+.search-results .search-results-container a.search-result-item.search-result-item-selected .demo-title.no-ai
+{
+    color: white;
+}
+.search-results .search-results-container a.search-result-item.search-result-item-selected .additional-info span
+{
+    color: rgba(255,255,255,0.75);
+}
+.search-results .search-results-container a.search-result-item.search-result-item-selected b
+{
+    color: black;
+    background-color: white;
+}
+.search-results .search-results-container a.search-result-item.search-result-item-selected .arrow-right-long-selected
+{
+    display: inline-block;
+}
+.search-results .search-results-container a.search-result-item.search-result-item-selected .arrow-right-long
+{
+    display: none;
+}
+.search-results .no-results-container
+{
+    padding: 16px 34px 8px;
+}
+.root-intro .search-results .no-results-container
+{
+    padding-left: 16px;
+    padding-right: 16px;
+}
+.dxpnlControl.navigation-panel
+{
+    width: 90%;
+    max-width: 340px;
+    padding: 0;
+    padding-right: 1px;
+    box-shadow: 0px 2px 24px 0 rgba(0,0,0,0.14);
+    border-right-color: #EAE9E9;
+    background-color: white;
+}
+@media (min-width: 1200px)
+{
+    .dxpnlControl.navigation-panel
+    {
+        width: 300px;
+        padding-right: 0;
+    }
+}
+.dxpnlControl.navigation-panel .nav-control
+{
+    margin-bottom: 80px;
+}
+.dxpnlControl.navigation-panel .nav-control .navigation-breadcrumbs-button
+{
+    height: auto !important;
+    box-sizing: border-box;
+    border-width: 0;
+    border-bottom-width: 1px;
+    border-color: #E8E8E8;
+    padding: 10px 2px 12px 31px;
+    background: white;
+    background-size: 22px;
+    background-repeat: no-repeat;
+    background-position: 29px center;
+    font: 14px "Segoe UI", "Helvetica Neue", Helvetica, "Droid Sans", Tahoma, Geneva, sans-serif;
+    color: #666;
+    box-shadow: 0px 2px 10px 0 rgba(0,0,0,0.1);
+}
+.dxpnlControl.navigation-panel .nav-control .navigation-breadcrumbs-button img.icon,
+.dxpnlControl.navigation-panel .nav-control .navigation-breadcrumbs-button span.dx-acc.icon
+{
+    padding-right: 2px;
+}
+.dxpnlControl.navigation-panel .nav-control .nav-tree-view
+{
+    overflow-x: hidden;
+}
+.dxpnlControl.navigation-panel .nav-control .nav-tree-view .breadCrumbs
+{
+    margin-top: 20px;
+    margin-bottom: 10px;
+    padding: 0 18px 0 32px;
+    font-family: "Segoe UI", "Helvetica Neue", Helvetica, "Droid Sans", Tahoma, Geneva, sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #444444;
+}
+.dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control
+{
+    font: 14px "Segoe UI", "Helvetica Neue", Helvetica, "Droid Sans", Tahoma, Geneva, sans-serif !important;
+}
+.dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control .dxtv-nd
+{
+    padding-top: 5px;
+    margin-top: 0;
+    height: 28px;
+}
+.dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control .dxtv-nd.updatedIco::after, .dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control .dxtv-nd.newIco::after, .dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control .dxtv-nd.previewIco::after
+{
+    display: inline-block;
+    float: right;
+    margin-right: 13px;
+    margin-top: 1px;
+    /*display: inline;
+                            vertical-align: middle;
+                            margin-left: 10px;*/
+    padding: 0 2px 2px;
+    border-radius: 3px;
+    background-color: #999;
+    color: white;
+    font-family: "Segoe UI", "Helvetica Neue", Helvetica, "Droid Sans", Tahoma, Geneva, sans-serif;
+    font-size: 13px;
+}
+.dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control .dxtv-nd.updatedIco.demo-selected:not(.group-node)::after, .dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control .dxtv-nd.newIco.demo-selected:not(.group-node)::after, .dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control .dxtv-nd.previewIco.demo-selected:not(.group-node)::after
+{
+    background-color: white;
+    color: #F78119;
+}
+.dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control .dxtv-nd.updatedIco::after
+{
+    content: 'upd';
+}
+.dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control .dxtv-nd.newIco::after
+{
+    content: 'new';
+    background-color: #F78119;
+}
+.dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control .dxtv-nd.previewIco::after
+{
+    content: 'preview';
+}
+.dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control .group-node span
+{
+    color: #666;
+}
+.dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control .demo-node
+{
+    padding-left: 70px;
+}
+.dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control .demo-node span
+{
+    font-size: 13px;
+    color: #777;
+}
+html:not(.dxTouchUI) .dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control .demo-node.dxtv-ndHov:not(.demo-selected),
+html:not(.dxTouchUI) .dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control .demo-node:hover:not(.demo-selected)
+{
+    background-color: #F2F2F2;
+}
+.dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control .dxtv-btn
+{
+    margin-left: 0px;
+    height: 12px;
+    width: 12px;
+}
+.dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control .dxtv-elbNoLn
+{
+    padding-left: 30px;
+    width: 26px;
+    height: 28px;
+}
+html:not(.dxTouchUI) .dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control ul > li:not(.selected) .dxtv-elbNoLn:hover,
+html:not(.dxTouchUI) .dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control ul > li:not(.selected) .dxtv-elbNoLn:hover + .group-node,
+html:not(.dxTouchUI) .dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control ul > li:not(.selected) .group-node:hover,
+html:not(.dxTouchUI) .dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control ul > li:not(.selected).hovered .dxtv-elbNoLn
+{
+    background-color: #F2F2F2;
+}
+.dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control ul > li:hover ul:hover
+{
+    background-color: white;
+}
+.dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control ul > li.selected .dxtv-elbNoLn
+{
+    border-left: 4px solid #F2F2F2;
+    padding-left: 26px;
+    background-color: #F2F2F2;
+}
+.dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control ul > li .group-node
+{
+    box-sizing: border-box;
+    width: -webkit-calc(100% - 56px);
+    width: -moz-calc(100% - 56px);
+    width: calc(100% - 56px);
+}
+.dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control ul > li.selected .group-node
+{
+    background-color: #F2F2F2;
+}
+.dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control ul > li ul > li
+{
+    margin-left: 0;
+}
+.dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control ul > li ul > li .dxtv-elbNoLn
+{
+    display: none;
+}
+.dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control ul > li ul > li .dxtv-nd
+{
+    width: 100%;
+    box-sizing: border-box;
+}
+.dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control ul > li ul > li .demo-node.demo-selected
+{
+    background-color: #F78119;
+}
+.dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control ul > li ul > li .demo-node.demo-selected span
+{
+    color: white;
+}
+.dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control.products-sub-tree > div > ul > li > .dxtv-elbNoLn
+{
+    width: 0;
+}
+.dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control.products-sub-tree > div > ul > li > .dxtv-elbNoLn .icon
+{
+    display: none;
+}
+.dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control.products-sub-tree > div > ul > li .group-node
+{
+    width: -webkit-calc(100% - 30px);
+    width: -moz-calc(100% - 30px);
+    width: calc(100% - 30px);
+}
+.dxpnlControl.navigation-panel .nav-control .nav-tree-view .dxtv-control > div > ul > .dxtv-subnd
+{
+    margin-left: 0;
+}
+.dxpnlControl.navigation-panel .footer
+{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+@media (min-width: 365px)
+{
+    .dxpnlControl.navigation-panel .footer
+    {
+        display: block;
+        padding-top: 16px;
+        border-top: 1px solid #E8E8E8;
+        background-color: white;
+    }
+}
+.dxpnlControl.navigation-panel .footer .info-wrapper div
+{
+    padding: 0 0 8px 16px;
+    font-size: 12px;
+    color: #777;
+    display: none;
+    overflow: hidden;
+    white-space: nowrap;
+}
+@media (min-width: 365px)
+{
+    .dxpnlControl.navigation-panel .footer .info-wrapper div
+    {
+        display: block;
+    }
+}
+.dxpnlControl.navigation-panel .footer .info-wrapper div.copyright
+{
+    padding-bottom: 16px;
+}
+.dxpnlControl.navigation-panel .footer .footer-button
+{
+    display: block;
+    padding: 4px;
+    border-bottom: 1px white solid;
+    background-color: #F78119;
+    color: white;
+    font-family: "Segoe UI", "Helvetica Neue", Helvetica, "Droid Sans", Tahoma, Geneva, sans-serif;
+    font-size: 16px;
+    text-decoration: none;
+    text-align: center;
+}
+.dxpnlControl.navigation-panel .footer .footer-button:hover
+{
+    background-color: #f99c4a;
+}
+@media (min-width: 365px)
+{
+    .dxpnlControl.navigation-panel .footer .footer-button
+    {
+        display: none;
+    }
+}
+.dx-modal-background
+{
+    background-color: #000;
+    opacity: 0.5;
+}
+.top-panel
+{
+    box-sizing: border-box;
+    height: 65px;
+    display: none;
+}
+@media (min-width: 1200px)
+{
+    .top-panel
+    {
+        display: block;
+    }
+}
+.top-panel.top-panel-dark
+{
+    border-bottom: 1px #E8E8E8 solid;
+    background-color: #F7F7F7;
+}
+.top-panel ul.breadcrumbs
+{
+    float: left;
+    margin: 0;
+    padding: 0;
+    padding-left: 16px;
+    list-style-type: none;
+}
+@media (min-width: 1200px)
+{
+    .top-panel ul.breadcrumbs
+    {
+        padding-left: 32px;
+    }
+}
+.top-panel ul.breadcrumbs li
+{
+    float: left;
+    margin-top: 22px;
+    margin-right: 12px;
+    line-height: 20px;
+}
+.top-panel ul.breadcrumbs li a, .top-panel ul.breadcrumbs li span.last-breadcrumbs-item
+{
+    font: 14px "Segoe UI", "Helvetica Neue", Helvetica, "Droid Sans", Tahoma, Geneva, sans-serif;
+}
+.top-panel ul.breadcrumbs li a
+{
+    color: #666;
+    text-decoration: none;
+}
+.top-panel ul.breadcrumbs li a:hover
+{
+    text-decoration: underline;
+}
+.top-panel ul.breadcrumbs li span.last-breadcrumbs-item
+{
+    color: rgba(102,102,102,0.5);
+}
+.top-panel ul.breadcrumbs li .icon.angle-right
+{
+    margin-left: 12px;
+}
+.top-panel ul.breadcrumbs li .icon.angle-right:before
+{
+    padding: 2px 0;
+    font-size: 0.8em;
+}
+.top-panel ul.breadcrumbs li:last-child .icon.angle-right
+{
+    display: none;
+}
+.top-panel .theme-settings-menu-button
+{
+    float: right;
+    height: 64px;
+    width: 60px !important;
+    padding: 0;
+    border-width: 0;
+    font: 14px "Segoe UI", "Helvetica Neue", Helvetica, "Droid Sans", Tahoma, Geneva, sans-serif;
+    color: #666;
+}
+.top-panel .theme-settings-menu-button.adaptive
+{
+    display: none;
+}
+.top-panel .theme-settings-menu-button img.icon,
+.top-panel .theme-settings-menu-button span.icon.dx-acc-s
+{
+    height: 12px;
+    margin-top: 2px;
+    padding-right: 32px !important;
+}
+.top-panel .theme-settings-menu-button .dxb
+{
+    padding: 24px 0 23px 0;
+}
+.top-panel .theme-settings-menu-button span
+{
+    display: none !important;
+    padding-right: 30px;
+}
+@media (min-width: 1200px)
+{
+    .top-panel .theme-settings-menu-button
+    {
+        width: auto !important;
+        background: #F7F7F7;
+    }
+    .top-panel .theme-settings-menu-button.adaptive
+    {
+        display: inline-block;
+    }
+    .top-panel .theme-settings-menu-button span
+    {
+        display: inline !important;
+    }
+    .top-panel .theme-settings-menu-button img,
+    .top-panel .theme-settings-menu-button span.dx-acc-s
+    {
+        display: inline-block !important;
+    }
+}
+.dxpnlControl.theme-settings-panel .dxpnl-scc,
+.dxpnlControl.navigation-panel .dxpnl-scc
+{
+    padding: 0;
+    overflow-x: hidden !important;
+}
+.dxpnlControl.theme-settings-panel
+{
+    box-sizing: border-box;
+    width: 252px;
+    background: white;
+    padding: 0;
+    border-left-width: 0;
+    box-shadow: 0px 2px 38px 0 rgba(0,0,0,0.1);
+}
+.dxpnlControl.theme-settings-panel .theme-settings-menu-button,
+.dxpnlControl.theme-settings-panel .top-panel
+{
+    display: block;
+    background: white;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-menu-button
+{
+    width: 100% !important;
+    float: none;
+    padding-left: 24px;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-menu-button img
+{
+    padding-right: 0;
+    display: inline-block !important;
+}
+.dxpnlControl.theme-settings-panel.theme-settings-panel-expanded
+{
+    border-left: 1px #EAE9E9 solid;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-list-caption,
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-caption,
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-parameters-caption,
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-list .item
+{
+    font-family: "Segoe UI", "Helvetica Neue", Helvetica, "Droid Sans", Tahoma, Geneva, sans-serif;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-caption,
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-parameters-caption
+{
+    display: inline-block;
+    font-size: 17px;
+    font-weight: 600;
+    color: #666;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-caption
+{
+    padding: 19px 0 17px 24px;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-list-caption-cell
+{
+    padding: 0;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-list-caption
+{
+    display: inline-block;
+    padding-left: 24px;
+    padding-bottom: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #666;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-list
+{
+    border-width: 0;
+    padding-bottom: 16px;
+    height: auto;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-list.firstGroup
+{
+    margin-top: -8px;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-list .item
+{
+    border-width: 0;
+    padding-left: 24px;
+    font-size: 14px;
+    color: #777;
+    padding-top: 4px;
+    padding-bottom: 3px;
+    cursor: pointer;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-list .item-hover
+{
+    background-color: #F2F2F2;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-list .item-selected
+{
+    /*background-color: $corpOrangeColorHover;*/
+    color: white;
+    background-color: #cccaca;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-list .new-item::after
+{
+    content: 'new';
+    display: inline-block;
+    float: right;
+    margin-right: 22px;
+    padding: 0 2px 2px;
+    border-radius: 3px;
+    background-color: #F78119;
+    color: white;
+    font-family: "Segoe UI", "Helvetica Neue", Helvetica, "Droid Sans", Tahoma, Geneva, sans-serif;
+    font-size: 13px;
+}
+.dxFirefox .dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-list .new-item::after
+{
+    margin-top: -20px;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-list .dxlbd
+{
+    overflow: visible !important;
+    height: auto !important;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-list .item img,
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .show-all-themes-button img
+{
+    padding-right: 8px;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .show-all-themes-button
+{
+    background: white;
+    border-width: 0;
+    /*border-top: 1px $darkGrayBorderColor solid;*/
+    padding: 10px 0 10px 24px;
+    font: 14px "Segoe UI", "Helvetica Neue", Helvetica, "Droid Sans", Tahoma, Geneva, sans-serif;
+    color: #666;
+    box-shadow: 0px 2px 10px 0 rgba(0,0,0,0.1);
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .show-all-themes-button .dxb
+{
+    padding: 0;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .show-all-themes-button img
+{
+    height: 14px;
+    width: 14px;
+    padding-right: 10px;
+    margin-left: 2px;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-parameters-container
+{
+    padding: 16px 24px 20px;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-parameters-container .themes-parameters-caption
+{
+    padding-top: 18px;
+    padding-bottom: 14px;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-parameters-container .themes-parameters-editor
+{
+    width: 100%;
+    padding: 4px;
+    border-radius: 2px;
+    border-color: #E8E8E8;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-parameters-container .themes-parameters-editor input
+{
+    font: 14px "Segoe UI", "Helvetica Neue", Helvetica, "Droid Sans", Tahoma, Geneva, sans-serif;
+    color: #777;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-parameters-container .themes-parameters-editor .themes-parameters-button-edit
+{
+    background: white;
+    border-width: 0;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-parameters-container .themes-parameters-editor .dxic
+{
+    padding-left: 8px;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-parameters-container .themes-parameters-listbox
+{
+    font: 14px "Segoe UI", "Helvetica Neue", Helvetica, "Droid Sans", Tahoma, Geneva, sans-serif;
+    color: #666;
+    border-color: #b7b7b7;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-parameters-container .themes-parameters-listbox img
+{
+    padding-right: 5px;
+    padding-left: 4px;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-parameters-container .themes-parameters-editor.font-editor td:not(.themes-parameters-button-edit) img
+{
+    margin-top: 3px;
+    padding-right: 1px;
+    padding-left: 5px;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-parameters-container .font-editor img.icon.font
+{
+    font-size: 15px;
+    min-width: 18px;
+    min-height: 18px;
+    padding-right: 0;
+    margin-top: 1px;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-parameters-container .font-editor .dxeI
+{
+    padding-left: 8px;
+}
+.dxpnlControl.theme-settings-panel .theme-settings-panel-content .themes-parameters-container .font-editor .dxeButtonLeft
+{
+    padding: 2px 0 0 4px;
+    cursor: text;
+}
+.control-section-margin-bottom
+{
+    margin-bottom: 20px;
+}
+main h1, main h2
+{
+    font-family: "Segoe UI", "Helvetica Neue", Helvetica, "Droid Sans", Tahoma, Geneva, sans-serif;
+    margin-top: 0;
+    color: black;
+}
+main h1
+{
+    margin-bottom: 15px;
+    font-size: 24px;
+    font-weight: 400;
+}
+@media (min-width: 1200px)
+{
+    main h1
+    {
+        margin-bottom: 35px;
+    }
+}
+main h2
+{
+    margin-top: 24px;
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: 600;
+}
+main .control-section
+{
+    padding-bottom: 20px;
+    border-bottom: 1px #F4F4F4 solid;
+    position: relative;
+}
+main .control-section.background
+{
+    z-index: 1;
+}
+main .control-section .header-wrapper
+{
+    box-sizing: border-box;
+    padding-top: 25px;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+@media (min-width: 1200px)
+{
+    main .control-section .header-wrapper
+    {
+        padding-left: 32px;
+        padding-right: 32px;
+    }
+}
+main .control-section .header-wrapper h1
+{
+    display: inline-block;
+}
+main .control-section .header-wrapper .top-right-menu-region
+{
+    margin-bottom: 20px;
+    padding: 0 14px 10px;
+    border-radius: 3px;
+    box-shadow: 0px 2px 6px 0 rgba(0,0,0,0.18);
+}
+@media (min-width: 1200px)
+{
+    main .control-section .header-wrapper .top-right-menu-region
+    {
+        float: right;
+    }
+}
+main .control-section .header-wrapper .top-right-menu-region a
+{
+    display: inline-block;
+    margin: 10px 16px 0 0;
+    color: #777;
+    text-decoration: none;
+}
+main .control-section .header-wrapper .top-right-menu-region a:last-child
+{
+    margin-right: 0;
+}
+main .control-area
+{
+    display: inline-block;
+    box-sizing: border-box;
+    width: 100%;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 16px;
+    padding-top: 5px;
+}
+@media (min-width: 1200px)
+{
+    main .control-area
+    {
+        padding-left: 32px;
+        padding-right: 32px;
+    }
+}
+main .control-area .dxtcAligned
+{
+    float: none;
+}
+main .control-area .dxtcAligned .dxdvControl .dxdvItem
+{
+    white-space: nowrap;
+    padding-right: 18px !important;
+}
+main .control-area .dxpcLite_Material:not(.dx-dialog):not(.dxdi-toolbox) .dxgvTable_Material
+{
+    box-shadow: none;
+}
+main .control-area .dxpcLite_Material:not(.dx-dialog):not(.dxdi-toolbox) .dxgvStatusBar_Material
+{
+    border-top: 0;
+}
+main .control-area .dxpcLite_Material:not(.dx-dialog):not(.dxdi-toolbox) .dxpc-content:not(.dxr-minPopupWindow):not(.dxsc-toolbar .dxpc-content)
+{
+    padding: 9px 12px 0 12px;
+}
+main .control-area .dxpcLite_MaterialCompact:not(.dx-dialog):not(.dxdi-toolbox) .dxgvTable_MaterialCompact
+{
+    box-shadow: none;
+}
+main .control-area .dxpcLite_MaterialCompact:not(.dx-dialog):not(.dxdi-toolbox) .dxgvStatusBar_MaterialCompact
+{
+    border-top: 0;
+}
+main .control-area .dxpcLite_MaterialCompact:not(.dx-dialog):not(.dxdi-toolbox) .dxpc-content:not(.dxr-minPopupWindow):not(.dxsc-toolbar .dxpc-content)
+{
+    padding: 9px 12px 0 12px;
+}
+main .control-area .dxpcLite_Office365:not(.dx-dialog):not(.dxdi-toolbox) .dxgvTable_Office365
+{
+    box-shadow: none;
+}
+main .control-area .dxpcLite_Office365:not(.dx-dialog):not(.dxdi-toolbox) .dxgvStatusBar_Office365
+{
+    border-top: 0;
+}
+main .control-area .dxpcLite_Office365:not(.dx-dialog):not(.dxdi-toolbox) .dxpc-content:not(.dxr-minPopupWindow):not(.dxsc-toolbar .dxpc-content)
+{
+    padding: 9px 12px 0 12px;
+}
+main .control-area .dxpcLite_Office365 .dxpc-header
+{
+    border-bottom: none;
+}
+main .control-area .info-panel
+{
+    color: Black;
+    background: #fffbba;
+    margin: 10px 0 5px;
+    padding: 10px;
+    border: 1px solid #bbb;
+}
+main .demo-info
+{
+    margin-right: 16px;
+}
+@media (min-width: 1200px)
+{
+    main .demo-info
+    {
+        margin-right: 32px;
+    }
+}
+main .demo-info .info-panel
+{
+    color: Black;
+    background: #fffbba;
+    padding: 10px;
+    border: 1px solid #bbb;
+    margin-top: 10px;
+    margin-bottom: 24px;
+    margin-left: 16px;
+}
+@media (min-width: 1200px)
+{
+    main .demo-info .info-panel
+    {
+        margin-left: 32px;
+    }
+}
+main .tabs-section .page-control
+{
+    display: block;
+    font: 14px "Segoe UI", "Helvetica Neue", Helvetica, "Droid Sans", Tahoma, Geneva, sans-serif;
+}
+main .tabs-section .page-control .dxtc-stripContainer
+{
+    position: relative;
+    box-shadow: 0px 2px 10px 0 rgba(0,0,0,0.08);
+}
+main .tabs-section .page-control .tab
+{
+    padding-bottom: 4px;
+    border-width: 0;
+    background: white;
+}
+main .tabs-section .page-control .tab.tab-active
+{
+    padding-bottom: 0;
+    border-bottom: 4px #F78119 solid;
+}
+main .tabs-section .page-control .tab .dxtc-link
+{
+    padding-top: 20px;
+    padding-bottom: 8px;
+}
+main .tabs-section .page-control .dxtc-spacer,
+main .tabs-section .page-control .dxtc-sbIndent,
+main .tabs-section .page-control .dxtc-sbWrapper
+{
+    border-width: 0;
+}
+main .tabs-section .page-control .dxtc-sbIndent
+{
+    width: 16px;
+}
+@media (min-width: 1200px)
+{
+    main .tabs-section .page-control .dxtc-sbIndent
+    {
+        width: 32px;
+    }
+}
+main .tabs-section .page-control .dxtc-sb
+{
+    padding: 26px;
+    border-width: 0;
+    background: #E8E8E8;
+}
+main .tabs-section .page-control .tabs-content
+{
+    border-width: 0;
+    margin-bottom: 11px;
+    padding: 0;
+    overflow-x: auto;
+}
+main .tabs-section .page-control .tabs-content > div,
+main .tabs-section .page-control .tabs-content > div > div
+{
+    height: auto;
+}
+main .tabs-section .page-control .CodeBlock.ASPX .NotHighlightedBlock
+{
+    filter: progid:DXImageTransform.Microsoft.Alpha(Style=0, Opacity=40);
+    opacity: 0.4;
+}
+main .tabs-section .page-control .code
+{
+    background-color: #F7F7F7;
+    font-family: monospace;
+    white-space: nowrap;
+}
+@media (min-width: 750px)
+{
+    main .tabs-section .page-control .code
+    {
+        white-space: normal;
+    }
+}
+main .code,
+main .description-section
+{
+    padding-right: 16px;
+    padding-left: 16px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+@media (min-width: 1200px)
+{
+    main .code,
+    main .description-section
+    {
+        padding-left: 32px;
+        padding-right: 32px;
+    }
+}
+main .code h2,
+main .description-section h2
+{
+    margin-top: 15px;
+}
+main .description-section
+{
+    padding-top: 24px;
+}
+main .description-section p,
+main .description-section ul
+{
+    color: #777;
+}
+main .intro-wrapper
+{
+    padding: 25px 16px 0;
+}
+@media (min-width: 1200px)
+{
+    main .intro-wrapper
+    {
+        padding: 25px 32px;
+    }
+}
+main .intro-wrapper h1
+{
+    color: #888;
+    margin-bottom: 0;
+}
+@media (min-width: 800px)
+{
+    main .intro-wrapper h1
+    {
+        margin-bottom: 20px;
+        color: black;
+    }
+}
+@media (min-width: 1200px)
+{
+    main .intro-wrapper h1
+    {
+        margin-bottom: 40px;
+    }
+}
+main .intro-wrapper hr
+{
+    margin-top: 32px;
+    margin-bottom: 24px;
+}
+@media (min-width: 800px)
+{
+    main .intro-wrapper hr
+    {
+        margin-bottom: 32px;
+    }
+}
+main .intro-wrapper hr.video-separator
+{
+    margin-top: 28px;
+}
+@media (min-width: 800px)
+{
+    main .intro-wrapper hr.video-separator
+    {
+        margin-top: 32px;
+    }
+}
+main .intro-wrapper .main-description
+{
+    margin-bottom: 46px;
+    font-size: 16px;
+    max-width: 1280px;
+}
+main .intro-wrapper h2
+{
+    font-size: 16px;
+}
+@media (min-width: 800px)
+{
+    main .intro-wrapper .video-item-wrapper
+    {
+        margin-bottom: 36px;
+    }
+}
+@media (min-width: 800px)
+{
+    main .intro-wrapper .featured-demo-item-wrapper
+    {
+        margin-bottom: 50px;
+    }
+    main .intro-wrapper .featured-demo-item-wrapper:last-child
+    {
+        margin-bottom: 0;
+    }
+}
+@media (min-width: 800px)
+{
+    main .intro-wrapper .video-item,
+    main .intro-wrapper .featured-demo-item
+    {
+        vertical-align: top;
+    }
+}
+main .intro-wrapper .video-item h2,
+main .intro-wrapper .featured-demo-item h2
+{
+    font-size: 20px;
+}
+main .intro-wrapper .video-item h2 a,
+main .intro-wrapper .featured-demo-item h2 a
+{
+    color: #444;
+    text-decoration: none;
+}
+main .intro-wrapper .video-item h2 a:hover,
+main .intro-wrapper .featured-demo-item h2 a:hover
+{
+    text-decoration: underline;
+}
+main .intro-wrapper .video-item > h2,
+main .intro-wrapper .featured-demo-item > h2
+{
+    margin-bottom: 20px;
+}
+@media (min-width: 800px)
+{
+    main .intro-wrapper .video-item > h2,
+    main .intro-wrapper .featured-demo-item > h2
+    {
+        display: none;
+    }
+}
+main .intro-wrapper .video-item > a,
+main .intro-wrapper .video-item .annotation,
+main .intro-wrapper .featured-demo-item > a,
+main .intro-wrapper .featured-demo-item .annotation
+{
+    display: inline-block;
+    width: auto;
+}
+@media (min-width: 800px)
+{
+    main .intro-wrapper .video-item > a,
+    main .intro-wrapper .video-item .annotation,
+    main .intro-wrapper .featured-demo-item > a,
+    main .intro-wrapper .featured-demo-item .annotation
+    {
+        vertical-align: top;
+    }
+}
+main .intro-wrapper .video-item > a,
+main .intro-wrapper .featured-demo-item > a
+{
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0px 2px 8px 0 rgba(0,0,0,0.24);
+}
+@media (min-width: 800px)
+{
+    main .intro-wrapper .video-item > a,
+    main .intro-wrapper .featured-demo-item > a
+    {
+        height: 200px;
+        width: 320px;
+    }
+}
+main .intro-wrapper .video-item > a img:first-child,
+main .intro-wrapper .featured-demo-item > a img:first-child
+{
+    width: 100%;
+}
+@media (min-width: 800px)
+{
+    main .intro-wrapper .video-item > a img:first-child,
+    main .intro-wrapper .featured-demo-item > a img:first-child
+    {
+        width: auto;
+        height: 100%;
+    }
+}
+main .intro-wrapper .video-item > a .play-button,
+main .intro-wrapper .featured-demo-item > a .play-button
+{
+    display: block;
+    position: absolute;
+    width: 100px;
+    margin: -50px;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    box-shadow: 0px 6px 12px 0 rgba(0,0,0,0.24);
+    transition: box-shadow 0.3s, top 0.3s;
+}
+@media (min-width: 800px)
+{
+    html:not(.dxTouchUI) main .intro-wrapper .video-item > a:hover .play-button, html:not(.dxTouchUI)
+    main .intro-wrapper .featured-demo-item > a:hover .play-button
+    {
+        top: 45%;
+        box-shadow: 0px 16px 12px 1px rgba(0,0,0,0.24);
+    }
+}
+main .intro-wrapper .video-item .annotation,
+main .intro-wrapper .featured-demo-item .annotation
+{
+    box-sizing: border-box;
+    margin-top: 16px;
+}
+@media (min-width: 800px)
+{
+    main .intro-wrapper .video-item .annotation,
+    main .intro-wrapper .featured-demo-item .annotation
+    {
+        margin-top: 0;
+        padding-left: 48px;
+        width: calc(100% - 320px);
+        max-width: 960px;
+    }
+}
+main .intro-wrapper .video-item .annotation h2,
+main .intro-wrapper .featured-demo-item .annotation h2
+{
+    display: none;
+}
+@media (min-width: 800px)
+{
+    main .intro-wrapper .video-item .annotation h2,
+    main .intro-wrapper .featured-demo-item .annotation h2
+    {
+        margin-top: 0;
+        display: block;
+    }
+}
+main .intro-wrapper .video-item .annotation a.see-demo,
+main .intro-wrapper .featured-demo-item .annotation a.see-demo
+{
+    display: inline-block;
+    margin: 20px 0 0;
+    padding: 4px 15px 6px;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: white;
+    background-color: #F78119;
+    transition: box-shadow 0.3s, margin 0.3s;
+    box-shadow: 0px 4px 12px 0 rgba(0,0,0,0.24);
+}
+@media (min-width: 800px)
+{
+    main .intro-wrapper .video-item .annotation a.see-demo,
+    main .intro-wrapper .featured-demo-item .annotation a.see-demo
+    {
+        margin-top: 20px;
+    }
+    html:not(.dxTouchUI) main .intro-wrapper .video-item .annotation a.see-demo:hover, html:not(.dxTouchUI)
+    main .intro-wrapper .featured-demo-item .annotation a.see-demo:hover
+    {
+        margin-top: 18px;
+        box-shadow: 0px 8px 12px 1px rgba(0,0,0,0.24);
+        margin-bottom: 2px;
+    }
+}
+main .intro-wrapper .video-item h2
+{
+    margin-top: 0;
+}
+main .intro-wrapper .featured-demo-item > a
+{
+    top: 0;
+    transition: box-shadow 0.3s, top 0.3s;
+}
+@media (min-width: 800px)
+{
+    html:not(.dxTouchUI) main .intro-wrapper .featured-demo-item > a:hover
+    {
+        top: -4px;
+        box-shadow: 0px 5px 14px 2px rgba(0,0,0,0.2);
+    }
+}
+@media (min-width: 800px)
+{
+    main .intro-wrapper hr:not(.video-separator)
+    {
+        display: none;
+    }
+}
+main .demo-options
+{
+    width: 100% !important;
+    max-width: 880px;
+    margin-top: 54px;
+    /*@media (max-width: 1000px)
+        
+       {
+            .dxflGroup_MaterialCompact .dxflElConSys > div 
+            
+           {
+                width: 50% !important;
+            }
+        }*/
+}
+main .demo-options .dxflGroupBoxCaption_MaterialCompact,
+main .demo-options .dxeBase_MaterialCompact,
+main .demo-options.dxflFormLayout_MaterialCompact .dxflCaption_MaterialCompact
+{
+    color: #777;
+}
+main .demo-options .dxflGroupBoxCaption_MaterialCompact
+{
+    left: 0;
+}
+main .demo-options .dxflGroup_MaterialCompact
+{
+    padding-left: 0;
+    padding-right: 0;
+}
+main .demo-options .dxflGroupCell_MaterialCompact
+{
+    padding-left: 8px;
+}
+main .options-top-container
+{
+    margin-bottom: 32px;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+@media (min-width: 1200px)
+{
+    main .options-top-container
+    {
+        padding-left: 32px;
+        padding-right: 32px;
+    }
+}
+main .options-top-container .options .options-item
+{
+    display: inline-block;
+    vertical-align: top;
+    padding: 3px 36px 3px 0;
+}
+main .options-container
+{
+    display: inline-block;
+    box-sizing: border-box;
+    vertical-align: top;
+    box-shadow: 0px 2px 10px 0 rgba(0,0,0,0.1);
+    overflow: hidden;
+    margin-top: 5px;
+}
+main .options-container.bottom-block
+{
+    width: 100% !important;
+    margin-top: 16px;
+}
+main .options-container .form-layout .group
+{
+    padding: 0;
+}
+main .options-container .form-layout > .group > * > .cell
+{
+    padding: 0;
+    border: 1px solid #e8e8e8;
+}
+main .options-container .form-layout .cell, main .options-container .form-layout .group-box-caption
+{
+    padding: 0 16px;
+}
+@media (min-width: 1200px)
+{
+    main .options-container .form-layout .cell, main .options-container .form-layout .group-box-caption
+    {
+        padding: 0 32px;
+    }
+}
+main .options-container .form-layout .group-box
+{
+    border: none;
+    margin-top: 6px !important;
+}
+main .options-container .form-layout .item-caption
+{
+    color: #666;
+}
+main .options-container .form-layout > .group > *
+{
+    margin-top: -1px;
+}
+main .options-container.bottom-block .form-layout > .group > * > .cell
+{
+    border-right: none;
+}
+main .options-container.bottom-block .form-layout > .group > .dxflFirstChildSys > .cell,
+main .options-container.bottom-block .form-layout > .group > .dxflNotFloatedElSys > .cell
+{
+    border-left: none;
+}
+main .options-container .form-layout .group-box-caption
+{
+    box-sizing: border-box;
+    left: 0;
+    height: 46px;
+    width: 100%;
+    margin: 0;
+    border-top: 1px solid #F4F4F4;
+    border-bottom: 1px solid #E8E8E8;
+    vertical-align: middle;
+    font-family: "Segoe UI", "Helvetica Neue", Helvetica, "Droid Sans", Tahoma, Geneva, sans-serif;
+    text-transform: initial;
+    line-height: 48px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #444;
+    background-color: transparent;
+}
+main .options-container .form-layout .group-box .dxflHLSys
+{
+    height: 0;
+    border: none;
+}
+main .options-container .form-layout .group-box .group
+{
+    padding: 17px 0 8px;
+    max-width: 1240px;
+}
+main .options-container.bottom-block .form-layout > .group > * > .cell .cell > *
+{
+    max-width: 480px;
+}
+main .options-container .apply-button-container
+{
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 16px;
+    padding-right: 16px;
+    text-align: right;
+    border: 1px solid #E8E8E8;
+    border-top-width: 0;
+}
+@media (min-width: 1200px)
+{
+    main .options-container .apply-button-container
+    {
+        padding-left: 32px;
+        padding-right: 32px;
+        max-width: 1176px;
+    }
+}
+main .options-container.bottom-block .apply-button-container
+{
+    border-width: 0;
+}
+.footer-text
+{
+    margin-bottom: 20px;
+    padding: 0 16px;
+    text-align: left;
+    font-size: 12px;
+}
+.root-intro .footer-text
+{
+    padding: 0;
+}
+@media (min-width: 1200px)
+{
+    .footer-text
+    {
+        padding: 0 32px;
+    }
+}
+.footer-text h2
+{
+    font-size: 14px;
+    color: #666;
+    font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.footer-text b
+{
+    font-weight: 600;
+}
+.footer-text p
+{
+    margin: 0;
+}
+.footer-text p + p
+{
+    margin-top: 10px;
+}
+.footer-text hr
+{
+    margin: 0 0 0 0;
+}
+.footer-text a
+{
+    color: #777;
+}
+.ErrorContainer
+{
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 32px 16px;
+    width: 100%;
+    max-width: 780px;
+    background-color: #F7F7F7;
+    border: 1px solid #DBDBDB;
+}
+@media (min-width: 780px)
+{
+    .ErrorContainer
+    {
+        margin-top: 100px;
+        margin-bottom: 100px;
+        padding: 46px 58px;
+    }
+}
+.ErrorContainer .MainMessage
+{
+    font-size: 24px;
+}
+.ErrorContainer .Details
+{
+    font-size: 16px;
+    margin-top: 35px;
+    margin-bottom: 10px;
+}
+.ErrorContainer .Details p
+{
+    margin-bottom: 12px;
+}
+.ErrorContainer .ProductsView
+{
+    margin: 0px;
+    margin-top: 32px;
+    margin-bottom: 24px;
+}
+.ErrorContainer .ProductsView td
+{
+    padding: 0px;
+}
+.ErrorContainer .ProductsView .Product
+{
+    background: none;
+    border-style: none;
+    padding: 6px 0;
+    height: 16px;
+}
+.ErrorContainer .ProductsView .EmptyProduct
+{
+    height: 16px;
+    width: 285px;
+}
+.ErrorContainer .ProductsView a
+{
+    font-size: 14px;
+    text-decoration: none;
+}
+.ErrorContainer .ProductsView a:hover
+{
+    text-decoration: underline;
+}
+.error-page-footer
+{
+    max-width: 1000px;
+}
+.responsive-text
+{
+    max-width: 980px;
+}
+hr
+{
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #E8E8E8;
+    margin: 1em 0;
+    padding: 0;
+    margin: 32px 0 32px 0;
+}
+.copyButton
+{
+    background-color: #FFF;
+    background-image: none;
+    border: 0;
+    border-radius: 50%;
+    box-shadow: 0px 4px 16px 0 rgba(0,0,0,0.16);
+    height: 46px;
+    margin-top: -61px;
+    position: absolute;
+    right: 30px;
+    width: 46px !important;
+    z-index: 0;
+}
+.copyButton::before
+{
+    position: absolute;
+    margin: 9px;
+    z-index: 1;
+    left: 0;
+    top: 0;
+}
+.copyButton::after
+{
+    background-color: transparent;
+    border-radius: 50%;
+    content: "";
+    display: inline-block;
+    display: inline-block;
+    position: absolute;
+    height: 0;
+    width: 0;
+    left: 23px;
+    top: 23px;
+    transition: all 0.3s;
+    z-index: 0;
+}
+.copyButton:hover::after
+{
+    height: 46px;
+    width: 46px;
+    background-color: #F78119;
+    transition: all 0.3s;
+    left: 0;
+    top: 0;
+}
+.pdfViewer-border
+{
+    border: 1px solid #E8E8E8;
+    box-shadow: 0px 2px 10px 0 rgba(0,0,0,0.1);
+}
+.richEditPreviewFrame-border
+{
+    border: 1px solid #E8E8E8;
+    box-shadow: 0px 2px 10px 0 rgba(0,0,0,0.1);
+}
+.spreadsheetDocumentDownloader-Options-label
+{
+    width: 130px;
+}
+.richEditDocumentDownloader-combobox
+{
+    width: 150px;
+    margin-right: 36px;
+}
+.description-section .shortcut
+{
+    display: inline-block;
+    text-align: center;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    background: #f3f3f3;
+    width: 65px;
+    height: 21px;
+    padding-top: 2px;
+    margin-bottom: 3px;
+}
+.description-section .shortcut.navigation-shortcut
+{
+    width: 31px;
+}
+.description-section .shortcuts-block
+{
+    width: 400px;
+    padding-bottom: 9px;
+    padding-right: 30px;
+    float: left;
+}
+.description-section .shortcut b
+{
+    font-size: 14px;
+}
+.dxs-splitter,
+.dxs-splitter .dxs-contentPane,
+.dxs-splitter .dxs-resizePane
+{
+    background-color: transparent;
+}
+.copyLink
+{
+    color: #F78119;
+    font-size: 14px;
+    text-decoration: none;
+    padding: 5px 5px 5px 5px !important;
+}
+.copyLink:hover
+{
+    background-color: #F78119 !important;
+    color: white !important;
+}
+.copyLink:active
+{
+    background-color: #DB6307 !important;
+}
+.copyContainer
+{
+    position: absolute;
+    right: 0;
+    margin-top: 0px;
+    padding-right: 10px;
+}
+.localDemoContainer
+{
+    border-top: 1px solid #e8e8e8;
+}
+.localDemoContainer .btnOpenSolution
+{
+    background-color: #009688;
+    -moz-box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
+    -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    padding: 1px;
+    font: 14px 'Roboto Medium', Helvetica, 'Droid Sans', Tahoma, Geneva, sans-serif;
+    -webkit-transition-property: box-shadow, background-color;
+    -moz-transition-property: box-shadow, background-color;
+    -o-transition-property: box-shadow, background-color;
+    transition-property: box-shadow, background-color;
+    -webkit-transition-duration: .3s;
+    -moz-transition-duration: .3s;
+    -o-transition-duration: .3s;
+    transition-duration: .3s;
+    -webkit-transition-timing-function: ease-out;
+    -moz-transition-timing-function: ease-out;
+    -o-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+    -webkit-tap-highlight-color: transparent;
+    background: #ffffff;
+    border-color: transparent;
+    color: #666666;
+    margin-left: 2px;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    margin-right: 10px;
+}
+.localDemoContainer .btnOpenSolution:hover
+{
+    box-shadow: 0px 5px 6px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 5px 6px rgba(0,0,0,0.2);
+    -webkit-box-shadow: 0px 5px 6px rgba(0,0,0,0.2);
+    background-color: #E8E8E8;
+}
+.localDemoContainer .btnOpenSolution > div
+{
+    padding: 0px 0px 0px 0px;
+}
+.localDemoContainer .btnOpenSolution:active
+{
+    background-color: #D5D5D5;
+}
+.localDemoContainer .localDemoPanel
+{
+    border: none !important;
+    background: none !important;
+    background-color: white !important;
+    padding-left: 0px !important;
+    padding-top: 10px;
+}
+.localDemoContainer .localDemoPanel .dxrpcontent
+{
+    border: none !important;
+    background: none !important;
+    background-color: white !important;
+    padding-left: 46px;
+}
+.localDemoContainer .headerExpandCollapseButton
+{
+    float: left;
+    margin-left: 0px;
+    margin-right: 14px;
+}
+.localDemoContainer .expandButtonImage
+{
+    background-image: url(../Content/arrowDown.svg);
+}
+.localDemoContainer .collapseButtonImage
+{
+    background-image: url(../Content/arrowUp.svg);
+}
+.localDemoContainer .headerImage
+{
+    background-size: 32px 32px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    width: 32px;
+    height: 32px;
+}
+.localDemoContainer .localDemoPanelContent
+{
+    color: #666 !important;
+    font: 14px "Segoe UI", "Helvetica Neue", Helvetica, "Droid Sans", Tahoma, Geneva, sans-serif !important;
+}
+.localDemoContainer .headerTitleText
+{
+    font-weight: 600;
+    font-size: 14px;
+}

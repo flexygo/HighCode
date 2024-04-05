@@ -72,6 +72,7 @@ var flexygo;
                 chatter: 'Chatter',
                 users: 'Usuarios',
                 roles: 'Roles',
+                processes: 'Procesos',
             };
             eses.history = {
                 historyempty: 'Histórico de navegación vacio',
@@ -294,6 +295,7 @@ var flexygo;
                 savefilter: 'Guardar filtro',
                 selectfilterfirst: 'Seleccione un filtro primero',
                 save: 'Guardar',
+                pagerInfo: 'Página-de-Total'
             };
             eses.flxmail = {
                 nomails: 'No se encontró ningún correo ',
@@ -318,6 +320,7 @@ var flexygo;
                 edit: 'Editar',
                 view: 'Ver',
                 print: 'Imprimir',
+                printing: 'Imprimiendo',
                 printpage: 'Imprimir página',
                 printmodule: 'Imprimir módulo',
                 help: 'Ayuda',
@@ -425,6 +428,7 @@ var flexygo;
             };
             eses.upload = {
                 uploaded: 'Subido',
+                someerror: 'ficheros han fallado al subirlos',
                 error: 'Error de subida',
                 info: 'Arrastra para subir',
                 extension: 'Extensión de fichero no aceptado.',
@@ -502,12 +506,15 @@ var flexygo;
                 fromnewtable: 'Desde una tabla nueva',
                 selectcnnstring: 'Seleccione la cadena de conexión',
                 validcnnstring: 'Debe seleccionar una cadena de conexión',
+                selectschema: 'Seleccione el esquema de base de datos',
+                validschema: 'Debe seleccionar un esquema',
                 selecttable: 'Seleccione un origen',
                 validorigin: 'Indique un origen válido',
                 newtablename: 'Nombre de la tabla nueva',
                 validnewtablename: 'Introduzca el nombre de la nueva tabla',
                 viewkeyfields: 'Campos clave de la vista',
-                validviewkeyfields: 'Introduzca los campos clave',
+                tablekeyfields: 'Campos clave de la tabla',
+                validkeyfields: 'Introduzca los campos clave',
                 savecontinue: 'Guardar y Continuar',
                 continue: 'Continuar',
                 listtemplate: 'Plantilla de lista',
@@ -546,6 +553,7 @@ var flexygo;
                 save: 'Guardar',
                 close: 'Cerrar',
                 hasdefinition: 'Revise en la tabla la propiedad:',
+                valueTemplate: 'Valor',
             };
             eses.flxversioninfo = {
                 currentversion: 'Versión actual ({{CurrentVersion}}).',
@@ -724,6 +732,7 @@ var flexygo;
             eses.offlineemulator = {
                 ios: 'Cambiar a modo iOS',
                 md: 'Cambiar a modo Android',
+                refreshemulatorconfirm: '¿Está seguro de que quiere limpiar todos los datos del emulador?',
             };
             eses.combobuilder = {
                 datasource: 'Origen de datos',
@@ -855,6 +864,58 @@ var flexygo;
                 infoDownload: "Los archivos se comprimirán en un zip y serán descargados",
                 generate: "Generar archivos",
                 download: "Descargar archivos"
+            };
+            eses.flxcode = {
+                readonlyMode: 'No puedes editar en modo vista',
+                propertyLocked: 'Propiedad bloqueada'
+            };
+            eses.validateform = {
+                required: "Este campo es requerido.",
+                remote: "Por favor rellene este campo.",
+                email: "Por favor introduzca un mail válido.",
+                url: "Por favor introduzca una URL válida.",
+                date: "Por favor introduzca una fecha válida.",
+                dateISO: "Por favor introduzca una fecha válida ( ISO ).",
+                number: "Por favor introduzca un número válido.",
+                digits: "Por favor introduzca sólo dígitos.",
+                equalTo: "Por favor introduzca el mismo valor.",
+                maxlength: "Por favor no introduzca más de {0} caracteres.",
+                minlength: "Por favor introduzca al menos {0} characters.",
+                rangelength: "Por favor introduzca entre {0} y {1} caracteres.",
+                range: "Por favor introduzca un valore entre {0} y {1}.",
+                max: "Por favor introduzca un valor menor o igual a {0}.",
+                min: "Por favor introduzca un valor mayor o igual a {0}.",
+                step: "Por favor introduzca un múltiplo de {0}."
+            };
+            eses.flxrelationship = {
+                invalidSintaxis: 'Algunas relaciones no tenian una sintaxis valida',
+                invalidProperties: 'No existen las propiedades seleccionadas en la relación',
+                zoomInButton: 'Acercarse',
+                zoomOutButton: 'Alejarse',
+                suggestionsButton: 'Relaciones Sugeridas',
+                clearButton: 'Limpiar Relaciones',
+            };
+            eses.originSelector = {
+                title: 'Selecciona el origen sobre el que deseas trabajar:'
+            };
+            eses.flxai = {
+                beginMessage: '¡Hola!\n¿Cómo puedo ayudarte?',
+                alertInfoMessage: 'No tienes, configurado el Berear Token, por favor revisa la documentación.',
+                settingNotFound: 'La configuracion del asistente con SettindId "{0}" no se ha podido obtener'
+            };
+            eses.excelExport = {
+                title: 'Elige los campos que quieres mostrar en el excel',
+                generate: 'Generar Excel',
+                generated: 'El excel se ha generado correctamente',
+                selectall: 'Seleccionar todo',
+                deselectall: 'Desmarcar todo'
+            };
+            eses.comboTexts = {
+                addValue: 'Añadir valor',
+                warningMessage: '<p>¿Estás seguro de que quieres guardar? con estos datos también se guardaran nuevos registros en:</p><b class="txt-info">@</b>'
+            };
+            eses.utils = {
+                loading: 'Cargando'
             };
         })(eses = culture.eses || (culture.eses = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

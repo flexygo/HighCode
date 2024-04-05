@@ -176,6 +176,7 @@ declare namespace flexygo.ui.wc {
         * @method render
         */
         render(): void;
+        setColResizable(tbl: JQuery): void;
         /**
         *Processes dependency loading
         * @method processLoadDependencies
@@ -319,7 +320,16 @@ declare namespace flexygo.ui.wc {
        */
         flxTranslate(str: string): string;
         _getButton(btn: flexygo.api.ToolbarButton, objectname: string, objectwhere: string, objectdefaults: string): JQuery;
-        _getTemplateButton(json: any, typeId: string, IconClass: string, Text: string, TargetId: string): string;
+        _getTemplateButton(json: any, typeId: string, IconClass: string, Text: string, TargetId: string, buttonId?: string): string;
+        /**
+        * This function adjusts the visibility of a button based on the presence or absence of a license.
+        * @method _setButtonVisibilityByLicense
+        * @param {string} buttonId - The unique identifier of the button.
+        * @param {string} modulelicense - The name of the module license.
+        * @param {any} context - Whether the function is called within a template (json) or during an edit (ObjectName).
+        * @param {boolean} inTemplate - A boolean value specifying whether the button is within a template
+        */
+        _setButtonVisibilityByLicense(buttonId: any, modulelicense: any, context: any, inTemplate: any): any;
         /**
         *Gets value from property
         * @method getValue
@@ -341,6 +351,6 @@ declare namespace flexygo.ui.wc {
         setFocus(me: JQuery, listItem: flexygo.ui.wc.FlxListElement, e: JQueryEventObject): void;
     }
     function clearRow(list: JQuery, btn: JQuery): void;
-    function saveRow(objectName: string, objectWhere: string, list: JQuery, btn: JQuery, msg?: boolean): void;
+    function saveRow(objectName: string, objectWhere: string, list: JQuery, btn: JQuery, msg?: boolean, lastProcessName?: string, lastAfterProcessName?: string): boolean;
 }
 declare let ev: any;

@@ -128,7 +128,7 @@ var flexygo;
                     });
                 }
                 basicInformationPane() {
-                    let me = $(this);
+                    let me = this;
                     let pnl = this.addPane('1', flexygo.localization.translate('objectmanager.basicinfo'));
                     let form = $('<form novalidate="novalidate"></form>');
                     pnl.append(form);
@@ -178,16 +178,19 @@ var flexygo;
                     fila = $('<div class="row onlyNew"><legend>' + flexygo.localization.translate('objectmanager.datasource') + '</legend></div>');
                     form.append(fila);
                     fila = $('<div class="row onlyNew">');
-                    let btns = $('<div style="padding-bottom:10px;"><div class="btn-group" role="origin" /></div>');
+                    let btns = $('<div style="padding-bottom:10px;"><div class="btn-group datasource" role="origin" /></div>');
                     fila.append(btns);
                     btns = btns.find('.btn-group');
-                    btns.append('<button type="button" class="btn btn-success" name="btn-table"><i class="flx-icon icon-listbox-2" />' + flexygo.localization.translate('objectmanager.fromtable') + '</button>');
+                    btns.append('<button type="button" class="btn activeTab" name="btn-table"><i class="flx-icon icon-listbox-2" />' + flexygo.localization.translate('objectmanager.fromtable') + '</button>');
                     btns.append('<button type="button" class="btn btn-default" name="btn-view"><i class="flx-icon icon-sql" /> ' + flexygo.localization.translate('objectmanager.fromview') + '</button>');
                     btns.append('<button type="button" class="btn btn-default" name="btn-newtable"><i class="flx-icon icon-sql" /> ' + flexygo.localization.translate('objectmanager.fromnewtable') + '</button>');
-                    fila.append('<span><flx-dbcombo class="size-l" name="cnnstring" onChange="$(\'#tablename\').val(\'\');" PlaceHolder="' + flexygo.localization.translate('objectmanager.selectcnnstring') + '" iconClass="flx-icon icon-sql" ObjectName="SysObject" ViewName="CnnStrings" SQLValueField="ConnStringid" SQLDisplayField="Descrip" required data-msg-required="' + flexygo.localization.translate('objectmanager.validselectcnnstring') + '"></flx-dbcombo></span>');
-                    fila.append('<span><flx-dbcombo class="size-l" name="tablename" id="tablename" PlaceHolder="' + flexygo.localization.translate('objectmanager.selecttable') + '" iconClass="flx-icon icon-sql" ObjectName="SysObject" ViewName="DataTables" SQLValueField="table_name" SQLDisplayField="table_name" data-msg-required="' + flexygo.localization.translate('objectmanager.validorigin') + '"></flx-dbcombo>');
-                    fila.append('<span style="display:none"><flx-text type="ident" name="newtablename" iconClass="flx-icon icon-listbox-2" class="size-l" placeholder="' + flexygo.localization.translate('objectmanager.newtablename') + '" requiredmessage="' + flexygo.localization.translate('objectmanager.validnewtablename') + '"> </flx-text>');
-                    fila.append('<span style="display:none"><flx-tag type="text" name="viewkeyfields" separator="|" iconClass="flx-icon icon-key" class="size-l" placeholder="' + flexygo.localization.translate('objectmanager.viewkeyfields') + '" requiredmessage="' + flexygo.localization.translate('objectmanager.validviewkeyfields') + '"> </flx-text><span>');
+                    let combos = $('<div class="confValues"/>');
+                    combos.append('<span><flx-dbcombo class="size-l" name="cnnstring" PlaceHolder="' + flexygo.localization.translate('objectmanager.selectcnnstring') + '" iconClass="flx-icon icon-sql" ObjectName="SysObject" ViewName="CnnStrings" SQLValueField="ConnStringid" SQLDisplayField="Descrip" required data-msg-required="' + flexygo.localization.translate('objectmanager.validselectcnnstring') + '"><template><span TypeId="{{DbTypeId}}">{{Descrip}}</span></template></flx-dbcombo></span>');
+                    combos.append('<span><flx-dbcombo class="size-l" name="dbschema" id="dbschema" onChange="$(\'#tablename\').val(\'\');" PlaceHolder="' + flexygo.localization.translate('objectmanager.selectschema') + '" iconClass="flx-icon icon-sql" ObjectName="SysObject" SQLValueField="table_schema" SQLDisplayField="table_schema" required data-msg-required="' + flexygo.localization.translate('objectmanager.validschema') + '"/></span>');
+                    combos.append('<span><flx-dbcombo class="size-l" name="tablename" id="tablename" PlaceHolder="' + flexygo.localization.translate('objectmanager.selecttable') + '" iconClass="flx-icon icon-sql" ObjectName="SysObject" SQLValueField="table_name" SQLDisplayField="table_name" data-msg-required="' + flexygo.localization.translate('objectmanager.validorigin') + '"></flx-dbcombo>');
+                    combos.append('<span style="display:none"><flx-text type="ident" name="newtablename" iconClass="flx-icon icon-listbox-2" class="size-l" placeholder="' + flexygo.localization.translate('objectmanager.newtablename') + '" requiredmessage="' + flexygo.localization.translate('objectmanager.validnewtablename') + '"> </flx-text>');
+                    combos.append('<span style="display:none"><flx-tag type="text" name="viewkeyfields" separator="|" iconClass="flx-icon icon-key" class="size-l" placeholder="' + flexygo.localization.translate('objectmanager.viewkeyfields') + '" requiredmessage="' + flexygo.localization.translate('objectmanager.validkeyfields') + '"> </flx-text><span>');
+                    fila.append(combos);
                     form.append(fila);
                     form.find('.flx-icon.icon-image-26').on('click', (e) => {
                         let comboId = e.currentTarget.closest('flx-dbcombo').id;
@@ -214,40 +217,116 @@ var flexygo;
                         //}
                     });
                     form.find('[name="cnnstring"]').on('change', (e) => {
-                        me.find('[name="tablename"]').attr('CnnString', $(e.currentTarget).val());
+                        let DbType = $(me).find('[name="cnnstring"] li.selected span').length > 0 ? $(me).find('[name="cnnstring"] li.selected span').attr("typeid").toLowerCase() : null;
+                        DbType === 'sql' ? $(me).find('[name="dbschema"]').val('dbo') : $(me).find('[name="dbschema"]').val('');
+                        $(me).find('[name="dbschema"]').attr('ViewName', "");
+                        $(me).find('[name="dbschema"]').attr('CnnString', $(e.currentTarget).val());
+                        $(me).find('[name="dbschema"]').attr('ViewName', me.GetViewNameByDbType('dbschema', ''));
+                        $(me).find('[name="tablename"]').val('');
+                        $(me).find('[name="tablename"]').attr('ViewName', "");
+                        $(me).find('[name="tablename"]').attr('CnnString', $(e.currentTarget).val());
+                        DbType === 'sql' && $(me).find('[name="dbschema"]').trigger("change");
+                    });
+                    form.find('[name="dbschema"]').on('change', (e) => {
+                        var _a, _b;
+                        $(me).find('[name="tablename"]').val('');
+                        let DbType = (_b = (_a = $(this).find('[name="cnnstring"] li.selected span')) === null || _a === void 0 ? void 0 : _a.attr("typeId")) === null || _b === void 0 ? void 0 : _b.toLowerCase();
+                        let columnSchema = DbType == 'sql' ? 'TABLE_SCHEMA' : 'OWNER';
+                        $(me).find('[name="tablename"]').attr('additionalwhere', `${columnSchema} = '${$(e.currentTarget).val()}'`);
+                        $(me).find('[name="tablename"]').attr('ViewName', me.GetViewNameByDbType('tablename', ''));
                     });
                     pnl.find('[role="origin"] button').on('click', (e) => {
-                        me.find('[role="origin"] button.btn-success').removeClass('btn-success').addClass('btn-default');
-                        switch ($(e.currentTarget).attr('name').toLowerCase()) {
+                        $(me).find('[role="origin"] button.activeTab').removeClass('activeTab').addClass('btn-default');
+                        let tab = $(e.currentTarget).attr('name').toLowerCase();
+                        let tableNameElement = $(me).find('[name="tablename"]');
+                        let viewKeyFieldsElement = $(me).find('[name="viewkeyfields"]');
+                        let dbschemaElement = $(me).find('[name="dbschema"]');
+                        let newTableNameElement = $(me).find('[name="newtablename"]');
+                        switch (tab) {
                             case 'btn-table':
-                                me.find('[name="tablename"]').parent().show();
-                                me.find('[name="newtablename"]').parent().hide();
-                                me.find('[name="viewkeyfields"]').parent().hide();
-                                me.find('[name="tablename"]').attr('ViewName', 'DataTables');
-                                me.find('[name="tablename"]').val("");
-                                me.find('[name="newtablename"]').val("");
-                                me.find('[name="viewkeyfields"]').val("");
+                                tableNameElement.closest('span').show();
+                                newTableNameElement.closest('span').hide();
+                                viewKeyFieldsElement.closest('span').hide();
+                                dbschemaElement.attr('ViewName', me.GetViewNameByDbType('dbschema', tab));
+                                tableNameElement.attr('ViewName', me.GetViewNameByDbType('tablename', tab));
+                                tableNameElement.val("");
+                                newTableNameElement.val("");
+                                viewKeyFieldsElement.val("");
                                 break;
                             case 'btn-view':
-                                me.find('[name="tablename"]').parent().show();
-                                me.find('[name="newtablename"]').parent().hide();
-                                me.find('[name="viewkeyfields"]').parent().show();
-                                me.find('[name="tablename"]').attr('ViewName', 'DataViews');
-                                me.find('[name="tablename"]').val("");
-                                me.find('[name="newtablename"]').val("");
-                                me.find('[name="viewkeyfields"]').val("");
+                                tableNameElement.closest('span').show();
+                                newTableNameElement.closest('span').hide();
+                                viewKeyFieldsElement.attr("Placeholder", flexygo.localization.translate('objectmanager.viewkeyfields'));
+                                viewKeyFieldsElement.closest('span').show();
+                                dbschemaElement.attr('ViewName', me.GetViewNameByDbType('dbschema', tab));
+                                tableNameElement.attr('ViewName', me.GetViewNameByDbType('tablename', tab));
+                                tableNameElement.val("");
+                                newTableNameElement.val("");
+                                viewKeyFieldsElement.val("");
                                 break;
                             case 'btn-newtable':
-                                me.find('[name="tablename"]').parent().hide();
-                                me.find('[name="newtablename"]').parent().show();
-                                me.find('[name="viewkeyfields"]').parent().show();
-                                me.find('[name="tablename"]').val("");
-                                me.find('[name="newtablename"]').val("");
-                                me.find('[name="viewkeyfields"]').val("");
+                                tableNameElement.closest('span').hide();
+                                newTableNameElement.closest('span').show();
+                                viewKeyFieldsElement.attr("Placeholder", flexygo.localization.translate('objectmanager.tablekeyfields'));
+                                viewKeyFieldsElement.closest('span').show();
+                                tableNameElement.val("");
+                                newTableNameElement.val("");
+                                viewKeyFieldsElement.val("");
                                 break;
                         }
-                        $(e.currentTarget).addClass('btn-success');
+                        $(e.currentTarget).addClass('activeTab');
                     });
+                }
+                GetViewNameByDbType(name, tab = "") {
+                    var _a, _b, _c;
+                    let DbType = (_b = (_a = $(this).find('[name="cnnstring"] li.selected span')) === null || _a === void 0 ? void 0 : _a.attr("typeId")) === null || _b === void 0 ? void 0 : _b.toLowerCase();
+                    let ViewName = "";
+                    if (name == 'dbschema') {
+                        switch (DbType) {
+                            case 'sql':
+                                ViewName = "sys-DbSchemas";
+                                break;
+                            case 'oracle':
+                                ViewName = "sys-DbSchemasOracle";
+                                break;
+                            default: break;
+                        }
+                        return ViewName;
+                    }
+                    let DbSchema = $(this).find('[name="dbschema"]')[0].getValue();
+                    if (!tab) {
+                        tab = (_c = $(this).find('.datasource.btn-group .activeTab')) === null || _c === void 0 ? void 0 : _c.attr('name').toLowerCase();
+                    }
+                    switch (tab) {
+                        case 'btn-table':
+                            switch (DbType) {
+                                case 'sql':
+                                    ViewName = "DataTables";
+                                    break;
+                                case 'oracle':
+                                    ViewName = "DataTablesOracle";
+                                    break;
+                                default: break;
+                            }
+                            break;
+                        case 'btn-view':
+                            switch (DbType) {
+                                case 'sql':
+                                    ViewName = "DataViews";
+                                    break;
+                                case 'oracle':
+                                    ViewName = "DataViewsOracle";
+                                    break;
+                                default: break;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    if (!flexygo.utils.isBlank(DbSchema)) {
+                        return ViewName;
+                    }
+                    return '';
                 }
                 objectPropertiesPane() {
                     let pnl = this.addPane('2', flexygo.localization.translate('objectmanager.objectproperties'));
@@ -283,12 +362,12 @@ var flexygo;
                     let btns = $('<div style="padding-bottom:10px;"><div class="btn-group" role="displayType" /></div>');
                     pnl.append(btns);
                     btns = btns.find('.btn-group');
-                    btns.append('<button type="button" class="btn btn-success" name="btn-list"><i class="flx-icon icon-listbox-2" /> ' + flexygo.localization.translate('objectmanager.listtemplate') + '</button>');
+                    btns.append('<button type="button" class="btn activeTab" name="btn-list"><i class="flx-icon icon-listbox-2" /> ' + flexygo.localization.translate('objectmanager.listtemplate') + '</button>');
                     btns.append('<button style="display:none" type="button" class="btn btn-default" name="btn-edit"><i class="flx-icon icon-edit-3" /> ' + flexygo.localization.translate('objectmanager.edittemplate') + '</button>');
                     btns.append('<button type="button" class="btn btn-default" name="btn-view"><i class="flx-icon icon-views" /> ' + flexygo.localization.translate('objectmanager.viewtemplate') + '</button>');
                     pnl.append('<div class="contentPane" />');
                     pnl.find('[role="displayType"] button').on('click', (e) => {
-                        me.find('[role="displayType"] button.btn-success').removeClass('btn-success').addClass('btn-default');
+                        me.find('[role="displayType"] button.activeTab').removeClass('activeTab').addClass('btn-default');
                         let btn = $(e.currentTarget);
                         let defString = null;
                         switch (btn.attr('name').toLowerCase()) {
@@ -305,7 +384,7 @@ var flexygo;
                                 this.createEditForm(pnl.find('.contentPane'), 'sysObjectTemplate', 'ObjectName=\'' + this.objectname + '\' and IsDefault=1 and TypeId=\'view\'', JSON.stringify(defString));
                                 break;
                         }
-                        btn.addClass('btn-success');
+                        btn.addClass('activeTab');
                     });
                 }
                 colPropertiesPane() {
@@ -318,6 +397,7 @@ var flexygo;
                 }
                 endPane() {
                     let pnl = this.addPane('7', flexygo.localization.translate('objectmanager.end'));
+                    pnl.append('<h2 class="text-center txt-outstanding"><strong>' + this.objectname + '</strong></h2>');
                     pnl.append('<h1 class="text-center txt-notify"><strong><i class="flx-icon icon-checked icon-lg"></i> ' + flexygo.localization.translate('objectmanager.objectcreated') + '</strong></h1>');
                     pnl.append('<h3 class="text-center">' + flexygo.localization.translate('objectmanager.selectoption') + '</strong></h3>');
                     let ul = $('<ul class="option-icons">');
@@ -460,6 +540,7 @@ var flexygo;
                     if (!this.objectname) {
                         method = 'createObject';
                         arr.push({ key: 'ConnectionStringId', value: me.find('[name="cnnstring"]')[0].getValue() });
+                        arr.push({ key: 'Schema', value: me.find('[name="dbschema"]')[0].getValue() });
                         arr.push({ key: 'OriginName', value: me.find('[name="tablename"]')[0].getValue() });
                         arr.push({ key: 'NewOriginName', value: me.find('[name="newtablename"]')[0].getValue() });
                         arr.push({ key: 'ViewKeys', value: me.find('[name="viewkeyfields"]')[0].getValue() });

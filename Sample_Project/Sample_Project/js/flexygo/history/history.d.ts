@@ -11,7 +11,7 @@ declare namespace flexygo.history {
         private static _utf8_encode;
         private static _utf8_decode;
     }
-    function go(hist: flexygo.nav.FlexygoHistory): void;
+    function go(hist: flexygo.nav.FlexygoHistory, excludeHist?: boolean): void;
     function get(targetId: JQuery): flexygo.nav.FlexygoHistory;
     function getPageName(targetId: JQuery): string;
     function refresh(targetId: JQuery): void;

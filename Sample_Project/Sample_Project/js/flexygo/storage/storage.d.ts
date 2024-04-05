@@ -42,7 +42,7 @@ declare namespace flexygo.storage.local {
      * @param {string} value - element value.
      * @return {object} - Object from local storage.
      */
-    function get(key: string): any;
+    function get(key: string, filter?: Function): any;
     /**
      * Method to clear all elements from Session Storage.
      * @method clear

@@ -204,7 +204,12 @@ var flexygo;
                                     //Convert expresion into object
                                     let valuesTemp = strFormat.toString().trim();
                                     valuesTemp = valuesTemp.substring(1, valuesTemp.length - 1);
-                                    valuesTemp = valuesTemp.split(',');
+                                    if (/&#44;/.exec(valuesTemp)) {
+                                        valuesTemp = valuesTemp.split('&#44;');
+                                    }
+                                    else {
+                                        valuesTemp = valuesTemp.split(',');
+                                    }
                                     let values = new Object();
                                     var lastKey;
                                     for (let z = 0; z < valuesTemp.length; z++) {
@@ -465,12 +470,15 @@ var flexygo;
                     if (!callee.sRE) {
                         let specials = [
                             '/', '.', '*', '+', '?', '|',
-                            '(', ')', '[', ']', '{', '}', '\\'
+                            '(', ')', '[', ']', '{', '}', '\\', '$'
                         ];
                         callee.sRE = new RegExp('(\\' + specials.join('|\\') + ')', 'gim');
                     }
                     return str.replace(callee.sRE, '\\$1');
                 };
+                if (!flexygo.utils.isBlank(replace)) {
+                    replace = replace.toString().replaceAll('$&', '&dollar;&amp;');
+                }
                 return str.toString().replace(new RegExp(escapeRegExp(find), 'ig'), replace);
             }
             parser.replaceAll = replaceAll;

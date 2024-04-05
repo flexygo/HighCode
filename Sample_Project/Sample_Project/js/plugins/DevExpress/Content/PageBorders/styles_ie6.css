@@ -1,0 +1,8 @@
+﻿td.PageBorder_tlc {filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../Content/PageBorders/top-left-corner.png', sizingMethod='scale')}
+td.PageBorder_blc {filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../Content/PageBorders/bottom-left-corner.png', sizingMethod='scale')}
+td.PageBorder_trc {filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../Content/PageBorders/top-right-corner.png', sizingMethod='scale')}
+td.PageBorder_brc {filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../Content/PageBorders/bottom-right-corner.png', sizingMethod='scale')}
+td.PageBorder_t {filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../Content/PageBorders/top.png', sizingMethod='scale')}
+td.PageBorder_l {filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../Content/PageBorders/left.png', sizingMethod='scale')}
+td.PageBorder_b {filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../Content/PageBorders/bottom.png', sizingMethod='scale')}
+td.PageBorder_r {filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../Content/PageBorders/right.png', sizingMethod='scale')}

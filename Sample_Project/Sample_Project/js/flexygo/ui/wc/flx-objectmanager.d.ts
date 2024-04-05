@@ -29,6 +29,7 @@ declare namespace flexygo.ui.wc {
         onViewChanged(e: flexygo.events.FlexygoEvent): void;
         init(): void;
         basicInformationPane(): void;
+        GetViewNameByDbType(name: any, tab?: string): string;
         objectPropertiesPane(): void;
         listSettingsPane(): void;
         filterSettingsPane(): void;

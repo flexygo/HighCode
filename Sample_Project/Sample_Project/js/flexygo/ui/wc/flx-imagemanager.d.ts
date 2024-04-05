@@ -159,7 +159,9 @@ declare namespace flexygo.ui.wc {
         * @param {string} Name.
         * @param {string} Base64.
         */
-        setImage(name: string, base64: string): void;
+        response_after_insert: any;
+        setImage(name: string, base64: string, lastProcessName?: string, lastAfterProcessName?: string, endMethodExecuted?: boolean): void;
+        endSetMethod(response: any): void;
         /**
         * Get image.
         * @method getImage
@@ -185,7 +187,9 @@ declare namespace flexygo.ui.wc {
         * @method removeImage
         * @param {string} Image ID.
         */
-        removeImage(imageId: string, objectName: string): void;
+        response_after_remove: any;
+        removeImage(imageId: string, objectName: string, lastProcessName?: string, lastAfterProcessName?: string, endMethodExecuted?: boolean): void;
+        endRemoveMethod(response: any, imageId: any): void;
         /**
         * Remove all images.
         * @method removeAllImages

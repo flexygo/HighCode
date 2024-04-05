@@ -62,6 +62,13 @@ var flexygo;
                         }
                         this.property = propName;
                     }
+                    let renderMode = element.attr("mode");
+                    if (!flexygo.utils.isBlank(renderMode)) {
+                        this.renderMode = renderMode.toLowerCase();
+                    }
+                    else {
+                        this.renderMode = "edit";
+                    }
                     let ObjectName = element.attr('ObjectName');
                     if (ObjectName && ObjectName !== '') {
                         if (!this.options) {
@@ -110,6 +117,13 @@ var flexygo;
                             this.options = new flexygo.api.ObjectProperty();
                         }
                         this.options.AllowNewFunction = AllowNewFunction;
+                    }
+                    let TargetIdAllowNew = element.attr('TargetIdAllowNew');
+                    if (TargetIdAllowNew && TargetIdAllowNew !== '') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.TargetIdAllowNew = TargetIdAllowNew;
                     }
                     let AllowNewDefaults = element.attr('AllowNewDefaults');
                     if (AllowNewDefaults && AllowNewDefaults !== '') {
@@ -314,6 +328,13 @@ var flexygo;
                         }
                         this.options.ValidatorMessage = ValidatorMessage;
                     }
+                    let HasSecurityObject = element.attr('HasSecurityObject');
+                    if (typeof HasSecurityObject !== 'undefined') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.HasSecurityObject = HasSecurityObject.toLowerCase() !== 'false';
+                    }
                     //let cnnstring = element.attr('cnnstring');
                     //if (cnnstring && cnnstring !== '') {
                     //  this.cnnstring = cnnstring;
@@ -364,7 +385,7 @@ var flexygo;
                         this.options.ObjectName = newVal;
                         this.refresh();
                     }
-                    if (attrName.toLowerCase() === 'viewname' && newVal && newVal !== '') {
+                    if (attrName.toLowerCase() === 'viewname' && newVal != oldVal) {
                         if (!this.options) {
                             this.options = new flexygo.api.ObjectProperty();
                         }
@@ -525,7 +546,7 @@ var flexygo;
                     }
                 }
                 init() {
-                    if ($(this).attr('mode') && $(this).attr('mode').toLowerCase() === 'view') {
+                    if (this.renderMode != 'edit') {
                         this.initViewMode();
                     }
                     else {
@@ -539,46 +560,52 @@ var flexygo;
                     if (this.options && this.options.ObjNameLink && this.options.ObjWhereLink) {
                         let editCtl = me.closest('flx-view')[0];
                         iconsRight = $('<div class="input-group-btn" />');
-                        let icon1 = $('<button class="btn btn-default" type="button"><i class="flx-icon icon-link" /></button>').on('click', () => {
-                            if (this.getValue()) {
-                                let propObjNameLink = this.options.ObjNameLink;
-                                let propObjWhereLink = this.options.ObjWhereLink;
-                                if (editCtl) {
-                                    if (propObjNameLink) {
-                                        propObjNameLink = editCtl.parseEditString(this.options.ObjNameLink);
-                                        if (propObjWhereLink) {
-                                            propObjWhereLink = editCtl.parseEditString(this.options.ObjWhereLink);
-                                        }
-                                    }
-                                    else {
-                                        let obj = new Object();
-                                        obj[this.options.SQLValueField] = this.getValue();
-                                        obj[this.options.SQLDisplayField] = this.getText();
+                        let icon1 = $('<button class="btn btn-default" type="button"><i class="flx-icon icon-link" /></button>');
+                        if (this.renderMode == "view") {
+                            icon1.on('click', () => {
+                                if (this.getValue()) {
+                                    let propObjNameLink = this.options.ObjNameLink;
+                                    let propObjWhereLink = this.options.ObjWhereLink;
+                                    if (editCtl) {
                                         if (propObjNameLink) {
-                                            propObjNameLink = flexygo.utils.parser.compile(obj, propObjNameLink);
+                                            propObjNameLink = editCtl.parseEditString(this.options.ObjNameLink);
+                                            if (propObjWhereLink) {
+                                                propObjWhereLink = editCtl.parseEditString(this.options.ObjWhereLink);
+                                            }
                                         }
-                                        if (propObjWhereLink) {
-                                            propObjWhereLink = flexygo.utils.parser.compile(obj, propObjWhereLink);
+                                        else {
+                                            let obj = new Object();
+                                            obj[this.options.SQLValueField] = this.getValue();
+                                            obj[this.options.SQLDisplayField] = this.getText();
+                                            if (propObjNameLink) {
+                                                propObjNameLink = flexygo.utils.parser.compile(obj, propObjNameLink);
+                                            }
+                                            if (propObjWhereLink) {
+                                                propObjWhereLink = flexygo.utils.parser.compile(obj, propObjWhereLink);
+                                            }
                                         }
-                                    }
-                                    if (this.options.ObjModeLink == 'Other') {
-                                        flexygo.nav.openPageName(this.options.PageNameLink, propObjNameLink, propObjWhereLink, null, this.options.TargetIdLink, true);
+                                        if (this.options.ObjModeLink == 'Other') {
+                                            flexygo.nav.openPageName(this.options.PageNameLink, propObjNameLink, propObjWhereLink, null, this.options.TargetIdLink, true);
+                                        }
+                                        else {
+                                            flexygo.nav.openPage(this.options.ObjModeLink, propObjNameLink, propObjWhereLink, null, this.options.TargetIdLink);
+                                        }
+                                        //flexygo.nav.openPage('view', editCtl.parseEditString(this.options.ObjNameLink), editCtl.parseEditString(this.options.ObjWhereLink), null, this.options.TargetIdLink);
                                     }
                                     else {
-                                        flexygo.nav.openPage(this.options.ObjModeLink, propObjNameLink, propObjWhereLink, null, this.options.TargetIdLink);
+                                        flexygo.msg.warning('flxedit.emptyproperty');
                                     }
-                                    //flexygo.nav.openPage('view', editCtl.parseEditString(this.options.ObjNameLink), editCtl.parseEditString(this.options.ObjWhereLink), null, this.options.TargetIdLink);
                                 }
-                                else {
-                                    flexygo.msg.warning('flxedit.emptyproperty');
-                                }
-                            }
-                        });
+                            });
+                        }
                         iconsRight.append(icon1);
                     }
                     let control = $('<div>');
                     me.html(control);
-                    let input = $('<label class="form-control input-view" />');
+                    let input = $(`<label class="form-control input-view"${this.renderMode == "preview" ? " disabled" : ""}/>`);
+                    if (this.renderMode == "preview") {
+                        input.append($('<span class="caret"></span>'));
+                    }
                     if (this.options && this.options.IconClass && this.options.IconClass !== '') {
                         iconsLeft = $('<span class="input-group-addon" ><i class="' + this.options.IconClass + '" /></span>');
                         control.append(iconsLeft);
@@ -723,7 +750,11 @@ var flexygo;
                                 }
                             }
                         }).off('change').on('change', (e) => {
-                            me.attr('value', this.getValue());
+                            let new_value = this.getValue();
+                            if (!new_value) {
+                                this.removeAttribute("addValuesToObject");
+                            }
+                            me.attr('value', new_value);
                             e.stopPropagation();
                             e.preventDefault();
                         });
@@ -760,7 +791,7 @@ var flexygo;
                         input.on('search', (e) => {
                             if ($(e.currentTarget).val() === '') {
                                 $(e.currentTarget).attr('data-text', '');
-                                this.inputval.val('');
+                                this.setValue(null);
                                 this.showOptions();
                                 this.loadValues(0, false);
                                 this.triggerDependencies();
@@ -789,6 +820,26 @@ var flexygo;
                         }
                         else {
                             this.loadValues(0, false);
+                        }
+                        if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+                            me.off('mouseenter.comboSearch').on('mouseenter.comboSearch', function () {
+                                var _a;
+                                if (!flexygo.utils.isBlank(me.find('input[type="search"]').val())) {
+                                    (_a = me.find('.input-group-btn > button.icon-close')) === null || _a === void 0 ? void 0 : _a.removeClass('hidden');
+                                }
+                            });
+                            me.off('mouseleave.comboSearch').on('mouseleave.comboSearch', function () {
+                                var _a;
+                                (_a = me.find('.input-group-btn > button.icon-close')) === null || _a === void 0 ? void 0 : _a.addClass('hidden');
+                            });
+                            me.find('button.icon-close').off('click.clearSearch').on('click.clearSearch', function () {
+                                var _a;
+                                me[0].setValue('');
+                                me.find('ul li.selected').removeClass('selected');
+                                (_a = me.find('.input-group-btn > button.icon-close')) === null || _a === void 0 ? void 0 : _a.addClass('hidden');
+                                me.find('input[name="DbComboField"]').trigger('click');
+                                me.find('input[name="DbComboField"]').trigger('focus');
+                            });
                         }
                         // Envolver el componente flx-dbcombo en un div posicionado relativamente para que el menú se despliegue correctamente.
                         let parentAttr = me.parent().attr('data-tag');
@@ -878,6 +929,7 @@ var flexygo;
                     let params;
                     let method = null;
                     this.page = page;
+                    let inFilter = $(this.closest('flx-module')).find('flx-filter').length > 0;
                     if (this.options.ViewName && this.options.ViewName !== '') {
                         params = {
                             ObjectName: this.options.ObjectName,
@@ -888,7 +940,8 @@ var flexygo;
                             PageSize: this.options.PageSize,
                             AdditionalWhere: this.additionalWhere,
                             SQLFilter: this.options.SQLFilter,
-                            CnnString: this.cnnString
+                            CnnString: this.cnnString,
+                            HasSecurityObject: this.options.HasSecurityObject
                         };
                         method = 'GetComboDataView';
                     }
@@ -898,7 +951,7 @@ var flexygo;
                                 Mode: this.mode,
                                 ObjectName: this.options.ProcessName || this.options.ReportName || this.options.ObjectName,
                                 PropertyName: this.options.Name,
-                                CryptedSql: this.options.SQLEditSentence || this.options.SQLSentence,
+                                CryptedSql: this.options.SQLEditSentence && !inFilter ? this.options.SQLEditSentence : this.options.SQLSentence,
                                 CryptedFilter: this.options.SQLFilter,
                                 Value: value,
                                 Page: page,
@@ -912,7 +965,7 @@ var flexygo;
                                 Mode: this.mode,
                                 ObjectName: this.options.ProcessName || this.options.ReportName || this.options.ObjectName,
                                 PropertyName: this.options.Name,
-                                CryptedSql: this.options.SQLEditSentence || this.options.SQLSentence,
+                                CryptedSql: this.options.SQLEditSentence && !inFilter ? this.options.SQLEditSentence : this.options.SQLSentence,
                                 CryptedFilter: this.options.SQLFilter,
                                 Value: this.input.val(),
                                 Page: page,
@@ -942,6 +995,18 @@ var flexygo;
                     }
                     else {
                         this.datalist.find('> div.load-more').remove();
+                    }
+                    let input_value = this.input.val();
+                    if (this.options.ComboAllowSave && this.datalist.find('.newValueField').length === 0 && (!data || !data.some(el => (el[this.options.SQLDisplayField] + "").toLowerCase() === (input_value + "").toLowerCase()))) {
+                        //Falta traducir
+                        let new_value_field = $(`<li class="newValueField ${input_value ? '' : 'hidden'} ${(data === null || data === void 0 ? void 0 : data.length) ? '' : 'selected'}">
+                        <span><i class="fa fa-plus"></i><span class="currentlyTyping">${input_value}</span></span>
+                        <small class="txt-muted">(${flexygo.localization.translate('comboTexts.addValue')})</small>
+                    </li>`);
+                        this.datalist.append(new_value_field);
+                        new_value_field.on('mousedown', ev => {
+                            this.onClickItem(ev);
+                        });
                     }
                     if (data) {
                         for (let i = 0; i < data.length; i++) {
@@ -1029,18 +1094,44 @@ var flexygo;
                     if (!template) {
                         template = text;
                     }
-                    return $('<li/>').html(template).attr('data-value', value).attr('data-text', text).on('mousedown', (e) => {
-                        this.setValue($(e.currentTarget).attr('data-value'), $(e.currentTarget).attr('data-text'));
-                        this.datalist.find('.selected').removeClass('selected');
-                        $(e.currentTarget).addClass('selected');
-                        this.triggerDependencies();
+                    return $('<li/>').html(template).attr('data-value', value).attr('data-text', text).on('mousedown', (ev) => {
+                        this.onClickItem(ev);
                     });
+                }
+                onClickItem(ev) {
+                    const item = $(ev.currentTarget);
+                    let value, text, is_new = false;
+                    if (item.is('.newValueField')) {
+                        value = item.find('.currentlyTyping').text();
+                        text = value;
+                        is_new = true;
+                    }
+                    else {
+                        value = item.attr('data-value');
+                        text = item.attr('data-text');
+                    }
+                    this.setValue(value, text);
+                    this.datalist.find('.selected').removeClass('selected');
+                    item.addClass('selected');
+                    this.triggerDependencies();
+                    //If it's a new value we add the AddValuesToObject attribute to know that it contains a new value on save
+                    if (is_new && this.options.ComboAllowSave_Object) {
+                        this.setAttribute('AddValuesToObject', 'true');
+                    }
+                    else {
+                        this.removeAttribute('AddValuesToObject');
+                    }
                 }
                 getIconButtons() {
                     let me = $(this);
                     let icon1;
                     let ret = $('<div class="input-group-btn" />');
                     let arrow = $('<button class="btn btn-default flx-caret" type="button" tabindex="-1"><span class="caret"></span></button>');
+                    //In firefox
+                    if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+                        let close = $('<button class="btn btn-default flx-icon icon-close hidden" type="button" tabindex="-1"></button>');
+                        ret.append(close);
+                    }
                     ret.append(arrow);
                     arrow.off('mousedown').on('mousedown', (ev) => {
                         if (this.open) {
@@ -1224,7 +1315,10 @@ var flexygo;
                                         propAllowNewDefaults = flexygo.utils.parser.compile(obj, propAllowNewDefaults);
                                     }
                                 }
-                                flexygo.nav.openPage('edit', propAllowNewObject, null, propAllowNewDefaults, 'modal');
+                                if (!this.options.TargetIdAllowNew) {
+                                    this.options.TargetIdAllowNew = 'modal';
+                                }
+                                flexygo.nav.openPage('edit', propAllowNewObject, null, propAllowNewDefaults, this.options.TargetIdAllowNew);
                             }
                         });
                         ret.append(icon1);
@@ -1326,15 +1420,15 @@ var flexygo;
                     }
                     let me = $(this);
                     if (me.attr('mode') && me.attr('mode').toLowerCase() === 'view') {
-                        if (value !== 'null' && value !== null && !text && value !== '') {
+                        if (!flexygo.utils.isBlank(value)) {
                             text = this.getTextByValue(value);
                         }
-                        this.setValueView(text);
+                        this.setValueView(value, text);
                         me.attr('value', value);
                         me.attr('text', text);
                     }
                     else {
-                        if (value !== 'null' && value !== null && value !== '') {
+                        if (!flexygo.utils.isBlank(value)) {
                             if (this.datalist && this.datalist.find('li[data-value="' + value + '"]').length === 0) {
                                 if (!text) {
                                     text = this.getTextByValue(value);
@@ -1366,11 +1460,11 @@ var flexygo;
                         me.attr('text', text);
                     }
                 }
-                setValueView(value) {
+                setValueView(value, text) {
                     this.value = value;
-                    $(this).find('label').text(value);
-                    if (value !== null) {
-                        $(this).find('label').attr('title', value);
+                    $(this).find('label').text(text);
+                    if (text !== null) {
+                        $(this).find('label').attr('title', text);
                     }
                 }
                 getValue() {

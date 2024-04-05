@@ -1,3 +1,4 @@
+@import "../CssVars.less";
 
 //Default module
 flx-module {
@@ -7,9 +8,9 @@ flx-module {
 }
 
 flx-module {
-    color: dbColor(txtModuleColor);
-    background-color: dbColor(ModuleColor);
-    border: solid 1px dbColor(borderModuleColor);
+    color: @txt-module-color;
+    background-color: @module-color;
+    border: solid 1px @border-module-color;
 }
 
 flx-module .cntBody {
@@ -22,7 +23,7 @@ flx-module .cntBody {
 }
 
 flx-module .cntHeader {
-    color: dbColor(txtModuleHeaderColor);
+    color: @txt-module-header-color;
     //font-family: 'latolight';
     text-transform: uppercase;
     line-height: 1.2em;
@@ -57,13 +58,13 @@ flx-module .cntHeader b {
 }
 
 flx-module .cntHeader b:hover {
-    color: darken(dbColor(txtModuleHeaderColor),20);
+    color: darken(@txt-module-header-color,20);
 }
 
 
 flx-module.default .cntBodyHeader {
-    border-bottom: solid 1px dbColor(borderModuleColor);
-    background-color: dbColor(ToolbarbgColor);
+    border-bottom: solid 1px @border-module-color;
+    background-color: @toolbarbg-color;
 }
 
 
@@ -73,7 +74,7 @@ flx-module.noheader:not(.config):not(.fullscreen) .cntHeader {
 }
 
 flx-module.noheader .cntBodyHeader {
-    background-color: dbColor(bgColor);
+    background-color: @bg-color;
 }
 
 flx-module.noheader flx-chart {
@@ -85,17 +86,17 @@ flx-module.clean:not(.config):not(.fullscreen){
     padding:20px;
 }
 flx-module.clean:not(.config):not(.fullscreen) .cntHeader {
-    background-color: dbColor(moduleColor);
+    background-color: @module-color;
     margin-bottom: 14px;
 }
 
 flx-module.clean .cntBodyHeader {
-    background-color: dbColor(ToolbarbgColor);
+    background-color: @toolbarbg-color;
 }
 
 
 flx-module.clean .cntHeader .cntIcon, flx-module.clean .cntHeader .cntTitle {
-    color: dbColor(ToolbarbtntextColor);
+    color: @toolbarbtntext-color;
     font-size: 1.5em;
     margin: 8px 0px 8px 8px;
 }
@@ -106,7 +107,7 @@ flx-module.clean .cntHeader .cntTitle {
 }
 
 flx-module.clean .cntHeader .cntButtons {
-    color: lighten(dbColor(ToolbarbtntextColor),40);
+    color: lighten(@toolbarbtntext-color,40);
 }
 
 
@@ -121,7 +122,7 @@ flx-module.empty:not(.config):not(.fullscreen) .cntHeader {
     background: transparent;
     display: flex;
     align-items: center;
-    color: lighten(dbColor(PrimaryColor),63%);
+    color: lighten(@primary-color,63%);
     transition: all .4s cubic-bezier(.25, .8, .25, 1);
     bottom: 0px;
 }
@@ -174,7 +175,7 @@ flx-module.empty:not(.config):not(.fullscreen) .cntBodyHeader .ctnArrowHeader {
 }
 
 flx-module.empty:not(.config):not(.fullscreen) .cntBodyHeader .ctnArrowHeader:hover i {
-    color: dbColor(OutstandingColor);
+    color: @outstanding-color;
 }
 
 flx-module.empty:not(.config):not(.fullscreen) .cntBodyHeader .ctnArrowHeader i {
@@ -196,7 +197,7 @@ flx-module.empty:not(.config):not(.fullscreen):hover .cntBodyHeader {
 }
 
 flx-module.empty:not(.config):not(.fullscreen):hover .cntHeader {
-    color: lighten(dbColor(PrimaryColor),55%);
+    color: lighten(@primary-color,55%);
 }
 
 flx-module .bagButton.active i:before {
@@ -215,7 +216,7 @@ flx-module .cntButtons .pager {
     float: right;
     padding-right: 25px;
     margin: 0px;
-    background-color: dbColor(PagerbgColor);
+    background-color: @pagerbg-color;
 }
 
 
@@ -225,16 +226,16 @@ flx-module .cntButtons .pager .pageInfo {
 }
 
 flx-module .cntButtons .pager .nextPage, flx-module .cntButtons .pager .prevPage, flx-module .cntButtons .pager .firstPage, flx-module .cntButtons .pager .lastPage {
-    border: solid 1px dbColor(PagerbtnborderColor);
+    border: solid 1px @pagerbtnborder-color;
     margin-left: 0px;
     padding: 1px 1px;
-    background-color: dbColor(PagerbtnColor);
-    color: dbColor(PagerbtntextColor);
+    background-color: @pagerbtn-color;
+    color: @pagerbtntext-color;
     cursor: pointer;
 }
 
 flx-module .cntButtons .pager .nextPage:hover, flx-module .cntButtons .pager .prevPage:hover, flx-module .cntButtons .pager .firstPage:hover, flx-module .cntButtons .pager .lastPage:hover, flx-module .cntButtons .pager .pBtn:hover {
-    background-color: darken(dbColor(PagerbtnColor),20);
+    background-color: darken(@pagerbtn-color,20);
 }
 
 flx-module .cntButtons .pager .prevPage:before {
@@ -265,11 +266,11 @@ flx-module .cntButtons .pager .pageButtons {
 }
 
 flx-module .cntButtons .pager .pBtn {
-    border: solid 1px dbColor(PagerbtnborderColor);
+    border: solid 1px @pagerbtnborder-color;
     margin-left: 0px;
     padding: 1px 4px;
-    background-color: dbColor(PagerbtnColor);
-    color: dbColor(PagerbtntextColor);
+    background-color: @pagerbtn-color;
+    color: @pagerbtntext-color;
     cursor: pointer;
 }
 
@@ -317,43 +318,43 @@ flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .pageInfo, flx-module .cntBo
 
 
 flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .pBtn, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .pBtn, flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .prevPage, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .prevPage, flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .nextPage, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .nextPage, flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .firstPage, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .firstPage, flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .lastPage, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .lastPage {
-    border: solid 1px dbColor(PagerbtnborderColor);
+    border: solid 1px @pagerbtnborder-color;
     padding: 5px 10px;
-    background-color: dbColor(PagerbtnColor);
-    color: dbColor(PagerbtntextColor);
+    background-color: @pagerbtn-color;
+    color: @pagerbtntext-color;
     cursor: pointer;
     /*border-left: 0px;*/
 }
 
 flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .prevPage, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .prevPage {
-    border-left: solid 1px dbColor(PagerbtnborderColor);
+    border-left: solid 1px @pagerbtnborder-color;
     border-right: 0px;
 }
 
 flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .firstPage, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .firstPage {
-    border-left: solid 1px dbColor(PagerbtnborderColor);
+    border-left: solid 1px @pagerbtnborder-color;
     border-right: 0px;
 }
 
 /*flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .pBtn:first-child, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .pBtn:first-child {
-    border-left: solid 1px dbColor(PagerbtnborderColor);
+    border-left: solid 1px @pagerbtnborder-color;
 }*/
 
 flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .pBtn.active, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .pBtn.active {
-    background-color: dbColor(PagerbtnColor);
-    color: dbColor(PagerbtntextColor);
+    background-color: @pagerbtn-color;
+    color: @pagerbtntext-color;
     font-weight: bold;
     text-decoration: underline;
 }
 
 flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .pBtn:hover, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .pBtn:hover, flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .prevPage:hover, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .prevPage:hover, flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .nextPage:hover, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .nextPage:hover {
-    background-color: dbColor(PagerbtnColor);
-    color: dbColor(OutstandingColor);
+    background-color: @pagerbtn-color;
+    color: @outstanding-color;
 }
 
 flx-module .cntBodyHeader .pager:not(.onlyPageInfo) .pBtn.active:hover, flx-module .cntBodyFooter .pager:not(.onlyPageInfo) .pBtn.active:hover {
-    background-color: lighten(dbColor(PagerbtnColor),10);
-    color: dbColor(OutstandingColor);
+    background-color: lighten(@pagerbtn-color,10);
+    color: @outstanding-color;
 }
 
 flx-module .cntBodyFooter .pager.onlyPageInfo .pageButtons {
@@ -366,7 +367,7 @@ flx-module .cntBodyFooter .pager.onlyPageInfo .pageButtons span.pBtn {
 }
 
 flx-module .cntBodyFooter .pager.onlyPageInfo .pageButtons span.pBtn.active {
-    color: dbColor(PagerbtntextColor);
+    color: @pagerbtntext-color;
 }
 
 flx-module .cntBodyHeader .moduleToolbar:empty, flx-module .cntBodyFooter .moduleToolbar:empty, flx-module .moduleButtons:empty, flx-module .cntBodyHeader .moduleToolbar:empty, flx-module .cntBodyFooter .moduleToolbar:empty, flx-module .moduleButtons:empty {
@@ -374,7 +375,7 @@ flx-module .cntBodyHeader .moduleToolbar:empty, flx-module .cntBodyFooter .modul
 }
 
 flx-module .cntBodyHeader .moduleToolbar, flx-module .cntBodyFooter .moduleToolbar {
-    //background-color: dbColor(bgColor);
+    //background-color: @bg-color;
     padding-top: 5px;
     padding-bottom: 5px;
     padding-right: 5px;
@@ -398,7 +399,7 @@ flx-module .cntBodyHeader .moduleToolbar, flx-module .cntBodyFooter .moduleToolb
 }*/
 
 flx-module .cntBodyHeader .moduleToolbar span.submenuContainer.focused {
-    border: 1px solid dbColor(OutstandingColor);
+    border: 1px solid @outstanding-color;
 
     > button {
         border: inherit;
@@ -483,12 +484,12 @@ flx-moduletab .nav-tabs > li.active {
 
 flx-moduletab .empty-tab {
     background-color: white;
-    color: dbColor(PrimaryColor);
+    color: @primary-color;
     padding: .5em
 }
 
 flx-moduletab .empty-tab .main-icon i {
-    color: darken(dbColor(PrimaryColor),10)
+    color: darken(@primary-color,10)
 }
 
 
@@ -522,7 +523,7 @@ flx-module[type='flx-orgchart'].loading:after, flx-module[type='flx-maillist'].l
     font: normal normal normal 14px/1 Flexygo-icons;
     font-family: 'Flexygo-icons' !important;
     font-size: 50px;
-    color: dbColor(OutstandingColor);
+    color: @outstanding-color;
     display: block;
     margin: 0 50%;
 }
@@ -533,11 +534,11 @@ flx-module[type='flx-orgchart'].loading:after, flx-module[type='flx-maillist'].l
     height: 30px;
 }
 
-@media (max-width: dbSize(medium)) {
+@media (max-width: @medium) {
 }
 
 
-@media (max-width: dbSize(medium)) {
+@media (max-width: @medium) {
     flx-module .cntBodyHeader .pager:not(.onlyPageInfo), flx-module .cntBodyFooter .pager:not(.onlyPageInfo) {
         text-align: center;
         margin-bottom: 10px;
@@ -559,11 +560,11 @@ flx-module.sticky-toolbar .cntBodyHeader, flx-module.sticky-header thead {
     z-index: 9;
     position: sticky;
 
-    @media (min-width: dbSize(medium)) {
+    @media (min-width: @medium) {
         top: 0px;
     }
 
-    @media (max-width: dbSize(medium)) {
+    @media (max-width: @medium) {
         top: 55px;
     }
 }

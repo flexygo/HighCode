@@ -1,3 +1,5 @@
+@import "../CssVars.less";
+
 #timeline-help {
     display: flex;
     justify-content: center;
@@ -10,12 +12,12 @@
         tr {
 
             &.bgseparator {
-                border-bottom: 1px solid dbColor(TimelineMediumDarkColor);
+                border-bottom: 1px solid @timeline-medium-dark-color;
                 height: 100%
             }
 
             &.separator {
-                border-bottom: 1px solid fade(dbColor(TimelineMediumDarkColor),60%);
+                border-bottom: 1px solid fade(@timeline-medium-dark-color,60%);
                 height: 100%
             }
 
@@ -26,7 +28,7 @@
                 display: inline-flex;
 
                 span.vertical-separator {
-                    border-left: 1px solid fade(dbColor(TimelineMediumDarkColor),60%);
+                    border-left: 1px solid fade(@timeline-medium-dark-color,60%);
                     height: 45px;
                 }
 
@@ -43,8 +45,8 @@
                     align-items: center;
                     border-radius: 30%;
                     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0,0,0,0.19);
-                    color: dbColor(TimelineLightColor);
-                    background-color: dbColor(TimelineMediumDarkColor);
+                    color: @timeline-light-color;
+                    background-color: @timeline-medium-dark-color;
                     margin: 7px;
                     font-size: 12.5px;
 
@@ -74,11 +76,11 @@ flx-timeline {
         transition: @transition;
     }
 
-    @timeline_dark_color: dbColor(TimelineDarkColor);
-    @timeline_medium_dark_color: fade(dbColor(TimelineMediumDarkColor),90%);
-    @timeline_medium_light_color: fade(dbColor(TimelineMediumLightColor),90%);
-    @timeline_light_color: dbColor(TimelineLightColor);
-    @timeline_background_color: dbColor(TimelineBackgroundColor);
+    @timeline_dark_color: @timeline-dark-color;
+    @timeline_medium_dark_color: fade(@timeline-medium-dark-color,90%);
+    @timeline_medium_light_color: fade(@timeline-Medium-Light-Color,90%);
+    @timeline_light_color: @timeline-light-color;
+    @timeline_background_color: @timeline-background-color;
     @timeline_general_border_radius: 4px;
     @timeline_controls_border_radius: 2px;
 
@@ -148,7 +150,7 @@ flx-timeline {
             display: none !important;
         }
 
-        @media only screen and (max-width: dbSize(small)) {
+        @media only screen and (max-width: @small) {
             #not_supported {
                 position: absolute;
                 top: 0;
@@ -269,7 +271,7 @@ flx-timeline {
                 .timeline_transition();
 
                 &:hover {
-                    color: dbcolor(OutstandingColor);
+                    color: @outstanding-color;
                 }
 
                 i {
@@ -339,13 +341,13 @@ flx-timeline {
                     .timeline_transition();
                 }
 
-                @media only screen and (max-width: dbSize(medium)) {
+                @media only screen and (max-width: @medium) {
                     h3 {
                         max-width: 150px;
                     }
                 }
 
-                @media only screen and (max-width: dbSize(large)) {
+                @media only screen and (max-width: @large) {
                     h3 {
                         max-width: 200px;
                     }
@@ -379,11 +381,11 @@ flx-timeline {
                         &[method='navigation'], &[method='today'] {
                             margin-right: 4px;
                             padding: 0 10px;
-                            background-color: dbcolor(OutstandingColor);
-                            color: dbcolor(txtOutstandingColor);
+                            background-color: @outstanding-color;
+                            color: @txt-outstanding-color;
 
                             &:hover {
-                                background-color: darken(dbcolor(OutstandingColor), 10%);
+                                background-color: darken(@outstanding-color, 10%);
                             }
                         }
 
@@ -415,14 +417,14 @@ flx-timeline {
 
                             &.active {
                                 background-color: fade(@timeline_light_color,10%);
-                                border-bottom: solid 2px dbcolor(OutstandingColor);
+                                border-bottom: solid 2px @outstanding-color;
                                 border-bottom-right-radius: 0;
                                 border-bottom-left-radius: 0;
                             }
 
                             &:hover {
                                 background-color: fade(@timeline_light_color,20%);
-                                color: dbcolor(OutstandingColor);
+                                color: @outstanding-color;
                             }
                         }
                     }
@@ -516,7 +518,7 @@ flx-timeline {
                             }
 
                             &.vis-saturday, &.vis-sunday {
-                                color: dbcolor(OutstandingColor);
+                                color: @outstanding-color;
                             }
                         }
                     }
@@ -524,7 +526,7 @@ flx-timeline {
 
                 .vis-grid {
                     &.vis-saturday, &.vis-sunday {
-                        background: linear-gradient(180deg,dbcolor(OutstandingColor) 30px,transparent 0%);
+                        background: linear-gradient(180deg,@outstanding-color 30px,transparent 0%);
                     }
                 }
             }
@@ -551,9 +553,9 @@ flx-timeline {
                     color: @timeline_dark_color;
 
                     &.vis-selected {
-                        border-color: fade(dbcolor(OutstandingColor),40%) !important;
-                        background-color: fade(dbcolor(OutstandingColor),40%) !important;
-                        color: dbcolor(txtOutstandingColor) !important;
+                        border-color: fade(@outstanding-color,40%) !important;
+                        background-color: fade(@outstanding-color,40%) !important;
+                        color: @txt-outstanding-color !important;
                     }
 
                     .vis-item-content {
@@ -567,9 +569,9 @@ flx-timeline {
                 }
 
                 &.vis-selected {
-                    border-color: fade(dbcolor(OutstandingColor),90%) !important;
-                    background-color: fade(dbcolor(OutstandingColor),90%) !important;
-                    color: dbcolor(txtOutstandingColor) !important;
+                    border-color: fade(@outstanding-color,90%) !important;
+                    background-color: fade(@outstanding-color,90%) !important;
+                    color: @txt-outstanding-color !important;
                 }
 
                 .vis-item-content {
@@ -712,7 +714,7 @@ flx-timeline {
 
             .vis-tooltip {
                 &:before {
-                    color: dbcolor(OutstandingColor);
+                    color: @outstanding-color;
                     margin-right: 5px;
                     content: '\f233';
                     speak: none;
@@ -775,7 +777,7 @@ flx-timeline-progressbar {
 
         .bar {
             height: 100%;
-            background-color: dbcolor(OutstandingColor);
+            background-color: @outstanding-color;
         }
 
         .template {

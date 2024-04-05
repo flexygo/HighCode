@@ -138,7 +138,7 @@
     }
 }
 
-@media (max-width: dbSize(small)) {
+@media (max-width: @small) {
 
     .icon-15x {
         font-size: 1.1em;
@@ -238,6 +238,11 @@
 .icon-spin {
     -webkit-animation: icon-spin 2s infinite linear;
     animation: icon-spin 2s infinite linear;
+}
+
+.icon-spin-reverse {
+    -webkit-animation: icon-spin-invert 2s infinite linear reverse;
+    animation: icon-spin 2s infinite linear reverse;
 }
 
 .icon-pulse {

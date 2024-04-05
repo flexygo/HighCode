@@ -248,7 +248,7 @@ var flexygo;
                             if (mod.Events && Object.keys(mod.Events).length > 0) {
                                 item.find('.events').addClass('selected');
                             }
-                            if (mod.RelationWhere && mod.RelationWhere != '') {
+                            if ((mod.RelationWhere && mod.RelationWhere != '') || (mod.SQLEnabled && mod.SQLEnabled != '')) {
                                 item.find('.relationwhere').addClass('selected');
                             }
                             if (mod.TabName != '') {
@@ -317,7 +317,7 @@ var flexygo;
                     let me = $(this);
                     let obj = new flexygo.obj.Entity('sysModules');
                     //TODO button Tab
-                    this.modTemplate = '<li data-id="{{ModuleName}}" data-descrip="{{Descrip|string:lower}}" class="moduleItem nolist {{TypeId|switch:[flx-moduletab:tabItem,flx-buttontab:tabItem,else:null]}}">';
+                    this.modTemplate = '<li data-id="{{ModuleName}}" data-descrip="{{Descrip|string:lower}}" class="moduleItem nolist {{TypeId|switch:[flx-moduletab:tabItem,flx-buttontab:tabItem,else:null]}} {{Active|bool:,module-no-active}}">';
                     this.modTemplate += '<div class="box-primary">';
                     this.modTemplate += '<div class="buttonList">{{TypeId|switch:[flx-moduletab:<i title="Expand tab content" class="flx-icon icon-open-in-new-window tabButton"></i>,flx-buttontab:<i title="Expand tab content" class="flx-icon icon-open-in-new-window tabButton"></i>,else:null]}}';
                     this.modTemplate += '<i title="' + flexygo.localization.translate('modulemanager.security') + '" class="flx-icon icon-group-security security"></i>';

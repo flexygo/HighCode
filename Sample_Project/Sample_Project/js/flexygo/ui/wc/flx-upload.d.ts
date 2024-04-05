@@ -121,6 +121,8 @@ declare namespace flexygo.ui.wc {
         * @method mainEvents
         */
         mainEvents(): void;
+        paintUploadingFiles(input: JQuery): void;
+        removeUploadingFiles(input: JQuery): void;
         /**
         * Get configuration.
         * @method getConfig

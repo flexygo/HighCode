@@ -1,0 +1,14 @@
+<svg version="1.1" id="layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 80 80" style="enable-background:new 0 0 80 80;" xml:space="preserve">
+<style type="text/css">
+	.ps01{fill-rule:evenodd;clip-rule:evenodd;fill:#f48427;}
+	.ps02{opacity:0.5;fill-rule:evenodd;clip-rule:evenodd;fill:#f48427;}
+</style>
+<g>
+	<g>
+		<path class="ps01" d="M51,15H29c-2.2,0-4,1.8-4,4v42c0,2.2,1.8,4,4,4h22c2.2,0,4-1.8,4-4V19C55,16.8,53.2,15,51,15z M53,60
+			c0,2.2-0.8,3-3,3H30c-2.2,0-3-0.8-3-3V20c0-2.2,0.8-3,3-3h20c2.2,0,3,0.8,3,3V60z"/>
+	</g>
+</g>
+<path class="ps02" d="M27,59V21h26v38H27z M52,22H28v36h24V22z"/>
+</svg>

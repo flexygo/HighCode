@@ -63,5 +63,14 @@ declare namespace flexygo.environment {
     * @param {string} Text - Button text
     * @param {string} TargetId - Button targetid
    */
-    function _getTemplateButton(json: any, typeId: string, IconClass: string, Text: string, TargetId: string): string;
+    function _getTemplateButton(json: any, typeId: string, IconClass: string, Text: string, TargetId: string, buttonId?: string): string;
+    /**
+     * This function adjusts the visibility of a button based on the presence or absence of a license.
+     * @method _setButtonVisibilityByLicense
+     * @param {string} buttonId - The unique identifier of the button.
+     * @param {string} modulelicense - The name of the module license.
+     * @param {any} context - Whether the function is called within a template (json) or during an edit (ObjectName).
+     * @param {boolean} inTemplate - A boolean value specifying whether the button is within a template
+    */
+    function _setButtonVisibilityByLicense(buttonId: string, modulelicense: string, context: any, inTemplate: boolean): any;
 }

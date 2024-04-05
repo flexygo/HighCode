@@ -35,6 +35,13 @@ var flexygo;
                 */
                 connectedCallback() {
                     let element = $(this);
+                    let mode = element.attr("mode");
+                    if (!flexygo.utils.isBlank(mode)) {
+                        this.mode = mode.toLowerCase();
+                    }
+                    else {
+                        this.mode = "edit";
+                    }
                     let propName = element.attr('property');
                     if (propName && flexygo.utils.isBlank(this.options)) {
                         let parentCtl = element.closest('flx-edit,flx-list,flx-propertymanager,flx-view,flx-filter');
@@ -143,7 +150,12 @@ var flexygo;
                         }
                         this.options.ValidatorMessage = ValidatorMessage;
                     }
-                    this.init();
+                    if (this.mode == "preview") {
+                        this.initPreviewMode();
+                    }
+                    else {
+                        this.init();
+                    }
                     let Value = element.attr('Value');
                     let Text = element.attr('Text');
                     if (Value && Value !== '') {
@@ -281,7 +293,18 @@ var flexygo;
                         this.setOptions();
                     }
                 }
+                initPreviewMode() {
+                    let me = $(this);
+                    if (this.options) {
+                        let tabIndex = !flexygo.utils.isBlank(me.attr('tabindex')) ? `tabindex="${me.attr('tabindex')}"` : "";
+                        let control = $('<div>');
+                        let item = `<label><input disabled type="${this.options.Multiple ? "checkbox" : "radio"}"${tabIndex}/>${flexygo.localization.translate("flxpropertymanager.valueTemplate")}</label>`;
+                        control.html(`${item}${item}${item}`);
+                        me.html(control);
+                    }
+                }
                 setOptions() {
+                    var _a, _b;
                     let me = $(this);
                     let control = me.find('div');
                     let label;
@@ -340,7 +363,7 @@ var flexygo;
                         input.on('blur', () => { me.trigger('blur'); });
                     }
                     const module = me.closest('flx-module')[0];
-                    if ((this.options && (this.options.CauseRefresh && this.options.SQLValidator)) || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
+                    if ((((_a = this.options) === null || _a === void 0 ? void 0 : _a.CauseRefresh) || ((_b = this.options) === null || _b === void 0 ? void 0 : _b.SQLValidator)) || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
                         control.find('input').off('change').on('change', () => {
                             let ev = {
                                 class: "property",
@@ -354,7 +377,7 @@ var flexygo;
                     if (this.options && this.options.Locked) {
                         control.find('input').prop('disabled', this.options.Locked);
                     }
-                    if (me.attr('mode') && me.attr('mode').toLowerCase() === 'view') {
+                    if (this.mode === 'view') {
                         control.find('input').prop('disabled', true);
                     }
                     if (this.options.Style) {
@@ -399,14 +422,11 @@ var flexygo;
                     let me = $(this);
                     let input;
                     let label;
-                    //if (me.attr('mode') && me.attr('mode').toLowerCase() === 'view') {
-                    //    this.setValueView(value);
-                    //} else {
                     if (this.options.Multiple) {
                         if (!flexygo.utils.isBlank(value)) {
                             let opt = value.toString().split(this.options.Separator);
                             for (let i = 0; i < opt.length; i++) {
-                                if (me.attr('mode') && me.attr('mode').toLowerCase() === 'view') {
+                                if (this.mode === 'view') {
                                     me.find('input[value="' + opt[i] + '"]').prop('checked', true).prop('disabled', true);
                                 }
                                 else {
@@ -456,9 +476,6 @@ var flexygo;
                 }
                 getValue() {
                     let me = $(this);
-                    //if (me.attr('mode') && me.attr('mode').toLowerCase() === 'view') {
-                    //    return this.value;
-                    //}
                     let input = me.find('input:checked');
                     let val;
                     if (input.length === 0 || input.val() === '') {

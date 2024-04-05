@@ -1,4 +1,6 @@
-﻿flx-kanban .board-header{
+﻿@import "../CssVars.less";
+
+flx-kanban .board-header{
     position: relative;
 }
 flx-kanban .board-title:not(:empty) {
@@ -66,7 +68,7 @@ flx-kanban li.kanban-card {
     display: block;
     font-weight: lighter;
     background-color: white;
-    color: dbColor(txtColor);
+    color: @txt-color;
     border-radius: 3px;
     font-size: .8em;
     list-style: none;
@@ -77,15 +79,11 @@ flx-kanban li.kanban-card {
 
 flx-kanban .kanban-col.default {
     background-color: #e2e4e6;
-    color: dbColor(txtColor);
+    color: @txt-color;
 }
 
 flx-kanban .kanban-descrip i {
     margin-right:3px;
-}
-
-flx-kanban .kanban-container {
-    min-height: 100px;
 }
 
 flx-kanban .kanban-new-card {
@@ -143,7 +141,12 @@ flx-kanban li.kanban-card:hover {
 }
 
 flx-kanban .kanban-container {
+    min-height: 100px;
     overflow-y: auto;
     overflow-x: hidden;
     height: 65vh;
+
+    &::-webkit-scrollbar-track, &::-webkit-scrollbar {
+        border-radius: @scrollbar-border-radius;
+    }
 }

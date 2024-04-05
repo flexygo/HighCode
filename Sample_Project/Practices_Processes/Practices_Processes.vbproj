@@ -45,35 +45,35 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="flxDataManager">
-      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxDataManager.dll</HintPath>
+      <HintPath>..\packages\Flexygo.6.2.0.17\lib\net46\flxDataManager.dll</HintPath>
     </Reference>
     <Reference Include="flxEntity">
-      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxEntity.dll</HintPath>
+      <HintPath>..\packages\Flexygo.6.2.0.17\lib\net46\flxEntity.dll</HintPath>
     </Reference>
     <Reference Include="flxGlobals">
-      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxGlobals.dll</HintPath>
+      <HintPath>..\packages\Flexygo.6.2.0.17\lib\net46\flxGlobals.dll</HintPath>
     </Reference>
     <Reference Include="flxLocalization">
-      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxLocalization.dll</HintPath>
+      <HintPath>..\packages\Flexygo.6.2.0.17\lib\net46\flxLocalization.dll</HintPath>
     </Reference>
     <Reference Include="flxMail">
-      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxMail.dll</HintPath>
+      <HintPath>..\packages\Flexygo.6.2.0.17\lib\net46\flxMail.dll</HintPath>
     </Reference>
     <Reference Include="flxObjectConfig">
-      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxObjectConfig.dll</HintPath>
+      <HintPath>..\packages\Flexygo.6.2.0.17\lib\net46\flxObjectConfig.dll</HintPath>
     </Reference>
     <Reference Include="flxSecurity, Version=1.30.0.7, Culture=neutral, PublicKeyToken=d94feba4661f934f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxSecurity.dll</HintPath>
+      <HintPath>..\packages\Flexygo.6.2.0.17\lib\net46\flxSecurity.dll</HintPath>
     </Reference>
     <Reference Include="flxSession">
-      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxSession.dll</HintPath>
+      <HintPath>..\packages\Flexygo.6.2.0.17\lib\net46\flxSession.dll</HintPath>
     </Reference>
     <Reference Include="flxSettings">
-      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxSettings.dll</HintPath>
+      <HintPath>..\packages\Flexygo.6.2.0.17\lib\net46\flxSettings.dll</HintPath>
     </Reference>
     <Reference Include="flxUtilities">
-      <HintPath>..\packages\Flexygo.5.5.0.10\lib\net46\flxUtilities.dll</HintPath>
+      <HintPath>..\packages\Flexygo.6.2.0.17\lib\net46\flxUtilities.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

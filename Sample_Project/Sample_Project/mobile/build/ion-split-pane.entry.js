@@ -1,5 +1,5 @@
-import { r as registerInstance, m as createEvent, h as Build, j as h, l as Host, k as getElement } from './index-86ac49ff.js';
-import { g as getIonMode } from './ionic-global-0f98fe97.js';
+import { r as registerInstance, o as createEvent, h as Build, k as h, n as Host, m as getElement } from './index-d0d1673d.js';
+import { g as getIonMode } from './ionic-global-f9661584.js';
 
 const splitPaneIosCss = ":host{--side-width:100%;left:0;right:0;top:0;bottom:0;display:flex;position:absolute;flex-direction:row;flex-wrap:nowrap;contain:strict}::slotted(ion-menu.menu-pane-visible){flex:0 1 auto;width:var(--side-width);min-width:var(--side-min-width);max-width:var(--side-max-width)}:host(.split-pane-visible) ::slotted(.split-pane-side),:host(.split-pane-visible) ::slotted(.split-pane-main){left:0;right:0;top:0;bottom:0;position:relative;box-shadow:none !important;z-index:0}:host(.split-pane-visible) ::slotted(.split-pane-main){flex:1}:host(.split-pane-visible) ::slotted(.split-pane-side:not(ion-menu)),:host(.split-pane-visible) ::slotted(ion-menu.split-pane-side.menu-enabled){display:flex;flex-shrink:0}::slotted(.split-pane-side:not(ion-menu)){display:none}:host(.split-pane-visible) ::slotted(.split-pane-side){order:-1}:host(.split-pane-visible) ::slotted(.split-pane-side[side=end]){order:1}:host{--border:0.55px solid var(--ion-item-border-color, var(--ion-border-color, var(--ion-color-step-250, #c8c7cc)));--side-min-width:270px;--side-max-width:28%}:host(.split-pane-visible) ::slotted(.split-pane-side){border-left:0;border-right:var(--border);border-top:0;border-bottom:0;min-width:var(--side-min-width);max-width:var(--side-max-width)}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){:host(.split-pane-visible) ::slotted(.split-pane-side){border-left:unset;border-right:unset;-webkit-border-start:0;border-inline-start:0;-webkit-border-end:var(--border);border-inline-end:var(--border)}}:host(.split-pane-visible) ::slotted(.split-pane-side[side=end]){border-left:var(--border);border-right:0;border-top:0;border-bottom:0;min-width:var(--side-min-width);max-width:var(--side-max-width)}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){:host(.split-pane-visible) ::slotted(.split-pane-side[side=end]){border-left:unset;border-right:unset;-webkit-border-start:var(--border);border-inline-start:var(--border);-webkit-border-end:0;border-inline-end:0}}";
 
@@ -8,145 +8,145 @@ const splitPaneMdCss = ":host{--side-width:100%;left:0;right:0;top:0;bottom:0;di
 const SPLIT_PANE_MAIN = 'split-pane-main';
 const SPLIT_PANE_SIDE = 'split-pane-side';
 const QUERY = {
-    'xs': '(min-width: 0px)',
-    'sm': '(min-width: 576px)',
-    'md': '(min-width: 768px)',
-    'lg': '(min-width: 992px)',
-    'xl': '(min-width: 1200px)',
-    'never': ''
+  'xs': '(min-width: 0px)',
+  'sm': '(min-width: 576px)',
+  'md': '(min-width: 768px)',
+  'lg': '(min-width: 992px)',
+  'xl': '(min-width: 1200px)',
+  'never': ''
 };
 const SplitPane = class {
-    constructor(hostRef) {
-        registerInstance(this, hostRef);
-        this.ionSplitPaneVisible = createEvent(this, "ionSplitPaneVisible", 7);
-        this.visible = false;
-        /**
-         * If `true`, the split pane will be hidden.
-         */
-        this.disabled = false;
-        /**
-         * When the split-pane should be shown.
-         * Can be a CSS media query expression, or a shortcut expression.
-         * Can also be a boolean expression.
-         */
-        this.when = QUERY['lg'];
+  constructor(hostRef) {
+    registerInstance(this, hostRef);
+    this.ionSplitPaneVisible = createEvent(this, "ionSplitPaneVisible", 7);
+    this.visible = false;
+    /**
+     * If `true`, the split pane will be hidden.
+     */
+    this.disabled = false;
+    /**
+     * When the split-pane should be shown.
+     * Can be a CSS media query expression, or a shortcut expression.
+     * Can also be a boolean expression.
+     */
+    this.when = QUERY['lg'];
+  }
+  visibleChanged(visible) {
+    const detail = { visible, isPane: this.isPane.bind(this) };
+    this.ionSplitPaneVisible.emit(detail);
+  }
+  connectedCallback() {
+    this.styleChildren();
+    this.updateState();
+  }
+  disconnectedCallback() {
+    if (this.rmL) {
+      this.rmL();
+      this.rmL = undefined;
     }
-    visibleChanged(visible) {
-        const detail = { visible, isPane: this.isPane.bind(this) };
-        this.ionSplitPaneVisible.emit(detail);
+  }
+  updateState() {
+    if (!Build.isBrowser) {
+      return;
     }
-    connectedCallback() {
-        this.styleChildren();
-        this.updateState();
+    if (this.rmL) {
+      this.rmL();
+      this.rmL = undefined;
     }
-    disconnectedCallback() {
-        if (this.rmL) {
-            this.rmL();
-            this.rmL = undefined;
-        }
+    // Check if the split-pane is disabled
+    if (this.disabled) {
+      this.visible = false;
+      return;
     }
-    updateState() {
-        if (!Build.isBrowser) {
-            return;
-        }
-        if (this.rmL) {
-            this.rmL();
-            this.rmL = undefined;
-        }
-        // Check if the split-pane is disabled
-        if (this.disabled) {
-            this.visible = false;
-            return;
-        }
-        // When query is a boolean
-        const query = this.when;
-        if (typeof query === 'boolean') {
-            this.visible = query;
-            return;
-        }
-        // When query is a string, let's find first if it is a shortcut
-        const mediaQuery = QUERY[query] || query;
-        // Media query is empty or null, we hide it
-        if (mediaQuery.length === 0) {
-            this.visible = false;
-            return;
-        }
-        if (window.matchMedia) {
-            // Listen on media query
-            const callback = (q) => {
-                this.visible = q.matches;
-            };
-            const mediaList = window.matchMedia(mediaQuery);
-            mediaList.addListener(callback);
-            this.rmL = () => mediaList.removeListener(callback);
-            this.visible = mediaList.matches;
-        }
+    // When query is a boolean
+    const query = this.when;
+    if (typeof query === 'boolean') {
+      this.visible = query;
+      return;
     }
-    isPane(element) {
-        if (!this.visible) {
-            return false;
-        }
-        return element.parentElement === this.el
-            && element.classList.contains(SPLIT_PANE_SIDE);
+    // When query is a string, let's find first if it is a shortcut
+    const mediaQuery = QUERY[query] || query;
+    // Media query is empty or null, we hide it
+    if (mediaQuery.length === 0) {
+      this.visible = false;
+      return;
     }
-    styleChildren() {
-        if (!Build.isBrowser) {
-            return;
-        }
-        const contentId = this.contentId;
-        const children = this.el.children;
-        const nu = this.el.childElementCount;
-        let foundMain = false;
-        for (let i = 0; i < nu; i++) {
-            const child = children[i];
-            const isMain = contentId !== undefined && child.id === contentId;
-            if (isMain) {
-                if (foundMain) {
-                    console.warn('split pane cannot have more than one main node');
-                    return;
-                }
-                foundMain = true;
-            }
-            setPaneClass(child, isMain);
-        }
-        if (!foundMain) {
-            console.warn('split pane does not have a specified main node');
-        }
+    if (window.matchMedia) {
+      // Listen on media query
+      const callback = (q) => {
+        this.visible = q.matches;
+      };
+      const mediaList = window.matchMedia(mediaQuery);
+      mediaList.addListener(callback);
+      this.rmL = () => mediaList.removeListener(callback);
+      this.visible = mediaList.matches;
     }
-    render() {
-        const mode = getIonMode(this);
-        return (h(Host, { class: {
-                [mode]: true,
-                // Used internally for styling
-                [`split-pane-${mode}`]: true,
-                'split-pane-visible': this.visible
-            } }, h("slot", null)));
+  }
+  isPane(element) {
+    if (!this.visible) {
+      return false;
     }
-    get el() { return getElement(this); }
-    static get watchers() { return {
-        "visible": ["visibleChanged"],
-        "disabled": ["updateState"],
-        "when": ["updateState"]
-    }; }
+    return element.parentElement === this.el
+      && element.classList.contains(SPLIT_PANE_SIDE);
+  }
+  styleChildren() {
+    if (!Build.isBrowser) {
+      return;
+    }
+    const contentId = this.contentId;
+    const children = this.el.children;
+    const nu = this.el.childElementCount;
+    let foundMain = false;
+    for (let i = 0; i < nu; i++) {
+      const child = children[i];
+      const isMain = contentId !== undefined && child.id === contentId;
+      if (isMain) {
+        if (foundMain) {
+          console.warn('split pane cannot have more than one main node');
+          return;
+        }
+        foundMain = true;
+      }
+      setPaneClass(child, isMain);
+    }
+    if (!foundMain) {
+      console.warn('split pane does not have a specified main node');
+    }
+  }
+  render() {
+    const mode = getIonMode(this);
+    return (h(Host, { class: {
+        [mode]: true,
+        // Used internally for styling
+        [`split-pane-${mode}`]: true,
+        'split-pane-visible': this.visible
+      } }, h("slot", null)));
+  }
+  get el() { return getElement(this); }
+  static get watchers() { return {
+    "visible": ["visibleChanged"],
+    "disabled": ["updateState"],
+    "when": ["updateState"]
+  }; }
 };
 const setPaneClass = (el, isMain) => {
-    let toAdd;
-    let toRemove;
-    if (isMain) {
-        toAdd = SPLIT_PANE_MAIN;
-        toRemove = SPLIT_PANE_SIDE;
-    }
-    else {
-        toAdd = SPLIT_PANE_SIDE;
-        toRemove = SPLIT_PANE_MAIN;
-    }
-    const classList = el.classList;
-    classList.add(toAdd);
-    classList.remove(toRemove);
+  let toAdd;
+  let toRemove;
+  if (isMain) {
+    toAdd = SPLIT_PANE_MAIN;
+    toRemove = SPLIT_PANE_SIDE;
+  }
+  else {
+    toAdd = SPLIT_PANE_SIDE;
+    toRemove = SPLIT_PANE_MAIN;
+  }
+  const classList = el.classList;
+  classList.add(toAdd);
+  classList.remove(toRemove);
 };
 SplitPane.style = {
-    ios: splitPaneIosCss,
-    md: splitPaneMdCss
+  ios: splitPaneIosCss,
+  md: splitPaneMdCss
 };
 
 export { SplitPane as ion_split_pane };

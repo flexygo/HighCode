@@ -173,10 +173,22 @@ var flexygo;
                     });
                     me.find('[name="save-button"]').on('click', (e) => {
                         if (this.formatedField != null && this.formatedField != '' && this.fieldToFormat != null && this.fieldToFormat != '') {
-                            let textArea = $(this.targetItem).find(this.targetTextbox)[0];
-                            let positions = textArea.myCM.getCursor();
-                            textArea.myCM.replaceRange(this.formatedField, positions, positions);
-                            textArea.setValue(textArea.myCM.getValue());
+                            let flxCode = $(this.targetItem).find(this.targetTextbox)[0];
+                            if (flxCode.getAttribute('editor') == 'monaco') {
+                                let currentPosition = flxCode.monaco.getPosition();
+                                let me = this;
+                                // add text to current cursor position
+                                flxCode.monaco.executeEdits("my-source", [{
+                                        range: new monaco.Range(currentPosition.lineNumber, currentPosition.column, currentPosition.lineNumber, currentPosition.column),
+                                        text: me.formatedField,
+                                        forceMoveMarkers: true
+                                    }]);
+                            }
+                            else {
+                                let positions = flxCode.myCM.getCursor();
+                                flxCode.myCM.replaceRange(this.formatedField, positions, positions);
+                                flxCode.setValue(flxCode.myCM.getValue());
+                            }
                             //flexygo.msg.success(flexygo.localization.translate('formatsmanager.saved'));
                             flexygo.nav.closePage(me);
                         }

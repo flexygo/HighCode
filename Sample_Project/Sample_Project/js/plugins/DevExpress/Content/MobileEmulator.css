@@ -1,0 +1,64 @@
+﻿.main {
+    height: 799px;
+    width: 381px;
+    margin: 0px auto;
+    position: relative;
+    background-image: url(../Content/ios.png);
+}
+
+    .main.landscape {
+        height: 381px;
+        width: 799px;
+        background-image: url(../Content/ios-landscape.png);
+    }
+
+.QRCode {
+    background-color: White;
+    border: Solid 1px rgba(0,0,0,0.25);
+    box-shadow: 0 10px 12px rgba(0,0,0,0.2);
+    -webkit-box-shadow: 0 10px 12px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0 10px 12px rgba(0,0,0,0.2);
+    color: #323232;
+    font-size: 14px;
+    float: left;
+    background-clip: padding-box;
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding-box;
+    width: 126px;
+    height: 156px;
+    padding: 12px;
+    position: absolute;
+    left: 362px;
+}
+
+    .QRCode div {
+        text-align: center;
+    }
+
+    .QRCode img {
+        width: 124px;
+        height: 124px;
+        border-width: 0;
+    }
+
+    .QRCode.landscape {
+        left: 720px;
+        top: -15px;
+    }
+
+.main #ios {
+    border: none;
+    position: absolute;
+    top: 116px;
+    height: 569px;
+    left: 32px;
+    width: 320px;
+}
+
+    .main #ios.landscape {
+        width: 569px;
+        height: 320px;
+        top: 32px;
+        left: auto;
+        right: 116px;
+    }

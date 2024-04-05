@@ -73,6 +73,7 @@ var flexygo;
                 chatter: 'Chatter',
                 users: 'Utilisateurs',
                 roles: 'Les rôles',
+                processes: 'Processus',
             };
             frfr.history = {
                 historyempty: 'Historique de navigation vide',
@@ -295,6 +296,7 @@ var flexygo;
                 savefilter: 'Sauvegarder filtre',
                 selectfilterfirst: 'Sélectionnez d’abord un filtre',
                 save: 'Sauvegarder',
+                pagerInfo: 'Page-de-Total'
             };
             frfr.flxmail = {
                 nomails: 'Aucun courrier trouvé ',
@@ -319,6 +321,7 @@ var flexygo;
                 edit: 'Modifier',
                 view: 'Afficher',
                 print: 'Imprimer',
+                printing: 'Impression',
                 printpage: 'Imprimer la page',
                 printmodule: 'Module dimpression',
                 help: 'Aide',
@@ -425,6 +428,7 @@ var flexygo;
             };
             frfr.upload = {
                 uploaded: 'Téléchargé',
+                someerror: 'certains fichiers n\'ont pas pu être téléchargés',
                 error: 'Erreur de téléchargement',
                 info: 'Faire glisser pour télécharger',
                 extension: 'Extension de fichier non acceptée.',
@@ -502,12 +506,15 @@ var flexygo;
                 fromnewtable: 'Dés un nouveau tableau',
                 selectcnnstring: 'Sélectionnez la chaine de connexion',
                 validcnnstring: 'Debe seleccionar una cadena de conexión',
+                selectschema: 'Sélectionnez le schéma de la base de données',
+                validschema: 'Vous devez sélectionner un schéma',
                 selecttable: 'Sélectionnez une source',
                 validorigin: 'Indiquez une source valide',
                 newtablename: 'Nom du nouveau tableau',
                 validnewtablename: 'Saisissez le nom du nouveau tableau',
                 viewkeyfields: 'Champs clés de la vue',
-                validviewkeyfields: 'Saisissez les champs clés',
+                tablekeyfields: 'Champs clés de la table',
+                validkeyfields: 'Saisissez les champs clés',
                 savecontinue: 'Sauvegarder et continuer',
                 continue: 'Continuer',
                 listtemplate: 'Modèle de liste',
@@ -546,6 +553,7 @@ var flexygo;
                 save: 'Sauvegarder',
                 close: 'Fermer',
                 hasdefinition: 'Passez en revue la propriété dans le tableau:',
+                valueTemplate: 'Valeur',
             };
             frfr.flxversioninfo = {
                 currentversion: 'Version actuelle ({{CurrentVersion}}).',
@@ -724,6 +732,7 @@ var flexygo;
             frfr.offlineemulator = {
                 ios: 'Activer le mode iOS',
                 md: 'Activer le mode Android',
+                refreshemulatorconfirm: 'Êtes-vous sûr de vouloir nettoyer toutes les données de l\'émulateur?',
             };
             frfr.combobuilder = {
                 datasource: 'Data source',
@@ -855,6 +864,58 @@ var flexygo;
                 infoDownload: "Les fichiers seront compressés dans un zip et téléchargés",
                 generate: "Générer des fichiers",
                 download: "Telecharger des fichiers"
+            };
+            frfr.flxcode = {
+                readonlyMode: 'Vous ne pouvez pas éditer en mode lecture seule',
+                propertyLocked: 'Propriété bloquée'
+            };
+            frfr.validateform = {
+                required: "Ce champ est obligatoire.",
+                remote: "Veuillez corriger ce champ.",
+                email: "S'il vous plaît, mettez une adresse email valide.",
+                url: "Veuillez saisir une URL valide.",
+                date: "Veuillez entrer une date valide.",
+                dateISO: "Veuillez entrer une date valide ( ISO ).",
+                number: "S'il vous plait, entrez un nombre valide.",
+                digits: "Merci de n'entrer que des chiffres.",
+                equalTo: "Entrez à nouveau la même valeur s'il vous plait.",
+                maxlength: "Veuillez ne pas saisir plus de {0} caractères.",
+                minlength: "Veuillez saisir au moins {0} caractères.",
+                rangelength: "Veuillez saisir une valeur comprise entre {0} et {1} caractères.",
+                range: "Veuillez saisir une valeur comprise entre {0} et {1} caractères.",
+                max: "Veuillez saisir une valeur comprise entre {0} et {1} caractères.",
+                min: "Veuillez saisir une valeur supérieure ou égale à {0}.",
+                step: "Veuillez saisir un multiple de {0}."
+            };
+            frfr.flxrelationship = {
+                invalidSintaxis: 'Certaines relations n\'avaient pas une syntaxe valide',
+                invalidProperties: 'Les propriétés sélectionnées n\'existent pas dans la relation',
+                zoomInButton: 'Zoom avant',
+                zoomOutButton: 'Zoom arrière',
+                suggestionsButton: 'Relations Suggérées',
+                clearButton: 'Effacer les Relations',
+            };
+            frfr.originSelector = {
+                title: "Sélectionnez l'origine sur laquelle vous souhaitez travailler: "
+            };
+            frfr.flxai = {
+                beginMessage: 'Bonjour!\nComment puis-je vous aider?',
+                alertInfoMessage: 'Vous n\'avez pas configuré le jeton Berear, veuillez vérifier la documentation.',
+                settingNotFound: 'La configuration de l\'assistant avec SettindId "{0}" n\'a pas pu être récupérée.'
+            };
+            frfr.excelExport = {
+                title: "Sélectionnez les champs que vous souhaitez voir dans l'export Excel",
+                generate: "Générer Excel",
+                generated: "L'excel a été généré",
+                selectall: "Tout sélectionner",
+                deselectall: "Tout déselectionner"
+            };
+            frfr.comboTexts = {
+                addValue: "Valeur ajoutée",
+                warningMessage: "<p>Êtes-vous sûr de vouloir sauvegarder ? Avec les données insérées, les nouveaux enregistrements seront également sauvegardés:</p><b class=\"txt- info\">@</b>"
+            };
+            frfr.utils = {
+                loading: 'Mise en charge'
             };
         })(frfr = culture.frfr || (culture.frfr = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

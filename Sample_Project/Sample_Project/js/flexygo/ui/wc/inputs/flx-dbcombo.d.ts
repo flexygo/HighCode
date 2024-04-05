@@ -13,6 +13,7 @@ declare namespace flexygo.ui.wc {
         constructor();
         property: string;
         mode: string;
+        renderMode: string;
         type: string;
         options: flexygo.api.ObjectProperty;
         input: JQuery;
@@ -58,11 +59,12 @@ declare namespace flexygo.ui.wc {
         private addComboItems;
         private getTextByValue;
         private getListItem;
+        private onClickItem;
         getIconButtons(): JQuery;
         setOptions(): void;
         changeSQLData(newSQL: string, newOptions: any): void;
         setValue(value: string, text?: string, template?: string): void;
-        setValueView(value: string): void;
+        setValueView(value: string, text: string): void;
         getValue(): string;
         getText(): string;
         /**

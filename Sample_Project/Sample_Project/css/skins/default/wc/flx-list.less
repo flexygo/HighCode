@@ -1,3 +1,5 @@
+@import "../CssVars.less";
+
 flx-list {
     .start_info {
         font-size: 2em;
@@ -16,7 +18,7 @@ flx-list {
             .flxlist_transition();
 
             &:hover {
-                color: dbColor(OutstandingColor);
+                color: @outstanding-color;
                 border-color: unset;
                 background-color: unset;
             }
@@ -74,14 +76,14 @@ flx-list table.flxRszTbl, .flx-list table {
 }
 
 flx-list .flxRszTbl th, .flx-list th {
-    color: dbColor(txtModuleHeaderColor);
+    color: @txt-module-header-color;
     text-align: center;
     white-space: nowrap;
     cursor: pointer;
     user-select: none;
-    border-right: solid 1px dbColor(txtModuleHeaderColor);
+    border-right: solid 1px @txt-module-header-color;
     padding: 2px 6px;
-    background-color: lighten(dbColor(ModuleHeaderColor),10);
+    background-color: lighten(@module-header-color,10);
     text-transform: capitalize;
     font-weight: normal;
 }
@@ -98,15 +100,15 @@ flx-list .empty {
 
 
 flx-list .flxRszTbl th:hover, .flx-list th:hover {
-    background-color: lighten(dbColor(ModuleHeaderColor),10);
-    color: darken(dbColor(txtModuleHeaderColor),20);
+    background-color: lighten(@module-header-color,10);
+    color: darken(@txt-module-header-color,20);
 }
 
 flx-list .flxRszTbl td, .flx-list td {
     width: 1px;
     padding: 5px;
     white-space: nowrap;
-    border-top: solid 1px dbColor(borderModuleColor);
+    border-top: solid 1px @border-module-color;
 }
 
 flx-list .flxRszTbl td i, .flx-list td i {
@@ -115,7 +117,7 @@ flx-list .flxRszTbl td i, .flx-list td i {
 
 flx-list .flxRszTbl th i, .flx-list th i {
     font-size: 1.3em;
-    color: darken(dbColor(txtColor),10);
+    color: darken(@txt-color,10);
     margin-left: .5em;
     cursor: pointer;
 }
@@ -152,12 +154,12 @@ flx-list td :not(div.btn-toolbar) .btn-group button > span {
 }
 
 flx-list .flxRszTbl th i:hover, .flx-list th i:hover {
-    color: lighten(dbColor(OutstandingColor),20);
+    color: lighten(@outstanding-color,20);
 }
 
 flx-list .flxRszTbl tr:not(.rowHeader):not(.rowInsert):hover, .flx-list tr:not(.rowHeader):not(.rowInsert):hover, flx-list tr.selected:not(.rowHeader):not(.rowInsert):hover, .flx-list tr.selected:not(.rowHeader):not(.rowInsert):hover {
-    background-color: dbColor(OutstandingColor);
-    color: dbColor(txtOutstandingColor);
+    background-color: @outstanding-color;
+    color: @txt-outstanding-color;
 }
 
 flx-list .sortAsc:after, .flx-list .sortAsc:after {
@@ -181,7 +183,7 @@ flx-list td > b, .flx-list td > b {
 }
 
 flx-list .flxRszTbl tr:nth-child(even):not(.rowHeader), .flx-list tr:nth-child(even):not(.rowHeader) {
-    background-color: dbColor(bgColor);
+    background-color: @bg-color;
     color: lighten(black,30);
 }
 
@@ -191,17 +193,17 @@ flx-list .flxRszTbl tr:nth-child(odd):not(.rowHeader), .flx-list tr:nth-child(od
 }
 
 flx-list .flxRszTbl tr.selected:nth-child(even):not(.rowHeader), .flx-list tr.selected:nth-child(even):not(.rowHeader) {
-    background-color: lighten(dbColor(OutstandingColor),35);
+    background-color: lighten(@outstanding-color,35);
     color: lighten(black,30);
 }
 
 flx-list .flxRszTbl tr.selected:nth-child(odd):not(.rowHeader), .flx-list tr.selected:nth-child(odd):not(.rowHeader) {
-    background-color: lighten(dbColor(OutstandingColor),25);
+    background-color: lighten(@outstanding-color,25);
     color: lighten(black,30);
 }
 
 flx-list .flxRszTbl .rowInsert, .flx-list .rowInsert {
-    background-color: lighten(dbColor(HeaderColor),10) !important;
+    background-color: lighten(@header-color,10) !important;
     color: white;
 }
 
@@ -211,11 +213,11 @@ flx-list .flxRszTbl .rowInsert .cronExpression, .flx-list .rowInsert .cronExpres
 
 
 flx-module.empty flx-list .flxRszTbl tr:nth-child(odd):not(.rowHeader), .flx-module.empty flx-list tr:nth-child(odd):not(.rowHeader) {
-    background-color: dbColor(ModuleColor)
+    background-color: @module-color;
 }
 
 flx-module.empty flx-list .flxRszTbl tr:nth-child(even):not(.rowHeader), .flx-module.empty flx-list tr:nth-child(even):not(.rowHeader) {
-    background-color: dbColor(ModuleColor)
+    background-color: @module-color;
 }
 
 
@@ -243,7 +245,7 @@ flx-list[mode="edit"] flx-image {
     color: #42526e;
 }
 
-@media (max-width: dbSize(medium)) {
+@media (max-width: @medium) {
     .JCLRgrips, flx-list table.flxRszTbl, flx-list table {
         width: 100% !important;
         min-width: 100% !important;
@@ -273,7 +275,7 @@ flx-list[mode="edit"] flx-image {
         box-shadow: none;
         padding: 5px;
         border-radius: none;
-        border-bottom: solid 1px dbColor(borderModuleColor);
+        border-bottom: solid 1px @border-module-color;
     }
 
 
@@ -296,7 +298,7 @@ flx-list[mode="edit"] flx-image {
     }
 
     flx-list .flxRszTbl tr:nth-child(even):not(.rowHeader), flx-list .flxRszTbl tr:nth-child(even):not(.rowHeader):hover, .flx-list tr:nth-child(even):not(.rowHeader), .flx-list tr:nth-child(even):not(.rowHeader):hover {
-        background-color: dbColor(bgColor);
+        background-color: @bg-color;
         color: lighten(black,30);
     }
 

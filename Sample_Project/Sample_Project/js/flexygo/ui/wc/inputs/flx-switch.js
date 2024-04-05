@@ -135,7 +135,7 @@ var flexygo;
                             this.options = jQuery.extend(true, {}, wcParent.properties[propName]);
                         }
                         this.property = newVal;
-                        this.init();
+                        this.refresh();
                     }
                     if (attrName.toLowerCase() === 'disabled') {
                         if (!this.options) {
@@ -157,7 +157,7 @@ var flexygo;
                         if (element.attr('Control-Style') !== this.options.Style) {
                             element.attr('Control-Style', this.options.Style);
                             element.attr('Style', '');
-                            this.init();
+                            this.refresh();
                         }
                     }
                     if (attrName.toLowerCase() === 'class' && element.attr('Control-Class') !== newVal && newVal != oldVal) {
@@ -171,7 +171,7 @@ var flexygo;
                                 element.attr('Class', this.options.CssClass);
                             }
                             //element.attr('Class', '');
-                            this.init();
+                            this.refresh();
                         }
                     }
                     if (attrName.toLowerCase() === 'hide' && newVal && newVal !== '') {
@@ -179,7 +179,7 @@ var flexygo;
                             this.options = new flexygo.api.ObjectProperty();
                         }
                         this.options.Hide = newVal;
-                        this.init();
+                        this.refresh();
                     }
                 }
                 refresh() {

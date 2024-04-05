@@ -1,0 +1,239 @@
+﻿@media (max-width: 411px) {
+    .feedbackPanelContainer {
+        padding-right: 0px !important;
+    }
+
+    .feedbackPanel {
+        width: calc(100vw) !important;
+    }
+
+        .feedbackPanel .buttonsContainer {
+            left: calc(100vw - 160px) !important;
+        }
+
+        .feedbackPanel span.label-width-265 {
+            width: calc(100vw - 108px) !important;
+        }
+
+        .feedbackPanel span.label-width-375 {
+            width: calc(100vw) !important;
+        }
+}
+
+@media (max-width: 374px) {
+    .feedbackPanelContainer {
+        display: none;
+    }
+}
+
+
+.feedbackPanelContainer {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    z-index: 100;
+    max-height: 46px;
+    transition-property: max-height, opacity;
+    transition-duration: 0.5s;
+    transition-timing-function: cubic-bezier(0.25,0.1,0.25,1);
+    padding-right: 18px;
+}
+    .feedbackPanelContainer .dxrpcontent {
+        border-bottom: 1px solid #DFDFDF !important;
+        border-right: 1px solid #DFDFDF !important;
+        border-left: 1px solid #DFDFDF !important;
+    }
+
+    .feedbackPanelContainer .feedbackImage {
+        background-size: 16px 16px;
+        background-position: center center;
+        background-repeat: no-repeat;
+        border-radius: 50%;
+        border: solid 1px rgba(117, 117, 117, 0.5);
+        width: 32px;
+        height: 32px;
+    }
+
+    .feedbackPanelContainer .feedbackPanel .feedbackContentPage {
+        border: none !important;
+    }
+
+    .feedbackPanelContainer .collapsedElement {
+        visibility: collapse;
+        height: 0px;
+        display: none;
+    }
+
+    .feedbackPanelContainer.expandSlide {
+        max-height: 350px;
+    }
+
+    .feedbackPanelContainer.collapseSlide {
+        max-height: 0px;
+    }
+
+.feedbackPanel {
+    background-color: #DFDFDF;
+    padding-top: 6px;
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+    border-top-left-radius: 20px !important;
+    border-top-right-radius: 20px !important;
+}
+
+    .feedbackPanel .feedbackHeaderPanel {
+        padding: 0px 10px 0px 0px !important;
+        border-top-left-radius: 20px !important;
+        border-top-right-radius: 20px !important;
+        border-bottom-style: none !important;
+        border-top-style: none !important;
+        border-right-style: none !important;
+        border-left-style: none !important;
+    }
+
+    .feedbackPanel .headerContainer {
+        display: table;
+        position: relative;
+        height: 34px;
+        padding-bottom: 6px;
+    }
+
+    .feedbackPanel .buttonsContainer {
+        position: absolute;
+        left: 215px;
+        text-align: right;
+        width: 150px;
+        padding-top: 0px;
+    }
+
+    .feedbackPanel .label {
+        text-align: center;
+        display: table-cell !important;
+        vertical-align: middle;
+        font-size: 1.2em;
+        font-family: 'Segoe UI';
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.13;
+        letter-spacing: normal;
+        color: #484848;
+    }
+
+    .feedbackPanel .label-width-265 {
+        width: 265px !important;
+    }
+
+    .feedbackPanel .label-width-375 {
+        width: 375px !important;
+    }
+
+    .feedbackPanel .thumbUp {
+        background-image: url(../Content/FeedbackIcons/icon-thumb-up.svg);
+        background-color: #ffffff;
+    }
+
+    .feedbackPanel .thumbUpHottracked {
+        background-image: url(../Content/FeedbackIcons/icon-thumb-up-hover.svg);
+        background-color: #35b86b;
+        border: solid 1px #35b86b;
+    }
+
+    .feedbackPanel .thumbDown {
+        background-image: url(../Content/FeedbackIcons/icon-thumb-down.svg);
+        background-color: #ffffff;
+    }
+
+    .feedbackPanel .thumbDownHottracked {
+        background-image: url(../Content/FeedbackIcons/icon-thumb-down-hover.svg);
+        background-color: #f34235;
+        border: solid 1px #f34235;
+    }
+
+    .feedbackPanel .iconClose {
+        background-image: url(../Content/FeedbackIcons/icon-cancel.svg);
+        background-color: #ffffff;
+    }
+
+    .feedbackPanel .iconCloseHottracked {
+        background-image: url(../Content/FeedbackIcons/icon-cancel-hover.svg);
+        background-color: #757575;
+        border: solid 1px #757575;
+    }
+
+    .feedbackPanel a.feedbackSClink {
+        color: #F78119 !important;
+    }
+
+        .feedbackPanel a.feedbackSClink:visited {
+            color: #F78119 !important;
+        }
+
+    .feedbackPanel .feedbackText {
+        margin: 18px 0px 18px 0px;
+        border: 1px solid #DFDFDF !important;
+    }
+
+    .feedbackPanel .feedbackContentPage {
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.38;
+        opacity: 0.8;
+        font-size: 13px;
+        color: rgba(72, 72, 72, 0.75);
+        padding: 0px 0px 0px 0px !important;
+    }
+
+    .feedbackPanel .btnSendFeedback {
+        border: none;
+        border-radius: 2px;
+        background-color: #f78119;
+        background-image: none;
+        font-family: 'Segoe UI';
+        font-size: 14px;
+        font-weight: 600;
+        color: white;
+    }
+
+        .feedbackPanel .btnSendFeedback.dxbDisabled {
+            background-color: #DDDDDD;
+            color: #A2A2A2;
+        }
+
+        .feedbackPanel .btnSendFeedback.dxbButtonHover {
+            color: white;
+            background-color: #DB6307;
+        }
+
+        .feedbackPanel .btnSendFeedback.dxbDisabled_Office365 {
+            background-color: #DDDDDD;
+            color: #A2A2A2;
+            cursor: auto;
+        }
+
+        .feedbackPanel .btnSendFeedback.dxbButtonHover_Office365 {
+            color: white;
+            background-color: #DB6307;
+        }
+
+.compactButtonContainer {
+    background-color: lightgray;
+    padding: 6px 8px 6px 8px;
+    border-top: 1px solid #DFDFDF;
+    border-left: 1px solid #DFDFDF;
+    border-right: 1px solid #DFDFDF;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+    .compactButtonContainer .iconChat {
+        background-image: url(../Content/FeedbackIcons/icon-chat.svg);
+        background-color: #ffffff;
+    }
+
+    .compactButtonContainer .iconChatHottracked {
+        background-image: url(../Content/FeedbackIcons/icon-chat-hover.svg);
+        background-color: #757575;
+        border: solid 1px #757575;
+    }

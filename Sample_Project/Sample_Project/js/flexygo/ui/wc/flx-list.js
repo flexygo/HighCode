@@ -1,6 +1,15 @@
 /**
  * @namespace flexygo.ui.wc
  */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var flexygo;
 (function (flexygo) {
     var ui;
@@ -671,6 +680,7 @@ var flexygo;
                     let defString = flexygo.history.getDefaults(this.objectname, me);
                     let wcMod = me.closest('flx-module')[0];
                     let def = null;
+                    let isPageDef = false;
                     if (wcMod) {
                         def = wcMod.objectdefaults;
                         pageDef = (flexygo.history.get($(wcMod)) ? flexygo.history.get($(wcMod)).defaults : '');
@@ -679,7 +689,22 @@ var flexygo;
                         def = JSON.parse(flexygo.utils.parser.replaceAll(defString, "'", '"'));
                     }
                     if (!def && pageDef && pageDef != '') {
+                        isPageDef = true;
                         def = JSON.parse(flexygo.utils.parser.replaceAll(pageDef, "'", '"'));
+                    }
+                    if (def && !isPageDef) {
+                        if (typeof def == 'string') {
+                            def = JSON.parse(flexygo.utils.parser.replaceAll(def, "'", '"'));
+                        }
+                        if (pageDef && pageDef != '') {
+                            if (typeof pageDef == 'string') {
+                                pageDef = JSON.parse(flexygo.utils.parser.replaceAll(pageDef, "'", '"'));
+                            }
+                        }
+                        else {
+                            pageDef = [];
+                        }
+                        Object.assign(def, pageDef);
                     }
                     this.checkPresetDisplay();
                     if (this.presetId) {
@@ -825,56 +850,65 @@ var flexygo;
                         if (this.propArr.length > 1) {
                             this.setRowEvents();
                         }
-                        let jquerySelector = '';
-                        if (this.canUpdate) {
-                            jquerySelector = 'tbody tr';
-                        }
+                        let jquerySelector = 'tbody tr';
                         if (this.canInsert) {
-                            jquerySelector += (jquerySelector ? ', tfoot tr' : 'tfoot tr');
+                            jquerySelector += ', tfoot tr';
                         }
                         let allowedRows = me.find(jquerySelector);
                         allowedRows.each((i, e) => {
                             $(e).attr('id', flexygo.utils.uniqueId()).addClass('form');
-                            $(e).areYouSure();
-                            $(e).validate({
-                                ignore: '',
-                                unhighlight: (element, errorClass, validClass) => {
-                                    $(element).parent().addClass('has-success').removeClass('has-error');
-                                },
-                                highlight: (element, errorClass, validClass) => {
-                                    $(element).parent().removeClass('has-success').addClass('has-error');
-                                },
-                                errorPlacement: (error, element) => {
-                                    if ($(element).parent().length > 0) {
-                                        if ($(element)[0].getAttribute('type') === 'email') {
-                                            if ($(element).parent().closest('flx-text').length > 0 && $(element).parent()[0].closest('flx-text').children.length === 1) {
-                                                error.insertAfter($(element).parent()[0]);
+                            if (this.canUpdate) {
+                                $(e).areYouSure();
+                                $(e).validate({
+                                    ignore: '',
+                                    unhighlight: (element, errorClass, validClass) => {
+                                        $(element).parent().addClass('has-success').removeClass('has-error');
+                                    },
+                                    highlight: (element, errorClass, validClass) => {
+                                        $(element).parent().removeClass('has-success').addClass('has-error');
+                                    },
+                                    errorPlacement: (error, element) => {
+                                        if ($(element).parent().length > 0) {
+                                            if ($(element)[0].getAttribute('type') === 'email') {
+                                                if ($(element).parent().closest('flx-text').length > 0 && $(element).parent()[0].closest('flx-text').children.length === 1) {
+                                                    error.insertAfter($(element).parent()[0]);
+                                                }
                                             }
+                                            else
+                                                error.insertAfter($(element).parent()[0]);
                                         }
-                                        else
-                                            error.insertAfter($(element).parent()[0]);
-                                    }
-                                },
-                                errorClass: 'txt-danger'
-                            });
+                                    },
+                                    errorClass: 'txt-danger'
+                                });
+                            }
                         });
                         this.processLoadDependencies();
                     }
                     let tbl = me.find('table.flxRszTbl');
                     if (tbl.length == 1) {
-                        tbl.colResizable({
-                            resizeMode: 'overflow', disabledColumns: [0], liveDrag: 1, onResize: (ev) => {
-                                this._resizeGridProps();
-                            },
-                            onDrag: (ev) => {
-                                let tbl = $(ev.currentTarget);
-                                let cols = tbl.find('thead > tr > th');
-                                for (var i = 0; i < cols.length; i++) {
-                                    tbl.find('tbody > tr > td:nth-child(' + (i + 1) + ')').css('max-width', $(cols[i]).width() + 'px');
-                                }
-                            }
-                        });
+                        let page = flexygo.history.get(me);
+                        if (page.targetid.indexOf('slide') != -1) {
+                            flexygo.events.off(this, "page", "slideComplete");
+                            flexygo.events.on(this, "page", "slideComplete", () => { this.setColResizable(tbl); });
+                        }
+                        else {
+                            this.setColResizable(tbl);
+                        }
                     }
+                }
+                setColResizable(tbl) {
+                    tbl.colResizable({
+                        resizeMode: 'overflow', disabledColumns: [0], liveDrag: 1, onResize: (ev) => {
+                            this._resizeGridProps();
+                        },
+                        onDrag: (ev) => {
+                            let tbl = $(ev.currentTarget);
+                            let cols = tbl.find('thead > tr > th');
+                            for (var i = 0; i < cols.length; i++) {
+                                tbl.find('tbody > tr > td:nth-child(' + (i + 1) + ')').css('max-width', $(cols[i]).width() + 'px');
+                            }
+                        }
+                    });
                 }
                 /**
                 *Processes dependency loading
@@ -1251,8 +1285,12 @@ var flexygo;
                     let template = '<span class="firstPage"></span><span class="prevPage"></span><span class="pageButtons"></span><span class="nextPage"></span><span class="lastPage"></span><span class="pageInfo"><span class="activePage"></span>/<span class="numPages"></span>(<span class="numRows"></span>)</span>';
                     if (this.pagerConfig && this.pagerConfig.Template && this.pagerConfig.Template != '') {
                         template = this.pagerConfig.Template;
+                        let pagerInfo = flexygo.localization.translate('flxlist.pagerInfo').split('-');
                         if (!template.match(/class="[^"]*?\bpageInfo\b[^"]*?"/)) {
-                            template += '<span class="hidden pageInfo"><span class="titlePage">Page </span><span class="activePage"></span><span class="titleOf"> of </span><span class="numPages"></span> <b class="numTotal"> Total: </b/> <span class="numRows"></span></span>';
+                            template += `<span class="hidden pageInfo"><span class="titlePage">${pagerInfo[0]} </span><span class="activePage"></span><span class="titleOf"> ${pagerInfo[1]} </span><span class="numPages"></span> <b class="numTotal"> ${pagerInfo[2]}: </b/> <span class="numRows"></span></span>`;
+                        }
+                        else {
+                            template = template.replace('{page}', pagerInfo[0]).replace('{of}', pagerInfo[1]).replace('{total}', pagerInfo[2]);
                         }
                     }
                     if ((typeof this.pager == 'undefined' || this.pager == null)) {
@@ -1609,7 +1647,7 @@ var flexygo;
                                     input.attr('Value', val);
                                     td.attr('def-value', val);
                                 }
-                                if (def && typeof def[this.propArr[i].Name] !== 'undefined') {
+                                if (def && typeof def[this.propArr[i].Name] !== 'undefined' && !this.properties[this.propArr[i].Name].PersistDefaultValue) {
                                     let defVal = def[this.propArr[i].Name];
                                     if (defVal != null && defVal.toString().indexOf('/Date(') != -1) {
                                         defVal = moment.utc(defVal).toDate();
@@ -1773,11 +1811,25 @@ var flexygo;
                 _getButton(btn, objectname, objectwhere, objectdefaults) {
                     return flexygo.ui.wc.FlxModuleElement.prototype.getButton(btn, objectname, objectwhere, objectdefaults);
                 }
-                _getTemplateButton(json, typeId, IconClass, Text, TargetId) {
+                _getTemplateButton(json, typeId, IconClass, Text, TargetId, buttonId) {
                     let me = $(this);
                     let defString = flexygo.history.getDefaults(json._objectname, me);
                     json._objectdefaults = defString;
+                    if (!flexygo.utils.isBlank(buttonId)) {
+                        return flexygo.environment._getTemplateButton(json, typeId, IconClass, Text, TargetId, buttonId);
+                    }
                     return flexygo.environment._getTemplateButton(json, typeId, IconClass, Text, TargetId);
+                }
+                /**
+                * This function adjusts the visibility of a button based on the presence or absence of a license.
+                * @method _setButtonVisibilityByLicense
+                * @param {string} buttonId - The unique identifier of the button.
+                * @param {string} modulelicense - The name of the module license.
+                * @param {any} context - Whether the function is called within a template (json) or during an edit (ObjectName).
+                * @param {boolean} inTemplate - A boolean value specifying whether the button is within a template
+                */
+                _setButtonVisibilityByLicense(buttonId, modulelicense, context, inTemplate) {
+                    return flexygo.environment._setButtonVisibilityByLicense(buttonId, modulelicense, context, inTemplate);
                 }
                 /**
                 *Gets value from property
@@ -1913,7 +1965,14 @@ var flexygo;
                         if (!flexygo.utils.isBlank(cell.attr('def-value')) || !flexygo.utils.isBlank(cell.attr('def-text'))) {
                             let propName = cell.children().attr('property');
                             let newValue;
-                            if (listEl.properties[propName] && listEl.properties[propName].IgnoreDBDefaultValue) {
+                            let def = listEl.closest('flx-module').objectdefaults;
+                            if (def && typeof def[propName] !== 'undefined' && !listEl.properties[propName].PersistDefaultValue) {
+                                newValue = def[propName];
+                                if (newValue != null && newValue.toString().indexOf('/Date(') != -1) {
+                                    newValue = moment.utc(newValue).toDate();
+                                }
+                            }
+                            else if (listEl.properties[propName] && listEl.properties[propName].IgnoreDBDefaultValue) {
                                 newValue = cell.attr('def-value');
                             }
                             else {
@@ -1922,7 +1981,7 @@ var flexygo;
                             }
                             if (newValue) {
                                 let def = JSON.parse(flexygo.utils.parser.replaceAll(flexygo.history.getDefaults(listEl.objectname, $(listEl)), "'", '"'));
-                                newValue = flexygo.utils.parser.compile(def, newValue, null, null);
+                                newValue = flexygo.utils.parser.compile(def, newValue.toString(), null, null);
                             }
                             ctl.setValue(newValue, cell.attr('def-text') || null);
                         }
@@ -1956,7 +2015,7 @@ var flexygo;
                 list.find('.rowInsert').validate().resetForm();
             }
             wc_1.clearRow = clearRow;
-            function saveRow(objectName, objectWhere, list, btn, msg = true) {
+            function saveRow(objectName, objectWhere, list, btn, msg = true, lastProcessName, lastAfterProcessName) {
                 if (list[0].loadingDependencies > 0) {
                     list[0].pendingSaveButton = btn;
                     list[0].addLock();
@@ -1969,6 +2028,9 @@ var flexygo;
                         let tr = btn.closest('tr');
                         let props = tr.find('[property]');
                         if (props.length > 0) {
+                            //We check for possible combo with values that should be saved before object itself
+                            const module = tr.closest('flx-module')[0];
+                            module.checkAndSaveNewComboValues(tr);
                             let obj = new flexygo.obj.Entity(objectName, objectWhere);
                             obj.read();
                             for (let i = 0; i < props.length; i++) {
@@ -1981,10 +2043,10 @@ var flexygo;
                             let ret;
                             //This is now controlled by Entity
                             if (!objectWhere || objectWhere == '') {
-                                ret = obj.insert();
+                                ret = obj.insert(lastProcessName, lastAfterProcessName);
                             }
                             else {
-                                ret = obj.update();
+                                ret = obj.update(lastProcessName, lastAfterProcessName);
                             }
                             if (ret) {
                                 if (obj.objectWhere && objectWhere && obj.objectWhere != objectWhere) {
@@ -2004,7 +2066,29 @@ var flexygo;
                                     }
                                 }
                                 if (obj.jsCode) {
-                                    flexygo.utils.execDynamicCode.call(this, obj.jsCode);
+                                    let executeJS = () => __awaiter(this, void 0, void 0, function* () {
+                                        if (obj.lastProcessName || obj.lastAfterProcessName) {
+                                            var proc = new flexygo.obj.Entity('SysProcesses', `ProcessName='${(obj.lastProcessName || obj.lastAfterProcessName)}'`);
+                                            proc.read();
+                                            if (proc.data && proc.data.ConfirmText && proc.data.ConfirmText.Value) {
+                                                let res = yield flexygo.msg.confirm(proc.data.ConfirmText.Value);
+                                                if (!res)
+                                                    return;
+                                            }
+                                        }
+                                        if (!this.newObjectWhere && obj.objectWhere)
+                                            this.newObjectWhere = obj.objectWhere; //Sets the newObjectWhere to avoid loading a new incomplete edit
+                                        let save_button = tr.find('.saveRowButton');
+                                        flexygo.utils.execAsyncFunction(obj.jsCode, ['sysObj', 'triggerElement'], [obj, save_button]).then((res) => {
+                                            if (res === false)
+                                                return;
+                                            this.saveRow(objectName, objectWhere, list, save_button, msg, obj.lastProcessName, obj.lastAfterProcessName);
+                                        }).catch((err) => {
+                                            flexygo.msg.error(flexygo.utils.getErrorMessage(err));
+                                        });
+                                    });
+                                    executeJS();
+                                    return true;
                                 }
                                 if (msg && obj.getConfig().ConfirmOkText) {
                                     if (obj.warningMessage) {

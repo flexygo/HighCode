@@ -50,6 +50,13 @@ var flexygo;
                         }
                         this.property = propName;
                     }
+                    let renderMode = element.attr("mode");
+                    if (!flexygo.utils.isBlank(renderMode)) {
+                        this.renderMode = renderMode.toLowerCase();
+                    }
+                    else {
+                        this.renderMode = "edit";
+                    }
                     if (typeof element.attr('Required') !== 'undefined') {
                         if (!this.options) {
                             this.options = new flexygo.api.ObjectProperty();
@@ -198,6 +205,13 @@ var flexygo;
                             this.options = new flexygo.api.ObjectProperty();
                         }
                         this.options.ValidatorMessage = ValidatorMessage;
+                    }
+                    let HasSecurityObject = element.attr('HasSecurityObject');
+                    if (typeof HasSecurityObject !== 'undefined') {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.HasSecurityObject = HasSecurityObject.toLowerCase() !== 'false';
                     }
                     this.init();
                     let Value = element.attr('Value');
@@ -373,7 +387,7 @@ var flexygo;
                 }
                 init() {
                     let me = $(this);
-                    if (me.attr('mode') && me.attr('mode').toLowerCase() === 'view') {
+                    if (this.renderMode != 'edit') {
                         this.initViewMode();
                     }
                     else {
@@ -387,20 +401,26 @@ var flexygo;
                     if (this.options && this.options.ObjNameLink && this.options.ObjWhereLink) {
                         let editCtl = me.closest('flx-view')[0];
                         iconsRight = $('<div class="input-group-btn" />');
-                        let icon1 = $('<button class="btn btn-default" type="button"><i class="flx-icon icon-link" /></button>').on('click', (e) => {
-                            if (this.options.ObjModeLink == 'Other') {
-                                flexygo.nav.openPageName(this.options.PageNameLink, editCtl.parseEditString(this.options.ObjNameLink), editCtl.parseEditString(this.options.ObjWhereLink), null, this.options.TargetIdLink, true);
-                            }
-                            else {
-                                flexygo.nav.openPage(this.options.ObjModeLink, editCtl.parseEditString(this.options.ObjNameLink), editCtl.parseEditString(this.options.ObjWhereLink), null, this.options.TargetIdLink);
-                            }
-                            //flexygo.nav.openPage('view', editCtl.parseEditString(this.options.ObjNameLink), editCtl.parseEditString(this.options.ObjWhereLink), null, this.options.TargetIdLink);
-                        });
+                        let icon1 = $('<button class="btn btn-default" type="button"><i class="flx-icon icon-link" /></button>');
+                        if (this.renderMode == "view") {
+                            icon1.on('click', (e) => {
+                                if (this.options.ObjModeLink == 'Other') {
+                                    flexygo.nav.openPageName(this.options.PageNameLink, editCtl.parseEditString(this.options.ObjNameLink), editCtl.parseEditString(this.options.ObjWhereLink), null, this.options.TargetIdLink, true);
+                                }
+                                else {
+                                    flexygo.nav.openPage(this.options.ObjModeLink, editCtl.parseEditString(this.options.ObjNameLink), editCtl.parseEditString(this.options.ObjWhereLink), null, this.options.TargetIdLink);
+                                }
+                                //flexygo.nav.openPage('view', editCtl.parseEditString(this.options.ObjNameLink), editCtl.parseEditString(this.options.ObjWhereLink), null, this.options.TargetIdLink);
+                            });
+                        }
                         iconsRight.append(icon1);
                     }
                     let control = $('<div>');
                     me.html(control);
-                    let input = $('<label class="form-control input-view" />');
+                    let input = $(`<label class="form-control input-view"${this.renderMode == "preview" ? " disabled" : ""}/>`);
+                    if (this.renderMode == "preview") {
+                        input.append($('<span class="caret"></span>'));
+                    }
                     if (this.options && this.options.IconClass && this.options.IconClass !== '') {
                         iconsLeft = $('<span class="input-group-addon" ><i class="' + this.options.IconClass + '" /></span>');
                         control.append(iconsLeft);
@@ -637,7 +657,8 @@ var flexygo;
                             PageSize: this.options.PageSize,
                             AdditionalWhere: this.additionalWhere,
                             SQLFilter: null,
-                            CnnString: this.cnnString
+                            CnnString: this.cnnString,
+                            HasSecurityObject: this.options.HasSecurityObject
                         };
                         method = 'GetComboDataView';
                         flexygo.ajax.syncPost('~/api/Edit', method, params, (response) => {

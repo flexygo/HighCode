@@ -1,12 +1,12 @@
-import { r as registerInstance, m as createEvent, j as h, l as Host, k as getElement } from './index-86ac49ff.js';
-import { g as getIonMode } from './ionic-global-0f98fe97.js';
-import './helpers-719f4c54.js';
-import { c as createAnimation } from './animation-10ea33c3.js';
-import { d as deepReady } from './index-7173f7a2.js';
-import './hardware-back-button-aacf3d12.js';
-import { B as BACKDROP, a as prepareOverlay, b as present, d as dismiss, e as eventMethod } from './overlays-5302658e.js';
-import { g as getClassMap } from './theme-f934266c.js';
+import { r as registerInstance, o as createEvent, k as h, n as Host, m as getElement } from './index-d0d1673d.js';
+import { g as getIonMode } from './ionic-global-f9661584.js';
 import { a as attachComponent, d as detachComponent } from './framework-delegate-1fd39b54.js';
+import { B as BACKDROP, a as prepareOverlay, b as present, d as dismiss, e as eventMethod } from './overlays-177438ad.js';
+import { g as getClassMap } from './theme-f934266c.js';
+import { d as deepReady } from './index-06bb8825.js';
+import { c as createAnimation } from './animation-10ea33c3.js';
+import './helpers-719f4c54.js';
+import './hardware-back-button-aacf3d12.js';
 
 /**
  * iOS Popover Enter Animation
@@ -244,118 +244,118 @@ const popoverIosCss = ".sc-ion-popover-ios-h{--background:var(--ion-background-c
 const popoverMdCss = ".sc-ion-popover-md-h{--background:var(--ion-background-color, #fff);--min-width:0;--min-height:0;--max-width:auto;--height:auto;left:0;right:0;top:0;bottom:0;display:flex;position:fixed;align-items:center;justify-content:center;outline:none;color:var(--ion-text-color, #000);z-index:1001}.overlay-hidden.sc-ion-popover-md-h{display:none}.popover-wrapper.sc-ion-popover-md{opacity:0;z-index:10}.popover-content.sc-ion-popover-md{display:flex;position:absolute;flex-direction:column;width:var(--width);min-width:var(--min-width);max-width:var(--max-width);height:var(--height);min-height:var(--min-height);max-height:var(--max-height);background:var(--background);box-shadow:var(--box-shadow);overflow:auto;z-index:10}.popover-viewport.sc-ion-popover-md{--ion-safe-area-top:0px;--ion-safe-area-right:0px;--ion-safe-area-bottom:0px;--ion-safe-area-left:0px}.sc-ion-popover-md-h{--width:250px;--max-height:90%;--box-shadow:0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);--backdrop-opacity:var(--ion-backdrop-opacity, 0.32)}.popover-content.sc-ion-popover-md{border-radius:4px;transform-origin:left top}[dir=rtl].sc-ion-popover-md .popover-content.sc-ion-popover-md,[dir=rtl].sc-ion-popover-md-h .popover-content.sc-ion-popover-md,[dir=rtl] .sc-ion-popover-md-h .popover-content.sc-ion-popover-md{transform-origin:right top}.popover-viewport.sc-ion-popover-md{transition-delay:100ms}";
 
 const Popover = class {
-    constructor(hostRef) {
-        registerInstance(this, hostRef);
-        this.didPresent = createEvent(this, "ionPopoverDidPresent", 7);
-        this.willPresent = createEvent(this, "ionPopoverWillPresent", 7);
-        this.willDismiss = createEvent(this, "ionPopoverWillDismiss", 7);
-        this.didDismiss = createEvent(this, "ionPopoverDidDismiss", 7);
-        this.presented = false;
-        /**
-         * If `true`, the keyboard will be automatically dismissed when the overlay is presented.
-         */
-        this.keyboardClose = true;
-        /**
-         * If `true`, the popover will be dismissed when the backdrop is clicked.
-         */
-        this.backdropDismiss = true;
-        /**
-         * If `true`, a backdrop will be displayed behind the popover.
-         */
-        this.showBackdrop = true;
-        /**
-         * If `true`, the popover will be translucent.
-         * Only applies when the mode is `"ios"` and the device supports
-         * [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
-         */
-        this.translucent = false;
-        /**
-         * If `true`, the popover will animate.
-         */
-        this.animated = true;
-        this.onDismiss = (ev) => {
-            ev.stopPropagation();
-            ev.preventDefault();
-            this.dismiss();
-        };
-        this.onBackdropTap = () => {
-            this.dismiss(undefined, BACKDROP);
-        };
-        this.onLifecycle = (modalEvent) => {
-            const el = this.usersElement;
-            const name = LIFECYCLE_MAP[modalEvent.type];
-            if (el && name) {
-                const event = new CustomEvent(name, {
-                    bubbles: false,
-                    cancelable: false,
-                    detail: modalEvent.detail
-                });
-                el.dispatchEvent(event);
-            }
-        };
-    }
-    connectedCallback() {
-        prepareOverlay(this.el);
-    }
+  constructor(hostRef) {
+    registerInstance(this, hostRef);
+    this.didPresent = createEvent(this, "ionPopoverDidPresent", 7);
+    this.willPresent = createEvent(this, "ionPopoverWillPresent", 7);
+    this.willDismiss = createEvent(this, "ionPopoverWillDismiss", 7);
+    this.didDismiss = createEvent(this, "ionPopoverDidDismiss", 7);
+    this.presented = false;
     /**
-     * Present the popover overlay after it has been created.
+     * If `true`, the keyboard will be automatically dismissed when the overlay is presented.
      */
-    async present() {
-        if (this.presented) {
-            return;
-        }
-        const container = this.el.querySelector('.popover-content');
-        if (!container) {
-            throw new Error('container is undefined');
-        }
-        const data = Object.assign(Object.assign({}, this.componentProps), { popover: this.el });
-        this.usersElement = await attachComponent(this.delegate, container, this.component, ['popover-viewport', this.el['s-sc']], data);
-        await deepReady(this.usersElement);
-        return present(this, 'popoverEnter', iosEnterAnimation, mdEnterAnimation, this.event);
-    }
+    this.keyboardClose = true;
     /**
-     * Dismiss the popover overlay after it has been presented.
-     *
-     * @param data Any data to emit in the dismiss events.
-     * @param role The role of the element that is dismissing the popover. For example, 'cancel' or 'backdrop'.
+     * If `true`, the popover will be dismissed when the backdrop is clicked.
      */
-    async dismiss(data, role) {
-        const shouldDismiss = await dismiss(this, data, role, 'popoverLeave', iosLeaveAnimation, mdLeaveAnimation, this.event);
-        if (shouldDismiss) {
-            await detachComponent(this.delegate, this.usersElement);
-        }
-        return shouldDismiss;
-    }
+    this.backdropDismiss = true;
     /**
-     * Returns a promise that resolves when the popover did dismiss.
+     * If `true`, a backdrop will be displayed behind the popover.
      */
-    onDidDismiss() {
-        return eventMethod(this.el, 'ionPopoverDidDismiss');
-    }
+    this.showBackdrop = true;
     /**
-     * Returns a promise that resolves when the popover will dismiss.
+     * If `true`, the popover will be translucent.
+     * Only applies when the mode is `"ios"` and the device supports
+     * [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
      */
-    onWillDismiss() {
-        return eventMethod(this.el, 'ionPopoverWillDismiss');
+    this.translucent = false;
+    /**
+     * If `true`, the popover will animate.
+     */
+    this.animated = true;
+    this.onDismiss = (ev) => {
+      ev.stopPropagation();
+      ev.preventDefault();
+      this.dismiss();
+    };
+    this.onBackdropTap = () => {
+      this.dismiss(undefined, BACKDROP);
+    };
+    this.onLifecycle = (modalEvent) => {
+      const el = this.usersElement;
+      const name = LIFECYCLE_MAP[modalEvent.type];
+      if (el && name) {
+        const event = new CustomEvent(name, {
+          bubbles: false,
+          cancelable: false,
+          detail: modalEvent.detail
+        });
+        el.dispatchEvent(event);
+      }
+    };
+  }
+  connectedCallback() {
+    prepareOverlay(this.el);
+  }
+  /**
+   * Present the popover overlay after it has been created.
+   */
+  async present() {
+    if (this.presented) {
+      return;
     }
-    render() {
-        const mode = getIonMode(this);
-        const { onLifecycle, htmlAttributes } = this;
-        return (h(Host, Object.assign({ "aria-modal": "true", "no-router": true, tabindex: "-1" }, htmlAttributes, { style: {
-                zIndex: `${20000 + this.overlayIndex}`,
-            }, class: Object.assign(Object.assign({}, getClassMap(this.cssClass)), { [mode]: true, 'popover-translucent': this.translucent }), onIonPopoverDidPresent: onLifecycle, onIonPopoverWillPresent: onLifecycle, onIonPopoverWillDismiss: onLifecycle, onIonPopoverDidDismiss: onLifecycle, onIonDismiss: this.onDismiss, onIonBackdropTap: this.onBackdropTap }), h("ion-backdrop", { tappable: this.backdropDismiss, visible: this.showBackdrop }), h("div", { tabindex: "0" }), h("div", { class: "popover-wrapper ion-overlay-wrapper" }, h("div", { class: "popover-arrow" }), h("div", { class: "popover-content" })), h("div", { tabindex: "0" })));
+    const container = this.el.querySelector('.popover-content');
+    if (!container) {
+      throw new Error('container is undefined');
     }
-    get el() { return getElement(this); }
+    const data = Object.assign(Object.assign({}, this.componentProps), { popover: this.el });
+    this.usersElement = await attachComponent(this.delegate, container, this.component, ['popover-viewport', this.el['s-sc']], data);
+    await deepReady(this.usersElement);
+    return present(this, 'popoverEnter', iosEnterAnimation, mdEnterAnimation, this.event);
+  }
+  /**
+   * Dismiss the popover overlay after it has been presented.
+   *
+   * @param data Any data to emit in the dismiss events.
+   * @param role The role of the element that is dismissing the popover. For example, 'cancel' or 'backdrop'.
+   */
+  async dismiss(data, role) {
+    const shouldDismiss = await dismiss(this, data, role, 'popoverLeave', iosLeaveAnimation, mdLeaveAnimation, this.event);
+    if (shouldDismiss) {
+      await detachComponent(this.delegate, this.usersElement);
+    }
+    return shouldDismiss;
+  }
+  /**
+   * Returns a promise that resolves when the popover did dismiss.
+   */
+  onDidDismiss() {
+    return eventMethod(this.el, 'ionPopoverDidDismiss');
+  }
+  /**
+   * Returns a promise that resolves when the popover will dismiss.
+   */
+  onWillDismiss() {
+    return eventMethod(this.el, 'ionPopoverWillDismiss');
+  }
+  render() {
+    const mode = getIonMode(this);
+    const { onLifecycle, htmlAttributes } = this;
+    return (h(Host, Object.assign({ "aria-modal": "true", "no-router": true, tabindex: "-1" }, htmlAttributes, { style: {
+        zIndex: `${20000 + this.overlayIndex}`,
+      }, class: Object.assign(Object.assign({}, getClassMap(this.cssClass)), { [mode]: true, 'popover-translucent': this.translucent }), onIonPopoverDidPresent: onLifecycle, onIonPopoverWillPresent: onLifecycle, onIonPopoverWillDismiss: onLifecycle, onIonPopoverDidDismiss: onLifecycle, onIonDismiss: this.onDismiss, onIonBackdropTap: this.onBackdropTap }), h("ion-backdrop", { tappable: this.backdropDismiss, visible: this.showBackdrop }), h("div", { tabindex: "0" }), h("div", { class: "popover-wrapper ion-overlay-wrapper" }, h("div", { class: "popover-arrow" }), h("div", { class: "popover-content" })), h("div", { tabindex: "0" })));
+  }
+  get el() { return getElement(this); }
 };
 const LIFECYCLE_MAP = {
-    'ionPopoverDidPresent': 'ionViewDidEnter',
-    'ionPopoverWillPresent': 'ionViewWillEnter',
-    'ionPopoverWillDismiss': 'ionViewWillLeave',
-    'ionPopoverDidDismiss': 'ionViewDidLeave',
+  'ionPopoverDidPresent': 'ionViewDidEnter',
+  'ionPopoverWillPresent': 'ionViewWillEnter',
+  'ionPopoverWillDismiss': 'ionViewWillLeave',
+  'ionPopoverDidDismiss': 'ionViewDidLeave',
 };
 Popover.style = {
-    ios: popoverIosCss,
-    md: popoverMdCss
+  ios: popoverIosCss,
+  md: popoverMdCss
 };
 
 export { Popover as ion_popover };

@@ -258,6 +258,7 @@ var flexygo;
                                 if (eventColor != '' && eventColor != ev.color) {
                                     colores++;
                                 }
+                                let oldStyle = "";
                                 if (colores > 1) {
                                     me.find('td[data-month="' + month + '"][data-day-of-month="' + date + '"]').find("div").css('background-color', '');
                                     me.find('td[data-month="' + month + '"][data-day-of-month="' + date + '"]').find("div").css('border-radius', '60%');
@@ -268,6 +269,8 @@ var flexygo;
                                     me.find('td[data-month="' + month + '"][data-day-of-month="' + date + '"]').find("div").css('background', ev.color);
                                     me.find('td[data-month="' + month + '"][data-day-of-month="' + date + '"]').find("div").css('border-radius', '60%');
                                     me.find('td[data-month="' + month + '"][data-day-of-month="' + date + '"]').css('font-weight', 'normal');
+                                    oldStyle = me.find('td[data-month="' + month + '"][data-day-of-month="' + date + '"]').find("div").attr('style');
+                                    me.find('td[data-month="' + month + '"][data-day-of-month="' + date + '"]').find("div").attr('style', `${oldStyle}${ev.style}`);
                                 }
                                 me.find('td[data-month="' + month + '"][data-day-of-month="' + date + '"]').css('color', 'color: #FFF');
                                 var div = document.createElement('div');

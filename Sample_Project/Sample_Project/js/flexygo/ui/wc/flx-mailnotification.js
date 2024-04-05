@@ -55,7 +55,7 @@ var flexygo;
                     flexygo.events.on(this, 'push', 'notify', function (e) {
                         if (e.masterIdentity == 'updateMailNotice' && typeof e.sender['pendingMails'] != 'undefined') {
                             this.updateBadge(e.sender.pendingMails, true);
-                            if ($('flx-maillist').length > 0) {
+                            if ($('flx-maillist').length > 0 && $('flx-maillist div.nosettings').length == 0) {
                                 $('flx-maillist')[0].refresh();
                             }
                         }

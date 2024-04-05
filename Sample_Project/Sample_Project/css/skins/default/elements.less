@@ -1,4 +1,5 @@
-﻿//TIMELINE
+﻿@import (less) "CssVars.less";
+//TIMELINE
 .timeline {
     width: 100%;
     position: relative;
@@ -38,7 +39,7 @@
             position: absolute;
             width: 14px; //$dot-diameter
             height: 14px; //$dot-diameter
-            border: 4px solid dbColor(OutstandingColor);
+            border: 4px solid @outstanding-color;
             background-color: #fff;
             border-radius: 100%;
             top: 15%;
@@ -85,7 +86,7 @@
 //END Timeline
 //appointment Time Line
 .appointment-timeline-group {
-    background-color: dbColor(borderModuleColor);
+    background-color: @border-module-color;
     padding: 5px;
     padding-left: 15px;
 }
@@ -96,7 +97,7 @@
     margin: 0;
     height: 100%;
     padding: 0;
-    background-color: darken(dbColor(bgColor), 10);
+    background-color: darken(@bg-color, 10);
     display: table;
 }
 
@@ -115,7 +116,7 @@
 }
 
 .appointment-timeline-entry {
-    border-right: 3px solid dbColor(borderModuleColor);
+    border-right: 3px solid @border-module-color;
     height: 100%;
     width: 80%;
     position: relative;
@@ -127,7 +128,7 @@
     position: absolute;
     right: -22px;
     top: 16px;
-    background-color: darken(dbColor(bgColor), 10);
+    background-color: darken(@bg-color, 10);
     padding: 6px;
     font-size: 2em;
 }
@@ -137,9 +138,9 @@
     clear: both;
     margin: 5px;
     padding: 5px;
-    background-color: dbColor(moduleColor);
+    background-color: @module-color;
     position: relative;
-    border: solid 1px dbColor(borderModuleColor);
+    border: solid 1px @border-module-color;
     display: table;
 }
 
@@ -161,13 +162,13 @@
     display: block;
     position: absolute;
     top: 12px;
-    color: dbColor(moduleColor);
+    color: @module-color;
 }
 //end timeline-card
 
 //CuteCalendar
 .cute-calendar .ui-widget {
-    background: dbColor(ModuleColor);
+    background: @module-color;
     border-radius: 0;
     border: 1px solid #d8d8d8;
     box-shadow: 0 3px 8px rgba(0, 0, 0, .25);
@@ -181,7 +182,7 @@
 .cute-calendar .ui-datepicker-header {
     border: none;
     border-bottom: 1px solid #d8d8d8;
-    background: dbColor(ModuleColor) !important;
+    background: @module-color !important;
     font-weight: normal;
     font-size: 1.3em;
     color: #333;
@@ -262,21 +263,21 @@
     padding: 0;
     margin: 0;
     font-weight: normal;
-    color: dbColor(OutstandingColor);
+    color: @outstanding-color;
     height: 27px;
     line-height: 27px;
     margin: 0 2px;
 }
 
 .cute-calendar td .ui-state-active, .cute-calendar td .ui-state-hover {
-    background: dbColor(OutstandingColor);
+    background: @outstanding-color;
     border-radius: 50%;
-    color: dbColor(txtOutstandingColor);
+    color: @txt-outstanding-color;
     box-shadow: 0 1px 3px rgba(0, 0, 0, .5);
 }
 
 .cute-calendar .ui-datepicker .ui-datepicker-week-end, .cute-calendar td.ui-datepicker-week-end .ui-state-default {
-    color: dbColor(DangerColor);
+    color: @danger-color;
 }
 //End CuteCalendar
 

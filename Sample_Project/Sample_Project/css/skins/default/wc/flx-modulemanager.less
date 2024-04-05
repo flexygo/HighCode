@@ -1,8 +1,10 @@
-﻿//MODULE Manage
+﻿@import "../CssVars.less";
+
+//MODULE Manage
 
 #layoutList {
     white-space: nowrap;
-    background-color: dbColor(bgColor);
+    background-color: @bg-color;
 }
 
 #layoutList img {
@@ -53,13 +55,13 @@ flx-modulemanager .box-primary, flx-modulemanager .box-warning {
 }
 
 flx-modulemanager .module-placeholder ul {
-    background-color: lighten(dbColor(borderModuleColor),15);
-    border: dashed 1px darken(dbColor(borderModuleColor),10);
+    background-color: lighten(@border-module-color,15);
+    border: dashed 1px darken(@border-module-color,10);
 }
 
 #layoutList .selected {
-    background-color: lighten(dbColor(OutstandingColor),10);
-    border: solid 1px dbColor(OutstandingColor);
+    background-color: lighten(@outstanding-color,10);
+    border: solid 1px @outstanding-color;
 }
 
 flx-modulemanager .buttonList {
@@ -75,8 +77,8 @@ flx-modulemanager .buttonList:hover {
 }
 
 #layoutList img:hover {
-    background-color: lighten(dbColor(OutstandingColor),10);
-    border: solid 1px dbColor(OutstandingColor);
+    background-color: lighten(@outstanding-color,10);
+    border: solid 1px @outstanding-color;
 }
 
 #moduleList strong {
@@ -90,31 +92,31 @@ flx-modulemanager .buttonList:hover {
 }
 
 #moduleList li .box-primary {
-    border-color: dbColor(OutstandingColor) !important;
+    border-color: @outstanding-color !important;
 }
 
 #moduleList li .box-primary.new {
-    background-color: dbColor(SuccessColor);
-    color: dbColor(txtSuccessColor);
+    background-color: @success-color;
+    color: @txt-success-color;
 }
 
 #moduleList li .box-primary:hover, #layoutPanel li .bg-primary:hover, #layoutPanel li .box-warning:hover {
-    background-color: dbColor(OutstandingColor);
-    color: dbColor(txtOutstandingColor);
-    border-color: dbColor(HeaderColor) !important;
+    background-color: @outstanding-color;
+    color: @txt-outstanding-color;
+    border-color: @header-color !important;
 }
 
 #bottomToolbar {
-    border-top: solid 1px dbColor(borderModuleColor) !important;
+    border-top: solid 1px @border-module-color !important;
     clear: both;
     padding-top: 3px;
     text-align: center;
 }
 
 flx-modulemanager .moduleToolbar {
-    border-bottom: solid 1px dbColor(borderModuleColor);
+    border-bottom: solid 1px @border-module-color;
     padding: 5px;
-    background-color: dbColor(bgColor);
+    background-color: @bg-color;
 }
 
 flx-modulemanager .moduleToolbar .btn {
@@ -122,7 +124,7 @@ flx-modulemanager .moduleToolbar .btn {
 }
 
 flx-modulemanager .relationwhere.selected, flx-modulemanager .events.selected {
-    color: dbColor(DangerColor);
+    color: lighten(@danger-color, 10);
 }
 
 flx-modulemanager .moduleToolbar .btn i {
@@ -130,7 +132,7 @@ flx-modulemanager .moduleToolbar .btn i {
 }
 
 .moduleManager {
-    background-color: dbColor(HeaderColor);
+    background-color: @header-color;
     height: 100%;
 }
 
@@ -155,12 +157,12 @@ flx-modulemanager .moduleToolbar .btn i {
 flx-modulemanager #layoutPanel .moduleTab > ul {
     margin-top: 5px;
     min-height: 50px;
-    border: dashed 1px lighten(dbColor(HeaderColor),40);
+    border: dashed 1px lighten(@header-color,40);
     padding: 5px;
 }
 
 flx-modulemanager .tabButton {
-    color: dbColor(warningColor);
+    color: @warning-color;
 }
 
 flx-modulemanager .moduleTab {
@@ -172,7 +174,7 @@ flx-modulemanager .moduleTab {
 }
 
 .moduleManager .input-group.searchInput {
-    border: 1px solid dbcolor(inputBorderColor);
+    border: 1px solid @input-border-color;
     border-radius: 4px;
 }
 
@@ -186,5 +188,10 @@ flx-modulemanager .moduleTab {
 
 .moduleManager .input-group-btn .btn.btn-default {
     background-color: transparent;
-    color: dbcolor(txtColor);
+    color: @txt-color;
+}
+
+.module-no-active {
+    text-decoration: line-through;
+    opacity: 0.8;
 }

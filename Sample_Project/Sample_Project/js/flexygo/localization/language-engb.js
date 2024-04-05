@@ -72,6 +72,7 @@ var flexygo;
                 chatter: 'Chatter',
                 users: 'Users',
                 roles: 'Roles',
+                processes: 'Processes',
             };
             engb.history = {
                 historyempty: 'Navigation history empty',
@@ -294,6 +295,7 @@ var flexygo;
                 savefilter: 'Save filter',
                 selectfilterfirst: 'Please select a filter first',
                 save: 'Save',
+                pagerInfo: 'Page-of-Total'
             };
             engb.flxmail = {
                 nomails: 'No mails found',
@@ -318,6 +320,7 @@ var flexygo;
                 edit: 'Edit',
                 view: 'View',
                 print: 'Print',
+                printing: 'Printing',
                 printpage: 'Print page',
                 printmodule: 'Print module',
                 help: 'Help',
@@ -425,6 +428,7 @@ var flexygo;
             };
             engb.upload = {
                 uploaded: 'Uploaded',
+                someerror: 'some files failed to upload',
                 error: 'Upload error',
                 info: 'Drag to upload',
                 extension: 'File extension not accepted.',
@@ -502,12 +506,15 @@ var flexygo;
                 fromnewtable: 'From new Table',
                 selectcnnstring: 'Select connection string',
                 validcnnstring: 'You must enter a valid connection string',
+                selectschema: 'Select the database schema',
+                validschema: 'You must select a schema',
                 selecttable: 'Select origin',
                 validorigin: 'You must enter a valid origin',
                 newtablename: 'New Table Name',
                 validnewtablename: 'You must enter a table name',
                 viewkeyfields: 'View key fields',
-                validviewkeyfields: 'You must enter a view key fields',
+                tablekeyfields: 'Table key fields',
+                validkeyfields: 'You must enter a view key fields',
                 savecontinue: 'Save & Continue',
                 continue: 'Continue',
                 listtemplate: 'List Template',
@@ -546,6 +553,7 @@ var flexygo;
                 save: 'Save',
                 close: 'Close',
                 hasdefinition: 'Review the property in the table:',
+                valueTemplate: 'Value',
             };
             engb.flxversioninfo = {
                 currentversion: 'Actual version ({{CurrentVersion}}).',
@@ -724,6 +732,7 @@ var flexygo;
             engb.offlineemulator = {
                 ios: 'Toggle iOS mode',
                 md: 'Toggle Android mode',
+                refreshemulatorconfirm: 'Are you sure you want to clean all data from the emulator?',
             };
             engb.combobuilder = {
                 datasource: 'Data source',
@@ -855,6 +864,58 @@ var flexygo;
                 infoDownload: "Scripts will be compressed as a zip and sent as a download",
                 generate: "Generate files",
                 download: "Download files"
+            };
+            engb.flxcode = {
+                readonlyMode: 'You can\'t edit in view mode',
+                propertyLocked: 'Locked property'
+            };
+            engb.validateform = {
+                required: "This field is required.",
+                remote: "Please fix this field.",
+                email: "Please enter a valid email address.",
+                url: "Please enter a valid URL.",
+                date: "Please enter a valid date.",
+                dateISO: "Please enter a valid date ( ISO ).",
+                number: "Please enter a valid number.",
+                digits: "Please enter only digits.",
+                equalTo: "Please enter the same value again.",
+                maxlength: "Please enter no more than {0} characters.",
+                minlength: "Please enter at least {0} characters.",
+                rangelength: "Please enter a value between {0} and {1} characters long.",
+                range: "Please enter a value between {0} and {1}.",
+                max: "Please enter a value less than or equal to {0}.",
+                min: "Please enter a value greater than or equal to {0}.",
+                step: "Please enter a multiple of {0}."
+            };
+            engb.flxrelationship = {
+                invalidSintaxis: 'Some relationships did not have a valid syntax',
+                invalidProperties: 'The selected properties do not exist in the relationship',
+                zoomInButton: 'Zoom In',
+                zoomOutButton: 'Zoom Out',
+                suggestionsButton: 'Suggested Relationships',
+                clearButton: 'Clear Relationships',
+            };
+            engb.originSelector = {
+                title: 'Select which origin would you like to be working on:'
+            };
+            engb.flxai = {
+                beginMessage: 'Hello!\nHow can I help you?',
+                alertInfoMessage: 'You haven\'t configured the Berear Token, please check the documentation.',
+                settingNotFound: 'The assistant configuration with SettindId "{0}" could not be retrieved.'
+            };
+            engb.excelExport = {
+                title: 'Select the fields you wanna see in the excel export',
+                generate: 'Generate Excel',
+                generated: 'The excel has been generated',
+                selectall: "Select all",
+                deselectall: "Deselect all"
+            };
+            engb.comboTexts = {
+                addValue: 'Add value',
+                warningMessage: '<p>Are you sure you want to save? With this data new records will also be saved in: </p><b class="txt-info">@</b>'
+            };
+            engb.utils = {
+                loading: 'Loading'
             };
         })(engb = culture.engb || (culture.engb = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

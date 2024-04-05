@@ -129,7 +129,7 @@ var flexygo;
                 */
                 renderFromAttr() {
                     let me = $(this);
-                    me.append(this.addEasyPie(this.value, me.attr('symbol'), me.attr('label'), me.attr('size'), me.attr('color'), me.attr('gradientcolor'), this.options));
+                    me.append(this.addEasyPie(this.value, me.attr('symbol'), me.attr('label'), me.attr('size'), me.attr('color'), me.attr('gradientcolor'), me.attr('options')));
                 }
                 /**
                * Adds easy pie.
@@ -155,12 +155,6 @@ var flexygo;
                     newPie.find('sup').html(pieSymbol || '');
                     newPie.filter('.label').html(label || '');
                     let options = { barColor: '#2db7b0', lineCap: 'square', scaleColor: false, size: null, lineWidth: null };
-                    if (newOptions && newOptions != '') {
-                        var objNewOpt = JSON.parse(newOptions);
-                        for (let key in objNewOpt) {
-                            options[key] = objNewOpt[key];
-                        }
-                    }
                     if (row) {
                         let exceptColumns = ['symbol', 'label', 'size', 'color'];
                         for (let key in row) {
@@ -185,6 +179,12 @@ var flexygo;
                         default:
                             options.size = 150;
                             options.lineWidth = 12;
+                    }
+                    if (newOptions && newOptions != '') {
+                        var objNewOpt = JSON.parse(newOptions);
+                        for (let key in objNewOpt) {
+                            options[key] = objNewOpt[key];
+                        }
                     }
                     if (color && color != '') {
                         if (!gradientColor) {

@@ -294,6 +294,33 @@ var flexygo;
         class ObjectViewCollection {
         }
         api.ObjectViewCollection = ObjectViewCollection;
+        /**
+        * api for ChatGPTSetting
+        * @class ObjectViewCollection
+        * @constructor
+        * @return {ChatGPTSetting} .
+        */
+        class ChatGPTSetting {
+        }
+        api.ChatGPTSetting = ChatGPTSetting;
+        class ChatGPTSettingLoweredKey {
+        }
+        api.ChatGPTSettingLoweredKey = ChatGPTSettingLoweredKey;
+        /**
+        * api for ChatGPT ButtonPrompt
+        * @class ObjectViewCollection
+        * @constructor
+        * @return {ButtonPrompt} .
+        */
+        class ButtonPrompt {
+        }
+        api.ButtonPrompt = ButtonPrompt;
+        class ButtonPromptLoweredKey {
+        }
+        api.ButtonPromptLoweredKey = ButtonPromptLoweredKey;
+        class RequestChatGPTParameters {
+        }
+        api.RequestChatGPTParameters = RequestChatGPTParameters;
     })(api = flexygo.api || (flexygo.api = {}));
 })(flexygo || (flexygo = {}));
 /**

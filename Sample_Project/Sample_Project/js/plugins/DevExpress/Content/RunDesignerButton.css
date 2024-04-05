@@ -1,0 +1,57 @@
+﻿.run-designer-image {
+    vertical-align: middle;
+    margin-top: -5px;
+}
+
+.run-designer-button {
+    width: 175px;
+    margin-right: 34px !important;
+}
+
+.run-designer-tooltip-container {
+    position: relative;
+}
+
+.run-designer-tooltip {
+    position: absolute;
+    left: -25px;
+    margin-top: 10px;
+    border: 1px solid lightgray;
+    width: 250px;
+    text-align: center;
+    background-color: white;
+    z-index: 1;
+}
+
+.run-designer-corner {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    position: relative;
+    top: -11px;
+    left: 45%;
+    border-left: 1px solid lightgray;
+    border-top: 1px solid lightgray;
+}
+
+.run-designer-content {
+    color: black;
+    font-size: 12px;
+    display: block;
+    position: relative;
+    padding: 0px 20px 20px 20px;
+}
+
+.run-designer-fade {
+    opacity: 0;
+    -o-transition: opacity 2s ease-in-out;
+    -ms-transition: opacity 2s ease-in-out;
+    -moz-transition: opacity 2s ease-in-out;
+    -webkit-transition: opacity 2s ease-in-out;
+    transition: opacity 2s ease-in-out;
+}

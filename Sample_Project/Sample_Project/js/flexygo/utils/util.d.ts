@@ -263,8 +263,22 @@ declare namespace flexygo.utils {
     function randomColor(seed: string): any;
     function formatFileSize(size: number): string;
     function totalFileWeight(itm: any): void;
-    function formRelatedDep_Childs(ObjectName: string, PropertyName: string, e: any): void;
+    function formRelatedDep_Childs(mode: string, ObjectName: string, PropertyName: string, e: any): void;
     var colors: Array<string>;
+    /**
+* Extract the tables using in a query for monaco-editor.
+* @method extractTables
+* @param {text} sentence query.
+* @return {Array} table array
+*/
+    function extractTables(sentence: string, ConnStringId: string, subqueries: Map<string, string>): any[];
+    function checkRegexWithWorker(regex: RegExp, content: string): Promise<unknown>;
+    function wizardSetStep(e: any): void;
+    const showLoading: (element?: any, text?: any, position?: any) => void;
+    const showLoadingEffect: (time?: number, element?: any, text?: string, position?: any, noTimer?: boolean) => void;
+    const removeLoadingEffect: (element?: any) => void;
+    function getObjectName(collection_name: string): any;
+    function saveFilterValueHistory(history: flexygo.nav.FlexygoHistory, moduleName: string, activeFilter: string, filters: flexygo.ui.wc.FlxFilterInfo[]): void;
 }
 declare namespace flexygo.utils.querystring {
     function getParamValue(url: string, paramName: string): string;

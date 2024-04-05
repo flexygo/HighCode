@@ -381,15 +381,15 @@ var flexygo;
                             //$(input).valid();
                         }
                         const module = me.closest('flx-module')[0];
-                        if (this.options.SQLValidator || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
-                            let ev = {
-                                class: "property",
-                                type: "changed",
-                                sender: this,
-                                masterIdentity: this.property
-                            };
-                            flexygo.events.trigger(ev, me);
-                        }
+                        //if (this.options.SQLValidator || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
+                        //    let ev: flexygo.events.FlexygoEvent = {
+                        //        class: "property",
+                        //        type: "changed",
+                        //        sender: this,
+                        //        masterIdentity: this.property
+                        //    }
+                        //    flexygo.events.trigger(ev, me);
+                        //}
                     });
                     me.html(control);
                     this.setOptions();
@@ -477,6 +477,7 @@ var flexygo;
                     }
                 }
                 setOptions() {
+                    var _a;
                     let me = $(this);
                     let input = me.find('input');
                     let filter = null;
@@ -516,7 +517,7 @@ var flexygo;
                         input.prop('disabled', this.options.Locked);
                     }
                     const module = me.closest('flx-module')[0];
-                    if ((this.options && this.options.CauseRefresh) || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
+                    if (((_a = this.options) === null || _a === void 0 ? void 0 : _a.SQLValidator) || (this.options && this.options.CauseRefresh) || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
                         input.on('change', () => {
                             //$(document).trigger('refreshProperty', [input.closest('flx-edit'), this.options.Name]);
                             if (this.isDefaultValue)

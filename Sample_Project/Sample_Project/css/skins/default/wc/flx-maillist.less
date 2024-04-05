@@ -1,4 +1,6 @@
-﻿.mailFilters flx-text > div {
+﻿@import "../CssVars.less";
+
+.mailFilters flx-text > div {
     margin-bottom: 5px
 }
 
@@ -21,7 +23,7 @@
 
 .mailFolders [folderid].selected {
     font-weight: bold;
-    color:dbColor(OutstandingColor);
+    color:@outstanding-color;
 }
 
 .mailFolders [folderid]:hover {
@@ -54,13 +56,13 @@
 }
 .mailList .nomail-text, .mailList .nosettings-text {
     font-size: 34px;
-    color: dbColor(borderModuleColor);
+    color: @border-module-color;
     text-align: center;
 }
 
 .loadMoreRow .loadMore {
     text-align: center;
-    color: dbColor(OutstandingColor)
+    color: @outstanding-color
 }
 
 .mailFilters {
@@ -68,16 +70,16 @@
 }
 
 .mailFilters hr {
-    border-color: dbColor(borderModuleColor);
+    border-color: @border-module-color;
 }
 .mailFilters a {
-    color: dbColor(borderModuleColor);
+    color: @border-module-color;
 }
 
 .mailToolbar {
     padding-top: 20px;
     padding-bottom: 20px;
-    border-bottom: 1px solid dbColor(borderModuleColor);
+    border-bottom: 1px solid @border-module-color;
 }
 
 .mailToolbar .mail-button-separator {
@@ -108,15 +110,15 @@
 }
 
 .box-mail {
-    color: lighten(dbColor(PrimaryColor),30);
+    color: lighten(@primary-color,30);
     background-color: white;
-    border-left: solid 5px dbColor(OutstandingColor);
+    border-left: solid 5px @outstanding-color;
     line-height: 1.2;
     padding-right: 4px;
 }
 
 .box-mail:hover {
-    background-color: lighten(dbColor(OutstandingColor), 40);
+    background-color: lighten(@outstanding-color, 40);
 }
 
 .box-mail .from {
@@ -132,7 +134,7 @@
 
 .box-mail .subject {
     line-height: 20px;
-    color: dbColor(OutstandingColor);
+    color: @outstanding-color;
     font-weight: bold;
 }
 
@@ -150,7 +152,7 @@
 
 .box-mail.seen .subject, .box-mail.seen .date, .box-mail.seen .body, .box-mail.seen .from {
     font-weight: normal;
-    color: dbColor(PrimaryColor);
+    color: @primary-color;
 }
 
 .box-mail .btn-default {
@@ -178,7 +180,7 @@ flx-mailview > .toolbar > .btn-group > .btn {
 
 .mail-viewer .from {
     font-size: 16px;
-    color: dbColor(InfoColor);
+    color: @info-color;
     font-weight:bold;
 }
 
@@ -189,7 +191,7 @@ flx-mailview > .toolbar > .btn-group > .btn {
 }
 
 .mail-viewer hr {
-    margin-top: dbColor(borderModuleColor);
+    margin-top: @border-module-color;
     //margin-bottom: 6px;
 }
 
@@ -204,11 +206,11 @@ flx-mailview > .toolbar > .btn-group > .btn {
     margin: 5px;
     padding: 2px 4px;
     text-size-adjust: 100%;
-    border: solid 1px dbColor(borderModuleColor);
+    border: solid 1px @border-module-color;
 }
 
 .mail-attachment:hover {
-    background-color: lighten(dbColor(InfoColor), 40);
+    background-color: lighten(@info-color, 40);
 }
 
 
@@ -315,7 +317,7 @@ main[pagename=syspage-list-mailobject] {
             top: 0;
             padding: 0;
             margin: 0;
-            color: dbColor(OutstandingColor);
+            color: @outstanding-color;
             animation: text 3.5s ease both infinite;
             font-size: 12px;
             letter-spacing: 1px;
@@ -349,7 +351,7 @@ main[pagename=syspage-list-mailobject] {
         }
 
         span {
-            background-color: lighten(dbColor(OutstandingColor), 35);
+            background-color: lighten(@outstanding-color, 35);
             border-radius: 50px;
             display: block;
             height: 16px;
@@ -364,7 +366,7 @@ main[pagename=syspage-list-mailobject] {
                 content: "";
                 width: 100%;
                 height: 100%;
-                background-color: dbColor(OutstandingColor);
+                background-color: @outstanding-color;
                 border-radius: inherit;
                 animation: loading2 3.5s ease both infinite;
             }

@@ -14,6 +14,7 @@ declare namespace flexygo.ui.wc {
         constructor();
         objectname: string;
         objectwhere: string;
+        AdditionalWhere: string;
         data: any;
         tHeader: string;
         tBody: string;

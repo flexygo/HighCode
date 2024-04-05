@@ -42,9 +42,16 @@ declare namespace flexygo.ui.wc {
         */
         targetItem: JQuery;
         /**
+        * name of the property to fill in
+        * @property sqlProperty {string}
+        */
+        sqlProperty: string;
+        /**
         * Init the webcomponent. REQUIRED.
         * @method init
         */
+        openQuote: string;
+        closeQuote: string;
         init(): void;
         /**
         * Refresh de webcomponent. REQUIRED.
@@ -56,6 +63,7 @@ declare namespace flexygo.ui.wc {
         * @method render
         */
         render(): void;
+        setViewNameByDbType(): void;
         /**
         * Sets the html form structure
         * @method formComponents

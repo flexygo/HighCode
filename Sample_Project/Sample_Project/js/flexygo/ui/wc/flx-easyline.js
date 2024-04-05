@@ -118,7 +118,7 @@ var flexygo;
                             layoutOptions.sizeClass = "size-l";
                             break;
                         case 'm':
-                            layoutOptions.height = "15px";
+                            layoutOptions.height = "18px";
                             layoutOptions.width = "75px";
                             layoutOptions.sizeClass = "size-m";
                             break;

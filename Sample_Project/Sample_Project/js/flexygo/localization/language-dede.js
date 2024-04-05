@@ -72,6 +72,7 @@ var flexygo;
                 chatter: 'Chatter',
                 users: 'Benutzer',
                 roles: 'Rollen',
+                processes: 'Prozesse',
             };
             dede.history = {
                 historyempty: 'Navigationsverlauf leer',
@@ -292,6 +293,7 @@ var flexygo;
                 savefilter: 'Filterwerte speichern',
                 selectfilterfirst: 'Bitte wählen Sie zuerst einen Filter',
                 save: 'Speichern',
+                pagerInfo: 'Seite-von-Gesamt'
             };
             dede.flxmail = {
                 nomails: 'Keine E-Mails gefunden ',
@@ -316,6 +318,7 @@ var flexygo;
                 edit: 'Bearbeiten',
                 view: 'Anzeigen',
                 print: 'Drucken',
+                printing: 'Drucken',
                 printpage: 'Seite drucken',
                 printmodule: 'Druckmodul',
                 help: 'Hilfe',
@@ -422,6 +425,7 @@ var flexygo;
             };
             dede.upload = {
                 uploaded: 'Hochgeladen',
+                someerror: 'einige Dateien konnten nicht hochgeladen werden',
                 error: 'Fehler beim Hochladen',
                 info: 'Hineinziehen zum Hochladen',
                 extension: 'Dateierweiterung nicht akzeptiert.',
@@ -499,12 +503,15 @@ var flexygo;
                 fromnewtable: 'Aus neuer Tabelle',
                 selectcnnstring: 'Von ausgewählten Verbindungszeichenfolge',
                 validcnnstring: 'Sie müssen eine gültige Verbindungszeichenfolge eingeben',
+                selectschema: 'Wählen Sie das Datenbankschema aus',
+                validschema: 'Sie müssen ein Schema auswählen',
                 selecttable: 'Ursprung wählen',
                 validorigin: 'Sie müssen einen gültigen Ursprung eingeben',
                 newtablename: 'Name der neuen Tabelle',
                 validnewtablename: 'Sie müssen einen Tabellennamen eingeben',
                 viewkeyfields: 'Schlüsselfelder anzeigen',
-                validviewkeyfields: 'Sie müssen eine Ansicht Schlüsselfelder eingeben',
+                tablekeyfields: 'Tabellenschlüsselfelder',
+                validkeyfields: 'Sie müssen eine Ansicht Schlüsselfelder eingeben',
                 savecontinue: 'Speichern und Fortfahren',
                 continue: 'Fortfahren',
                 listtemplate: 'Vorlagen Liste',
@@ -543,6 +550,7 @@ var flexygo;
                 save: 'Sparen',
                 close: 'Schließen',
                 hasdefinition: 'Überprüfen Sie die Eigenschaft in der Tabelle:',
+                valueTemplate: 'Wert',
             };
             dede.flxversioninfo = {
                 currentversion: 'Aktuelle Version ({{CurrentVersion}}).',
@@ -721,6 +729,7 @@ var flexygo;
             dede.offlineemulator = {
                 ios: 'IOS-Modus umschalten',
                 md: 'Android-Modus umschalten',
+                refreshemulatorconfirm: 'Sind Sie sicher, dass Sie alle Daten vom Emulator bereinigen möchten?',
             };
             dede.combobuilder = {
                 datasource: 'Datenquelle',
@@ -852,6 +861,58 @@ var flexygo;
                 infoDownload: "Die Dateien werden in einer ZIP-Datei komprimiert und heruntergeladen",
                 generate: "Dateien generieren",
                 download: "Dateien herunterladen"
+            };
+            dede.flxcode = {
+                readonlyMode: 'Sie können im Anzeigemodus nicht bearbeiten',
+                propertyLocked: 'Gesperrte Eigenschaft'
+            };
+            dede.validateform = {
+                required: "Dieses Feld ist erforderlich.",
+                remote: "Bitte repariere dieses Feld.",
+                email: "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+                url: "Bitte geben Sie eine gültige URL ein.",
+                date: "Bitte gib ein korrektes Datum an.",
+                dateISO: "Bitte geben Sie ein gültiges Datum (ISO) ein.",
+                number: "Bitte geben Sie eine gültige Nummer ein.",
+                digits: "Bitte gib nur Ziffern ein.",
+                equalTo: "Bitte geben Sie den gleichen Wert noch einmal ein.",
+                maxlength: "Please enter no more than {0} characters.",
+                minlength: "Bitte geben Sie mindestens {0} Zeichen ein.",
+                rangelength: "Bitte geben Sie einen Wert zwischen {0} und {1} Zeichen ein.",
+                range: "Bitte geben Sie einen Wert zwischen {0} und {1} ein.",
+                max: "Bitte geben Sie einen Wert kleiner oder gleich {0} ein.",
+                min: "Bitte geben Sie einen Wert größer oder gleich {0} ein.",
+                step: "Bitte geben Sie ein Vielfaches von {0} ein."
+            };
+            dede.flxrelationship = {
+                invalidSintaxis: 'Einige Beziehungen hatten keine gültige Syntax',
+                invalidProperties: 'Die ausgewählten Eigenschaften sind in der Beziehung nicht vorhanden',
+                zoomInButton: 'Vergrößern',
+                zoomOutButton: 'Verkleinern',
+                suggestionsButton: 'Vorgeschlagene Beziehungen',
+                clearButton: 'Beziehungen löschen',
+            };
+            dede.originSelector = {
+                title: 'Wählen Sie aus, an welchem Ursprung Sie arbeiten möchten:'
+            };
+            dede.flxai = {
+                beginMessage: 'Hallo!\nWie kann ich Ihnen helfen?',
+                alertInfoMessage: 'Sie haben das Berear-Token nicht konfiguriert, überprüfen Sie die Dokumentation.',
+                settingNotFound: 'Die Konfiguration des Assistenten mit SettindId "{0}" konnte nicht abgerufen werden.'
+            };
+            dede.excelExport = {
+                title: "Wählen Sie die Felder aus, die Sie im Excel-Export sehen möchten",
+                generate: "Excel generieren",
+                generated: "Das Excel wurde generiert",
+                selectall: "Wählen Sie Alle",
+                deselectall: "Alle abwählen"
+            };
+            dede.comboTexts = {
+                addValue: 'Mehrwert schaffen',
+                warningMessage: '<p>Sind Sie sicher, dass Sie speichern wollen? Mit den eingefügten Daten werden auch neue Datensätze gespeichert:</p><b class="txt-info">@</b>'
+            };
+            dede.utils = {
+                loading: 'Aufladen'
             };
         })(dede = culture.dede || (culture.dede = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

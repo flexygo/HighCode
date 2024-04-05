@@ -10458,10 +10458,14 @@ var dialog = $.widget( "ui.dialog", {
 			.addClass( "ui-dialog-titlebar-close" )
 			.appendTo( this.uiDialogTitlebar );
 		this._on( this.uiDialogTitlebarClose, {
-			click: function( event ) {
-				event.preventDefault();
-				this.close( event );
-			}
+            click: function (event) {
+                event.preventDefault();
+                this.close(event);
+            },
+            touchend: function (event) {
+                event.preventDefault();
+                this.close(event);
+            }
 		});
 
 		uiDialogTitle = $( "<span>" )

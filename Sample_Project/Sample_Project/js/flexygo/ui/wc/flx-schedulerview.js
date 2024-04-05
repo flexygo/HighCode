@@ -28,6 +28,7 @@ var flexygo;
                     this.me = $(this);
                     this.today = moment();
                     this.additionalWhere = null;
+                    this.initialDate = "";
                 }
                 /**
                * Fires when element is attached to DOM
@@ -83,9 +84,13 @@ var flexygo;
                     ctx.render('.schedulerView');
                 }
                 render(selector) {
+                    this.initialDate = "";
+                    if (moment($(this).attr('initialDate'), "YYYYMMDD", true).isValid()) {
+                        this.initialDate = $(this).attr('initialDate');
+                    }
                     let ctx = this;
                     ctx.me.el = $(ctx).find(selector)[0];
-                    ctx.me.current = moment().date(1);
+                    ctx.me.current = (flexygo.utils.isBlank(this.initialDate) ? moment().date(1) : moment(this.initialDate).date(1));
                     ctx.me.current.locale(flexygo.profiles.langKey.toLowerCase().slice(0, 2));
                     ctx.changeEvents(ctx.additionalWhere); //Recoger eventos
                 }
@@ -123,12 +128,17 @@ var flexygo;
                                 if (response) {
                                     ctx.me.events = response;
                                     ctx.draw();
-                                    var current = document.querySelector('.today');
-                                    if (current) {
-                                        window.setTimeout(function () {
-                                            ctx.openDay(current);
-                                        }, 500);
-                                    }
+                                    var isLoaded = setInterval(function () {
+                                        if ($(ctx.me.month).hasClass('loaded')) {
+                                            clearInterval(isLoaded);
+                                            var current = flexygo.utils.isBlank(ctx.initialDate) ? document.querySelector('.today') : $(ctx).find(`[currentdate="${ctx.initialDate}"]`);
+                                            if (current) {
+                                                window.setTimeout(function () {
+                                                    ctx.openDay(current);
+                                                }, 500);
+                                            }
+                                        }
+                                    }, 100);
                                 }
                             });
                         }
@@ -136,6 +146,7 @@ var flexygo;
                 }
                 draw() {
                     let ctx = this;
+                    $(ctx.me.month).removeClass('loaded');
                     let me = $(this);
                     //Create Header
                     ctx.drawHeader();
@@ -153,6 +164,7 @@ var flexygo;
                         onSelect: function (dateText, inst) {
                             dp1.hide();
                             var date = new Date(dateText);
+                            ctx.initialDate = "";
                             ctx.me.current = moment(date);
                             ctx.me.current.locale(flexygo.profiles.langKey.toLowerCase().slice(0, 2));
                             ctx.changeEvents(ctx.additionalWhere);
@@ -177,10 +189,12 @@ var flexygo;
                         ctx.me.title = ctx.createElement('h1', '', '', '');
                         var right = ctx.createElement('div', 'right', '', '');
                         $(right).click(function () {
+                            ctx.initialDate = "";
                             ctx.nextMonth();
                         });
                         var left = ctx.createElement('div', 'left', '', '');
                         $(left).click(function () {
+                            ctx.initialDate = "";
                             ctx.prevMonth();
                         });
                         //Append the Elements
@@ -326,6 +340,7 @@ var flexygo;
                     $(outer).append(number);
                     $(outer).append(events);
                     $(ctx.me.week).append(outer);
+                    $(ctx.me.month).addClass('loaded');
                 }
                 drawEvents(day, element) {
                     let ctx = this;

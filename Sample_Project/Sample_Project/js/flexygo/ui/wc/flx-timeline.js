@@ -628,10 +628,10 @@ var flexygo;
                         tooltipOnItemUpdateTime: {
                             template: (item) => {
                                 return `<div>
-                                    <i class="fa fa-hourglass-1"/></i> ${moment(item.start).utc().format('l')} ${moment(item.start).utc().format('LT')}
+                                    <i class="fa fa-hourglass-1"/></i> ${moment(item.start).utc().format('l')} ${moment(item.start).format('LT')}
                                 </div>
                                 ${(item.end) ? `<div>
-                                                    ${moment(item.end).utc().format('l')} ${moment(item.end).utc().format('LT')} <i class="fa fa-hourglass-end"></i>
+                                                    ${moment(item.end).utc().format('l')} ${moment(item.end).format('LT')} <i class="fa fa-hourglass-end"></i>
                                                 </div>` : ''}`;
                             }
                         },

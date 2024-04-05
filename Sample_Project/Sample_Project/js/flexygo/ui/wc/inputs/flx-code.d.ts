@@ -1,5 +1,6 @@
 declare var CodeMirror: any;
 declare var JSHINT: any;
+declare var require: any;
 /**
  * @namespace flexygo.ui.wc
  */
@@ -13,12 +14,20 @@ declare namespace flexygo.ui.wc {
     */
     class FlxCodeElement extends HTMLElement {
         constructor();
+        static typeScriptLibraries: object[];
         type: string;
         options: flexygo.api.ObjectProperty;
         property: string;
         moduleName: string;
-        mode: string;
+        height: string;
+        width: string;
+        editor: string;
+        intellisense: boolean;
+        monaco: monaco.editor.IStandaloneCodeEditor;
+        renderMode: string;
         readonly: any;
+        inTemplate: boolean;
+        help: boolean;
         myCM: any;
         value: string;
         /**
@@ -31,6 +40,8 @@ declare namespace flexygo.ui.wc {
         * @method connectedCallback
         */
         connectedCallback(): void;
+        static setTypeScriptLibraries(libraries: any): void;
+        static getTypeScriptLibraries(): object[];
         /**
         * Array of observed attributes.
         * @property observedAttributes {Array}
@@ -46,14 +57,20 @@ declare namespace flexygo.ui.wc {
         * @method refresh
         */
         refresh(): void;
-        init(): void;
+        initMonaco(): void;
+        setCodeEditor(e?: flexygo.events.FlexygoEvent): void;
+        adjustPlaceHolder(node: JQuery): void;
+        initCodeMirror(): void;
         setOptions(): void;
         getValue(): string;
         setValue(value: string): void;
+        setValueWithHistory(value: string): void;
         setValueView(value: string): void;
-        fullscreen(value: any): void;
+        fullscreen(value?: any): void;
         getMode(): string;
         getWizardButton(): string;
+        getHeadBar(): string;
+        triggerReturnEvent(context: JQuery): void;
         setButtonsSettings(m: any): void;
         /**
         * Trigger Dependencies.

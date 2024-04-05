@@ -149,6 +149,7 @@ declare namespace flexygo.api {
     * @return {ObjectProperty} .
     */
     class ObjectProperty {
+        Key: boolean;
         ObjectName: string;
         Name: string;
         PositionX: number;
@@ -185,11 +186,19 @@ declare namespace flexygo.api {
         AllowNewFunction: string;
         AllowNewReturnFields: string;
         AllowNewDefaults: string;
+        ComboAllowSave: boolean;
+        ComboAllowSave_Object: string;
+        ComboAllowSave_DisplayField: string;
+        ComboAllowSave_ValueField: string;
+        ComboAllowSave_Defaults: string;
+        ComboAllowSave_WarningMessage: boolean;
+        TargetIdAllowNew: string;
         ObjNameLink: string;
         ObjWhereLink: string;
         ObjModeLink: string;
         PageNameLink: string;
         TargetIdLink: string;
+        ChatGPTSettingId: string;
         Style: string;
         CssClass: string;
         LabelStyle: string;
@@ -234,6 +243,7 @@ declare namespace flexygo.api {
         DependingProperties: DependencyProperties[];
         DependingFrom: DependencyProperties[];
         ThrowDependenciesOnInvalid: boolean;
+        DataType?: string;
         ObjectPath?: string;
         Type?: string;
         AllowNull?: boolean;
@@ -245,6 +255,7 @@ declare namespace flexygo.api {
         ProcessName?: string;
         ReportName?: string;
         PageSize?: number;
+        HasSecurityObject?: boolean;
         BarcodeReaders?: string;
     }
     /**
@@ -644,6 +655,57 @@ declare namespace flexygo.api {
     class ObjectViewCollection {
         [key: string]: flexygo.api.ObjectView;
     }
+    /**
+    * api for ChatGPTSetting
+    * @class ObjectViewCollection
+    * @constructor
+    * @return {ChatGPTSetting} .
+    */
+    class ChatGPTSetting {
+        SettingId: string;
+        ApiUrl: string;
+        BearerToken: string;
+        Model: string;
+        SystemPrompt: string;
+        MaxLevel: number;
+        PromptsBar: ButtonPrompt[];
+    }
+    class ChatGPTSettingLoweredKey {
+        SettingId: string;
+        ApiUrl: string;
+        BearerToken: string;
+        Model: string;
+        SystemPrompt: string;
+        MaxLevel: number;
+        PromptsBar: ButtonPromptLoweredKey[];
+    }
+    /**
+    * api for ChatGPT ButtonPrompt
+    * @class ObjectViewCollection
+    * @constructor
+    * @return {ButtonPrompt} .
+    */
+    class ButtonPrompt {
+        ButtonId: string;
+        SettingId: string;
+        Prompt: string;
+        IconName: string;
+        Title: string;
+    }
+    class ButtonPromptLoweredKey {
+        buttonid: string;
+        settingid: string;
+        prompt: string;
+        iconname: string;
+        title: string;
+    }
+    class RequestChatGPTParameters {
+        ApiUrl: string;
+        Messages: string;
+        BearerToken: string;
+        Model: string;
+        SystemPrompt: string;
+    }
 }
 /**
  * @namespace flexygo.api.chart
@@ -747,6 +809,8 @@ declare namespace flexygo.api.orgchart {
         ObjectWhere: string;
         ModuleName: string;
         PageName: string;
+        Defaults?: flexygo.api.GenericKeyValueObject[];
+        AdditionalWhere?: string;
     }
     class GetNodesResponse {
         Options: string;
@@ -1368,6 +1432,7 @@ declare namespace flexygo.api.edit {
         AdditionalWhere: string;
         SQLFilter: string;
         CnnString: string;
+        HasSecurityObject: boolean;
     }
     /**
    * api for getEditConfigParams
@@ -1511,6 +1576,7 @@ declare namespace flexygo.api.entity {
         UpdateType: ObjUpdateType;
         UpdateProcessName: string;
         KeyFields: string[];
+        FriendlyURL: boolean;
     }
     /**
    * api for GetProcessesResponse
@@ -1967,6 +2033,7 @@ declare namespace flexygo.api.navigation {
         ProcessName: string;
         ProcessHasParams: boolean;
         PageTypeId: string;
+        PresetName: string;
         PageName: string;
         ReportName: string;
         ReportHasParams: boolean;
@@ -2032,6 +2099,7 @@ declare namespace flexygo.api.navigation {
         processname: string;
         processhasparams: boolean;
         pagetypeid: string;
+        presetname: string;
         pagename: string;
         reportname: string;
         reporthasparams: boolean;
@@ -2603,6 +2671,7 @@ declare namespace flexygo.api.view {
         ModuleName: string;
         PageName: string;
         TemplateId: string;
+        Defaults?: flexygo.api.GenericKeyValueObject[];
     }
     /**
     * api for getViewTemplateResponse
@@ -2892,5 +2961,8 @@ declare namespace flexygo.api.DocumentManager {
         permissionError: boolean;
         extension: string;
         inProgress: boolean;
+        jsCode: string;
+        lastProcessName: string;
+        lastAfterProcessName: string;
     };
 }

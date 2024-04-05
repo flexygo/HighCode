@@ -71,6 +71,15 @@ var flexygo;
                 */
                 disconnectedCallback() {
                     flexygo.events.off(this, "property", "changed", this.onPropertyChanged);
+                    for (let i = 0; i < $(this).find('flx-code[editor="monaco"]').length; i++) {
+                        let monacoEditor = $(this).find('flx-code[editor="monaco"]')[i];
+                        if (monacoEditor.monaco) {
+                            monacoEditor.monaco.dispose();
+                        }
+                        flexygo.events.off(monacoEditor, 'property', 'resized');
+                        flexygo.events.off(monacoEditor, 'module', 'resized');
+                        flexygo.events.off(monacoEditor, 'dialog', 'resized');
+                    }
                 }
                 /**
                * Fires when the attribute value of the element is changed.
@@ -154,6 +163,15 @@ var flexygo;
                 * @method refresh
                 */
                 refresh() {
+                    for (let i = 0; i < $(this).find('flx-code[editor="monaco"]').length; i++) {
+                        let monacoEditor = $(this).find('flx-code[editor="monaco"]')[i];
+                        if (monacoEditor.monaco) {
+                            monacoEditor.monaco.dispose();
+                        }
+                        flexygo.events.off(monacoEditor, 'property', 'resized');
+                        flexygo.events.off(monacoEditor, 'module', 'resized');
+                        flexygo.events.off(monacoEditor, 'dialog', 'resized');
+                    }
                     if ($(this).attr('manualInit') != 'true') {
                         this.init();
                     }
@@ -547,6 +565,14 @@ var flexygo;
                     };
                     var hideControls = me.find('.resizable-row').find('.hideControlGridStack [property]');
                     me.find('.resizable-row').gridstack(options);
+                    if ($(me[0]).find('flx-code[editor="monaco"]').length > 0 && $(me[0]).find('flx-code[editor="monaco"]').is(":visible")) {
+                        var ev = {
+                            class: "property",
+                            type: "resized",
+                            masterIdentity: "flx-edit"
+                        };
+                        flexygo.events.trigger(ev, $(this));
+                    }
                     //detach hideControls before gridstack in order to avoid field gaps
                     hideControls.each((index, elem) => { this.removeStack($(elem)); });
                     // me.find('.resizable-row').append(hideControls);
@@ -630,7 +656,8 @@ var flexygo;
                         targetid = 'modal';
                     }
                     let histObj = {
-                        targetid: targetid
+                        targetid: targetid,
+                        userid: flexygo.context.currentUserId
                     };
                     let pageContainer = flexygo.targets.createContainer(histObj, true, null);
                     if (!pageContainer) {
@@ -892,13 +919,6 @@ var flexygo;
                                 }
                                 else if (row[tag] || tag.toLowerCase() == 'control') {
                                     prop.prepend(this.getValue(row, tag));
-                                    if (this.properties[row.name].ControlType.indexOf('code') != -1 || this.properties[row.name].ControlType == 'multiline') {
-                                        let lblHeight = 25;
-                                        prop.css('height', 'calc(100% - ' + lblHeight + 'px)');
-                                    }
-                                    else if (this.properties[row.name].ControlType == 'uploadfile' || this.properties[row.name].ControlType == 'uploadbase64') {
-                                        prop.css('height', 'inherit');
-                                    }
                                 }
                             }
                             container.attr('data-gs-x', row.positionx);
@@ -971,6 +991,26 @@ var flexygo;
                         cntl.options.IconClass = itm.newCustomProperty.IconClass;
                         if (prop[0].tagName.toLocaleLowerCase() == 'flx-code') {
                             let value = prop.val();
+                            if (prop.attr("editor") == "monaco") {
+                                let parentElement = prop[0].parentElement;
+                                flexygo.events.off(prop[0], 'property', 'resized');
+                                flexygo.events.off(prop[0], 'module', 'resized');
+                                flexygo.events.off(prop[0], 'dialog', 'resized');
+                                if (prop[0].monaco) {
+                                    prop[0].monaco.dispose();
+                                }
+                                //create an observer to wait until the new element replace prop, for render the monaco de editor
+                                const observer = new MutationObserver((mutationsList, observer) => {
+                                    for (const mutation of mutationsList) {
+                                        if (mutation.type === 'childList' && mutation.removedNodes.length > 0) {
+                                            element[0].setCodeEditor();
+                                            observer.disconnect();
+                                            break;
+                                        }
+                                    }
+                                });
+                                observer.observe(parentElement, { childList: true });
+                            }
                             prop.replaceWith(element);
                             element[0].setValue(value);
                         }
@@ -988,6 +1028,9 @@ var flexygo;
                             this.appendStack(prop);
                             prop.removeClass('hideControl');
                             lblprop.removeClass('hideControl');
+                            if ($(prop[0]).is('flx-code[editor="monaco"]') && $(prop[0]).is(':visible')) {
+                                prop[0].setCodeEditor();
+                            }
                             let ctlClass = prop.attr('control-class');
                             if (typeof ctlClass != 'undefined') {
                                 prop.attr('control-class', ctlClass.replace('hideControl', ''));
@@ -1131,6 +1174,15 @@ var flexygo;
                             secProp.attr('data-w', prop.attr('data-gs-width'));
                             secProp.attr('data-h', prop.attr('data-gs-height'));
                             secProp.detach();
+                            let codeEditor = secProp.find('[data-tag="control"]>flx-code[editor="monaco"]');
+                            if (codeEditor.length > 0) {
+                                flexygo.events.off(codeEditor[0], 'property', 'resized');
+                                flexygo.events.off(codeEditor[0], 'module', 'resized');
+                                flexygo.events.off(codeEditor[0], 'dialog', 'resized');
+                                if (codeEditor[0].monaco) {
+                                    codeEditor[0].monaco.dispose();
+                                }
+                            }
                             hidGD.append(secProp);
                             let gd = me.find('.grid-stack').data('gridstack');
                             gd.removeWidget(prop);
@@ -1184,8 +1236,14 @@ var flexygo;
                         return 0;
                     });
                     props.detach();
+                    let prop_values = {};
+                    props.find('[property]').each((_, el) => {
+                        prop_values[el.property] = el.getValue();
+                    });
                     for (let i = 0; i < orderProps.length; i++) {
                         me.find('.grid-stack').append(orderProps[i].Prop);
+                        const prop = orderProps[i].Prop.find('[property]')[0];
+                        prop.setValue(prop_values[prop.property]);
                     }
                 }
                 /**

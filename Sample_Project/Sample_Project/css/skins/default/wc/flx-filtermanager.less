@@ -1,13 +1,15 @@
-﻿flx-filtermanager li, flx-viewmanager li{
+﻿@import "../CssVars.less";
+
+flx-filtermanager li, flx-viewmanager li{
     list-style: none;
 }
 
 flx-filtermanager span i, flx-viewmanager span i{
-    color:lighten(dbColor(PrimaryColor),10);
+    color:lighten(@primary-color,10);
 }
 
 flx-filtermanager .comment, flx-viewmanager .comment {
-    color: lighten(dbColor(PrimaryColor),10);
+    color: lighten(@primary-color,10);
     font-size: .8em;
     font-style: italic;
     float: right;
@@ -146,7 +148,7 @@ flx-sortmanager .sortContainer > ul {
     cursor: move;
 }
 
-@media (max-width: dbSize(small)) {
+@media (max-width: @small) {
     flx-sortmanager .box{padding:8px;}
     .fieldSortItem {
         padding: 2px;

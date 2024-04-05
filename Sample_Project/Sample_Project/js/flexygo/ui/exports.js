@@ -6,7 +6,7 @@ var flexygo;
         (function (exports) {
             /**
              * Create export list menu.
-             * @function                       exportListMenu
+             * @function exportListMenu
             * @param {string} objectname  Object name.
             * @param {string} objectwhere  Object where.
             * @param {defaults} defaults  defaults
@@ -26,14 +26,19 @@ var flexygo;
                         }
                     }
                     menuUl.find('li').off('click').on('click', function (event) {
-                        let listModule = ($('flx-contextmenu')[0].parent.closest('flx-module').find('flx-list')[0]);
-                        if ($(this).attr('method') === 'export' && listModule) {
-                            if (listModule.maxRows <= ExportLimit) {
-                                flexygo.ui.exports.exportList($(this).attr('format'), parseInt($(this).attr('maxnumber')), ($('flx-contextmenu')[0].parent.closest('flx-module').find('flx-list')[0]));
+                        const module = $('flx-contextmenu')[0].parent.closest('flx-module')[0];
+                        const list_module = module.querySelector('flx-list');
+                        if (this.getAttribute('method') !== 'export' || !list_module)
+                            return;
+                        if (this.getAttribute('format') === 'xls') {
+                            showExcelExportModal(objectname, objectwhere, module.moduleName, list_module.templateId, list_module);
+                        }
+                        else {
+                            if (list_module.maxRows <= ExportLimit) {
+                                flexygo.ui.exports.exportList($(this).attr('format'), parseInt($(this).attr('maxnumber')), list_module);
+                                return;
                             }
-                            else {
-                                flexygo.msg.warning(flexygo.localization.translate('_export.exportlimit'));
-                            }
+                            flexygo.msg.warning(flexygo.localization.translate('_export.exportlimit'));
                         }
                     });
                     cntMenu.showMenu(menuUl, triggerElement);
@@ -51,33 +56,7 @@ var flexygo;
             function exportList(format, maxNumber, listToExport) {
                 try {
                     if (listToExport) {
-                        let objDef;
-                        //Add defaults to process
-                        if (listToExport.defaults) {
-                            if (typeof this.defaults == 'string') {
-                                objDef = JSON.parse(this.defaults);
-                            }
-                            else {
-                                objDef = this.defaults;
-                            }
-                        }
-                        else {
-                            let histObj = flexygo.history.get($(listToExport));
-                            if (typeof histObj != 'undefined' && histObj.defaults) {
-                                if (typeof histObj.defaults == 'string') {
-                                    objDef = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
-                                }
-                                else {
-                                    objDef = histObj.defaults;
-                                }
-                            }
-                            if (objDef == null) {
-                                let wcMod = $(listToExport).closest('flx-module')[0];
-                                if (wcMod) {
-                                    objDef = wcMod.objectdefaults;
-                                }
-                            }
-                        }
+                        const objDef = getDefaults(listToExport);
                         let params;
                         let responseData;
                         let table;
@@ -200,6 +179,120 @@ var flexygo;
                 }
             }
             exports.printListMenu = printListMenu;
+            function showExcelExportModal(objectname, objectwhere, modal_name, template_id, list_element) {
+                let histObj = new flexygo.nav.FlexygoHistory();
+                histObj.targetid = 'sliderightx60%';
+                let modal = flexygo.targets.createContainer(histObj, true, null, true, null);
+                if (!modal) {
+                    return;
+                }
+                modal.empty();
+                modal.closest('.ui-dialog').find('.ui-dialog-title').html(flexygo.localization.translate('sortmanager.sort'));
+                modal.closest('.ui-dialog').find('.ui-dialog-buttonset').attr("style", "float:left");
+                modal.append(`<div id="excelExport" modalName="${modal_name}" template_id="${template_id}"></div>`);
+                initExcelExport(objectname, objectwhere, modal_name, template_id, list_element);
+            }
+            exports.showExcelExportModal = showExcelExportModal;
+            /**
+             * Open an excel export modal that shows every possible printable column
+             * @function                                           exportExcelList
+             * @param {string} modal_name                          Modal name
+             * @param {number} template_id                         Template id
+             * @param {flexygo.ui.wc.FlxListElement} list_element  flx-list to export.
+             * @returns                                            This function return nothing.
+             */
+            function initExcelExport(objectname, objectwhere, modal_name, template_id, list_element) {
+                let export_modal = $(`#excelExport[modalName="${modal_name}"][template_id="${template_id}"]`);
+                let fields_div = $('<div class="exportFields"></div>');
+                const fields = list_element.fields;
+                for (let key in fields) {
+                    fields_div.append(`<div class="clickable" key="${key}">${fields[key]}</div>`);
+                }
+                fields_div.find('[key]').on('click', field => {
+                    const current_field = field.currentTarget;
+                    current_field.classList.toggle('inactive');
+                });
+                export_modal.append(`<h2>${flexygo.localization.translate('excelExport.title')}:</h2>`);
+                export_modal.append(fields_div);
+                const buttons_row = $(`<span></span>`);
+                const export_button = $(`<button class="btn exportExcel"><i class="flx-icon icon-excel margin-right-s"></i><span>${flexygo.localization.translate('excelExport.generate')}</span></button>`);
+                const selector_button = $(`<button class="btn deselectall">${flexygo.localization.translate('excelExport.deselectall')}</button>`); //Translate
+                export_button.on('click', () => {
+                    generateExcelExport(objectname, objectwhere, modal_name, template_id, list_element.additionalWhere, export_button[0]);
+                });
+                selector_button.on('click', () => {
+                    const deselect = selector_button.hasClass('deselectall');
+                    const export_fields = fields_div.find('> div');
+                    if (deselect) {
+                        export_fields.addClass('inactive');
+                        selector_button.removeClass('deselectall').addClass('selectall');
+                        selector_button.text(flexygo.localization.translate('excelExport.selectall'));
+                    }
+                    else {
+                        export_fields.removeClass('inactive');
+                        selector_button.removeClass('selectall').addClass('deselectall');
+                        selector_button.text(flexygo.localization.translate('excelExport.deselectall'));
+                    }
+                });
+                buttons_row.append(export_button);
+                buttons_row.append(selector_button);
+                export_modal.append(buttons_row);
+            }
+            function generateExcelExport(objectname, objectwhere, module_name, template_id, additional_where, triggerElement) {
+                const dialog_div = triggerElement.closest('.ui-dialog');
+                const field_divs = dialog_div.querySelectorAll('[key].inactive');
+                let inactive_fields = [];
+                field_divs.forEach(field_div => {
+                    const key = field_div.getAttribute('key');
+                    inactive_fields.push(key);
+                });
+                let params = {
+                    ObjectName: objectname,
+                    ObjectWhere: objectwhere,
+                    ModuleName: module_name,
+                    TemplateId: template_id,
+                    AdditionalWhere: additional_where,
+                    InactiveFields: inactive_fields
+                };
+                flexygo.ajax.syncPost('~/api/Report', 'GetExcelExport', params, (ret) => {
+                    if (ret.Success) {
+                        var func = new Function(ret.Link);
+                        func.call(ret.Link);
+                        dialog_div.querySelector('.ui-dialog-titlebar-close').click();
+                        flexygo.msg.success(flexygo.localization.translate('excelExport.generated'));
+                    }
+                });
+            }
+            function getDefaults(listToExport) {
+                let objDef;
+                //Add defaults to process
+                if (listToExport.defaults) {
+                    if (typeof this.defaults == 'string') {
+                        objDef = JSON.parse(this.defaults);
+                    }
+                    else {
+                        objDef = this.defaults;
+                    }
+                }
+                else {
+                    let histObj = flexygo.history.get($(listToExport));
+                    if (typeof histObj != 'undefined' && histObj.defaults) {
+                        if (typeof histObj.defaults == 'string') {
+                            objDef = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
+                        }
+                        else {
+                            objDef = histObj.defaults;
+                        }
+                    }
+                    if (objDef == null) {
+                        let wcMod = $(listToExport).closest('flx-module')[0];
+                        if (wcMod) {
+                            objDef = wcMod.objectdefaults;
+                        }
+                    }
+                }
+                return objDef;
+            }
         })(exports = ui.exports || (ui.exports = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));
 })(flexygo || (flexygo = {}));

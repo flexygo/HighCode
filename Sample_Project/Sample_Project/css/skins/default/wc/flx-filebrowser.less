@@ -1,7 +1,9 @@
-﻿.fb-footer {
+﻿@import "../CssVars.less";
+
+.fb-footer {
     width: 100%;
     padding: 10px;
-    border-top: 1px solid dbColor(OutstandingColor);
+    border-top: 1px solid @outstanding-color;
     opacity: 1;
     transition: all 0.15s ease-in;
 }
@@ -21,8 +23,8 @@
     }
 
     .fb-path-info {
-        border-top: 1px solid dbColor(OutstandingColor);
-        border-bottom: 1px solid dbColor(OutstandingColor);
+        border-top: 1px solid @outstanding-color;
+        border-bottom: 1px solid @outstanding-color;
     }
     /*.fb-check {
         position: absolute;

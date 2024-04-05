@@ -48,6 +48,7 @@ var flexygo;
                         mode = 'process';
                     }
                     this.mode = mode;
+                    element.attr("mode", mode);
                     //Remove entity events
                     flexygo.events.off(this, "entity", "all", this.onPropertyChanged);
                     //Capture entity events
@@ -89,14 +90,6 @@ var flexygo;
                         default:
                             this.initEditMode();
                     }
-                    //if (this.mode == 'process' || this.mode == 'report') {
-                    //    flexygo.events.off(ctx, "entity", "all", onPropertyUpdate);
-                    //    flexygo.events.on(ctx, "entity", "all", onPropertyUpdate);
-                    //    $(document).off('insert.property update.property');
-                    //    $(document).on('insert.property update.property', function (evName, entity, form) {
-                    //        this.refresh();
-                    //    });
-                    //}
                 }
                 onPropertyChanged(e) {
                     if (this.mode == 'process' || this.mode == 'report') {
@@ -110,9 +103,6 @@ var flexygo;
                     me.html('');
                     let params = {
                         ObjectName: me.attr('ObjectName')
-                        //ObjectWhere: null,
-                        //ModuleName: 'sysmod-edit-generic',
-                        //Defaults: null
                     };
                     flexygo.ajax.post('~/api/Edit', 'GetEditConfig', params, (response) => {
                         if (response) {
@@ -240,6 +230,16 @@ var flexygo;
                         rendered = flexygo.utils.parser.compile(this.properties, this.tBody, this);
                         me.empty();
                         me.html(rendered);
+                        me.keydown(function (event) {
+                            if (event.key === 'Alt') {
+                                me.find('.lblName').removeClass('hidden');
+                            }
+                        });
+                        me.keyup(function (event) {
+                            if (event.key === 'Alt') {
+                                me.find('.lblName').addClass('hidden');
+                            }
+                        });
                         me.append('<div style="clear:both"></div>');
                         let cellH = 70;
                         let itm = me.closest('.size-xs,.size-s,.size-m,.size-l');
@@ -323,7 +323,16 @@ var flexygo;
                     let btnProp = $('<button class="addProps btn btn-default txt-tools"><i class="flx-icon icon-add"></i> ' + flexygo.localization.translate('nodemanager.addfields') + '</button>');
                     let btnRelatedDep = $('<button class="relatedDep btn btn-outstanding margin-right-s"><i class="flx-icon icon-properties-relations"></i> ' + flexygo.localization.translate('nodemanager.relationshipOfDependencies') + '</button>');
                     btnRelatedDep.on('click', (e) => {
-                        flexygo.nav.openPageName('sys_form_property_related_dependencies', this.objectname, '', JSON.stringify({ 'objectname': this.objectname }), 'sliderightx80%', true, $(e.currentTarget));
+                        switch (this.mode) {
+                            case 'process':
+                                flexygo.nav.openPageName('sys_form_param_related_dependencies', this.objectname, '', JSON.stringify({ 'processname': this.processName }), 'sliderightx80%', true, $(e.currentTarget));
+                                break;
+                            case 'report':
+                                flexygo.nav.openPageName('sys_form_report_related_dependencies', this.objectname, '', JSON.stringify({ 'reportname': this.reportName }), 'sliderightx80%', true, $(e.currentTarget));
+                                break;
+                            default:
+                                flexygo.nav.openPageName('sys_form_property_related_dependencies', this.objectname, '', JSON.stringify({ 'objectname': this.objectname }), 'sliderightx80%', true, $(e.currentTarget));
+                        }
                     });
                     if (this.mode == 'process') {
                         btnProp.on('click', (e) => {
@@ -354,11 +363,17 @@ var flexygo;
                                     botonera += '<button class="btn btn-default" title="' + flexygo.localization.translate('flxedit.selectnone') + '" onclick="$(this).closest(\'.popover-content\').find(\'.chk\').prop(\'checked\',false);"><i class="flx-icon icon-non-check-2" ></i></button>';
                                     botonera += '</div>';
                                     botonera += '<div class="btn-group" style="float:right" >';
+                                    botonera += '<button class="btn btn-default" title="' + flexygo.localization.translate('flxsearch.search') + '" onclick="let a=$(this).closest(\'.popover-content\').find(\'.props-filter-container\'); if (a.is(\':visible\')){$(a).find(\'input\').val(\'\');$(a).find(\'input\').trigger(\'keyup\')} a.slideToggle();"><i class="flx-icon icon-filter"></i></button>';
                                     botonera += '<button class="btn btn-default" title="' + flexygo.localization.translate('flxedit.addfields') + '" onclick="$(this).closest(\'flx-propertymanager\')[0].addProperties($(this).closest(\'.popover-content\').find(\'.chk:checked\'));$(this).closest(\'flx-module\').find(\'.addProps\').click();"><i class="flx-icon icon-plus"></i></button>';
                                     botonera += '</div>';
                                     botonera += '</div>';
                                     let textChk = '';
-                                    textChk += '<div class="propertyList"><ul class="list-unstyled row">';
+                                    let filterContainer = `<div class="props-filter-container padding-top-m" style="display:none;">
+                                <div class="search input-group" style="width:100%;">
+                                    <input type="search" placeholder="${flexygo.localization.translate('flxsearch.search')}" style="width:100%;"
+                                           onkeyup="$(this).closest(\'flx-propertymanager\')[0].filterProperties(this);" onsearch="$(this).closest(\'flx-propertymanager\')[0].filterProperties(this);">
+                                </div></div>`;
+                                    textChk += filterContainer + '<div class="propertyList"><ul class="list-unstyled row">';
                                     let i = 0;
                                     while (i < ret.length) {
                                         textChk += '<li class="col-4"><label title="' + ret[i] + '"><input class="chk" type="checkbox" value="' + ret[i] + '"><div>' + ret[i] + '</div></label></li>';
@@ -401,7 +416,7 @@ var flexygo;
                                 contentCreate += '</flx-combo>';
                                 contentCreate += '</div>';
                                 contentCreate += '<div class="col-4">';
-                                contentCreate += ' <flx-dbcombo property="fieldTable" additionalWhere="(objects.objectname=\'' + ObjectName + '\')" PlaceHolder="' + flexygo.localization.translate('flxedit.selecttable') + '" ObjectName="sysObject" ViewName="NetAdditionalTables" SQLValueField="tablename" SQLDisplayField="tablename" required data-msg-required="' + flexygo.localization.translate('objectmanager.validicon') + '"> </flx-dbcombo>';
+                                contentCreate += ' <flx-dbcombo property="fieldTable" additionalWhere="(objects.objectname=\'' + ObjectName + '\')" PlaceHolder="' + flexygo.localization.translate('flxedit.selecttable') + '" ObjectName="sysObject" ViewName="NetAdditionalTables" SQLValueField="tablename" SQLDisplayField="tablename" SQLFilter="vNetAdditionalTables.tablename like @findstring" required data-msg-required="' + flexygo.localization.translate('objectmanager.validicon') + '"> </flx-dbcombo>';
                                 contentCreate += '</div>';
                                 contentCreate += '<div class="col-1">';
                                 contentCreate += '<button title="' + flexygo.localization.translate('flxedit.createfields') + '" class="btn btn-default" onclick="$(this).closest(\'flx-propertymanager\')[0].addFields($(this).closest(\'.popover-content\').find(\'[property=fieldName]\').val(),$(this).closest(\'.popover-content\').find(\'[property=fieldType]\').val(),$(this).closest(\'.popover-content\').find(\'[property=fieldTable]\').val());$(this).closest(\'flx-module\').find(\'.addProps\').click();"><i class="flx-icon icon-plus" /></button>';
@@ -490,6 +505,21 @@ var flexygo;
                         this.refresh();
                     });
                 }
+                filterProperties(e) {
+                    let me = $(this);
+                    let value = $(e).val().toLowerCase();
+                    ;
+                    let props = me.find('.propertyList input');
+                    for (let i = 0; i < props.length; i++) {
+                        let propName = $(props[i]).val().toLowerCase();
+                        if (propName.includes(value)) {
+                            $(props[i]).closest('li').removeClass('hide');
+                        }
+                        else {
+                            $(props[i]).closest('li').addClass('hide');
+                        }
+                    }
+                }
                 refreshConfigMode() {
                     let me = $(this);
                     if (this.mode != 'list') {
@@ -534,7 +564,7 @@ var flexygo;
                     if (tag.toLowerCase() == 'control') {
                         let prop = this.properties[row.name];
                         let defVal = (row.defaultvalue !== null ? `<span title="${flexygo.localization.translate('flxedit.defaultvalue')}" class="propertymanager-default txt-muted">${(row.persistdefaultvalue ? `<i title="${flexygo.localization.translate('flxedit.persistdefaultvalue')}" class="flx-icon icon-pin margin-right-s"/>` : '')}${row.defaultvalue}</span>` : '');
-                        return '<' + prop.WebComponent + ' disabled property="' + row.name + '" />' + defVal;
+                        return `<${prop.WebComponent} mode="preview" disabled property="${row.name}"/>${defVal}`;
                     }
                     else {
                         let value = row[tag];
@@ -590,10 +620,12 @@ var flexygo;
                                     if (tag.toLowerCase() == 'label') {
                                         if (this.properties[row.name].ControlType != 'separator' && this.properties[row.name].ControlType != 'placeholder') {
                                             var inp = $(`<input type="text" class="lblEdit ${(this.properties[row.name].FormDisplay ? '' : 'strike')}" autocomplete="off" />`);
+                                            var lblName = $(`<small class="hidden lblName ${(this.properties[row.name].FormDisplay ? '' : 'strike')}">${row.name}</small>`);
                                             var status = $('<span class="status" />');
                                             var depStatus = $('<span class="depStatus margin-left-s" />');
                                             var detachedProp = $(`<i title="${flexygo.localization.translate('flxedit.detachedproperty')}" class="detachedProp fa fa-unlink margin-left-s" />`);
                                             prop.html(inp);
+                                            prop.append(lblName);
                                             prop.append(status);
                                             prop.append(depStatus);
                                             if (this.properties[row.name].DetachedFromDB) {
@@ -611,7 +643,9 @@ var flexygo;
                                                 let listProps = this.properties[row.name].DependingProperties;
                                                 listDependencies.append(`<small><b>${flexygo.localization.translate('flxedit.throwto')}</b></small><ul id="listDependencies"/>`);
                                                 for (let i = 0; i < listProps.length; i++) {
-                                                    listDependencies.find('ul').append('<li>' + this.properties[row.name].DependingProperties[i].DependantPropertyName + '</li>');
+                                                    if (listDependencies.find(`li:contains('${this.properties[row.name].DependingProperties[i].DependantPropertyName}')`).length == 0) {
+                                                        listDependencies.find('ul').append('<li>' + this.properties[row.name].DependingProperties[i].DependantPropertyName + '</li>');
+                                                    }
                                                 }
                                                 prop.find(".depStatus").append(`<span><i title="${flexygo.localization.translate('flxedit.hasdependencies')}" class="flx-icon icon-right-arrow" clickable></i><flx-tooltip mode="popover" container="body">${listDependencies[0].outerHTML}</flx-tooltip></span>`);
                                             }
@@ -620,7 +654,9 @@ var flexygo;
                                                 let listProps2 = this.properties[row.name].DependingFrom;
                                                 listDependencies2.append(`<small><b>${flexygo.localization.translate('flxedit.affectedby')}</b></small><ul id="listDepending"/>`);
                                                 for (let i = 0; i < listProps2.length; i++) {
-                                                    listDependencies2.find('ul').append('<li>' + this.properties[row.name].DependingFrom[i].DependantPropertyName + '</li>');
+                                                    if (listDependencies2.find(`li:contains('${this.properties[row.name].DependingFrom[i].DependantPropertyName}')`).length == 0) {
+                                                        listDependencies2.find('ul').append('<li>' + this.properties[row.name].DependingFrom[i].DependantPropertyName + '</li>');
+                                                    }
                                                 }
                                                 prop.find(".depStatus").append(`<span><i title="${flexygo.localization.translate('flxedit.hasdependingproperties')}" class="flx-icon icon-object-relations-1 margin-left-s clickable"></i><flx-tooltip mode="popover" container="body">${listDependencies2[0].outerHTML}</flx-tooltip></span>`);
                                             }
@@ -644,10 +680,6 @@ var flexygo;
                                     }
                                     else if (row[tag] || tag.toLowerCase() == 'control') {
                                         prop.prepend(this.getValue(row, tag));
-                                        if (this.properties[row.name].ControlType.indexOf('code') != -1 || this.properties[row.name].ControlType == 'multiline') {
-                                            let lblHeight = 25;
-                                            prop.css('height', 'calc(100% - ' + lblHeight + 'px)');
-                                        }
                                     }
                                 }
                                 container.attr('data-gs-x', row.positionx);
@@ -695,7 +727,7 @@ var flexygo;
                     for (let i = 0; i < this.propArr.length; i++) {
                         if (this.propArr[i].WebComponent) {
                             td = $('<td/>');
-                            let input = '<' + this.propArr[i].WebComponent + ' property="' + this.propArr[i].Name + '"  />';
+                            let input = `<${this.propArr[i].WebComponent} mode="preview" disabled property="${this.propArr[i].Name}"/>`;
                             td.html(input);
                             tr.append(td);
                         }
@@ -738,22 +770,24 @@ var flexygo;
                     return htmlBTN;
                 }
                 insertSeparator(PropertyName, Above) {
+                    let me = this;
                     let params = {
                         Mode: this.mode,
                         Name: (this.objectname || this.processName || this.reportName),
                         PropertyName: PropertyName,
                         Above: Above,
                     };
-                    flexygo.ajax.post('~/api/Edit', 'InsertSeparator', params, (response) => { return response; });
+                    flexygo.ajax.post('~/api/Edit', 'InsertSeparator', params, (response) => { me.refresh(); return response; });
                 }
                 insertPlaceHolder(PropertyName, Above) {
+                    let me = this;
                     let params = {
                         Mode: this.mode,
                         Name: (this.objectname || this.processName || this.reportName),
                         PropertyName: PropertyName,
                         Above: Above,
                     };
-                    flexygo.ajax.post('~/api/Edit', 'InsertPlaceHolder', params, (response) => { return response; });
+                    flexygo.ajax.post('~/api/Edit', 'InsertPlaceHolder', params, (response) => { me.refresh(); return response; });
                 }
                 getExtendedTools(row) {
                     let me = $(this);
@@ -829,6 +863,10 @@ var flexygo;
                         let menuContainer = $(e.currentTarget).parent().find('.propertyMenu');
                         if (menuContainer.children().length == 0) {
                             menuContainer.append(this.getExtendedToolsMenu(row));
+                            //hide icon selector for flx-code properties
+                            if (menuContainer.closest('.item').find('flx-code').length > 0) {
+                                $(menuContainer.find('ul').find('li')[2]).addClass("hidden");
+                            }
                         }
                         this.loadExtendedMenu(row, btMenuId);
                         if ($('#' + btMenuId).is(':visible')) {
@@ -910,21 +948,18 @@ var flexygo;
                         .on('click', (e) => {
                         this.insertSeparator(row.Name, 0);
                         $(e.currentTarget).closest('.propertyMenu').slideUp(250);
-                        this.refresh();
                     });
                     ProccLi.append(btnIsertSep);
                     let btnIsertSep2 = $('<span class="addsep"><i class="flx-icon icon-download" ></i> <span>' + flexygo.localization.translate('flxpropertymanager.addseparatorb') + '</span></span>')
                         .on('click', (e) => {
                         this.insertSeparator(row.Name, 1);
                         $(e.currentTarget).closest('.propertyMenu').slideUp(250);
-                        this.refresh();
                     });
                     ProccLi.append(btnIsertSep2);
                     let btnIsertSep3 = $('<span class="addsep"><i class="flx-icon icon-non-check-2" ></i> <span>' + flexygo.localization.translate('flxpropertymanager.addplaceholder') + '</span></span>')
                         .on('click', (e) => {
-                        this.insertPlaceHolder(row.Name, 1);
+                        this.insertPlaceHolder(row.Name, 0);
                         $(e.currentTarget).closest('.propertyMenu').slideUp(250);
-                        this.refresh();
                     });
                     ProccLi.append(btnIsertSep3);
                     btnUl.append('<li class="separator"></li>');

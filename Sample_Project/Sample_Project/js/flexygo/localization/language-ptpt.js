@@ -72,6 +72,7 @@ var flexygo;
                 chatter: 'Chatter',
                 users: 'Usuarios',
                 roles: 'Roles',
+                processes: 'Processos',
             };
             ptpt.history = {
                 historyempty: 'Histórico de navegação vazio',
@@ -294,6 +295,7 @@ var flexygo;
                 savefilter: 'Salvar filtro',
                 selectfilterfirst: 'Selecione um filtro primeiro',
                 save: 'Salve',
+                pagerInfo: 'Página-de-Total'
             };
             ptpt.flxmail = {
                 nomails: 'Nenhum email encontrado',
@@ -318,6 +320,7 @@ var flexygo;
                 edit: 'Editar',
                 view: 'Ver',
                 print: 'Imprimir',
+                printing: 'Impressão',
                 printpage: 'Imprimir página',
                 printmodule: 'Imprimir módulo',
                 help: 'Ajuda',
@@ -425,6 +428,7 @@ var flexygo;
             };
             ptpt.upload = {
                 uploaded: 'Carregado',
+                someerror: 'alguns arquivos falharam ao fazer upload',
                 error: 'Error de subida',
                 info: 'Arraste para fazer upload',
                 extension: 'Extensão de arquivo não aceita.',
@@ -502,12 +506,15 @@ var flexygo;
                 fromnewtable: 'De uma nova tabela',
                 selectcnnstring: 'Selecione a string de conexão',
                 validcnnstring: 'Você deve selecionar uma string de conexão',
+                selectschema: 'Selecione o esquema do banco de dados',
+                validschema: 'Você deve selecionar um esquema',
                 selecttable: 'Selecione um origem',
                 validorigin: 'Indique uma origem válida',
                 newtablename: 'Nome de nova tabela',
                 validnewtablename: 'Digite o Nome da nova tabela',
                 viewkeyfields: 'Chave primária',
-                validviewkeyfields: 'Introduzca chave primária',
+                tablekeyfields: 'Chave primária',
+                validkeyfields: 'Introduzca chave primária',
                 savecontinue: 'Salve e continue',
                 continue: 'Prosseguir',
                 listtemplate: 'Modelo de lista',
@@ -546,6 +553,7 @@ var flexygo;
                 save: 'Salve',
                 close: 'Fechar',
                 hasdefinition: 'Verifique a tabela da propriedade:',
+                valueTemplate: 'Valor',
             };
             ptpt.flxversioninfo = {
                 currentversion: 'Versão actual ({{CurrentVersion}}).',
@@ -724,6 +732,7 @@ var flexygo;
             ptpt.offlineemulator = {
                 ios: 'Mudar para o modo iOS',
                 md: 'Mudar para o modo Android',
+                refreshemulatorconfirm: 'Tem certeza de que deseja limpar todos os dados do emulador?',
             };
             ptpt.combobuilder = {
                 datasource: 'Fonte de dados',
@@ -855,6 +864,57 @@ var flexygo;
                 infoDownload: "Os arquivos serão compactados em um zip e baixados",
                 generate: "Gerar arquivos",
                 download: "Baixar arquivos"
+            };
+            ptpt.flxcode = {
+                readonlyMode: 'Você não pode editar no modo de visualização'
+            };
+            ptpt.validateform = {
+                required: "Este campo é obrigatório.",
+                remote: "Corrija este campo.",
+                email: "Por favor insira um endereço de e-mail válido.",
+                url: "Por favor, insira um URL válido.",
+                date: "Por favor insira uma data válida.",
+                dateISO: "Insira uma data válida (ISO).",
+                number: "por favor insira um número válido.",
+                digits: "Por favor insira apenas dígitos.",
+                equalTo: "Por favor entre com o mesmo valor novamente.",
+                maxlength: "Insira no máximo {0} caracteres.",
+                minlength: "Insira pelo menos {0} caracteres.",
+                rangelength: "Insira um valor entre {0} e {1} caracteres.",
+                range: "Insira um valor entre {0} e {1}.",
+                max: "Insira um valor menor ou igual a {0}.",
+                min: "Insira um valor maior ou igual a {0}.",
+                step: "Insira um múltiplo de {0}."
+            };
+            ptpt.flxrelationship = {
+                invalidSintaxis: 'Algumas relações não tinham uma sintaxe válida',
+                invalidProperties: 'As propriedades selecionadas não existem no relacionamento',
+                zoomInButton: 'Aproximar',
+                zoomOutButton: 'Afastar',
+                suggestionsButton: 'Relações Sugeridas',
+                clearButton: 'Limpar Relações',
+            };
+            ptpt.originSelector = {
+                title: 'Selecione em qual origem você gostaria de trabalhar:'
+            };
+            ptpt.flxai = {
+                beginMessage: '¡Olá!\nComo posso te ajudar?',
+                alertInfoMessage: 'Você não configurou o Token Berear, por favor, verifique a documentação.',
+                settingNotFound: 'A configuração do assistente com SettindId "{0}" não pôde ser obtida.'
+            };
+            ptpt.excelExport = {
+                title: 'Escolha os campos que deseja exibir no Excel',
+                generate: 'Gerar Excel',
+                generated: 'O Excel foi gerado corretamente',
+                selectall: 'Selecionar tudo',
+                deselectall: 'Desmarcar todos'
+            };
+            ptpt.comboTexts = {
+                addValue: 'Acrescentar valor',
+                warningMessage: '<p>Tem a certeza de que pretende guardar? Com estes dados, os novos registos também serão guardados: </p><b class="txt-info">@</b>'
+            };
+            ptpt.utils = {
+                loading: 'Carregando'
             };
         })(ptpt = culture.ptpt || (culture.ptpt = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

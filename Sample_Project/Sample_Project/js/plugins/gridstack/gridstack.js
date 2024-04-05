@@ -1049,7 +1049,14 @@
             node._beforeDragY = node.y;
 
             el.resizable('option', 'minWidth', cellWidth * (node.minWidth || 1));
-            el.resizable('option', 'minHeight', strictCellHeight * (node.minHeight || 1));
+            /*                      flexygo changes for flx-propertymanager                            */
+            if ($(o).find('flx-upload,flx-image,flx-whiteboard,flx-htmledit').length > 0) {
+                el.resizable('option', 'minHeight', strictCellHeight * (node.minHeight || 2));
+            } else {
+                el.resizable('option', 'minHeight', strictCellHeight * (node.minHeight || 1));
+            }
+            /*******************************************************************************************/
+            
 
             if (event.type == 'resizestart') {
                 o.find('.grid-stack-item').trigger('resizestart');

@@ -1,4 +1,6 @@
-﻿
+﻿//PLEASE MAKE USE OF CssVars.less VARIABLES TO MAKE AN EASY TO MANTAIN AND A COHESIVE THEME
+@import "CssVars.less";
+
 * {
     box-sizing: border-box;
 }
@@ -230,6 +232,10 @@ h1, h2, h3, h4, h5 {
     margin-left: 25px !important;
 }
 
+.margin-left-xxl {
+    margin-left: 50px;
+}
+
 .margin-right-0 {
     margin-right: 0 !important;
 }
@@ -252,6 +258,10 @@ h1, h2, h3, h4, h5 {
 
 .margin-right-xl {
     margin-right: 25px !important;
+}
+
+.margin-right-xxl {
+    margin-right: 50px;
 }
 
 .margin-top-0 {
@@ -278,6 +288,10 @@ h1, h2, h3, h4, h5 {
     margin-top: 25px !important;
 }
 
+.margin-top-xxl {
+    margin-top: 50px;
+}
+
 .margin-bottom-0 {
     margin-bottom: 0 !important;
 }
@@ -302,6 +316,10 @@ h1, h2, h3, h4, h5 {
     margin-bottom: 25px !important;
 }
 
+.margin-bottom-xxl {
+    margin-bottom: 50px;
+}
+
 .last-module-margin {
     margin-bottom: 100px !important;
 }
@@ -322,8 +340,9 @@ h1, h2, h3, h4, h5 {
     margin-bottom: 60px;
 }
 
-.overflowx{
-    overflow-x:auto;}
+.overflowx {
+    overflow-x: auto;
+}
 
 .overflowy {
     overflow-y: auto;
@@ -350,8 +369,8 @@ h1, h2, h3, h4, h5 {
     display: none;
 }
 
-.btn .badge.badge-top{
-    position:absolute;
+.btn .badge.badge-top {
+    position: absolute;
     top: -4px;
     z-index: 1;
 }
@@ -385,18 +404,19 @@ input::-webkit-inner-spin-button {
     flex-direction: column;
     top: 0 !important;
     left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
+    min-width: 100% !important;
+    min-height: 100% !important;
     position: fixed !important;
     z-index: 10;
 }
 
 #mainBlock {
-    @media (min-width: dbSize(medium)) {
+    @media (min-width: @medium) {
         height: ~"calc(100vh - 50px)";
         overflow: auto;
     }
-    @media (max-width: dbSize(medium)) {
+
+    @media (max-width: @medium) {
         padding-top: 50px;
         padding-bottom: env(safe-area-inset-bottom);
         padding-left: env(safe-area-inset-left);
@@ -405,7 +425,7 @@ input::-webkit-inner-spin-button {
 }
 
 #mainContent {
-    @media (min-width: dbSize(medium)) {
+    @media (min-width: @medium) {
         height: 100%;
         overflow: auto;
     }
@@ -418,7 +438,7 @@ input::-webkit-inner-spin-button {
 }
 
 #LineDown {
-    color: dbColor(DangerColor);
+    color: @danger-color;
 }
 
 .fullbackground {
@@ -462,7 +482,6 @@ flx-nav[mode=nav] {
     align-self: auto;
     min-width: 190px;
     min-height: auto;
-
 }
 
 #mainLogo {
@@ -486,20 +505,20 @@ flx-nav[mode=nav] {
 
 #miniButton i {
     transition: .5s linear;
-    color: dbColor(txtHeaderColor);
+    color: @txt-header-color;
 }
 
 #miniButton i:hover {
-    color: darken(dbColor(txtHeaderColor), 25);
+    color: darken(@txt-header-color, 25);
 }
 
 .flipped {
     transform: rotateY(180deg) scale(1);
-    color: dbColor(OutstandingColor) !important;
+    color: @outstanding-color !important;
 }
 
 .flipped:hover {
-    color: lighten(dbColor(OutstandingColor), 25) !important;
+    color: lighten(@outstanding-color, 25) !important;
 }
 
 
@@ -551,26 +570,175 @@ flx-nav[mode=nav] {
 #debugBackground {
     position: fixed;
     left: 0;
-    top: 40%;
+    top: 50%;
     width: 100%;
     height: 300px;
-    background-color: dbColor(HeaderColor);
+    background-color: @header-color;
     display: none;
     text-align: center;
     box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, .2);
     z-index: 999;
+    transform: translatey(-50%);
+}
+
+#developOriginSelector {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    //Title row
+    > div:first-child {
+        font-weight: 200;
+        font-size: 26px;
+    }
+    //Origin buttons row
+    > div:last-child {
+        display: flex;
+        justify-content: center;
+        margin-top: 25px;
+    }
+    //Origin buttons
+    div[origin] {
+        margin: 0 25px;
+        cursor: pointer;
+        transition: all 0.5s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    div[origin] > span {
+        height: 100px;
+        width: 100px;
+        margin-bottom: 7px;
+        border-radius: @border-radius;
+        color: white;
+        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+        transition: all 0.5s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+
+        i, div {
+            margin-bottom: 15px;
+        }
+
+        i {
+            font-size: 30px;
+        }
+
+        div {
+            font-weight: bold;
+        }
+    }
+    //Origin buttons background colors
+    div.system > span {
+        background-color: @danger-color;
+    }
+
+    div.product > span {
+        background-color: @warning-color;
+    }
+
+    div.project > span {
+        background-color: @success-color;
+    }
+
+    div.system.muted > span, div.product.muted > span, div.project.muted > span {
+        background-color: @primary-color;
+    }
+    //Origin buttons hover styles
+    div[origin]:hover {
+        transform: scale(1.07);
+    }
+
+    div[origin]:hover > span {
+        text-shadow: 1px 0 #fff, -1px 0 #fff, 0 1px #fff, 0 -1px #fff, 0.5px 0.5px #fff, -0.5px -0.5px #fff, 0.5px -0.5px #fff, -0.5px 0.5px #fff;
+    }
+    //Orbit animation behind buttons on hover
+    div[origin]:after {
+        width: 50px;
+        height: 50px;
+        content: "";
+        position: absolute;
+        border-radius: 100%;
+        box-sizing: border-box;
+        animation: spin-orbit 4s linear infinite;
+        transform: rotate(0deg);
+        z-index: -2;
+        transition: all 0.5s ease;
+    }
+
+    div.system:after {
+        --bg: @danger-color;
+        --transparent: #b95a5a00;
+        background: radial-gradient(circle at 50% 50%, var(--transparent) 0 62%, var(--bg) 63% 65%, var(--transparent) 66% 100%), radial-gradient(circle at 50% 95%, var(--bg) 0 4%, var(--transparent) 4.5% 100%);
+    }
+
+    div.product:after {
+        --bg: @warning-color;
+        --transparent: #b95a5a00;
+        background: radial-gradient(circle at 50% 50%, var(--transparent) 0 62%, var(--bg) 63% 65%, var(--transparent) 66% 100%), radial-gradient(circle at 50% 95%, var(--bg) 0 4%, var(--transparent) 4.5% 100%);
+    }
+
+    div.project:after {
+        --bg: @success-color;
+        --transparent: #b95a5a00;
+        background: radial-gradient(circle at 50% 50%, var(--transparent) 0 62%, var(--bg) 63% 65%, var(--transparent) 66% 100%), radial-gradient(circle at 50% 95%, var(--bg) 0 4%, var(--transparent) 4.5% 100%);
+    }
+
+    div[origin]:hover:after {
+        width: 180px;
+        height: 54px;
+    }
+
+    div[origin].system:hover span {
+        box-shadow: @danger-color 0px 22px 70px 4px;
+        color: darken(@danger-color, 25%);
+    }
+
+    div[origin].product:hover span {
+        box-shadow: @warning-color 0px 22px 70px 4px;
+        color: darken(@warning-color, 20%);
+    }
+
+    div[origin].project:hover span {
+        box-shadow: @success-color 0px 22px 70px 4px;
+        color: darken(@success-color, 20%);
+    }
+}
+
+@keyframes spin-orbit {
+    from {
+        transform: rotate(0);
+    }
+
+    to {
+        transform: rotate(360deg)
+    }
+}
+
+#originBackdrop {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    z-index: 99;
+    backdrop-filter: blur(3px);
+    user-select: none;
 }
 
 #developerLogo {
     font-family: 'raleway';
     text-align: center;
     font-size: 100px;
-    color: dbColor(txtColor);
+    color: @txt-color;
 }
 
 #developerLogo .char1, #developerLogo .char2, #developerLogo .char3, #developerLogo .char4,
 #developerLogo .char5, #developerLogo .developerLogo {
-    color: dbColor(OutstandingColor);
+    color: @outstanding-color;
 }
 
 flx-sidepanel {
@@ -581,7 +749,7 @@ flx-sidepanel {
     height: ~"calc(100% - 50px)";
     display: flex;
     justify-content: center;
-    z-index: 9;
+    z-index: 999;
 }
 
 flx-sidepanel .side-items {
@@ -603,7 +771,7 @@ flx-sidepanel .side-items span {
 }
 
 flx-sidepanel .side-items span.active {
-    background-color: dbColor(OutstandingColor);
+    background-color: @outstanding-color;
     opacity: 1;
 }
 
@@ -755,19 +923,19 @@ flx-sidepanel #responsivePanels div .icon-mobile {
 }
 
 .sysObjConfigCombo input {
-    color: dbColor(OutstandingColor);
+    color: @outstanding-color;
     font-weight: bold;
     border: none;
 }
 
 .sysObjConfigCombo .input-group-addon, .sysObjConfigCombo .input-group, .sysObjConfigCombo .btn-default {
     background-color: transparent;
-    color: dbColor(OutstandingColor);
+    color: @outstanding-color;
     border: none;
 }
 
 .sysObjConfigCombo .input-group {
-    border-bottom: solid 1px dbColor(OutstandingColor);
+    border-bottom: solid 1px @outstanding-color;
 }
 
 .sysObjConfigCombo .flx-icon.icon-search:before {
@@ -789,7 +957,6 @@ flx-sidepanel #responsivePanels div .icon-mobile {
 }
 
 .props-accordion > ul {
-    
     margin-left: 0;
     padding-left: 25px;
 }
@@ -804,7 +971,7 @@ flx-sidepanel #responsivePanels div .icon-mobile {
 }
 
 .props-accordion > ul > li > div {
-    color: dbColor(OutstandingColor);
+    color: @outstanding-color;
 }
 
 
@@ -1219,14 +1386,14 @@ flx-text .form-control[type='color'] {
 }
 //RESPONSIVE SIZING
 .container {
-    width: dbSize(large) - 220px;
+    width: @large - 220px;
 }
 
-.no-label label[data-tag="label"]{
-    display:none;
+.no-label label[data-tag="label"] {
+    display: none;
 }
 
-@media (max-width: dbSize(large)) {
+@media (max-width: @large) {
     //RESPONSIVE SIZING LARGE
     .col-l-12 {
         width: 100%;
@@ -1353,7 +1520,7 @@ flx-text .form-control[type='color'] {
     //RESPONSIVE SIZING LARGE
 }
 
-@media (max-width: dbSize(medium)) {
+@media (max-width: @medium) {
     //RESPONSIVE SIZING MEDIUM
     .col-m-12 {
         width: 100%;
@@ -1762,9 +1929,9 @@ flx-text .form-control[type='color'] {
         font-size: 2.5em;
         float: right;
         cursor: pointer;
-        display:flex;
-        justify-content:center;
-        align-items:center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     #buttonNav {
@@ -1797,6 +1964,7 @@ flx-text .form-control[type='color'] {
     #realMain {
         margin: 25px 5px 0 5px;
     }
+
     header {
         height: 55px;
     }
@@ -1807,7 +1975,7 @@ flx-text .form-control[type='color'] {
 }
 
 
-@media (max-width: dbSize(small)) {
+@media (max-width: @small) {
     //RESPONSIVE SIZING SMALL
     .col-s-12 {
         width: 100%;
@@ -2175,7 +2343,7 @@ flx-text .form-control[type='color'] {
 }
 
 //Badges
-@media (min-width: dbSize(large)) {
+@media (min-width: @large) {
     b.badge {
         position: absolute;
         bottom: 26px;
@@ -2186,7 +2354,7 @@ flx-text .form-control[type='color'] {
 
 b.badge {
     cursor: pointer;
-    background: dbColor(OutstandingColor);
+    background: @outstanding-color;
     font-size: 10px;
     box-shadow: inset 1px 1px 0 rgba(0, 0, 0, .1), inset 0 -1px 0 rgba(0, 0, 0, .07);
     color: #fff;
@@ -2231,6 +2399,7 @@ blink, .blink, .blink :before {
     border: unset;
     box-shadow: 0 0px 20px rgba(0, 0, 0, .1);
     z-index: 999999;
+
     .arrow {
         border-color: transparent !important;
         filter: drop-shadow(0 0px 20px rgba(0, 0, 0, .1));
@@ -2255,8 +2424,8 @@ legend {
 }
 
 .btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus {
-    outline:none;
-    outline-offset:0;
+    outline: none;
+    outline-offset: 0;
 }
 
 .btn-default {
@@ -2264,14 +2433,13 @@ legend {
 }
 
 
-.nav-pills > li.active > a, .nav-pills > li.active > a:hover
-,.nav-pills > li.active > a:focus {
-    background-color: dbColor(NotifyColor);
-    color: dbColor(txtNotifyColor);
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    background-color: @notify-color;
+    color: @txt-notify-color;
 }
 
 .row-line {
-    border-bottom: 1px solid dbColor(borderModuleColor);
+    border-bottom: 1px solid @border-module-color;
 }
 
 input[type=number], flx-text[type=number] label.input-view, flx-text[type=thousandSeparator] label.input-view {
@@ -2283,7 +2451,7 @@ input[type='search'] {
 }
 
 input[type='search']::-webkit-search-cancel-button {
-    -webkit-appearance: searchfield-cancel-button;
+    -webkit-appearance: auto;
 }
 
 .btn-group > .btn:hover,
@@ -2301,7 +2469,7 @@ input[type='search']::-webkit-search-cancel-button {
     font-size: 1.0em;
     font-family: 'Helvetica', 'Arial', sans-serif;
 }
-// mCustomScrollbar overloads 
+// mCustomScrollbar overloads
 .mCSB_horizontal.mCSB_inside > .mCSB_container {
     margin-bottom: 10px;
 }
@@ -2311,20 +2479,20 @@ input[type='search']::-webkit-search-cancel-button {
 }
 //cropper Overrides
 .cropper-point {
-    background-color: DbColor(OutstandingColor) !important;
+    background-color: @outstanding-color !important;
 }
 
 .cropper-line {
-    background-color: DbColor(OutstandingColor) !important;
+    background-color: @outstanding-color !important;
 }
 
 .cropper-view-box {
     outline: 1px solid brown;
-    outline-color: fade(DbColor(OutstandingColor), 75%) !important;
+    outline-color: fade(@outstanding-color, 75%) !important;
 }
 //Light Gallery Overrides
 .lg-progress-bar .lg-progress {
-    background-color: DbColor(OutstandingColor) !important;
+    background-color: @outstanding-color !important;
     height: 3px !important;
 }
 
@@ -2332,9 +2500,8 @@ input[type='search']::-webkit-search-cancel-button {
     height: 3px !important;
 }
 
-.lg-outer .lg-thumb-item.active
-,.lg-outer .lg-thumb-item:hover {
-    border-color: DbColor(OutstandingColor) !important;
+.lg-outer .lg-thumb-item.active, .lg-outer .lg-thumb-item:hover {
+    border-color: @outstanding-color !important;
 }
 //colResizable Overrides
 .JColResizer > tbody > tr > td {
@@ -2348,9 +2515,16 @@ input[type='search']::-webkit-search-cancel-button {
     position: relative;
 }
 
-.tool-property-help{max-height:400px;overflow:auto;max-width:600px;}
+.tool-property-help {
+    max-height: 400px;
+    overflow: auto;
+    max-width: 600px;
+}
 
-.help-fixed{position:fixed;margin-top:20px;}
+.help-fixed {
+    position: fixed;
+    margin-top: 20px;
+}
 
 //colResizable bootstrap tag
 .bootstrap-tagsinput .tag {
@@ -2358,23 +2532,27 @@ input[type='search']::-webkit-search-cancel-button {
     flex-direction: row-reverse;
     padding-top: .3em;
 }
+
 .bootstrap-tagsinput .tag [data-role="remove"] {
     margin-right: 8px;
     margin-left: unset;
 }
 //Sweet Modal Overrides
 .sweet-modal-close a.sweet-modal-close-link:hover {
-    background-color: dbcolor(OutstandingColor);
+    background-color: @outstanding-color;
 }
+
 .sweet-modal-buttons a.button, .sweet-modal-buttons button {
     border: unset;
-    background-color: dbcolor(OutstandingColor);
-    color: dbcolor(txtOutstandingColor) !important;
+    background-color: @outstanding-color;
+    color: @txt-outstanding-color !important;
 }
+
 .sweet-modal-buttons a.button:hover, .sweet-modal-buttons button:hover {
-    color: dbcolor(txtOutstandingColor);
-    background-color: darken(dbColor(OutstandingColor),15);
+    color: @txt-outstanding-color;
+    background-color: darken(@outstanding-color,15);
 }
+
 .sweet-modal-buttons a.button.middle-width, .sweet-modal-buttons button.middle-width {
     width: ~"calc(50% - 16px)";
 }
@@ -2399,7 +2577,7 @@ input[type='search']::-webkit-search-cancel-button {
 
 .offline-page {
     @header-height: 50px;
-    @container-radius: 6px;
+    @container-radius: @border-radius;
     @element-radius: 6px;
     /*Bad practices*/
     @real-main-space: 32px;
@@ -2424,8 +2602,8 @@ input[type='search']::-webkit-search-cancel-button {
 
         #monete {
             z-index: 1;
-            color: dbColor(OutstandingColor);
-            background-color: fade(dbColor(OutstandingColor),10%);
+            color: @outstanding-color;
+            background-color: fade(@outstanding-color,10%);
             position: absolute;
             top: 77px;
             right: 0px;
@@ -2442,13 +2620,13 @@ input[type='search']::-webkit-search-cancel-button {
         &:not(.offline-module-menus) {
             border-radius: @container-radius;
             /*TODO: Offline Alberto (lOADING MODULE)*/
-            background-color: dbColor(ModuleColor);
+            background-color: @module-color;
             min-height: 100px;
         }
 
         &.loading {
             /*TODO: Offline Alberto (lOADING MODULE)*/
-            background-color: dbColor(ModuleColor);
+            background-color: @module-color;
             min-height: 100px;
         }
 
@@ -2458,13 +2636,17 @@ input[type='search']::-webkit-search-cancel-button {
             margin-bottom: -@real-main-space;
 
             &.loading {
-                background-color: dbColor(ModuleHeaderColor);
+                background-color: @module-header-color;
                 height: ~"calc(100vh - @{header-height})";
             }
 
             flx-menumanager {
-                background-color: dbColor(ModuleHeaderColor);
+                background-color: @module-header-color;
                 height: ~"calc(100vh - @{header-height})";
+            }
+
+            .cntBodyFooter {
+                padding: 0;
             }
         }
 
@@ -2491,79 +2673,79 @@ input[type='search']::-webkit-search-cancel-button {
             }
 
             flx-navbutton.edit {
-                color: dbColor(SuccessColor);
-                background-color: fade(dbColor(SuccessColor),10%);
-                .ripple(dbColor(txtSuccessColor));
+                color: @success-color;
+                background-color: fade(@success-color,10%);
+                .ripple(@txt-success-color);
 
                 &:hover {
-                    color: dbColor(txtSuccessColor);
-                    background-color: dbColor(SuccessColor);
+                    color: @txt-success-color;
+                    background-color: @success-color;
                 }
             }
 
             flx-navbutton.css {
-                color: dbColor(DangerColor);
-                background-color: fade(dbColor(DangerColor),10%);
-                .ripple(dbColor(txtDangerColor));
+                color: @danger-color;
+                background-color: fade(@danger-color,10%);
+                .ripple(@txt-danger-color);
 
                 &:hover {
-                    color: dbColor(txtDangerColor);
-                    background-color: dbColor(DangerColor);
+                    color: @txt-danger-color;
+                    background-color: @danger-color;
                 }
             }
 
             flx-navbutton.js {
-                color: dbColor(WarningColor);
-                background-color: fade(dbColor(WarningColor),10%);
-                .ripple(dbColor(txtWarningColor));
+                color: @warning-color;
+                background-color: fade(@warning-color,10%);
+                .ripple(@txt-warning-color);
 
                 &:hover {
-                    color: dbColor(txtWarningColor);
-                    background-color: dbColor(WarningColor);
+                    color: @txt-warning-color;
+                    background-color: @warning-color;
                 }
             }
 
             flx-navbutton.db {
-                color: dbColor(PrimaryColor);
-                background-color: fade(dbColor(PrimaryColor),10%);
-                .ripple(dbColor(txtPrimaryColor));
+                color: @primary-color;
+                background-color: fade(@primary-color,10%);
+                .ripple(@txt-primary-color);
 
                 &:hover {
-                    color: dbColor(txtPrimaryColor);
-                    background-color: dbColor(PrimaryColor);
+                    color: #fff;
+                    background-color: @primary-color;
                 }
             }
 
             flx-navbutton.home {
-                color: dbColor(InfoColor);
-                background-color: fade(dbColor(InfoColor),10%);
-                .ripple(dbColor(txtInfoColor));
+                color: @info-color;
+                background-color: fade(@info-color,10%);
+                .ripple(@txt-info-color);
 
                 &:hover {
-                    color: dbColor(txtInfoColor);
-                    background-color: dbColor(InfoColor);
+                    color: @txt-info-color;
+                    background-color: @info-color;
                 }
             }
 
             flx-navbutton.files {
-                color: dbColor(ToolsColor);
-                background-color: fade(dbColor(ToolsColor),10%);
-                .ripple(dbColor(txtToolsColor));
+                color: @tools-color;
+                background-color: fade(@tools-color,10%);
+                .ripple(@txt-tools-color);
 
                 &:hover {
-                    color: dbColor(txtToolsColor);
-                    background-color: dbColor(ToolsColor);
+                    color: @txt-tools-color;
+                    background-color: @tools-color;
                 }
             }
 
             flx-navbutton.tracking {
-                color: dbColor(NotifyColor);
-                background-color: fade(dbColor(NotifyColor),10%);
-                .ripple(dbColor(txtNotifyColor));
+                color: @notify-color;
+                background-color: fade(@notify-color,10%);
+                .ripple(@txt-notify-color);
 
                 &:hover {
-                    color: dbColor(txtNotifyColor);
-                    background-color: dbColor(NotifyColor);
+                    color: @txt-notify-color;
+                    background-color: @notify-color;
                 }
             }
         }
@@ -2590,19 +2772,19 @@ input[type='search']::-webkit-search-cancel-button {
                 }
 
                 a {
-                    color: dbColor(OutstandingColor);
+                    color: @outstanding-color;
                     text-decoration: unset;
                     .offline_transition();
 
                     &:active, &:hover {
-                        color: darken(dbColor(OutstandingColor), 10%);
+                        color: darken(@outstanding-color, 10%);
                     }
                 }
             }
 
             .empty-info {
                 font-size: 18px;
-                color: desaturate(darken(dbColor(bgColor),30%),100%);
+                color: desaturate(darken(@bg-color,30%),100%);
                 margin-top: 5px;
 
                 span {
@@ -2650,7 +2832,7 @@ input[type='search']::-webkit-search-cancel-button {
                 }
 
                 &::-webkit-scrollbar-thumb {
-                    background-color: fade(dbColor(OutstandingColor),50%);
+                    background-color: fade(@outstanding-color,50%);
                     .offline_transition();
                 }
             }
@@ -2713,7 +2895,7 @@ input[type='search']::-webkit-search-cancel-button {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                background-color: dbColor(ModuleColor);
+                background-color: @module-color;
                 border-radius: @container-radius;
                 padding: 4px;
                 overflow: hidden;
@@ -2730,25 +2912,25 @@ input[type='search']::-webkit-search-cancel-button {
                     text-align: center;
 
                     &:not(.rippled) {
-                        .ripple(dbColor(OutstandingColor));
+                        .ripple(@outstanding-color);
                     }
 
                     &:hover {
                         &:not(.active):not(.separator) {
-                            color: dbColor(OutstandingColor);
-                            background-color: fade(dbColor(OutstandingColor),10%);
+                            color: @outstanding-color;
+                            background-color: fade(@outstanding-color,10%);
                             cursor: pointer;
                         }
                     }
 
                     &.active {
-                        color: dbColor(OutstandingColor);
+                        color: @outstanding-color;
                     }
 
                     &.separator {
                         margin: 0 4px;
                         border-radius: 2px;
-                        background-color: fade(dbColor(txtModuleColor),20%);
+                        background-color: fade(@txt-module-color,20%);
                         max-width: 1px;
                         height: 20px;
                     }
@@ -2760,7 +2942,7 @@ input[type='search']::-webkit-search-cancel-button {
                     height: 2px;
                     bottom: 0;
                     border-radius: 4px;
-                    background-color: dbColor(OutstandingColor);
+                    background-color: @outstanding-color;
                     .offline_transition();
                     left: var(--offline-tab-bar-poistion);
                     width: var(--offline-tab-bar-width);
@@ -2852,7 +3034,7 @@ input[type='search']::-webkit-search-cancel-button {
 }
 
 [mode="dark"].offline-page .offline-module .offline-container .empty-info {
-    color: darken(dbColor(txtModuleColor), 10);
+    color: darken(@txt-module-color, 10);
 }
 
 //POWERBI
@@ -2893,7 +3075,18 @@ flx-module.toolbar-right {
 flx-module.superclean:not(.config):not(.fullscreen) {
     border: none;
     background-color: unset;
-    .cntHeader, .cntBodyHeader { background-color: unset; }
+
+    .cntHeader, .cntBodyHeader {
+        background-color: unset;
+    }
+}
+
+.cntBodyFooter .btn-toolbar {
+    .saveReportButton, .execProcessButton {
+        background-color: @info-color;
+        color: @txt-info-color;
+        padding: .5em;
+    }
 }
 
 .stats {
@@ -2984,7 +3177,7 @@ body[mode="dark"] .simple-label {
     }
 }
 
-flx-module[modulename="sysmod-mailchimp-config"] .cntBody{
+flx-module[modulename="sysmod-mailchimp-config"] .cntBody {
     padding-left: 0px !important;
 }
 
@@ -3012,7 +3205,7 @@ flx-html[modulename="sysmod-mailchimp-navbar"] {
                 border-bottom: 3px solid #2eafe7;
 
                 a {
-                    color: darken(dbColor(OutstandingColor), 10);
+                    color: darken(@outstanding-color, 10);
                 }
             }
 
@@ -3021,7 +3214,7 @@ flx-html[modulename="sysmod-mailchimp-navbar"] {
 
                 &:hover {
                     background-color: unset;
-                    color: darken(dbColor(OutstandingColor), 10);
+                    color: darken(@outstanding-color, 10);
                 }
             }
         }
@@ -3045,7 +3238,7 @@ flx-html[modulename="sysmod-mailchimp-navbar"] {
     }
 
     li.active > a, li.active > a:hover {
-        color: dbColor(OutstandingColor);
+        color: @outstanding-color;
     }
 }*/
 
@@ -3070,7 +3263,7 @@ flx-html[modulename="sysmod-mailchimp-navbar"] {
         td, th {
             text-align: left;
 
-            @media (min-width: dbSize(medium)) {
+            @media (min-width: @medium) {
                 padding: 10px 6px !important;
             }
         }
@@ -3079,7 +3272,7 @@ flx-html[modulename="sysmod-mailchimp-navbar"] {
             th {
                 text-align: left;
                 font-weight: bold;
-                color: dbColor(txtColor);
+                color: @txt-color;
                 font-weight: 600;
             }
         }
@@ -3089,7 +3282,7 @@ flx-html[modulename="sysmod-mailchimp-navbar"] {
                 background-color: unset !important;
 
                 td:nth-of-type(2) {
-                    color: dbColor(OutstandingColor);
+                    color: @outstanding-color;
                 }
             }
 
@@ -3132,9 +3325,9 @@ body:not([mode="dark"]) {
 
 [modulename="sysmod-mailchimp-contactsbycampaign"] {
     .badge {
-        position:absolute;
-        top:-42px;
-        right:-14px;
+        position: absolute;
+        top: -42px;
+        right: -14px;
     }
 }
 /*
@@ -3169,6 +3362,14 @@ body:not([mode="dark"]) {
     }
 }*/
 
+.flx-separator-outstanding {
+    background-color: @outstanding-color;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    padding: 0.5px;
+    opacity: 0.3;
+}
+
 
 //DDBB
 #dataModel {
@@ -3178,30 +3379,30 @@ body:not([mode="dark"]) {
 
 #dataModel .tb {
     float: left;
-    border: solid 2px dbColor(outstandingColor);
+    border: solid 2px @outstanding-color;
     border-radius: 5px;
     margin-left: 15px;
     box-shadow: 10px 10px 20px -10px rgba(0,0,0,0.75);
 }
 
 #dataModel .tb:hover {
-    border: solid 2px lighten(dbColor(outstandingColor),25);
+    border: solid 2px lighten(@outstanding-color,25);
 }
 
 #dataModel .tbname {
-    background-color: dbColor(outstandingColor);
-    color: dbColor(txtOutstandingColor);
+    background-color: @outstanding-color;
+    color: @txt-outstanding-color;
     padding: 5px;
     font-weight: bold;
 }
 
 #dataModel .tb:hover .tbname {
-    background-color: lighten(dbColor(outstandingColor),25);
+    background-color: lighten(@outstanding-color,25);
 }
 
 #dataModel .field {
     padding: 2px;
-    border-bottom: solid 1px dbColor(outstandingColor);
+    border-bottom: solid 1px @outstanding-color;
     overflow: auto;
 }
 
@@ -3226,10 +3427,10 @@ body:not([mode="dark"]) {
     font-style: italic;
 }
 
-    //Required message
+//Required message
 label.txt-danger[id$="-error"] {
-    font-size:10px;
-    float:right;
+    font-size: 10px;
+    float: right;
 }
 
 
@@ -3253,25 +3454,25 @@ input[type=range]::-webkit-slider-runnable-track {
     cursor: pointer;
     animate: 0.2s;
     box-shadow: 0px 0px 0px #000000;
-    background: dbColor(outstandingColor);
+    background: @outstanding-color;
     border-radius: 1px;
     border: 0px solid #000000;
 }
 
 input[type=range]::-webkit-slider-thumb {
     box-shadow: 0px 0px 0px #000000;
-    border: 1px solid dbColor(outstandingColor);
+    border: 1px solid @outstanding-color;
     height: 18px;
     width: 18px;
     border-radius: 25px;
-    background: lighten(dbColor(outstandingColor),40);
+    background: lighten(@outstanding-color,40);
     cursor: pointer;
     -webkit-appearance: none;
     margin-top: -7px;
 }
 
 input[type=range]:focus::-webkit-slider-runnable-track {
-    background: dbColor(outstandingColor);
+    background: @outstanding-color;
 }
 
 input[type=range]::-moz-range-track {
@@ -3280,18 +3481,18 @@ input[type=range]::-moz-range-track {
     cursor: pointer;
     animate: 0.2s;
     box-shadow: 0px 0px 0px #000000;
-    background: dbColor(outstandingColor);
+    background: @outstanding-color;
     border-radius: 1px;
     border: 0px solid #000000;
 }
 
 input[type=range]::-moz-range-thumb {
     box-shadow: 0px 0px 0px #000000;
-    border: 1px solid dbColor(outstandingColor);
+    border: 1px solid @outstanding-color;
     height: 18px;
     width: 18px;
     border-radius: 25px;
-    background: lighten(dbColor(outstandingColor),40);
+    background: lighten(@outstanding-color,40);
     cursor: pointer;
 }
 
@@ -3306,14 +3507,14 @@ input[type=range]::-ms-track {
 }
 
 input[type=range]::-ms-fill-lower {
-    background: dbColor(outstandingColor);
+    background: @outstanding-color;
     border: 0px solid #000000;
     border-radius: 2px;
     box-shadow: 0px 0px 0px #000000;
 }
 
 input[type=range]::-ms-fill-upper {
-    background: dbColor(outstandingColor);
+    background: @outstanding-color;
     border: 0px solid #000000;
     border-radius: 2px;
     box-shadow: 0px 0px 0px #000000;
@@ -3322,25 +3523,31 @@ input[type=range]::-ms-fill-upper {
 input[type=range]::-ms-thumb {
     margin-top: 1px;
     box-shadow: 0px 0px 0px #000000;
-    border: 1px solid dbColor(outstandingColor);
+    border: 1px solid @outstanding-color;
     height: 18px;
     width: 18px;
     border-radius: 25px;
-    background: lighten(dbColor(outstandingColor),40);
+    background: lighten(@outstanding-color,40);
     cursor: pointer;
 }
 
 input[type=range]:focus::-ms-fill-lower {
-    background: dbColor(outstandingColor);
+    background: @outstanding-color;
 }
 
 input[type=range]:focus::-ms-fill-upper {
-    background: dbColor(outstandingColor);
+    background: @outstanding-color;
 }
 
 /*Help*/
+body:not([mode="dark"]) .flxhelp {
+    .imghelp.flx-dark-img {
+        display: none;
+    }
+}
+
 .flxhelp {
-    width: dbSize(large) - 220px;
+    width: @large - 220px;
     padding: 60px 80px;
     margin: 40px auto;
     font-weight: normal;
@@ -3348,15 +3555,15 @@ input[type=range]:focus::-ms-fill-upper {
     font-style: normal;
     background-color: white !important;
 
-    @media (max-width: dbSize(large)) {
+    @media (max-width: @large) {
         width: 90%;
     }
 
-    @media (max-width: dbSize(medium)) {
+    @media (max-width: @medium) {
         width: 90%;
     }
 
-    @media (max-width: dbSize(small)) {
+    @media (max-width: @small) {
         width: 100%;
         padding: 20px;
         margin: 0;
@@ -3411,7 +3618,11 @@ input[type=range]:focus::-ms-fill-upper {
 
     p {
         text-align: justify;
-        color: dbColor(primaryColor);
+        color: @primary-color;
+    }
+
+    .txt-muted {
+        color: #bec6cc;
     }
 
     ol, ul {
@@ -3420,11 +3631,11 @@ input[type=range]:focus::-ms-fill-upper {
 
     li {
         text-align: justify;
-        color: dbColor(primaryColor) !important;
+        color: @primary-color !important;
     }
 
     a {
-        color: dbColor(InfoColor);
+        color: @info-color;
         cursor: pointer;
     }
 
@@ -3459,15 +3670,15 @@ input[type=range]:focus::-ms-fill-upper {
         //width: fit-content;
         width: 700px;
 
-        @media (max-width: dbSize(large)) {
+        @media (max-width: @large) {
             width: 100%;
         }
 
-        @media (max-width: dbSize(medium)) {
+        @media (max-width: @medium) {
             width: 100%;
         }
 
-        @media (max-width: dbSize(small)) {
+        @media (max-width: @small) {
             width: 100%;
         }
 
@@ -3510,7 +3721,7 @@ input[type=range]:focus::-ms-fill-upper {
         & div:last-child {
             font-size: 12px;
             padding: 3px 5px 5px;
-            color: dbColor(primaryColor);
+            color: @primary-color;
             text-align: center;
         }
     }
@@ -3519,15 +3730,15 @@ input[type=range]:focus::-ms-fill-upper {
         height: 300px;
         width: 500px;
 
-        @media (max-width: dbSize(large)) {
+        @media (max-width: @large) {
             width: 100%;
         }
 
-        @media (max-width: dbSize(medium)) {
+        @media (max-width: @medium) {
             width: 100%;
         }
 
-        @media (max-width: dbSize(small)) {
+        @media (max-width: @small) {
             width: 100%;
         }
     }
@@ -3553,7 +3764,7 @@ input[type=range]:focus::-ms-fill-upper {
         & div:last-child {
             font-size: 12px;
             padding: 3px 5px 5px;
-            color: dbColor(primaryColor);
+            color: @primary-color;
             text-align: center;
         }
     }
@@ -3640,17 +3851,17 @@ input[type=range]:focus::-ms-fill-upper {
         width: 700px;
         height: 500px;
 
-        @media (max-width: dbSize(large)) {
+        @media (max-width: @large) {
             width: 500px;
             height: 300px;
         }
 
-        @media (max-width: dbSize(medium)) {
+        @media (max-width: @medium) {
             width: 500px;
             height: 300px;
         }
 
-        @media (max-width: dbSize(small)) {
+        @media (max-width: @small) {
             width: 300px;
             height: 200px;
         }
@@ -3686,7 +3897,7 @@ input[type=range]:focus::-ms-fill-upper {
         }
 
         tr:hover {
-            background-color: lighten(dbColor(OutstandingColor), 50%);
+            background-color: lighten(@outstanding-color, 50%);
         }
     }
     /*Table ends*/
@@ -3944,15 +4155,16 @@ input[type=range]:focus::-ms-fill-upper {
                 padding: 40px 25px;
                 background-color: white;
                 border: 1px solid darkgray;
-                border-radius: 15px;
+                border-radius: @border-radius;
                 min-height: 180px;
                 max-height: 180px;
+                transition: box-shadow 0.3s ease-out;
 
                 .title {
                     text-align: center;
                     margin: 0;
                     padding: 0;
-                    color: dbColor(txt-module-color);
+                    color: @txt-module-color;
                     font-size: 16px;
                 }
 
@@ -3968,9 +4180,9 @@ input[type=range]:focus::-ms-fill-upper {
             }
 
             .helpBox:hover {
-                -moz-box-shadow: 0 0 10px desaturate(darken(dbColor(bgColor),30%),100%);
-                -webkit-box-shadow: 0 0 10px desaturate(darken(dbColor(bgColor),30%),100%);
-                box-shadow: 0 0 10px desaturate(darken(dbColor(bgColor),30%),100%);
+                -moz-box-shadow: 0 0 10px desaturate(darken(@bg-color,30%),100%);
+                -webkit-box-shadow: 0 0 10px desaturate(darken(@bg-color,30%),100%);
+                box-shadow: 0 0 10px desaturate(darken(@bg-color,30%),100%);
             }
         }
     }
@@ -3981,6 +4193,36 @@ input[type=range]:focus::-ms-fill-upper {
         top: 0;
         background-color: white;
         padding: 7px;
+    }
+
+    .doesAndDonts {
+        display: grid;
+        grid-template-columns: 50% 50%;
+
+        > div {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: center;
+            border-radius: 12px;
+            margin: 10px;
+
+            :not([class]) {
+                padding: 5px;
+            }
+
+            [class] {
+                border-radius: 0 0 9px 9px;
+            }
+        }
+
+        .do {
+            border: 1px solid @success-color;
+        }
+
+        .dont {
+            border: 1px solid @danger-color;
+        }
     }
 }
 
@@ -3994,7 +4236,7 @@ button.btnHelp {
     border-radius: 40px !important;
     color: #fff !important;
     padding: 6px 40px !important;
-    box-shadow: 0px 10px 20px -6px #0000001f !important;
+    box-shadow: 0px 10px 20px -6px #0000001f;
     border: 0;
     margin-right: 5px;
 }
@@ -4007,7 +4249,6 @@ button.btnHelp {
     box-shadow: 5px 0px 20px 0px #0000002b;
     border-radius: 10px;
     min-width: 190px;
-
     //Filtermenu scroll
     max-height: 70vh;
     overflow: auto;
@@ -4017,14 +4258,14 @@ button.btnHelp {
     }
 
     a {
-        color: dbColor(primaryColor);
+        color: @primary-color;
         cursor: pointer;
     }
 }
 
 //Videos list
 .videohelp {
-    
+
     .videocontainer {
         position: relative;
         padding-bottom: 10px;
@@ -4047,6 +4288,7 @@ button.btnHelp {
         display: block;
     }
 }
+
 .headervideo {
     border: 1px solid #b0e5e9;
     border-radius: 3px;
@@ -4069,8 +4311,8 @@ button.btnHelp {
 }
 
 #flx-dependency-loader {
-    border: 2px solid lighten(dbColor(OutstandingColor), 25%);
-    border-top: 2px solid darken(dbColor(OutstandingColor), 10%);
+    border: 2px solid lighten(@outstanding-color, 25%);
+    border-top: 2px solid darken(@outstanding-color, 10%);
     border-radius: 50%;
     width: 20px;
     height: 20px;
@@ -4111,7 +4353,7 @@ html.tactilMode flx-module .cntBodyHeader .moduleToolbar .btn, flx-module .cntBo
 main[pagename="offline_App_View"] flx-module[modulename="sysOfflineObjectSearch"] {
     border: none;
 
-    div.cntBody.nopadding{
+    div.cntBody.nopadding {
         margin-bottom: 25px !important;
     }
 
@@ -4122,7 +4364,7 @@ main[pagename="offline_App_View"] flx-module[modulename="sysOfflineObjectSearch"
 
     span.input-group-addon.bg-outstanding {
         background-color: transparent;
-        color: dbColor(txtColor);
+        color: @txt-color;
         border: none;
         border-bottom: 1px solid #e5e5e5;
         border-radius: unset;
@@ -4181,12 +4423,12 @@ div.lg-slide[role="dialog"] {
 /**COMBO TO PAGINATION LIST*/
 select.pagination {
     cursor: pointer;
-    margin:0;
-    border-radius:0;
+    margin: 0;
+    border-radius: 0;
 }
 
 select.pagination:hover {
-    border-color: dbcolor(InfoColor);
+    border-color: @info-color;
 }
 
 flx-module .cntBodyFooter .pager.onlyPageInfo select.pagination {
@@ -4203,7 +4445,7 @@ flx-module .cntBodyFooter .pager:not(.onlyPageInfo):not(:empty) {
     border: 1px solid rgba(0,0,0,.1);
     padding: 10px;
     border-radius: 10px;
-    background-color: white;
+    background-color: @module-color;
     display: flex;
     flex-wrap: wrap;
 
@@ -4262,7 +4504,7 @@ flx-module .cntBodyFooter .pager:not(.onlyPageInfo):not(:empty) {
                 cursor: pointer;
 
                 &:hover {
-                    background-color: lighten(dbColor(outstandingColor),42);
+                    background-color: lighten(@outstanding-color,42);
                 }
             }
 
@@ -4319,7 +4561,7 @@ flx-module .cntBodyFooter .pager:not(.onlyPageInfo):not(:empty) {
     }
 
     > div:not(.flx-structure-table-header):hover {
-        background-color: lighten(dbColor(OutstandingColor),42);
+        background-color: lighten(@outstanding-color,42);
         box-shadow: 1px 2px 2px 1px rgba(0,0,0,0.14);
     }
 
@@ -4327,6 +4569,7 @@ flx-module .cntBodyFooter .pager:not(.onlyPageInfo):not(:empty) {
         color: #bec6cc;
     }
 }
+
 .flx-structure-dashboard {
     display: flex;
 
@@ -4356,33 +4599,33 @@ flx-module .cntBodyFooter .pager:not(.onlyPageInfo):not(:empty) {
         }
 
         .success {
-            color: dbColor(SuccessColor);
-            background-color: lighten(dbColor(SuccessColor), 60);
+            color: @success-color;
+            background-color: lighten(@success-color, 60);
         }
 
         .tools {
-            color: dbColor(ToolsColor);
-            background-color: lighten(dbColor(ToolsColor), 35);
+            color: @tools-color;
+            background-color: lighten(@tools-color, 35);
         }
 
         .notify {
-            color: dbColor(NotifyColor);
-            background-color: lighten(dbColor(NotifyColor), 35);
+            color: @notify-color;
+            background-color: lighten(@notify-color, 35);
         }
 
         .warning {
-            color: dbColor(WarningColor);
-            background-color: lighten(dbColor(WarningColor), 40);
+            color: @warning-color;
+            background-color: lighten(@warning-color, 40);
         }
 
         .danger {
-            color: dbColor(DangerColor);
-            background-color: lighten(dbColor(DangerColor), 40);
+            color: @danger-color;
+            background-color: lighten(@danger-color, 40);
         }
 
         .outstanding {
-            color: dbColor(OutstandingColor);
-            background-color: lighten(dbColor(OutstandingColor), 40);
+            color: @outstanding-color;
+            background-color: lighten(@outstanding-color, 40);
         }
 
         .size-l {
@@ -4411,7 +4654,7 @@ flx-module .cntBodyFooter .pager:not(.onlyPageInfo):not(:empty) {
     }
 
     .details {
-        background: darken(dbColor(bgColor), 10);
+        background: darken(@bg-color, 10);
     }
 
     .header {
@@ -4419,7 +4662,7 @@ flx-module .cntBodyFooter .pager:not(.onlyPageInfo):not(:empty) {
     }
 
     .header h1 {
-        color: dbColor(txtModuleColor);
+        color: @txt-module-color;
     }
 
     .day.other {
@@ -4427,7 +4670,7 @@ flx-module .cntBodyFooter .pager:not(.onlyPageInfo):not(:empty) {
     }
 
     .day {
-        color: dbColor(txtModuleColor);
+        color: @txt-module-color;
     }
 }
 
@@ -4442,33 +4685,33 @@ flx-module .cntBodyFooter .pager:not(.onlyPageInfo):not(:empty) {
 }
 
 .flx-state-danger {
-    background-color: lighten(dbColor(DangerColor), 40%);
-    color: dbColor(DangerColor);
+    background-color: lighten(@danger-color, 40%);
+    color: @danger-color;
 }
 
 .flx-state-success {
-    background-color: lighten(dbColor(SuccessColor), 55%);
-    color: dbColor(SuccessColor);
+    background-color: lighten(@success-color, 55%);
+    color: @success-color;
 }
 
 .flx-state-info {
-    background-color: lighten(dbColor(InfoColor), 40%);
-    color: dbColor(InfoColor);
+    background-color: lighten(@info-color, 40%);
+    color: @info-color;
 }
 
 .flx-state-primary {
-    background-color: lighten(dbColor(PrimaryColor), 50%);
-    color: dbColor(PrimaryColor);
+    background-color: lighten(@primary-color, 50%);
+    color: @primary-color;
 }
 
 .flx-state-warning {
-    background-color: lighten(dbColor(WarningColor), 45%);
-    color: dbColor(WarningColor);
+    background-color: lighten(@warning-color, 45%);
+    color: @warning-color;
 }
 
 .flx-state-tools {
-    background-color: lighten(dbColor(ToolsColor), 35%);
-    color: dbColor(ToolsColor);
+    background-color: lighten(@tools-color, 35%);
+    color: @tools-color;
 }
 
 .flx-card-view {
@@ -4487,39 +4730,39 @@ flx-module .cntBodyFooter .pager:not(.onlyPageInfo):not(:empty) {
     font-size: 40px;
     padding: 25px;
     border-radius: 20px;
-    color: white;  
+    color: white;
 }
 
 .flx-big-icon-notify {
-    background-color: dbColor(NotifyColor);
+    background-color: @notify-color;
 }
 
 .flx-big-icon-outstanding {
-    background-color: dbColor(OutstandingColor);
+    background-color: @outstanding-color;
 }
 
 .flx-big-icon-tools {
-    background-color: dbColor(ToolsColor);
+    background-color: @tools-color;
 }
 
 .flx-big-icon-warning {
-    background-color: dbColor(WarningColor);
+    background-color: @warning-color;
 }
 
 .flx-big-icon-success {
-    background-color: dbColor(SuccessColor);
+    background-color: @success-color;
 }
 
 .flx-big-icon-danger {
-    background-color: dbColor(DangerColor);
+    background-color: @danger-color;
 }
 
 .flx-big-icon-primary {
-    background-color: dbColor(PrimaryColor);
+    background-color: @primary-color;
 }
 
 .flx-big-icon-info {
-    background-color: dbColor(InfoColor);
+    background-color: @info-color;
 }
 
 .flx-box-notes {
@@ -4542,7 +4785,12 @@ flx-module .cntBodyFooter .pager:not(.onlyPageInfo):not(:empty) {
     align-items: center;
     animation: appear 1.2s 0s linear;
     transition: all 1.2s ease-in-out;
+
+    svg {
+        filter: drop-shadow(0 0 20px rgba(0,0,0,0.1));
+    }
 }
+
 .assistance-img {
     width: 200px;
 }
@@ -4551,20 +4799,21 @@ flx-module .cntBodyFooter .pager:not(.onlyPageInfo):not(:empty) {
     from {
         right: -400px;
     }
+
     to {
         right: 5px;
     }
 }
 
 .assistance-box {
-    background: white;
+    background: @module-color;
     //width: 280px;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, .1);
     border: 1px solid rgba(0, 0, 0, 0.1);
     padding: 20px;
     font-size: 15px;
-    line-height: 23px; 
+    line-height: 23px;
 }
 
 .assistance-box:after {
@@ -4575,7 +4824,7 @@ flx-module .cntBodyFooter .pager:not(.onlyPageInfo):not(:empty) {
     height: 0;
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
-    border-left: 10px solid rgb(255, 255, 255);
+    border-left: 10px solid @module-color;
 }
 
 .assistance-buttons {
@@ -4599,22 +4848,22 @@ flx-module .cntBodyFooter .pager:not(.onlyPageInfo):not(:empty) {
     width: 60%;
     padding: 10px;
 
-    @media (max-width: dbSize(large)) {
+    @media (max-width: @large) {
         width: 100%;
     }
 
-    @media (max-width: dbSize(medium)) {
+    @media (max-width: @medium) {
         width: 100%;
     }
 
-    @media (max-width: dbSize(small)) {
+    @media (max-width: @small) {
         width: 100%;
     }
 }
 
 .start-box {
     padding: 20px;
-    background-color: white;
+    background-color: @module-color;
     margin: 20px 0;
     border-radius: 10px;
     display: flex;
@@ -4628,18 +4877,199 @@ flx-module .cntBodyFooter .pager:not(.onlyPageInfo):not(:empty) {
     }
 
     .icon-tools {
-        background-color: lighten(dbColor(ToolsColor), 40%);
-        color: dbColor(ToolsColor);
+        background-color: lighten(@tools-color, 40%);
+        color: @tools-color;
     }
 
     .icon-info {
-        background-color: lighten(dbColor(WarningColor), 45%);
-        color: dbColor(WarningColor);
+        background-color: lighten(@warning-color, 45%);
+        color: @warning-color;
     }
 
     .icon-success {
-        background-color: lighten(dbColor(NotifyColor), 35%);
-        color: dbColor(NotifyColor);
+        background-color: lighten(@notify-color, 35%);
+        color: @notify-color;
     }
 }
 //flexygo startpage ends
+
+
+/// FLX LOADER
+
+
+section.flx-loading-effect {
+    container-type: size;
+    z-index: 999999999999999999999;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffffcf;
+    overflow: hidden;
+
+    &.top {
+        justify-content: flex-start;
+
+        .flx-loader-effect {
+            margin-top: ~"min(50px, 23cqh)";
+            position: relative;
+
+            &:after {
+                display: block;
+                position: relative
+            }
+        }
+
+        .flx-loader-text {
+            display: initial;
+            margin-top: 10px;
+        }
+    }
+
+    .flx-loader-effect {
+        max-width: 48px;
+        width: ~"60cqh";
+        max-height: 48px;
+        height: ~"60cqh";
+        border: 4px solid @outstanding-color;
+        border-radius: 50%;
+        display: inline-block;
+        position: absolute;
+        -webkit-animation: rotation 1s linear infinite;
+        animation: flx-spin 1s linear infinite;
+    }
+
+    .flx-loader-effect:after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 56px;
+        width: ~"78cqh";
+        height: ~"78cqh";
+        max-height: 56px;
+        border-radius: 50%;
+        border: 3px solid;
+        border-color: lighten(@outstanding-color, 21%) transparent;
+    }
+
+    div.flx-loader-text {
+        font-weight: 300;
+        font-size: 20px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        margin-top: 85px;
+    }
+}
+
+body[mode="dark"] section.flx-loading-effect {
+    background-color: #000000cf;
+}
+
+.offlineHelpNavBar {
+    margin-top: 20px;
+    position: fixed;
+    margin-left: 40px;
+    padding-bottom: 10px;
+    z-index: 1;
+    display: flex;
+    max-width: 80%;
+    overflow-x: hidden;
+}
+
+.offlineHelpNavBar button {
+    min-width: 165px;
+    min-height: 52px;
+    box-shadow: none;
+}
+
+.offlineHelpNavBar button:hover {
+    box-shadow: 0px 4px 6px 1px rgba(0,0,0,0.54);
+    transition: all 0.35s linear;
+}
+
+.offlineHelpNavBar:hover {
+    overflow-x: auto;
+}
+
+.flx-border-radius {
+    border-radius: @border-radius;
+}
+
+//Excel export page
+#excelExport {
+    display: flex;
+    flex-direction: column;
+
+    h2 {
+        font-weight: 500;
+        margin-left: 5px;
+    }
+
+    .exportFields [key] {
+        display: block;
+        float: left;
+        background-color: @outstanding-color;
+        border: 2px solid @outstanding-color;
+        margin: 5px;
+        padding: 6px 10px;
+        border-radius: @border-radius;
+        color: white;
+        transition: all 0.2s;
+
+        &:hover {
+            background: white;
+            color: @outstanding-color;
+        }
+
+        &.inactive {
+            border-color: @primary-color;
+            color: @primary-color;
+            text-decoration: line-through;
+            background: white;
+        }
+    }
+
+    button {
+        padding: 6px 10px;
+        margin-top: 17px;
+        margin-left: 5px;
+        transition: all 0.2s;
+    }
+
+    button.exportExcel {
+        width: fit-content;
+        border: 1px solid #217345;
+        background: #217345;
+        color: white;
+
+        &:hover {
+            color: #217345;
+            background: transparent;
+        }
+    }
+
+    button.selectall {
+        border: 2px solid @primary-color;
+        color: @primary-color;
+        background: #fff;
+    }
+
+    button.deselectall {
+        background-color: @outstanding-color;
+        border: 2px solid @outstanding-color;
+        color: #fff;
+
+        &:hover {
+            background-color: transparent;
+            color: @outstanding-color;
+        }
+    }
+}

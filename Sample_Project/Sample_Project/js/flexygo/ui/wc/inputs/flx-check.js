@@ -171,7 +171,7 @@ var flexygo;
                             }
                         }
                         this.property = newVal;
-                        this.init();
+                        this.refresh();
                     }
                     if (attrName.toLowerCase() == 'disabled') {
                         if (!this.options) {
@@ -193,7 +193,7 @@ var flexygo;
                         if (element.attr('Control-Style') !== this.options.Style) {
                             element.attr('Control-Style', this.options.Style);
                             element.attr('Style', '');
-                            this.init();
+                            this.refresh();
                         }
                     }
                     if (attrName.toLowerCase() == 'class' && newVal && newVal != '') {
@@ -204,7 +204,7 @@ var flexygo;
                         if (element.attr('Control-Class') !== this.options.CssClass) {
                             element.attr('Control-Class', this.options.CssClass);
                             element.attr('Class', '');
-                            this.init();
+                            this.refresh();
                         }
                     }
                     if (attrName.toLowerCase() == 'hide' && newVal && newVal != '') {
@@ -212,14 +212,14 @@ var flexygo;
                             this.options = new flexygo.api.ObjectProperty();
                         }
                         this.options.Hide = newVal;
-                        this.init();
+                        this.refresh();
                     }
                     if (attrName.toLowerCase() == 'allownull' && newVal && newVal != '') {
                         if (!this.options) {
                             this.options = new flexygo.api.ObjectProperty();
                         }
                         this.options.AllowNull = newVal;
-                        this.init();
+                        this.refresh();
                     }
                     if (attrName.toLowerCase() == 'value' && newVal && newVal != '') {
                         if (!this.options) {
@@ -297,6 +297,7 @@ var flexygo;
                     });
                 }
                 setOptions() {
+                    var _a;
                     let me = $(this);
                     let input = me.find('input');
                     input.on('blur', () => {
@@ -375,7 +376,7 @@ var flexygo;
                         filter = me.closest('flx-filter')[0];
                         let filterProperties = filter.settings[filter.active].Properties;
                         for (let propertyKey in filterProperties) {
-                            if (filterProperties[propertyKey].PropertyName == me.attr("property") && (filterProperties[propertyKey].DependingFilterProperties).length > 0) {
+                            if (filterProperties[propertyKey].PropertyName == me.attr("property") && ((_a = (filterProperties[propertyKey].DependingFilterProperties)) === null || _a === void 0 ? void 0 : _a.length) > 0) {
                                 hasFilterDependencyProperty = true;
                                 break;
                             }
