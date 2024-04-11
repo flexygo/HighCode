@@ -646,8 +646,10 @@ var flexygo;
                     if (params)
                         callParams += '&Params=' + JSON.stringify(params);
                     //defaults for the params
-                    if (defaults && defaults != 'null')
+                    if (defaults && defaults != 'null') {
+                        defaults = flexygo.utils.dataToArray(JSON.parse(flexygo.utils.parser.replaceAll(defaults, "'", '"')));
                         callParams += '&Defaults=' + JSON.stringify(defaults);
+                    }
                     //if has params even hide
                     if (hasParams)
                         callParams += '&HasParams=' + hasParams;
