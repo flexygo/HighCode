@@ -342,7 +342,10 @@ var flexygo;
                 uniqueBagError: 'Champ d\'identificateur unique non défini.',
                 nofieldBagError: 'Impossible de trouver le champ <b>{0}</b>. Ajoutez-le pour interroger ou supprimer le bouton de sélection.',
                 noItemsSelected: 'D\'abord sélectionner un élément de la liste.',
-                currentlyViewing: 'Visionnage en cours'
+                currentlyViewing: 'Visionnage en cours',
+                titleDeleteConfirm: 'Confirmer la suppression',
+                messageDeleteConfirm: 'Tapez "<b>{0}</b>" pour confirmer la suppression.',
+                errorDeleteConfirm: 'Désolé, veuillez saisir le texte exactement tel qu\'indiqué pour confirmer.'
             };
             frfr.flxnav = {
                 notimplemented: ' Action non mise en œuvre ',
@@ -916,6 +919,22 @@ var flexygo;
             };
             frfr.utils = {
                 loading: 'Mise en charge'
+            };
+            frfr.flxplanner = {
+                noconf: 'Configurez au moins un mode et un objet pour afficher vos enregistrements',
+                draggables: 'Nouveaux',
+                week: 'Semaine',
+                month: 'Mois',
+                today: 'Aujourd\'hui',
+                chooseobject: 'Choisissez un',
+                addempty: 'Aucune fonction définie : OnAdd',
+                remove: 'Voulez-vous supprimer un élément ?'
+            };
+            frfr.flxrss = {
+                deprecated: 'Déclassé',
+                features: 'Nouvelles fonctionnalités',
+                fixes: 'Corrections',
+                notfound: 'Aucune version trouvée.'
             };
         })(frfr = culture.frfr || (culture.frfr = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

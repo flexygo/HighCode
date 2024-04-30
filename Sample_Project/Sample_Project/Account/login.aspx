@@ -122,7 +122,7 @@
 			            </div>
 		            </div>
 	            </div>                
-                <section id="loginForm">
+                <section id="loginForm" runat="server">
                     <div class="cell"><i class="flx-icon icon-user-3"></i>
                         <asp:TextBox ID="UserName" autocomplete="off" placeHolder="Username" runat="server"></asp:TextBox><asp:RequiredFieldValidator ID="UserNameRequired" runat="server" ControlToValidate="UserName" Text="*"></asp:RequiredFieldValidator>
                     </div>
@@ -159,6 +159,12 @@
                         </svg>
                     </asp:LinkButton>
                     </div>
+                </section>
+                <section id="loadingRedirect" class="flx-loading-effect" runat="server" style="display:none;">
+                    <span class="flx-loader-effect"></span>
+                    <div class="flx-loader-text">Redirecting...</div>
+                    <asp:LinkButton ID="forceRedirect" runat="server" CausesValidation="False" style="display: none;">
+                    </asp:LinkButton>
                 </section>
             </div>
         </div>

@@ -1,0 +1,65 @@
+﻿:root {/*
+    font-size: calc(10px + 1vmin);*/
+    --primary: #2db7b0;
+    --primary-lighter: #40e2da;
+    --primary-2: hsl(220, 100%, 60%);
+    --softGrey: #9a97a8;
+    --softTint: rgba(0, 0, 0, 0.2);
+    --bounce: 0.3s cubic-bezier(0.3, -0.1, 0.5, 1.4);
+    --ease: 0.2s cubic-bezier(0.3, 0.1, 0.3, 1);
+}
+
+#authentication .mainbutton{
+    width: 100%;
+}
+
+.securityCode {
+    margin: 30px auto;
+    --size: 46px;
+    --space: 9px;
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    transition: var(--bounce);
+}
+    .securityCode input[type="number"] {
+        visibility: visible;
+        box-sizing: border-box;
+        margin: 0;
+        caret-color: transparent;
+        appearance: none;
+        -webkit-appearance: none;
+        width: calc(var(--size) * 1.2);
+        height: calc(var(--size) * 1.4);
+        font-size: calc(var(--size) * 0.7);
+        text-align: center;
+        border: 0.12em solid var(--softTint);
+        color: #717171;
+        border-radius: calc(var(--size) * 0.2);
+        outline: none;
+        transition: var(--ease);
+    }
+        .securityCode input[type="number"]::-webkit-outer-spin-button, .securityCode input[type="number"]::-webkit-inner-spin-button {
+            display: none;
+        }
+    
+    .securityCode input[type="number"]:focus{
+        color: white;
+        background-color: var(--primary-lighter);
+    }
+
+    .securityCode span {
+        box-sizing: border-box;
+        margin: var(--space);
+        margin-left: 4px;
+        display: flex;
+        align-items: center;
+        border-radius: calc(var(--size) * 0.2);
+        border: none;
+    }
+
+        .securityCode span[style*="visibility: visible"] input[type="number"] {
+            border: 3.5px solid #f64040;
+            background-color: lightsalmon;
+            transition: none;
+        }   

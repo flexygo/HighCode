@@ -337,6 +337,9 @@ declare namespace flexygo.culture.ptpt {
         nofieldBagError: string;
         noItemsSelected: string;
         currentlyViewing: string;
+        titleDeleteConfirm: string;
+        messageDeleteConfirm: string;
+        errorDeleteConfirm: string;
     };
     const flxnav: {
         notimplemented: string;
@@ -910,5 +913,21 @@ declare namespace flexygo.culture.ptpt {
     };
     const utils: {
         loading: string;
+    };
+    const flxplanner: {
+        noconf: string;
+        draggables: string;
+        week: string;
+        month: string;
+        today: string;
+        chooseobject: string;
+        addempty: string;
+        remove: string;
+    };
+    const flxrss: {
+        deprecated: string;
+        features: string;
+        fixes: string;
+        notfound: string;
     };
 }

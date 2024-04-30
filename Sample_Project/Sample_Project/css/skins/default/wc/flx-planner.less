@@ -1,0 +1,505 @@
+﻿@import "../CssVars.less";
+
+@bg-btn-schedule: @outstanding-color;
+
+@bg-btn-viewmode: @danger-color;
+@txt-btn-viewmode: @txt-danger-color;
+
+@bg-btn-mode: @outstanding-color;
+@txt-btn-mode: @txt-outstanding-color;
+
+@currentDay: @danger-color;
+
+@bg-card: #FFFFFF;
+@txt-card: @notify-color;
+
+@bg-table-color: @txt-header-color;
+@txt-table-color: @module-header-color;
+
+@row-grey: rgba(24,66,148,0.04);
+@border-card: #dadde2;
+/*    @bg-table-color: #fff;
+@bg-btn-schedule: @outstanding-color;
+@bg-btn-viewmode: @nav-color;
+@txt-btn-viewmode: @outstanding-color;
+
+@bg-btn-mode: @notify-color;
+
+@bg-table-color: #dfe5ef;
+@bg-table-color: #fff;
+
+@bg-card: rgba(0,83,147,0.84);
+@txt-card: #fff;*/
+flx-planner {
+    z-index: 5;
+
+    #planner-title {
+        padding: 10px 5px;
+    }
+
+    #planner-main-container {
+        display: flex;
+        position: relative;
+        height: ~"calc(85vh - 80px)";
+
+
+
+        .pln-card {
+            position: relative;
+            background-color: @bg-card;
+            color: @txt-card;
+            border: 1px solid @border-card;
+            border-radius: 5px;
+            margin: 5px;
+            padding: 8px;
+            box-shadow: 0px 0px 4px 2px #eceef1;
+            z-index: 3;
+
+            &.pln-sortable:hover, &.ui-sortable-handle:hover {
+                transform: rotate(0deg) scale(1.05);
+                transition: 0.3s ease-in-out;
+                cursor: move;
+            }
+
+            .pln-card-delete {
+                position: absolute;
+                right: -12px;
+                bottom: 1px;
+                display: none;
+            }
+
+            .pln-card-edit {
+                position: absolute;
+                right: -12px;
+                top: 1px;
+                display: none;
+            }
+        }
+
+        aside {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            flex: 0 0 200px;
+
+            div#planner-withoutgroup-title {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex: 1 0 42px;
+                background-color: @bg-table-color;
+                color: white;
+                transition: all 0.3s ease-in-out 0.3s;
+
+                h4 {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    text-transform: uppercase;
+                    -webkit-transition: all 0.3s ease-in-out 0s;
+                    -moz-transition: all 0.3s ease-in-out 0s;
+                    -o-transition: all 0.3s ease-in-out 0s;
+                    transition: all 0.3s ease-in-out 0s;
+                }
+            }
+
+            div#planner-items-container {
+                overflow-y: auto;
+                overflow-x: hidden;
+                flex: 1 1 100%;
+                padding: 5px 5px 0px 10px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                transition: all 0.3s ease-in-out 0.3s;
+
+                & > div.pln-carg-draggable {
+                    margin-bottom: 0;
+                    width: 100%;
+                }
+
+                div.pln-draggable-item-container {
+                    margin-bottom: 20px;
+                    background: @row-grey;
+                    border-radius: 5px;
+                    border: 1px solid @border-card;
+                    padding: 5px 1px;
+                    width: 100%;
+
+                    span.pln-draggable-item-title {
+                        font-weight: bold;
+                        font-size: 16px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                }
+            }
+
+            div#planner-withoutgroup-fold {
+                height: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 15px;
+                background-color: @bg-table-color;
+                color: white;
+                border-bottom-left-radius: 50%;
+                border-top-left-radius: 50%;
+                cursor: pointer;
+                box-shadow: -2px 0px 3px rgba(0,0,0,0.10),-1px 0px 0px rgba(0,0,0,0.15);
+                position: absolute;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                margin: auto;
+                z-index: 5;
+
+                &:hover {
+                    color: @outstanding-color;
+                }
+
+                i {
+                    transform: rotate(180deg);
+                }
+            }
+
+            &.folded {
+                flex: 0 0 45px;
+                width: 50px;
+
+                div#planner-withoutgroup-title {
+                    background-color: unset;
+                    color: unset;
+
+                    > h4 {
+                        font-size: 12px;
+                        transform: rotate(-90deg);
+                        overflow: visible;
+                    }
+                }
+
+                div#planner-items-container {
+                    opacity: 0;
+                    flex: 0;
+                    padding: unset;
+
+                    .item, > span {
+                        display: none;
+                    }
+                }
+
+                div#planner-withoutgroup-fold {
+                    box-shadow: unset;
+                    color: unset;
+                    background-color: unset;
+
+                    i {
+                        transform: unset;
+                    }
+                }
+            }
+        }
+
+        #planner-main {
+            overflow: auto;
+            width: 100%;
+            overflow-y: hidden;
+
+            .pln-header-btns {
+                background-color: @bg-table-color;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 15px 10px;
+
+                .pln-time-btns {
+                    button {
+                        padding: 8px;
+                        font-size: 15px;
+                    }
+
+                    button:not([timemodeid]), .pln-btn-schedule {
+                        text-transform: uppercase;
+                        border: none;
+                        border-radius: 2px;
+                        letter-spacing: 2px;
+                        color: white;
+                        background: lighten(@bg-btn-schedule, 5%);
+
+                        &:hover {
+                            background-color: @bg-btn-schedule;
+                        }
+                    }
+
+                    .pln-btn-viewmode {
+                        border: none;
+                        margin: 0px 3px;
+                        border-radius: 2px;
+                        letter-spacing: 2px;
+                        font-weight: lighter;
+                        background-color: @bg-table-color;
+                        color: @txt-table-color;
+
+                        &:hover {
+                            background-color: @bg-btn-viewmode;
+                            color: @txt-btn-viewmode;
+                        }
+
+                        &.current {
+                            background-color: @bg-btn-viewmode;
+                            color: @txt-btn-viewmode;
+                        }
+                    }
+                }
+
+                .pln-mode-btns {
+                    .pln-mode-btn {
+                        text-transform: uppercase;
+                        border: none;
+                        margin: 0px 3px;
+                        padding: 8px;
+                        border-radius: 2px;
+                        letter-spacing: 4px;
+                        font-weight: lighter;
+                        font-size: 15px;
+                        background: @bg-btn-mode;
+                        color: @txt-btn-mode;
+
+                        &:hover {
+                            border: 2px solid;
+                        }
+
+                        &.current {
+                            border: 2px solid;
+                        }
+                    }
+                }
+            }
+
+            button.pln-config {
+                background: transparent;
+                box-shadow: none;
+                border: none;
+                color: white;
+                font-size: 23px;
+                padding: 5px;
+            }
+
+            .pln-table {
+                box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+                background: white;
+                height: 90%;
+                overflow-x: hidden;
+
+                table {
+                    width: 100%;
+
+                    thead {
+                        tr:first-child {
+                            position: sticky;
+                            top: 0;
+                            z-index: 6;
+                            background: @bg-table-color;
+
+                            th {
+                                position: relative;
+                                font-size: 12px;
+                                text-transform: uppercase;
+                                text-align: center;
+                                height: 40px;
+                                min-width: 80px;
+                                padding: 10px;
+                                text-transform: uppercase;
+                                color: @txt-table-color;
+                            }
+
+                            th:first-child {
+                                position: sticky;
+                                left: 0;
+                                z-index: 6;
+                                background: @bg-table-color;
+
+                                input[type="month"], input[type="week"] {
+                                    border: none;
+                                    background-color: @bg-table-color;
+                                    color: @txt-table-color;
+                                    text-transform: uppercase;
+
+                                    &::-webkit-calendar-picker-indicator {
+                                        color: white;
+                                    }
+                                }
+                            }
+
+                            .pln-date {
+                                div {
+                                    display: flex;
+                                    flex-direction: column;
+                                    align-items: center;
+
+                                    .pln-date-day {
+                                        font-size: 9px;
+                                        font-weight: 200;
+                                    }
+
+                                    .pln-date-day-number {
+                                        font-size: 14px;
+                                        padding: 3px 3px 0px;
+                                        border-radius: 50%;
+                                        width: 2em;
+                                        height: 2em;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                    }
+                                }
+
+                                &.currentDay {
+                                    .pln-date-day-number {
+                                        background-color: @currentDay;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .pln-month-info {
+                        background-color: @nav-color;
+                        color: white;
+                        padding: 10px;
+
+                        th {
+                            text-align: center;
+                        }
+                    }
+
+                    .pln-empty-cell {
+                        padding: 10px;
+                    }
+
+                    tbody {
+                        th.pln-group-cell:first-child {
+                            position: sticky;
+                            left: 0;
+                            width: 170px;
+                            min-width: 170px;
+                            z-index: 5;
+                            background: @bg-table-color;
+                            color: @txt-table-color;
+
+                            .pln-btn-menu {
+                                position: absolute;
+                                right: 0;
+                                display: none;
+                            }
+                        }
+
+
+                        tr {
+                            //border: 1px solid #e9effa;
+                        }
+
+                        th.currentDay::after, td.currentDay::after {
+                            content: "";
+                            position: absolute;
+                            top: 0;
+                            left: 50%;
+                            bottom: 0;
+                            width: 1px;
+                            background-color: @currentDay;
+                            opacity: 0.6;
+                            z-index: 1;
+                        }
+
+                        .pln-cell {
+                            position: relative;
+                            border-left: 1px solid rgba(193,193,193,0.6);
+                            padding: 12px;
+                            width: 190px;
+                            height: 60px;
+                            transition: all 1s;
+
+                            &.current {
+                                z-index: 0;
+                            }
+
+                            &:not(.pln-group-cell) .pln-btn-menu {
+                                position: absolute;
+                                top: 2px;
+                                left: 5px;
+                                display: none;
+                            }
+
+                            &:hover {
+                                .pln-card-delete, .pln-card-edit {
+                                    display: initial;
+                                }
+
+                                .pln-btn-menu {
+                                    display: initial !important;
+                                }
+                            }
+                        }
+
+                        tr:nth-of-type(2n) {
+                            background-color: @row-grey;
+
+                            th.pln-group-cell:first-child {
+                                background-color: lighten(@bg-table-color, 2);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    #pln-error-cont {
+        display: grid;
+        justify-items: center;
+        align-items: center;
+        background-color: @bg-color;
+        padding: 60px 20px;
+        border-radius: 5px;
+        margin: 0 60px;
+
+        .pln-error-msg {
+            font-size: 1.5em;
+        }
+
+        .pln-error-conf {
+            display: grid;
+            justify-items: center;
+            align-items: center;
+            margin: 30px;
+            cursor: pointer;
+
+
+            .pln-error-conf-icon {
+                font-size: 6em;
+            }
+
+            .pln-error-conf-txt {
+                margin-top: 20px;
+                font-size: 2em;
+                font-weight: bold;
+            }
+
+            &:hover {
+                color: @outstanding-color;
+            }
+        }
+    }
+
+    flx-contextmenu .pln-context-menu {
+        color: @txt-menu-color;
+        box-sizing: border-box;
+        border: 1px solid #e0e0e0;
+        border-left: 4px solid @outstanding-color;
+        font-size: 1em;
+        background-color: @menu-color;
+        box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, .2);
+        z-index: 9998;
+    }
+}

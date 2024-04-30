@@ -187,6 +187,21 @@ var flexygo;
                 return config;
             }
             /**
+            * Gets the object delete confirm.
+            * @method getDeleteConfirm
+            * @return {string} - Delete confirm
+            */
+            getDeleteConfirm() {
+                let deleteConfirm;
+                let params = { ObjectName: null, ObjectWhere: null };
+                params.ObjectName = this.objectName;
+                params.ObjectWhere = this.objectWhere;
+                flexygo.ajax.syncPost('~/api/Entity', 'GetDeleteConfirm', params, (response) => {
+                    deleteConfirm = response;
+                });
+                return deleteConfirm;
+            }
+            /**
             * Get the system configuration related to current object.
             * @method getView
             * @param {string} viewName - Desired view name.

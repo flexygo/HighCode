@@ -48,7 +48,6 @@ var flexygo;
                     weightControl.find('.input-group .input-group-btn').append(btn);
                     btn.on('click', (ev) => {
                         this.getWeight(cnf).then((weight) => {
-                            debugger;
                             weightControl.val(weight);
                         });
                     });

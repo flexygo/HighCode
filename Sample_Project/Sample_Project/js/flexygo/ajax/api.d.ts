@@ -1577,6 +1577,7 @@ declare namespace flexygo.api.entity {
         UpdateProcessName: string;
         KeyFields: string[];
         FriendlyURL: boolean;
+        DeleteConfirm: string;
     }
     /**
    * api for GetProcessesResponse
@@ -2245,7 +2246,7 @@ declare namespace flexygo.api.rss {
     * @constructor
     * @return {GetHTMLParams} .
     */
-    class GetHTMLParams {
+    class GetVersionInfoParams {
         ObjectName: string;
         ObjectWhere: string;
         ModuleName: string;
@@ -2257,9 +2258,18 @@ declare namespace flexygo.api.rss {
     * @constructor
     * @return {GetHTMLResponse} .
     */
-    class GetHTMLResponse {
-        Html: string;
-        Buttons: flexygo.api.Toolbar;
+    class GetVersionInfoResponse {
+        Products: ProductVersionInfo[];
+    }
+    class ProductVersionInfo {
+        Id: string;
+        IconUrl: string;
+        Versions: VersionInfo[];
+    }
+    class VersionInfo {
+        version: string;
+        releaseNotes: string;
+        published: string;
     }
 }
 /**
@@ -2965,4 +2975,126 @@ declare namespace flexygo.api.DocumentManager {
         lastProcessName: string;
         lastAfterProcessName: string;
     };
+}
+/**
+ * @namespace flexygo.api.Planner
+*/
+declare namespace flexygo.api.Planner {
+    class PlannerParams {
+        ObjectName: string;
+        ObjectWhere: string;
+        ModuleName: string;
+        Defaults?: flexygo.api.GenericKeyValueObject[];
+        PageName: string;
+        PlannerInitDate: string;
+        PlannerInitMode: string;
+        TimeMode: string;
+        AdditionalWhere: string;
+        GroupsFilter: string;
+        DraggablesFilter: string;
+        FilterValues: flexygo.ui.wc.FlxFilterInfo[];
+        SearchId: string;
+    }
+    class PlannerConfig {
+        PlannerId: string;
+        PlannerName: string;
+        PlannerObject: string;
+        PlannerWhere: string;
+        PlannerTitle: string;
+        PlannerModes: PlannerModesConfig[];
+        MonthView: boolean;
+        PlannerInitMode: string;
+        PlannerInitDate: Date;
+        StartDate: Date;
+        EndDate: Date;
+        TimeMode: string;
+        PageSize: number;
+        Toolbar: flexygo.api.Toolbar;
+        CollectionName: string;
+        SearchSettings: SearchSettingsCollection;
+        ItemGroups: [];
+        Items: cardsResponse;
+        ErrorMessage: string;
+    }
+    class InfoParams {
+        PlannerModeId: string;
+        PlannerFilter: string;
+        DateStart?: Date;
+        DateEnd?: Date;
+    }
+    class cardResponse {
+        cardId: string;
+        cardTemplate: string;
+    }
+    class cardsResponse {
+        Items: [];
+        ItemsDraggable: [];
+    }
+    class modeResponse {
+        FirstColId: string;
+        FirstColTemplate: string;
+    }
+    type PlannerModesConfig = {
+        ModeId: string;
+        PlannerId: string;
+        ModeName: string;
+        ModeTitleTemplate: string;
+        FirstColObject: string;
+        FisrtColViewName: string;
+        FirstColId: string;
+        FirstColTemplate: string;
+        FirstColEntityConfiguration: PlannerEntityConfiguration;
+        Details: boolean;
+        DetailsCollection: string;
+        DetailsView: string;
+        DetailsTemplate: string;
+        CellMenuTemplate: string;
+        DayMenuTemplate: string;
+        CardsMode: PlannerCardsConfig[];
+    };
+    type PlannerCardsConfig = {
+        ModeCardId: string;
+        PlannerModeId: string;
+        CardColName: string;
+        CardViewName: string;
+        CardEntityConfiguration: PlannerEntityConfiguration;
+        CardId: string;
+        CardRowId: string;
+        CardDateField: string;
+        CardTemplate: string;
+        CardClassNameField: string;
+        CardStyleField: string;
+        Draggables: boolean;
+        DraggableCollection: string;
+        DraggableViewName: string;
+        DraggableObjectId: string;
+        DraggableTitle: string;
+        DraggableTemplate: string;
+        DraggableEntityConfiguration: PlannerEntityConfiguration;
+        OnAddFunction: string;
+        OnMoveFunction: string;
+        OnDeleteFunction: string;
+        Order: number;
+        Active: boolean;
+        Editable: boolean;
+    };
+    class PlannerEntityConfiguration {
+        ObjectName: string;
+        CollectionName: string;
+        Descrip: string;
+        Icon: string;
+        TableName: string;
+        ObjectKeys: Array<string>;
+        CanInsert: boolean;
+        CanUpdate: boolean;
+        CanDelete: boolean;
+    }
+    class PlannerCard extends HTMLElement {
+        plannerCardData: any;
+    }
+    class PlannerCellCardsParams {
+        PlannerModeId: string;
+        CellDay: string;
+        CellRowId: string;
+    }
 }

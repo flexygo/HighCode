@@ -1,6 +1,6 @@
 import { B as BUILD, c as consoleDevInfo, p as plt, w as win, H, d as doc, N as NAMESPACE, a as promiseResolve, b as bootstrapLazy } from './index-d0d1673d.js';
 export { s as setNonce } from './index-d0d1673d.js';
-import { g as globalScripts } from './app-globals-7b99a38e.js';
+import { g as globalScripts } from './app-globals-0f213858.js';
 import './ionic-global-f9661584.js';
 import './conftoken-2c86328f.js';
 import './process-es6-d973fab3.js';

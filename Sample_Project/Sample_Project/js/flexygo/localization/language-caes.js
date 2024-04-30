@@ -340,7 +340,10 @@ var flexygo;
                 uniqueBagError: 'Camp d&#39;identificador únic sense definir.',
                 nofieldBagError: 'No es pot trobar el camp <b> {0} </b> a la fila actual. Afegiu-la per consultar o eliminar el botó de selecció..',
                 noItemsSelected: 'Primer seleccioneu alguns elements de la llista.',
-                currentlyViewing: 'Veient actualment'
+                currentlyViewing: 'Veient actualment',
+                titleDeleteConfirm: 'Confirmeu l\'esborrat',
+                messageDeleteConfirm: 'Escriviu "<b>{0}</b>" per confirmar l\'esborrament.',
+                errorDeleteConfirm: 'Ho sentim, introduïu el text exactament com es mostra per confirmar.'
             };
             caes.flxnav = {
                 notimplemented: 'El node d&#39;acció no s&#39;ha implementat',
@@ -914,6 +917,22 @@ var flexygo;
             };
             caes.utils = {
                 loading: 'Carregant'
+            };
+            caes.flxplanner = {
+                noconf: 'Configura com a mínim un mode i un objecte per mostrar els seus registres',
+                draggables: 'Nous',
+                week: 'Setmana',
+                month: 'Mes',
+                today: 'Avui',
+                chooseobject: 'Selecciona un',
+                addempty: 'No s\'ha definit cap funció: OnAdd',
+                remove: "Voleu eliminar l'element?"
+            };
+            caes.flxrss = {
+                deprecated: 'Obsolet',
+                features: 'Novetats',
+                fixes: 'Correccions',
+                notfound: 'Cap versió oposada.'
             };
         })(caes = culture.caes || (culture.caes = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

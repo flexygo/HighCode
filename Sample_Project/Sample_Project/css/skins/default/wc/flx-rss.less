@@ -1,0 +1,50 @@
+﻿@import "../CssVars.less";
+flx-rss {
+    ul li.flx-product-tab {
+        cursor: pointer;
+
+        .product-header {
+            display: flex;
+            align-items: end;
+            user-select: none;
+            img.flx-product-img {
+                width: 30px;
+            }
+
+            span.tabTitle {
+                margin-left: 5px;
+                font-size: 20px;
+            }
+        }
+    }
+
+    .productInfo {
+        margin: 20px 0 0 20px;
+        display: none;
+        &.active {
+            display: block;
+        }
+        .version {
+            .collapsible {
+                cursor: pointer;
+                margin-bottom: 10px;
+                user-select: none;
+                span.flx-icon.icon-arrow-head-1 {
+                    transition: transform 0.3s ease;
+                }
+
+                &.expanded {
+                    span.flx-icon.icon-arrow-head-1 {
+                        transform: rotate(90deg);
+                    }
+                }
+            }
+            &> .collapsible {
+                font-size: 17px;
+            }
+            .content {
+                display: none;
+            }
+        }
+    }
+}

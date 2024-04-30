@@ -260,7 +260,7 @@ declare namespace flexygo.utils {
     * @param {text} seed Any string to get always same color.
     * @return {string} Color in
     */
-    function randomColor(seed: string): any;
+    function randomColor(seed: string): string;
     function formatFileSize(size: number): string;
     function totalFileWeight(itm: any): void;
     function formRelatedDep_Childs(mode: string, ObjectName: string, PropertyName: string, e: any): void;

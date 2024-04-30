@@ -9,7 +9,7 @@ declare namespace flexygo.msg {
     * @method alert
     * @param {string} str - The message to show.
     */
-    function alert(str: string, callback?: LobiBoxConfirmCallback): void;
+    function alert(str: string, callback?: LobiBoxConfirmCallback): Promise<boolean | void>;
     interface LobiBoxConfirmCallback {
         (result: boolean): void;
     }

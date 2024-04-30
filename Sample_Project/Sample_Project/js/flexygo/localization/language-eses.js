@@ -341,7 +341,10 @@ var flexygo;
                 uniqueBagError: 'Campo de clave unica no definido.',
                 nofieldBagError: 'No se ha podido encontrar el campo <b>{0}</b>. Añádalo a la consulta o quite el botón de selección.',
                 noItemsSelected: 'Seleccione primero algún elemento de la lista.',
-                currentlyViewing: 'Viendo actualmente'
+                currentlyViewing: 'Viendo actualmente',
+                titleDeleteConfirm: 'Confirmar el borrado',
+                messageDeleteConfirm: 'Escribe "<b>{0}</b>" para confirmar el borrado.',
+                errorDeleteConfirm: 'Lo sentimos, ingresa el texto exactamente como se muestra para confirmar.'
             };
             eses.flxnav = {
                 notimplemented: 'Acción no implementada',
@@ -916,6 +919,22 @@ var flexygo;
             };
             eses.utils = {
                 loading: 'Cargando'
+            };
+            eses.flxplanner = {
+                noconf: 'Configura al menos un modo y un objeto para mostrar sus registros',
+                draggables: 'Nuevos',
+                week: 'Semana',
+                month: 'Mes',
+                today: 'Hoy',
+                chooseobject: 'Selecciona uno',
+                addempty: 'No se ha definido ninguna función: OnAdd',
+                remove: '¿Desea eliminar el elemento?'
+            };
+            eses.flxrss = {
+                deprecated: 'Obsoleto',
+                features: 'Novedades',
+                fixes: 'Correcciones',
+                notfound: 'Ninguna versión encontrada.'
             };
         })(eses = culture.eses || (culture.eses = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

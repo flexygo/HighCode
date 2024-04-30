@@ -21,14 +21,28 @@ var flexygo;
         * @method alert
         * @param {string} str - The message to show.
         */
-        function alert(str, callback = null) {
-            Lobibox.alert("info", {
-                msg: flexygo.localization.translate(str),
-                iconSource: 'fontAwesome',
-                sound: (!flexygo.utils.testMode),
-                soundPath: flexygo.utils.resolveUrl('~/js/plugins/lobibox-master/sounds/'),
-                callback: callback
-            });
+        function alert(str, callback = (() => { })) {
+            return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
+                Lobibox.alert("info", {
+                    msg: flexygo.localization.translate(str),
+                    iconSource: 'fontAwesome',
+                    sound: (!flexygo.utils.testMode),
+                    soundPath: flexygo.utils.resolveUrl('~/js/plugins/lobibox-master/sounds/'),
+                    callback: (dlg, type, ev) => {
+                        if (type == "ok") {
+                            callback(true);
+                            resolve(true);
+                        }
+                        else {
+                            callback(false);
+                            resolve(false);
+                        }
+                    },
+                    closed: () => {
+                        resolve();
+                    }
+                });
+            }));
         }
         msg_1.alert = alert;
         /**

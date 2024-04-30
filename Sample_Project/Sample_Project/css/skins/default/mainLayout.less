@@ -4982,6 +4982,10 @@ body[mode="dark"] section.flx-loading-effect {
     display: flex;
     max-width: 80%;
     overflow-x: hidden;
+
+    &::-webkit-scrollbar {
+        border-radius: @border-radius;
+    }
 }
 
 .offlineHelpNavBar button {

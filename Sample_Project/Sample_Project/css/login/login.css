@@ -14,6 +14,7 @@ a {
 
 
 .trademark {
+    user-select: none;
     font-family: 'raleway', 'Helvetica', 'Arial,sans-serif';
     text-align: center;
     font-size: 4em;
@@ -161,3 +162,211 @@ a {
    top: -20px;
    left: -10px;
 }
+
+@keyframes flx-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.login section.flx-loading-effect {
+    position: relative;
+    justify-content: center;
+    /*align-items: center;*/
+}
+
+
+.login .flx-loader-effect {
+    width: 48px;
+    height: 48px;
+    border: 4px solid white;
+    border-radius: 50%;
+    display: inline-block;
+    position: absolute;
+    -webkit-animation: rotation 1s linear infinite;
+    animation: flx-spin 1s linear infinite;
+}
+
+    .login .flx-loader-effect:after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 56px;
+        width: 56px;
+        height: 56px;
+        max-height: 56px;
+        border-radius: 50%;
+        border: 3px solid;
+        border-color: #2DB7B0 transparent;
+    }
+
+.login div.flx-loader-text {
+    font-weight: 300;
+    font-size: 20px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin-top: 85px;
+}
+
+/*LOBIBOX*/
+
+div.lobibox.lobibox-confirm .btn-close,
+div.lobibox.lobibox-info .btn-close,
+div.lobibox.lobibox-prompt .btn-close {
+    position: absolute;
+    font-size: 1.2em;
+    right: 0;
+    top: 0;
+    padding: 4px 10px;
+    border-radius: 0px 5px;
+    transition: all 0.2s ease-in;
+}
+
+    div.lobibox.lobibox-confirm .btn-close:hover,
+    div.lobibox.lobibox-info .btn-close:hover,
+    div.lobibox.lobibox-prompt .btn-close:hover {
+        background-color: #292929 /*var(--nav-color)*/;
+        color: white;
+        text-shadow: none;
+    }
+
+button.lobibox-btn {
+    margin: 0;
+    border-radius: 5px;
+    padding: 9px 22px;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    color: #fff;
+}
+
+    button.lobibox-btn.lobibox-btn-cancel {
+        background-color: #bbbfcf;
+        border: none;
+    }
+
+        button.lobibox-btn.lobibox-btn-cancel:hover {
+            background-color: #a4a8ba;
+            color: #fff;
+        }
+
+div.lobibox.lobibox-confirm,
+div.lobibox.lobibox-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #292929 /*var(--nav-color)*/;
+    border-radius: calc(5px * 2);
+    border: none;
+}
+
+    div.lobibox.lobibox-confirm .lobibox-header,
+    div.lobibox.lobibox-info .lobibox-header {
+        background-color: transparent;
+        margin-top: 2em;
+        color: #cdcecf /*var(--txt-color)*/;
+        padding-top: 15px;
+    }
+
+        div.lobibox.lobibox-confirm .lobibox-header .lobibox-title,
+        div.lobibox.lobibox-info .lobibox-header .lobibox-title {
+            font-weight: 600;
+        }
+
+        div.lobibox.lobibox-confirm .lobibox-header .btn-close,
+        div.lobibox.lobibox-info .lobibox-header .btn-close {
+            position: absolute;
+            font-size: 1.2em;
+            right: 0;
+            top: 0;
+            padding: 4px 10px;
+            border-radius: 0px calc(5px * 2);
+            transition: all 0.2s ease-in;
+        }
+
+            div.lobibox.lobibox-confirm .lobibox-header .btn-close:hover,
+            div.lobibox.lobibox-info .lobibox-header .btn-close:hover {
+                background-color: #292929 /*var(--nav-color)*/;
+                color: white;
+                text-shadow: none;
+            }
+
+    div.lobibox.lobibox-confirm .lobibox-body,
+    div.lobibox.lobibox-info .lobibox-body {
+        position: initial;
+        display: flex;
+        justify-content: center;
+        background-color: #292929 /*var(--module-color)*/;
+        text-align: center;
+        height: max-content !important;
+        max-height: 8em !important;
+        overflow-y: auto;
+    }
+
+        div.lobibox.lobibox-confirm .lobibox-body::-webkit-scrollbar,
+        div.lobibox.lobibox-info .lobibox-body::-webkit-scrollbar {
+            border-radius: 5px;
+        }
+
+        div.lobibox.lobibox-confirm .lobibox-body .lobibox-icon-wrapper,
+        div.lobibox.lobibox-info .lobibox-body .lobibox-icon-wrapper {
+            display: flex;
+            position: absolute;
+            width: 80px;
+            height: 1.3em;
+            top: -0.5em;
+            background-color: white;
+            z-index: -1;
+            border-radius: 50%;
+            justify-content: center;
+        }
+
+            div.lobibox.lobibox-confirm .lobibox-body .lobibox-icon-wrapper i,
+            div.lobibox.lobibox-info .lobibox-body .lobibox-icon-wrapper i {
+                color: #292929 /*var(--nav-color)*/;
+                font-size: 75px;
+            }
+
+    div.lobibox.lobibox-confirm .lobibox-footer,
+    div.lobibox.lobibox-info .lobibox-footer {
+        background-color: #292929 /*var(--module-color)*/;
+        width: 35%;
+        display: flex;
+        justify-content: space-evenly;
+        padding: 15px 6px;
+    }
+
+        div.lobibox.lobibox-confirm .lobibox-footer button,
+        div.lobibox.lobibox-info .lobibox-footer button {
+            background-color: #292929 /*var(--nav-color)*/;
+            border: 1px solid #fff;
+            margin: 0;
+            border-radius: 5px;
+            font-weight: bold;
+            color: #fff;
+            padding: 9px 22px;
+            font-size: 15px;
+        }
+
+            div.lobibox.lobibox-confirm .lobibox-footer button:hover,
+            div.lobibox.lobibox-info .lobibox-footer button:hover {
+                background-color: #101010 /*darken(var(--nav-color), 5%)*/;
+                color: #fff;
+            }
+
+            div.lobibox.lobibox-confirm .lobibox-footer button.lobibox-btn-no,
+            div.lobibox.lobibox-info .lobibox-footer button.lobibox-btn-no {
+                background-color: #bbbfcf;
+            }
+
+                div.lobibox.lobibox-confirm .lobibox-footer button.lobibox-btn-no:hover,
+                div.lobibox.lobibox-info .lobibox-footer button.lobibox-btn-no:hover {
+                    background-color: #a4a8ba;
+                }

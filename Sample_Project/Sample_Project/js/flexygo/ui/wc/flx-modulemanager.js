@@ -243,7 +243,7 @@ var flexygo;
                             let mod = arrOrdered[key];
                             let item = me.find('#moduleList li[data-id="' + mod.ModuleName + '"]');
                             item.detach();
-                            item.find('.box-primary').removeClass('box-primary').addClass('bg-primary');
+                            item.find('.box-primary').removeClass('box-primary').addClass('item');
                             item.find('.relwhere').html(mod.RelationWhere);
                             if (mod.Events && Object.keys(mod.Events).length > 0) {
                                 item.find('.events').addClass('selected');
@@ -328,7 +328,7 @@ var flexygo;
                     this.modTemplate += '</div>';
                     this.modTemplate += '<div class="listDescrip"><i title="{{TypeDescrip}}" class="{{TypeIconClass}} icon-lg"></i> <span class="modDesc">{{Descrip}}</span><span class="hidden relwhere"></span></div>{{TypeId|switch:[flx-moduletab:<div class="moduleTab" ><ul class="connectedTab connectedSortable"></ul></div>,flx-buttontab:<div class="moduleTab" ><ul class="connectedTab connectedSortable"></ul></div>,else:null]}}';
                     this.modTemplate += '</li>';
-                    this.modules = obj.getView('sysModuleExtended');
+                    this.modules = obj.getView('sysModuleBasicListInfo');
                     let list = me.find('#moduleList ul');
                     list.empty();
                     for (let i = 0; i < this.modules.length; i++) {
@@ -347,10 +347,10 @@ var flexygo;
                         stop: (event, ui) => {
                             let itm = $(ui.item);
                             if (itm.closest('#layoutPanel').length > 0) {
-                                itm.find('.box-primary,.box-warning').removeClass('box-primary').removeClass('box-warning').addClass('bg-primary');
+                                itm.find('.box-primary,.box-warning').removeClass('box-primary').removeClass('box-warning').addClass('item');
                             }
                             else {
-                                itm.find('.bg-primary').removeClass('bg-primary').addClass('box-warning');
+                                itm.find('.item').removeClass('item').addClass('box-warning');
                                 if (itm.is('.tabItem')) {
                                     let items = itm.find('.moduleItem');
                                     items.each((i, e) => {
@@ -376,7 +376,7 @@ var flexygo;
                         let itm = $(e.currentTarget).closest('li');
                         itm.hide();
                         itm.detach();
-                        itm.find('.bg-primary').removeClass('bg-primary').addClass('box-warning');
+                        itm.find('.item').removeClass('item').addClass('box-warning');
                         me.find('#moduleList ul').prepend(itm);
                         if (itm.is('.tabItem')) {
                             let items = itm.find('.moduleItem');

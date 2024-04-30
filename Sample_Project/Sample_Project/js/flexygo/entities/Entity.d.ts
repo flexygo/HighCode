@@ -59,6 +59,12 @@ declare namespace flexygo.obj {
         */
         getConfig(): flexygo.api.entity.ObjBasicConfig;
         /**
+        * Gets the object delete confirm.
+        * @method getDeleteConfirm
+        * @return {string} - Delete confirm
+        */
+        getDeleteConfirm(): string;
+        /**
         * Get the system configuration related to current object.
         * @method getView
         * @param {string} viewName - Desired view name.

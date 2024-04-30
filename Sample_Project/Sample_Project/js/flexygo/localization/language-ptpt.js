@@ -341,7 +341,10 @@ var flexygo;
                 uniqueBagError: 'Campo chave única indefinida.',
                 nofieldBagError: 'O campo não foi encontrado <b>{0}</b>. Adicione-o à consulta ou remova o botão de opção.',
                 noItemsSelected: 'Selecione um item da lista primeiro.',
-                currentlyViewing: 'Atualmente visualizando'
+                currentlyViewing: 'Atualmente visualizando',
+                titleDeleteConfirm: 'Confirmar exclusão',
+                messageDeleteConfirm: 'Digite "<b>{0}</b>" para confirmar a exclusão.',
+                errorDeleteConfirm: 'Desculpe, digite o texto exatamente como mostrado para confirmar.'
             };
             ptpt.flxnav = {
                 notimplemented: 'Ação não implementada',
@@ -915,6 +918,22 @@ var flexygo;
             };
             ptpt.utils = {
                 loading: 'Carregando'
+            };
+            ptpt.flxplanner = {
+                noconf: 'Configure pelo menos um modo e um objeto para mostrar seus registros',
+                draggables: 'Novos',
+                week: 'Semana',
+                month: 'Mês',
+                today: 'Hoje',
+                chooseobject: 'Selecione um',
+                addempty: 'Nenhuma função definida: OnAdd',
+                remove: 'Você deseja remover o elemento?'
+            };
+            ptpt.flxrss = {
+                deprecated: 'Depreciado',
+                features: 'Novas funcionalidades',
+                fixes: 'Correcções',
+                notfound: 'Nenhuma versão encontrada.'
             };
         })(ptpt = culture.ptpt || (culture.ptpt = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

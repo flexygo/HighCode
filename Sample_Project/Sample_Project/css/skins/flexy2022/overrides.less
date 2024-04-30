@@ -532,11 +532,81 @@ flx-module .cntBodyFooter {
 .moduleManager {
     border-radius: @border-radius;
 
-    .bg-primary {
+    #layoutPanel li div.item {
         background-color: @bg-color;
         color: @txt-color;
+
+        &:hover {
+            background-color: lighten(@outstanding-color,10);
+            color: #fff;
+        }
+
+        .buttonList i {
+            cursor: pointer;
+        }
+    }
+
+    #moduleList ul{ 
+        padding-bottom: 34px; //To allow evry element to be displayed when scrolling
+
+        li {
+            border: 1px solid @bg-color;
+            border-radius: @border-radius;
+
+            &:hover {
+                background-color: @outstanding-color;
+                border-color: @outstanding-color;
+
+                div.box-primary {
+                    background-color: @outstanding-color;
+                    color: #fff;
+                }
+            }
+        }
+    }
+
+    #moduleList li, #layoutPanel li {
+        cursor: move;
+
+        .item, .box-warning, .box-primary {
+            cursor: move;
+        }
+    }
+
+    .ui-sortable-placeholder {
+        border: 1px solid @bg-color;
+        border-radius: @border-radius;
     }
 }
+
+.moduleItem.ui-sortable-handle {
+    .item {
+        background-color: @bg-color;
+        color: @txt-color;
+        padding: 0.5em;
+    }
+
+    .item, .box-primary, .box-warning {
+        border-radius: @border-radius;
+    }
+}
+
+body[mode="dark"] .moduleManager {
+    #moduleList li {
+        border: 1px solid black;
+
+        .box-primary {
+            background-color: @bg-color;
+            color: @txt-color;
+
+            &:hover {
+                background-color: @outstanding-color;
+                color: white;
+            }
+        }
+    }
+}
+
 //toolbar
 .btn-toolbar {
     .btn {
@@ -868,35 +938,55 @@ flx-dbcombo > ul, flx-multicombo > ul {
 }
 //END TABS
 // dependency manager property panel
-flx-dependencymanager .pnlNavigate {
-    margin-top: 10px;
-    border-radius: 4px 0px;
+flx-dependencymanager {
+    flx-tag > div, .form-control {
+        border: none;
+    }
+
+    .form-control {
+        border-radius: 5px;
+    }
+
+    .pnlProperties.ui-sortable:not(.ui-sortable-disabled) li:hover {
+        background-color: @module-color;
+
+        .form-control {
+            border-bottom: 1px solid @input-border-color;
+            border-radius: 0;
+        }
+    }
+
+    .pnlNavigate {
+        margin-top: 10px;
+        border-radius: 4px 0px;
+    }
+
+    .pnlProperties, .pnlNavigate {
+        background-color: @list-even-color;
+        padding: 10px;
+        border: none;
+    }
+
+    .pnlProperties {
+        border-radius: 0px 4px;
+    }
+
+    .panel-default {
+        background-color: @list-even-color;
+        border: none;
+
+        > .panel-heading {
+            background-color: @dialog-header-color;
+            color: @txt-color;
+            border: none;
+        }
+    }
+
+    .panel.panel-default > .panel-heading {
+        color: #fff;
+    }
 }
 
-flx-dependencymanager .pnlProperties, flx-dependencymanager .pnlNavigate {
-    background-color: @list-even-color;
-    padding: 10px;
-    border: none;
-}
-
-flx-dependencymanager .pnlProperties {
-    border-radius: 0px 4px;
-}
-
-flx-dependencymanager .panel-default {
-    background-color: @list-even-color;
-    border: none;
-}
-
-flx-dependencymanager .panel-default > .panel-heading {
-    background-color: @dialog-header-color;
-    color: @txt-color;
-    border: none;
-}
-
-flx-dependencymanager .pnlProperties.ui-sortable:not(.ui-sortable-disabled) li:hover {
-    background-color: @module-color;
-}
 //BUtton
 .btn {
     line-height: 1.5;
@@ -1056,6 +1146,32 @@ flx-nav[mode=nav] li > .active {
 .ui-corner-br {
     border-bottom-right-radius: 0px;
 }
+
+//MODALS & POPUPS
+:not(#dialog-extend-fixed-container) > .ui-dialog.ui-widget {
+    border: none;
+
+    &:not(:has(flx-ai)) {
+        box-shadow: 0px 0px 7px 0px darken(@nav-color, 80);
+    }
+    .ui-dialog-titlebar {
+        .ui-dialog-title {
+            width: 100%;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .ui-dialog-titlebar-buttonpane {
+            margin-right: 5px;
+        }
+
+        .ui-dialog-titlebar-buttonpane > a, .ui-dialog-titlebar-buttonpane > button {
+            font-size: 12px;
+            margin-right: 10px;
+        }
+    }
+}
+
 //EASY INFO
 flx-easyinfo, .flx-easyinfo, .easy-info {
     background-color: @module-color;
@@ -1183,11 +1299,6 @@ legend {
 //LOBIBOX
 .lobibox.lobibox-confirm .lobibox-header {
     background-color: darken(@bg-color,20);
-    color: @txt-color;
-}
-
-body[mode="dark"] .lobibox.lobibox-confirm .lobibox-header {
-    background-color: lighten(@module-color,3);
 }
 
 .lobibox .lobibox-body {
@@ -1201,10 +1312,6 @@ body[mode="dark"] .lobibox.lobibox-confirm .lobibox-header {
 
 .lobibox.lobibox-confirm .lobibox-footer {
     background-color: darken(@bg-color,20);
-}
-
-body[mode="dark"] .lobibox.lobibox-confirm .lobibox-footer {
-    background-color: lighten(@module-color,3);
 }
 
 .lobibox.lobibox-progress .lobibox-header, .lobibox.lobibox-progress .lobibox-body .lobibox-progress-bar-wrapper .lobibox-progress-bar {
@@ -1238,46 +1345,169 @@ body[mode="dark"] .lobibox.lobibox-confirm .lobibox-footer {
     }
 }
 
-.lobibox.lobibox-info {
-    border-radius: @border-radius;
+div.lobibox.lobibox-confirm, div.lobibox.lobibox-info, div.lobibox.lobibox-prompt {
+    .btn-close {
+        position: absolute;
+        font-size: 1.2em;
+        right: 0;
+        top: 0;
+        padding: 4px 10px;
+        border-radius: 0px @border-radius;
+        transition: all 0.2s ease-in;
+
+        &:hover {
+            background-color: @nav-color;
+            color: white;
+            text-shadow: none;
+        }
+    }
+
+    button.lobibox-btn {
+        margin: 0;
+        border-radius: @border-radius;
+        padding: 9px 22px;
+        font-size: 15px;
+        font-weight: bold;
+        border: none;
+        color: #fff;
+
+        &.lobibox-btn-cancel {
+            background-color: @muted-blue;
+            border: none;
+
+            &:hover {
+                background-color: darken( @muted-blue, 10);
+                color: #fff;
+            }
+        }
+    }
+}
+
+div.lobibox.lobibox-confirm, div.lobibox.lobibox-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: @module-color;
+    border-radius: calc(@border-radius * 2);
+    border: none;
 
     .lobibox-header {
-        background-color: @input-background-color;
-        border-radius: @border-radius @border-radius 0 0;
-        color: @nav-color;
-        padding: 10px 20px 5px 20px;
+        background-color: transparent;
+        margin-top: 2em;
+        color: @txt-color;
+        padding-top: 15px;
+
+        .lobibox-title {
+            font-weight: 600;
+        }
+
+        .btn-close {
+            position: absolute;
+            font-size: 1.2em;
+            right: 0;
+            top: 0;
+            padding: 4px 10px;
+            border-radius: 0px calc(@border-radius * 2);
+            transition: all 0.2s ease-in;
+
+            &:hover {
+                background-color: @nav-color;
+                color: white;
+                text-shadow: none;
+            }
+        }
     }
 
     .lobibox-body {
+        position: initial;
         display: flex;
+        justify-content: center;
+        text-align: center;
+        height: max-content !important;
+        max-height: 8em !important;
+        overflow-y: auto;
 
-        i.lobibox-icon {
-            color: @nav-color;
+        &::-webkit-scrollbar {
+            border-radius: @border-radius;
         }
 
-        .lobibox-body-text-wrapper {
-            overflow-x: auto;
+        .lobibox-icon-wrapper {
+            display: flex;
+            position: absolute;
+            width: 80px;
+            height: 1.3em;
+            top: -0.5em;
+            background-color: white;
+            z-index: -1;
+            border-radius: 50%;
+            justify-content: center;
 
-            &::-webkit-scrollbar-track, &::-webkit-scrollbar {
-                border-radius: @scrollbar-border-radius;
+            i {
+                color: @nav-color;
+                font-size: 75px;
             }
         }
     }
 
     .lobibox-footer {
-        background-color: @input-background-color;
-        border-radius: 0 0 @border-radius @border-radius;
+        background-color: @module-color;
+        width: 35%;
+        display: flex;
+        justify-content: space-evenly;
+        padding: 15px 6px;
 
         button {
-            border-radius: @border-radius;
-            background-color: @nav-color;
-            color: #fff;
+            &.lobibox-btn-yes, &.lobibox-btn-default {
+                background-color: @nav-color;
 
-            &:hover {
-                background-color: darken(@nav-color, 4);
-                color: #fff;
+                &:hover {
+                    background-color: darken(@nav-color, 5);
+                    color: #fff;
+                }
+            }
+
+            &.lobibox-btn-no {
+                background-color: @muted-blue;
+
+                &:hover {
+                    background-color: darken(@muted-blue, 10);
+                }
             }
         }
+    }
+}
+
+div.lobibox.lobibox-prompt {
+    button.lobibox-btn { 
+        margin: 0 5px;
+    }
+}
+
+body[mode="dark"] {
+    div.lobibox.lobibox-info, div.lobibox.lobibox-confirm, div.lobibox.lobibox-prompt {
+        .lobibox-footer {
+            .lobibox-btn-no, .lobibox-btn-cancel {
+                background-color: @danger-color;
+
+                &:hover {
+                    background-color: darken(@danger-color, 10);
+                }
+            }
+
+            .lobibox-btn-default, .lobibox-btn-yes {
+                border: 1px solid white;
+
+                &:hover {
+                    background-color: darken(@module-color, 10);
+                }
+            }
+        }
+    }
+}
+
+body:not([mode="dark"]) {
+    div.ui-dialog, div.lobibox {
+        box-shadow: 0px 0px 10px 0px #a8a8a8;
     }
 }
 
@@ -1308,10 +1538,10 @@ flx-edit .CodeMirror {
 }
 
 body[mode="dark"] .cm-matchhighlight {
-    background-color:#404040;
+    background-color: #404040;
 }
 
-.box-info,.bg-info.reverse {
+.box-info, .bg-info.reverse {
     background-color: transparent;
 }
 
@@ -1319,8 +1549,6 @@ body[mode="dark"] .cm-matchhighlight {
 flx-dependencymanager .bootstrap-tagsinput {
     border-radius: @border-radius !important;
 }
-
-
 
 //TEXT AREA
 flx-textarea {
@@ -1331,9 +1559,14 @@ flx-textarea {
         border-bottom-right-radius: @border-radius;
     }
 
-    .input-group-addon:not(:first-child):not(:last-child) {
-        border-top-right-radius: @border-radius;
-        border-bottom-right-radius: @border-radius;
+    &:focus-within :is(span.input-group-addon,textarea.form-control) {
+        border-color: @info-color;
+        box-shadow: none;
+    }
+
+    .input-group-addon:first-child {
+        border-top-left-radius: @border-radius;
+        border-bottom-left-radius: @border-radius;
     }
 
     textarea.form-control {
@@ -1360,6 +1593,7 @@ flx-upload .upload-container {
 .options-box {
     background-color: darken(@module-color,5);
 }
+
 .options-box > .buttons {
     background-color: darken(@module-color,10);
 }
@@ -1409,7 +1643,7 @@ flx-image .cpr-view-container {
         background-color: @input-background-color;
         border-radius: @border-radius @border-radius 0 0;
         color: @nav-color;
-        padding: 10px 20px 5px 20px;
+        padding: 15px 20px 5px 20px;
     }
 
     .lobibox-body .lobibox-input {
@@ -1425,6 +1659,7 @@ flx-image .cpr-view-container {
     .lobibox-footer {
         background-color: @input-background-color;
         border-radius: 0 0 @border-radius @border-radius;
+        padding-bottom: 15px;
 
         .lobibox-btn-default {
             background-color: @nav-color;
@@ -1458,7 +1693,8 @@ flx-chatter .chatter .chatter_composer {
     background-color: darken(@bg-color,5);
     box-shadow: 2px 3px 6px #0000000d;
 }
-flx-chatter .chatter .chatter_thread .chatter_thread_message{
+
+flx-chatter .chatter .chatter_thread .chatter_thread_message {
     background-color: @bg-color;
     box-shadow: 2px 3px 6px #0000000d;
 }
@@ -1505,7 +1741,7 @@ body[mode="dark"] flx-chatter .chatter .chatter_thread .chatter_thread_message .
     border-color: #5a5a5a;
     border-style: solid;
 }
-
+ 
 body[mode="dark"] flx-chatter .chatter .chatter_thread .chatter_thread_message .chatter_thread_message_core .chatter_composer_tools_edit {
     border-top: 1px solid #5a5a5a;
     background-color: @input-background-color;
@@ -1577,12 +1813,12 @@ body[mode="dark"] .flxhelp {
 
 /*
 .flxhelp .helpBoxRow .helpBoxDiv .helpBox {
-    background-color: darken(@module-color,5);
-    border-color: @input-border-color;    
+background-color: darken(@module-color,5);
+border-color: @input-border-color;    
 }
 
 .flxhelp .helpBoxRow .helpBoxDiv .helpBox .title {
-    color: @txt-color;
+color: @txt-color;
 }*/
 //Document Manager
 flx-module[type="flx-documentmanager"] {
@@ -1606,16 +1842,17 @@ flx-documentmanager .dtc-btn-container [value="link"] i, flx-documentmanager .dt
 }
 //Module manager
 /*.box-primary {
-    background-color: @bg-color;
-    color: @txt-color;
+background-color: @bg-color;
+color: @txt-color;
 }*/
 //HTML editor
 flx-html div.btn-group .btn {
-    background-color: @bg-color;
+    background-color: @module-color;
 }
 
 flx-html div.btn-group {
-    background-color: @bg-color;
+    background-color: @module-color;
+    border-radius: @border-radius;
 }
 //Note Editor
 .panel-default > .panel-heading {
@@ -1640,62 +1877,71 @@ flx-propertymanager .btn-group .btn + .btn {
     margin-left: 0;
 }
 
-flx-propertymanager label.locked span.status:after{color:@danger-color;}
+flx-propertymanager label.locked span.status:after {
+    color: @danger-color;
+}
 
 flx-propertymanager .grid-stack .grid-stack-placeholder > .placeholder-content {
     background-color: Lighten(@module-color,5);
 }
 
 //Slide Dialog
-.flx-dialog-modal.flx-slide .ui-widget-header{
-    background-color:@module-color !important;
+.flx-dialog-modal.flx-slide .ui-widget-header {
+    background-color: @module-color !important;
 }
 
 .flx-dialog-modal.flx-slide .ui-dialog-content {
     background-color: @module-color !important;
-    & flx-module{
+
+    & flx-module {
         border: unset;
-        box-shadow: unset!important;
+        box-shadow: unset !important;
     }
 }
 
 //make flx-slide dialog less pointy
-.flx-dialog-modal.flx-slide{
-    &.flx-slideright{
+.flx-dialog-modal.flx-slide {
+    &.flx-slideright {
         border-top-left-radius: @border-radius;
         border-bottom-left-radius: @border-radius;
-        & .ui-widget-header{
+
+        & .ui-widget-header {
             border-top-left-radius: @border-radius;
         }
-        & main{
+
+        & main {
             border-bottom-left-radius: @border-radius;
         }
     }
 
-    &.flx-slideleft{
+    &.flx-slideleft {
         border-top-right-radius: @border-radius;
         border-bottom-right-radius: @border-radius;
-        & .ui-widget-header{
+
+        & .ui-widget-header {
             border-top-right-radius: @border-radius;
         }
-        & main{
+
+        & main {
             border-bottom-right-radius: @border-radius;
         }
     }
 
-    &.flx-slidebottom{
+    &.flx-slidebottom {
         border-top-right-radius: @border-radius;
         border-top-left-radius: @border-radius;
-        & .ui-widget-header{
+
+        & .ui-widget-header {
             border-top-right-radius: @border-radius;
             border-top-left-radius: @border-radius;
         }
     }
 
-    &.flx-slidetop{
+    &.flx-slidetop {
         border-bottom-right-radius: @border-radius;
         border-bottom-left-radius: @border-radius;
-        & main{
+
+        & main {
             border-bottom-right-radius: @border-radius;
             border-bottom-left-radius: @border-radius;
         }
@@ -1751,7 +1997,7 @@ flx-dbcombo > ul li:hover, flx-multicombo > ul li:hover {
     background-color: lighten(@outstanding-color, 40);
 }
 
-body[mode="dark"] .dropdown-menu{
+body[mode="dark"] .dropdown-menu {
     background-color: @bg-color; // @bg-color;
 }
 
@@ -1815,18 +2061,19 @@ body[mode="dark"] .flx-info-viewers {
 
 /** flx-module **/
 
-flx-module:not(.config):not(.fullscreen):not(.empty){
+flx-module:not(.config):not(.fullscreen):not(.empty) {
     box-shadow: 2px 3px 6px #0000000d;
     border-radius: @border-radius;
     border: unset;
 }
+
 flx-module.empty:not([modulename="sysofflineApp_Menus"]) > .cntBody {
     padding: 0;
     padding-left: 0;
 }
 
 //FLX-HELP
-flx-module.default .cntHeader, flx-module[modulename="sysHelpSearchHeader"]{
+flx-module.default .cntHeader, flx-module[modulename="sysHelpSearchHeader"] {
     border-top-right-radius: @border-radius;
     border-top-left-radius: @border-radius;
 }
@@ -1836,7 +2083,7 @@ flx-module[modulename="sysHelpSearchList"] {
     border-bottom-right-radius: @border-radius;
 }
 
-div.flxhelp{
+div.flxhelp {
     border-radius: @border-radius;
     /*New Styles for tabs of collapse views*/
 
@@ -1856,6 +2103,7 @@ body[mode="dark"] .flxboxCard {
     border-radius: @border-radius;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
 body:not([mode="dark"]) .flxboxCard {
     background-color: white;
     border-radius: @border-radius;
@@ -1863,8 +2111,8 @@ body:not([mode="dark"]) .flxboxCard {
 }
 
 //style of popovers in attachments files module
-flx-module [modulename="sysmod-mailattachment-list"] div.popover{
-    width:initial;
+flx-module [modulename="sysmod-mailattachment-list"] div.popover {
+    width: initial;
 }
 
 //Object Manager
@@ -1900,7 +2148,7 @@ flx-objectmanager #tab1 {
         margin-bottom: 1em;
     }
 
-    form div.row:last-child > div:first-child{
+    form div.row:last-child > div:first-child {
         margin: 0 15px;
     }
 
@@ -1931,7 +2179,7 @@ flx-modulemanager {
 
             > div {
                 border-radius: 5px;
-                box-shadow: 6px 6px 10px -5px rgba(0,0,0,0.53);
+                box-shadow: rgba(0, 0, 0, 0.2) 4px 5px 4px;
             }
         }
     }
@@ -1950,7 +2198,6 @@ flx-modulemanager {
         }
     }
 }
-
 //Sidepanel
 flx-sidepanel {
     .side-panels > div {
@@ -1958,6 +2205,73 @@ flx-sidepanel {
         backdrop-filter: blur(3px);
     }
 }
+
 flx-code[editor="monaco"] div.superContainer, flx-textarea input-group {
     border: 1px solid @input-border-color;
+}
+
+//Webapi
+body[mode="dark"] {
+    .swagger-ui {
+        //Title with Base Url
+        .information-container hgroup {
+            h2, > pre {
+                color: @txt-color;
+            }
+
+            small pre {
+                background: transparent;
+                border: none;
+            }
+        }
+        //Schemes and authorize
+        div.scheme-container {
+            background-color: @module-color;
+
+            .schemes > label {
+                color: @txt-color;
+
+                select {
+                    background: @module-color;
+                    border-color: @txt-color;
+                    color: @txt-color;
+                }
+            }
+        }
+        //Filter Input
+        .filter .operation-filter-input {
+            background-color: @module-color;
+        }
+        //Definitions divs
+        div.wrapper {
+            h4.opblock-tag a, h4.opblock-tag small, .opblock .opblock-summary-path, .opblock .opblock-summary-description {
+                color: fade(white, 85);
+            }
+            //To change svg color without modiying its attributes we use filters generated using this page https://codepen.io/sosuke/pen/Pjoqqp
+            h4.opblock-tag button.expand-operation {
+                filter: invert(100%) sepia(1%) saturate(0%) hue-rotate(58deg) brightness(108%) contrast(101%);
+            }
+
+            button.authorization__btn {
+                filter: invert(72%) sepia(6%) saturate(193%) hue-rotate(314deg) brightness(89%) contrast(82%);
+            }
+            //Opened definitions
+            .opblock-body {
+                .opblock-section-header {
+                    background-color: @module-color;
+                    box-shadow: 0px 2px 3px 0px rgba(255, 255, 255, 0.27);
+                }
+
+                h4, th, td, .parameter__name, .parameter__type, .parameters-col_description .markdown, .opblock-section-header label span {
+                    color: @txt-color
+                }
+
+                select, button.try-out__btn {
+                    background: @module-color;
+                    border-color: @txt-color;
+                    color: @txt-color;
+                }
+            }
+        }
+    }
 }

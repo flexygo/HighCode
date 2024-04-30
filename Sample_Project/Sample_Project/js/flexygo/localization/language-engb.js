@@ -341,7 +341,10 @@ var flexygo;
                 uniqueBagError: 'Undefined Unique Identifier Field.',
                 nofieldBagError: 'Can\'t find field <b>{0}</b> in current row. Add it to query or remove selection button.',
                 noItemsSelected: 'Select some items from the list first.',
-                currentlyViewing: 'Currently viewing'
+                currentlyViewing: 'Currently viewing',
+                titleDeleteConfirm: 'Confirm deletion',
+                messageDeleteConfirm: 'Type "<b>{0}</b>" to confirm the deletion.',
+                errorDeleteConfirm: 'Sorry, please enter the text exactly as displayed to confirm.'
             };
             engb.flxnav = {
                 notimplemented: 'Action node not implemented',
@@ -916,6 +919,22 @@ var flexygo;
             };
             engb.utils = {
                 loading: 'Loading'
+            };
+            engb.flxplanner = {
+                noconf: 'Configure at least one mode and one object to display your records',
+                draggables: 'New',
+                week: 'Week',
+                month: 'Month',
+                today: 'Today',
+                chooseobject: 'Choose one',
+                addempty: 'No function defined: OnAdd',
+                remove: 'Do you want to remove element?'
+            };
+            engb.flxrss = {
+                deprecated: 'Deprecated',
+                features: 'New Features',
+                fixes: 'Fixes',
+                notfound: 'No version found.'
             };
         })(engb = culture.engb || (culture.engb = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

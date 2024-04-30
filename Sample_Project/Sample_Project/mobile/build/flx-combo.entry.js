@@ -136,6 +136,8 @@ const FlxCombo = class {
     if (typeof this.value != 'undefined' && this.value != null) {
       jquery(this.me).closest('ion-item').addClass('item-has-value');
     }
+    if (this.me.sqlValidatorFunction)
+      this.me.sqlValidatorFunction();
   }
   render() {
     return (h("ion-select", { multiple: (!(typeof this.multiple == 'undefined')), disabled: (this.disabled ? true : false), compareWith: this.compare, value: (typeof this.prerenderValue != 'undefined' ? this.prerenderValue : this.value), onIonChange: (ev) => { this.valueChange(ev); } }, ((typeof this.multiple == 'undefined') ? h("ion-select-option", { value: "" }) : null), this.table.map((row, index) => {

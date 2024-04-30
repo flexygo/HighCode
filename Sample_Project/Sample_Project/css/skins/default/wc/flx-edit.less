@@ -1882,9 +1882,17 @@ flx-textarea .input-group .input-group-addon i {
     display: flex;
     flex: 1;
 }
+flx-textarea:focus-within :is(span.input-group-addon,textarea.form-control) {
+    border-color: #66afe9;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+}
 flx-textarea .input-group .input-group-addon button {
     border: none;
 }
 flx-textarea textarea{
     resize: none;
+}
+flx-textarea .input-group-addon:not(:first-child):not(:last-child) {
+    border-top-right-radius: @border-radius;
+    border-bottom-right-radius: @border-radius;
 }

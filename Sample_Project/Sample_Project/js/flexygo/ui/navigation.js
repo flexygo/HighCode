@@ -268,7 +268,7 @@ var flexygo;
                 if (!flexygo.utils.isSizeMobile) {
                     excludeHist = true;
                 }
-                flexygo.nav.openProcessParams(processname, objectname, objectwhere, defaults, target, excludeHist, triggerElement);
+                flexygo.nav.openProcessParams(processname, objectname, objectwhere, defaults, target, excludeHist, triggerElement, undefined, callBack);
             }
             else {
                 if (!processparams && defaults) {
@@ -394,7 +394,7 @@ var flexygo;
                         ctrl.reportwhere = reportwhere;
                         ctrl.processname = processname;
                         ctrl.moduleName = mod.ModuleName;
-                        ctrl.moduleTitle = mod.Title;
+                        ctrl.moduleTitle = (mod.Title.toLocaleLowerCase() == '{{pagedescrip}}' ? pageConf.Descrip : mod.Title);
                         ctrl.icon = mod.IconClass;
                         if (mod.HeaderClass && mod.HeaderClass != '') {
                             ctrl.headerClass = mod.HeaderClass;
@@ -449,9 +449,9 @@ var flexygo;
        * @param {boolean} excludeHist - True to not store in history
        * @param {JQuery} triggerElement - Relative element to open the page
       */
-        function openProcessParams(processname, objectname, objectwhere, defaults, targetid, excludeHist, triggerElement, pagename = 'syspage-processparams-default') {
+        function openProcessParams(processname, objectname, objectwhere, defaults, targetid, excludeHist, triggerElement, pagename = 'syspage-processparams-default', callBack) {
             //process param page is currenty syspage-processparams-default
-            flexygo.nav.openProcessParamsPage(pagename, processname, objectname, objectwhere, defaults, targetid, excludeHist, triggerElement);
+            flexygo.nav.openProcessParamsPage(pagename, processname, objectname, objectwhere, defaults, targetid, excludeHist, triggerElement, callBack);
         }
         nav.openProcessParams = openProcessParams;
         /**
@@ -466,7 +466,7 @@ var flexygo;
          * @param {boolean} excludeHist - True to not store in history
          * @param {JQuery} triggerElement - Relative element to open the page
         */
-        function openProcessParamsPage(pagename, processname, objectname, objectwhere, defaults, targetid, excludeHist, triggerElement) {
+        function openProcessParamsPage(pagename, processname, objectname, objectwhere, defaults, targetid, excludeHist, triggerElement, callBack) {
             if (typeof event != 'undefined') {
                 event.preventDefault();
             }
@@ -490,7 +490,8 @@ var flexygo;
                 objectwhere: objectwhere,
                 defaults: defaults,
                 processname: processname,
-                userid: flexygo.context.currentUserId
+                userid: flexygo.context.currentUserId,
+                callback: (flexygo.utils.isBlank(callBack)) ? undefined : callBack.toString()
             };
             if (targetid && targetid.indexOf('new') == 0) {
                 flexygo.targets.openNewWindow(histObj, targetid);

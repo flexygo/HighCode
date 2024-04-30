@@ -11,7 +11,7 @@ var flexygo;
                 var cntMenu = $('flx-contextmenu')[0];
                 if (!cntMenu.hideMenu(btn)) {
                     //list: FlxList | FlxSearch;
-                    let list = module.find('flx-list, flx-kanban, flx-timeline')[0];
+                    let list = module.find('flx-list, flx-kanban, flx-timeline, flx-planner')[0];
                     if (!list) {
                         list = module.find('flx-search')[0];
                     }
@@ -75,7 +75,7 @@ var flexygo;
             function loadFilter(objectname, module, btn) {
                 var cntMenu = $('flx-contextmenu')[0];
                 if (!cntMenu.hideMenu(btn)) {
-                    let list = module.find('flx-list, flx-kanban, flx-timeline')[0];
+                    let list = module.find('flx-list, flx-kanban, flx-timeline, flx-planner')[0];
                     if (!list) {
                         list = module.find('flx-search')[0];
                     }
@@ -200,7 +200,7 @@ var flexygo;
                         if (module) {
                             let moduleName = module.moduleName;
                             if (module.componentString.includes('moduletab')) {
-                                let list = $(module).find('flx-list, flx-kanban, flx-timeline')[0];
+                                let list = $(module).find('flx-list, flx-kanban, flx-timeline, flx-planner')[0];
                                 moduleName = list.moduleName;
                             }
                             let history = flexygo.history.get(me);

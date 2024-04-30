@@ -77,51 +77,53 @@ const FlxDbcombo = class {
     else {
       this.me.removeAttribute('avoid_dependencies');
     }
+    if (this.me.sqlValidatorFunction)
+      this.me.sqlValidatorFunction();
   }
   load(firstTime) {
-    if (this.sqlsentence) {
-      const isNew = (window.location.href.toLowerCase().indexOf('/filter/') === -1 ? true : false);
-      if (jquery(this.me).find('.comboTemplate').length > 0) {
-        this.template = `<ion-item lines="full" onclick="$(document).trigger('select', ['{{${this.valuefield}|JS}}','{{${this.displayfield}|HTMLATTR}}']);">${jquery('<div>' + jquery(this.me).find('.comboTemplate').html() + '</div>').html()}</ion-item>`;
+    if (!this.sqlsentence)
+      return;
+    const isNew = (window.location.href.toLowerCase().indexOf('/filter/') === -1 ? true : false);
+    if (jquery(this.me).find('.comboTemplate').length > 0) {
+      this.template = `<ion-item lines="full" onclick="$(document).trigger('select', ['{{${this.valuefield}|JS}}','{{${this.displayfield}|HTMLATTR}}']);">${jquery('<div>' + jquery(this.me).find('.comboTemplate').html() + '</div>').html()}</ion-item>`;
+    }
+    else {
+      this.template = `<ion-item lines="full" onclick="$(document).trigger('select', ['{{${this.valuefield}|JS}}','{{${this.displayfield}|HTMLATTR}}']);"><ion-label>{{${this.displayfield}}}</ion-label></ion-item>`;
+    }
+    let autoselectLower = (this.autoselect ? this.autoselect.toLowerCase() : null);
+    //Si la combo tiene valor calculamos su texto.
+    let sentence = sql.addWhere(this.sqlsentence, this.filter);
+    sentence = sql.addWhere(sentence, this.additional);
+    if (this.value != null && this.value != "") {
+      if (this.tablename != null) {
+        sentence = sql.addWhere(sentence, `\`${this.tablename}\`.\`${this.valuefield}\`=?`);
       }
       else {
-        this.template = `<ion-item lines="full" onclick="$(document).trigger('select', ['{{${this.valuefield}|JS}}','{{${this.displayfield}|HTMLATTR}}']);"><ion-label>{{${this.displayfield}}}</ion-label></ion-item>`;
+        sentence = sql.addWhere(sentence, `\`${this.valuefield}\`=?`);
       }
-      let autoselectLower = (this.autoselect ? this.autoselect.toLowerCase() : null);
-      //Si la combo tiene valor calculamos su texto.
-      let sentence = sql.addWhere(this.sqlsentence, this.filter);
-      sentence = sql.addWhere(sentence, this.additional);
-      if (this.value != null && this.value != "") {
-        if (this.tablename != null) {
-          sentence = sql.addWhere(sentence, `\`${this.tablename}\`.\`${this.valuefield}\`=?`);
+      sql.getTable(sentence, [this.value]).then((tbl) => {
+        if (tbl.rows.length > 0) {
+          this.text = sql.getRow(tbl, 0)[this.displayfield];
         }
         else {
-          sentence = sql.addWhere(sentence, `\`${this.valuefield}\`=?`);
+          this.text = this.value;
         }
-        sql.getTable(sentence, [this.value]).then((tbl) => {
-          if (tbl.rows.length > 0) {
-            this.text = sql.getRow(tbl, 0)[this.displayfield];
-          }
-          else {
-            this.text = this.value;
+      });
+    }
+    else {
+      //Si no tiene valor pero hay un autoselect, calculamos su valor y su texto.
+      if (((autoselectLower === "always") || (autoselectLower === "true" && isNew)) && firstTime) {
+        sql.getTable(sentence).then((tbl) => {
+          if (tbl.rows.length === 1) {
+            const row = sql.getRow(tbl, 0);
+            this.text = row[this.displayfield];
+            this.value = row[this.valuefield];
           }
         });
       }
-      else {
-        //Si no tiene valor pero hay un autoselect, calculamos su valor y su texto.
-        if (((autoselectLower === "always") || (autoselectLower === "true" && isNew)) && firstTime) {
-          sql.getTable(sentence).then((tbl) => {
-            if (tbl.rows.length === 1) {
-              const row = sql.getRow(tbl, 0);
-              this.text = row[this.displayfield];
-              this.value = row[this.valuefield];
-            }
-          });
-        }
-        else if (this.value === '') {
-          //Si no tiene valor forzamos que el texto sea nulo para que la combo se vea vacia.
-          this.text = null;
-        }
+      else if (this.value === '') {
+        //Si no tiene valor forzamos que el texto sea nulo para que la combo se vea vacia.
+        this.text = null;
       }
     }
   }
@@ -195,13 +197,7 @@ const FlxDbcombo = class {
     loadingSpinner.css('visibility', 'hidden');
   }
   render() {
-    if (this.clearbutton == false) {
-      return ([h("ion-input", { disabled: this.disabled, type: "text", readonly: true, value: this.text, onClick: () => { !this.disabled ? this.showItems() : null; } })]);
-    }
-    else {
-      return ([h("ion-input", { disabled: this.disabled, type: "text", readonly: true, value: this.text, onClick: () => { !this.disabled ? this.showItems() : null; } }), h("ion-button", { disabled: this.disabled, onClick: () => { this.value = ''; this.text = null; jquery(this.me).trigger('change'); }, shape: "round", slot: "end", color: "light" }, "x")
-      ]);
-    }
+    return ([h("ion-input", { disabled: this.disabled, type: "text", readonly: true, value: this.text, onClick: () => { !this.disabled ? this.showItems() : null; } }), !this.clearbutton ? null : (h("ion-button", { disabled: this.disabled, onClick: () => { this.value = ''; this.text = null; jquery(this.me).trigger('change'); }, shape: "round", slot: "end", color: "light" }, "x"))]);
   }
   get me() { return getElement(this); }
   static get watchers() { return {

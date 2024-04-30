@@ -79,6 +79,9 @@ flx-offline-emulator {
             }
 
             button {
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 background-color: transparent;
                 border: none;
                 border-radius: @toggle-radius;
@@ -221,6 +224,7 @@ flx-offline-emulator {
             transition: all 0.15s ease-in-out 0s;
             margin: 0 5px;
             .ripple(@txt-outstanding-color);
+
             &:hover {
                 color: @txt-outstanding-color;
                 background-color: @outstanding-color;

@@ -295,7 +295,7 @@ var flexygo;
                             }
                             if (success) {
                                 this.cmb.find('option:selected').remove();
-                                flexygo.msg.success('Deleted :)', null, null);
+                                flexygo.msg.success('', null, 'Deleted :)');
                                 flexygo.nav.execProcess('ReloadQuietCache', '', '', null, null, 'current', false, $(this));
                                 if (this.cmb.find('option:selected').length > 0) {
                                     this.loadFilter(this.cmb.find('option:selected').data('extvalue'));
@@ -392,7 +392,7 @@ var flexygo;
                     let me = this;
                     flexygo.ajax.post('~/api/Sys', 'saveFilter', params, (response) => {
                         me.active = response;
-                        flexygo.msg.success('Saved :)', null, null);
+                        flexygo.msg.success('', null, 'Saved :)');
                         this.refresh();
                     });
                 }

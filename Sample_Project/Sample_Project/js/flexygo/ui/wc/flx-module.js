@@ -301,7 +301,7 @@ var flexygo;
                     $(this).find('.icon-minus, .icon-plus').toggleClass("icon-minus icon-plus");
                     $(this).find('.cntBody, .cntBodyHeader, .cntFooterHeader').toggle();
                 }
-                setButtons(buttons, objectname, objectwhere, reportname, processname, reportwhere) {
+                setButtons(buttons, objectname, objectwhere, reportname, processname, reportwhere, callBack) {
                     let me = $(this);
                     if (me.find('.cntBodyHeader .moduleToolbar').length == 0) {
                         me.find('.cntBodyHeader').append('<div class="moduleToolbar btn-toolbar" />');
@@ -353,7 +353,7 @@ var flexygo;
                                         btnGroup = null;
                                     }
                                     else {
-                                        btnGroup.append(this.getButton(btn, objectname, objectwhere, defString, reportname, this.reportwhere, processname));
+                                        btnGroup.append(this.getButton(btn, objectname, objectwhere, defString, reportname, this.reportwhere, processname, undefined, callBack));
                                     }
                                     lastPosition = btn.PositionId;
                                 }
@@ -576,7 +576,7 @@ var flexygo;
                     let newBtn = this.getButton(btn, objectname, objectwhere, objectdefaults, reportname, reportwhere, processname);
                     htmlBtn.replaceWith(newBtn);
                 }
-                getButton(btn, objectname, objectwhere, objectdefaults, reportname, reportwhere, processname, notABtn) {
+                getButton(btn, objectname, objectwhere, objectdefaults, reportname, reportwhere, processname, notABtn, callBack) {
                     let type = btn.TypeId;
                     if (type) {
                         type = type.toLowerCase();
@@ -722,7 +722,12 @@ var flexygo;
                             break;
                         case 'runprocess':
                             htmlBTN.addClass("execProcessButton");
-                            htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.ui.wc.FlxModuleElement.prototype.execProcessParams', [processname, objectname, objectwhere, objectdefaults], ['$(this).closest(\'flx-module\')', '$(this)']));
+                            if (flexygo.utils.isBlank(callBack)) {
+                                htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.ui.wc.FlxModuleElement.prototype.execProcessParams', [processname, objectname, objectwhere, objectdefaults], ['$(this).closest(\'flx-module\')', '$(this)']));
+                            }
+                            else {
+                                htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.ui.wc.FlxModuleElement.prototype.execProcessParams', [processname, objectname, objectwhere, objectdefaults], ['$(this).closest(\'flx-module\')', '$(this)', callBack]));
+                            }
                             if (htmlBTN.attr('title'))
                                 htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
                             break;
@@ -929,7 +934,29 @@ var flexygo;
                             this.deleteModuleResponse(objectName, objectWhere, module, button, cllbck);
                         }
                     });
-                    flexygo.msg.confirm(flexygo.localization.translate('filtermanager.sure'), resultCallback);
+                    let obj = new flexygo.obj.Entity(objectName, objectWhere);
+                    let deleteConfirm = obj.getDeleteConfirm();
+                    if (!flexygo.utils.isBlank(deleteConfirm)) {
+                        this.deleteConfirmPrompt(objectName, objectWhere, deleteConfirm, module, button, cllbck);
+                    }
+                    else {
+                        flexygo.msg.confirm(flexygo.localization.translate('filtermanager.sure'), resultCallback);
+                    }
+                }
+                deleteConfirmPrompt(objectName, objectWhere, deleteConfirm, module, button, cllbck, valueConfirm, errorMessage) {
+                    flexygo.msg.prompt('<i class="flx-icon icon-delete-1"></i> ' + flexygo.localization.translate('flxmodule.titleDeleteConfirm'), flexygo.localization.translate('flxmodule.messageDeleteConfirm').replace('{0}', deleteConfirm), (res) => {
+                        if (res.toLowerCase() === deleteConfirm.toLowerCase()) {
+                            this.deleteModuleResponse(objectName, objectWhere, module, button, cllbck);
+                        }
+                        else {
+                            this.deleteConfirmPrompt(objectName, objectWhere, deleteConfirm, module, button, cllbck, res, flexygo.localization.translate('flxmodule.errorDeleteConfirm'));
+                        }
+                    }, '', (flexygo.utils.isBlank(valueConfirm) ? '' : valueConfirm));
+                    if (!flexygo.utils.isBlank(errorMessage)) {
+                        let prompt = $(module).closest('body').find('.lobibox-prompt')[1];
+                        $(prompt).find('.lobibox-input').after('<small class="txt-danger">' + errorMessage + '</small>');
+                        setTimeout(() => { $(prompt).find('.lobibox-input').focus(); }, 300);
+                    }
                 }
                 deleteModuleResponse(objectName, objectWhere, module, button, cllbck, lastProcessName, lastAfterProcessName) {
                     return __awaiter(this, void 0, void 0, function* () {
@@ -1290,7 +1317,7 @@ var flexygo;
                         }
                     }
                 }
-                execProcessParams(processname, objectname, objectwhere, defaults, module, button) {
+                execProcessParams(processname, objectname, objectwhere, defaults, module, button, callBack) {
                     if ($(module)[0].componentString.includes('flx-edit')) {
                         let edit = module.find('flx-edit')[0];
                         edit.validateSQLProperties();
@@ -1308,7 +1335,7 @@ var flexygo;
                                         params.push({ 'key': prop.property, 'value': prop.getValue() });
                                     }
                                 }
-                                flexygo.nav.execProcess(processname, objectname, objectwhere, defaults, params, 'new', true, button);
+                                flexygo.nav.execProcess(processname, objectname, objectwhere, defaults, params, 'new', true, button, callBack);
                             }
                             else {
                                 flexygo.msg.error(flexygo.localization.translate('flxmodule.noparams'));

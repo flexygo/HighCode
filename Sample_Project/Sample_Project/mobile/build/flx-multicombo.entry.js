@@ -78,6 +78,8 @@ const FlxMulticombo = class {
     else {
       this.me.removeAttribute('avoid_dependencies');
     }
+    if (this.me.sqlValidatorFunction)
+      this.me.sqlValidatorFunction();
   }
   load() {
     if (this.sqlsentence) {

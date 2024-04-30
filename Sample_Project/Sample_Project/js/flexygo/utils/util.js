@@ -1014,7 +1014,7 @@ var flexygo;
         */
         function randomColor(seed) {
             let value = seed;
-            while (!$.isNumeric(value) || (this.colors.length <= value)) {
+            while (!$.isNumeric(value) || (flexygo.utils.colors.length <= value)) {
                 let currentIndex = 0;
                 value = value.toString().split('');
                 for (let i = 0; i < value.length; i++) {
@@ -1027,7 +1027,7 @@ var flexygo;
                 }
                 value = currentIndex;
             }
-            return this.colors[value];
+            return flexygo.utils.colors[value];
         }
         utils.randomColor = randomColor;
         function formatFileSize(size) {

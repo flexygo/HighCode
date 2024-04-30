@@ -80,6 +80,7 @@ flx-propertymanager[mode="list"] {
             display: none;
         }
     }
+
     table {
         :is(flx-htmledit,flx-upload,flx-image,flx-whiteboard,flx-textarea,flx-radio) {
             > div {
@@ -90,6 +91,9 @@ flx-propertymanager[mode="list"] {
 
         &:has(:focus), &:has(:hover) {
             :is(flx-htmledit,flx-upload,flx-image,flx-whiteboard,flx-textarea,flx-radio) > div {
+                .upload-drag-container {
+                    display: initial;
+                }
                 --prop-height: 100%;
             }
         }
@@ -98,8 +102,13 @@ flx-propertymanager[mode="list"] {
     flx-htmledit div {
         margin: 0px;
     }
-    
+
     flx-upload {
+        .upload-drag-container {
+            padding: 15px 0;
+            display: none;
+        }
+
         user-select: none;
     }
 }

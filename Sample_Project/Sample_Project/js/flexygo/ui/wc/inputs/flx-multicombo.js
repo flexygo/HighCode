@@ -398,6 +398,9 @@ var flexygo;
                 }
                 init() {
                     if (this.options) {
+                        if (this.closest('flx-filter')) {
+                            this.options.ComboAllowSave = false;
+                        }
                         if (this.options.ComboAllowSave && this.options.ComboAllowSave_Object) {
                             this.setAttribute('AddValuesToObject', 'true');
                         }

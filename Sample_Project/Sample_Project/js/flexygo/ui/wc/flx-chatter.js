@@ -338,7 +338,6 @@ var flexygo;
                         /* DEVELOPING: SignalR
                         flexygo.events.off(this, 'push', 'inserted');
                         flexygo.events.on(this, 'push', 'inserted', (e) => {
-                            debugger;
                             this.setMessageEvents($(this.messageTemplate(e.sender)).prependTo(me.find('.chatter_thread')));
                         });
                         DEVELOPING END: SignalR */

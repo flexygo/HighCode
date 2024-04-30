@@ -433,7 +433,7 @@ var flexygo;
                             let wcModule = parentModule[0];
                             if (parentModule && wcModule) {
                                 if (response.Buttons) {
-                                    wcModule.setButtons(response.Buttons, response.ObjectName, response.ObjectWhere, null, response.ProcessName);
+                                    wcModule.setButtons(response.Buttons, response.ObjectName, response.ObjectWhere, null, response.ProcessName, undefined, flexygo.history.get(me).callback);
                                     this.setMaxTabindex(response.Properties);
                                     let btns = $(wcModule).find('.cntBodyFooter .moduleButtons div.btn-group span.submenuContainer button, .cntBodyFooter .moduleButtons div.btn-group button');
                                     btns.each((i, btn) => {

@@ -339,7 +339,10 @@ var flexygo;
                 uniqueBagError: 'Nicht definiertes eindeutiges Bezeichnerfeld.',
                 nofieldBagError: 'Kan veld <b>{0}</b> niet vinden. Voeg het toe om te vragen of de selectieknop te verwijderen.',
                 noItemsSelected: 'Wählen Sie zuerst ein Element aus der Liste aus.',
-                currentlyViewing: 'Derzeit ansehen'
+                currentlyViewing: 'Derzeit ansehen',
+                titleDeleteConfirm: 'Löschung bestätigen',
+                messageDeleteConfirm: 'Geben Sie „<b>{0}</b>“ ein, um den Löschvorgang zu bestätigen.',
+                errorDeleteConfirm: 'Bitte geben Sie den Text zur Bestätigung genau wie angezeigt ein.'
             };
             dede.flxnav = {
                 notimplemented: 'Aktionsknoten nicht implementiert',
@@ -913,6 +916,22 @@ var flexygo;
             };
             dede.utils = {
                 loading: 'Aufladen'
+            };
+            dede.flxplanner = {
+                noconf: 'Konfigurieren Sie mindestens einen Modus und ein Objekt, um Ihre Datensätze anzuzeigen',
+                draggables: 'Neu',
+                week: 'Woche',
+                month: 'Monat',
+                today: 'Heute',
+                chooseobject: 'Wähle einen',
+                addempty: 'Es wurde keine Funktion definiert: OnAdd',
+                remove: 'Möchten Sie das Element entfernen?'
+            };
+            dede.flxrss = {
+                deprecated: 'Abgelehnt',
+                features: 'Neue Funktionen',
+                fixes: 'Behebt',
+                notfound: 'Keine Version gefunden.'
             };
         })(dede = culture.dede || (culture.dede = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

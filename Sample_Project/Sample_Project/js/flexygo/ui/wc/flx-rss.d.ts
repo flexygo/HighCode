@@ -16,6 +16,7 @@ declare namespace flexygo.ui.wc {
        * @property connected {boolean}
        */
         connected: boolean;
+        productsVersionInfo: flexygo.api.rss.ProductVersionInfo[];
         /**
             * Array of observed attributes.
             * @property observedAttributes {Array}
@@ -42,8 +43,9 @@ declare namespace flexygo.ui.wc {
         * @method init
         */
         init(): void;
-        private flxTranslate;
-        startLoading(): void;
-        stopLoading(): void;
+        render(): void;
+        renderVersions(productIndex: any): string;
+        renderReleaseNotes(productIndex: any, versionIndex: any): string;
+        setMainEvents(): void;
     }
 }

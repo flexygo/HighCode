@@ -65,7 +65,7 @@ declare namespace flexygo.ui.wc {
         refresh(): void;
         moduleLoaded(wc: any): void;
         toggle(): void;
-        setButtons(buttons: flexygo.api.Toolbar, objectname: string, objectwhere: string, reportname?: string, processname?: string, reportwhere?: string): void;
+        setButtons(buttons: flexygo.api.Toolbar, objectname: string, objectwhere: string, reportname?: string, processname?: string, reportwhere?: string, callBack?: any): void;
         ctxMenusValues: {};
         setChildButtons(container: any, childBtns: any, objectname: any, objectwhere: any, defString: any, reportname: any, reportwhere: any, processname: any): void;
         printToolbarContextMenu(id: any, btnId: any, objectname: any, objectwhere: any, defString: any, reportname: any, reportwhere: any, processname: any): void;
@@ -75,7 +75,7 @@ declare namespace flexygo.ui.wc {
         refreshButtons(buttons: flexygo.api.Toolbar, objectname: string, objectwhere: string, reportname?: string, processname?: string): void;
         private addGroup;
         refreshButton(htmlBtn: JQuery, btn: flexygo.api.ToolbarButton, objectname: string, objectwhere: string, objectdefaults: string, reportname?: string, reportwhere?: string, processname?: string): void;
-        getButton(btn: flexygo.api.ToolbarButton, objectname: string, objectwhere: string, objectdefaults: string, reportname?: string, reportwhere?: string, processname?: string, notABtn?: boolean): JQuery;
+        getButton(btn: flexygo.api.ToolbarButton, objectname: string, objectwhere: string, objectdefaults: string, reportname?: string, reportwhere?: string, processname?: string, notABtn?: boolean, callBack?: any): JQuery;
         changeTemplate(): void;
         closeWindow(): void;
         toggleFullScreen(): void;
@@ -88,13 +88,14 @@ declare namespace flexygo.ui.wc {
         bagSelectionAll(objectName: string, objectWhere: string, module: JQuery, button: JQuery, cllbck?: any): void;
         bagShowOnlySelected(objectName: string, objectWhere: string, module: JQuery, button: JQuery, cllbck?: any): void;
         deleteModule(objectName: string, objectWhere: string, module: JQuery, button: JQuery, cllbck?: any): void;
+        deleteConfirmPrompt(objectName: string, objectWhere: string, deleteConfirm: string, module: JQuery, button: JQuery, cllbck?: any, valueConfirm?: string, errorMessage?: string): void;
         deleteModuleResponse(objectName: string, objectWhere: string, module: JQuery, button: JQuery, cllbck?: any, lastProcessName?: string, lastAfterProcessName?: string): Promise<void>;
         saveModule(objectName: string, objectWhere: string, module: JQuery, button: JQuery, afterSaveGoTo?: string, defaults?: any, lastObj?: any, lastProcessName?: string, lastAfterProcessName?: string): boolean;
         checkAndSaveNewComboValues(container: any): void;
         private addNewComboValue;
         checkNewComboObjectsMessage(container: JQuery): Promise<boolean | void>;
         saveReportParams(reportname: string, reportwhere: string, objectname: string, objectwhere: string, objectdefaults: string, module: JQuery, button: JQuery): void;
-        execProcessParams(processname: string, objectname: string, objectwhere: string, defaults: any, module: JQuery, button: JQuery): void;
+        execProcessParams(processname: string, objectname: string, objectwhere: string, defaults: any, module: JQuery, button: JQuery, callBack?: any): void;
         execSelectEntity(objectname: string, objectwhere: string, module: JQuery, button: JQuery): void;
         startLoading(): void;
         stopLoading(): void;

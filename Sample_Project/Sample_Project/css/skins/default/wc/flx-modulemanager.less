@@ -11,9 +11,10 @@
     height: 60px;
     border: solid 1px silver;
     margin: 10px 5px;
-    box-shadow: 8px 8px 10px -5px rgba(0 ,0, 0, .53);
+    box-shadow: rgba(0, 0, 0, 0.4) 4px 4px 2px;
     padding: 2px;
     background-color: white;
+    cursor: pointer;
 }
 
 #layoutPanel {
@@ -23,6 +24,18 @@
     border-radius: 5px;
     height: 100%;
     overflow: auto;
+
+    li div.item {
+        background-color: @primary-color;
+        color: @txt-primary-color;
+        padding: .5em;
+    }
+}
+
+.moduleItem.ui-sortable-handle .item {
+    background-color: @primary-color;
+    color: @txt-primary-color;
+    padding: .5em;
 }
 
 #moduleList .buttonList {
@@ -86,13 +99,9 @@ flx-modulemanager .buttonList:hover {
 }
 
 #moduleList li, #layoutPanel li {
-    box-shadow: 6px 6px 10px -5px rgba(0, 0, 0, .53);
+    box-shadow: rgba(0, 0, 0, 0.2) 4px 4px 2px;
     margin-bottom: 10px;
     cursor: pointer;
-}
-
-#moduleList li .box-primary {
-    border-color: @outstanding-color !important;
 }
 
 #moduleList li .box-primary.new {
@@ -100,10 +109,10 @@ flx-modulemanager .buttonList:hover {
     color: @txt-success-color;
 }
 
-#moduleList li .box-primary:hover, #layoutPanel li .bg-primary:hover, #layoutPanel li .box-warning:hover {
+#moduleList li .box-primary:hover, #layoutPanel li .item:hover, #layoutPanel li .box-warning:hover {
     background-color: @outstanding-color;
     color: @txt-outstanding-color;
-    border-color: @header-color !important;
+    border-color: @header-color;
 }
 
 #bottomToolbar {

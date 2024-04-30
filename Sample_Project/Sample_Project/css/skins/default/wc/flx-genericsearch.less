@@ -2,6 +2,15 @@
 
 flx-genericsearch .input-group {
     width: 100%;
+    border-radius: @border-radius;
+
+    input {
+        border-radius: @border-radius 0 0 @border-radius;
+    }
+
+    > span {
+        border-radius: 0 @border-radius @border-radius 0;
+    }
 }
 
 flx-genericsearch input {

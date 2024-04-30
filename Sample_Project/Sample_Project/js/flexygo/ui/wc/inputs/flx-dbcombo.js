@@ -631,6 +631,9 @@ var flexygo;
                     let me = $(this);
                     this.open = false;
                     if (this.options) {
+                        if (this.closest('flx-filter')) {
+                            this.options.ComboAllowSave = false;
+                        }
                         //var lastHeight;
                         let iconsLeft;
                         let iconsRight = this.getIconButtons();

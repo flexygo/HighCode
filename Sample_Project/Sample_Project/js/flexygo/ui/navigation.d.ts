@@ -40,6 +40,7 @@ declare namespace flexygo.nav {
         successMessage?: string;
         errorMessage?: string;
         userid?: string;
+        callback?: string;
     }
     /**
      * Opens the default object page
@@ -102,7 +103,7 @@ declare namespace flexygo.nav {
    * @param {boolean} excludeHist - True to not store in history
    * @param {JQuery} triggerElement - Relative element to open the page
   */
-    function openProcessParams(processname: string, objectname: string, objectwhere: string, defaults: any, targetid: string, excludeHist: boolean, triggerElement?: JQuery, pagename?: string): void;
+    function openProcessParams(processname: string, objectname: string, objectwhere: string, defaults: any, targetid: string, excludeHist: boolean, triggerElement?: JQuery, pagename?: string, callBack?: any): void;
     /**
      * Opens the parameter process page
      * @method openProcessParamsPage
@@ -115,7 +116,7 @@ declare namespace flexygo.nav {
      * @param {boolean} excludeHist - True to not store in history
      * @param {JQuery} triggerElement - Relative element to open the page
     */
-    function openProcessParamsPage(pagename: string, processname: string, objectname: string, objectwhere: string, defaults: any, targetid: string, excludeHist: boolean, triggerElement?: JQuery): void;
+    function openProcessParamsPage(pagename: string, processname: string, objectname: string, objectwhere: string, defaults: any, targetid: string, excludeHist: boolean, triggerElement?: JQuery, callBack?: any): void;
     /**
     * Opens the parameter report page
     * @method openReportsParams

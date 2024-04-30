@@ -24,31 +24,32 @@ var dependencies;
     if (form.length > 0 && props) {
       for (let i = 0; i < props.length; i++) {
         if (props[i].DependingProperties.length > 0) {
-          await processPropDependency(isNew, form, props[i], conf);
+          await processPropDependency(isNew, form, props[i], conf, props);
         }
       }
     }
   }
   dependencies.processAllDependencies = processAllDependencies;
-  async function processPropDependency(withValue, form, prop, conf) {
+  async function processPropDependency(isNew, form, prop, conf, props) {
     if (form.length > 0 && prop) {
       for (let i = 0; i < prop.DependingProperties.length; i++) {
-        processDependency(withValue, form, prop.DependingProperties[i], conf.user);
+        processDependency(isNew, form, prop.DependingProperties[i], conf.user, props);
       }
     }
   }
   dependencies.processPropDependency = processPropDependency;
-  function processDependency(withValue, form, dep, tokens) {
-    //Enabled dependencies
+  function processDependency(isNew, form, dep, tokens, props) {
+    //Enabled dependencies  props.find((el) => el.PropertyName==='Semester1')
     execEnabledDependency(form, dep, tokens);
     //Visibility dependencies
     execVisibilityDependency(form, dep, tokens);
     //Required dependencies
     execRequiredDependency(form, dep, tokens);
     //Combo Items dependencies
-    execComboDependency(form, dep, tokens, withValue);
+    execComboDependency(form, dep, tokens, isNew);
     //withValue Value dependencies
-    if (withValue) {
+    const dependant_property = props.find((el) => el.PropertyName === dep.DependantPropertyName); //We get the dependant property to look for the possibility of it being a detached property
+    if (isNew || (dependant_property === null || dependant_property === void 0 ? void 0 : dependant_property.DetachedFromDB)) {
       execValueDependency(form, dep, tokens);
     }
     //CSS Class dependencies
@@ -1893,11 +1894,11 @@ const FlxEdit = class {
     });
     jquery(this.me).find('ion-datetime[property], ion-toggle[property], ion-checkbox[property]').on('ionChange', (ev) => {
       let PropertyName = jquery(ev.currentTarget).attr('property');
-      dependencies.processPropDependency(true, jquery(this.me).find('form'), this.obj.properties.filter((itm) => { return itm.PropertyName == PropertyName; })[0], this.cToken);
+      dependencies.processPropDependency(true, jquery(this.me).find('form'), this.obj.properties.filter((itm) => { return itm.PropertyName == PropertyName; })[0], this.cToken, this.obj.properties);
     });
     jquery(this.me).find('[property]').not('ion-datetime, ion-toggle, ion-checkbox').on('change', (ev) => {
       let PropertyName = jquery(ev.currentTarget).attr('property');
-      dependencies.processPropDependency(true, jquery(this.me).find('form'), this.obj.properties.filter((itm) => { return itm.PropertyName == PropertyName; })[0], this.cToken);
+      dependencies.processPropDependency(true, jquery(this.me).find('form'), this.obj.properties.filter((itm) => { return itm.PropertyName == PropertyName; })[0], this.cToken, this.obj.properties);
     });
     jquery(this.me).find('ion-input[inputmode="decimal"]').on('ionChange', (ev) => {
       if (!jquery(ev.currentTarget).attr("step"))
@@ -2301,31 +2302,51 @@ const FlxEdit = class {
   initSQLValidator() {
     for (let i = 0; i < this.obj.properties.length; i++) {
       let prop = this.obj.properties[i];
-      if (prop.SQLValidator) {
-        let inputElement = document.getElementsByName(prop.PropertyName)[0];
-        if (inputElement) {
-          const blurType = (inputElement.outerHTML.startsWith('<ion-input') ? 'ionBlur' : 'blur');
-          inputElement.addEventListener(blurType, () => {
-            let inputs = [];
-            let sqlValidator = prop.SQLValidator;
-            while (sqlValidator.includes("{{") && sqlValidator.includes("}}")) {
-              let sqlValue = sqlValidator.substring(sqlValidator.indexOf("{{") + 2, sqlValidator.indexOf("}}"));
-              sqlValidator = sqlValidator.replace("{{" + sqlValue + "}}", "?");
-              inputs.push(document.getElementsByName(sqlValue)[0].value);
-            }
-            sql.getValue(sqlValidator, inputs).then((value) => {
-              inputElement.closest('ion-item').setAttribute('sqlvalidator', value);
-              if (blurType === 'ionBlur') {
-                inputElement.children[0].setAttribute('data-msg-sqlvalidator', inputElement.getAttribute('data-msg-sqlvalidator'));
-                inputElement.children[0].setAttribute('sqlvalidator', value);
-              }
-              else
-                inputElement.setAttribute('sqlvalidator', value);
-            });
-          }, false);
-        }
-      }
+      this.setSQLValidator(prop);
     }
+  }
+  setSQLValidator(prop) {
+    if (!prop.SQLValidator)
+      return;
+    const input_element = document.getElementsByName(prop.PropertyName)[0];
+    if (!input_element)
+      return;
+    //For Custom Flexygo Inputs
+    const is_flx_element = input_element.nodeName.startsWith('FLX-');
+    if (is_flx_element) {
+      input_element.sqlValidatorFunction = () => {
+        this.sqlValidatorFunction(prop, input_element, 'ionBlur');
+      };
+      return;
+    }
+    //For Standard HTML/IONIC Inputs
+    const is_ionic_element = input_element.nodeName.startsWith('ION-');
+    const blur_type = is_ionic_element ? 'ionBlur' : 'blur';
+    input_element.addEventListener(blur_type, () => {
+      this.sqlValidatorFunction(prop, input_element, blur_type);
+    }, false);
+  }
+  sqlValidatorFunction(prop, input_element, blurType) {
+    let inputs = [];
+    let sqlValidator = prop.SQLValidator;
+    while (sqlValidator.includes("{{") && sqlValidator.includes("}}")) {
+      let sqlValue = sqlValidator.substring(sqlValidator.indexOf("{{") + 2, sqlValidator.indexOf("}}"));
+      sqlValidator = sqlValidator.replace("{{" + sqlValue + "}}", "?");
+      inputs.push(document.getElementsByName(sqlValue)[0].value);
+    }
+    sql.getValue(sqlValidator, inputs).then((value) => {
+      input_element.closest('ion-item').setAttribute('sqlvalidator', value);
+      if (blurType === 'ionBlur') {
+        const html_input_element = input_element.querySelector('input, textarea');
+        html_input_element.setAttribute('data-msg-sqlvalidator', input_element.getAttribute('data-msg-sqlvalidator'));
+        html_input_element.setAttribute('sqlvalidator', value);
+        //In FLX-DBCombo we don't add the sqlvalidator attribute to avoid the message error duplication when deleting its value
+        if (input_element.nodeName !== 'FLX-DBCOMBO')
+          input_element.setAttribute('sqlvalidator', value);
+      }
+      else
+        input_element.setAttribute('sqlvalidator', value);
+    });
   }
   initRegularExValidator() {
     for (let i = 0; i < this.obj.properties.length; i++) {

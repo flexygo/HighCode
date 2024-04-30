@@ -1254,18 +1254,24 @@ var flexygo;
             * @constructor
             * @return {GetHTMLParams} .
             */
-            class GetHTMLParams {
+            class GetVersionInfoParams {
             }
-            rss.GetHTMLParams = GetHTMLParams;
+            rss.GetVersionInfoParams = GetVersionInfoParams;
             /**
             * api for GetHTMLResponse
             * @class GetHTMLResponse
             * @constructor
             * @return {GetHTMLResponse} .
             */
-            class GetHTMLResponse {
+            class GetVersionInfoResponse {
             }
-            rss.GetHTMLResponse = GetHTMLResponse;
+            rss.GetVersionInfoResponse = GetVersionInfoResponse;
+            class ProductVersionInfo {
+            }
+            rss.ProductVersionInfo = ProductVersionInfo;
+            class VersionInfo {
+            }
+            rss.VersionInfo = VersionInfo;
         })(rss = api.rss || (api.rss = {}));
     })(api = flexygo.api || (flexygo.api = {}));
 })(flexygo || (flexygo = {}));
