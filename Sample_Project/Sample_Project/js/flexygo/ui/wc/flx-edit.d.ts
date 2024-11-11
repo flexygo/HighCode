@@ -65,22 +65,24 @@ declare namespace flexygo.ui.wc {
         * Refresh de webcomponent.
         * @method init
         */
-        init(): void;
+        init(): Promise<void>;
         /**
         * Refresh de webcomponent.
         * @method refresh
         */
-        refresh(): void;
+        refresh(): Promise<void>;
         /**
        * Init the webcomponent in edit mode.
        * @method initEditMode
        */
-        initEditMode(): void;
+        initEditMode(): Promise<void>;
+        setModuleButtons(module: JQuery, response: any, print?: boolean): void;
+        setFocusOnFirstElement(me: JQuery): void;
         /**
        * Init the webcomponent in edit report parameter mode.
        * @method initReportMode
        */
-        initReportMode(): void;
+        initReportMode(): Promise<void>;
         /**
         * Gets maximum tab index.
         * @method setMaxTabindex
@@ -98,7 +100,7 @@ declare namespace flexygo.ui.wc {
       * Init the webcomponent in edit process parameter mode.
       * @method initProcessMode
       */
-        initProcessMode(): void;
+        initProcessMode(): Promise<void>;
         /**
         * Starts control validation.
         * @method initValidate
@@ -112,7 +114,7 @@ declare namespace flexygo.ui.wc {
         * Starts control rendering.
         * @method render
         */
-        render(): void;
+        render(): Promise<void>;
         /**
        * Establish webcomponent settings
        * @method configure
@@ -137,7 +139,7 @@ declare namespace flexygo.ui.wc {
        *Processes dependency loading
        * @method processLoadDependencies
        */
-        processLoadDependencies(): void;
+        processLoadDependencies(): Promise<void>;
         /**
       *Sets layout x and y to starting position
       * @method restartPosition

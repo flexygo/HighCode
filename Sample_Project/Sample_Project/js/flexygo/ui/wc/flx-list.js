@@ -73,7 +73,7 @@ var flexygo;
                     this.presetId = null;
                     this.presetText = null;
                     this.presetIcon = null;
-                    this.removePreset = null;
+                    this.removePreset = false;
                     this.defaults = null;
                     this.canDelete = null;
                     this.canInsert = null;
@@ -178,8 +178,9 @@ var flexygo;
                         flexygo.events.off(activeFilter, "property", "changed", activeFilter.onPropertyChanged);
                     }
                     if ($(this).attr('manualInit') != 'true') {
-                        this.initGrid(true, true, this.page);
+                        return this.initGrid(true, true, this.page);
                     }
+                    return;
                 }
                 /**
                * Init the webcomponent.
@@ -214,13 +215,14 @@ var flexygo;
                             this.presetId = preset.presetId;
                             this.presetIcon = preset.presetIcon;
                             this.presetText = preset.presetText;
+                            this.removePreset = preset.removePreset;
                         }
                     }
                     if ($(module).attr("presetname")) {
                         this.presetId = $(module).attr("presetname");
                         this.presetText = $(module).attr("presettext");
                         this.presetIcon = $(module).attr("preseticon");
-                        this.removePreset = $(module).attr("removepreset");
+                        this.removePreset = $(module).attr("removepreset") == "true" ? true : false;
                     }
                     if (history && history.filtersValues && history.filtersValues[this.moduleName]) {
                         let state = history.filtersValues[this.moduleName];
@@ -237,7 +239,7 @@ var flexygo;
                     flexygo.ui.templates.setDefaultTemplate(this);
                     this.setDefaultOrder();
                     this.setDefaultGroup();
-                    this.initGrid(true, true, page);
+                    return this.initGrid(true, true, page);
                 }
                 setDefaultOrder() {
                     let activeTemplatesOrder = flexygo.storage.local.get('activeTemplatesOrder');
@@ -336,7 +338,7 @@ var flexygo;
                     this.presetId = presetName;
                     this.presetText = presetText;
                     this.presetIcon = presetIcon;
-                    this.removePreset = 'false';
+                    this.removePreset = false;
                     this.initGrid(false, false);
                     let ev = {
                         class: "module",
@@ -363,8 +365,8 @@ var flexygo;
                     }
                 }
                 setFilter() {
-                    if (this.presetId && this.removePreset == 'true') {
-                        this.removePreset = 'false';
+                    if (this.presetId && this.removePreset == true) {
+                        this.removePreset = false;
                         this.presetId = null;
                         this.presetText = null;
                         this.presetIcon = null;
@@ -379,212 +381,251 @@ var flexygo;
                 * @param {number} newPage
                 */
                 initGrid(refreshButtons, refreshFilters, newPage) {
-                    let me = $(this);
-                    let objDef;
-                    if (newPage) {
-                        this.page = newPage;
-                    }
-                    else {
-                        this.page = 0;
-                    }
-                    this.mode = me.attr('mode');
-                    if (!this.mode || this.mode === '') {
-                        this.mode = 'list';
-                    }
-                    if (this.defaults) {
-                        if (typeof this.defaults == 'string') {
-                            objDef = JSON.parse(this.defaults);
+                    return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
+                        let me = $(this);
+                        let objDef;
+                        if (newPage) {
+                            this.page = newPage;
                         }
                         else {
-                            objDef = this.defaults;
+                            this.page = 0;
                         }
-                    }
-                    else {
-                        let histObj = flexygo.history.get(me);
-                        if (typeof histObj != 'undefined' && histObj.defaults) {
-                            if (typeof histObj.defaults == 'string') {
-                                objDef = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
+                        this.mode = me.attr('mode');
+                        if (!this.mode || this.mode === '') {
+                            this.mode = 'list';
+                        }
+                        if (this.defaults) {
+                            if (typeof this.defaults == 'string') {
+                                objDef = JSON.parse(this.defaults);
                             }
                             else {
-                                objDef = histObj.defaults;
+                                objDef = this.defaults;
                             }
                         }
-                        if (objDef == null) {
-                            let wcMod = me.closest('flx-module')[0];
-                            if (wcMod) {
-                                objDef = wcMod.objectdefaults;
+                        else {
+                            let histObj = flexygo.history.get(me);
+                            if (typeof histObj != 'undefined' && histObj.defaults) {
+                                if (typeof histObj.defaults == 'string') {
+                                    objDef = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
+                                }
+                                else {
+                                    objDef = histObj.defaults;
+                                }
+                            }
+                            if (objDef == null) {
+                                let wcMod = me.closest('flx-module')[0];
+                                if (wcMod) {
+                                    objDef = wcMod.objectdefaults;
+                                }
                             }
                         }
-                    }
-                    let params = {
-                        ObjectName: me.attr('ObjectName'),
-                        ObjectWhere: me.attr('ObjectWhere'),
-                        Defaults: flexygo.utils.dataToArray(objDef),
-                        ModuleName: this.moduleName,
-                        PageName: flexygo.history.getPageName(me),
-                        Page: this.page,
-                        AdditionalWhere: this.additionalWhere,
-                        OrderInfo: this.orderObj,
-                        Mode: this.mode,
-                        SearchId: this.activeFilter,
-                        FilterValues: this.filterValues,
-                        TemplateId: this.templateId,
-                        ViewId: this.viewId,
-                        PageSize: this.pageSize,
-                        PresetId: this.presetId,
-                        GroupsInfo: (this.groups ? this.groups : { 'nogroup': null })
-                    };
-                    flexygo.ajax.post('~/api/List', 'GetList', params, (response) => {
-                        if (response) {
-                            this.collectionname = response.ObjectName;
-                            if (response.Template) {
-                                let template = response.Template;
-                                this.fields = template.TableColumns;
-                                this.templateId = template.Id;
-                                this.templatetype = template.TemplateType;
-                                this.data = template.TableData;
-                                this.tHeader = template.Header;
-                                this.tBody = template.Body;
-                                this.tFooter = template.Footer;
-                                this.tEmpty = template.Empty;
-                                this.tScriptText = template.ScriptText;
-                                this.tCSSText = template.CSSText;
-                                this.tModuleClass = template.ModuleClass;
-                                this.objectname = template.ObjectName;
-                                this.childname = response.ChildObjectName;
-                                this.cryptedSql = template.TableSQL;
-                                this.removeKeys = template.RemoveKeys;
-                                this.pageSize = template.PageSize;
-                                this.pageSizeDefault = (this.pageSizeDefault) ? this.pageSizeDefault : template.PageSize;
-                                this.groups = template.Groups;
-                                this.groupList = template.GroupList;
-                                this.viewId = template.DataViewName;
-                                this.userDefinedGroups = template.UserDefinedGroups;
-                            }
-                            this.canInsert = response.CanInsert;
-                            this.canUpdate = response.CanUpdate;
-                            this.canDelete = response.CanDelete;
-                            this.processwhere = response.ObjectWhere;
-                            this.properties = response.Properties;
-                            for (let key in this.properties) {
-                                if (!this.properties[key].PlaceHolder) {
-                                    this.properties[key].PlaceHolder = this.properties[key].Label;
+                        let params = {
+                            ObjectName: me.attr('ObjectName'),
+                            ObjectWhere: me.attr('ObjectWhere'),
+                            Defaults: flexygo.utils.dataToArray(objDef),
+                            ModuleName: this.moduleName,
+                            PageName: flexygo.history.getPageName(me),
+                            Page: this.page,
+                            AdditionalWhere: this.additionalWhere,
+                            OrderInfo: this.orderObj,
+                            Mode: this.mode,
+                            SearchId: this.activeFilter,
+                            FilterValues: this.filterValues,
+                            TemplateId: this.templateId,
+                            ViewId: this.viewId,
+                            PageSize: this.pageSize,
+                            PresetId: this.presetId,
+                            GroupsInfo: (this.groups ? this.groups : { 'nogroup': null })
+                        };
+                        flexygo.ajax.post('~/api/List', 'GetList', params, 
+                        //Success Function
+                        (response) => {
+                            if (response) {
+                                this.collectionname = response.ObjectName;
+                                if (response.Template) {
+                                    let template = response.Template;
+                                    this.fields = template.TableColumns;
+                                    this.templateId = template.Id;
+                                    this.templatetype = template.TemplateType;
+                                    this.data = template.TableData;
+                                    this.tHeader = template.Header;
+                                    this.tBody = template.Body;
+                                    this.tFooter = template.Footer;
+                                    this.tEmpty = template.Empty;
+                                    this.tScriptText = template.ScriptText;
+                                    this.tCSSText = template.CSSText;
+                                    this.tModuleClass = template.ModuleClass;
+                                    this.objectname = template.ObjectName;
+                                    this.childname = response.ChildObjectName;
+                                    this.cryptedSql = template.TableSQL;
+                                    this.removeKeys = template.RemoveKeys;
+                                    this.pageSize = template.PageSize;
+                                    this.pageSizeDefault = (this.pageSizeDefault) ? this.pageSizeDefault : template.PageSize;
+                                    this.groups = template.Groups;
+                                    this.groupList = template.GroupList;
+                                    this.viewId = template.DataViewName;
+                                    this.userDefinedGroups = template.UserDefinedGroups;
                                 }
-                            }
-                            this.propArr = flexygo.utils.sortObject(this.properties, 'PositionY', 'PositionX');
-                            let parentModule = me.closest('flx-module');
-                            let wcModule = parentModule[0];
-                            if (parentModule.length > 0) {
-                                let parentModuleClass = wcModule.moduleClass;
-                                if (wcModule.moduleInitClass && wcModule.moduleInitClass != '') {
-                                    if (parentModule.hasClass('fullscreen')) {
-                                        parentModule.attr('class', wcModule.moduleInitClass);
-                                        parentModule.addClass('fullscreen');
-                                    }
-                                    else {
-                                        parentModule.attr('class', wcModule.moduleInitClass);
+                                this.canInsert = response.CanInsert;
+                                this.canUpdate = response.CanUpdate;
+                                this.canDelete = response.CanDelete;
+                                this.processwhere = response.ObjectWhere;
+                                this.properties = response.Properties;
+                                for (let key in this.properties) {
+                                    if (!this.properties[key].PlaceHolder) {
+                                        this.properties[key].PlaceHolder = this.properties[key].Label;
                                     }
                                 }
-                                if (parentModuleClass && parentModuleClass != '') {
-                                    parentModule.addClass(parentModuleClass);
-                                }
-                                if (this.tModuleClass && this.tModuleClass !== '') {
-                                    parentModule.addClass(this.tModuleClass);
-                                }
-                                if (parentModule && wcModule) {
-                                    if (refreshButtons) {
-                                        let colWhere = this.processwhere;
-                                        if (response.Buttons) {
-                                            this.moduleButtons = response.Buttons;
-                                            if (flexygo.selection.getArray(this.childname).length > 0) {
-                                                colWhere = flexygo.selection.getFilterString(this.childname);
-                                            }
-                                            wcModule.setButtons(response.Buttons, response.ObjectName, colWhere);
+                                this.propArr = flexygo.utils.sortObject(this.properties, 'PositionY', 'PositionX');
+                                let parentModule = me.closest('flx-module');
+                                let wcModule = parentModule[0];
+                                if (parentModule.length > 0) {
+                                    let parentModuleClass = wcModule.moduleClass;
+                                    if (wcModule.moduleInitClass && wcModule.moduleInitClass != '') {
+                                        if (parentModule.hasClass('fullscreen')) {
+                                            parentModule.attr('class', wcModule.moduleInitClass);
+                                            parentModule.addClass('fullscreen');
                                         }
                                         else {
-                                            wcModule.setButtons(null, response.ObjectName, colWhere);
-                                        }
-                                        wcModule.setObjectDescrip(response.Title);
-                                    }
-                                    else {
-                                        let colWhere = this.processwhere;
-                                        if (response.Buttons) {
-                                            this.moduleButtons = response.Buttons;
-                                            if (flexygo.selection.getArray(this.childname).length > 0) {
-                                                colWhere = flexygo.selection.getFilterString(this.childname);
-                                            }
-                                            wcModule.refreshButtons(response.Buttons, response.ObjectName, colWhere);
-                                        }
-                                        else {
-                                            wcModule.setButtons(null, response.ObjectName, colWhere);
+                                            parentModule.attr('class', wcModule.moduleInitClass);
                                         }
                                     }
-                                }
-                                if (wcModule.ModuleViewers) {
-                                    this.currentViewers = response.CurrentViewers;
-                                    flexygo.utils.refreshModuleViewersInfo(wcModule, this.currentViewers);
-                                    flexygo.utils.checkObserverModule(wcModule, 20000);
-                                    flexygo.events.on(this, 'push', 'notify', function (e) {
-                                        switch (e.masterIdentity) {
-                                            case 'GetSetModuleViewers': {
-                                                if ((wcModule.moduleName == '' ? null : wcModule.moduleName) == (e.sender.ModuleName == '' ? null : e.sender.ModuleName)
-                                                    && (wcModule.objectname == '' ? null : wcModule.objectname) == (e.sender.ObjectName == '' ? null : e.sender.ObjectName)
-                                                    && (wcModule.objectwhere == '' ? null : wcModule.objectwhere) == (e.sender.ObjectWhere == '' ? null : e.sender.ObjectWhere)) {
-                                                    flexygo.utils.refreshModuleViewersInfo(wcModule, e.sender.ActiveUsers);
+                                    if (parentModuleClass && parentModuleClass != '') {
+                                        parentModule.addClass(parentModuleClass);
+                                    }
+                                    if (this.tModuleClass && this.tModuleClass !== '') {
+                                        parentModule.addClass(this.tModuleClass);
+                                    }
+                                    if (parentModule && wcModule) {
+                                        if (refreshButtons) {
+                                            let colWhere = this.processwhere;
+                                            if (response.Buttons) {
+                                                this.moduleButtons = response.Buttons;
+                                                if (flexygo.selection.getArray(this.childname).length > 0) {
+                                                    colWhere = flexygo.selection.getFilterString(this.childname);
                                                 }
-                                                break;
+                                                wcModule.setButtons(response.Buttons, response.ObjectName, colWhere);
                                             }
-                                            default: {
-                                                break;
+                                            else {
+                                                wcModule.setButtons(null, response.ObjectName, colWhere);
+                                            }
+                                            wcModule.setObjectDescrip(response.Title);
+                                        }
+                                        else {
+                                            let colWhere = this.processwhere;
+                                            if (response.Buttons) {
+                                                this.moduleButtons = response.Buttons;
+                                                if (flexygo.selection.getArray(this.childname).length > 0) {
+                                                    colWhere = flexygo.selection.getFilterString(this.childname);
+                                                }
+                                                wcModule.refreshButtons(response.Buttons, response.ObjectName, colWhere);
+                                            }
+                                            else {
+                                                wcModule.setButtons(null, response.ObjectName, colWhere);
                                             }
                                         }
-                                    });
+                                    }
+                                    if (wcModule.ModuleViewers) {
+                                        this.currentViewers = response.CurrentViewers;
+                                        flexygo.utils.refreshModuleViewersInfo(wcModule, this.currentViewers);
+                                        flexygo.utils.checkObserverModule(wcModule, 20000);
+                                        flexygo.events.off(wcModule, 'push', 'notify');
+                                        flexygo.events.on(wcModule, 'push', 'notify', function (e) {
+                                            if ($(wcModule).closest('html').length > 0) {
+                                                switch (e.masterIdentity) {
+                                                    case 'GetSetModuleViewers': {
+                                                        if ((wcModule.moduleName == '' ? null : wcModule.moduleName) == (e.sender.ModuleName == '' ? null : e.sender.ModuleName)
+                                                            && (wcModule.objectname == '' ? null : wcModule.objectname) == (e.sender.ObjectName == '' ? null : e.sender.ObjectName)
+                                                            && (wcModule.objectwhere == '' ? null : wcModule.objectwhere) == (e.sender.ObjectWhere == '' ? null : e.sender.ObjectWhere)) {
+                                                            flexygo.utils.refreshModuleViewersInfo(wcModule, e.sender.ActiveUsers);
+                                                        }
+                                                        break;
+                                                    }
+                                                    default: {
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                            else {
+                                                flexygo.events.off(wcModule, 'push', 'notify');
+                                            }
+                                        });
+                                    }
+                                    if (!flexygo.utils.isBlank(flexygo.debug)) {
+                                        flexygo.events.off(wcModule, 'push', 'updated');
+                                        flexygo.events.on(wcModule, 'push', 'updated', function (e) {
+                                            if ($(wcModule).closest('html').length > 0) {
+                                                switch (e.masterIdentity) {
+                                                    case 'sysObjectTemplate': {
+                                                        let currentTemplate = me[0].templateId;
+                                                        if (currentTemplate == e.sender) {
+                                                            flexygo.events.off(wcModule, 'push', 'updated');
+                                                            wcModule.refresh();
+                                                        }
+                                                        break;
+                                                    }
+                                                    default: {
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                            else {
+                                                flexygo.events.off(wcModule, 'push', 'updated');
+                                            }
+                                        });
+                                    }
                                 }
-                            }
-                            if (response.RowButtons) {
-                                this.buttons = response.RowButtons;
-                            }
-                            if (response.TemplateList) {
-                                this.templateList = response.TemplateList;
-                            }
-                            if (response.ViewList) {
-                                this.viewList = response.ViewList;
-                            }
-                            if (response.Pager) {
-                                this.pagerConfig = response.Pager;
-                            }
-                            if (response.Presets) {
-                                this.presets = response.Presets;
-                                if (this.presetId && response.Presets[this.presetId]) {
-                                    this.presetText = response.Presets[this.presetId].Title;
-                                    this.presetIcon = response.Presets[this.presetId].IconName;
-                                    this.savePresetValueHistory();
+                                if (response.RowButtons) {
+                                    this.buttons = response.RowButtons;
                                 }
-                                else if (this.presetId && response.Presets[this.presetId] == undefined) {
-                                    this.presetId = null;
-                                    this.presetText = null;
-                                    this.presetIcon = null;
+                                if (response.TemplateList) {
+                                    this.templateList = response.TemplateList;
                                 }
+                                if (response.ViewList) {
+                                    this.viewList = response.ViewList;
+                                }
+                                if (response.Pager) {
+                                    this.pagerConfig = response.Pager;
+                                }
+                                if (response.Presets) {
+                                    this.presets = response.Presets;
+                                    if (this.presetId && response.Presets[this.presetId]) {
+                                        this.presetText = response.Presets[this.presetId].Title;
+                                        this.presetIcon = response.Presets[this.presetId].IconName;
+                                        this.savePresetValueHistory();
+                                    }
+                                    else if (this.presetId && response.Presets[this.presetId] == undefined) {
+                                        this.presetId = null;
+                                        this.presetText = null;
+                                        this.presetIcon = null;
+                                    }
+                                }
+                                this.hasSearcher = response.Searcher;
+                                this.TemplateToolbarCollection = response.TemplateToolbarCollection;
+                                this.render();
+                                this.loadSearcher();
+                                this.loadPager();
+                                if (this.pagerConfig) {
+                                    this.loadCount();
+                                }
+                                this.savedSearches = response.SavedSearches;
+                                this.searchSettings = response.SearchSettings;
+                                if (refreshFilters && response.SearchSettings) {
+                                    this.loadFilters(response.SearchSettings);
+                                }
+                                resolve();
                             }
-                            this.hasSearcher = response.Searcher;
-                            this.TemplateToolbarCollection = response.TemplateToolbarCollection;
-                            this.render();
-                            this.loadSearcher();
-                            this.loadPager();
-                            if (this.pagerConfig) {
-                                this.loadCount();
-                            }
-                            this.savedSearches = response.SavedSearches;
-                            this.searchSettings = response.SearchSettings;
-                            if (refreshFilters && response.SearchSettings) {
-                                this.loadFilters(response.SearchSettings);
-                            }
-                        }
-                    }, null, () => {
-                        this.stopLoading();
-                    }, () => {
-                        this.startLoading();
-                    });
+                        }, 
+                        //Error Function
+                        err => {
+                            flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                            resolve();
+                        }, 
+                        //Complete Function
+                        () => { this.stopLoading(); }, 
+                        //Before Function
+                        () => { this.startLoading(); });
+                    }));
                 }
                 /**
                  * Sets the parent module to start loading mode.
@@ -715,6 +756,7 @@ var flexygo;
                         rendered += this.startInfoTemplate();
                         me.html(rendered);
                         this.setStartInfoEvents();
+                        wcMod.moduleLoaded(this);
                         return;
                     }
                     if (this.data.length > 0 || this.mode === 'edit') {
@@ -742,6 +784,7 @@ var flexygo;
                                     if (notExclude) {
                                         if (!lastItem) {
                                             rendered += flexygo.utils.parser.paintGroupHeader(this.data[i], this.groups, this);
+                                            rendered = flexygo.utils.parser.recursiveCompile(def, rendered, this);
                                         }
                                         rendered += flexygo.utils.parser.controlGroup(lastItem, this.data[i], this.groups, this);
                                         if (this.mode === 'edit') {
@@ -759,6 +802,7 @@ var flexygo;
                                 }
                                 if (lastItem) {
                                     rendered += flexygo.utils.parser.paintGroupFooter(this.data[this.data.length - 1], this.groups, this);
+                                    rendered = flexygo.utils.parser.recursiveCompile(def, rendered, this);
                                 }
                             }
                         }
@@ -1587,6 +1631,10 @@ var flexygo;
                                     sortname += '_flxtext';
                                 }
                                 let td = $('<th />').html(this.propArr[i].Label).attr('data-sort', sortname).css('width', width + 'px');
+                                if (this.propArr[i].HelpId != '') {
+                                    let helpIcon = $('<span class="help-icon"><i/><flx-tooltip mode="popover" container="body" helpId="' + this.propArr[i].HelpId + '"></flx-tooltip></span>');
+                                    td.append(helpIcon);
+                                }
                                 tr.append(td);
                                 if (this.propArr[i].Hide) {
                                     td.hide();
@@ -2231,9 +2279,7 @@ var flexygo;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));
 })(flexygo || (flexygo = {}));
-let ev;
-$(document).on('mousedown.dirty', (e) => { ev = e; });
-$(document).on('click.dirty', () => {
+$(document).on('click.dirty', (ev) => {
     let lists = $('flx-list[mode="edit"]');
     for (let i = 0; i < lists.length; i++) {
         let me = $(lists[i]);

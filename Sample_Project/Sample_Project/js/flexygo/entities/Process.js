@@ -107,7 +107,7 @@ var flexygo;
                             this.run(processparams, cllback, targetid, excludeHist, triggerElement, response.LastProcessName);
                         }
                         else {
-                            this.closeLoading(true);
+                            this.closeLoading(true, this.showProgress);
                         }
                         if (!response.MoreProcesses) {
                             if (response.LastException && response.LastException.Message) {
@@ -119,7 +119,7 @@ var flexygo;
                             else if (response.SuccessMessage) {
                                 flexygo.msg.success(response.SuccessMessage);
                             }
-                            this.closeLoading();
+                            this.closeLoading(true, this.showProgress);
                         }
                         if (response.CloseParamWindow && response.Success && this.module) {
                             this.module.closeWindow();
@@ -138,7 +138,7 @@ var flexygo;
                     }
                 });
             }
-            flexygo.ajax.post('~/api/Process', 'execProcessByName', params, cllback, errorCallback, () => { this.closeLoading(); }, () => { this.showLoading(); });
+            flexygo.ajax.post('~/api/Process', 'execProcessByName', params, cllback, errorCallback, () => { this.closeLoading(true, this.showProgress); }, () => { this.showLoading(); });
         }
         /**
         * Show loading funcion before executing process
@@ -154,12 +154,7 @@ var flexygo;
                 title = flexygo.localization.translate('process.executing');
             }
             if (this.showProgress && this.config && includedTypes.includes(this.config.TypeId)) {
-                this.progressBar = Lobibox.progress({
-                    title: title,
-                    closeOnEsc: false,
-                    closeButton: false,
-                    onShow: () => { this.progressTimer = setInterval(() => this.moveLoading(), 500); }
-                });
+                flexygo.utils.showLoading(null, title);
             }
         }
         /**
@@ -177,24 +172,9 @@ var flexygo;
         * Close loading funcion after executing process
         * @method showLoading
         */
-        closeLoading(lastProcess = false) {
-            if (this.progressBar) {
-                clearInterval(this.progressTimer);
-                this.progressTimer = null;
-                this.progressBar.destroy();
-                this.progressBar = null;
-            }
-            if (lastProcess) {
-                if (this.progressTimer)
-                    clearInterval(this.progressTimer);
-                let lobiboxLoading = $('div.lobibox.lobibox-progress');
-                if (lobiboxLoading.length > 0) {
-                    let lobiboxBackdrop = lobiboxLoading.next();
-                    if (lobiboxBackdrop.length > 0 && lobiboxBackdrop.hasClass('lobibox-backdrop')) {
-                        lobiboxBackdrop.filter('.lobibox-backdrop').remove();
-                    }
-                    lobiboxLoading.remove();
-                }
+        closeLoading(lastProcess = false, showProgress = true) {
+            if (lastProcess && showProgress) {
+                flexygo.utils.removeLoadingEffect();
             }
         }
     }

@@ -1,6 +1,15 @@
 /**
  * @namespace flexygo.ui.wc
  */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var flexygo;
 (function (flexygo) {
     var ui;
@@ -83,14 +92,15 @@ var flexygo;
                     this.maxRows = 0;
                     this.maxPages = 0;
                     //this._setDefaultTemplate();
-                    this.initGrid(true);
+                    return this.initGrid(true);
                 }
                 refresh() {
                     if ($(this).attr('manualInit') != 'true') {
                         this.viewId = null;
                         //this.templateId = null;
-                        this.initGrid(false);
+                        return this.initGrid(false);
                     }
+                    return;
                 }
                 setFilter() {
                     if ($(this).attr('manualInit') != 'true') {
@@ -98,80 +108,94 @@ var flexygo;
                     }
                 }
                 initGrid(initMode) {
-                    let me = $(this);
-                    me.removeAttr('manualInit');
-                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
-                    this.page = 0;
-                    let mode = me.attr('mode');
-                    if (!mode || mode == '') {
-                        mode = 'object';
-                    }
-                    //var loadRet = this.loadRet;
-                    let params = {
-                        ObjectName: me.attr('ObjectName'),
-                        ObjectWhere: me.attr('ObjectWhere'),
-                        ModuleName: this.moduleName,
-                        PageName: flexygo.history.getPageName(me),
-                        Page: this.page,
-                        AdditionalWhere: '',
-                        OrderInfo: this.orderObj,
-                        Mode: mode,
-                        SearchId: this.activeFilter,
-                        FilterValues: this.filterValues
-                    };
-                    flexygo.ajax.post('~/api/List', 'GetSearch', params, (response) => {
-                        if (response) {
-                            if (response.Template) {
-                                let template = response.Template;
-                                this.fields = template.TableColumns;
-                                this.data = template.TableData;
-                                this.tHeader = template.Header;
-                                this.tBody = template.Body;
-                                this.tFooter = template.Footer;
-                                this.tModuleClass = template.ModuleClass;
-                                this.objectname = template.ObjectName;
-                                this.cryptedSql = template.TableSQL;
-                                this.removeKeys = template.RemoveKeys;
-                                this.pageSize = template.PageSize;
-                                this.groups = template.Groups;
-                                this.viewId = template.DataViewName;
-                            }
-                            let parentModule = me.closest('flx-module');
-                            let wcModule = parentModule[0];
-                            if (this.tModuleClass && this.tModuleClass != '') {
-                                parentModule.addClass(this.tModuleClass);
-                            }
-                            if (initMode && parentModule && wcModule) {
-                                if (response.Buttons) {
-                                    wcModule.setButtons(response.Buttons, response.ObjectName, response.ObjectWhere);
-                                }
-                                else {
-                                    wcModule.setButtons(null, response.ObjectName, response.ObjectWhere);
-                                }
-                                wcModule.setObjectDescrip(response.Title);
-                            }
-                            if (response.RowButtons) {
-                                this.buttons = response.RowButtons;
-                            }
-                            if (response.ViewList) {
-                                this.viewList = response.ViewList;
-                            }
-                            if (response.Pager) {
-                                this.pagerConfig = response.Pager;
-                            }
-                            if (response.Presets) {
-                                this.presets = response.Presets;
-                            }
-                            this.hasSearcher = response.Searcher;
-                            this.render();
-                            this.loadSearcher();
-                            this.loadPager();
-                            this.loadCount();
-                            if (initMode && response.SearchSettings) {
-                                this.loadFilters(response.SearchSettings);
-                            }
+                    return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
+                        let me = $(this);
+                        me.removeAttr('manualInit');
+                        $(this).closest('flx-module').find('.flx-noInitContent').remove();
+                        this.page = 0;
+                        let mode = me.attr('mode');
+                        if (!mode || mode == '') {
+                            mode = 'object';
                         }
-                    }, null, () => { this.stopLoading(); }, () => { this.startLoading(); });
+                        //var loadRet = this.loadRet;
+                        let params = {
+                            ObjectName: me.attr('ObjectName'),
+                            ObjectWhere: me.attr('ObjectWhere'),
+                            ModuleName: this.moduleName,
+                            PageName: flexygo.history.getPageName(me),
+                            Page: this.page,
+                            AdditionalWhere: '',
+                            OrderInfo: this.orderObj,
+                            Mode: mode,
+                            SearchId: this.activeFilter,
+                            FilterValues: this.filterValues
+                        };
+                        flexygo.ajax.post('~/api/List', 'GetSearch', params, 
+                        //Success Function
+                        (response) => {
+                            if (response) {
+                                if (response.Template) {
+                                    let template = response.Template;
+                                    this.fields = template.TableColumns;
+                                    this.data = template.TableData;
+                                    this.tHeader = template.Header;
+                                    this.tBody = template.Body;
+                                    this.tFooter = template.Footer;
+                                    this.tModuleClass = template.ModuleClass;
+                                    this.objectname = template.ObjectName;
+                                    this.cryptedSql = template.TableSQL;
+                                    this.removeKeys = template.RemoveKeys;
+                                    this.pageSize = template.PageSize;
+                                    this.groups = template.Groups;
+                                    this.viewId = template.DataViewName;
+                                }
+                                let parentModule = me.closest('flx-module');
+                                let wcModule = parentModule[0];
+                                if (this.tModuleClass && this.tModuleClass != '') {
+                                    parentModule.addClass(this.tModuleClass);
+                                }
+                                if (initMode && parentModule && wcModule) {
+                                    if (response.Buttons) {
+                                        wcModule.setButtons(response.Buttons, response.ObjectName, response.ObjectWhere);
+                                    }
+                                    else {
+                                        wcModule.setButtons(null, response.ObjectName, response.ObjectWhere);
+                                    }
+                                    wcModule.setObjectDescrip(response.Title);
+                                }
+                                if (response.RowButtons) {
+                                    this.buttons = response.RowButtons;
+                                }
+                                if (response.ViewList) {
+                                    this.viewList = response.ViewList;
+                                }
+                                if (response.Pager) {
+                                    this.pagerConfig = response.Pager;
+                                }
+                                if (response.Presets) {
+                                    this.presets = response.Presets;
+                                }
+                                this.hasSearcher = response.Searcher;
+                                this.render();
+                                this.loadSearcher();
+                                this.loadPager();
+                                this.loadCount();
+                                if (initMode && response.SearchSettings) {
+                                    this.loadFilters(response.SearchSettings);
+                                }
+                            }
+                            resolve();
+                        }, 
+                        //Error Function
+                        err => {
+                            flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                            resolve();
+                        }, 
+                        //Complete Function
+                        () => { this.stopLoading(); }, 
+                        //Before Function
+                        () => { this.startLoading(); });
+                    }));
                 }
                 startLoading() {
                     if ($(this).parents('flx-module').length > 0) {

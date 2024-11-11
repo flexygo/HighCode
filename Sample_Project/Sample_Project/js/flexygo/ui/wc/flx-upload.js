@@ -146,7 +146,7 @@ var flexygo;
                 * @method init
                 */
                 init() {
-                    this.getConfig();
+                    return this.getConfig();
                 }
                 /**
                 * Refresh de webcomponent.
@@ -193,6 +193,10 @@ var flexygo;
                     if (renderMode !== 'preview') {
                         this.mainEvents();
                     }
+                    let wcModule = this.closest('flx-module');
+                    if (wcModule) {
+                        wcModule.moduleLoaded(this);
+                    }
                 }
                 /**
                 * Main events.
@@ -228,9 +232,6 @@ var flexygo;
                                 }, 0);
                                 if (errorUploadFileCounter > 0) {
                                     flexygo.msg.warning(`${errorUploadFileCounter} files failed in uploading process`);
-                                }
-                                else {
-                                    flexygo.msg.success('upload.uploaded');
                                 }
                                 me[0].removeUploadingFiles($(this));
                                 me.find('div.upload-drag-container').removeClass('upload-uploading');
@@ -312,9 +313,6 @@ var flexygo;
                                     const errorUploadFileCounter = results.reduce((total, notuploaded) => total + notuploaded, 0);
                                     if (errorUploadFileCounter > 0) {
                                         flexygo.msg.warning(`${errorUploadFileCounter} files failed in uploading process`);
-                                    }
-                                    else {
-                                        flexygo.msg.success('upload.uploaded');
                                     }
                                     me[0].removeUploadingFiles($(this));
                                     me.find('div.upload-drag-container').removeClass('upload-dragging');
@@ -519,26 +517,40 @@ var flexygo;
                             this.objectName = this.options.ObjectName;
                             this.processName = this.options.ProcessName;
                             this.render();
+                            return;
                         }
                         else {
                             if (this.moduleName) {
-                                defaults = {
-                                    'ObjectName': this.objectName,
-                                    'ObjectWhere': this.objectWhere,
-                                    'ModuleName': this.moduleName,
-                                    'PageName': flexygo.history.getPageName(me),
-                                };
-                                flexygo.ajax.post('~/api/Upload', 'GetConfig', defaults, (response) => {
-                                    if (response) {
-                                        this.customCSS = response.cssText;
-                                        this.customScript = response.scriptText;
-                                        this.rootPath = response.path;
-                                        this.render();
-                                    }
+                                return new Promise((resolve, _) => {
+                                    defaults = {
+                                        'ObjectName': this.objectName,
+                                        'ObjectWhere': this.objectWhere,
+                                        'ModuleName': this.moduleName,
+                                        'PageName': flexygo.history.getPageName(me),
+                                    };
+                                    flexygo.ajax.post('~/api/Upload', 'GetConfig', defaults, 
+                                    //Success Function
+                                    (response) => {
+                                        if (response) {
+                                            this.customCSS = response.cssText;
+                                            this.customScript = response.scriptText;
+                                            this.rootPath = response.path;
+                                            this.render();
+                                        }
+                                        resolve();
+                                    }, 
+                                    //Error Function
+                                    err => {
+                                        let wcModule = this.closest('flx-module');
+                                        flexygo.utils.modules.loadingErrorFunction(wcModule, err);
+                                        wcModule.moduleLoaded(this);
+                                        resolve();
+                                    });
                                 });
                             }
                             else {
                                 this.render();
+                                return;
                             }
                         }
                     }

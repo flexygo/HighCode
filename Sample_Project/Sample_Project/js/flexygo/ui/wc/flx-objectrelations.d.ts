@@ -22,8 +22,8 @@ declare namespace flexygo.ui.wc {
         connectedCallback(): void;
         static readonly observedAttributes: string[];
         attributeChangedCallback(attrName: any, oldVal: any, newVal: any): void;
-        refresh(): void;
-        init(): void;
+        refresh(): Promise<void>;
+        init(): Promise<void>;
         render(): void;
         flxTranslate(str: string): string;
         startLoading(): void;

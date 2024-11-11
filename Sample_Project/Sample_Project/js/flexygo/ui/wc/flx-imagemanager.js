@@ -117,15 +117,15 @@ var flexygo;
                 init() {
                     //Capture events from entity modification
                     flexygo.events.on(this, "entity", "updated", this.onEntityUpdate);
+                    let me = $(this);
+                    let wcModule = me.closest('flx-module')[0];
                     try {
-                        let me = $(this);
                         me.removeAttr('manualInit');
                         $(this).closest('flx-module').find('.flx-noInitContent').remove();
                         var defString;
                         var defObject;
                         defString = flexygo.history.getDefaults(this.objectName, me);
                         defObject = JSON.parse(flexygo.utils.parser.replaceAll(defString, "'", '"'));
-                        let wcModule = me.closest('flx-module')[0];
                         this.rObjectName = (this.objectName && this.objectId) ? this.objectName : (defObject && defObject.ObjectName) ? defObject.ObjectName : (wcModule.objectdefaults) ? wcModule.objectdefaults.ObjectName : '';
                         this.rObjectId = (this.objectName && this.objectId) ? this.objectId : (defObject && defObject.ObjectId) ? defObject.ObjectId : (wcModule.objectdefaults) ? wcModule.objectdefaults.ObjectId : '';
                         if (defObject && defObject.additionalWhere) {
@@ -153,6 +153,7 @@ var flexygo;
                         }
                     }
                     catch (ex) {
+                        flexygo.utils.modules.removeSkeleton(wcModule);
                         console.log(ex);
                     }
                 }
@@ -163,12 +164,13 @@ var flexygo;
                 refresh() {
                     if ($(this).attr('manualInit') != 'true') {
                         try {
-                            this.render();
+                            return this.render();
                         }
                         catch (ex) {
                             console.log(ex);
                         }
                     }
+                    return;
                 }
                 /**
                 * Render HTML data.
@@ -212,10 +214,11 @@ var flexygo;
                             me.find('div.im-pry-container').css({ 'min-height': me.find('div.im-pry-container').width() + 20 + 'px' }).css({ 'max-height': me.find('div.im-pry-container').width() + 20 + 'px' }).addClass('im-pry-container-single');
                         }
                         this.mainEvents();
-                        this.getImage();
+                        return this.getImage();
                     }
                     catch (ex) {
                         console.log(ex);
+                        return;
                     }
                 }
                 /**
@@ -493,6 +496,7 @@ var flexygo;
                                     if (response[0] && !response[0].imageError) {
                                         for (let image of response) {
                                             me.find('div[imageid="' + image.imageId + '"]').attr('order', image.orderNumber);
+                                            me.find('div[imageid="' + image.imageId + '"]').find('div[method= "preview"]').attr('data-src', flexygo.utils.resolveUrl(image.path));
                                             me.find('div[imageid="' + image.imageId + '"]').find('div[method= "mainimage"]').attr('value', image.mainImage);
                                             if (image.mainImage) {
                                                 me.find('div[imageid="' + image.imageId + '"]').find('div.im-data div.im-mainimage').addClass('im-mi-mainimage').find('div.im-item-corner').addClass('im-mi-item-corner');
@@ -510,11 +514,18 @@ var flexygo;
                                             flexygo.msg.warning('imagemanager.permissionerror');
                                         }
                                     }
+                                    this.setGallery();
+                                    $(document).find('flx-edit[objectname="' + obj.objectName + '"]').closest('.ui-dialog').remove();
                                 });
                             }
-                            this.setGallery();
+                            else {
+                                this.setGallery();
+                                $(document).find('flx-edit[objectname="' + obj.objectName + '"]').closest('.ui-dialog').remove();
+                            }
                         }
-                        $(document).find('flx-edit[objectname="' + obj.objectName + '"]').closest('.ui-dialog').remove();
+                        else {
+                            $(document).find('flx-edit[objectname="' + obj.objectName + '"]').closest('.ui-dialog').remove();
+                        }
                     }
                 }
                 /**
@@ -656,6 +667,8 @@ var flexygo;
                             for (let file of this.imagesPreRender) {
                                 this.renderImage(file.imageId, file.name, file.descrip, file.classId, file.classDescrip, file.mainImage, file.orderNumber, file.path, file.haveFaceEncoding, file.lastError);
                                 flexygo.msg.success('imagemanager.uploaded');
+                                let ev = { class: "image", type: "uploaded", sender: this, masterIdentity: file.imageId, detailIdentity: file };
+                                flexygo.events.trigger(ev, $(this));
                             }
                         }
                     }
@@ -675,55 +688,70 @@ var flexygo;
                 * @param {string} Image ID (Opctional).
                 */
                 getImage(imageId) {
-                    try {
-                        if (!flexygo.utils.isBlank(this.rObjectId) && this.rObjectName) {
-                            let me = $(this);
-                            var params;
-                            params = {
-                                'ObjectId': this.rObjectId,
-                                'ObjectName': this.rObjectName,
-                                'ImageId': imageId,
-                                'AdditionalWhere': this.additionalWhere,
-                                'ImageClassId': this.imageClassId,
-                            };
-                            let url = '~/api/ImageManager';
-                            if (this.mode == 'recognition') {
-                                url = '~/api/ImageRecognitionManager';
+                    return new Promise((resolve, _) => {
+                        try {
+                            if (!flexygo.utils.isBlank(this.rObjectId) && this.rObjectName) {
+                                let me = $(this);
+                                var params;
+                                params = {
+                                    'ObjectId': this.rObjectId,
+                                    'ObjectName': this.rObjectName,
+                                    'ImageId': imageId,
+                                    'AdditionalWhere': this.additionalWhere,
+                                    'ImageClassId': this.imageClassId,
+                                };
+                                let url = '~/api/ImageManager';
+                                if (this.mode == 'recognition') {
+                                    url = '~/api/ImageRecognitionManager';
+                                }
+                                flexygo.ajax.post(url, 'GetImages', params, 
+                                //Success Function
+                                (response) => {
+                                    if (response[0] && !response[0].imageError) {
+                                        for (let image of response) {
+                                            this.renderImage(image.imageId, image.name, image.descrip, image.classId, image.classDescrip, image.mainImage, image.orderNumber, image.path, image.haveFaceEncoding, image.lastError);
+                                        }
+                                    }
+                                    else {
+                                        if (response[0] && response[0].permissionError) {
+                                            flexygo.msg.warning('imagemanager.permissionerror');
+                                        }
+                                        else if (response.length === 0 && this.singleImage) {
+                                            me.find('div.im-pry-container').append('<div class="im-empty im-transition">' + this.empty + '</div><i class="flx-icon icon-upload-1 im-empty-icon im-transition" flx-fw="">');
+                                            me.find('div.im-pry-container').addClass('im-pry-container-empty');
+                                            me.find('div.im-pry-container').find('div.im-empty').off('click').on('click', (e) => {
+                                                if (!flexygo.utils.isBlank(this.rObjectId) && this.rObjectName) {
+                                                    let defaults;
+                                                    defaults = {
+                                                        'ObjectName': this.rObjectName,
+                                                        'ObjectId': this.rObjectId,
+                                                    };
+                                                    flexygo.nav.openPage('list', 'sysObjectImages', "Objects_Images.ObjectId = '" + this.rObjectId + "' And Objects_Images.ObjectName = '" + this.rObjectName + "'", JSON.stringify(defaults), 'modal' + ($(window).width() - 30) + 'x' + ($(window).height() - 50), false, me);
+                                                }
+                                            });
+                                        }
+                                        else if (response.length === 0 && this.mode == 'view') {
+                                            me.html('<div class="box-info"><i class="flx-icon icon-information-2 icon-lg icon-margin-right"></i><span><strong>Info!</strong> ' + flexygo.localization.translate('flxlist.noentriesfound') + '</span></div>');
+                                        }
+                                    }
+                                    this.closest('flx-module').moduleLoaded(this);
+                                    resolve();
+                                }, 
+                                //Error Function
+                                err => {
+                                    flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                                    resolve();
+                                });
                             }
-                            flexygo.ajax.post(url, 'GetImages', params, (response) => {
-                                if (response[0] && !response[0].imageError) {
-                                    for (let image of response) {
-                                        this.renderImage(image.imageId, image.name, image.descrip, image.classId, image.classDescrip, image.mainImage, image.orderNumber, image.path, image.haveFaceEncoding, image.lastError);
-                                    }
-                                }
-                                else {
-                                    if (response[0] && response[0].permissionError) {
-                                        flexygo.msg.warning('imagemanager.permissionerror');
-                                    }
-                                    else if (response.length === 0 && this.singleImage) {
-                                        me.find('div.im-pry-container').append('<div class="im-empty im-transition">' + this.empty + '</div><i class="flx-icon icon-upload-1 im-empty-icon im-transition" flx-fw="">');
-                                        me.find('div.im-pry-container').addClass('im-pry-container-empty');
-                                        me.find('div.im-pry-container').find('div.im-empty').off('click').on('click', (e) => {
-                                            if (!flexygo.utils.isBlank(this.rObjectId) && this.rObjectName) {
-                                                let defaults;
-                                                defaults = {
-                                                    'ObjectName': this.rObjectName,
-                                                    'ObjectId': this.rObjectId,
-                                                };
-                                                flexygo.nav.openPage('list', 'sysObjectImages', "Objects_Images.ObjectId = '" + this.rObjectId + "' And Objects_Images.ObjectName = '" + this.rObjectName + "'", JSON.stringify(defaults), 'modal' + ($(window).width() - 30) + 'x' + ($(window).height() - 50), false, me);
-                                            }
-                                        });
-                                    }
-                                    else if (response.length === 0 && this.mode == 'view') {
-                                        me.html('<div class="box-info"><i class="flx-icon icon-information-2 icon-lg icon-margin-right"></i><span><strong>Info!</strong> ' + flexygo.localization.translate('flxlist.noentriesfound') + '</span></div>');
-                                    }
-                                }
-                            });
+                            else {
+                                this.closest('flx-module').moduleLoaded(this);
+                                resolve();
+                            }
                         }
-                    }
-                    catch (ex) {
-                        console.log(ex);
-                    }
+                        catch (ex) {
+                            console.log(ex);
+                        }
+                    });
                 }
                 /**
                 * Update image.
@@ -751,6 +779,8 @@ var flexygo;
                                 me.find('div.im-item div.im-data div.im-mainimage').attr('value', 'false').removeClass('im-mi-mainimage').find('div.im-item-corner').removeClass('im-mi-item-corner');
                                 me.find('div[imageid="' + response.imageId + '"]').find('div.im-data div.im-mainimage').attr('value', 'true').addClass('im-mi-mainimage').find('div.im-item-corner').addClass('im-mi-item-corner');
                                 flexygo.msg.success('imagemanager.updated');
+                                let ev = { class: "image", type: "updated", sender: this, masterIdentity: response.imageId, detailIdentity: response };
+                                flexygo.events.trigger(ev, $(this));
                             }
                             else {
                                 if (!response.permissionError) {
@@ -871,6 +901,8 @@ var flexygo;
                             me.find('div[imageid="' + data.imageId + '"]').find('div.im-data div.im-mainimage').attr('value', 'true').addClass('im-mi-mainimage').find('div.im-item-corner').addClass('im-mi-item-corner');
                         }
                         this.orderImage();
+                        let ev = { class: "image", type: "deleted", sender: this, masterIdentity: data.imageId, detailIdentity: data };
+                        flexygo.events.trigger(ev, me);
                     }
                     else {
                         if (!data.permissionError) {
@@ -909,6 +941,8 @@ var flexygo;
                                 this.refresh();
                                 flexygo.msg.success('imagemanager.removedall');
                                 this.setGallery();
+                                let ev = { class: "image", type: "deleted", sender: this, masterIdentity: response.imageId, detailIdentity: response };
+                                flexygo.events.trigger(ev, me);
                                 //if (response.imageId.length != 0) {
                                 //    me.find('div.im-item div.im-data div.im-mainimage').attr('value', 'false').removeClass('im-mi-mainimage').find('div.im-item-corner').removeClass('im-mi-item-corner');
                                 //    me.find('div[imageid="' + response.imageId + '"]').find('div.im-data div.im-mainimage').attr('value', 'true').addClass('im-mi-mainimage').find('div.im-item-corner').addClass('im-mi-item-corner');

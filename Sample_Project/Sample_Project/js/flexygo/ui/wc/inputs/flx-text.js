@@ -500,6 +500,7 @@ var flexygo;
                     me.html(control);
                 }
                 initEditMode() {
+                    var _a;
                     let me = $(this);
                     let iconsLeft;
                     let iconsRight = this.getIconButtons();
@@ -510,7 +511,7 @@ var flexygo;
                         input = $(`<input type="${this.type}" class="form-control" />`);
                         this.tactilModeAvailable = true;
                     }
-                    else if (this.type === 'date' && this.options.PlaceHolder !== '') {
+                    else if (this.type === 'date' && ((_a = this.options) === null || _a === void 0 ? void 0 : _a.PlaceHolder)) {
                         input = $('<input type="text" onfocus="(this.type=\'date\')" class="form-control" />');
                     }
                     else if (this.type === 'cron' || this.type === 'ident' || this.type === 'map') {
@@ -944,11 +945,16 @@ var flexygo;
                     if (me.attr('tab') && me.attr('tab') !== '') {
                         input.attr('tabindex', me.attr('tab'));
                     }
-                    if (this.options && this.options.Locked) {
-                        input.prop('disabled', this.options.Locked);
-                        if (me.attr('disabled') !== 'disabled') {
-                            me.attr('disabled', 'disabled');
+                    if (this.mode !== "preview") {
+                        if (this.options && this.options.Locked) {
+                            input.prop('disabled', this.options.Locked);
+                            if (me.attr('disabled') !== 'disabled') {
+                                me.attr('disabled', 'disabled');
+                            }
                         }
+                    }
+                    else {
+                        input.prop('readonly', true);
                     }
                     if (this.options && this.options.PlaceHolder) {
                         input.attr('PlaceHolder', this.options.PlaceHolder);

@@ -372,7 +372,7 @@ declare namespace flexygo.io {
         upload_file(): void;
         appendToDocument(base64: string, lastAppend: boolean): void;
         response_after_insert: any;
-        setDocument(base64: string, documentName: string, multipart: boolean, lastProcessName?: string, lastAfterProcessName?: string, endMethodExecuted?: boolean): void;
+        setDocument(base64: string, documentName: string, multipart: boolean, lastProcessName?: string, lastAfterProcessName?: string, endMethodExecuted?: boolean, fileSizeBytes?: number): void;
         endSetMethod(response: any, multipart: any): void;
         removeDocument(): void;
     }

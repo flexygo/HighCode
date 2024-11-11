@@ -133,44 +133,66 @@ var flexygo;
                     });
                 }
                 load(sync) {
-                    let Filters = this.getFilters();
-                    let firstSync = false;
-                    flexygo.ajax.post('~/api/Mail', 'GetMails', Filters, (response) => {
-                        let mails = this.render(response, false);
-                        let mailItems = $(this).find('.mailList');
-                        if (mails && mails.children().length > 0) {
-                            if (this.uid == 0) {
-                                mailItems.html(mails.children());
+                    return new Promise((resolve, _) => {
+                        let Filters = this.getFilters();
+                        let firstSync = false;
+                        flexygo.ajax.post('~/api/Mail', 'GetMails', Filters, (response) => {
+                            let mails = this.render(response, false);
+                            let mailItems = $(this).find('.mailList');
+                            if (mails && mails.children().length > 0) {
+                                if (this.uid == 0) {
+                                    mailItems.html(mails.children());
+                                }
+                                else {
+                                    mailItems.append(mails.children());
+                                }
                             }
-                            else {
-                                mailItems.append(mails.children());
+                            else if (this.uid == 0) {
+                                firstSync = true;
+                                mailItems.html(this.noMailTemplate);
                             }
-                        }
-                        else if (this.uid == 0) {
-                            firstSync = true;
-                            mailItems.html(this.noMailTemplate);
-                        }
-                        this.stopLoading();
-                        if (sync) {
-                            mailItems.prepend('<div class="row-line box-mail-sync"><div class="sync-content"><div class="sync"><p>' + flexygo.localization.translate('flxmail.sync') + '</p><span></span></div></div></div>');
-                            flexygo.ajax.post('~/api/Mail', 'DownloadMails', { "Folder": Filters.Folder, "PageSize": Filters.PageSize }, (response) => {
-                                if (response.length > 0) {
-                                    if (firstSync) {
-                                        this.uid = 0;
-                                        this.load(false);
-                                        $(this).find('[folderid="' + Filters.Folder + '"]').find('i').removeClass('hide');
-                                    }
-                                    else {
-                                        let mails = this.render(response, true);
-                                        if (mails && mails.children().length > 0) {
-                                            mailItems.prepend(mails.children());
+                            this.stopLoading();
+                            if (sync) {
+                                mailItems.prepend('<div class="row-line box-mail-sync"><div class="sync-content"><div class="sync"><p>' + flexygo.localization.translate('flxmail.sync') + '</p><span></span></div></div></div>');
+                                flexygo.ajax.post('~/api/Mail', 'DownloadMails', { "Folder": Filters.Folder, "PageSize": Filters.PageSize }, 
+                                //Success Function
+                                (response) => {
+                                    if (response.length > 0) {
+                                        if (firstSync) {
+                                            this.uid = 0;
+                                            this.load(false);
+                                            $(this).find('[folderid="' + Filters.Folder + '"]').find('i').removeClass('hide');
+                                        }
+                                        else {
+                                            let mails = this.render(response, true);
+                                            if (mails && mails.children().length > 0) {
+                                                mailItems.prepend(mails.children());
+                                            }
                                         }
                                     }
-                                }
-                                $(this).find('.mailList').find('.box-mail-sync').remove();
-                            }, (error) => { flexygo.exceptions.httpShow(error); $(this).find('.mailList').find('.box-mail-sync').remove(); });
-                        }
-                    }, (error) => { flexygo.exceptions.httpShow(error); this.stopLoading(); }, null, () => { this.startLoading(); });
+                                    $(this).find('.mailList').find('.box-mail-sync').remove();
+                                    resolve();
+                                }, 
+                                //Error Function
+                                err => {
+                                    flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                                    $(this).find('.mailList').find('.box-mail-sync').remove();
+                                    resolve();
+                                });
+                            }
+                            else {
+                                resolve();
+                            }
+                        }, 
+                        //Error Function
+                        err => {
+                            flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                            this.stopLoading();
+                            resolve();
+                        }, null, 
+                        //Before Function
+                        () => { this.startLoading(); });
+                    });
                 }
                 loadMore() {
                     this.uid = parseInt($(this).find('.mailList [uid]').last().attr('uid'));
@@ -402,8 +424,9 @@ var flexygo;
                 */
                 refresh() {
                     if ($(this).attr('manualInit') != 'true') {
-                        this.load(true);
+                        return this.load(true);
                     }
+                    return;
                 }
                 /**
                 * Render HTML data.

@@ -33,12 +33,15 @@ declare namespace flexygo.ui.wc {
         objectPropertiesPane(): void;
         listSettingsPane(): void;
         filterSettingsPane(): void;
-        displaySettingsPane(): void;
+        listTemplateSettingsPane(): void;
+        viewTemplateSettingsPane(): void;
         colPropertiesPane(): void;
         endPane(): void;
         addPane(index: string, name: string): JQuery;
         activeEditMode(): void;
-        createEditForm(placeHolder: JQuery, ObjectName: string, ObjectWhere: string, Defaults: string): void;
+        createEditForm(placeHolder: JQuery, ObjectName: string, ObjectWhere: string): void;
+        existTemplate(type: string): boolean;
+        createListTemplateSamplesForm(placeHolder: JQuery, ObjectName: string, ObjectWhere: string, Defaults: string): void;
         validateRequired(): boolean;
         createObject(): void;
     }

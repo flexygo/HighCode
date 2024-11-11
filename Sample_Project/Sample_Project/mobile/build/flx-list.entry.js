@@ -1,22 +1,22 @@
-import { r as registerInstance, k as h, m as getElement } from './index-d0d1673d.js';
-import { u as util, k as flxSync, C as ConftokenProvider, s as sql, m as msg, n as nav } from './conftoken-2c86328f.js';
-import { p as parser } from './parser-74bf7b6b.js';
-import { j as jquery } from './jquery-eec92bf9.js';
-import './process-es6-d973fab3.js';
-import './utils-0a0c7da4.js';
-import './animation-10ea33c3.js';
-import './helpers-719f4c54.js';
-import './ios.transition-62fdffc9.js';
-import './index-06bb8825.js';
-import './md.transition-f61d2286.js';
-import './cubic-bezier-93f47170.js';
-import './index-7fe827c3.js';
-import './ionic-global-f9661584.js';
-import './index-b40d441b.js';
-import './index-07c2bb76.js';
-import './hardware-back-button-aacf3d12.js';
-import './overlays-177438ad.js';
-import './_commonjsHelpers-148b4233.js';
+import { r as registerInstance, k as h, m as getElement } from './index-8e5b11cb.js';
+import { u as util, k as flxSync, C as ConftokenProvider, s as sql, m as msg, n as nav } from './conftoken-89472368.js';
+import { p as parser } from './parser-e9709966.js';
+import { j as jquery } from './jquery-34624bb9.js';
+import './process-es6-cc264d03.js';
+import './utils-224de961.js';
+import './animation-b4670628.js';
+import './helpers-7ecb2fa5.js';
+import './ios.transition-e14f38db.js';
+import './index-c59a2c3f.js';
+import './md.transition-8bd31aee.js';
+import './cubic-bezier-ed243a9b.js';
+import './index-d086042f.js';
+import './ionic-global-6d118971.js';
+import './index-cc97b114.js';
+import './index-81d32235.js';
+import './hardware-back-button-508e48cf.js';
+import './overlays-cda44124.js';
+import './_commonjsHelpers-2a12c1e6.js';
 
 const flxListCss = "";
 
@@ -39,6 +39,7 @@ const FlxList = class {
     this.header = undefined;
     this.title = undefined;
     this.lastItem = undefined;
+    this.show_search_bar = undefined;
   }
   watchFilter() {
     this.body = new Array();
@@ -207,6 +208,9 @@ const FlxList = class {
           this.title = await parser.recursiveCompile(sql.getRow(table, 0), page.title, confT, this);
         }
         this.page = page;
+        if (this.show_search_bar !== (page.ShowSearchBar && page.SQLSearchFilter)) {
+          this.show_search_bar = page.ShowSearchBar && page.SQLSearchFilter;
+        }
         let def = null;
         if (this.defaults) {
           def = util.parseJSON(this.defaults);
@@ -371,9 +375,9 @@ const FlxList = class {
   render() {
     return [
       h("ion-header", null, h("ion-toolbar", { color: "header", class: "ion-text-center" }, h("ion-buttons", { slot: "start" }, (this.modal ? null : h("ion-menu-button", { color: "outstanding" })), (this.modal ? null : h("ion-icon", { name: "alert-circle", color: "danger", class: "stack sendError flx-hide" }))), h("ion-buttons", { slot: "end" }, h("ion-button", { color: "outstanding", onClick: () => { nav.goBack(this.me); } }, h("ion-icon", { slot: "icon-only", name: "arrow-undo-outline" }))), h("ion-title", null, h("span", { id: "menuTitle" }, this.title)))),
-      h("ion-header", null, ((this.page && this.page.ShowSearchBar && this.page.SQLSearchFilter)
+      h("ion-header", null, (this.show_search_bar)
         ? h("ion-searchbar", { "cancel-button-text": util.translate('msg.cancel'), placeholder: util.translate('list.search'), mode: "ios", debounce: 1000, value: this.searchValue.replace(/^\%+|\%+$/g, ''), onIonClear: (ev) => { this.onSearchChange(ev, ''); }, onIonChange: (ev) => { this.onSearchChange(ev, ev.currentTarget.value); }, animated: true, "show-cancel-button": "focus" })
-        : '')),
+        : ''),
       h("ion-header", { innerHTML: this.header }),
       h("ion-content", null, h("ion-refresher", { slot: "fixed", id: "refresher", onIonRefresh: (ev) => { this.currentPage = 0; this.refresh(ev); } }, h("ion-refresher-content", { "pulling-icon": "chevron-down-circle-outline", refreshingSpinner: "bubbles" })), h("ion-list", { class: "mainBody" }, this.body), h("ion-infinite-scroll", { threshold: "500px", onIonInfinite: () => { this.loadMore(); } }, h("ion-infinite-scroll-content", { loadingSpinner: "bubbles", loadingText: "Loading..." }))),
       h("ion-footer", { innerHTML: this.footer })

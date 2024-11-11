@@ -1,6 +1,15 @@
 /**
  * @namespace flexygo.ui.wc
  */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var flexygo;
 (function (flexygo) {
     var ui;
@@ -26,6 +35,7 @@ var flexygo;
                     this.reportName = null;
                     this.processName = null;
                     this.mode = null;
+                    this.propertyWizard = null;
                     this.data = null;
                     this.tHeader = null;
                     this.tBody = null;
@@ -37,6 +47,7 @@ var flexygo;
                     this.objectname = element.attr("objectname");
                     this.reportName = element.attr("reportName");
                     this.processName = element.attr("processName");
+                    this.propertyWizard = this.closest('flx-objectmanager, main').querySelector('flx-propertywizard');
                     let mode = 'edit';
                     if (element.attr("mode") && element.attr("mode") != '') {
                         mode = element.attr("mode");
@@ -82,13 +93,11 @@ var flexygo;
                 refresh() {
                     switch (this.mode) {
                         case 'process':
-                            this.initProcessMode();
-                            break;
+                            return this.initProcessMode();
                         case 'report':
-                            this.initReportMode();
-                            break;
+                            return this.initReportMode();
                         default:
-                            this.initEditMode();
+                            return this.initEditMode();
                     }
                 }
                 onPropertyChanged(e) {
@@ -99,98 +108,112 @@ var flexygo;
                     }
                 }
                 initEditMode() {
-                    let me = $(this);
-                    me.html('');
-                    let params = {
-                        ObjectName: me.attr('ObjectName')
-                    };
-                    flexygo.ajax.post('~/api/Edit', 'GetEditConfig', params, (response) => {
-                        if (response) {
-                            let template = response.Template;
-                            this.tHeader = template.Header;
-                            this.tBody = template.Body;
-                            this.tFooter = template.Footer;
-                            this.properties = response.Properties;
-                            this.propArr = flexygo.utils.sortObject(this.properties, 'PositionY', 'PositionX');
-                            this.render();
-                            $(this).find('.lblEdit').on('change', (e) => {
-                                let inp = $(e.currentTarget);
-                                if (inp.val() && inp.val() != '') {
-                                    var obj = new flexygo.obj.Entity('sysObjectProperty', "ObjectName='" + this.objectname + "' and PropertyName='" + inp.closest('[lblproperty]').attr('lblproperty') + "'");
-                                    obj.read();
-                                    obj.data.Label = inp.val();
-                                    obj.update();
-                                }
-                            });
-                        }
-                    });
+                    return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
+                        let me = $(this);
+                        me.html('');
+                        let params = {
+                            ObjectName: me.attr('ObjectName')
+                        };
+                        flexygo.ajax.post('~/api/Edit', 'GetEditConfig', params, 
+                        //Success Function
+                        (response) => {
+                            if (response) {
+                                this.setProperties(response, "sysObjectProperty", "ObjectName='" + this.objectname + "' and PropertyName='{{name}}'");
+                            }
+                            resolve();
+                        }, 
+                        //Error Function
+                        err => {
+                            flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                            resolve();
+                        });
+                    }));
                 }
                 initProcessMode() {
-                    let me = $(this);
-                    me.html('');
-                    let params = {
-                        ObjectName: null,
-                        ObjectWhere: null,
-                        ModuleName: 'sysmod-edit-processparams',
-                        ProcessName: me.attr('ProcessName'),
-                        Defaults: null
-                    };
-                    flexygo.ajax.post('~/api/Edit', 'GetProcessParamsTemplate', params, (response) => {
-                        if (response) {
-                            let template = response.Template;
-                            this.data = response.Properties;
-                            this.tHeader = template.Header;
-                            this.tBody = template.Body;
-                            this.tFooter = template.Footer;
-                            this.properties = response.Properties;
-                            for (let key in this.properties) {
-                                this.properties[key].ClientReadOnly = true;
+                    return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
+                        let me = $(this);
+                        me.html('');
+                        let params = {
+                            ProcessName: me.attr('ProcessName')
+                        };
+                        flexygo.ajax.post('~/api/Edit', 'GetProcessParamsConfig', params, 
+                        //Success Function
+                        (response) => {
+                            if (response) {
+                                this.setProperties(response, "sysProcessParam", "ProcessName='" + me.attr('ProcessName') + "' and ParamName='{{name}}'");
                             }
-                            this.propArr = flexygo.utils.sortObject(this.properties, 'PositionY', 'PositionX');
-                            this.render();
-                            $(this).find('.lblEdit').on('change', (e) => {
-                                let inp = $(e.currentTarget);
-                                if (inp.val() && inp.val() != '') {
-                                    var obj = new flexygo.obj.Entity('sysProcessParam', "ProcessName='" + me.attr('ProcessName') + "' and ParamName='" + inp.closest('[lblproperty]').attr('lblproperty') + "'");
-                                    obj.read();
-                                    obj.data.Label = inp.val();
-                                    obj.update();
-                                }
-                            });
+                            resolve();
+                        }, 
+                        //Error Function
+                        err => {
+                            flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                            resolve();
+                        });
+                    }));
+                }
+                initReportMode() {
+                    return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
+                        let me = $(this);
+                        me.html('');
+                        let params = {
+                            ReportName: me.attr('ReportName')
+                        };
+                        flexygo.ajax.post('~/api/Edit', 'GetReportParamsConfig', params, 
+                        //Success Function
+                        (response) => {
+                            if (response) {
+                                this.setProperties(response, "sysReportParam", "ReportName='" + me.attr('ReportName') + "' and ParamName='{{name}}'");
+                            }
+                            resolve();
+                        }, 
+                        //Error Function
+                        err => {
+                            flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                            resolve();
+                        });
+                    }));
+                }
+                setProperties(response, objectname, objectwhere) {
+                    let template = response.Template;
+                    this.data = response.Properties;
+                    this.tHeader = template.Header;
+                    this.tBody = template.Body;
+                    this.tFooter = template.Footer;
+                    this.properties = response.Properties;
+                    this.propArr = flexygo.utils.sortObject(this.properties, 'PositionY', 'PositionX');
+                    this.render();
+                    const label_inputs = $(this).find('.lblEdit');
+                    label_inputs.on('click', e => e.stopPropagation());
+                    label_inputs.on('change', e => {
+                        let input = e.currentTarget;
+                        const new_value = input.value;
+                        if (new_value) {
+                            const current_property = input.closest('[lblproperty]').getAttribute('lblproperty');
+                            this.updateQuickSettingString(current_property, new_value, 'Label');
                         }
                     });
                 }
-                initReportMode() {
-                    let me = $(this);
-                    me.html('');
-                    let params = {
-                        ObjectName: null,
-                        ObjectWhere: null,
-                        ModuleName: 'sysmod-edit-reportparams',
-                        ReportName: me.attr('ReportName'),
-                        Defaults: null
-                    };
-                    flexygo.ajax.post('~/api/Edit', 'GetReportParamsTemplate', params, (response) => {
-                        if (response) {
-                            let template = response.Template;
-                            this.data = response.Properties;
-                            this.tHeader = template.Header;
-                            this.tBody = template.Body;
-                            this.tFooter = template.Footer;
-                            this.properties = response.Properties;
-                            this.propArr = flexygo.utils.sortObject(this.properties, 'PositionY', 'PositionX');
-                            this.render();
-                            $(this).find('.lblEdit').on('change', (e) => {
-                                let inp = $(e.currentTarget);
-                                if (inp.val() && inp.val() != '') {
-                                    var obj = new flexygo.obj.Entity('sysReportParam', "ReportName='" + me.attr('ReportName') + "' and ParamName='" + inp.closest('[lblproperty]').attr('lblproperty') + "'");
-                                    obj.read();
-                                    obj.data.Label = inp.val();
-                                    obj.update();
-                                }
-                            });
+                updateQuickSettingString(current_property, new_value, setting_name) {
+                    const params = [
+                        { 'key': 'ObjectName', 'value': this.objectname },
+                        { 'key': 'ProcessName', 'value': this.processName },
+                        { 'key': 'ReportName', 'value': this.reportName },
+                        { 'key': 'PropertyName', 'value': current_property },
+                        { 'key': 'SettingName', 'value': setting_name },
+                        { 'key': 'StringValue', 'value': new_value },
+                        { 'key': 'BitValue', 'value': null },
+                        { 'key': 'IsBoolean', 'value': false }
+                    ];
+                    flexygo.nav.execProcess('updateQuickSettingDLL', '', '', null, params, 'current', false, $(this), () => {
+                        if (!new_value)
+                            return;
+                        this.properties[current_property][setting_name] = new_value;
+                        //If the wizard is opened with the same property that is getting updated we should update the label there too
+                        const current_wizard_property = this.propertyWizard.getAttribute('propertyname');
+                        if (current_wizard_property === current_property) {
+                            this.propertyWizard.querySelector('[property="Label"] input').value = new_value; //We update the input inside the flx-text to avoid triggering the onchange event
                         }
-                    });
+                    }, false);
                 }
                 render() {
                     let me = $(this);
@@ -320,8 +343,35 @@ var flexygo;
                 addConfigToolbar() {
                     let me = $(this);
                     var ObjectName = me.attr('ObjectName');
+                    let btnInfo = $(`<i class="flx-icon icon-information-3 icon-2x left clickable flx-property-legend"></i>`);
                     let btnProp = $('<button class="addProps btn btn-default txt-tools"><i class="flx-icon icon-add"></i> ' + flexygo.localization.translate('nodemanager.addfields') + '</button>');
                     let btnRelatedDep = $('<button class="relatedDep btn btn-outstanding margin-right-s"><i class="flx-icon icon-properties-relations"></i> ' + flexygo.localization.translate('nodemanager.relationshipOfDependencies') + '</button>');
+                    let popoverInfo = btnInfo.popover({
+                        html: true,
+                        placement: 'right',
+                        content: flexygo.utils.loadingMsg(),
+                        title: null
+                    }).on('show.bs.popover', (r) => {
+                        let template = `<div class="row flx-property-manager-container">
+                    <div class="right">
+                        <span class="size-xs clickable" title="close" onclick="$(this).closest(\'flx-propertymanager\').find(\'.flx-property-legend\').click();">
+                        <i class="flx-icon icon-remove"></i></span>
+                    </div><br>
+                    <ul class="list-unstyled">
+                        <li class="row-line"><div><span class="txt-danger icon-margin-right">*</span></div> ${flexygo.localization.translate('flxedit.required')}</li>
+                        <li class="row-line"><div><i class="flx-icon icon-blocked-2 icon-margin-right"></i></div> ${flexygo.localization.translate('flxedit.locked')}</li>
+                        <li class="row-line"><div><i class="fa fa-unlink margin-left-s icon-margin-right"></i></div> ${flexygo.localization.translate('flxedit.detachedproperty')}</li>
+                        <li class="row-line"><div><span class="strike icon-margin-right">${flexygo.localization.translate('flxedit.propertyname')}</span></div> ${flexygo.localization.translate('flxedit.notdisplayform')}</li>
+                        <li class="row-line"><div><i class="flx-icon icon-pin margin-left-s icon-margin-right"></i></div> ${flexygo.localization.translate('flxedit.persistdefaultvalue')}</li>
+                        <li class="row-line"><div><i class="flx-icon icon-process margin-left-s icon-margin-right"></i></div> ${flexygo.localization.translate('flxedit.withchangeprocess')}</li>
+                        <li class="row-line"><div><i class="flx-icon icon-object-relations-1 icon-margin-right"></i></div> ${flexygo.localization.translate('flxedit.hasdependingproperties')}</li>
+                        <li class="row-line"><div><i class="flx-icon icon-right-arrow icon-margin-right"></i></div> ${flexygo.localization.translate('flxedit.hasdependencies')}</li>
+                    </ul>
+                    <b>${flexygo.localization.translate('flxedit.tips')}:</b>
+                    <p>-${flexygo.localization.translate('flxedit.ctrclick')}</p>
+                </div>`;
+                        popoverInfo.attr('data-content', template);
+                    });
                     btnRelatedDep.on('click', (e) => {
                         switch (this.mode) {
                             case 'process':
@@ -430,12 +480,18 @@ var flexygo;
                     if (dest.length == 0) {
                         me.find('.addProps').remove();
                         me.find('.relatedDep').remove();
+                        if (me.attr("mode") == 'edit') {
+                            me.prepend(btnInfo);
+                        }
                         me.prepend(btnRelatedDep);
                         me.prepend(btnProp);
                     }
                     else {
                         dest.find('.addProps').remove();
                         dest.find('.relatedDep').remove();
+                        if (me.attr("mode") == 'edit') {
+                            dest.prepend(btnInfo);
+                        }
                         dest.append(btnRelatedDep);
                         dest.append(btnProp);
                     }
@@ -587,10 +643,10 @@ var flexygo;
                 }
                 paintProperties(data, template) {
                     let str = '';
-                    let dataArray = $.map(data, (value, index) => {
+                    let propeerties_settings = $.map(data, (value, _) => {
                         return [value];
                     });
-                    dataArray.sort((a, b) => {
+                    propeerties_settings.sort((a, b) => {
                         if (a.PositionY < b.PositionY)
                             return -1;
                         if (a.PositionY > b.PositionY)
@@ -602,15 +658,17 @@ var flexygo;
                         return 0;
                     });
                     let configText = '';
-                    if (dataArray.length == 0) {
+                    if (propeerties_settings.length == 0) {
                         configText = '<div style="float:left">' + flexygo.localization.translate('flxpropertymanager.click') + '</div>';
                     }
                     str += '<div class="propHeader bg-module">' + configText + '</div><div class="cntBody"><form><div class="resizable-row grid-stack edit-form">';
-                    for (let i = 0; i < dataArray.length; i++) {
-                        let row = flexygo.utils.lowerKeys(dataArray[i]);
+                    for (let i = 0; i < propeerties_settings.length; i++) {
+                        let row = flexygo.utils.lowerKeys(propeerties_settings[i]);
                         try {
                             if (this.properties[row.name].HasDefinition) {
-                                let item = $('<div class="grid-stack-item-content" />').html(template);
+                                //On clicking while mantaining control the advance settings will open, if the user is not pressing control quick settings will show up
+                                const wizard_onclick = this.getWizardOnClickEvent(row.name);
+                                let item = $(`<div class="grid-stack-item-content propertyItem" onclick="${wizard_onclick}"/>`).html(template);
                                 let container = $('<div class="grid-stack-item" />').append(item);
                                 let props = item.find('[data-tag]');
                                 /*manage labels */
@@ -697,6 +755,41 @@ var flexygo;
                     }
                     str += '</div></form></div>';
                     return str;
+                }
+                getWizardOnClickEvent(propertyName) {
+                    let wizard_onclick = 'if(event.ctrlKey) {';
+                    //Here we add the openPage when ctr is pressed depending on the manager type
+                    if (this.mode == 'process') {
+                        wizard_onclick += "flexygo.nav.openPage('edit', 'sysProcessParam', `ProcessName = '" + this.processName + "' and ParamName = '" + propertyName;
+                    }
+                    else if (this.mode == 'report') {
+                        wizard_onclick += "flexygo.nav.openPage('edit', 'sysReportParam', `ReportName = '" + this.reportName + "' and ParamName = '" + propertyName;
+                    }
+                    else {
+                        wizard_onclick += "flexygo.nav.openPage('edit', 'sysObjectProperty', `ObjectName = '" + this.objectname + "' and Propertyname = '" + propertyName;
+                    }
+                    wizard_onclick += "'`, null, 'popup', false, $(this));} else {";
+                    //We check if every quick setting has been properly updated, and if needed we will update its values
+                    wizard_onclick += "const property_manager = this.closest('flx-propertymanager');";
+                    wizard_onclick += `const property_wizard = property_manager.propertyWizard;`;
+                    wizard_onclick += 'if (property_wizard.propertyName) {';
+                    wizard_onclick += `const label_value = property_wizard.querySelector('[property=&quot;Label&quot;]').getValue();`;
+                    wizard_onclick += `if (property_manager.properties[property_wizard.propertyName]?.Label !== label_value && label_value) {`;
+                    wizard_onclick += `property_manager.updateQuickSettingString(property_wizard.propertyName, label_value, 'Label');`;
+                    wizard_onclick += `property_wizard.changeQuickSettingVisuallyString(label_value, 'Label', property_wizard.propertyName);}`;
+                    wizard_onclick += `const default_value = property_wizard.querySelector('[property=&quot;DefaultValue&quot;]').getValue();`;
+                    wizard_onclick += `if (property_manager.properties[property_wizard.propertyName]?.DefaultValue !== default_value) {`;
+                    wizard_onclick += `property_manager.updateQuickSettingString(property_wizard.propertyName, default_value, 'DefaultValue');`;
+                    wizard_onclick += `property_wizard.changeQuickSettingVisuallyString(default_value, 'DefaultValue', property_wizard.propertyName);}`;
+                    wizard_onclick += `const css_value = property_wizard.querySelector('[property=&quot;CssClass&quot;]').getValue();`;
+                    wizard_onclick += `if (property_manager.properties[property_wizard.propertyName]?.CssClass !== css_value) {`;
+                    wizard_onclick += `property_manager.updateQuickSettingString(property_wizard.propertyName, css_value, 'CssClass');`;
+                    wizard_onclick += `property_wizard.changeQuickSettingVisuallyString(css_value, 'CSSClass', property_wizard.propertyName);}}`;
+                    //We set the current clicked property activeProperty class and remove it from the older active one, also we change the PropertyName attribute from the object wizard
+                    wizard_onclick += "property_manager.querySelector('.activeProperty')?.classList.remove('activeProperty');";
+                    wizard_onclick += "this.classList.add('activeProperty'); property_manager.setAttribute('propertyName','" + propertyName + "');";
+                    wizard_onclick += "property_wizard.setAttribute('propertyName','" + propertyName + "')}";
+                    return wizard_onclick;
                 }
                 paintHeader() {
                     let thead = $('<thead />');
@@ -822,6 +915,8 @@ var flexygo;
                             objWhere = 'objectName=\'' + me.attr('ObjectName') + '\' and Propertyname=\'' + row.Name + '\'';
                     }
                     btnHelp.on('click', (ev) => {
+                        ev.preventDefault();
+                        ev.stopPropagation();
                         if (helpId) {
                             flexygo.nav.openHelpId(helpId, 'popup', false, $(this));
                         }
@@ -842,172 +937,100 @@ var flexygo;
                     });
                     btnHelp.append(helpIcon);
                     btnGroup.append(btnHelp);
-                    btnEdit.on('click', () => {
+                    btnEdit.on('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
                         flexygo.nav.openPage('edit', objName, objWhere, null, 'popup', false, $(this));
                     });
                     btnEdit.append(editIcon);
                     btnGroup.append(btnEdit);
                     btnGroup.append(btnDelete);
                     btnDelete.on('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
                         flexygo.ui.wc.FlxModuleElement.prototype.deleteModule(objName, objWhere, $(this), $(e.currentTarget), () => {
+                            var _a;
+                            //If the property wizard has the property which has been deleted we remove the propertyname attribute so it does show the "Click on any property" div
+                            const current_wizard_property = (_a = this.propertyWizard.getAttribute('propertyname')) === null || _a === void 0 ? void 0 : _a.toLowerCase();
+                            const current_delete_property = e.currentTarget.closest('.item').querySelector('[property]').getAttribute('property').toLowerCase();
+                            if (current_wizard_property === current_delete_property) {
+                                this.propertyWizard.removeAttribute('propertyname');
+                            }
                             this.refresh();
                         });
                     });
                     btnDelete.append(deleteIcon);
-                    btnGroup.append(btnMenu);
-                    let btMenuId = flexygo.utils.uniqueId();
-                    let btnDiv = $('<div class="keepAlive propertyMenu size-s" style="display:none" />');
-                    btnDiv.attr('id', btMenuId);
-                    btnGroup.append(btnDiv);
-                    btnMenu.on('click', (e) => {
-                        let menuContainer = $(e.currentTarget).parent().find('.propertyMenu');
-                        if (menuContainer.children().length == 0) {
-                            menuContainer.append(this.getExtendedToolsMenu(row));
-                            //hide icon selector for flx-code properties
-                            if (menuContainer.closest('.item').find('flx-code').length > 0) {
-                                $(menuContainer.find('ul').find('li')[2]).addClass("hidden");
+                    if (this.mode != "list") {
+                        btnGroup.append(btnMenu);
+                        let btMenuId = flexygo.utils.uniqueId();
+                        let btnDiv = $('<div class="keepAlive propertyMenu size-s" style="display:none" />');
+                        btnDiv.attr('id', btMenuId);
+                        btnGroup.append(btnDiv);
+                        btnMenu.on('click', (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            let menuContainer = $(e.currentTarget).parent().find('.propertyMenu');
+                            if (menuContainer.children().length == 0) {
+                                menuContainer.append(this.getExtendedToolsMenu(row));
+                                //hide icon selector for flx-code properties
+                                if (menuContainer.closest('.item').find('flx-code').length > 0) {
+                                    $(menuContainer.find('ul').find('li')[2]).addClass("hidden");
+                                }
                             }
-                        }
-                        this.loadExtendedMenu(row, btMenuId);
-                        if ($('#' + btMenuId).is(':visible')) {
-                            $('#' + btMenuId).slideUp(250);
-                        }
-                        else {
-                            let MenuTop;
-                            let MenuLeft;
-                            let MenuShadow;
-                            if (parseInt((btnGroup.offset().left).toFixed()) > parseInt(($(window).width() / 2).toFixed())) {
-                                MenuLeft = parseInt((btnGroup.offset().left).toFixed()) - 196;
+                            if ($('#' + btMenuId).is(':visible')) {
+                                $('#' + btMenuId).slideUp(250);
                             }
                             else {
-                                MenuLeft = parseInt((btnGroup.offset().left).toFixed());
+                                const more_btn_position_data = btnGroup[0].getBoundingClientRect();
+                                btnDiv.css({
+                                    position: "fixed",
+                                    top: more_btn_position_data.top + more_btn_position_data.height,
+                                    left: more_btn_position_data.left
+                                });
+                                const current_modal = $('#' + btMenuId);
+                                current_modal.slideDown(250);
+                                //We add an on click to the document so if the user clicks out of the modal it gets closed, and if triggered it also gets closed
+                                document.addEventListener('click', function handler(event) {
+                                    const isClickInside = current_modal[0].contains(event.target);
+                                    if (!isClickInside) {
+                                        current_modal.slideUp(250);
+                                        document.removeEventListener('click', handler);
+                                    }
+                                });
                             }
-                            if (parseInt((btnGroup.offset().top - btnGroup.outerHeight() / 2).toFixed()) > parseInt(($(window).height() / 2).toFixed())) {
-                                MenuTop = btnGroup.offset().top - 375;
-                                MenuShadow = '0 -6px 20px 4px rgba(0, 0, 0, 0.15), 0 -2px 10px 0px rgba(0, 0, 0, 0.20)';
-                            }
-                            else {
-                                MenuTop = parseInt((btnGroup.offset().top + btnGroup.outerHeight()).toFixed());
-                                MenuShadow = '0 6px 20px 4px rgba(0, 0, 0, 0.15), 0 2px 10px 0px rgba(0, 0, 0, 0.20)';
-                            }
-                            btnDiv.css({ position: "fixed", top: MenuTop, left: MenuLeft, 'box-shadow': MenuShadow });
-                            $('#' + btMenuId).slideDown(250);
-                        }
-                    });
-                    btnMenu.append(menuIcon);
-                    btnMenu.append(menuCaret);
+                        });
+                        btnMenu.append(menuIcon);
+                        btnMenu.append(menuCaret);
+                    }
                     return btnGroup;
                 }
-                loadExtendedMenu(row, btMenuId) {
-                    let me = $(this);
-                    let objName;
-                    let objWhere;
-                    switch (this.mode) {
-                        case 'process':
-                            objName = 'sysProcessParam';
-                            objWhere = 'ProcessName=\'' + this.processName + '\' and ParamName=\'' + row.Name + '\'';
-                            break;
-                        case 'report':
-                            objName = 'sysReportParam';
-                            objWhere = 'ReportName=\'' + this.reportName + '\' and ParamName=\'' + row.Name + '\'';
-                            break;
-                        default:
-                            objName = 'sysObjectProperty';
-                            objWhere = 'objectName=\'' + me.attr('ObjectName') + '\' and Propertyname=\'' + row.Name + '\'';
-                    }
-                    let obj = new flexygo.obj.Entity(objName, objWhere);
-                    obj.read();
-                    $('#' + btMenuId + ' [name=Label]').val(obj.data.Label.Value);
-                    $('#' + btMenuId + ' [name=CSSClass]').val(obj.data.CSSClass.Value);
-                    //$('#' + btMenuId + ' [name=Style]').val(obj.data.Style.Value);
-                    $('#' + btMenuId + ' [name=IconName]').val(obj.data.IconName.Value);
-                    //$('#' + btMenuId + ' [name=TypeId]').val(obj.data.TypeId.Value);
-                    $('#' + btMenuId + ' [name=Locked]').val(obj.data.Locked.Value);
-                    $('#' + btMenuId + ' [name=IsRequired]').val(obj.data.IsRequired.Value);
-                    $('#' + btMenuId + ' [name=Hide]').val(obj.data.Hide.Value);
-                }
                 getExtendedToolsMenu(row, btMenuId) {
-                    let me = $(this);
-                    let btnUl = $('<ul style="display: block;" />');
-                    /* Insert editable controls */
-                    btnUl.append('<li><flx-text type="text" name="Label" placeholder="' + flexygo.localization.translate('flxpropertymanager.label') + '" iconclass="flx-icon icon-text" ></flx-text></li>');
-                    btnUl.append('<li><flx-text type="text" name="CSSClass" placeholder="' + flexygo.localization.translate('flxpropertymanager.classname') + '" iconclass="flx-icon icon-custom" ></flx-text></li>');
-                    //  btnUl.append('<li><flx-text type="text" name="Style" placeholder="' + flexygo.localization.translate('flxpropertymanager.style') + '" iconclass="flx-icon icon-brush" ></flx-text></li>');
-                    btnUl.append('<li><flx-dbcombo class="item-float" name = "IconName" placeholder = "' + flexygo.localization.translate('flxpropertymanager.classname') + '" iconclass = "flx-icon icon-image" objectname = "sysObject" viewname = "iconsView" sqlvaluefield = "IconName" sqldisplayfield = "IconName" > <template><i class=" txt-outstanding {{CSSClass}} icon-2x icon-margin" title="{{IconName}}" style="width: 20px"> </i></template ></flx-dbcombo><li>');
-                    //btnUl.append('<li><flx-dbcombo name="IconName" placeholder="' + flexygo.localization.translate('flxpropertymanager.selecticon') + '" iconclass="flx-icon icon-image" objectname="sysObject" viewname="iconsView" PageSize="100" sqlvaluefield="IconName" sqldisplayfield="IconName" > <template><span class="txt-outstanding"><i class="{{CSSClass}} icon-margin-right"></i>{{IconName}}</span></template></flx-dbcombo></li>');
-                    //btnUl.append('<li><flx-dbcombo name="TypeId" placeholder="' + flexygo.localization.translate('flxpropertymanager.selectcontroltype') + '" iconclass="fa fa-gear" objectname="sysObject" viewname="ControlTypes" sqlvaluefield="TypeId" sqldisplayfield="Descrip" ></flx-dbcombo></li>');
-                    btnUl.append('<li class="separator"></li>');
-                    btnUl.append('<li><span ><label ><i class="flx-icon icon-lock-1" ></i> ' + flexygo.localization.translate('flxpropertymanager.locked') + '</label><flx-check name="Locked" class="pull-right"></flx-check></span></li>');
-                    btnUl.append('<li><span ><label ><i class="flx-icon icon-key-2" ></i> ' + flexygo.localization.translate('flxpropertymanager.required') + '</label><flx-check name="IsRequired" class="pull-right"></flx-check></span></li>');
-                    btnUl.append('<li><span><label><i class="flx-icon icon-eye" ></i> ' + flexygo.localization.translate('flxpropertymanager.hidden') + '</label><flx-check name="Hide" class="pull-right"></flx-check></span></li>');
-                    btnUl.append('<li class="separator"></li>');
+                    let btnUl = $('<div/>');
                     /* Insert Separator buttons*/
-                    let ProccLi = $('<li class="" />');
-                    btnUl.append(ProccLi);
-                    let btnIsertSep = $('<span class="addsep"><i class="flx-icon icon-upload" ></i> <span>' + flexygo.localization.translate('flxpropertymanager.addseparatora') + '</span></span>')
+                    let btnIsertSep = $('<span class="addsep"><i class="flx-icon icon-upload icon-margin" ></i> <span>' + flexygo.localization.translate('flxpropertymanager.addseparatora') + '</span></span>')
                         .on('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
                         this.insertSeparator(row.Name, 0);
                         $(e.currentTarget).closest('.propertyMenu').slideUp(250);
                     });
-                    ProccLi.append(btnIsertSep);
-                    let btnIsertSep2 = $('<span class="addsep"><i class="flx-icon icon-download" ></i> <span>' + flexygo.localization.translate('flxpropertymanager.addseparatorb') + '</span></span>')
+                    btnUl.append(btnIsertSep);
+                    let btnIsertSep2 = $('<span class="addsep"><i class="flx-icon icon-download icon-margin" ></i> <span>' + flexygo.localization.translate('flxpropertymanager.addseparatorb') + '</span></span>')
                         .on('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
                         this.insertSeparator(row.Name, 1);
                         $(e.currentTarget).closest('.propertyMenu').slideUp(250);
                     });
-                    ProccLi.append(btnIsertSep2);
-                    let btnIsertSep3 = $('<span class="addsep"><i class="flx-icon icon-non-check-2" ></i> <span>' + flexygo.localization.translate('flxpropertymanager.addplaceholder') + '</span></span>')
+                    btnUl.append(btnIsertSep2);
+                    let btnIsertSep3 = $('<span class="addsep"><i class="flx-icon icon-non-check-2 icon-margin" ></i> <span>' + flexygo.localization.translate('flxpropertymanager.addplaceholder') + '</span></span>')
                         .on('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
                         this.insertPlaceHolder(row.Name, 0);
                         $(e.currentTarget).closest('.propertyMenu').slideUp(250);
                     });
-                    ProccLi.append(btnIsertSep3);
-                    btnUl.append('<li class="separator"></li>');
-                    let btnLi = $('<li class="menuPadding" />');
-                    btnUl.append(btnLi);
-                    let btnGrp = $('<div class="form-actions" />');
-                    btnLi.append(btnGrp);
-                    /* Insert save and Cancel Buttons */
-                    let btnSave = $('<span class="btn btn-default bg-info "><i class="flx-icon icon-save icon-margin" ></i> ' + flexygo.localization.translate('flxedit.save') + '</span>')
-                        .on('click', (e) => {
-                        let elem = $(e.currentTarget);
-                        let objName;
-                        let objWhere;
-                        switch (this.mode) {
-                            case 'process':
-                                objName = 'sysProcessParam';
-                                objWhere = 'ProcessName=\'' + this.processName + '\' and ParamName=\'' + row.Name + '\'';
-                                break;
-                            case 'report':
-                                objName = 'sysReportParam';
-                                objWhere = 'ReportName=\'' + this.reportName + '\' and ParamName=\'' + row.Name + '\'';
-                                break;
-                            default:
-                                objName = 'sysObjectProperty';
-                                objWhere = 'objectName=\'' + me.attr('ObjectName') + '\' and Propertyname=\'' + row.Name + '\'';
-                        }
-                        let obj = new flexygo.obj.Entity(objName, objWhere);
-                        obj.read();
-                        obj.data.Label.Value = elem.closest('.propertyMenu').find('[name=Label]').val();
-                        obj.data.CSSClass.Value = elem.closest('.propertyMenu').find('[name=CSSClass]').val();
-                        //obj.data.Style.Value = elem.closest('.propertyMenu').find('[name=Style]').val()
-                        obj.data.IconName.Value = elem.closest('.propertyMenu').find('[name=IconName]').val();
-                        //obj.data.TypeId.Value = elem.closest('.propertyMenu').find('[name=TypeId]').val()
-                        obj.data.Locked.Value = elem.closest('.propertyMenu').find('[name=Locked]').val();
-                        obj.data.IsRequired.Value = elem.closest('.propertyMenu').find('[name=IsRequired]').val();
-                        obj.data.Hide.Value = elem.closest('.propertyMenu').find('[name=Hide]').val();
-                        if (obj.update()) {
-                            elem.closest('.propertyMenu').slideUp(250);
-                            this.refresh();
-                        }
-                    });
-                    let btnClose = $('<span class="btn btn-default"><i class="flx-icon icon-close icon-margin" ></i> ' + flexygo.localization.translate('flxedit.close') + '</span>')
-                        .on('click', (e) => {
-                        $(e.currentTarget).closest('.propertyMenu').slideUp(250);
-                    });
-                    btnGrp.append(btnSave);
-                    btnGrp.append("&nbsp;");
-                    btnGrp.append(btnClose);
+                    btnUl.append(btnIsertSep3);
                     return btnUl;
                 }
                 parseEditString(str) {

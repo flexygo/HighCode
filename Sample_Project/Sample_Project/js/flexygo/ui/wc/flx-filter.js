@@ -188,6 +188,7 @@ var flexygo;
                */
                 init() {
                     let me = $(this);
+                    flexygo.events.off(this, "property", "changed", this.onPropertyChanged);
                     flexygo.events.on(this, "property", "changed", this.onPropertyChanged, true);
                     let activeFilters = flexygo.storage.local.get('activeFilters');
                     if (activeFilters && this.key != null) {
@@ -218,10 +219,7 @@ var flexygo;
                * @method refresh
                */
                 refresh() {
-                    //if (this.grid) {
-                    //    this.grid.init();
-                    //}
-                    this.renderFilter(this.active);
+                    this.init();
                 }
                 /**
               * Render filter.
@@ -240,7 +238,6 @@ var flexygo;
                         this.setProperties(this.settings[active].Properties);
                         if (this.settings[active].Type.toLowerCase() === 'text') {
                             let placeholder = flexygo.localization.translate('flxfilter.searchplaceholder');
-                            let value = "";
                             $.each(this.properties, (i, prop) => {
                                 placeholder += prop.Label + ", ";
                             });
@@ -381,9 +378,29 @@ var flexygo;
                                     });
                                 }
                                 let objeto = wc[0];
+                                let objectname;
+                                let wcElement = containerItem[0].module[0];
+                                if (wcElement instanceof flexygo.ui.wc.FlxListElement) {
+                                    objectname = wcElement.objectname;
+                                }
+                                if (wcElement instanceof flexygo.ui.wc.FlxKanban) {
+                                    objectname = wcElement.filterobjectname;
+                                }
+                                if (wcElement instanceof flexygo.ui.wc.FlxTimelineElement) {
+                                    objectname = wcElement.objectName;
+                                }
+                                if (wcElement instanceof flexygo.ui.wc.FlxPlannerElement) {
+                                    objectname = wcElement.objectName;
+                                }
+                                if (wcElement instanceof flexygo.ui.wc.FlxModuleTabElement && containerItem.find('flx-moduletab').length > 0) {
+                                    objectname = containerItem.find('flx-moduletab').attr('objectname');
+                                }
+                                if (wcElement instanceof flexygo.ui.wc.FlxSearchElement) {
+                                    objectname = wcElement.objectname;
+                                }
                                 let params = {
                                     SearchId: (me)[0].active,
-                                    ObjectName: containerItem.find('flx-list')[0].objectname,
+                                    ObjectName: objectname,
                                     PropertyObjectName: $(wc[0]).attr("object"),
                                     PropertyName: propertyName,
                                     Properties: Properties

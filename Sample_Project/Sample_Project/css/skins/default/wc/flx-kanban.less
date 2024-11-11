@@ -14,7 +14,7 @@ flx-kanban .board-descrip:not(:empty) {
 }
 flx-kanban .board-endbox {
     background-color: rgba(255, 0, 0, 0.2);
-    border-radius: 5px;
+    border-radius: @border-radius;
     height:100%;
     width: 50%;
     margin: 0 auto;
@@ -55,7 +55,7 @@ flx-kanban .kanban-col {
     font-weight: bold;
     margin-left: 5px;
     padding: 5px;
-    border-radius: 5px;
+    border-radius: @border-radius;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, .10);
 }
 
@@ -100,7 +100,7 @@ flx-kanban .kanban-new-card:hover {
     float: left;
     width: 250px;
     height: 150px;
-    border-radius: 5px;
+    border-radius: @border-radius;
 }
 
 .kanban-list-card h4, .kanban-list-card smalll {
@@ -125,7 +125,7 @@ flx-kanban .kanban-new-card:hover {
 }
 
 .kanban-card-info {
-    border-radius: 5px;
+    border-radius: @border-radius;
     cursor: pointer;
     padding: 2px;
     height: 100px;

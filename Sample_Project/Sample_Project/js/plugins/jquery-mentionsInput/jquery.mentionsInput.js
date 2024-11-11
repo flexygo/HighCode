@@ -610,7 +610,7 @@
                 newMentionText = newMentionText.replace(match[0],match[2]);
                 mentionsCollection.push({ 'id': match[4], 'type': match[3], 'value': match[2], 'trigger': match[1] });
             }
-            elmInputBox.val(newMentionText);
+            elmInputBox.val(utils.htmlDecode(newMentionText));
             lastTriggerChar = "";
             updateValues();
         }

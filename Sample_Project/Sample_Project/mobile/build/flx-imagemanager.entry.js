@@ -1,21 +1,21 @@
-import { r as registerInstance, k as h } from './index-d0d1673d.js';
-import { k as flxSync, C as ConftokenProvider, s as sql, u as util, h as cam, m as msg, n as nav } from './conftoken-2c86328f.js';
-import { j as jquery } from './jquery-eec92bf9.js';
-import './process-es6-d973fab3.js';
-import './utils-0a0c7da4.js';
-import './animation-10ea33c3.js';
-import './helpers-719f4c54.js';
-import './ios.transition-62fdffc9.js';
-import './index-06bb8825.js';
-import './md.transition-f61d2286.js';
-import './cubic-bezier-93f47170.js';
-import './index-7fe827c3.js';
-import './ionic-global-f9661584.js';
-import './index-b40d441b.js';
-import './index-07c2bb76.js';
-import './hardware-back-button-aacf3d12.js';
-import './overlays-177438ad.js';
-import './_commonjsHelpers-148b4233.js';
+import { r as registerInstance, k as h } from './index-8e5b11cb.js';
+import { k as flxSync, C as ConftokenProvider, s as sql, u as util, h as cam, m as msg, n as nav } from './conftoken-89472368.js';
+import { j as jquery } from './jquery-34624bb9.js';
+import './process-es6-cc264d03.js';
+import './utils-224de961.js';
+import './animation-b4670628.js';
+import './helpers-7ecb2fa5.js';
+import './ios.transition-e14f38db.js';
+import './index-c59a2c3f.js';
+import './md.transition-8bd31aee.js';
+import './cubic-bezier-ed243a9b.js';
+import './index-d086042f.js';
+import './ionic-global-6d118971.js';
+import './index-cc97b114.js';
+import './index-81d32235.js';
+import './hardware-back-button-508e48cf.js';
+import './overlays-cda44124.js';
+import './_commonjsHelpers-2a12c1e6.js';
 
 const flxImagemanagerCss = "ion-slide{height:100%}";
 
@@ -85,8 +85,6 @@ const FlxImagemanager = class {
   async getGalleryPicturesPhone() {
     const compression = this.getCompression();
     let images64 = await cam.getGalleryPicture(compression.height, compression.width, compression.quality);
-    if (images64 === "OK")
-      return;
     for (var i = 0; i < images64.length; i++) {
       let image = { "ImageId": util.GUID(), "ObjectName": this.object, "ObjectId": this.objectid, "ObjectGUID": null, "Name": this.object + ' ' + this.lastOrder, "Descrip": null, "ImageClassId": (this.imageClassId == null ? this.objConf.imageConfig.defaultCategoryId : this.imageClassId), "MainImage": (this.lastOrder == 0 ? true : false), "OrderNumber": this.lastOrder, "CreationDate": util.currentDateTime(), "URL": null, "B64": 'data:image/jpeg;base64,' + images64[i], "_isInserted": 1 };
       cam.savePicture(image).then(() => {

@@ -1,3 +1,12 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 /**
  * @namespace flexygo.ui.wc
  */
@@ -59,90 +68,92 @@ var flexygo;
                 * @method init
                 */
                 init() {
-                    this.refresh();
+                    return this.refresh();
                 }
                 /**
                 * Refreses Web Control
                 * @method refresh
                 */
                 refresh() {
-                    var me = $(this);
-                    me.empty();
-                    //var ctl = $('<div class="search input-group"><span class="main-search-btn"><i class="flx-icon icon-search"></i></span><div class="input-group search hidden"><span class="input-group-addon cnf"  id="main-search-voice-btn"><i class="flx-icon icon-help-1 size-s"></i></span><span class="input-group-addon cnf" ><span  id="main-search-cnf-btn"><i class="flx-icon icon-order-down"></i></span></span><input type="search" class="form-control voice" placeholder="' + flexygo.localization.translate('flxsearch.search') + '" ></input></div></div>');
-                    //var ctl = $('<div class="search input-group"><span class="main-search-btn"><i class="flx-icon icon-search"></i></span><div class=""><input type="' + flexygo.localization.translate('flxsearch.search') + '" class="form-control voice" placeholder="Search..." ></input><span class="input-group-addon cnf"  id="main-search-voice-btn"><i class="flx-icon icon-help-1 size-s"></i></span><span class="input-group-addon cnf" ><span  id="main-search-cnf-btn"><i class="flx-icon icon-order-down"></i></span></span></div></div>');
-                    var ctl = $('<div title="Search" class="search"><span id="search-icon"><i class="flx-icon icon-search-1"></i></span><div class="search-screen"><i id="main-search-cnf-btn" class="drop-icon flx-icon icon-order-down-1"></i><div class="drop-icon-content"></div><i class="close-icon flx-icon icon-close-11"></i><form id="flx-search-form" action="javascript:void(0);"><input type = "text" class= "search-box" placeholder = "' + flexygo.localization.translate('flxsearch.search') + '"></input></form><span><i id="main-search-voice-btn" class="flx-icon icon-mic" style="position: relative; display: block; font-size: 30px"></i></span><span><i class="flx-icon icon-flx-search" style="position: relative; display: block; font-size: 30px; margin-left: 10px"></i></span></div></div>');
-                    ctl.find('.close-icon').click(this.closeSearch);
-                    ctl.on('keydown', (e) => {
-                        if (e.keyCode == 27) {
-                            this.closeSearch();
-                        }
-                        if (e.keyCode == 13) {
-                            this.search();
-                        }
-                    });
-                    ctl.find('.icon-flx-search').on('click', (e) => {
-                        this.search();
-                    });
-                    me.append(ctl);
-                    ctl.find("#search-icon").closest('li').on('click', (e) => {
-                        if (!e.target.className.includes("close-icon") && !e.target.className.includes("icon-flx-search")) {
-                            $('.search-screen').addClass("fullScreen");
-                            $('.search-box').focus();
-                        }
-                    });
-                    if (flexygo.utils.isSizeMobile()) {
-                        $('.icon-mic').remove();
-                        $('.icon-flx-search').remove();
-                        $('#search-icon').after('<span id="search-after"></span>');
-                        $('#search-after').text(' ' + flexygo.localization.translate('flxsearch.searchnode'));
-                    }
-                    this.loadSearchOptions();
-                    let speechOk = false;
-                    try {
-                        if (webkitSpeechRecognition) {
-                            speechOk = true;
-                        }
-                    }
-                    catch (ex) {
-                        speechOk = false;
-                    }
-                    if (speechOk) {
-                        this.recognition = new webkitSpeechRecognition();
-                        this.recognition.continuous = true;
-                        this.recognition.onstart = () => {
-                            me.find('input').attr('placeholder', flexygo.localization.translate('flxsearch.speak'));
-                            this.recognizing = true;
-                            this.restartTimer();
-                        };
-                        this.recognition.onend = () => {
-                            this.recognizing = false;
-                            this.clearTimer();
-                            me.find('input').attr('placeholder', flexygo.localization.translate('flxsearch.search'));
-                        };
-                        this.recognition.onresult = (event) => {
-                            this.clearTimer();
-                            var finalTranscript = '';
-                            for (var i = event.resultIndex; i < event.results.length; ++i) {
-                                if (event.results[i].isFinal) {
-                                    finalTranscript += event.results[i][0].transcript;
-                                }
+                    return __awaiter(this, void 0, void 0, function* () {
+                        var me = $(this);
+                        me.empty();
+                        //var ctl = $('<div class="search input-group"><span class="main-search-btn"><i class="flx-icon icon-search"></i></span><div class="input-group search hidden"><span class="input-group-addon cnf"  id="main-search-voice-btn"><i class="flx-icon icon-help-1 size-s"></i></span><span class="input-group-addon cnf" ><span  id="main-search-cnf-btn"><i class="flx-icon icon-order-down"></i></span></span><input type="search" class="form-control voice" placeholder="' + flexygo.localization.translate('flxsearch.search') + '" ></input></div></div>');
+                        //var ctl = $('<div class="search input-group"><span class="main-search-btn"><i class="flx-icon icon-search"></i></span><div class=""><input type="' + flexygo.localization.translate('flxsearch.search') + '" class="form-control voice" placeholder="Search..." ></input><span class="input-group-addon cnf"  id="main-search-voice-btn"><i class="flx-icon icon-help-1 size-s"></i></span><span class="input-group-addon cnf" ><span  id="main-search-cnf-btn"><i class="flx-icon icon-order-down"></i></span></span></div></div>');
+                        var ctl = $('<div title="Search" class="search"><span id="search-icon"><i class="flx-icon icon-search-1"></i></span><div class="search-screen"><i id="main-search-cnf-btn" class="drop-icon flx-icon icon-order-down-1"></i><div class="drop-icon-content"></div><i class="close-icon flx-icon icon-close-11"></i><form id="flx-search-form" action="javascript:void(0);"><input type = "text" class= "search-box" placeholder = "' + flexygo.localization.translate('flxsearch.search') + '"></input></form><span><i id="main-search-voice-btn" class="flx-icon icon-mic" style="position: relative; display: block; font-size: 30px"></i></span><span><i class="flx-icon icon-flx-search" style="position: relative; display: block; font-size: 30px; margin-left: 10px"></i></span></div></div>');
+                        ctl.find('.close-icon').click(this.closeSearch);
+                        ctl.on('keydown', (e) => {
+                            if (e.keyCode == 27) {
+                                this.closeSearch();
                             }
-                            me.find('input').val(finalTranscript);
-                            this.search();
-                            this.restartTimer();
-                        };
-                        $('#main-search-voice-btn').on('click', () => {
-                            if (this.recognizing) {
-                                this.recognition.stop();
-                                return;
+                            if (e.keyCode == 13) {
+                                this.search();
                             }
-                            me.find('input').val('');
-                            this.recognition.start();
                         });
-                    }
-                    else {
-                        $('#main-search-voice-btn').remove();
-                    }
+                        ctl.find('.icon-flx-search').on('click', (e) => {
+                            this.search();
+                        });
+                        me.append(ctl);
+                        ctl.find("#search-icon").closest('li').on('click', (e) => {
+                            if (!e.target.className.includes("close-icon") && !e.target.className.includes("icon-flx-search")) {
+                                $('.search-screen').addClass("fullScreen");
+                                $('.search-box').focus();
+                            }
+                        });
+                        if (flexygo.utils.isSizeMobile()) {
+                            $('.icon-mic').remove();
+                            $('.icon-flx-search').remove();
+                            $('#search-icon').after('<span id="search-after"></span>');
+                            $('#search-after').text(' ' + flexygo.localization.translate('flxsearch.searchnode'));
+                        }
+                        yield this.loadSearchOptions();
+                        let speechOk = false;
+                        try {
+                            if (webkitSpeechRecognition) {
+                                speechOk = true;
+                            }
+                        }
+                        catch (ex) {
+                            speechOk = false;
+                        }
+                        if (speechOk) {
+                            this.recognition = new webkitSpeechRecognition();
+                            this.recognition.continuous = true;
+                            this.recognition.onstart = () => {
+                                me.find('input').attr('placeholder', flexygo.localization.translate('flxsearch.speak'));
+                                this.recognizing = true;
+                                this.restartTimer();
+                            };
+                            this.recognition.onend = () => {
+                                this.recognizing = false;
+                                this.clearTimer();
+                                me.find('input').attr('placeholder', flexygo.localization.translate('flxsearch.search'));
+                            };
+                            this.recognition.onresult = (event) => {
+                                this.clearTimer();
+                                var finalTranscript = '';
+                                for (var i = event.resultIndex; i < event.results.length; ++i) {
+                                    if (event.results[i].isFinal) {
+                                        finalTranscript += event.results[i][0].transcript;
+                                    }
+                                }
+                                me.find('input').val(finalTranscript);
+                                this.search();
+                                this.restartTimer();
+                            };
+                            $('#main-search-voice-btn').on('click', () => {
+                                if (this.recognizing) {
+                                    this.recognition.stop();
+                                    return;
+                                }
+                                me.find('input').val('');
+                                this.recognition.start();
+                            });
+                        }
+                        else {
+                            $('#main-search-voice-btn').remove();
+                        }
+                    });
                 }
                 /**
                  *

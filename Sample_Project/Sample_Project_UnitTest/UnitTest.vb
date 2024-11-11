@@ -6,7 +6,8 @@ Imports FLEXYGO.Data
 Imports FLEXYGO.Web
 Imports FLEXYGO.Mocks
 Imports Sample_Project
-
+Imports FLEXYGO.Processing.ProcessManager
+Imports FLEXYGO.Caching
 <TestClass()> Public Class UnitTest
 
     ''' <summary>
@@ -43,7 +44,7 @@ Imports Sample_Project
     ''' <summary>
     ''' The configuration token
     ''' </summary>
-    Friend _conftoken As New ConfToken(New UserConnectionCollection("ConfConnectionString", "DataConnectionString"), UserName)
+    Friend _conftoken As New ConfToken(_ConnectionStrings, UserName) 'New ConfToken(New UserConnectionCollection("ConfConnectionString", "DataConnectionString"), UserName)
     ''' <summary>
     ''' The User security Configuration
     ''' </summary>

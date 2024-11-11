@@ -192,6 +192,7 @@ declare namespace flexygo.api {
         ComboAllowSave_ValueField: string;
         ComboAllowSave_Defaults: string;
         ComboAllowSave_WarningMessage: boolean;
+        ComboAllowSave_CanInsert: boolean;
         TargetIdAllowNew: string;
         ObjNameLink: string;
         ObjWhereLink: string;
@@ -254,9 +255,14 @@ declare namespace flexygo.api {
         Template?: string;
         ProcessName?: string;
         ReportName?: string;
-        PageSize?: number;
+        DropDownRows?: number;
         HasSecurityObject?: boolean;
         BarcodeReaders?: string;
+        CanView: boolean;
+        CanEdit: boolean;
+        CanView_ComboObject: boolean;
+        CanEdit_ComboObject: boolean;
+        CanInsert_ComboObject: boolean;
     }
     /**
     * api for ObjectPropertyLoweredKey
@@ -359,7 +365,7 @@ declare namespace flexygo.api {
         template?: string;
         processname?: string;
         reportname?: string;
-        pagesize?: number;
+        dropdownrows?: number;
         BarcodeReaders?: string;
     }
     /**
@@ -533,6 +539,7 @@ declare namespace flexygo.api {
         TargetId?: string;
         ReportName?: string;
         HelpId?: string;
+        SettingId?: string;
         Disabled: boolean;
         PositionId: string;
         IconClass: string;
@@ -545,6 +552,8 @@ declare namespace flexygo.api {
         SQLEnabledDescrip?: string;
         SQLEnabled?: string;
         ConnStringId?: string;
+        PageName?: string;
+        ExcludeHist?: boolean;
     }
     /**
     * api for TemplateGroupCollection
@@ -666,18 +675,30 @@ declare namespace flexygo.api {
         ApiUrl: string;
         BearerToken: string;
         Model: string;
+        IntroMessage: string;
         SystemPrompt: string;
+        ToolsCategory: string;
+        ImplementedTools: string;
+        CanAccessDB: string;
+        CanCallProcesses: string;
+        ConnectionString: string;
         MaxLevel: number;
         PromptsBar: ButtonPrompt[];
     }
     class ChatGPTSettingLoweredKey {
-        SettingId: string;
-        ApiUrl: string;
-        BearerToken: string;
-        Model: string;
-        SystemPrompt: string;
-        MaxLevel: number;
-        PromptsBar: ButtonPromptLoweredKey[];
+        settingid: string;
+        apiurl: string;
+        bearertoken: string;
+        model: string;
+        intromessage: string;
+        systemprompt: string;
+        toolscategory: string;
+        implementedtools: string;
+        canaccessdb: string;
+        cancallprocesses: string;
+        connectionstring: string;
+        maxlevel: number;
+        promptsbar: ButtonPromptLoweredKey[];
     }
     /**
     * api for ChatGPT ButtonPrompt
@@ -699,12 +720,17 @@ declare namespace flexygo.api {
         iconname: string;
         title: string;
     }
+    class ChatGPTOptions {
+        TargetItem?: any;
+        SettingId?: string;
+    }
+    class ChatGPTOptionsLoweredKey {
+        targetitem?: any;
+        settingid?: string;
+    }
     class RequestChatGPTParameters {
-        ApiUrl: string;
+        Chat: ChatGPTSetting;
         Messages: string;
-        BearerToken: string;
-        Model: string;
-        SystemPrompt: string;
     }
 }
 /**
@@ -1141,6 +1167,8 @@ declare namespace flexygo.api.edit {
         cascadeDependencies: boolean;
         changeCustomProperty: boolean;
         newCustomProperty: ObjectProperty;
+        changeLabel: boolean;
+        newLabel: string;
         JSCode: string;
         TriggerPropertyName: string;
         dependencyErrors: DependecyError[];
@@ -1444,12 +1472,60 @@ declare namespace flexygo.api.edit {
         ObjectName: string;
     }
     /**
+   * api for getPropertyWizardConfigParams
+   * @class getPropertyWizardConfigParams
+   * @constructor
+   * @return {getPropertyWizardConfigParams} .
+   */
+    class getPropertyWizardConfigParams {
+        ObjectName: string;
+        PropertyName: string;
+    }
+    /**
+    * api for getProcessParamsConfigParams
+    * @class getProcessParamsConfigParams
+    * @constructor
+    * @return {getProcessParamsConfigParams}.
+    */
+    class getProcessParamsConfigParams {
+        ProcessName: string;
+    }
+    /**
+    * api for getReportParamsConfigParams
+    * @class getReportParamsConfigParams
+    * @constructor
+    * @return {getReportParamsConfigParams}.
+    */
+    class getReportParamsConfigParams {
+        ReportName: string;
+    }
+    /**
    * api for getEditConfigResponse
    * @class getEditConfigResponse
    * @constructor
    * @return {getEditConfigResponse} .
    */
     class getEditConfigResponse {
+        Template: flexygo.api.Template;
+        Properties: flexygo.api.ObjectPropertyCollection;
+    }
+    /**
+    * api for getProcessParamsConfigResponse
+    * @class getProcessParamsConfigResponse
+    * @constructor
+    * @return {getProcessParamsConfigResponse} .
+    */
+    class getProcessParamsConfigResponse {
+        Template: flexygo.api.Template;
+        Properties: flexygo.api.ObjectPropertyCollection;
+    }
+    /**
+    * api for getReportParamsConfigResponse
+    * @class getReportParamsConfigResponse
+    * @constructor
+    * @return {getReportParamsConfigResponse} .
+    */
+    class getReportParamsConfigResponse {
         Template: flexygo.api.Template;
         Properties: flexygo.api.ObjectPropertyCollection;
     }
@@ -2064,6 +2140,7 @@ declare namespace flexygo.api.navigation {
         ReportModes: string | {
             [name: string]: string;
         };
+        Print?: boolean;
     }
     class GetNavNodesParams {
     }
@@ -2127,6 +2204,7 @@ declare namespace flexygo.api.navigation {
         strtype: string;
         defaults: string;
         enabled: boolean;
+        print?: boolean;
     }
 }
 /**
@@ -2245,6 +2323,16 @@ declare namespace flexygo.api.rss {
     * @class GetHTMLParams
     * @constructor
     * @return {GetHTMLParams} .
+    */
+    class GetHTMLResponse {
+        Html: string;
+        Buttons: flexygo.api.Toolbar;
+    }
+    /**
+    * api for GetVersionInfoParams
+    * @class GetVersionInfoParams
+    * @constructor
+    * @return {GetVersionInfoParams} .
     */
     class GetVersionInfoParams {
         ObjectName: string;
@@ -2772,13 +2860,14 @@ declare namespace flexygo.api.pages {
         PresetName: string;
         PresetText: string;
         PresetIcon: string;
-        RemovePreset: string;
+        RemovePreset: boolean;
         Events: {
             [name: string]: ModuleEvent;
         };
         ObjectDefaults: {
             [name: string]: any;
         };
+        Skeleton: string;
     }
     /**
     * api for PageModuleConfig
@@ -2991,7 +3080,6 @@ declare namespace flexygo.api.Planner {
         TimeMode: string;
         AdditionalWhere: string;
         GroupsFilter: string;
-        DraggablesFilter: string;
         FilterValues: flexygo.ui.wc.FlxFilterInfo[];
         SearchId: string;
     }
@@ -3070,6 +3158,7 @@ declare namespace flexygo.api.Planner {
         DraggableObjectId: string;
         DraggableTitle: string;
         DraggableTemplate: string;
+        DraggableObjectWhere: string;
         DraggableEntityConfiguration: PlannerEntityConfiguration;
         OnAddFunction: string;
         OnMoveFunction: string;
@@ -3077,6 +3166,7 @@ declare namespace flexygo.api.Planner {
         Order: number;
         Active: boolean;
         Editable: boolean;
+        EditableTarget: string;
     };
     class PlannerEntityConfiguration {
         ObjectName: string;

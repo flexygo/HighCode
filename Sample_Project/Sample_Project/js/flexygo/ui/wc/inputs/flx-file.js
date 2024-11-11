@@ -280,7 +280,7 @@ var flexygo;
                     this.property = element.attr('Property');
                     this.type = element.attr('Type');
                     this.mode = element.attr('Mode');
-                    if (this.property && flexygo.utils.isBlank(this.options)) {
+                    if (this.property && (flexygo.utils.isBlank(this.options) || flexygo.utils.isBlank(this.mode))) {
                         let parentCtl = element.closest('flx-edit,flx-list,flx-propertymanager,flx-view,flx-filter');
                         if (parentCtl && parentCtl.length > 0) {
                             let wcParent = parentCtl[0];

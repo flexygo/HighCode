@@ -188,7 +188,7 @@ var flexygo;
                         if (!this.options) {
                             this.options = new flexygo.api.ObjectProperty();
                         }
-                        this.options.PageSize = Number(PageSize);
+                        this.options.DropDownRows = Number(PageSize);
                     }
                     let cnnString = element.attr('CnnString');
                     if (cnnString && cnnString !== '') {
@@ -326,7 +326,7 @@ var flexygo;
                             this.refresh();
                         }
                     }
-                    if (attrName.toLowerCase() == 'class' && newVal && newVal != '') {
+                    if (attrName.toLowerCase() === 'class' && element.attr('Control-Class') !== newVal && newVal != oldVal) {
                         if (!this.options) {
                             this.options = new flexygo.api.ObjectProperty();
                         }
@@ -380,7 +380,7 @@ var flexygo;
                         if (!this.options) {
                             this.options = new flexygo.api.ObjectProperty();
                         }
-                        this.options.PageSize = newVal;
+                        this.options.DropDownRows = newVal;
                         this.refresh();
                     }
                     if (attrName.toLowerCase() === 'cnnstring' && newVal && newVal !== '') {
@@ -398,7 +398,7 @@ var flexygo;
                 }
                 init() {
                     if (this.options) {
-                        if (this.closest('flx-filter')) {
+                        if (this.closest('flx-filter') || !this.options.ComboAllowSave_CanInsert) {
                             this.options.ComboAllowSave = false;
                         }
                         if (this.options.ComboAllowSave && this.options.ComboAllowSave_Object) {
@@ -620,6 +620,9 @@ var flexygo;
                         else if (this.renderMode === "preview") {
                             let item = `<span class="tag label label-info">${flexygo.localization.translate("flxpropertymanager.valueTemplate")}</span>`;
                             $(this).find('.bootstrap-tagsinput').html(`${item}${item}${item}`);
+                            if (this.options && this.options.Hide) {
+                                $(this).addClass("hideControl");
+                            }
                         }
                         if (this.mobileInput) {
                             this.container.on('itemAdded', (event) => {
@@ -726,7 +729,7 @@ var flexygo;
                     let params;
                     let method;
                     this.page = page;
-                    let inFilter = $(this.closest('flx-module')).find('flx-filter').length > 0;
+                    const inFilter = !!this.closest('flx-filter');
                     if (this.options.ViewName && this.options.ViewName != '') {
                         params = {
                             "ObjectName": this.options.ObjectName,
@@ -734,7 +737,7 @@ var flexygo;
                             "DisplayField": this.options.SQLDisplayField,
                             "Value": this.input.val(),
                             "Page": page,
-                            "PageSize": this.options.PageSize,
+                            "PageSize": this.options.DropDownRows,
                             "AdditionalWhere": this.additionalWhere,
                             "SQLFilter": this.options.SQLFilter,
                             "CnnString": this.cnnString,
@@ -766,7 +769,7 @@ var flexygo;
                                 "CryptedFilter": this.options.SQLFilter,
                                 "Value": this.input.val(),
                                 "Page": page,
-                                "PageSize": this.options.PageSize,
+                                "PageSize": this.options.DropDownRows,
                                 "AdditionalWhere": this.additionalWhere
                             };
                             method = 'GetComboData';
@@ -815,7 +818,7 @@ var flexygo;
                             this.datalist.append(elm);
                             //}
                         }
-                        if (this.datalist.find(' > li').length >= (this.options.PageSize || flexygo.profiles.defaultDropDownRows) && data.length > 0) {
+                        if (this.datalist.find(' > li').length >= (this.options.DropDownRows || flexygo.profiles.defaultDropDownRows) && data.length > 0) {
                             this.datalist.append(`<div class="load-more txt-muted clickable"><span>${flexygo.localization.translate('flxedit.loadmore')}</span><i class="fa fa-angle-down"></div>`);
                             $('.load-more').on('mousedown.load-more', (e) => {
                                 e.stopPropagation();

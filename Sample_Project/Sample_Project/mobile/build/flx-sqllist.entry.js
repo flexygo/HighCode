@@ -1,22 +1,22 @@
-import { r as registerInstance, k as h, m as getElement } from './index-d0d1673d.js';
-import { s as sql, C as ConftokenProvider, u as util } from './conftoken-2c86328f.js';
-import { p as parser } from './parser-74bf7b6b.js';
-import { j as jquery } from './jquery-eec92bf9.js';
-import './process-es6-d973fab3.js';
-import './utils-0a0c7da4.js';
-import './animation-10ea33c3.js';
-import './helpers-719f4c54.js';
-import './ios.transition-62fdffc9.js';
-import './index-06bb8825.js';
-import './md.transition-f61d2286.js';
-import './cubic-bezier-93f47170.js';
-import './index-7fe827c3.js';
-import './ionic-global-f9661584.js';
-import './index-b40d441b.js';
-import './index-07c2bb76.js';
-import './hardware-back-button-aacf3d12.js';
-import './overlays-177438ad.js';
-import './_commonjsHelpers-148b4233.js';
+import { r as registerInstance, k as h, m as getElement } from './index-8e5b11cb.js';
+import { s as sql, C as ConftokenProvider, m as msg, u as util } from './conftoken-89472368.js';
+import { p as parser } from './parser-e9709966.js';
+import { j as jquery } from './jquery-34624bb9.js';
+import './process-es6-cc264d03.js';
+import './utils-224de961.js';
+import './animation-b4670628.js';
+import './helpers-7ecb2fa5.js';
+import './ios.transition-e14f38db.js';
+import './index-c59a2c3f.js';
+import './md.transition-8bd31aee.js';
+import './cubic-bezier-ed243a9b.js';
+import './index-d086042f.js';
+import './ionic-global-6d118971.js';
+import './index-cc97b114.js';
+import './index-81d32235.js';
+import './hardware-back-button-508e48cf.js';
+import './overlays-cda44124.js';
+import './_commonjsHelpers-2a12c1e6.js';
 
 const flxSqllistCss = "flx-sqllist{}";
 
@@ -31,6 +31,8 @@ const FlxSqllist = class {
     this.sqlsentence = undefined;
     this.params = [];
     this.orderby = undefined;
+    this.pagename = undefined;
+    this.objectname = undefined;
     this.body = undefined;
     this.footer = undefined;
     this.header = undefined;
@@ -61,12 +63,38 @@ const FlxSqllist = class {
   componentWillLoad() {
     this.load();
   }
-  load() {
-    this.bodyTemplate = jquery(this.me).find('.bodyTemplate').text();
+  async load() {
+    var _a, _b, _c;
     this.body = new Array();
-    this.footer = '';
-    this.header = '';
+    this.bodyTemplate = (_a = this.me.querySelector('.bodyTemplate')) === null || _a === void 0 ? void 0 : _a.innerHTML;
+    this.header = (_b = this.me.querySelector('.headerTemplate')) === null || _b === void 0 ? void 0 : _b.innerHTML;
+    this.footer = (_c = this.me.querySelector('.footerTemplate')) === null || _c === void 0 ? void 0 : _c.innerHTML;
+    await this.loadPageSettings();
     this.loadData();
+  }
+  async loadPageSettings() {
+    var _a;
+    if (!this.pagename || !this.objectname)
+      return;
+    const conf_token = await ConftokenProvider.config();
+    const object_config = conf_token.objectConfig[this.objectname] ? conf_token.objectConfig[this.objectname] : conf_token.objectConfig['Offline_' + this.objectname];
+    if (!object_config) {
+      msg.warning("An objectname was provided but no object with the same name was found");
+      return;
+    }
+    const page_config = (_a = object_config === null || object_config === void 0 ? void 0 : object_config.pages) === null || _a === void 0 ? void 0 : _a.find(page => page.pageName.toLowerCase() === this.pagename.toLowerCase());
+    if (!page_config) {
+      msg.warning("An objectname and a pagename were provided but no page with the same name and object was found");
+      return;
+    }
+    if (!this.sqlsentence)
+      this.sqlsentence = page_config.SQLSentence;
+    if (!this.bodyTemplate)
+      this.bodyTemplate = page_config.body;
+    if (!this.header)
+      this.header = page_config.header;
+    if (!this.footer)
+      this.footer = page_config.footer;
   }
   async loadMore() {
     this.currentPage += 1;
@@ -96,8 +124,8 @@ const FlxSqllist = class {
     let infiniteScroll = ((jquery(this.me).find('ion-infinite-scroll').length > 0) ? jquery(this.me).find('ion-infinite-scroll')[0] : null);
     let newItems = new Array();
     if (table && table.rows && table.rows.length > 0) {
-      if (first && this.headerTemplate && this.headerTemplate != '') {
-        this.header = await parser.recursiveCompile(sql.getRow(table, 0), this.headerTemplate, cToken, ctx);
+      if (first && this.header) { //
+        this.header = await parser.recursiveCompile(sql.getRow(table, 0), this.header, cToken, ctx);
       }
       if (this.bodyTemplate && this.bodyTemplate != '') {
         for (let i = 0; i < table.rows.length; i++) {
@@ -105,8 +133,8 @@ const FlxSqllist = class {
           newItems.push(this.getIonItemSliding(await parser.recursiveCompile(row, this.bodyTemplate, cToken, ctx)));
         }
       }
-      if (first && this.footerTemplate && this.footerTemplate != '') {
-        this.footer = await parser.recursiveCompile(sql.getRow(table, 0), this.footerTemplate, cToken, this);
+      if (first && this.footer) {
+        this.footer = await parser.recursiveCompile(sql.getRow(table, 0), this.footer, cToken, this);
       }
     }
     else if (first) {

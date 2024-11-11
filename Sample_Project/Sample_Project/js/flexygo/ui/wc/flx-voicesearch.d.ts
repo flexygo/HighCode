@@ -42,12 +42,12 @@ declare namespace flexygo.ui.wc {
         * Initialize Web Control
         * @method init
         */
-        init(): void;
+        init(): Promise<void>;
         /**
         * Refreses Web Control
         * @method refresh
         */
-        refresh(): void;
+        refresh(): Promise<void>;
         /**
          *
          Closes screen of search

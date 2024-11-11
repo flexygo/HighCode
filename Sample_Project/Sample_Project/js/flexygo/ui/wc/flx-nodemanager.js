@@ -1,6 +1,15 @@
 /**
  * @namespace flexygo.ui.wc
  */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var flexygo;
 (function (flexygo) {
     var ui;
@@ -35,7 +44,6 @@ var flexygo;
                     this.method = null;
                     this.deleteMethod = "DeleteNode";
                     this.relocateMethod = "RelocateNode";
-                    this.refreshMetod = "RefreshNodes";
                     this.rootNodeId = '';
                     this.openNodes = null;
                     this.scrollY = 0;
@@ -49,7 +57,7 @@ var flexygo;
                 </div>
                 <div class="btn-panel">
                         <i class="flx-icon icon-plus" data-action="add"/>
-                        <i class="flx-icon icon-order-down-2" data-action="toggle"/>
+                        <i class="flx-icon icon-order-down-2 {{ContainsChilds|bool:,txt-muted}}" data-action="toggle"/>
                         <i class="flx-icon icon-pencil" data-action="edit"/>
                     <i class="flx-icon icon-delete-2" data-action="del"/>
                     <i class="flx-icon icon-lock-1" data-action="security"/>
@@ -79,50 +87,53 @@ var flexygo;
                 * @method init
                 */
                 init() {
-                    this.loadNodes();
-                }
-                refreshNavBar() {
-                    $(document).find("flx-nav").each((i, e) => {
-                        let navbar = $(e)[0];
-                        if (navbar) {
-                            navbar.refresh();
-                        }
-                    });
+                    return this.loadNodes();
                 }
                 refresh() {
-                    this.loadNodes();
+                    this.openNodes = null;
+                    return this.loadNodes();
                 }
                 loadNodes() {
-                    $(this).empty();
-                    flexygo.ajax.post('~/api/Navigation', this.method, this.methodParams, (response) => {
-                        let arrOrdered = this.sortNodes(flexygo.utils.lowerKeys(response, true), "order");
-                        $(this).html('<div class="managerpanel"></div>');
-                        this.loadNodesRet(arrOrdered);
-                    });
+                    return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
+                        $(this).empty();
+                        flexygo.ajax.post('~/api/Navigation', this.method, this.methodParams, 
+                        //Success Function
+                        (response) => {
+                            let arrOrdered = this.sortNodes(flexygo.utils.lowerKeys(response, true), "order");
+                            $(this).html('<div class="managerpanel"></div>');
+                            this.loadNodesRet(arrOrdered);
+                            this.restoreNodesState();
+                            resolve();
+                        }, 
+                        //Error Function
+                        err => {
+                            flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                            resolve();
+                        });
+                    }));
                 }
-                setRootNode(ret) {
-                    let rootnode = null;
-                    $.each(ret, (i, e) => {
-                        let thisnode = e;
-                        if (e.parentnodeid == "") {
-                            rootnode = e;
+                setRootNode(nodes) {
+                    let rootNode = null;
+                    $.each(nodes, (index, currentNode) => {
+                        if (currentNode.parentnodeid == "") {
+                            rootNode = currentNode;
                         }
                         else {
-                            $.each(ret, (i, ee) => {
-                                if (ee.parentnodeid === thisnode.nodeid) {
-                                    rootnode = thisnode;
-                                    return false;
+                            $.each(nodes, (_, potentialChildNode) => {
+                                if (potentialChildNode.parentnodeid === currentNode.nodeid) {
+                                    rootNode = currentNode;
+                                    return false; // Break out of the inner loop
                                 }
                             });
                         }
-                        if (rootnode) {
-                            ret.splice(i, 1);
-                            e.childnodes = ret;
-                            ret = [e];
-                            return false;
+                        if (rootNode) {
+                            nodes.splice(index, 1);
+                            currentNode.childnodes = nodes;
+                            nodes = [currentNode];
+                            return false; // Break out of the outer loop
                         }
                     });
-                    return rootnode;
+                    return rootNode;
                 }
                 loadNodesRet(ret) {
                     let rootnode = null;
@@ -143,6 +154,7 @@ var flexygo;
                             strtype: '',
                         };
                     }
+                    rootnode.containsChilds = rootnode.childnodes.length > 0 ? true : false;
                     let cnt = flexygo.utils.parser.recursiveCompile(rootnode, this.template, this);
                     let elem = $('<ul class="sortable" />').html(cnt).first();
                     me.find('.managerpanel').append(elem);
@@ -177,7 +189,14 @@ var flexygo;
                             let params = this.findNode(nodes, nodeid);
                             if (params) {
                                 flexygo.ajax.post('~/api/Navigation', this.relocateMethod, params, (response) => {
-                                    this.refreshNavBar();
+                                    var ev = {
+                                        class: "entity",
+                                        type: "updated",
+                                        sender: this,
+                                        masterIdentity: "sysNavigationNode",
+                                        detailIdentity: nodeid
+                                    };
+                                    flexygo.events.trigger(ev);
                                 });
                             }
                         }
@@ -203,6 +222,8 @@ var flexygo;
                         this.showEdit($(e.target).closest('li').children('.editnode'), true);
                     });
                     me.find('[data-action="toggle"]').on('click', (e) => {
+                        if (e.currentTarget.classList.contains('txt-muted'))
+                            return;
                         let icon = $(e.currentTarget);
                         let opened = icon.hasClass('icon-order-up-2');
                         let content = $(e.currentTarget).closest('li').children('ul').first();
@@ -257,9 +278,6 @@ var flexygo;
                             if (e.context = placeHolder) {
                                 setTimeout(() => {
                                     placeHolder.collapse('show');
-                                    placeHolder.find('flx-code[editor="monaco"]').each((index, element) => {
-                                        element.setCodeEditor();
-                                    });
                                 }, 100); /*0*/
                                 flexygo.events.off(placeHolder, 'module', 'loaded');
                             }
@@ -280,19 +298,11 @@ var flexygo;
                             let strobjDef = JSON.stringify(objDef);
                             module = $('<flx-edit />').attr('ObjectName', 'sysNavigationNode').attr('defaults', strobjDef).attr('modulename', editModuleName);
                             flexygo.events.on(this, "entity", "all", (e) => {
-                                flexygo.events.off(this, "entity", "all");
-                                if (e.type === "inserted") {
-                                    this.saveNodesState();
-                                    //Clear edit module areyousure event handler
-                                    let btnClose = placeHolder.closest('.ui-dialog').find('.ui-dialog-titlebar-close');
-                                    if (btnClose.length > 0) {
-                                        let dlg = placeHolder.closest("main.pageContainer");
-                                        dlg.off("dialogbeforeclose");
-                                    }
-                                    flexygo.ajax.post('~/api/Navigation', this.refreshMetod, null, (response) => {
+                                if (e.masterIdentity == "sysNavigationNode" && !flexygo.utils.isBlank(e.detailIdentity)) {
+                                    flexygo.events.off(this, "entity", "all");
+                                    if (e.type === "inserted") {
                                         this.loadNodes();
-                                        this.refreshNavBar();
-                                    });
+                                    }
                                 }
                             });
                         }
@@ -343,10 +353,13 @@ var flexygo;
                 }
                 getChildNodes(json) {
                     let cnt = '';
-                    let ret = json.childnodes;
-                    if (Object.keys(ret).length > 0) {
-                        for (let nKey in ret) {
-                            cnt += flexygo.utils.parser.recursiveCompile(ret[nKey], this.template, this);
+                    let child_nodes = json.childnodes;
+                    if (Object.keys(child_nodes).length > 0) {
+                        let child_node;
+                        for (let nKey in child_nodes) {
+                            child_node = child_nodes[nKey];
+                            child_node.containsChilds = child_node.childnodes.length > 0 ? true : false;
+                            cnt += flexygo.utils.parser.recursiveCompile(child_node, this.template, this);
                         }
                     }
                     let style = "";
@@ -364,7 +377,14 @@ var flexygo;
                     let params = { nodeId: node };
                     flexygo.ajax.post('~/api/Navigation', this.deleteMethod, params, (response) => {
                         $(this).find("#fgnsli_" + node.toLowerCase().replace("node", "")).remove();
-                        this.refreshNavBar();
+                        var ev = {
+                            class: "entity",
+                            type: "deleted",
+                            sender: this,
+                            masterIdentity: "sysNavigationNode",
+                            detailIdentity: node.substring(4)
+                        };
+                        flexygo.events.trigger(ev);
                     });
                 }
                 saveOpenNode(btn) {
@@ -397,7 +417,7 @@ var flexygo;
                             let node = $("#" + e);
                             if (node) {
                                 let btn = node.children().first().find('[data-action="toggle"]');
-                                if (btn.find('i').first().hasClass('icon-order-down-2')) {
+                                if (btn.hasClass('icon-order-down-2')) {
                                     btn.trigger("click");
                                 }
                             }

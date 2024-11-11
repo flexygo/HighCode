@@ -407,7 +407,7 @@ var flexygo;
                     control.append(this.inputmax);
                     let firefoxNav, edgeNav;
                     navigator.userAgent.toLowerCase().indexOf('firefox') > -1 ? firefoxNav = true : navigator.userAgent.toLowerCase().indexOf('edg') > -1 ? edgeNav = true : null;
-                    if (flexygo.utils.isTactilModeActive() || firefoxNav) {
+                    if ((flexygo.utils.isTactilModeActive() || firefoxNav) && (this.type == 'date' || this.type == 'datetime-local')) {
                         let inputs = control.find('input');
                         inputs.on('click', (ev) => {
                             //Sets old value

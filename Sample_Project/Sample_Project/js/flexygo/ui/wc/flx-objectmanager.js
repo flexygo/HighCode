@@ -92,7 +92,8 @@ var flexygo;
                     if (!this.offline) {
                         this.listSettingsPane();
                         this.filterSettingsPane();
-                        this.displaySettingsPane();
+                        this.listTemplateSettingsPane();
+                        this.viewTemplateSettingsPane();
                         this.colPropertiesPane();
                     }
                     this.endPane();
@@ -184,6 +185,7 @@ var flexygo;
                     btns.append('<button type="button" class="btn activeTab" name="btn-table"><i class="flx-icon icon-listbox-2" />' + flexygo.localization.translate('objectmanager.fromtable') + '</button>');
                     btns.append('<button type="button" class="btn btn-default" name="btn-view"><i class="flx-icon icon-sql" /> ' + flexygo.localization.translate('objectmanager.fromview') + '</button>');
                     btns.append('<button type="button" class="btn btn-default" name="btn-newtable"><i class="flx-icon icon-sql" /> ' + flexygo.localization.translate('objectmanager.fromnewtable') + '</button>');
+                    btns.append('<button type="button" class="btn btn-default" name="btn-datamodel"><i class="flx-icon icon-create_calendar" /> ' + flexygo.localization.translate('objectmanager.createdatamodel') + '</button>');
                     let combos = $('<div class="confValues"/>');
                     combos.append('<span><flx-dbcombo class="size-l" name="cnnstring" PlaceHolder="' + flexygo.localization.translate('objectmanager.selectcnnstring') + '" iconClass="flx-icon icon-sql" ObjectName="SysObject" ViewName="CnnStrings" SQLValueField="ConnStringid" SQLDisplayField="Descrip" required data-msg-required="' + flexygo.localization.translate('objectmanager.validselectcnnstring') + '"><template><span TypeId="{{DbTypeId}}">{{Descrip}}</span></template></flx-dbcombo></span>');
                     combos.append('<span><flx-dbcombo class="size-l" name="dbschema" id="dbschema" onChange="$(\'#tablename\').val(\'\');" PlaceHolder="' + flexygo.localization.translate('objectmanager.selectschema') + '" iconClass="flx-icon icon-sql" ObjectName="SysObject" SQLValueField="table_schema" SQLDisplayField="table_schema" required data-msg-required="' + flexygo.localization.translate('objectmanager.validschema') + '"/></span>');
@@ -273,6 +275,9 @@ var flexygo;
                                 newTableNameElement.val("");
                                 viewKeyFieldsElement.val("");
                                 break;
+                            case 'btn-datamodel':
+                                flexygo.nav.openPageName('sys-page-datamodel', 'sysChatGPT_Settings', 'SettindId=\'DBHelper\'', null, 'sliderightx90%', false, $(this));
+                                break;
                         }
                         $(e.currentTarget).addClass('activeTab');
                     });
@@ -352,51 +357,32 @@ var flexygo;
                         $('[href="#tab5"]').click();
                     });
                 }
-                displaySettingsPane() {
-                    let me = $(this);
-                    let pnl = this.addPane('5', flexygo.localization.translate('objectmanager.displaysettings'));
-                    pnl.closest('.tab-pane').find('h3').append('<button style="float:right" class="btn btn-info btnContinueEnd">' + flexygo.localization.translate('objectmanager.continue') + '<i class="flx-icon icon-order-right-2" /></button>');
-                    pnl.closest('.tab-pane').find('.btnContinueEnd').on('click', (e) => {
+                listTemplateSettingsPane() {
+                    let pnl = this.addPane('5', flexygo.localization.translate('objectmanager.listtemplatesettings'));
+                    pnl.closest('.tab-pane').find('h3').append('<button style="float:right" class="btn btn-info btnContinueListTemplate">' + flexygo.localization.translate('objectmanager.continue') + '<i class="flx-icon icon-order-right-2" /></button>');
+                    pnl.addClass('listtemplatepanel');
+                    pnl.closest('.tab-pane').find('.btnContinueListTemplate').on('click', (e) => {
                         $('[href="#tab6"]').click();
                     });
-                    let btns = $('<div style="padding-bottom:10px;"><div class="btn-group" role="displayType" /></div>');
-                    pnl.append(btns);
-                    btns = btns.find('.btn-group');
-                    btns.append('<button type="button" class="btn activeTab" name="btn-list"><i class="flx-icon icon-listbox-2" /> ' + flexygo.localization.translate('objectmanager.listtemplate') + '</button>');
-                    btns.append('<button style="display:none" type="button" class="btn btn-default" name="btn-edit"><i class="flx-icon icon-edit-3" /> ' + flexygo.localization.translate('objectmanager.edittemplate') + '</button>');
-                    btns.append('<button type="button" class="btn btn-default" name="btn-view"><i class="flx-icon icon-views" /> ' + flexygo.localization.translate('objectmanager.viewtemplate') + '</button>');
-                    pnl.append('<div class="contentPane" />');
-                    pnl.find('[role="displayType"] button').on('click', (e) => {
-                        me.find('[role="displayType"] button.activeTab').removeClass('activeTab').addClass('btn-default');
-                        let btn = $(e.currentTarget);
-                        let defString = null;
-                        switch (btn.attr('name').toLowerCase()) {
-                            case 'btn-list':
-                                defString = { Templateid: this.objectname + 'DefaultList', ObjectName: this.objectname, TypeId: 'list', Descrip: this.objectname + ' Default List', IsDefault: true };
-                                this.createEditForm(pnl.find('.contentPane'), 'sysObjectTemplate', 'ObjectName=\'' + this.objectname + '\' and IsDefault=1 and TypeId=\'list\'', JSON.stringify(defString));
-                                break;
-                            case 'btn-edit':
-                                defString = { Templateid: this.objectname + 'DefaultEdit', ObjectName: this.objectname, TypeId: 'edit', Descrip: this.objectname + ' Default Edit', IsDefault: true };
-                                this.createEditForm(pnl.find('.contentPane'), 'sysObjectTemplate', 'ObjectName=\'' + this.objectname + '\' and IsDefault=1 and TypeId=\'edit\'', JSON.stringify(defString));
-                                break;
-                            case 'btn-view':
-                                defString = { Templateid: this.objectname + 'DefaultView', ObjectName: this.objectname, TypeId: 'view', Descrip: this.objectname + ' Default View', IsDefault: true };
-                                this.createEditForm(pnl.find('.contentPane'), 'sysObjectTemplate', 'ObjectName=\'' + this.objectname + '\' and IsDefault=1 and TypeId=\'view\'', JSON.stringify(defString));
-                                break;
-                        }
-                        btn.addClass('activeTab');
-                    });
                 }
-                colPropertiesPane() {
-                    let pnl = this.addPane('6', flexygo.localization.translate('objectmanager.colproperties'));
-                    pnl.addClass('propertypanel');
-                    pnl.closest('.tab-pane').find('h3').append('<button style="float:right" class="btn btn-info btnContinueList">' + flexygo.localization.translate('objectmanager.continue') + ' <i class="flx-icon icon-order-right-2" /></button>');
-                    pnl.closest('.tab-pane').find('.btnContinueList').on('click', (e) => {
+                viewTemplateSettingsPane() {
+                    let pnl = this.addPane('6', flexygo.localization.translate('objectmanager.viewtemplatesettings'));
+                    pnl.closest('.tab-pane').find('h3').append('<button style="float:right" class="btn btn-info btnContinueViewTemplate">' + flexygo.localization.translate('objectmanager.continue') + '<i class="flx-icon icon-order-right-2" /></button>');
+                    pnl.addClass('viewtemplatepanel');
+                    pnl.closest('.tab-pane').find('.btnContinueViewTemplate').on('click', (e) => {
                         $('[href="#tab7"]').click();
                     });
                 }
+                colPropertiesPane() {
+                    let pnl = this.addPane('7', flexygo.localization.translate('objectmanager.colproperties'));
+                    pnl.addClass('propertypanel');
+                    pnl.closest('.tab-pane').find('h3').append('<button style="float:right" class="btn btn-info btnContinueList">' + flexygo.localization.translate('objectmanager.continue') + ' <i class="flx-icon icon-order-right-2" /></button>');
+                    pnl.closest('.tab-pane').find('.btnContinueList').on('click', (e) => {
+                        $('[href="#tab8"]').click();
+                    });
+                }
                 endPane() {
-                    let pnl = this.addPane('7', flexygo.localization.translate('objectmanager.end'));
+                    let pnl = this.addPane('8', flexygo.localization.translate('objectmanager.end'));
                     pnl.append('<h2 class="text-center txt-outstanding"><strong>' + this.objectname + '</strong></h2>');
                     pnl.append('<h1 class="text-center txt-notify"><strong><i class="flx-icon icon-checked icon-lg"></i> ' + flexygo.localization.translate('objectmanager.objectcreated') + '</strong></h1>');
                     pnl.append('<h3 class="text-center">' + flexygo.localization.translate('objectmanager.selectoption') + '</strong></h3>');
@@ -458,8 +444,10 @@ var flexygo;
                     let me = $(this);
                     me.find('.onlyNew').hide();
                     $('[data-toggle="tab"]').off('click.disable');
-                    $('[href="#tab2"]').on('click', (e) => {
-                        me.find('.propertypanel').html('<flx-propertymanager ObjectName="' + this.objectname + '" ></flx-propertymanager>');
+                    $('[href="#tab2"]').on('click', event => {
+                        const step_components = `<flx-propertymanager ObjectName="${this.objectname}" class="col-8" ></flx-propertymanager>
+                    <flx-propertywizard ObjectName="${this.objectname}" class="col-4"></flx-propertywizard>`;
+                        this.querySelector('.propertypanel').innerHTML = step_components;
                     });
                     $('[href="#tab3"]').on('click', (e) => {
                         me.find('.listpanel').html('<flx-viewmanager ObjectName="' + this.objectname + '" ></flx-viewmanager>');
@@ -468,30 +456,68 @@ var flexygo;
                         me.find('.filterpanel').html('<flx-filtermanager objectname="' + this.collectionname + '"></flx-filtermanager>');
                     });
                     $('[href="#tab5"]').on('click', (e) => {
-                        if (me.find('#tab5 flx-module').length == 0) {
-                            me.find('[name="btn-list"]').click();
+                        if (this.existTemplate('list')) {
+                            this.createEditForm(me.find('.listtemplatepanel'), 'sysObjectTemplate', 'Objects_Templates.ObjectName=\'' + this.objectname + '\' and Objects_Templates.IsDefault=1 and Objects_Templates.TypeId=\'list\'');
+                        }
+                        else {
+                            this.createListTemplateSamplesForm(me.find('.listtemplatepanel'), 'sysTemplateSamples', "Objects_Templates_Samples.TypeId = 'list'", JSON.stringify({ object: this.objectname, viewname: '', option: 'listtemplatepanel' }));
                         }
                     });
                     $('[href="#tab6"]').on('click', (e) => {
+                        if (this.existTemplate('view')) {
+                            this.createEditForm(me.find('.viewtemplatepanel'), 'sysObjectTemplate', 'Objects_Templates.ObjectName=\'' + this.objectname + '\' and Objects_Templates.IsDefault=1 and Objects_Templates.TypeId=\'view\'');
+                        }
+                        else {
+                            this.createListTemplateSamplesForm(me.find('.viewtemplatepanel'), 'sysTemplateSamples', "Objects_Templates_Samples.TypeId = 'view'", JSON.stringify({ object: this.objectname, viewname: '', option: 'viewtemplatepanel' }));
+                        }
+                    });
+                    $('[href="#tab7"]').on('click', (e) => {
                         me.find('.propertypanel').html('<flx-propertymanager mode="list" ObjectName="' + this.collectionname + '" ></flx-propertymanager>');
                     });
                 }
-                createEditForm(placeHolder, ObjectName, ObjectWhere, Defaults) {
+                createEditForm(placeHolder, ObjectName, ObjectWhere) {
                     let editModuleName = 'sysmod-edit-generic';
                     let containerTemplate = '<div class="cntBody nopadding size-xs"></div><div class="cntBodyFooter"></div>';
                     let container = $('<flx-module class="nodeEdit"/>').html(containerTemplate).attr('modulename', editModuleName).attr('type', 'flx-edit').addClass('empty');
                     placeHolder.empty();
                     placeHolder.append(container);
-                    let module = $('<flx-edit />').attr('ObjectName', ObjectName).attr('ObjectWhere', ObjectWhere).attr('Defaults', Defaults).attr('modulename', editModuleName);
+                    let module = $('<flx-edit />').attr('ObjectName', ObjectName).attr('ObjectWhere', ObjectWhere).attr('modulename', editModuleName);
                     container.find('.cntBody').append(module);
                     let ctrl = container[0];
                     ctrl.moduleName = editModuleName;
-                    ctrl.canCollapse = true;
-                    ctrl.canEnlarge = true;
-                    ctrl.canRefresh = true;
-                    //ctrl.canClose = false;
-                    ctrl.canConfig = false;
                     ctrl.init();
+                }
+                existTemplate(type) {
+                    let obj = new flexygo.obj.Entity('sysObjectTemplates', 'Objects_Templates.ObjectName=\'' + this.objectname + '\' and Objects_Templates.IsDefault=1 and Objects_Templates.TypeId=\'' + type + '\'');
+                    obj.read();
+                    if (flexygo.utils.isBlank(obj.data['TemplateId'].Value)) {
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+                createListTemplateSamplesForm(placeHolder, ObjectName, ObjectWhere, Defaults) {
+                    let listModuleName = 'sysmod-list-templateSamples';
+                    let searchModuleName = 'sysmod-search-templateSamples';
+                    let containerTemplate = '<div class="cntBody nopadding"></div><div class="cntBodyFooter"></div>';
+                    let searchContainerTemplate = '<div class="cntBody nopadding"></div>';
+                    let container = $('<flx-module/>').html(containerTemplate).attr('modulename', listModuleName).attr('type', 'flx-list').attr('objectdefaults', Defaults).addClass('empty');
+                    let searchContainer = $('<flx-module/>').html(searchContainerTemplate).attr('modulename', searchModuleName).attr('type', 'flx-genericsearch').addClass('empty margin-top-xl');
+                    placeHolder.empty();
+                    placeHolder.append(searchContainer);
+                    placeHolder.append(container);
+                    let module = $('<flx-list />').attr('ObjectName', ObjectName).attr('ObjectWhere', ObjectWhere).attr('modulename', listModuleName);
+                    let searchModule = $('<flx-genericsearch />').attr('ObjectName', ObjectName).attr('gridid', 'sysmod-list-templateSamples').attr('modulename', searchModuleName);
+                    container.find('.cntBody').append(module);
+                    searchContainer.find('.cntBody').append(searchModule);
+                    let ctrl = container[0];
+                    ctrl.moduleName = listModuleName;
+                    ctrl.objectdefaults = Defaults;
+                    ctrl.init();
+                    let searchCtrl = searchContainer[0];
+                    searchCtrl.moduleName = searchModuleName;
+                    searchCtrl.init();
                 }
                 validateRequired() {
                     let me = $(this);

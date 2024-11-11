@@ -1,21 +1,21 @@
-import { r as registerInstance, k as h, m as getElement } from './index-d0d1673d.js';
-import { s as sql, u as util, n as nav } from './conftoken-2c86328f.js';
-import { j as jquery } from './jquery-eec92bf9.js';
-import './process-es6-d973fab3.js';
-import './utils-0a0c7da4.js';
-import './animation-10ea33c3.js';
-import './helpers-719f4c54.js';
-import './ios.transition-62fdffc9.js';
-import './index-06bb8825.js';
-import './md.transition-f61d2286.js';
-import './cubic-bezier-93f47170.js';
-import './index-7fe827c3.js';
-import './ionic-global-f9661584.js';
-import './index-b40d441b.js';
-import './index-07c2bb76.js';
-import './hardware-back-button-aacf3d12.js';
-import './overlays-177438ad.js';
-import './_commonjsHelpers-148b4233.js';
+import { r as registerInstance, k as h, m as getElement } from './index-8e5b11cb.js';
+import { s as sql, u as util, n as nav } from './conftoken-89472368.js';
+import { j as jquery } from './jquery-34624bb9.js';
+import './process-es6-cc264d03.js';
+import './utils-224de961.js';
+import './animation-b4670628.js';
+import './helpers-7ecb2fa5.js';
+import './ios.transition-e14f38db.js';
+import './index-c59a2c3f.js';
+import './md.transition-8bd31aee.js';
+import './cubic-bezier-ed243a9b.js';
+import './index-d086042f.js';
+import './ionic-global-6d118971.js';
+import './index-cc97b114.js';
+import './index-81d32235.js';
+import './hardware-back-button-508e48cf.js';
+import './overlays-cda44124.js';
+import './_commonjsHelpers-2a12c1e6.js';
 
 const flxIndexeddbCss = "flx-indexeddb .shadow{box-shadow:rgba(0, 0, 0, 0.24) 0px 3px 8px}flx-indexeddb .bottom-border{border-bottom:1px solid #6e7c7f}flx-indexeddb .grid{display:grid}flx-indexeddb #SQLSentence{--padding-bottom:15px;--padding-top:15px;border-bottom:1px solid rgb(140, 138, 163);display:flex;align-items:center}flx-indexeddb #SQLSentence span{color:#35a4f5;font-weight:bold;padding-left:10px;margin-right:5px}flx-indexeddb #SQLSentence>div{width:100%}flx-indexeddb #showTables{cursor:pointer}flx-indexeddb #showTables:hover{color:rgb(74, 138, 221)}ion-modal.accountsModal.indexedDBModal{--max-height:90%}flx-indexeddb #ResultContainer{max-height:85vh;width:100%;padding:10px}flx-indexeddb #DataContainer{background:white;padding-bottom:10px;border-radius:10px}flx-indexeddb #ResultTable,flx-indexeddb #ErrorElement{background:white;border-radius:10px}flx-indexeddb #ResultTable{overflow:auto;border-radius:10px;max-height:75vh;padding:0 10px 10px 10px}flx-indexeddb #Properties{overflow-x:hidden;overflow-y:scroll}flx-indexeddb .grid{padding:10px 10px 0 10px}flx-indexeddb .grid div{padding:10px;text-overflow:clip;max-height:200px;border-right:1px solid #6e7c7f;overflow-y:auto;user-select:text}flx-indexeddb .grid div.darken{background:rgb(226 229 247 / 46%)}flx-indexeddb #ErrorElement{border-radius:10px;color:red;padding:10px}flx-indexeddb #ErrorElement ion-icon{color:red;margin:10px}flx-indexeddb .txtLighten{color:rgb(0 0 0 / 52%)}ion-modal.accountsModal ion-item:not([lines=\"full\"]).bgWhite{--background:white}ion-modal.accountsModal ion-item:not([lines=\"full\"]).bgGray{--background:var(--ion-color-light)}";
 
@@ -24,10 +24,10 @@ const FlxIndexedDB = class {
     registerInstance(this, hostRef);
     this.currentSentence = 0;
     this.sentences = [];
+    this.loading = false;
   }
   async componentWillLoad() {
     jquery('#loadingSpinnerModule').css('visibility', 'visible');
-    this.refresh();
   }
   componentDidLoad() {
     jquery('#loadingSpinnerModule').css('visibility', 'hidden');
@@ -39,9 +39,11 @@ const FlxIndexedDB = class {
   async refresh() {
   }
   executeSentence() {
+    this.loading = true;
     let sentence = this.sqlInput.value;
     this.sentences.push(sentence);
     sql.execSQL(sentence).then((res) => {
+      this.loading = false;
       this.showData(res);
     }).catch(err => {
       this.showError(err.message);
@@ -196,7 +198,7 @@ const FlxIndexedDB = class {
   render() {
     return [
       h("ion-header", null, h("ion-toolbar", { color: "header", class: "ion-text-center" }, h("ion-buttons", { slot: "start" }, h("ion-button", { id: "home", color: "outstanding", onClick: () => nav.goHome() }, h("ion-icon", { slot: "icon-only", name: "home" }))), h("ion-buttons", { slot: "end" }, h("ion-button", { color: "outstanding", onClick: () => { nav.goBack(this.me); } }, h("ion-icon", { slot: "icon-only", name: "arrow-undo-outline" }))), h("ion-title", null, h("span", null, "Sync")))),
-      h("ion-content", { color: "light" }, h("ion-item", null, h("ion-textarea", { id: "SQLSentence", class: "shadow", placeholder: util.translate('indexedDB.sentence'), onKeyPress: ev => { this.onkeyPressEvent(ev); }, onKeyDown: ev => { this.onKeyDownEvent(ev); }, onInput: ev => { this.changeInputSize(ev.target); }, rows: "1" }, h("span", null, ">")), h("ion-icon", { name: "grid-outline", id: "showTables", title: util.translate('indexedDB.tables'), slot: "end", onClick: () => { this.showAllTables(); } })), h("div", { id: "ResultContainer" }, h("div", { id: "DataContainer", class: "shadow hidden" }), h("ion-item", { id: "ErrorElement", class: "shadow hidden ion-text-wrap", lines: "none" }, h("ion-icon", { name: "alert-circle-outline", slot: "start" }), h("ion-label", null))))
+      h("ion-content", { color: "light" }, h("ion-item", null, h("ion-textarea", { id: "SQLSentence", class: "shadow", placeholder: util.translate('indexedDB.sentence'), onKeyPress: ev => { this.onkeyPressEvent(ev); }, onKeyDown: ev => { this.onKeyDownEvent(ev); }, onInput: ev => { this.changeInputSize(ev.target); }, rows: "1" }, h("span", null, ">")), h("ion-icon", { name: "grid-outline", id: "showTables", title: util.translate('indexedDB.tables'), slot: "end", onClick: () => { this.showAllTables(); } })), h("div", { id: "ResultContainer" }, h("div", { id: "DataContainer", class: "shadow hidden" }), h("ion-spinner", { class: "transformTranslateCenter " + (this.loading ? '' : 'hidden') }), h("ion-item", { id: "ErrorElement", class: "shadow hidden ion-text-wrap", lines: "none" }, h("ion-icon", { name: "alert-circle-outline", slot: "start" }), h("ion-label", null))))
     ];
   }
   get me() { return getElement(this); }

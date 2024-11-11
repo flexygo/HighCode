@@ -366,7 +366,7 @@ var flexygo;
                     if (this.options && this.options.IconClass && this.options.IconClass !== '') {
                         iconsLeft = $('<span class="input-group-addon" ><i class="' + this.options.IconClass + '" /></span>');
                     }
-                    let control = $('<div>');
+                    let control = $('<div class="textarea-container">');
                     let input;
                     if (this.options && this.options.MaxNumOfChars && this.options.MaxNumOfChars > 0) {
                         input = $('<textarea class="form-control" maxLength="' + this.options.MaxNumOfChars + '" ></textarea>');
@@ -394,67 +394,76 @@ var flexygo;
                     this.setOptions();
                 }
                 getIconButtons() {
-                    var _a;
+                    var _a, _b, _c, _d, _e, _f, _g;
                     let me = $(this);
                     let ret = $('<span class="input-group-addon" style="border-left: none;"/>');
                     let icon1;
                     let editCtl = me.closest('flx-edit, flx-list')[0];
                     let parseEdit = function (val, ctx, property) { return val; };
-                    if (this.options && (this.options.SearchCollection || this.options.SearchFunction) && !this.options.Locked) {
-                        icon1 = $('<button class="btn btn-default" type="button" style="border: none;"><i class="flx-icon icon-search" /></button>').on('click', (e) => {
-                            if (this.options.SearchFunction) {
-                                flexygo.utils.execDynamicCode.call(this, editCtl.parseEditString(this.options.SearchFunction, editCtl, this));
-                            }
-                            if (this.options.SearchCollection && this.options.SearchCollection !== '') {
-                                flexygo.events.on(this, "entity", "selected", (e) => {
-                                    flexygo.events.off(this, "entity", "selected");
-                                    let entity = e.sender;
-                                    let config = entity.getConfig();
-                                    let value = entity.data[config.KeyFields[0]].Value;
-                                    if (this.options.SearchReturnFields && this.options.SearchReturnFields !== '') {
-                                        value = entity.data[this.options.SearchReturnFields].Value;
-                                    }
-                                    this.setValue(value);
-                                    this.triggerDependencies();
-                                    $(document).find('flx-search[objectname="' + this.options.SearchCollection + '"]').closest(".ui-dialog").remove();
-                                });
-                                flexygo.nav.openPage('search', parseEdit(this.options.SearchCollection, editCtl, this), parseEdit(this.options.SearchWhere, editCtl, this), null, 'modal');
-                            }
-                        });
-                        ret.append(icon1);
-                    }
-                    if (this.options && this.options.ObjNameLink && this.options.ObjWhereLink) {
-                        icon1 = $('<button class="btn btn-default" type="button" style="border: none;"><i class="flx-icon icon-link" /></button>').on('click', (e) => {
-                            flexygo.nav.openPage('view', editCtl.parseEditString(this.options.ObjNameLink, editCtl, this), editCtl.parseEditString(this.options.ObjWhereLink, editCtl, this), null, this.options.TargetIdLink);
-                        });
-                        ret.append(icon1);
-                    }
-                    if (this.options && (this.options.AllowNewFunction || this.options.AllowNewObject) && !this.options.Locked) {
-                        icon1 = $('<button class="btn btn-default" type="button" style="border: none;"><i class="fa fa-plus" /></button>').on('click', (e) => {
-                            if (this.options.AllowNewFunction) {
-                                flexygo.utils.execDynamicCode.call(this, editCtl.parseEditString(this.options.AllowNewFunction, editCtl, this));
-                            }
-                            else if (this.options.AllowNewObject && this.options.AllowNewObject !== '') {
-                                flexygo.events.on(this, "entity", "inserted", (e) => {
-                                    if (this.options.AllowNewObject === e.masterIdentity) {
-                                        flexygo.events.off(this, "entity", "inserted");
+                    if (((_a = this.options) === null || _a === void 0 ? void 0 : _a.SearchCollection) || ((_b = this.options) === null || _b === void 0 ? void 0 : _b.SearchFunction)) {
+                        icon1 = $(`<button class="btn btn-default"${this.options.Locked ? " disabled " : " "}type="button" style="border: none;"><i class="flx-icon icon-search" /></button>`);
+                        if (!this.options.Locked) {
+                            icon1.on('click', (e) => {
+                                if (this.options.SearchFunction) {
+                                    flexygo.utils.execDynamicCode.call(this, editCtl.parseEditString(this.options.SearchFunction, editCtl, this));
+                                }
+                                if (this.options.SearchCollection && this.options.SearchCollection !== '') {
+                                    flexygo.events.on(this, "entity", "selected", (e) => {
+                                        flexygo.events.off(this, "entity", "selected");
                                         let entity = e.sender;
-                                        let value;
-                                        if (this.options.AllowNewReturnFields && this.options.AllowNewReturnFields != '') {
-                                            value = entity.data[this.options.AllowNewReturnFields].Value;
-                                        }
-                                        else {
-                                            var config = e.sender.getConfig();
-                                            value = entity.data[config.KeyFields[0]].Value;
+                                        let config = entity.getConfig();
+                                        let value = entity.data[config.KeyFields[0]].Value;
+                                        if (this.options.SearchReturnFields && this.options.SearchReturnFields !== '') {
+                                            value = entity.data[this.options.SearchReturnFields].Value;
                                         }
                                         this.setValue(value);
                                         this.triggerDependencies();
-                                        flexygo.nav.closePage($(document).find('flx-edit[objectname="' + this.options.AllowNewObject + '"]'));
-                                    }
-                                });
-                                flexygo.nav.openPage('edit', editCtl.parseEditString(this.options.AllowNewObject, editCtl, this), null, editCtl.parseEditString(this.options.AllowNewDefaults, editCtl, this), 'modal');
-                            }
-                        });
+                                        $(document).find('flx-search[objectname="' + this.options.SearchCollection + '"]').closest(".ui-dialog").remove();
+                                    });
+                                    flexygo.nav.openPage('search', parseEdit(this.options.SearchCollection, editCtl, this), parseEdit(this.options.SearchWhere, editCtl, this), null, 'modal');
+                                }
+                            });
+                        }
+                        ret.append(icon1);
+                    }
+                    if (((_c = this.options) === null || _c === void 0 ? void 0 : _c.ObjNameLink) && ((_d = this.options) === null || _d === void 0 ? void 0 : _d.ObjWhereLink)) {
+                        icon1 = $(`<button class="btn btn-default"${this.options.Locked ? " disabled " : " "}type="button" style="border: none;"><i class="flx-icon icon-link" /></button>`);
+                        if (!this.options.Locked) {
+                            icon1.on('click', (e) => {
+                                flexygo.nav.openPage('view', editCtl.parseEditString(this.options.ObjNameLink, editCtl, this), editCtl.parseEditString(this.options.ObjWhereLink, editCtl, this), null, this.options.TargetIdLink);
+                            });
+                        }
+                        ret.append(icon1);
+                    }
+                    if (((_e = this.options) === null || _e === void 0 ? void 0 : _e.AllowNewFunction) || ((_f = this.options) === null || _f === void 0 ? void 0 : _f.AllowNewObject)) {
+                        icon1 = $(`<button class="btn btn-default"${this.options.Locked ? " disabled " : " "}type="button" style="border: none;"><i class="fa fa-plus" /></button>`);
+                        if (!this.options.Locked) {
+                            icon1.on('click', (e) => {
+                                if (this.options.AllowNewFunction) {
+                                    flexygo.utils.execDynamicCode.call(this, editCtl.parseEditString(this.options.AllowNewFunction, editCtl, this));
+                                }
+                                else if (this.options.AllowNewObject && this.options.AllowNewObject !== '') {
+                                    flexygo.events.on(this, "entity", "inserted", (e) => {
+                                        if (this.options.AllowNewObject === e.masterIdentity) {
+                                            flexygo.events.off(this, "entity", "inserted");
+                                            let entity = e.sender;
+                                            let value;
+                                            if (this.options.AllowNewReturnFields && this.options.AllowNewReturnFields != '') {
+                                                value = entity.data[this.options.AllowNewReturnFields].Value;
+                                            }
+                                            else {
+                                                var config = e.sender.getConfig();
+                                                value = entity.data[config.KeyFields[0]].Value;
+                                            }
+                                            this.setValue(value);
+                                            this.triggerDependencies();
+                                            flexygo.nav.closePage($(document).find('flx-edit[objectname="' + this.options.AllowNewObject + '"]'));
+                                        }
+                                    });
+                                    flexygo.nav.openPage('edit', editCtl.parseEditString(this.options.AllowNewObject, editCtl, this), null, editCtl.parseEditString(this.options.AllowNewDefaults, editCtl, this), 'modal');
+                                }
+                            });
+                        }
                         ret.append(icon1);
                     }
                     //if (this.options && this.options.HelpId) {
@@ -463,8 +472,16 @@ var flexygo;
                     //    });
                     //    ret.append(icon1);
                     //}
-                    if ((_a = this.options) === null || _a === void 0 ? void 0 : _a.ChatGPTSettingId) {
-                        icon1 = $('<button class="btn btn-assistant" style="border: none;" type= "button" name="AIButton" title="Lowdy" onclick="flexygo.ui.wc.FlxAIElement.prototype.open($(this).closest(\'flx-textarea\'));"><i class="flx-icon icon-roboto-logo"></i></button>');
+                    if ((_g = this.options) === null || _g === void 0 ? void 0 : _g.ChatGPTSettingId) {
+                        icon1 = $(`<button class="btn btn-assistant"${this.options.Locked ? " disabled " : " "}style="border: none;" type= "button" name="AIButton" title="Lowdy"><i class="flx-icon icon-roboto-logo"></i></button>`);
+                        if (!this.options.Locked) {
+                            icon1.on('click', function () {
+                                let options = {
+                                    TargetItem: $(this).closest('flx-textarea')
+                                };
+                                flexygo.ui.wc.FlxAIElement.prototype.open(options);
+                            });
+                        }
                         ret.append(icon1);
                     }
                     if (ret.html() === '') {
@@ -477,6 +494,10 @@ var flexygo;
                 setOptions() {
                     let me = $(this);
                     let input = me.find('textarea');
+                    input.on('change.refreshvalue', (e) => {
+                        let value = input.val();
+                        me.attr('value', value);
+                    });
                     if (this.options && this.options.Name && this.options.Name !== '') {
                         input.attr('name', this.options.Name);
                     }
@@ -499,8 +520,13 @@ var flexygo;
                             flexygo.events.trigger(ev, me);
                         });
                     }
-                    if (this.options && this.options.Locked) {
-                        input.prop('disabled', this.options.Locked);
+                    if (this.mode !== "preview") {
+                        if (this.options && this.options.Locked) {
+                            input.prop('disabled', this.options.Locked);
+                        }
+                    }
+                    else {
+                        input.prop('readonly', this.options.Locked);
                     }
                     if (this.options && this.options.PlaceHolder) {
                         input.attr('PlaceHolder', this.options.PlaceHolder);

@@ -28,11 +28,11 @@ declare namespace flexygo.ui.wc {
         connectedCallback(): void;
         static readonly observedAttributes: any[];
         attributeChangedCallback(attrName: any, oldVal: any, newVal: any): void;
-        init(): void;
-        refresh(): void;
+        init(): Promise<void>;
+        refresh(): Promise<void>;
         validateView(): void;
         saveView(): void;
-        loadView(): void;
+        loadView(): Promise<void>;
         setView(view: flexygo.api.ObjectView): void;
         loadObj(ObjectName: string, elm: JQuery, first: boolean): void;
         appendFields(): void;

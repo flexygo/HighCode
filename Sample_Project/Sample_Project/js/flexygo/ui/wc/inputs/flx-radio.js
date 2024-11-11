@@ -298,7 +298,7 @@ var flexygo;
                     if (this.options) {
                         let tabIndex = !flexygo.utils.isBlank(me.attr('tabindex')) ? `tabindex="${me.attr('tabindex')}"` : "";
                         let control = $('<div>');
-                        let item = `<label><input disabled type="${this.options.Multiple ? "checkbox" : "radio"}"${tabIndex}/>${flexygo.localization.translate("flxpropertymanager.valueTemplate")}</label>`;
+                        let item = `<label><input onclick="return false;" type="${this.options.Multiple ? "checkbox" : "radio"}"${tabIndex}/>${flexygo.localization.translate("flxpropertymanager.valueTemplate")}</label>`;
                         control.html(`${item}${item}${item}`);
                         me.html(control);
                     }

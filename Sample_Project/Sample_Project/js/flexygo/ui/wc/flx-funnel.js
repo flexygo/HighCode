@@ -1,6 +1,15 @@
 /**
  * @namespace flexygo.ui.wc
  */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var flexygo;
 (function (flexygo) {
     var ui;
@@ -31,24 +40,38 @@ var flexygo;
                 * @method init
                 */
                 init() {
-                    let me = $(this);
-                    me.removeAttr('manualInit');
-                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
-                    me.append('<div id="funnel"></div>');
-                    let params = {
-                        ObjectName: me.attr('ObjectName'),
-                        ObjectWhere: me.attr('ObjectWhere'),
-                        ModuleName: me.attr('ModuleName'),
-                        AdditionalWhere: this.AdditionalWhere,
-                        PageName: flexygo.history.getPageName(me)
-                    };
-                    flexygo.ajax.post('~/api/Funnel', 'GetHTML', params, (response) => {
-                        if (response) {
-                            this.data = response.Data;
-                            this.defaultOptions = response.Options;
-                            this.render();
-                        }
-                    });
+                    return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
+                        let me = $(this);
+                        me.removeAttr('manualInit');
+                        $(this).closest('flx-module').find('.flx-noInitContent').remove();
+                        me.append('<div id="funnel"></div>');
+                        let params = {
+                            ObjectName: me.attr('ObjectName'),
+                            ObjectWhere: me.attr('ObjectWhere'),
+                            ModuleName: me.attr('ModuleName'),
+                            AdditionalWhere: this.AdditionalWhere,
+                            PageName: flexygo.history.getPageName(me)
+                        };
+                        flexygo.ajax.post('~/api/Funnel', 'GetHTML', params, 
+                        //Success Function
+                        (response) => {
+                            const module = this.closest('flx-module');
+                            if (response) {
+                                this.data = response.Data;
+                                this.defaultOptions = response.Options;
+                                //We remove the skeleton before rendering to allow proper calculations
+                                flexygo.utils.modules.removeSkeleton(module);
+                                this.render();
+                            }
+                            module.moduleLoaded(this);
+                            resolve();
+                        }, 
+                        //Error Function
+                        err => {
+                            flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                            resolve();
+                        });
+                    }));
                 }
                 /**
                 * Refresh de webcomponent. REQUIRED.
@@ -60,8 +83,9 @@ var flexygo;
                         chart["container"] = $(this).find('#funnel')[0];
                         chart.destroy();
                         $(this).find('#funnel')[0].remove();
-                        this.init();
+                        return this.init();
                     }
+                    return;
                 }
                 /**
                 * Render HTML data.

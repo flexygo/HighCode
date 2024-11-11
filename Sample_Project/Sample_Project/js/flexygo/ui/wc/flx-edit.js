@@ -1,6 +1,15 @@
 /**
  * @namespace flexygo.ui.wc
  */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var flexygo;
 (function (flexygo) {
     var ui;
@@ -71,15 +80,6 @@ var flexygo;
                 */
                 disconnectedCallback() {
                     flexygo.events.off(this, "property", "changed", this.onPropertyChanged);
-                    for (let i = 0; i < $(this).find('flx-code[editor="monaco"]').length; i++) {
-                        let monacoEditor = $(this).find('flx-code[editor="monaco"]')[i];
-                        if (monacoEditor.monaco) {
-                            monacoEditor.monaco.dispose();
-                        }
-                        flexygo.events.off(monacoEditor, 'property', 'resized');
-                        flexygo.events.off(monacoEditor, 'module', 'resized');
-                        flexygo.events.off(monacoEditor, 'dialog', 'resized');
-                    }
                 }
                 /**
                * Fires when the attribute value of the element is changed.
@@ -101,60 +101,76 @@ var flexygo;
                 * @method init
                 */
                 init() {
-                    this.dependenciesLoaded = false;
-                    //Remove WebControl events
-                    flexygo.events.off(this, "property", "changed", this.onPropertyChanged);
-                    //Capture WebControl events
-                    flexygo.events.on(this, "property", "changed", this.onPropertyChanged, true);
-                    //Remove handler on DOM element remove
-                    $(this).on("destroy", () => {
+                    return __awaiter(this, void 0, void 0, function* () {
+                        this.dependenciesLoaded = false;
+                        //Remove WebControl events
                         flexygo.events.off(this, "property", "changed", this.onPropertyChanged);
-                    });
-                    let me = $(this);
-                    me.removeAttr('manualInit');
-                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
-                    this.templateId = null;
-                    switch (me.attr('Mode')) {
-                        case 'process':
-                            this.initProcessMode();
-                            break;
-                        case 'report':
-                            this.initReportMode();
-                            break;
-                        default:
-                            this.initEditMode();
-                    }
-                    $(this).off('keydown.tabcontrol').on('keydown.tabcontrol', (ev) => {
-                        if (ev.key === 'Tab') {
-                            var target = $(ev.target).closest("[Property]");
-                            if (!target.is('flx-barcode') && !target.is('flx-code')) {
-                                var index = parseInt($(ev.target).attr('tabindex'));
-                                if (ev.shiftKey)
-                                    index--;
-                                else
-                                    index++;
-                                var dependenciesLoad = setInterval(() => {
-                                    if (target.find('.item #flx-dependency-loader, .grid-stack-item #flx-dependency-loader').length === 0) {
-                                        if (!target.find('> div').hasClass('has-error')) {
-                                            let control = $(this).find("[tabindex=" + index + "]");
-                                            if (control.closest('flx-text').attr('type') === "thousandSeparator") {
-                                                control.select().click();
+                        //Capture WebControl events
+                        flexygo.events.on(this, "property", "changed", this.onPropertyChanged, true);
+                        //Remove handler on DOM element remove
+                        $(this).on("destroy", () => {
+                            flexygo.events.off(this, "property", "changed", this.onPropertyChanged);
+                        });
+                        let me = $(this);
+                        me.removeAttr('manualInit');
+                        $(this).closest('flx-module').find('.flx-noInitContent').remove();
+                        this.templateId = null;
+                        $(this).off('keydown.tabcontrol').on('keydown.tabcontrol', (ev) => {
+                            if (ev.key === 'Tab') {
+                                var target = $(ev.target).closest("[Property]");
+                                if (!target.is('flx-barcode') && !target.is('flx-code')) {
+                                    var index = parseInt($(ev.target).attr('tabindex'));
+                                    if (ev.shiftKey)
+                                        index--;
+                                    else
+                                        index++;
+                                    var dependenciesLoad = setInterval(() => {
+                                        if (target.find('.item #flx-dependency-loader, .grid-stack-item #flx-dependency-loader').length === 0) {
+                                            if (!target.find('> div').hasClass('has-error')) {
+                                                let control = $(this).find("[tabindex=" + index + "]");
+                                                if (control.closest('flx-text').attr('type') === "thousandSeparator") {
+                                                    control.select().click();
+                                                }
+                                                else if (control.closest('flx-multicombo').length === 0) {
+                                                    control.select().focus();
+                                                }
+                                                else {
+                                                    let searchControl = $(this).find(`[tabindex="${index}"][type="search"]`);
+                                                    if (searchControl.is(':visible'))
+                                                        searchControl.focus();
+                                                    else
+                                                        control.focus().click();
+                                                }
                                             }
-                                            else if (control.closest('flx-multicombo').length === 0) {
-                                                control.select().focus();
-                                            }
-                                            else {
-                                                let searchControl = $(this).find(`[tabindex="${index}"][type="search"]`);
-                                                if (searchControl.is(':visible'))
-                                                    searchControl.focus();
-                                                else
-                                                    control.focus().click();
-                                            }
+                                            clearInterval(dependenciesLoad);
                                         }
-                                        clearInterval(dependenciesLoad);
-                                    }
-                                }, 200);
+                                    }, 200);
+                                }
                             }
+                            if (ev.ctrlKey && ev.key === 's') {
+                                let module = $(ev.target).closest('flx-module');
+                                let edit = module.find('flx-edit');
+                                let mode = edit.attr('mode') || '';
+                                if (mode === '') {
+                                    flexygo.ui.wc.FlxModuleElement.prototype.checkNewComboObjectsMessage(module).then((res) => {
+                                        if (res) {
+                                            let objectName = edit.attr('objectname');
+                                            let objectWhere = edit.attr('objectwhere') || '';
+                                            flexygo.ui.wc.FlxModuleElement.prototype.saveModule(objectName, objectWhere, module, null);
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                        switch (me.attr('Mode')) {
+                            case 'process':
+                                yield this.initProcessMode();
+                                break;
+                            case 'report':
+                                yield this.initReportMode();
+                                break;
+                            default:
+                                yield this.initEditMode();
                         }
                     });
                 }
@@ -163,88 +179,77 @@ var flexygo;
                 * @method refresh
                 */
                 refresh() {
-                    for (let i = 0; i < $(this).find('flx-code[editor="monaco"]').length; i++) {
-                        let monacoEditor = $(this).find('flx-code[editor="monaco"]')[i];
-                        if (monacoEditor.monaco) {
-                            monacoEditor.monaco.dispose();
-                        }
-                        flexygo.events.off(monacoEditor, 'property', 'resized');
-                        flexygo.events.off(monacoEditor, 'module', 'resized');
-                        flexygo.events.off(monacoEditor, 'dialog', 'resized');
-                    }
                     if ($(this).attr('manualInit') != 'true') {
-                        this.init();
+                        return this.init();
                     }
+                    return;
                 }
                 /**
                * Init the webcomponent in edit mode.
                * @method initEditMode
                */
                 initEditMode() {
-                    let me;
-                    let objDef;
-                    let selector;
-                    //let loadRet = this.loadRet;
-                    me = $(this);
-                    objDef = null;
-                    me.html('');
-                    if (this.defaults) {
-                        if (typeof this.defaults == 'string') {
-                            objDef = JSON.parse(this.defaults);
+                    return __awaiter(this, void 0, void 0, function* () {
+                        let me;
+                        let objDef;
+                        //let loadRet = this.loadRet;
+                        me = $(this);
+                        objDef = null;
+                        me.html('');
+                        if (this.defaults) {
+                            if (typeof this.defaults == 'string') {
+                                objDef = JSON.parse(this.defaults);
+                            }
+                            else {
+                                objDef = this.defaults;
+                            }
                         }
                         else {
-                            objDef = this.defaults;
-                        }
-                    }
-                    else {
-                        let histObj = flexygo.history.get(me);
-                        if (typeof histObj != 'undefined' && histObj.defaults) {
-                            if (typeof histObj.defaults == 'string') {
-                                objDef = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
-                            }
-                            else {
-                                objDef = histObj.defaults;
-                            }
-                        }
-                        if (objDef == null) {
-                            let wcMod = me.closest('flx-module')[0];
-                            if (wcMod) {
-                                objDef = wcMod.objectdefaults;
-                            }
-                        }
-                    }
-                    this.isClone = (me.attr('isClone') === 'true');
-                    let params = {
-                        ObjectName: me.attr('ObjectName'),
-                        ObjectWhere: me.attr('ObjectWhere'),
-                        ModuleName: this.moduleName,
-                        Defaults: flexygo.utils.dataToArray(objDef),
-                        TemplateId: this.templateId,
-                        Clone: (me.attr('isClone') === 'true')
-                    };
-                    flexygo.ajax.post('~/api/Edit', 'GetEditTemplate', params, (response) => {
-                        if (response) {
-                            let template = response.Template;
-                            let parentModule = me.closest('flx-module');
-                            let wcModule = parentModule[0];
-                            if (parentModule && wcModule) {
-                                if (response.Buttons) {
-                                    wcModule.setButtons(response.Buttons, response.ObjectName, response.ObjectWhere);
-                                    this.setMaxTabindex(response.Properties);
-                                    let btns = parentModule.find('.cntBodyFooter .moduleButtons div.btn-group span.submenuContainer button, .cntBodyFooter .moduleButtons div.btn-group button');
-                                    btns.each((i, btn) => {
-                                        this.maxTabIndex++;
-                                        $(btn).attr('tabIndex', this.maxTabIndex);
-                                    });
+                            let histObj = flexygo.history.get(me);
+                            if (typeof histObj != 'undefined' && histObj.defaults) {
+                                if (typeof histObj.defaults == 'string') {
+                                    objDef = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
                                 }
                                 else {
-                                    wcModule.setButtons(null, response.ObjectName, response.ObjectWhere);
+                                    objDef = histObj.defaults;
                                 }
-                                wcModule.setObjectDescrip(response.Title);
                             }
-                            else {
+                            if (objDef == null) {
+                                let wcMod = me.closest('flx-module')[0];
+                                if (wcMod) {
+                                    objDef = wcMod.objectdefaults;
+                                }
+                            }
+                        }
+                        this.isClone = (me.attr('isClone') === 'true');
+                        let params = {
+                            ObjectName: me.attr('ObjectName'),
+                            ObjectWhere: me.attr('ObjectWhere'),
+                            ModuleName: this.moduleName,
+                            Defaults: flexygo.utils.dataToArray(objDef),
+                            TemplateId: this.templateId,
+                            Clone: (me.attr('isClone') === 'true')
+                        };
+                        let response;
+                        try {
+                            const show_success = false;
+                            const show_error = false;
+                            response = yield flexygo.ajax.promisePost('~/api/Edit', 'GetEditTemplate', params, show_success, show_error);
+                        }
+                        catch (err) {
+                            //API Error Function
+                            flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                            return;
+                        }
+                        //API Success Function
+                        let module = me.closest('flx-module');
+                        if (response) {
+                            let template = response.Template;
+                            //If we are inside a module we set its Buttons
+                            if (module.length === 0)
                                 return;
-                            }
+                            this.setModuleButtons(module, response);
+                            //We set flx-edit parameters that come from template/response
                             this.data = template.Data;
                             this.tHeader = template.Header;
                             this.tBody = template.Body;
@@ -256,70 +261,99 @@ var flexygo;
                             if (response.TemplateList) {
                                 this.templateList = response.TemplateList;
                             }
-                            this.render();
+                            //We render the component and initiate the validator
+                            yield this.render();
                             this.initValidate();
                         }
-                        if (!me.closest('div.ui-dialog').length) {
-                            selector = 'div#mainContent';
-                        }
-                        else {
-                            selector = 'div.ui-dialog';
-                        }
-                        me.closest(selector).find('flx-module flx-edit').first().find('[property] select:enabled:visible, [property] input:enabled:visible, [property] textarea:enabled:visible').first().focus();
-                        let parentModule = me.closest('flx-module');
-                        let wcModule = parentModule[0];
-                        if (parentModule && wcModule) {
-                            wcModule.moduleLoaded(this);
-                            if (wcModule.ModuleViewers && response.ObjectWhere !== '') {
-                                this.currentViewers = response.CurrentViewers;
-                                flexygo.utils.refreshModuleViewersInfo(wcModule, this.currentViewers);
-                                flexygo.utils.checkObserverModule(wcModule, 20000);
-                                flexygo.events.on(this, 'push', 'notify', function (e) {
-                                    switch (e.masterIdentity) {
-                                        case 'GetSetModuleViewers': {
-                                            if ((wcModule.moduleName == '' ? null : wcModule.moduleName) == (e.sender.ModuleName == '' ? null : e.sender.ModuleName)
-                                                && (wcModule.objectname == '' ? null : wcModule.objectname) == (e.sender.ObjectName == '' ? null : e.sender.ObjectName)
-                                                && (wcModule.objectwhere == '' ? null : wcModule.objectwhere) == (e.sender.ObjectWhere == '' ? null : e.sender.ObjectWhere)) {
-                                                flexygo.utils.refreshModuleViewersInfo(wcModule, e.sender.ActiveUsers);
-                                            }
-                                            break;
+                        //If there's a module we execute it's moduleLoaded function
+                        if (module.length === 0)
+                            return;
+                        let wcModule = module[0];
+                        wcModule.moduleLoaded(this);
+                        this.setFocusOnFirstElement(me);
+                        //If ModuleViewers is active we set its respective events
+                        if (wcModule.ModuleViewers && response.ObjectWhere !== '') {
+                            this.currentViewers = response.CurrentViewers;
+                            flexygo.utils.refreshModuleViewersInfo(wcModule, this.currentViewers);
+                            flexygo.utils.checkObserverModule(wcModule, 20000);
+                            flexygo.events.on(this, 'push', 'notify', function (e) {
+                                switch (e.masterIdentity) {
+                                    case 'GetSetModuleViewers': {
+                                        if ((wcModule.moduleName == '' ? null : wcModule.moduleName) == (e.sender.ModuleName == '' ? null : e.sender.ModuleName)
+                                            && (wcModule.objectname == '' ? null : wcModule.objectname) == (e.sender.ObjectName == '' ? null : e.sender.ObjectName)
+                                            && (wcModule.objectwhere == '' ? null : wcModule.objectwhere) == (e.sender.ObjectWhere == '' ? null : e.sender.ObjectWhere)) {
+                                            flexygo.utils.refreshModuleViewersInfo(wcModule, e.sender.ActiveUsers);
                                         }
-                                        default: {
-                                            break;
-                                        }
+                                        break;
                                     }
-                                });
-                            }
+                                    default: {
+                                        break;
+                                    }
+                                }
+                            });
                         }
                     });
+                }
+                setModuleButtons(module, response, print = false) {
+                    //We set the buttons and ObjectDescrip, if there's no button we still add the structure
+                    let module_html_element = module[0];
+                    module_html_element.setButtons(response.Buttons, response.ObjectName, response.ObjectWhere, response.ReportName, response.ProcessName, undefined, flexygo.history.get($(this)).callback, print);
+                    module_html_element.setObjectDescrip(response.Title);
+                    if (!response.Buttons)
+                        return;
+                    //We set the maximum tab-index and each tab-index to buttons
+                    this.setMaxTabindex(response.Properties);
+                    let btns = module.find('.cntBodyFooter .moduleButtons div.btn-group span.submenuContainer button, .cntBodyFooter .moduleButtons div.btn-group button');
+                    btns.each((_, btn) => {
+                        this.maxTabIndex++;
+                        $(btn).attr('tabIndex', this.maxTabIndex);
+                    });
+                }
+                setFocusOnFirstElement(me) {
+                    //We look which is the main content div depending if it's opened in a modal or not
+                    const main_content_selector = !me.closest('div.ui-dialog').length ? 'div#mainContent' : 'div.ui-dialog';
+                    me.closest(main_content_selector).find('flx-module flx-edit').first().find('[property] select:enabled:visible, [property] input:enabled:visible, [property] textarea:enabled:visible').first().focus();
                 }
                 /**
                * Init the webcomponent in edit report parameter mode.
                * @method initReportMode
                */
                 initReportMode() {
-                    let me = $(this);
-                    let objDef;
-                    let selector;
-                    if (this.defaults) {
-                        objDef = JSON.parse(this.defaults);
-                    }
-                    else {
-                        let histObj = flexygo.history.get(me);
-                        if (typeof histObj != 'undefined' && histObj.defaults && histObj.defaults != '') {
-                            objDef = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
+                    return __awaiter(this, void 0, void 0, function* () {
+                        let me = $(this);
+                        let objDef;
+                        let selector;
+                        if (this.defaults) {
+                            objDef = JSON.parse(this.defaults);
                         }
-                    }
-                    me.html('');
-                    //let loadRet = this.loadRet;
-                    let params = {
-                        "ObjectName": me.attr('ObjectName'),
-                        "ObjectWhere": me.attr('ObjectWhere'),
-                        "ModuleName": this.moduleName,
-                        "ReportName": me.attr('ReportName'),
-                        "Defaults": flexygo.utils.dataToArray(objDef),
-                    };
-                    flexygo.ajax.post('~/api/Edit', 'GetReportParamsTemplate', params, (response) => {
+                        else {
+                            let histObj = flexygo.history.get(me);
+                            if (typeof histObj != 'undefined' && histObj.defaults && histObj.defaults != '') {
+                                objDef = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
+                            }
+                        }
+                        me.html('');
+                        //let loadRet = this.loadRet;
+                        let params = {
+                            "ObjectName": me.attr('ObjectName'),
+                            "ObjectWhere": me.attr('ObjectWhere'),
+                            "ModuleName": this.moduleName,
+                            "ReportName": me.attr('ReportName'),
+                            "Defaults": flexygo.utils.dataToArray(objDef),
+                        };
+                        let response;
+                        try {
+                            const show_success = false;
+                            const show_error = false;
+                            response = yield flexygo.ajax.promisePost('~/api/Edit', 'GetReportParamsTemplate', params, show_success, show_error);
+                        }
+                        catch (err) {
+                            //API Error Function
+                            flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                            return;
+                        }
+                        //API Success Function
+                        let module = me.closest('flx-module');
                         if (response) {
                             if (me.closest('.ui-dialog').find('.ui-dialog-title').length > 0) {
                                 if (me.closest('.ui-dialog').find('.ui-dialog-title').html() == '{{ReportDescrip}}') {
@@ -327,43 +361,20 @@ var flexygo;
                                 }
                             }
                             let template = response.Template;
-                            let parentModule = me.closest('flx-module');
-                            let wcModule = parentModule[0];
-                            if (parentModule && wcModule) {
-                                if (response.Buttons) {
-                                    wcModule.setButtons(response.Buttons, response.ObjectName, response.ObjectWhere, response.ReportName, null);
-                                    this.setMaxTabindex(response.Properties);
-                                    let btns = $(wcModule).find('.cntBodyFooter .moduleButtons div.btn-group span.submenuContainer button, .cntBodyFooter .moduleButtons div.btn-group button');
-                                    btns.each((i, btn) => {
-                                        this.maxTabIndex++;
-                                        $(btn).attr('tabIndex', this.maxTabIndex);
-                                    });
-                                }
-                                else {
-                                    wcModule.setButtons(null, response.ObjectName, response.ObjectWhere, response.ReportName, null);
-                                }
-                                wcModule.setObjectDescrip(response.Title);
-                            }
+                            this.setModuleButtons(module, response, flexygo.history.get(me).print);
                             this.data = response.Properties;
                             this.tHeader = template.Header;
                             this.tBody = template.Body;
                             this.tFooter = template.Footer;
                             this.properties = response.Properties;
-                            this.render();
+                            yield this.render();
                             this.initValidate();
                         }
-                        if (!me.closest('div.ui-dialog').length) {
-                            selector = 'div#mainContent';
-                        }
-                        else {
-                            selector = 'div.ui-dialog';
-                        }
-                        me.closest(selector).find('flx-module flx-edit').first().find('[property] select:enabled:visible, [property] input:enabled:visible, [property] textarea:enabled:visible').first().focus();
-                        let parentModule = me.closest('flx-module');
-                        let wcModule = parentModule[0];
-                        if (parentModule && wcModule) {
+                        let wcModule = module[0];
+                        if (module) {
                             wcModule.moduleLoaded(this);
                         }
+                        this.setFocusOnFirstElement(me);
                     });
                 }
                 /**
@@ -400,28 +411,51 @@ var flexygo;
               * @method initProcessMode
               */
                 initProcessMode() {
-                    let me = $(this);
-                    me.html('');
-                    let objDef = null;
-                    let selector;
-                    if (this.defaults) {
-                        objDef = JSON.parse(this.defaults);
-                    }
-                    else {
-                        let histObj = flexygo.history.get(me);
-                        if (typeof histObj != 'undefined' && histObj.defaults && histObj.defaults != '') {
-                            objDef = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
+                    return __awaiter(this, void 0, void 0, function* () {
+                        let me = $(this);
+                        me.html('');
+                        let objDef = null;
+                        let selector;
+                        if (this.defaults) {
+                            if (typeof this.defaults == 'string') {
+                                objDef = JSON.parse(this.defaults);
+                            }
+                            else {
+                                objDef = this.defaults;
+                            }
                         }
-                    }
-                    //let loadRet = this.loadRet;
-                    let params = {
-                        "ObjectName": me.attr('ObjectName'),
-                        "ObjectWhere": me.attr('ObjectWhere'),
-                        "ModuleName": this.moduleName,
-                        "ProcessName": me.attr('ProcessName'),
-                        "Defaults": flexygo.utils.dataToArray(objDef),
-                    };
-                    flexygo.ajax.post('~/api/Edit', 'GetProcessParamsTemplate', params, (response) => {
+                        else {
+                            let histObj = flexygo.history.get(me);
+                            if (typeof histObj != 'undefined' && histObj.defaults) {
+                                if (typeof histObj.defaults == 'string') {
+                                    objDef = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
+                                }
+                                else {
+                                    objDef = histObj.defaults;
+                                }
+                            }
+                        }
+                        //let loadRet = this.loadRet;
+                        let params = {
+                            "ObjectName": me.attr('ObjectName'),
+                            "ObjectWhere": me.attr('ObjectWhere'),
+                            "ModuleName": this.moduleName,
+                            "ProcessName": me.attr('ProcessName'),
+                            "Defaults": flexygo.utils.dataToArray(objDef)
+                        };
+                        let response;
+                        try {
+                            const show_success = false;
+                            const show_error = false;
+                            response = yield flexygo.ajax.promisePost('~/api/Edit', 'GetProcessParamsTemplate', params, show_success, show_error);
+                        }
+                        catch (err) {
+                            //API Error Function
+                            flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                            return;
+                        }
+                        //API Success Function
+                        let module = me.closest('flx-module');
                         if (response) {
                             if (me.closest('.ui-dialog').find('.ui-dialog-title').length > 0) {
                                 if (me.closest('.ui-dialog').find('.ui-dialog-title').html() == '{{ProcessDescrip}}') {
@@ -429,30 +463,14 @@ var flexygo;
                                 }
                             }
                             let template = response.Template;
-                            let parentModule = me.closest('flx-module');
-                            let wcModule = parentModule[0];
-                            if (parentModule && wcModule) {
-                                if (response.Buttons) {
-                                    wcModule.setButtons(response.Buttons, response.ObjectName, response.ObjectWhere, null, response.ProcessName, undefined, flexygo.history.get(me).callback);
-                                    this.setMaxTabindex(response.Properties);
-                                    let btns = $(wcModule).find('.cntBodyFooter .moduleButtons div.btn-group span.submenuContainer button, .cntBodyFooter .moduleButtons div.btn-group button');
-                                    btns.each((i, btn) => {
-                                        this.maxTabIndex++;
-                                        $(btn).attr('tabIndex', this.maxTabIndex);
-                                    });
-                                }
-                                else {
-                                    wcModule.setButtons(null, response.ObjectName, response.ObjectWhere, null, response.ProcessName);
-                                }
-                                wcModule.setObjectDescrip(response.Title);
-                            }
+                            this.setModuleButtons(module, response);
                             this.data = response.Properties;
                             this.tHeader = template.Header;
                             this.tBody = template.Body;
                             this.tFooter = template.Footer;
                             this.properties = response.Properties;
                             this.JSforParams = response.JSforParams;
-                            this.render();
+                            yield this.render();
                             this.initValidate();
                             if (response.RunButtonText) {
                                 if (me.closest('flx-module').find("button[data-type='runprocess']")) {
@@ -465,18 +483,11 @@ var flexygo;
                                 }
                             }
                         }
-                        if (!me.closest('div.ui-dialog').length) {
-                            selector = 'div#mainContent';
-                        }
-                        else {
-                            selector = 'div.ui-dialog';
-                        }
-                        me.closest(selector).find('flx-module flx-edit').first().find('[property] select:enabled:visible, [property] input:enabled:visible, [property] textarea:enabled:visible').first().focus();
-                        let parentModule = me.closest('flx-module');
-                        let wcModule = parentModule[0];
+                        let wcModule = module[0];
                         if (wcModule) {
                             wcModule.moduleLoaded(this);
                         }
+                        this.setFocusOnFirstElement(me);
                     });
                 }
                 /**
@@ -518,79 +529,73 @@ var flexygo;
                 * @method render
                 */
                 render() {
-                    let me = $(this);
-                    let rendered = flexygo.utils.parser.recursiveCompile(this.data, this.tBody, this);
-                    me.empty();
-                    me.html(rendered);
-                    me.append('<div style="clear:both"></div>');
-                    if (!this.moduleName) {
-                        let btn = $('<button class="btn btn-default bg-info saveButton"> <i class="flx-icon icon-save-2" > </i> <span>' + flexygo.localization.translate('flxedit.save') + '</span> </button>');
-                        btn.on('click', (ev) => {
-                            flexygo.ui.wc.FlxModuleElement.prototype.saveModule(this.objectname, this.objectwhere, $(this), null);
-                        });
-                        me.append(btn);
-                    }
-                    this.setFormValues();
-                    let reduce = 0;
-                    if (flexygo.utils.isSizeSmartphone()) {
-                        reduce = 20;
-                    }
-                    let cellH = 62 - reduce;
-                    let itm = me.closest('.size-xs,.size-s,.size-m,.size-l,.no-label');
-                    if (itm.length > 0) {
-                        if (itm.is('.size-xs')) {
-                            cellH = 54 - reduce;
-                        }
-                        else if (itm.is('.size-s')) {
-                            cellH = 62 - reduce;
-                        }
-                        else if (itm.is('.size-m')) {
-                            cellH = 70 - reduce;
-                        }
-                        else if (itm.is('.size-l')) {
-                            cellH = 86 - reduce;
-                        }
-                        if (itm.is('.no-label')) {
-                            cellH -= 18;
-                        }
-                    }
-                    this.processLoadDependencies();
-                    let options = {
-                        cellHeight: cellH,
-                        verticalMargin: 0,
-                        float: false,
-                        disableDrag: true,
-                        disableResize: true,
-                        static_grid: true
-                    };
-                    var hideControls = me.find('.resizable-row').find('.hideControlGridStack [property]');
-                    me.find('.resizable-row').gridstack(options);
-                    if ($(me[0]).find('flx-code[editor="monaco"]').length > 0 && $(me[0]).find('flx-code[editor="monaco"]').is(":visible")) {
-                        var ev = {
-                            class: "property",
-                            type: "resized",
-                            masterIdentity: "flx-edit"
-                        };
-                        flexygo.events.trigger(ev, $(this));
-                    }
-                    //detach hideControls before gridstack in order to avoid field gaps
-                    hideControls.each((index, elem) => { this.removeStack($(elem)); });
-                    // me.find('.resizable-row').append(hideControls);
-                    //only areyou sure if form uis edit form
-                    if (!me.attr('Mode') || me.attr('Mode') == 'edit') {
-                        me.find('form').areYouSure();
-                        let btnClose = me.closest('.ui-dialog').find('.ui-dialog-titlebar-close');
-                        if (btnClose.length > 0) {
-                            //Manual implementation of areyousure on popup dialogs
-                            let dlg = me.closest("main.pageContainer");
-                            dlg.off("dialogbeforeclose").on("dialogbeforeclose", () => {
-                                if (!dlg.hasClass("closing") && me.closest('flx-module').length > 0) {
-                                    return me.closest('flx-module')[0].checkDirtyEdit();
-                                }
+                    return __awaiter(this, void 0, void 0, function* () {
+                        let me = $(this);
+                        let rendered = flexygo.utils.parser.recursiveCompile(this.data, this.tBody, this);
+                        me.empty();
+                        me.html(rendered);
+                        me.append('<div style="clear:both"></div>');
+                        if (!this.moduleName) {
+                            let btn = $('<button class="btn btn-default bg-info saveButton"> <i class="flx-icon icon-save-2" > </i> <span>' + flexygo.localization.translate('flxedit.save') + '</span> </button>');
+                            btn.on('click', (ev) => {
+                                flexygo.ui.wc.FlxModuleElement.prototype.saveModule(this.objectname, this.objectwhere, $(this), null);
                             });
+                            me.append(btn);
                         }
-                    }
-                    this.setTabIndex();
+                        this.setFormValues();
+                        let reduce = 0;
+                        if (flexygo.utils.isSizeSmartphone()) {
+                            reduce = 20;
+                        }
+                        let cellH = 62 - reduce;
+                        let itm = me.closest('.size-xs,.size-s,.size-m,.size-l,.no-label');
+                        if (itm.length > 0) {
+                            if (itm.is('.size-xs')) {
+                                cellH = 54 - reduce;
+                            }
+                            else if (itm.is('.size-s')) {
+                                cellH = 62 - reduce;
+                            }
+                            else if (itm.is('.size-m')) {
+                                cellH = 70 - reduce;
+                            }
+                            else if (itm.is('.size-l')) {
+                                cellH = 86 - reduce;
+                            }
+                            if (itm.is('.no-label')) {
+                                cellH -= 18;
+                            }
+                        }
+                        let options = {
+                            cellHeight: cellH,
+                            verticalMargin: 0,
+                            float: false,
+                            disableDrag: true,
+                            disableResize: true,
+                            static_grid: true
+                        };
+                        var hideControls = me.find('.resizable-row').find('.hideControlGridStack [property]');
+                        me.find('.resizable-row').gridstack(options);
+                        //detach hideControls before gridstack in order to avoid field gaps
+                        hideControls.each((_, elem) => { this.removeStack($(elem)); });
+                        yield this.processLoadDependencies();
+                        // me.find('.resizable-row').append(hideControls);
+                        //only areyou sure if form uis edit form
+                        if (!me.attr('Mode') || me.attr('Mode') == 'edit') {
+                            me.find('form').areYouSure();
+                            let btnClose = me.closest('.ui-dialog').find('.ui-dialog-titlebar-close');
+                            if (btnClose.length > 0) {
+                                //Manual implementation of areyousure on popup dialogs
+                                let dlg = me.closest("main.pageContainer");
+                                dlg.off("dialogbeforeclose").on("dialogbeforeclose", () => {
+                                    if (!dlg.hasClass("closing") && me.closest('flx-module').length > 0) {
+                                        return me.closest('flx-module')[0].checkDirtyEdit();
+                                    }
+                                });
+                            }
+                        }
+                        this.setTabIndex();
+                    });
                 }
                 /**
                * Establish webcomponent settings
@@ -667,15 +672,18 @@ var flexygo;
                     let control;
                     let descrip;
                     if (this.mode == 'report') {
-                        control = '<flx-propertymanager ReportName="' + this.reportName + '" ></flx-propertymanager>';
+                        control = '<flx-propertymanager class="col-8" ReportName="' + this.reportName + '" ></flx-propertymanager>';
+                        control += `<flx-propertywizard ReportName="${this.reportName}" class="col-4"></flx-propertywizard>`;
                         descrip = this.reportName;
                     }
                     else if (this.mode == 'process') {
-                        control = '<flx-propertymanager ProcessName="' + this.processName + '" ></flx-propertymanager>';
+                        control = '<flx-propertymanager class="col-8" ProcessName="' + this.processName + '" ></flx-propertymanager>';
+                        control += `<flx-propertywizard ProcessName="${this.processName}" class="col-4"></flx-propertywizard>`;
                         descrip = this.processName;
                     }
                     else {
-                        control = '<flx-propertymanager ObjectName="' + this.objectname + '" ></flx-propertymanager>';
+                        control = '<flx-propertymanager class="col-8" ObjectName="' + this.objectname + '" ></flx-propertymanager>';
+                        control += `<flx-propertywizard ObjectName="${this.objectname}" class="col-4"></flx-propertywizard>`;
                         descrip = this.objectname;
                     }
                     let navString = '';
@@ -699,45 +707,48 @@ var flexygo;
                * @method processLoadDependencies
                */
                 processLoadDependencies() {
-                    // checkif edit still exists
-                    if ($(document).find(this).length == 0) {
-                        return;
-                    }
-                    let me = $(this);
-                    let props = me.find('[property]');
-                    if (props.length > 0) {
-                        let Properties = new Array();
-                        for (let i = 0; i < props.length; i++) {
-                            let prop = $(props[i])[0];
-                            Properties.push({ "Key": prop.property, "Value": prop.getValue() });
-                            if (prop.property == null) {
-                                return;
+                    return __awaiter(this, void 0, void 0, function* () {
+                        // checkif edit still exists
+                        if ($(document).find(this).length == 0) {
+                            return;
+                        }
+                        let me = $(this);
+                        let props = me.find('[property]');
+                        if (props.length > 0) {
+                            let Properties = new Array();
+                            for (let i = 0; i < props.length; i++) {
+                                let prop = $(props[i])[0];
+                                Properties.push({ "Key": prop.property, "Value": prop.getValue() });
+                                if (prop.property == null) {
+                                    return;
+                                }
                             }
-                        }
-                        var isNew = false;
-                        if (this.processName && this.processName != '') {
-                            isNew = true;
-                        }
-                        else if (this.reportName && this.reportName != '') {
-                            isNew = true;
-                        }
-                        else if (!me.attr('ObjectWhere')) {
-                            isNew = true;
-                        }
-                        //Cambiamos porque en el clone se ejecutan las dependencias y cambia los valores del objeto origen
-                        //} else if (me.attr('isClone') === 'true') {
-                        //    isNew = true;
-                        //}
-                        let params = {
-                            ObjectName: this.objectname,
-                            ProcessName: this.processName,
-                            ReportName: this.reportName,
-                            IsNew: isNew,
-                            IsView: false,
-                            Properties: Properties
-                        };
-                        this.paintLoadingEdit();
-                        flexygo.ajax.post('~/api/Edit', 'processAllDependencies', params, (response) => {
+                            var isNew = false;
+                            if (this.processName && this.processName != '') {
+                                isNew = true;
+                            }
+                            else if (this.reportName && this.reportName != '') {
+                                isNew = true;
+                            }
+                            else if (!me.attr('ObjectWhere')) {
+                                isNew = true;
+                            }
+                            //Cambiamos porque en el clone se ejecutan las dependencias y cambia los valores del objeto origen
+                            //} else if (me.attr('isClone') === 'true') {
+                            //    isNew = true;
+                            //}
+                            let params = {
+                                ObjectName: this.objectname,
+                                ProcessName: this.processName,
+                                ReportName: this.reportName,
+                                IsNew: isNew,
+                                IsView: false,
+                                Properties: Properties
+                            };
+                            this.paintLoadingEdit();
+                            const show_succes = false;
+                            let response = yield flexygo.ajax.promisePost('~/api/Edit', 'processAllDependencies', params, show_succes);
+                            //POST Success Function
                             if (response) {
                                 let orderStackExecution = false;
                                 for (let i = 0; i < response.length; i++) {
@@ -759,17 +770,10 @@ var flexygo;
                             }
                             this.dependenciesLoaded = true;
                             this.removeLoadingEdit();
-                            let selector = '';
-                            if (!me.closest('div.ui-dialog').length) {
-                                selector = 'div#mainContent';
-                            }
-                            else {
-                                selector = 'div.ui-dialog';
-                            }
-                            me.closest(selector).find('flx-module flx-edit').first().find('[property] select:enabled:visible, [property] input:enabled:visible, [property] textarea:enabled:visible').first().focus();
+                            this.setFocusOnFirstElement(me);
                             me.find('form').removeClass('dirty');
-                        });
-                    }
+                        }
+                    });
                 }
                 /**
               *Sets layout x and y to starting position
@@ -893,7 +897,7 @@ var flexygo;
                                 let tag = prop.data('tag').toLowerCase();
                                 if (tag.toLowerCase() == 'label') {
                                     if (this.properties[row.name].ControlType != 'separator' && this.properties[row.name].ControlType != 'placeholder') {
-                                        prop.prepend(this.getValue(row, tag));
+                                        prop.prepend(`<span class="lbltext">${this.getValue(row, tag)}</span>`);
                                         if (this.properties[row.name].IsRequired) {
                                             prop.addClass("required");
                                         }
@@ -908,6 +912,7 @@ var flexygo;
                                             prop.append(helpIcon);
                                         }
                                         prop.attr('lblproperty', row.name);
+                                        prop.attr('lbloriginal', row.label);
                                     }
                                     else {
                                         prop.empty();
@@ -981,7 +986,6 @@ var flexygo;
                         let IName = cntl.options.Name;
                         let IPositionX = cntl.options.PositionX;
                         let IPositionY = cntl.options.PositionY;
-                        let IIconClass = cntl.options.IconClass;
                         cntl.options = itm.newCustomProperty;
                         cntl.options.ObjectName = IObjectName;
                         cntl.options.Name = IName;
@@ -993,23 +997,9 @@ var flexygo;
                             let value = prop.val();
                             if (prop.attr("editor") == "monaco") {
                                 let parentElement = prop[0].parentElement;
-                                flexygo.events.off(prop[0], 'property', 'resized');
-                                flexygo.events.off(prop[0], 'module', 'resized');
-                                flexygo.events.off(prop[0], 'dialog', 'resized');
                                 if (prop[0].monaco) {
                                     prop[0].monaco.dispose();
                                 }
-                                //create an observer to wait until the new element replace prop, for render the monaco de editor
-                                const observer = new MutationObserver((mutationsList, observer) => {
-                                    for (const mutation of mutationsList) {
-                                        if (mutation.type === 'childList' && mutation.removedNodes.length > 0) {
-                                            element[0].setCodeEditor();
-                                            observer.disconnect();
-                                            break;
-                                        }
-                                    }
-                                });
-                                observer.observe(parentElement, { childList: true });
                             }
                             prop.replaceWith(element);
                             element[0].setValue(value);
@@ -1018,6 +1008,14 @@ var flexygo;
                             prop.replaceWith(element);
                         }
                         prop = element;
+                    }
+                    if (itm.changeLabel) {
+                        if (itm.newLabel) {
+                            $(lblprop).find('.lbltext').html(`${itm.newLabel}`);
+                        }
+                        else {
+                            $(lblprop).find('.lbltext').html(`${$(lblprop).attr('lbloriginal')}`);
+                        }
                     }
                     if (itm.JSCode) {
                         let func = new Function("ObjectName", "ProcessName", "ReportName", "itm", "prop", itm.JSCode);
@@ -1028,9 +1026,6 @@ var flexygo;
                             this.appendStack(prop);
                             prop.removeClass('hideControl');
                             lblprop.removeClass('hideControl');
-                            if ($(prop[0]).is('flx-code[editor="monaco"]') && $(prop[0]).is(':visible')) {
-                                prop[0].setCodeEditor();
-                            }
                             let ctlClass = prop.attr('control-class');
                             if (typeof ctlClass != 'undefined') {
                                 prop.attr('control-class', ctlClass.replace('hideControl', ''));
@@ -1122,7 +1117,8 @@ var flexygo;
                             3: [flexygo.localization.translate('dependecymanager.enabledep'), 'flx-icon icon-lock-1'],
                             4: [flexygo.localization.translate('dependecymanager.visibledep'), 'flx-icon icon-eye'],
                             5: [flexygo.localization.translate('dependecymanager.requireddep'), 'flx-icon icon-checked'],
-                            6: [flexygo.localization.translate('dependecymanager.CustomProperty'), 'flx-icon icon-wizard-1']
+                            6: [flexygo.localization.translate('dependecymanager.CustomProperty'), 'flx-icon icon-wizard-1'],
+                            7: [flexygo.localization.translate('flxedit.label'), 'flx-icon icon-text-editor']
                         };
                         let lblTriggerElement = $(this).find('[lblproperty="' + itm.TriggerPropertyName + '"]');
                         for (let i = 0; i < itm.dependencyErrors.length; i++) {
@@ -1176,9 +1172,6 @@ var flexygo;
                             secProp.detach();
                             let codeEditor = secProp.find('[data-tag="control"]>flx-code[editor="monaco"]');
                             if (codeEditor.length > 0) {
-                                flexygo.events.off(codeEditor[0], 'property', 'resized');
-                                flexygo.events.off(codeEditor[0], 'module', 'resized');
-                                flexygo.events.off(codeEditor[0], 'dialog', 'resized');
                                 if (codeEditor[0].monaco) {
                                     codeEditor[0].monaco.dispose();
                                 }
@@ -1202,6 +1195,10 @@ var flexygo;
                         let gd = me.find('.grid-stack').data('gridstack');
                         prop.detach();
                         gd.addWidget($('<div/>').append(prop), prop.attr('data-x'), prop.attr('data-y'), prop.attr('data-w'), prop.attr('data-h'));
+                        let codeEditor = prop.find('[data-tag="control"]>flx-code[editor="monaco"]');
+                        if (codeEditor.length > 0) {
+                            codeEditor[0].setCodeEditor();
+                        }
                         prop.attr('data-x', '');
                         prop.attr('data-y', '');
                         prop.attr('data-w', '');
@@ -1292,13 +1289,10 @@ var flexygo;
                         else {
                             prop.attr("sqlvalidator", 0);
                         }
-                        if (element.attr('type') == 'time' || element.attr('type') == 'date' || element.attr('type') == 'datetime-local' || element[0].localName == 'flx-tag') {
+                        if (element.attr('type') == 'time' || element.attr('type') == 'date' || element.attr('type') == 'datetime-local' ||
+                            element[0].localName == 'flx-tag' || element.attr('type') == 'text' || element[0].localName == 'flx-tag' ||
+                            element[0].localName == 'flx-barcode' || element[0].localName == 'flx-switch') {
                             if (!prop.valid()) {
-                                $(prop).focus().select();
-                            }
-                        }
-                        if (element.attr('type') == 'text' || element[0].localName == 'flx-tag' || element[0].localName == 'flx-barcode') {
-                            if (!$(prop).valid()) {
                                 $(prop).focus().select();
                             }
                         }

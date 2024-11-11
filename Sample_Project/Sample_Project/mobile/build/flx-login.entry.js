@@ -1,21 +1,21 @@
-import { r as registerInstance, k as h } from './index-d0d1673d.js';
-import { j as jquery } from './jquery-eec92bf9.js';
-import { i as gps, W as Webapi, C as ConftokenProvider, m as msg, u as util, k as flxSync, n as nav } from './conftoken-2c86328f.js';
-import './_commonjsHelpers-148b4233.js';
-import './process-es6-d973fab3.js';
-import './utils-0a0c7da4.js';
-import './animation-10ea33c3.js';
-import './helpers-719f4c54.js';
-import './ios.transition-62fdffc9.js';
-import './index-06bb8825.js';
-import './md.transition-f61d2286.js';
-import './cubic-bezier-93f47170.js';
-import './index-7fe827c3.js';
-import './ionic-global-f9661584.js';
-import './index-b40d441b.js';
-import './index-07c2bb76.js';
-import './hardware-back-button-aacf3d12.js';
-import './overlays-177438ad.js';
+import { r as registerInstance, k as h } from './index-8e5b11cb.js';
+import { j as jquery } from './jquery-34624bb9.js';
+import { i as gps, W as Webapi, C as ConftokenProvider, m as msg, u as util, k as flxSync, n as nav } from './conftoken-89472368.js';
+import './_commonjsHelpers-2a12c1e6.js';
+import './process-es6-cc264d03.js';
+import './utils-224de961.js';
+import './animation-b4670628.js';
+import './helpers-7ecb2fa5.js';
+import './ios.transition-e14f38db.js';
+import './index-c59a2c3f.js';
+import './md.transition-8bd31aee.js';
+import './cubic-bezier-ed243a9b.js';
+import './index-d086042f.js';
+import './ionic-global-6d118971.js';
+import './index-cc97b114.js';
+import './index-81d32235.js';
+import './hardware-back-button-508e48cf.js';
+import './overlays-cda44124.js';
 
 const flxLoginCss = "ion-content.loginpage{--ion-background-color:#333333;--ion-background-color-rgb:51,51,51;--ion-color-primary:#2db7b0;--ion-text-color:#dddddd;--ion-text-color-rgb:221,221,221;--ion-color-step-50:#3c3c3c;--ion-color-step-100:#444444;--ion-color-step-150:#4d4d4d;--ion-color-step-200:#555555;--ion-color-step-250:#5e5e5e;--ion-color-step-300:#666666;--ion-color-step-350:#6f6f6f;--ion-color-step-400:#777777;--ion-color-step-450:#808080;--ion-color-step-500:#888888;--ion-color-step-550:#919191;--ion-color-step-600:#999999;--ion-color-step-650:#a2a2a2;--ion-color-step-700:#aaaaaa;--ion-color-step-750:#b3b3b3;--ion-color-step-800:#bbbbbb;--ion-color-step-850:#c4c4c4;--ion-color-step-900:#cccccc;--ion-color-step-950:#d5d5d5}ion-toolbar.applist{--ion-background-color:#2db7b0;color:white}ion-grid{margin-top:env(safe-area-inset-top)}ion-spinner.urlSpinner{width:15px}label#URLError{color:red;float:right;position:absolute;bottom:0px;right:0px;font-size:0.8em}ion-icon.urlState[name=\"close-circle-outline\"]{color:red}ion-icon.urlState[name=\"checkmark-circle-outline\"]{color:#a2ff6c7c}";
 
@@ -85,6 +85,7 @@ const FlxLogin = class {
     api.login(this.url, this.user, this.pass, GUID).then((_value) => {
       //Check apps.
       api.getCollection('sysOfflineApp').then((apps) => {
+        apps = apps.filter(app => app.Active);
         loader.dismiss();
         if (apps.length == 0) {
           msg.showError('No apps found', false);

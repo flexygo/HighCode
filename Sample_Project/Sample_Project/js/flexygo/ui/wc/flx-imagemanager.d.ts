@@ -121,12 +121,12 @@ declare namespace flexygo.ui.wc {
         * Refresh de webcomponent.
         * @method refresh
         */
-        refresh(): void;
+        refresh(): Promise<void>;
         /**
         * Render HTML data.
         * @method render
         */
-        render(): void;
+        render(): Promise<void>;
         /**
         * Render HTML image data.
         * @method renderImage
@@ -167,7 +167,7 @@ declare namespace flexygo.ui.wc {
         * @method getImage
         * @param {string} Image ID (Opctional).
         */
-        getImage(imageId?: string): void;
+        getImage(imageId?: string): Promise<void>;
         /**
         * Update image.
         * @method getImage

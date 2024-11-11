@@ -21,7 +21,7 @@
     padding: 10px;
     margin-top: 20px;
     background-color: white;
-    border-radius: 5px;
+    border-radius: @border-radius;
     height: 100%;
     overflow: auto;
 
@@ -63,7 +63,7 @@ flx-modulemanager .module-placeholder ul, #moduleList ul {
 }
 
 flx-modulemanager .box-primary, flx-modulemanager .box-warning {
-    border-radius: 5px;
+    border-radius: @border-radius;
     border: none;
 }
 
@@ -156,11 +156,17 @@ flx-modulemanager .moduleToolbar .btn i {
 
 #modulePanel .searchPanel {
     padding-right: 15px;
+    flex: 1;
 }
+
 
 #moduleList {
     overflow: hidden;
-    height: ~"calc(100%)"
+    height: ~"calc(100%)";
+
+    li:not(.headerGroup) {
+        margin-left: 15px;
+    }
 }
 
 flx-modulemanager #layoutPanel .moduleTab > ul {

@@ -220,6 +220,10 @@ ion-card-header.ion-color .ion-inherit-color {
   box-shadow: 4px 0px 16px rgba(0, 0, 0, 0.18);
 }
 
+ion-input input::-webkit-date-and-time-value {
+  text-align: start;
+}
+
 /*# sourceMappingURL=core.css.map */
 
 
@@ -1258,4 +1262,19 @@ sub {
 #nfcIconDisabled>img {
     height: 150px;
     opacity: 0.4;
+}
+
+/*Utility classes*/
+/*Center DIV Classes*/
+.transformTranslateCenter {
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+}
+
+.flexCenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

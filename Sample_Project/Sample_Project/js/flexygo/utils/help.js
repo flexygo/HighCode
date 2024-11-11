@@ -7,6 +7,7 @@ function helpModalImage(img) {
         title: $(img).attr('title'),
         content: '<img src="' + src + '" class="img-responsive" style="margin:0 auto;display:block"/>',
         width: '80%',
+        theme: $('body[mode="dark"]').length > 0 ? $.sweetModal.THEME_DARK : $.sweetModal.THEME_LIGHT
     });
 }
 function helpModalWindow(div, func) {

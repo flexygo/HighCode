@@ -45,7 +45,7 @@ var flexygo;
                     }
                 }
                 init() {
-                    this.refresh();
+                    return this.refresh();
                 }
                 refresh() {
                     this.config = new flexygo.obj.Entity(this.objectname).getConfig();
@@ -60,6 +60,11 @@ var flexygo;
                     else if (this.mode == 'template') {
                         btns = $('<div class="margin-left-l"><legend><i class="flx-icon icon-wizard-1"></i>' + flexygo.localization.translate('viewmanager.viewwizard') + '</legend></div>');
                     }
+                    else if (this.mode == 'templateManager') {
+                        btns = $('<div class="row"><div class="col-6"><div class="btn-group" role="listType" /></div><div class="col-6"><button style="float:right" class="btn btn-info btnSaveList">Save  <i class="flx-icon icon-order-right-2" /></button></div></div>');
+                        btns.find('.btn-group').append('<button type="button" class="btn btn-success" name="btn-fields"><i class="flx-icon icon-listbox-2" /> From Fields</button>');
+                        btns.find('.btn-group').append('<button type="button" class="btn btn-default" name="btn-sql"><i class="flx-icon icon-sql" /> From SQL</button>');
+                    }
                     let pnl = $('<div class="pnlFields"></div>');
                     pnl.append('<div class="col-3" style="padding-right:15px"><div class=""><span class="label"><div class="btn-group right"><button id="selectAll" class="btn btn-default" title="Select All"><i class="flx-icon icon-check-2"></i></button><button id="selectNone" class="btn btn-default" title="Select None"><i class="flx-icon icon-non-check-2"></i></button></div>' + flexygo.localization.translate('viewmanager.properties') + ':</span><br/><br/><ul class="objtree list-group"></ul></div></div>');
                     pnl.append('<div class="col-9"><span class="label"><div class="btn-group right"><button id="removeAll" class="btn btn-default" title="Remove All"><i class="flx-icon icon-trash"></i></button></div>' + flexygo.localization.translate('viewmanager.fields') + ':</span><br/><br/><ul class="filterFields list-group"></ul></div>');
@@ -70,7 +75,7 @@ var flexygo;
                     me.append(btns);
                     me.append(pnl);
                     me.append($(btnsBottom));
-                    if (this.mode == 'wizard' || this.mode == null || this.mode == '') {
+                    if (this.mode == 'wizard' || this.mode == null || this.mode == '' || this.mode == 'templateManager') {
                         me.append('<div class="pnlSQL" style="display:none"><flx-code type="sql" class="txtSQL" ></flx-code><button class="btnTestView btn btn-warning"><i class="flx-icon icon-double-check"></i> ' + flexygo.localization.translate('viewmanager.validate') + '</button></div>');
                     }
                     this.tree = me.find('.objtree');
@@ -88,10 +93,7 @@ var flexygo;
                                 me.find('.pnlFields').hide();
                                 me.find('.pnlSQL').show();
                                 let codeEditor = me.find("flx-code")[0];
-                                if (codeEditor.editor == "monaco") {
-                                    codeEditor.setCodeEditor();
-                                }
-                                else {
+                                if (codeEditor.editor == "codemirror") {
                                     let myCm = me.find('.txtSQL')[0].myCM;
                                     if (myCm) {
                                         myCm.refresh();
@@ -129,9 +131,10 @@ var flexygo;
                     me.find('[name="cancel-button"]').on('click', (e) => {
                         flexygo.nav.closePage(me);
                     });
-                    if (this.mode == 'wizard' || this.mode == null || this.mode == '') {
-                        this.loadView();
+                    if (this.mode == 'wizard' || this.mode == null || this.mode == '' || this.mode == 'templateManager') {
+                        return this.loadView();
                     }
+                    return;
                 }
                 validateView() {
                     let me = $(this);
@@ -180,7 +183,7 @@ var flexygo;
                         }
                         let params = new flexygo.api.sys.saveViewParams();
                         params.ObjectName = this.objectname;
-                        if (!this.viewname || this.viewname == '') {
+                        if (!this.viewname || this.viewname == '' || this.viewname == 'null') {
                             params.ViewName = this.objectname + 'DefaultList';
                         }
                         else {
@@ -200,6 +203,14 @@ var flexygo;
                                 flexygo.nav.closePage(me);
                             });
                         }
+                        else if (this.mode == 'templateManager') {
+                            flexygo.ajax.post('~/api/Sys', 'saveView', params, (view) => {
+                                $(this.targetItem).find('flx-dbcombo[name="ViewName"]').val(view.Name);
+                                $(this.targetItem).find('flx-dbcombo[name="ViewName"]').change();
+                                flexygo.msg.success(flexygo.localization.translate('viewmanager.saved'));
+                                flexygo.nav.closePage(me);
+                            });
+                        }
                         else {
                             flexygo.ajax.post('~/api/Sys', 'saveView', params, (view) => {
                                 this.setView(view);
@@ -214,13 +225,16 @@ var flexygo;
                     }
                 }
                 loadView() {
-                    let params = new flexygo.api.sys.getViewParams();
-                    params.ObjectName = this.objectname;
-                    params.ViewName = this.viewname;
-                    flexygo.ajax.post('~/api/Sys', 'getView', params, (view) => {
-                        this.setView(view);
+                    return new Promise((resolve, _) => {
+                        let params = new flexygo.api.sys.getViewParams();
+                        params.ObjectName = this.objectname;
+                        params.ViewName = this.viewname;
+                        flexygo.ajax.post('~/api/Sys', 'getView', params, (view) => {
+                            this.setView(view);
+                            resolve();
+                        });
+                        this.fields.sortable();
                     });
-                    this.fields.sortable();
                 }
                 setView(view) {
                     let me = $(this);

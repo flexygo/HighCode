@@ -20,6 +20,7 @@ declare namespace flexygo.ui.wc {
         reportName: string;
         processName: string;
         mode: string;
+        propertyWizard: FlxPropertyWizardElement;
         data: any;
         tHeader: string;
         tBody: string;
@@ -29,11 +30,13 @@ declare namespace flexygo.ui.wc {
         connectedCallback(): void;
         observedAttributes(): string[];
         attributeChangedCallback(attrName: string, oldVal: any, newVal: any): void;
-        refresh(): void;
+        refresh(): Promise<void>;
         onPropertyChanged(e: flexygo.events.FlexygoEvent): void;
-        initEditMode(): void;
-        initProcessMode(): void;
-        initReportMode(): void;
+        initEditMode(): Promise<void>;
+        initProcessMode(): Promise<void>;
+        initReportMode(): Promise<void>;
+        setProperties(response: any, objectname: string, objectwhere: string): void;
+        updateQuickSettingString(current_property: string, new_value: string, setting_name: string): void;
         render(): void;
         toogleSortMode(btns: JQuery): void;
         _resizeGridProps(): void;
@@ -45,6 +48,7 @@ declare namespace flexygo.ui.wc {
         refreshConfigMode(): void;
         getValue(row: flexygo.api.ObjectPropertyLoweredKey, tag: string): any;
         paintProperties(data: any, template: string): string;
+        getWizardOnClickEvent(propertyName: string): string;
         paintHeader(): string;
         paintFooter(): string;
         paintBody(): string;
@@ -52,7 +56,6 @@ declare namespace flexygo.ui.wc {
         insertSeparator(PropertyName: string, Above: number): void;
         insertPlaceHolder(PropertyName: string, Above: number): void;
         getExtendedTools(row: flexygo.api.ObjectProperty): JQuery;
-        loadExtendedMenu(row: flexygo.api.ObjectProperty, btMenuId: string): void;
         getExtendedToolsMenu(row: flexygo.api.ObjectProperty, btMenuId?: string): JQuery;
         parseEditString(str: string): string;
         flxTranslate(str: string): string;

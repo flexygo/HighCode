@@ -1,10 +1,10 @@
-import { r as registerInstance, k as h, n as Host } from './index-d0d1673d.js';
-import { g as getIonMode } from './ionic-global-f9661584.js';
-import { m as menuController } from './index-07c2bb76.js';
-import { u as updateVisibility } from './menu-toggle-util-5cac87c8.js';
-import './hardware-back-button-aacf3d12.js';
-import './helpers-719f4c54.js';
-import './animation-10ea33c3.js';
+import { r as registerInstance, k as h, o as Host } from './index-8e5b11cb.js';
+import { g as getIonMode } from './ionic-global-6d118971.js';
+import { m as menuController } from './index-81d32235.js';
+import { u as updateVisibility } from './menu-toggle-util-7a60eedf.js';
+import './hardware-back-button-508e48cf.js';
+import './helpers-7ecb2fa5.js';
+import './animation-b4670628.js';
 
 const menuToggleCss = ":host(.menu-toggle-hidden){display:none}";
 

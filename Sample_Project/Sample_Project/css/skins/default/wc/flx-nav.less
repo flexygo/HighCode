@@ -533,10 +533,10 @@ flx-nav[mode=tree] li:after, .tree li:after {
 }
 
 flx-nav[mode=tree] li > span, .tree li > span {
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
+    -moz-border-radius: @border-radius;
+    -webkit-border-radius: @border-radius;
     border: 1px dotted #999;
-    border-radius: 5px;
+    border-radius: @border-radius;
     display: inline-block;
     padding: 3px 8px;
     text-decoration: none;
@@ -909,7 +909,6 @@ flx-nav[mode=menu] ul ul li {
 }
 
 flx-nav[mode=menu] ul ul ul {
-    margin-left: 100%;
     top: 0;
 }
 
@@ -1037,12 +1036,23 @@ flx-nav[mode=menu] ul ul {
     color: @txt-menu-color;
     //font-family: 'latoregular';
     box-sizing: border-box;
-    border: 1px solid #e0e0e0;
-    border-left: 4px solid @outstanding-color;
     font-size: 1em;
     background-color: @menu-color;
-    box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, .2);
     z-index: 7;
+
+    &.onLeft {
+        right: 100%;
+        border: 1px solid #e0e0e0;
+        border-right: 4px solid @outstanding-color;
+        box-shadow: 0 5px 5px 0 rgba(0, 0, 0, .2);
+    }
+
+    &.onRight {
+        left: 100%;
+        border: 1px solid #e0e0e0;
+        border-left: 4px solid @outstanding-color;
+        box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, .2);
+    }
 }
 
 flx-nav[mode=menu] ul ul {

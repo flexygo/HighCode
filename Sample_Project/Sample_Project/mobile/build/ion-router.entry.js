@@ -1,5 +1,5 @@
-import { r as registerInstance, o as createEvent, m as getElement } from './index-d0d1673d.js';
-import { c as componentOnReady, m as debounce } from './helpers-719f4c54.js';
+import { r as registerInstance, n as createEvent, m as getElement } from './index-8e5b11cb.js';
+import { c as componentOnReady, m as debounce } from './helpers-7ecb2fa5.js';
 
 const ROUTER_INTENT_NONE = 'root';
 const ROUTER_INTENT_FORWARD = 'forward';
@@ -224,13 +224,54 @@ const findRouteRedirect = (path, redirects) => {
 };
 const matchesIDs = (ids, chain) => {
   const len = Math.min(ids.length, chain.length);
-  let i = 0;
-  for (; i < len; i++) {
-    if (ids[i].toLowerCase() !== chain[i].id) {
+  let score = 0;
+  for (let i = 0; i < len; i++) {
+    const routeId = ids[i];
+    const routeChain = chain[i];
+    // Skip results where the route id does not match the chain at the same index
+    if (routeId.id.toLowerCase() !== routeChain.id) {
       break;
     }
+    if (routeId.params) {
+      const routeIdParams = Object.keys(routeId.params);
+      /**
+       * Only compare routes with the chain that have the same number of parameters.
+       */
+      if (routeIdParams.length === routeChain.path.length) {
+        /**
+         * Maps the route's params into a path based on the path variable names,
+         * to compare against the route chain format.
+         *
+         * Before:
+         * ```ts
+         * {
+         *  params: {
+         *    s1: 'a',
+         *    s2: 'b'
+         *  }
+         * }
+         * ```
+         *
+         * After:
+         * ```ts
+         * [':s1',':s2']
+         * ```
+         */
+        const pathWithParams = routeIdParams.map(key => `:${key}`);
+        for (let j = 0; j < pathWithParams.length; j++) {
+          // Skip results where the path variable is not a match
+          if (pathWithParams[j].toLowerCase() !== routeChain.path[j]) {
+            break;
+          }
+          // Weight path matches for the same index higher.
+          score++;
+        }
+      }
+    }
+    // Weight id matches
+    score++;
   }
-  return i;
+  return score;
 };
 const matchesPath = (inputPath, chain) => {
   const segments = new RouterSegments(inputPath);
@@ -285,9 +326,8 @@ const mergeParams = (a, b) => {
 const routerIDsToChain = (ids, chains) => {
   let match = null;
   let maxMatches = 0;
-  const plainIDs = ids.map(i => i.id);
   for (const chain of chains) {
-    const score = matchesIDs(plainIDs, chain);
+    const score = matchesIDs(ids, chain);
     if (score > maxMatches) {
       match = chain;
       maxMatches = score;

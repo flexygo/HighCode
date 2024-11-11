@@ -79,11 +79,58 @@ var flexygo;
                     me.html(container);
                     container.append('<div id="layoutList" class="col-12 nopadding"/>');
                     container.append('<div class="layoutPanelOutside col-8"><div id="layoutPanel"></div></div>');
-                    container.append('<div id="modulePanel" class="col-4"><div class="searchPanel"><flx-text class="searchInput" placeholder="' + flexygo.localization.translate('modulemanager.searchmodules') + '" iconclass="flx-icon icon-search" allowNewObject="sysModule" /></div><div style="clear:both"></div><div id="moduleList"><ul class="connectedSortable"></ul></div></div>');
+                    let modulePanel = `<div id="modulePanel" class="col-4">
+                                    <div class="padding-left-l" style="display: flex;">
+                                        <div class="groupBy padding-right-s"/>
+                                        <div class="searchPanel">
+                                            <flx-text class="searchInput" placeholder="${flexygo.localization.translate('modulemanager.searchmodules')}" iconclass="flx-icon icon-search" allowNewObject="sysModule"/>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="clear:both"></div>
+                                    <div id="moduleList">
+                                        <ul class="connectedSortable"></ul>
+                                    </div>
+                            </div>`;
+                    container.append(modulePanel);
                     container.append('<div id="bottomToolbar"><button class="btn btn-default bg-info saveButton"><i class="flx-icon icon-save"></i> ' + flexygo.localization.translate('modulemanager.save') + '</button> <button class="btn btn-default bg-danger closeButton"><i class="flx-icon icon-remove"></i> ' + flexygo.localization.translate('modulemanager.cancel') + '</button></div>');
                     this.loadLayoutPanel();
                     this.loadNodes();
                     this.loadCurrentPage();
+                    let moduleList = container.find('#moduleList');
+                    let buttonsContainer = container.find('.groupBy');
+                    let btnGroupObjects = $(`<button class="btn btn-outstanding flx-icon icon-object margin-right-s" title="${flexygo.localization.translate('modulemanager.groups')} ${flexygo.localization.translate('modulemanager.objectGroup')}"/>`);
+                    buttonsContainer.append(btnGroupObjects);
+                    btnGroupObjects.on('click', (e) => {
+                        const loadingPromise = new Promise((resolve) => {
+                            flexygo.utils.showLoading(moduleList, 'Loading');
+                            setTimeout(() => {
+                                resolve(true);
+                            }, 50);
+                        });
+                        loadingPromise.then(() => {
+                            this.setActiveButton($(e.target), buttonsContainer);
+                            if ($(e.target).hasClass('bg-info'))
+                                this.loadNodes(true, false);
+                            flexygo.utils.removeLoadingEffect(moduleList);
+                        });
+                    });
+                    let btnGroupTypes = $(`<button class="btn btn-outstanding flx-icon icon-modules" title ="${flexygo.localization.translate('modulemanager.groups')} ${flexygo.localization.translate('modulemanager.moduleTypeGroup')}"/>`);
+                    buttonsContainer.append(btnGroupTypes);
+                    btnGroupTypes.on('click', (e) => {
+                        const loadingPromise = new Promise((resolve) => {
+                            flexygo.utils.showLoading(moduleList, 'Loading');
+                            setTimeout(() => {
+                                resolve(true);
+                            }, 50);
+                        });
+                        loadingPromise.then(() => {
+                            this.setActiveButton($(e.target), buttonsContainer);
+                            if ($(e.target).hasClass('bg-info'))
+                                this.loadNodes(false, true);
+                            flexygo.utils.removeLoadingEffect(moduleList);
+                        });
+                    });
                     let btn = $('<button class="btn btn-default" type="button"><i class="flx-icon icon-open-in-new-window"></i></button>');
                     container.find('.searchInput .input-group-btn').prepend(btn);
                     btn.on('click', (e) => {
@@ -125,6 +172,19 @@ var flexygo;
                     //    }
                     //    form.closest('.ui-dialog').remove();
                     //})
+                }
+                setActiveButton(button, container) {
+                    if (button.hasClass('bg-info')) {
+                        button.removeClass('bg-info');
+                        this.loadNodes();
+                    }
+                    else if (container.find('button').hasClass('bg-info')) {
+                        container.find('button').removeClass('bg-info');
+                        button.addClass('bg-info');
+                    }
+                    else {
+                        button.addClass('bg-info');
+                    }
                 }
                 addTabModule() {
                     let moduleContent = $('<form class="tabForm"/>');
@@ -313,10 +373,10 @@ var flexygo;
                         this.setSorting(me.find(".connectedSortable"));
                     });
                 }
-                loadNodes() {
+                loadNodes(groupObject = false, groupType = false) {
                     let me = $(this);
                     let obj = new flexygo.obj.Entity('sysModules');
-                    //TODO button Tab
+                    //TODO button Tab             
                     this.modTemplate = '<li data-id="{{ModuleName}}" data-descrip="{{Descrip|string:lower}}" class="moduleItem nolist {{TypeId|switch:[flx-moduletab:tabItem,flx-buttontab:tabItem,else:null]}} {{Active|bool:,module-no-active}}">';
                     this.modTemplate += '<div class="box-primary">';
                     this.modTemplate += '<div class="buttonList">{{TypeId|switch:[flx-moduletab:<i title="Expand tab content" class="flx-icon icon-open-in-new-window tabButton"></i>,flx-buttontab:<i title="Expand tab content" class="flx-icon icon-open-in-new-window tabButton"></i>,else:null]}}';
@@ -331,11 +391,62 @@ var flexygo;
                     this.modules = obj.getView('sysModuleBasicListInfo');
                     let list = me.find('#moduleList ul');
                     list.empty();
-                    for (let i = 0; i < this.modules.length; i++) {
-                        list.append(flexygo.utils.parser.compile(this.modules[i], this.modTemplate, flexygo));
+                    switch (true) {
+                        case groupObject:
+                            this.paintGroupManager(list, "ObjectDescrip");
+                            break;
+                        case groupType:
+                            this.paintGroupManager(list, "TypeDescrip");
+                            break;
+                        default:
+                            for (let i = 0; i < this.modules.length; i++) {
+                                list.append(flexygo.utils.parser.compile(this.modules[i], this.modTemplate, flexygo));
+                            }
                     }
                     this.setActionButtons(list.find('li'));
                     this.setSorting(me.find(".moduleTab>ul.connectedSortable"));
+                }
+                paintGroupManager(list, groupField) {
+                    let data, template, groupHeaders, bodyTemplate = "";
+                    data = flexygo.utils.sortObject(this.modules, groupField);
+                    template = this.modTemplate;
+                    groupHeaders = Array.from(new Set(this.modules.map(val => val[groupField])));
+                    groupHeaders.forEach(function (groupHead) {
+                        bodyTemplate += `<li data-descrip="${groupHead ? groupHead : "Without object"}" class="bold headerGroup moduleItem nolist padding-s"><i class="fa fa-chevron-down icon-lg icon-margin"></i>${groupHead ? groupHead : "Without object"}</li>`;
+                        var elements = data.filter(val => val[groupField] === groupHead);
+                        elements.forEach(function (val) {
+                            bodyTemplate += template.replaceAll("{{ModuleName}}", val.ModuleName)
+                                .replaceAll("{{Descrip}}", val.Descrip)
+                                .replaceAll("{{Descrip|string:lower}}", val.Descrip.toLowerCase())
+                                .replaceAll("{{TypeId}}", val.TypeId)
+                                .replaceAll("{{TypeDescrip}}", val.TypeDescrip)
+                                .replaceAll("{{TypeIconClass}}", val.TypeIconClass)
+                                .replaceAll("{{TypeId}}", val.TypeId)
+                                .replaceAll("{{Active|bool:,module-no-active}}", val.Active ? '' : "module-no-active")
+                                .replaceAll("{{TypeId|switch:[flx-moduletab:tabItem,flx-buttontab:tabItem,else:null]}}", val.TypeId == "flx-moduletab" || val.TypeId == "flx-buttontab" ? "tabItem" : '')
+                                .replaceAll('{{TypeId|switch:[flx-moduletab:<i title="Expand tab content" class="flx-icon icon-open-in-new-window tabButton"></i>,flx-buttontab:<i title="Expand tab content" class="flx-icon icon-open-in-new-window tabButton"></i>,else:null]}}', val.TypeId == "flx-moduletab" || val.TypeId == "flx-buttontab" ? '<i title="Expand tab content" class= "flx-icon icon-open-in-new-window tabButton"></i>' : '')
+                                .replaceAll('{{TypeId|switch:[flx-moduletab:<div class="moduleTab" ><ul class="connectedTab connectedSortable"></ul></div>,flx-buttontab:<div class="moduleTab" ><ul class="connectedTab connectedSortable"></ul></div>,else:null]}}', val.TypeId == "flx-moduletab" || val.TypeId == "flx-buttontab" ? '<div class="moduleTab" ><ul class="connectedTab connectedSortable"></ul></div>' : '');
+                        });
+                    });
+                    list.append(bodyTemplate);
+                    let headers = $(list).find('li.headerGroup');
+                    headers.on('click', (e) => {
+                        let liHeader = $(e.target);
+                        let iHeader;
+                        if (liHeader.is('i'))
+                            liHeader = $(e.target).closest('li.headerGroup');
+                        iHeader = liHeader.find('i');
+                        iHeader.removeClass();
+                        var liChildren = liHeader.nextUntil('li.headerGroup');
+                        if (liChildren.is(":hidden")) {
+                            iHeader.addClass('fa fa-chevron-down icon-lg icon-margin');
+                            liChildren.show();
+                        }
+                        else {
+                            iHeader.addClass('fa fa-chevron-right icon-lg icon-margin');
+                            liChildren.hide();
+                        }
+                    });
                 }
                 setSorting(itms) {
                     let me = $(this);
@@ -343,6 +454,7 @@ var flexygo;
                         appendTo: "BODY",
                         zIndex: 999999,
                         helper: "clone",
+                        items: "> li:not(.headerGroup)",
                         connectWith: ".connectedSortable",
                         stop: (event, ui) => {
                             let itm = $(ui.item);

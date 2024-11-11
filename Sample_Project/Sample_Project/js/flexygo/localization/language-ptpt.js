@@ -9,7 +9,8 @@ var flexygo;
         (function (ptpt) {
             ptpt.process = {
                 executing: 'Executando processo...',
-                loadingdata: 'Carregando dados...'
+                loadingdata: 'Carregando dados...',
+                pleaserefresh: 'O aplicativo precisa ser atualizado, deseja fazer isso agora?'
             };
             ptpt.dependecymanager = {
                 sort: 'Classificar',
@@ -19,7 +20,7 @@ var flexygo;
                 enabledep: 'Ativado',
                 visibledep: 'Visível',
                 requireddep: 'Obrigatório',
-                CustomProperty: 'Custom Property Dep.',
+                CustomProperty: 'Propriedade personalizada',
                 save: 'Salve',
                 addmore: 'Adicionar mais propriedades dependentes',
                 addmorefilter: 'Adicionar mais filtros dependentes',
@@ -42,9 +43,16 @@ var flexygo;
                 SQLCustomProperty: 'SQL Custom Property',
                 connectionstrings: 'Cadeias de conexão',
                 connStringvalues: 'Valores da cadeia de conexão',
-                relateddep: 'Dependências relacionadas'
+                relateddep: 'Dependências relacionadas',
+                sqllabel: 'SQL Etiqueta'
             };
             ptpt.develop = {
+                pagename: 'Página Confi.',
+                placeholder: 'Selecione o objeto para obter a configuração.',
+                originSystem: '0. Sistema',
+                originProduct: '1. Produto',
+                originProject: '2. Projeto',
+                originUser: '3. Utilizador',
                 developer: 'Desenvolvedor',
                 adminarea: 'Área de design',
                 help: 'Ajuda',
@@ -73,6 +81,7 @@ var flexygo;
                 users: 'Usuarios',
                 roles: 'Roles',
                 processes: 'Processos',
+                minifyjscss: 'Minificar JS/CSS'
             };
             ptpt.history = {
                 historyempty: 'Histórico de navegação vazio',
@@ -90,6 +99,10 @@ var flexygo;
                 confirm: 'Confirme a ação',
                 fieldrequired: 'O campo é obrigatório',
                 copied: 'Copiado',
+                noticetitle: 'Aviso de coleta de dados',
+                noticemsg: `A Flexygo recolhe e trata dados com o objetivo de melhorar a sua experiência e otimizar o desempenho dos nossos serviços. <a class="clickable" target="_blank" href="https://docs.flexygo.com/telemetry.html">Mais informações</a>`,
+                noticeaccept: 'Aceitar',
+                tokentimeout: 'O valor inserido é muito alto'
             };
             ptpt.flxkanban = {
                 addCard: 'Adicionar novo',
@@ -138,7 +151,10 @@ var flexygo;
                 affectedby: 'Afetado por',
                 persistdefaultvalue: 'Inadimplência Persistente',
                 defaultvalue: 'Valor padrão',
-                detachedproperty: 'Propriedade desconectada'
+                detachedproperty: 'Propriedade desconectada',
+                notdisplayform: 'Não mostrar no formulário',
+                tips: 'Pontas',
+                ctrclick: 'Pode aceder diretamente às opções avançadas de uma propriedade usando control + clique'
             };
             ptpt.flxeditgrid = {
                 addrow: 'Adicionar linha',
@@ -338,6 +354,7 @@ var flexygo;
                 requiredreport: 'Preencha todos os parâmetros obrigatórios antes de abrir el Relatório.',
                 deleted: 'Excluido :)',
                 saved: 'Salvo :)',
+                errorSaving: 'Ocorreu um erro ao guardar',
                 uniqueBagError: 'Campo chave única indefinida.',
                 nofieldBagError: 'O campo não foi encontrado <b>{0}</b>. Adicione-o à consulta ou remova o botão de opção.',
                 noItemsSelected: 'Selecione um item da lista primeiro.',
@@ -478,6 +495,9 @@ var flexygo;
                 events: 'Eventos vinculados',
                 security: 'Segurança do módulo',
                 tabMode: 'Tipo de aba',
+                groups: 'Agrupar por',
+                objectGroup: 'Objeto',
+                moduleTypeGroup: 'Tipo de módulo',
             };
             ptpt.moduletab = {
                 emptytabs: 'Abas vazias',
@@ -539,6 +559,9 @@ var flexygo;
                 colproperties: 'Propriedades Edit grid (opcional)',
                 save: 'Salve',
                 filtersettings: 'Configuração do filtros',
+                listtemplatesettings: "Modelo de Lista (opcional)",
+                viewtemplatesettings: "Modelo de Visualização (opcional)",
+                createdatamodel: 'Criar modelo de dados'
             };
             ptpt.flxpropertymanager = {
                 addfields: 'Clique em "Adicionar campos" para começar.',
@@ -557,6 +580,28 @@ var flexygo;
                 close: 'Fechar',
                 hasdefinition: 'Verifique a tabela da propriedade:',
                 valueTemplate: 'Valor',
+                areYouSure: "Tem a certeza de que não pretende guardar @ alterações?",
+                quickStart: "Selecione uma propriedade para começar a configurá-la rapidamente",
+                quickSettings: "Configurações rápidas",
+                default: "Valor padrão",
+                css: "Classe CSS",
+                icon: "Ícone",
+                hide: "Ocultar",
+                isrequired: "É obrigatório",
+                settings: "Configurações do controle",
+                type: "Tipo",
+                customSettings: "Herança de configurações",
+                sqlValue: "Campo de Valor SQL",
+                sqlDisplay: "Campo de Exibição SQL",
+                extension: "Extensão",
+                sqlSentence: "Sentença SQL",
+                connectionString: "String de conexão",
+                pathType: "Tipo de caminho raiz",
+                path: "Caminho raiz",
+                compression: "Compressão de imagem",
+                width: "Largura máxima",
+                height: "Altura máxima",
+                barcode: "Leitores de código de barras"
             };
             ptpt.flxversioninfo = {
                 currentversion: 'Versão actual ({{CurrentVersion}}).',
@@ -863,10 +908,11 @@ var flexygo;
                 maxSize: "Tamanho máximo",
             };
             ptpt.databaseScript = {
-                infoGenerate: "Os arquivos serão gerados diretamente na pasta padrão",
-                infoDownload: "Os arquivos serão compactados em um zip e baixados",
+                infoGenerate: "Os scripts de dados serão gerados diretamente na pasta de scripts predefinida",
+                infoDownload: "Os scripts de dados serão comprimidos em um ficheiro zip e enviados para download",
                 generate: "Gerar arquivos",
-                download: "Baixar arquivos"
+                download: "Baixar arquivos",
+                infoStructure: "e os scripts de estrutura serão gerados diretamente na pasta de scripts predefinida"
             };
             ptpt.flxcode = {
                 readonlyMode: 'Você não pode editar no modo de visualização'
@@ -933,7 +979,39 @@ var flexygo;
                 deprecated: 'Depreciado',
                 features: 'Novas funcionalidades',
                 fixes: 'Correcções',
-                notfound: 'Nenhuma versão encontrada.'
+                notfound: 'Nenhuma versão encontrada.',
+                noreleasenotes: 'Sem notas de lançamento.'
+            };
+            ptpt.getTableChangesPage = {
+                needsADate: 'Selecionar uma data para filtrar em todas as tabelas',
+                needsFiltering: 'Tem de filtrar primeiro por uma data antes de gerar o guião',
+                needsGenerating: 'Tem de gerar o script primeiro',
+                loading: 'A gerar o guião...',
+                selectATable: 'Por favor, seleccione pelo menos uma tabela para o script'
+            };
+            ptpt.flxnotification = {
+                showAll: 'Ver tudo',
+                allOk: 'Tudo Ok',
+                título: 'Últimas notificações'
+            };
+            ptpt.flxtemplatemanager = {
+                titleView: 'Por favor, selecione a vista de dados que deseja utilizar',
+                placeholderView: 'Propriedades do objeto',
+                titleManager: 'Selecione a propriedade correspondente em cada marcador',
+                placeholderManager: 'Selecione a propriedade correspondente',
+                saveManager: 'Salvar',
+                confirmSaveManager: 'Tem certeza de que deseja salvar e gerar o modelo?',
+                newView: 'Introduza o novo nome da visualização',
+                errorTemplate: "Erro ao criar o modelo",
+                existsTemplate: "O modelo já existe",
+                successTemplate: "Modelo criado com sucesso",
+                noView: "Nenhuma visualização selecionada",
+                noObject: "Por favor, selecione um objeto"
+            };
+            ptpt.flxchatgptfieldselector = {
+                addButton: 'Adicionar Tabelas',
+                clearButton: 'Limpar Tabelas',
+                saveButton: 'Salvar Alterações'
             };
         })(ptpt = culture.ptpt || (culture.ptpt = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

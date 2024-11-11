@@ -15,6 +15,9 @@ var flexygo;
         }
         nav.ModulePresetHistory = ModulePresetHistory;
         class FlexygoHistory {
+            constructor() {
+                this.callback = null;
+            }
         }
         nav.FlexygoHistory = FlexygoHistory;
         /**
@@ -43,7 +46,7 @@ var flexygo;
                 targetid = "current";
             }
             else if (flexygo.utils.isSizeMobile() && isModal) {
-                targetid = "modal";
+                targetid = "slidebottomx90%";
             }
             if (typeof defaults == 'object') {
                 defaults = JSON.stringify(defaults);
@@ -84,7 +87,7 @@ var flexygo;
                     detailIdentity: objectwhere
                 };
                 flexygo.events.trigger(ev);
-                objectwhere ? objectwhere = objectwhere.replaceAll("&quot;", "\"") : null;
+                objectwhere ? objectwhere = objectwhere.replace(/&quot;/g, '"') : null;
                 flexygo.ajax.post('~/api/Page', 'GetPageByObject', { "StrType": pagetypeid, "ObjectName": objectname, "ObjectWhere": objectwhere, "IsClone": isClone }, (ret) => {
                     histObj.pagename = ret.PageName;
                     var pageContainer = flexygo.targets.createContainer(histObj, excludeHist, triggerElement);
@@ -156,7 +159,7 @@ var flexygo;
                 targetid = "current";
             }
             else if (flexygo.utils.isSizeMobile() && targetid.indexOf('modal') == 0) {
-                targetid = "modal";
+                targetid = "slidebottomx90%";
             }
             if (triggerElement) {
                 triggerElement = getRealTarget(triggerElement);
@@ -222,6 +225,16 @@ var flexygo;
             }
         }
         nav.openPageName = openPageName;
+        class ExecProcessParams {
+            constructor() {
+                this.objectname = '';
+                this.objectwhere = '';
+            }
+        }
+        function execProcessObj(execProcessParams) {
+            execProcess(execProcessParams.processname, execProcessParams.objectname, execProcessParams.objectwhere, execProcessParams.defaults, execProcessParams.processparams, execProcessParams.targetid, execProcessParams.excludeHist, execProcessParams.triggerElement, execProcessParams.callBack, execProcessParams.showProgress, execProcessParams.originalProcess, execProcessParams.errorCallback, execProcessParams.eventData);
+        }
+        nav.execProcessObj = execProcessObj;
         /**
         * Executes a process, opening its param page if required
         * @method execProcess
@@ -370,10 +383,13 @@ var flexygo;
                         let container = $('<flx-module></flx-module>');
                         container.html(mod.ContainerTemplate).attr('modulename', mod.ModuleName).attr('type', mod.WebComponent.split(' ')[0]).addClass(mod.ContainerClass);
                         if (mod.PresetName && presets == undefined) {
-                            container.html(mod.ContainerTemplate).attr('presetname', mod.PresetName).attr('presettext', mod.PresetText).attr('preseticon', mod.PresetIcon).attr('removepreset', mod.RemovePreset);
+                            container.html(mod.ContainerTemplate).attr('presetname', mod.PresetName).attr('presettext', mod.PresetText).attr('preseticon', mod.PresetIcon).attr('removepreset', mod.RemovePreset.toString());
                         }
-                        if (flexygo.utils.isSizeMobile() && modules.length == 1) {
-                            container.find('.cntHeader').hide();
+                        //if (flexygo.utils.isSizeMobile() && modules.length == 1) {
+                        //    container.find('.cntHeader').hide();
+                        //}
+                        if (mod.Skeleton) {
+                            container[0].skeleton = mod.Skeleton;
                         }
                         cont.append(container);
                         var componentString = mod.WebComponent;
@@ -424,7 +440,12 @@ var flexygo;
                             container.attr('init', 'false').hide();
                         }
                         else {
-                            ctrl.init();
+                            try {
+                                ctrl.init();
+                            }
+                            catch (_a) {
+                                console.log('Luz al final del túnel');
+                            }
                         }
                     }
                 }
@@ -474,7 +495,7 @@ var flexygo;
                 targetid = "current";
             }
             else if (flexygo.utils.isSizeMobile() && targetid.indexOf('modal') == 0) {
-                targetid = "modal";
+                targetid = "slidebottomx90%";
             }
             if (triggerElement) {
                 triggerElement = getRealTarget(triggerElement);
@@ -524,15 +545,15 @@ var flexygo;
         * @param {boolean} excludeHist - True to not store in history
         * @param {JQuery} triggerElement - Relative element to open the page
        */
-        function openReportsParams(reportname, reportwhere, objectname, objectwhere, defaults, targetid, excludeHist, triggerElement) {
+        function openReportsParams(reportname, reportwhere, objectname, objectwhere, defaults, targetid, excludeHist, triggerElement, print = false) {
             let reportConfig = new flexygo.obj.Entity('sysReport', 'Reports.ReportName=\'' + reportname + '\'');
             let objData = reportConfig.getView('vNet_Reports', 0, 1, null, null, null)[0];
             if (objData.numParameters > 0) {
                 //report params page is currenty syspage-reportparams-default
-                flexygo.nav.openReportsParamsPage('syspage-reportparams-default', reportname, reportwhere, objectname, objectwhere, defaults, targetid, excludeHist, triggerElement);
+                flexygo.nav.openReportsParamsPage('syspage-reportparams-default', reportname, reportwhere, objectname, objectwhere, defaults, targetid, excludeHist, triggerElement, print);
             }
             else {
-                viewReport(reportname, reportwhere, objectname, objectwhere, defaults, null, targetid, excludeHist, true);
+                viewReport(reportname, reportwhere, objectname, objectwhere, defaults, null, targetid, excludeHist, true, print);
             }
         }
         nav.openReportsParams = openReportsParams;
@@ -549,7 +570,7 @@ var flexygo;
          * @param {boolean} excludeHist - True to not store in history
          * @param {JQuery} triggerElement - Relative element to open the page
         */
-        function openReportsParamsPage(pagename, reportname, reportwhere, objectname, objectwhere, defaults, targetid, excludeHist, triggerElement) {
+        function openReportsParamsPage(pagename, reportname, reportwhere, objectname, objectwhere, defaults, targetid, excludeHist, triggerElement, print = false) {
             if (typeof event != 'undefined') {
                 event.preventDefault();
             }
@@ -557,7 +578,7 @@ var flexygo;
                 targetid = "current";
             }
             else if (flexygo.utils.isSizeMobile() && targetid.indexOf('modal') == 0) {
-                targetid = "modal";
+                targetid = "slidebottomx90%";
             }
             if (triggerElement) {
                 triggerElement = getRealTarget(triggerElement);
@@ -573,7 +594,8 @@ var flexygo;
                 defaults: defaults,
                 reportname: reportname,
                 reportwhere: reportwhere,
-                userid: flexygo.context.currentUserId
+                userid: flexygo.context.currentUserId,
+                print: print
             };
             if (targetid && targetid.indexOf('new') == 0) {
                 flexygo.targets.openNewWindow(histObj, targetid);
@@ -604,7 +626,7 @@ var flexygo;
          * @param {boolean} excludeHist - True to not store in history
          * @param {JQuery} triggerElement - Relative element to open the page
         */
-        function viewReport(reportname, reportwhere, objectname, objectwhere, defaults, params, targetid, excludeHist, hasParams = false) {
+        function viewReport(reportname, reportwhere, objectname, objectwhere, defaults, params, targetid, excludeHist, hasParams = false, print = false) {
             if (typeof event != 'undefined') {
                 event.preventDefault();
             }
@@ -619,6 +641,9 @@ var flexygo;
                     for (let i = 0; i < params.length; i++) {
                         paramsJSON[params[i].key] = params[i].value;
                     }
+                }
+                if (reportConfig.PrintId == 'auto' && print) {
+                    reportConfig.PrintId = 'print';
                 }
                 //html report
                 if (reportConfig.TypeId == 'html') {
@@ -637,6 +662,31 @@ var flexygo;
                             var func = new Function(ret.Link);
                             func.call(ret.Link);
                         }
+                    });
+                }
+                else if ((reportConfig.TypeId == 'crystal' || reportConfig.TypeId == "devexpress" || reportConfig.TypeId == "devexpressfile") && reportConfig.ReportMode == 'Pdf' && reportConfig.PrintId == 'print') {
+                    flexygo.utils.showLoading(null, flexygo.localization.translate('htmlreport.generate'));
+                    flexygo.utils.asyncSleep(100).then(() => {
+                        //came from param form
+                        if (params)
+                            params = JSON.stringify(params);
+                        //defaults for the params
+                        if (defaults && defaults != 'null') {
+                            defaults = flexygo.utils.dataToArray(JSON.parse(flexygo.utils.parser.replaceAll(defaults, "'", '"')));
+                            defaults = JSON.stringify(defaults);
+                        }
+                        else {
+                            defaults = null;
+                        }
+                        flexygo.ajax.syncPost('~/api/Report', 'GetReportPDFBase64', { "ObjectName": objectname, "ObjectWhere": objectwhere, "ReportName": reportname, "ReportWhere": reportwhere, "ReportTypeId": reportConfig.TypeId, "Params": params, "Defaults": defaults, "HasParams": hasParams }, (ret) => {
+                            if (ret) {
+                                printJS({ printable: ret, type: 'pdf', base64: true });
+                                flexygo.utils.removeLoadingEffect();
+                            }
+                        }, (error) => {
+                            flexygo.exceptions.httpShow(error);
+                            flexygo.utils.removeLoadingEffect();
+                        });
                     });
                 }
                 else {
@@ -730,7 +780,7 @@ var flexygo;
                 targetid = "current";
             }
             else if (flexygo.utils.isSizeMobile() && targetid.indexOf('modal') == 0) {
-                targetid = "modal";
+                targetid = "slidebottomx90%";
             }
             if (triggerElement) {
                 triggerElement = getRealTarget(triggerElement);
@@ -808,7 +858,7 @@ var flexygo;
                 targetid = "current";
             }
             else if (flexygo.utils.isSizeMobile() && targetid.indexOf('modal') == 0) {
-                targetid = "modal";
+                targetid = "slidebottomx90%";
             }
             if (triggerElement) {
                 triggerElement = getRealTarget(triggerElement);
@@ -947,6 +997,7 @@ var flexygo;
                 else if (defMenu) {
                     defaults = JSON.stringify(defMenu);
                 }
+                objectwhere ? objectwhere = objectwhere.replace(/&quot;/g, '"') : null;
                 let proc = new flexygo.obj.Entity(objectname, objectwhere).processes(options, defaults);
                 //Clear not Show in Menu items
                 if (proc.ObjectLink && Object.keys(proc.ObjectLink.ChildNodes).length > 0) {

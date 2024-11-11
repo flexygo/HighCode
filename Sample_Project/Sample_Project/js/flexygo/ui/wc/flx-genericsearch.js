@@ -59,7 +59,7 @@ var flexygo;
                         me.html('<div class="search input-group"><input type="search" placeholder="No relation defined"><span class="input-group-addon bg-danger"><i class="flx-icon icon-stop"></i></span></div>');
                         return;
                     }
-                    me.html('<div class="search input-group"><input type="search" placeholder="' + flexygo.localization.translate('flxsearch.search') + '"><span class="input-group-addon bg-outstanding"><i class="flx-icon icon-search-1"></i></span></div>');
+                    me.html('<div class="search input-group"><input type="search" placeholder="' + flexygo.localization.translate('flxsearch.search') + '"><span class="input-group-addon"><i class="flx-icon icon-search-1"></i></span></div>');
                     me.closest('.cntBody').addClass('nopadding');
                     me.find('input').on('keyup.search & search', (e) => {
                         let modsIds = this.gridId.split('|');

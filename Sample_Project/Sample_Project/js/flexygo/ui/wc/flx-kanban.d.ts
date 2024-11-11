@@ -70,12 +70,12 @@ declare namespace flexygo.ui.wc {
         * Init the webcomponent. REQUIRED.
         * @method init
         */
-        init(): void;
+        init(): Promise<void>;
         /**
         * Refresh de webcomponent. REQUIRED.
         * @method refresh
         */
-        refresh(): void;
+        refresh(): Promise<void>;
         /**
         * Refresh de one colum. REQUIRED.
         * @method refresh
@@ -95,7 +95,7 @@ declare namespace flexygo.ui.wc {
         newCardClick(el: JQuery): void;
         onDialogClosed(e: flexygo.events.FlexygoEvent): void;
         setCardEventClick(me: JQuery): void;
-        loadKanban(refreshButtons: boolean, refreshFilters: boolean): void;
+        loadKanban(refreshButtons: boolean, refreshFilters: boolean): Promise<void>;
         loadColumn(refreshButtons: boolean, refreshFilters: boolean, columnid: string): void;
         /**
        * Load filters

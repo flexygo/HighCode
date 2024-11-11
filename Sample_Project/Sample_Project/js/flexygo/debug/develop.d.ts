@@ -20,6 +20,7 @@ declare namespace flexygo.debug {
      * @param {bool} showAnimation - Sets if the animation must be shown.
      */
     function enableDevelopMode(enable: boolean, showAnimation: boolean, firstTime?: boolean): void;
+    function showDevelopOriginsPanel(wcSidePanel: flexygo.ui.wc.FlxSidePanelElement, isFirstTime?: boolean): void;
     function showObject(mode: any): void;
     /**
      * Configure and returns sidebar config page panel.
@@ -33,12 +34,13 @@ declare namespace flexygo.debug {
      * @return {bool} - develop mode enabled
      */
     function isDevelopMode(): boolean;
+    function configureMonaco(): void;
     /**
      * Displays develop mode animation.
      * @method launchAnimation
      */
     function launchAnimation(): void;
-    function launchOriginAnimation(): void;
+    function launchOriginAnimation(isFirstTime: boolean): void;
     /**
      * Display a window with de dependency manager
      * @method manageDependencies

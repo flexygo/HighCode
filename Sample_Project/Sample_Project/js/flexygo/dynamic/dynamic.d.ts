@@ -8,6 +8,7 @@ declare namespace flexygo.utils {
     var maintenanceMode: string;
     var MaxSizeAttachment: string;
     var MaxSizeMail: string;
+    var TelemetryEnabled: string;
 }
 declare namespace flexygo.utils.size {
     var s: number;

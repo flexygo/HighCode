@@ -1,6 +1,15 @@
 /**
  * @namespace flexygo.ui.wc
  */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var flexygo;
 (function (flexygo) {
     var ui;
@@ -71,7 +80,7 @@ var flexygo;
                     this.method = 'GetAreaNode';
                     this.methodParams = { ParentId: initNode };
                     this.initNode = initNode;
-                    this.loadNodes();
+                    return this.loadNodes();
                 }
                 /**
                 * Refresh de webcomponent.
@@ -80,7 +89,7 @@ var flexygo;
                 refresh() {
                     if ($(this).attr('manualInit') != 'true') {
                         $(this).empty();
-                        this.loadNodes();
+                        return this.loadNodes();
                     }
                 }
                 /**
@@ -88,10 +97,20 @@ var flexygo;
                 * @method loadNodes
                 */
                 loadNodes() {
-                    flexygo.ajax.post('~/api/Navigation', this.method, this.methodParams, (response) => {
-                        let arrOrdered = flexygo.utils.sortObject(response, 'Order');
-                        this.loadNodesRet(arrOrdered);
-                    });
+                    return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
+                        flexygo.ajax.post('~/api/Navigation', this.method, this.methodParams, 
+                        //Success Function
+                        (response) => {
+                            let arrOrdered = flexygo.utils.sortObject(response, 'Order');
+                            this.loadNodesRet(arrOrdered);
+                            resolve();
+                        }, 
+                        //Error Function
+                        err => {
+                            flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                            resolve();
+                        });
+                    }));
                 }
                 /**
                 * loads Nodes with post result.

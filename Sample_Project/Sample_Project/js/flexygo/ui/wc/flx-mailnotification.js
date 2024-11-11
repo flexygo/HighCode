@@ -82,7 +82,7 @@ var flexygo;
                     notySpan.on('click', () => {
                         flexygo.nav.openPageName('syspage-mailimaplist', '', '', null, 'current', false, $(this));
                     });
-                    this.refreshBadge();
+                    return this.refreshBadge();
                 }
                 /**
                 * Checks and refresh Notify Badge
@@ -90,10 +90,21 @@ var flexygo;
                 */
                 refreshBadge() {
                     if ($('#notifyBadge')) {
-                        flexygo.ajax.post('~/api/Mail', 'GetMailBadgeValue', null, (response) => {
-                            this.updateBadge(response, false);
+                        return new Promise((resolve, _) => {
+                            flexygo.ajax.post('~/api/Mail', 'GetMailBadgeValue', null, 
+                            //Success Function
+                            (response) => {
+                                this.updateBadge(response, false);
+                                resolve();
+                            }, 
+                            //Error Function
+                            err => {
+                                flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                                resolve();
+                            });
                         });
                     }
+                    return;
                 }
                 /**
                 * Refreshes Notify Badge

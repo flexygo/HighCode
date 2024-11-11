@@ -279,6 +279,20 @@ declare namespace flexygo.utils {
     const removeLoadingEffect: (element?: any) => void;
     function getObjectName(collection_name: string): any;
     function saveFilterValueHistory(history: flexygo.nav.FlexygoHistory, moduleName: string, activeFilter: string, filters: flexygo.ui.wc.FlxFilterInfo[]): void;
+    function openEditWizard(mode: string, identifier: string): void;
+    function switchBundleOptimization(e: any): void;
+    function reloadCacheAndRefresh(delay?: boolean): void;
+    function changeSettingValue(settingName: string, settingValue: string): void;
+    function getSettingValue(settingName: string): any;
+    /**
+     * Calculates the remaining space on both sides of a given HTML Element
+     * @param element - The element of which we want to knwo it's left and right space
+     */
+    function calculateSidesSpace(element: Element): {
+        right: number;
+        left: number;
+    };
+    function parseAIMessage(message: string): string;
 }
 declare namespace flexygo.utils.querystring {
     function getParamValue(url: string, paramName: string): string;
@@ -291,6 +305,7 @@ declare namespace flexygo.utils.querystring {
     }];
 }
 declare function printText(text: any): void;
+declare function setEditsValues(objDoc: any): void;
 declare namespace flexygo.mail {
     /**
     * Filters mail list Module with folder Name.
@@ -360,4 +375,26 @@ declare namespace flexygo.utils.maintenance {
     function enable(): void;
     function disable(): void;
     function setAdvice(): void;
+}
+declare namespace flexygo.utils.geTablesChangeTemplate {
+    function showChanges(button: any): void;
+    function executeLoadedModuleFunctions(): void;
+    function generateScript(button: HTMLElement): void;
+    function copyScriptToClipboard(button: HTMLElement): void;
+}
+declare namespace flexygo.utils.modules {
+    function loadingErrorFunction(module: HTMLElement, error: any): void;
+    function groupButtonActive(e: any, groupName: string): "bg-outstanding" | "btn-outstanding";
+    function removeSkeleton(module: any): void;
+    function openEditTemplate(module: any): void;
+    function getActiveModuleType(module: any): string;
+}
+declare namespace flexygo.utils.toolbar {
+    function sortButtons(e: any): void;
+}
+declare namespace flexygo.utils.processes {
+    function objectToKeyValue(object: object): any;
+}
+declare namespace flexygo.utils.scriptjob {
+    function sort(e: any): void;
 }

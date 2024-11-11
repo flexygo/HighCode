@@ -5,11 +5,12 @@ declare namespace flexygo.ui.wc {
     /**
     * Library for the FlxPlanner
     *
-    * @class FlxPlanner
+    * @class FlxPlannerElement
     * @constructor
-    * @return {FlxPlanner} .
+    * @return {
+    FlxPlannerElement} .
     */
-    class FlxPlanner extends HTMLElement {
+    class FlxPlannerElement extends HTMLElement {
         connected: boolean;
         moduleName: string;
         objectName: string;
@@ -49,7 +50,6 @@ declare namespace flexygo.ui.wc {
         defaults: {};
         objDef: object;
         groupsFilter: string;
-        draggablesFilter: string;
         additionalWhere: string;
         plannerId: string;
         plannerObject: string;
@@ -83,9 +83,9 @@ declare namespace flexygo.ui.wc {
         static get observedAttributes(): string[];
         connectedCallback(): void;
         attributeChangedCallback(attrName: any, oldVal: any, newVal: any): void;
-        init(): void;
-        refresh(): void;
-        getPlannerConfig(): void;
+        init(): Promise<void>;
+        refresh(): Promise<void>;
+        getPlannerConfig(): Promise<void>;
         render(): void;
         setFilter(): void;
         drawBoard(): void;
@@ -94,9 +94,10 @@ declare namespace flexygo.ui.wc {
         drawTable(): string;
         drawRows(): void;
         mainEvents(): void;
+        cardsEvents(element: any): void;
         timeButtonsEvents(): void;
         modesButtonsEvents(): void;
-        openEvent(objectName: string, GroupField: string, DateField: string, GroupId: string, DateInfo: string): void;
+        openEvent(objectName: string, GroupField: string, DateField: string, GroupId: string, DateInfo: string, target: string): void;
         showContextMenu(template: any, e: any): void;
         setCardData(card: any, cardData: any, cardConfig: flexygo.api.Planner.PlannerCardsConfig, isnew?: boolean): void;
         objectActions(e: flexygo.api.Planner.PlannerCard, mode: string): void;
@@ -107,6 +108,6 @@ declare namespace flexygo.ui.wc {
         configure(): void;
         loadFilters(): void;
         refreshDraggrableGroup(mode: string): void;
-        refreshCell(modeId: any, rowIdField: any, dateColumn: any): void;
+        refreshCell(modeId: any, rowIdField: any, dateColumn: any, element: flexygo.ui.wc.FlxPlannerElement): void;
     }
 }

@@ -1,6 +1,15 @@
 /**
  * @namespace flexygo.ui.wc
  */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var flexygo;
 (function (flexygo) {
     var ui;
@@ -49,7 +58,7 @@ var flexygo;
                 * @method init
                 */
                 init() {
-                    this.refresh();
+                    return this.refresh();
                 }
                 /**
                 * Refresh de webcomponent.
@@ -132,77 +141,87 @@ var flexygo;
                             }
                         });
                     }
-                    this.getFilters();
+                    return this.getFilters();
                 }
                 /**
                * Gets filters from controller
                * @method getFilters
                */
                 getFilters() {
-                    let params = {
-                        ObjectName: this.objectname
-                    };
-                    flexygo.ajax.post('~/api/Sys', 'getFilters', params, (response) => {
-                        this.filtertypes = response.Types;
-                        this.types = response.FilterTypes;
-                        $.each(this.filtertypes, (i, e) => {
-                            let opt = $('<option/>').html(e.Type).attr('value', e.Type);
-                            this.typecmb.append(opt);
-                        });
-                        this.type = this.typecmb.val();
-                        if (response.Filters) {
-                            $.each(response.Filters, (i, e) => {
-                                let opt = $('<option/>');
-                                opt.html(e.Name);
-                                opt.attr('value', e.SearchId);
-                                opt.data('extvalue', e);
-                                if (this.active && this.active.length > 0) {
-                                    if (this.active.toLowerCase() === e.SearchId.toLowerCase()) {
-                                        opt.prop('selected', true);
-                                    }
-                                }
-                                this.cmb.append(opt);
+                    return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
+                        let params = {
+                            ObjectName: this.objectname
+                        };
+                        flexygo.ajax.post('~/api/Sys', 'getFilters', params, 
+                        //Success Function
+                        (response) => {
+                            this.filtertypes = response.Types;
+                            this.types = response.FilterTypes;
+                            $.each(this.filtertypes, (i, e) => {
+                                let opt = $('<option/>').html(e.Type).attr('value', e.Type);
+                                this.typecmb.append(opt);
                             });
-                        }
-                        let previous;
-                        this.cmb.on('focus', () => {
-                            previous = this.value;
-                        }).change(() => {
-                            if (this.allSaved || confirm(flexygo.localization.translate("filtermanager.unsaved"))) {
-                                var sel = this.cmb.find('option:selected').data('extvalue');
-                                this.showProperties();
-                                this.loadFilter(sel);
-                                this.hideProperties();
+                            this.type = this.typecmb.val();
+                            if (response.Filters) {
+                                $.each(response.Filters, (i, e) => {
+                                    let opt = $('<option/>');
+                                    opt.html(e.Name);
+                                    opt.attr('value', e.SearchId);
+                                    opt.data('extvalue', e);
+                                    if (this.active && this.active.length > 0) {
+                                        if (this.active.toLowerCase() === e.SearchId.toLowerCase()) {
+                                            opt.prop('selected', true);
+                                        }
+                                    }
+                                    this.cmb.append(opt);
+                                });
+                            }
+                            let previous;
+                            this.cmb.on('focus', () => {
                                 previous = this.value;
-                                this.allSaved = true;
-                                this.active = this.value;
+                            }).change(() => {
+                                if (this.allSaved || confirm(flexygo.localization.translate("filtermanager.unsaved"))) {
+                                    var sel = this.cmb.find('option:selected').data('extvalue');
+                                    this.showProperties();
+                                    this.loadFilter(sel);
+                                    this.hideProperties();
+                                    previous = this.value;
+                                    this.allSaved = true;
+                                    this.active = this.value;
+                                }
+                                else {
+                                    this.value = previous;
+                                }
+                            });
+                            this.typecmb.change(() => {
+                                let value = this.typecmb.val();
+                                this.type = value;
+                                switch (value) {
+                                    case 'Text':
+                                        this.fields.find('select').hide();
+                                        this.fields.find('span i.icon-settings-2').hide();
+                                        break;
+                                    case 'Properties':
+                                        this.fields.find('select').show();
+                                        this.fields.find('span i.icon-settings-2').show();
+                                        break;
+                                }
+                            });
+                            let wcCombo = this.objcmb[0];
+                            wcCombo.setValue(this.objectname);
+                            if (this.generic === true) {
+                                this.typecmb.val("Text");
+                                this.typecmb.trigger("change");
                             }
-                            else {
-                                this.value = previous;
-                            }
+                            this.loadFilter(this.cmb.find('option:selected').data('extvalue'));
+                            resolve();
+                        }, 
+                        //Error Function
+                        err => {
+                            flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                            resolve();
                         });
-                        this.typecmb.change(() => {
-                            let value = this.typecmb.val();
-                            this.type = value;
-                            switch (value) {
-                                case 'Text':
-                                    this.fields.find('select').hide();
-                                    this.fields.find('span i.icon-settings-2').hide();
-                                    break;
-                                case 'Properties':
-                                    this.fields.find('select').show();
-                                    this.fields.find('span i.icon-settings-2').show();
-                                    break;
-                            }
-                        });
-                        let wcCombo = this.objcmb[0];
-                        wcCombo.setValue(this.objectname);
-                        if (this.generic === true) {
-                            this.typecmb.val("Text");
-                            this.typecmb.trigger("change");
-                        }
-                        this.loadFilter(this.cmb.find('option:selected').data('extvalue'));
-                    });
+                    }));
                 }
                 /**
                  * Hides the properties already selected

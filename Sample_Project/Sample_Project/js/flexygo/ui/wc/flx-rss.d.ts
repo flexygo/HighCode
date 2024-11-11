@@ -37,12 +37,15 @@ declare namespace flexygo.ui.wc {
        * Refresh de webcomponent.
        * @method refresh
        */
-        refresh(): void;
+        refresh(): Promise<void>;
         /**
         * Init the webcomponent.
         * @method init
         */
-        init(): void;
+        init(): Promise<void>;
+        initVersionInfo(module: any, params: any): Promise<void>;
+        setProductVersionInfo(params: any, module: any): Promise<boolean>;
+        initRSS(module: any, params: any): Promise<void>;
         render(): void;
         renderVersions(productIndex: any): string;
         renderReleaseNotes(productIndex: any, versionIndex: any): string;

@@ -9,17 +9,18 @@ var flexygo;
         (function (engb) {
             engb.process = {
                 executing: 'Executing process...',
-                loadingdata: 'Loading data...'
+                loadingdata: 'Loading data...',
+                pleaserefresh: 'The application needs to be refreshed, do you want to do it now?'
             };
             engb.dependecymanager = {
                 sort: 'Sort',
-                valuedep: 'Value Dep.',
-                classdep: 'Class Dep.',
-                combodep: 'Combo Dep.',
-                enabledep: 'Enabled Dep.',
-                visibledep: 'Visible Dep.',
-                requireddep: 'Required Dep.',
-                CustomProperty: 'Custom Property Dep.',
+                valuedep: 'Value',
+                classdep: 'Class',
+                combodep: 'Combo',
+                enabledep: 'Enabled',
+                visibledep: 'Visible',
+                requireddep: 'Required',
+                CustomProperty: 'Custom Property',
                 save: 'Save',
                 addmore: 'Add more depending properties',
                 addmorefilter: 'Add more depending filters',
@@ -42,9 +43,16 @@ var flexygo;
                 SQLCustomProperty: 'SQL Custom Property',
                 connectionstrings: 'Connection strings',
                 connStringvalues: 'Connection string values',
-                relateddep: 'Related dependencies'
+                relateddep: 'Related dependencies',
+                sqllabel: 'SQL Label'
             };
             engb.develop = {
+                pagename: 'Page Config.',
+                placeholder: 'Select objetc to get config.',
+                originSystem: '0. System',
+                originProduct: '1. Product',
+                originProject: '2. Project',
+                originUser: '3. User',
                 developer: 'Developer',
                 adminarea: 'Admin area',
                 help: 'Help',
@@ -73,6 +81,7 @@ var flexygo;
                 users: 'Users',
                 roles: 'Roles',
                 processes: 'Processes',
+                minifyjscss: 'Minify JS/CSS'
             };
             engb.history = {
                 historyempty: 'Navigation history empty',
@@ -82,6 +91,10 @@ var flexygo;
                 confirm: 'Please confirm',
                 fieldrequired: 'The field is required',
                 copied: 'Copied',
+                noticetitle: 'Data collection notice',
+                noticemsg: 'Flexygo collects and processes data with the aim of improving your experience and optimizing the performance of our services. <a class="clickable" target="_blank" href="https://docs.flexygo.com/telemetry.html">More information</a>',
+                noticeaccept: 'Accept',
+                tokentimeout: 'The entered value is too high'
             };
             engb.navigation = {
                 relatedobjects: 'Related Objects',
@@ -146,7 +159,10 @@ var flexygo;
                 affectedby: 'Affected by',
                 persistdefaultvalue: 'Persistent default value',
                 defaultvalue: 'Default value',
-                detachedproperty: 'Disconnected property'
+                detachedproperty: 'Disconnected property',
+                notdisplayform: 'Not display in form',
+                tips: 'Tips',
+                ctrclick: 'You can directly access a property advanced settings using control + click'
             };
             engb.flxeditgrid = {
                 addrow: 'Add row',
@@ -338,6 +354,7 @@ var flexygo;
                 requiredreport: 'Complete all required fields before openning report',
                 deleted: 'Deleted :)',
                 saved: 'Saved :)',
+                errorSaving: 'There was an error while saving',
                 uniqueBagError: 'Undefined Unique Identifier Field.',
                 nofieldBagError: 'Can\'t find field <b>{0}</b> in current row. Add it to query or remove selection button.',
                 noItemsSelected: 'Select some items from the list first.',
@@ -478,6 +495,9 @@ var flexygo;
                 events: 'Attached Events',
                 security: 'Module security',
                 tabMode: 'Tab mode',
+                groups: 'Group by',
+                objectGroup: 'Object',
+                moduleTypeGroup: 'Module Type',
             };
             engb.moduletab = {
                 emptytabs: 'Empty Tabs',
@@ -539,6 +559,9 @@ var flexygo;
                 colproperties: 'Edit grid properties (optional)',
                 save: 'Save',
                 filtersettings: 'Filter Settings',
+                listtemplatesettings: 'List Template (optional)',
+                viewtemplatesettings: 'View Template (optional)',
+                createdatamodel: 'Create Data Model'
             };
             engb.flxpropertymanager = {
                 addfields: 'Click "add fields" button to start.',
@@ -557,6 +580,28 @@ var flexygo;
                 close: 'Close',
                 hasdefinition: 'Review the property in the table:',
                 valueTemplate: 'Value',
+                areYouSure: "Are you sure you don't wanna save @ changes?",
+                quickStart: "Select a property to quickly start configuring it",
+                quickSettings: "Quick Settings",
+                default: "Default Value",
+                css: "CSS Class",
+                icon: "Icon",
+                hide: "Hide",
+                isrequired: "Is Required",
+                settings: "Control Settings",
+                type: "Type",
+                customSettings: "Inherit Settings",
+                sqlValue: "SQL Value Field",
+                sqlDisplay: "SQL Display Field",
+                extension: "Extension",
+                sqlSentence: "SQL Sentence",
+                connectionString: "Connection String",
+                pathType: "Root Path Type",
+                path: "Root Path",
+                compression: "Image Compression",
+                width: "Maximum Width",
+                height: "Maximim Height",
+                barcode: "Barcode Readers"
             };
             engb.flxversioninfo = {
                 currentversion: 'Actual version ({{CurrentVersion}}).',
@@ -863,10 +908,11 @@ var flexygo;
                 maxSize: "Maximum size",
             };
             engb.databaseScript = {
-                infoGenerate: "Scripts will be directly generated in the default scripts folder",
-                infoDownload: "Scripts will be compressed as a zip and sent as a download",
+                infoGenerate: "Data scripts will be directly generated in the default scripts folder",
+                infoDownload: "Data scripts will be compressed as a zip and sent as a download",
                 generate: "Generate files",
-                download: "Download files"
+                download: "Download files",
+                infoStructure: "and structure scripts will be directly generated in the default scripts folder"
             };
             engb.flxcode = {
                 readonlyMode: 'You can\'t edit in view mode',
@@ -934,7 +980,39 @@ var flexygo;
                 deprecated: 'Deprecated',
                 features: 'New Features',
                 fixes: 'Fixes',
-                notfound: 'No version found.'
+                notfound: 'No version found.',
+                noreleasenotes: 'No release notes.'
+            };
+            engb.getTableChangesPage = {
+                needsADate: 'Select the date to filter through all tables',
+                needsFiltering: 'You must first enter a date to filter before generating the script',
+                needsGenerating: 'You must generate the script first',
+                loading: 'Generating script...',
+                selectATable: 'Please, select at least one table to script'
+            };
+            engb.flxnotification = {
+                showAll: 'See All',
+                allOk: 'All Ok',
+                title: 'Latest Notifications'
+            };
+            engb.flxtemplatemanager = {
+                titleView: 'Please select the data view to use',
+                placeholderView: 'Object properties',
+                titleManager: 'Please select the corresponding property in each placeholder',
+                placeholderManager: 'Select the corresponding property',
+                saveManager: 'Save',
+                confirmSaveManager: 'Are you sure to save and generate the template?',
+                newView: 'Enter new view name',
+                errorTemplate: 'Error creating template',
+                existsTemplate: 'The template already exists',
+                successTemplate: 'Template created successfully',
+                noView: 'No view selected',
+                noObject: 'Please select a object'
+            };
+            engb.flxchatgptfieldselector = {
+                addButton: 'Add Tables',
+                clearButton: 'Clear Tables',
+                saveButton: 'Save Changes'
             };
         })(engb = culture.engb || (culture.engb = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

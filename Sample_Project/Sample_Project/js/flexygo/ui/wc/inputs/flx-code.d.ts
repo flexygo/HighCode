@@ -15,6 +15,8 @@ declare namespace flexygo.ui.wc {
     class FlxCodeElement extends HTMLElement {
         constructor();
         static typeScriptLibraries: object[];
+        static offlineLibraries: object[];
+        static htmlStyles: object[];
         type: string;
         options: flexygo.api.ObjectProperty;
         property: string;
@@ -22,7 +24,8 @@ declare namespace flexygo.ui.wc {
         height: string;
         width: string;
         editor: string;
-        intellisense: boolean;
+        intellisense: string;
+        libraryLoaded: boolean;
         monaco: monaco.editor.IStandaloneCodeEditor;
         renderMode: string;
         readonly: any;
@@ -41,7 +44,11 @@ declare namespace flexygo.ui.wc {
         */
         connectedCallback(): void;
         static setTypeScriptLibraries(libraries: any): void;
+        static setOfflineLibraries(libraries: any): void;
+        static setHtmlStyles(styles: any): void;
         static getTypeScriptLibraries(): object[];
+        static getOfflineLibraries(): object[];
+        static getHtmlStyles(): object[];
         /**
         * Array of observed attributes.
         * @property observedAttributes {Array}
@@ -58,7 +65,7 @@ declare namespace flexygo.ui.wc {
         */
         refresh(): void;
         initMonaco(): void;
-        setCodeEditor(e?: flexygo.events.FlexygoEvent): void;
+        setCodeEditor(): void;
         adjustPlaceHolder(node: JQuery): void;
         initCodeMirror(): void;
         setOptions(): void;
@@ -69,7 +76,7 @@ declare namespace flexygo.ui.wc {
         fullscreen(value?: any): void;
         getMode(): string;
         getWizardButton(): string;
-        getHeadBar(): string;
+        getHeadBar(): any;
         triggerReturnEvent(context: JQuery): void;
         setButtonsSettings(m: any): void;
         /**

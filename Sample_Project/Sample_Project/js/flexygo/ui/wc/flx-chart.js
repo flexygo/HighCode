@@ -1,6 +1,15 @@
 /**
  * @namespace flexygo.ui.wc
  */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var flexygo;
 (function (flexygo) {
     var ui;
@@ -78,87 +87,117 @@ var flexygo;
                     };
                     flexygo.storage.cache.remove('chart', params);
                     if ($(this).attr('manualInit') != 'true') {
-                        this.init();
+                        return this.init();
                     }
+                    return;
                 }
                 /**
                * Init the webcomponent.
                * @method init
                */
                 init() {
-                    let me = $(this);
-                    me.removeAttr('manualInit');
-                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
-                    let parentModule = me.closest('flx-module');
-                    let wcModule = parentModule[0];
-                    if (parentModule && wcModule) {
-                        wcModule.moduleLoaded(this);
-                    }
-                    me.html('<div><canvas></canvas></div>');
-                    if (parentModule.attr("type") != 'flx-list') {
-                        let params = {
-                            ObjectName: (me.attr('ObjectName') ? me.attr('ObjectName') : null),
-                            ObjectWhere: (me.attr('ObjectWhere') ? me.attr('ObjectWhere') : null),
-                            AdditionalWhere: (this.AdditionalWhere ? this.AdditionalWhere : null),
-                            ModuleName: me.attr('ModuleName'),
-                            PageName: flexygo.history.getPageName(me)
-                        };
-                        /** Read Cache **/
-                        let cacheResponse = flexygo.storage.cache.get('chart', params);
-                        /** If Cache use cache**/
-                        if (cacheResponse) {
-                            this.data = cacheResponse.response.Values;
-                            this.settings = cacheResponse.response.Settings;
-                            this.options = cacheResponse.response.Options;
-                            this.Title = cacheResponse.response.Title;
-                            this.Labels = cacheResponse.response.Labels;
-                            this.Series = cacheResponse.response.Series;
-                            this.Values = cacheResponse.response.Value;
-                            this.Params = cacheResponse.response.Params;
-                            this.type = cacheResponse.response.ChartType;
-                            this.Background = cacheResponse.response.ChartBackground;
-                            this.Border = cacheResponse.response.ChartBorder;
-                            this.MixedChartLabels = cacheResponse.response.MixedChartLabels;
-                            this.MixedChartTypes = cacheResponse.response.MixedChartTypes;
-                            this.ChartLineBorderDash = cacheResponse.response.ChartLineBorderDash;
-                            this.ChartLineFill = cacheResponse.response.ChartLineFill;
-                            this.render();
+                    return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
+                        let me = $(this);
+                        me.removeAttr('manualInit');
+                        $(this).closest('flx-module').find('.flx-noInitContent').remove();
+                        let parentModule = me.closest('flx-module');
+                        let wcModule = parentModule[0];
+                        me.html('<div><canvas></canvas></div>');
+                        if (parentModule.attr("type") != 'flx-list' || (parentModule.attr("type") == 'flx-list' && (me.attr('series') == null || me.attr('value') == null))) {
+                            let params = {
+                                ObjectName: (me.attr('ObjectName') ? me.attr('ObjectName') : null),
+                                ObjectWhere: (me.attr('ObjectWhere') ? me.attr('ObjectWhere') : null),
+                                AdditionalWhere: (this.AdditionalWhere ? this.AdditionalWhere : null),
+                                ModuleName: me.attr('ModuleName'),
+                                PageName: flexygo.history.getPageName(me)
+                            };
+                            /** Read Cache **/
+                            let cacheResponse = flexygo.storage.cache.get('chart', params);
+                            /** If Cache use cache**/
+                            if (cacheResponse) {
+                                this.data = cacheResponse.response.Values;
+                                this.settings = cacheResponse.response.Settings;
+                                this.options = cacheResponse.response.Options;
+                                this.Title = cacheResponse.response.Title;
+                                this.Labels = cacheResponse.response.Labels;
+                                this.Series = cacheResponse.response.Series;
+                                this.Values = cacheResponse.response.Value;
+                                this.Params = cacheResponse.response.Params;
+                                this.type = cacheResponse.response.ChartType;
+                                this.Background = cacheResponse.response.ChartBackground;
+                                this.Border = cacheResponse.response.ChartBorder;
+                                this.MixedChartLabels = cacheResponse.response.MixedChartLabels;
+                                this.MixedChartTypes = cacheResponse.response.MixedChartTypes;
+                                this.ChartLineBorderDash = cacheResponse.response.ChartLineBorderDash;
+                                this.ChartLineFill = cacheResponse.response.ChartLineFill;
+                                this.render();
+                                if (wcModule) {
+                                    wcModule.moduleLoaded(this);
+                                }
+                            }
+                            else {
+                                flexygo.ajax.post('~/api/Chart', 'GetHTML', params, 
+                                //Success Function
+                                (response) => {
+                                    if (response) {
+                                        flexygo.storage.cache.add('chart', params, response, response.Cache);
+                                        this.data = response.Values;
+                                        this.settings = response.Settings;
+                                        this.options = response.Options;
+                                        this.Title = response.Title;
+                                        this.Labels = response.Labels;
+                                        this.Series = response.Series;
+                                        this.Values = response.Value;
+                                        this.Params = response.Params;
+                                        this.type = response.ChartType;
+                                        this.Background = response.ChartBackground;
+                                        this.Border = response.ChartBorder;
+                                        this.MixedChartLabels = response.MixedChartLabels;
+                                        this.MixedChartTypes = response.MixedChartTypes;
+                                        this.ChartLineBorderDash = response.ChartLineBorderDash;
+                                        this.ChartLineFill = response.ChartLineFill;
+                                        this.render();
+                                    }
+                                    if (wcModule) {
+                                        wcModule.moduleLoaded(this);
+                                    }
+                                    resolve();
+                                }, 
+                                //Error Function
+                                err => {
+                                    flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                                    resolve();
+                                }, 
+                                //Complete Function
+                                () => { this.stopLoading(); }, 
+                                //Before Function
+                                () => { this.startLoading(); });
+                            }
                         }
                         else {
-                            flexygo.ajax.post('~/api/Chart', 'GetHTML', params, (response) => {
+                            let params = {
+                                ChartSettingName: me.attr("chartsetting") ? me.attr("chartsetting") : "syscs-default-legendandlabels"
+                            };
+                            flexygo.ajax.post('~/api/Chart', 'GetSettings', params, 
+                            //Success Function
+                            (response) => {
                                 if (response) {
-                                    flexygo.storage.cache.add('chart', params, response, response.Cache);
-                                    this.data = response.Values;
                                     this.settings = response.Settings;
-                                    this.options = response.Options;
-                                    this.Title = response.Title;
-                                    this.Labels = response.Labels;
-                                    this.Series = response.Series;
-                                    this.Values = response.Value;
-                                    this.Params = response.Params;
-                                    this.type = response.ChartType;
-                                    this.Background = response.ChartBackground;
-                                    this.Border = response.ChartBorder;
-                                    this.MixedChartLabels = response.MixedChartLabels;
-                                    this.MixedChartTypes = response.MixedChartTypes;
-                                    this.ChartLineBorderDash = response.ChartLineBorderDash;
-                                    this.ChartLineFill = response.ChartLineFill;
                                     this.render();
                                 }
-                            }, null, () => { this.stopLoading(); }, () => { this.startLoading(); });
+                                resolve();
+                            }, 
+                            //Error Function
+                            err => {
+                                flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                                resolve();
+                            }, 
+                            //Complete Function
+                            () => { this.stopLoading(); }, 
+                            //Before Function
+                            () => { this.startLoading(); });
                         }
-                    }
-                    else {
-                        let params = {
-                            ChartSettingName: me.attr("chartsetting") ? me.attr("chartsetting") : "syscs-default-legendandlabels"
-                        };
-                        flexygo.ajax.post('~/api/Chart', 'GetSettings', params, (response) => {
-                            if (response) {
-                                this.settings = response.Settings;
-                                this.render();
-                            }
-                        }, null, () => { this.stopLoading(); }, () => { this.startLoading(); });
-                    }
+                    }));
                 }
                 /**
                 * Renders the chart
@@ -190,7 +229,7 @@ var flexygo;
                     if (me.attr('linefill') && me.attr('linefill') != '') {
                         this.ChartLineFill = Boolean(me.attr('linefill'));
                     }
-                    if (listModule.attr("mode") === 'list') {
+                    if (listModule.attr("mode") === 'list' && me.attr('value') != null && me.attr('series') != null) {
                         this.data = wcListModule.data.length > 0 ? wcListModule.data.map(s => ({ serie: s[this.Series], label: s[this.Labels], value: s[this.Values], borderColor: s["borderColor"], backgroundColor: s["backgroundColor"] })) : wcListModule.data;
                     }
                     if (this.data.length > 0) {

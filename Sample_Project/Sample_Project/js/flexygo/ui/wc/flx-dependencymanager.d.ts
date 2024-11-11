@@ -78,6 +78,7 @@ declare namespace flexygo.ui.wc {
        */
         save(): void;
         private loadProps;
+        filterProperties(e: JQuery, cnt?: any): void;
         private unactivePropClick;
         private processDependency;
         /**
@@ -95,5 +96,6 @@ declare namespace flexygo.ui.wc {
         getConnStringItems(): string;
         getCusControls(): string;
         deleteDependency(dep: any): void;
+        showSQLEditor(e: any): void;
     }
 }

@@ -1,7 +1,7 @@
-import { r as registerInstance, o as createEvent, f as writeTask, k as h, n as Host, m as getElement } from './index-d0d1673d.js';
-import { c as config, g as getIonMode } from './ionic-global-f9661584.js';
-import { p as pointerCoord } from './helpers-719f4c54.js';
-import { c as createColorClasses, h as hostContext } from './theme-f934266c.js';
+import { r as registerInstance, n as createEvent, f as writeTask, k as h, o as Host, m as getElement } from './index-8e5b11cb.js';
+import { c as config, g as getIonMode } from './ionic-global-6d118971.js';
+import { p as pointerCoord } from './helpers-7ecb2fa5.js';
+import { c as createColorClasses, h as hostContext } from './theme-12606872.js';
 
 const segmentIosCss = ":host{--ripple-color:currentColor;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;display:flex;position:relative;align-items:stretch;justify-content:center;width:100%;background:var(--background);font-family:var(--ion-font-family, inherit);text-align:center;contain:paint;user-select:none}:host(.segment-scrollable){justify-content:start;width:auto;overflow-x:auto}:host(.segment-scrollable::-webkit-scrollbar){display:none}:host{--background:rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.065);border-radius:8px;overflow:hidden;z-index:0}:host(.ion-color){background:rgba(var(--ion-color-base-rgb), 0.065)}:host(.in-toolbar){margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;width:auto}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){:host(.in-toolbar){margin-left:unset;margin-right:unset;-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto}}:host(.in-toolbar:not(.ion-color)){background:var(--ion-toolbar-segment-background, var(--background))}:host(.in-toolbar-color:not(.ion-color)){background:rgba(var(--ion-color-contrast-rgb), 0.11)}";
 
@@ -97,7 +97,7 @@ const Segment = class {
   }
   async componentDidLoad() {
     this.setCheckedClasses();
-    this.gesture = (await import('./index-7fe827c3.js')).createGesture({
+    this.gesture = (await import('./index-d086042f.js')).createGesture({
       el: this.el,
       gestureName: 'segment',
       gesturePriority: 100,

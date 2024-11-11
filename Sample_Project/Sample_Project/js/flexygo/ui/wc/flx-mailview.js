@@ -53,34 +53,72 @@ var flexygo;
                 init() {
                     var me = $(this);
                     me.empty();
-                    this.load();
                     flexygo.events.on(this, 'process', 'executed', (e) => {
                         if (e.sender.processName == "sysImapDeleteMail") {
                             $(e.context).closest('.ui-dialog').find('.ui-dialog-titlebar-close').click();
                         }
                     });
+                    return this.load();
                 }
                 load() {
-                    let me = this;
-                    let params = { MessageId: this.messageid, Mode: this.mode };
-                    if (this.mode == 'imap') {
-                        flexygo.ajax.post('~/api/Mail', 'GetMail', params, (response) => {
-                            if (response) {
-                                if (!response.Mail) {
-                                    let mailList = $(me).closest('body').find('flx-maillist');
-                                    $(this).html(flexygo.localization.translate('flxmail.nomail'));
-                                    flexygo.msg.alert(flexygo.localization.translate('flxmail.nomailalert'));
-                                    $(me).closest('.ui-dialog').find('.ui-dialog-titlebar-close').click();
-                                    mailList[0].refresh();
+                    return new Promise((resolve, _) => {
+                        let me = this;
+                        let params = { MessageId: this.messageid, Mode: this.mode };
+                        if (this.mode == 'imap') {
+                            flexygo.ajax.post('~/api/Mail', 'GetMail', params, 
+                            //Success Function
+                            (response) => {
+                                if (response) {
+                                    if (!response.Mail) {
+                                        let mailList = $(me).closest('body').find('flx-maillist');
+                                        $(this).html(flexygo.localization.translate('flxmail.nomail'));
+                                        flexygo.msg.alert(flexygo.localization.translate('flxmail.nomailalert'));
+                                        $(me).closest('.ui-dialog').find('.ui-dialog-titlebar-close').click();
+                                        mailList[0].refresh();
+                                    }
+                                    else {
+                                        let defaultsToolbar = {};
+                                        defaultsToolbar.MessageIds = this.messageid;
+                                        defaultsToolbar.To = response.Mail.FromAddress;
+                                        defaultsToolbar.Subject = response.Mail.Subject;
+                                        defaultsToolbar.ToAll = response.Mail.MailTo;
+                                        defaultsToolbar.CC = response.Mail.MailCC;
+                                        defaultsToolbar.Mode = "imap";
+                                        defaultsToolbar.ObjectName = this.objectName;
+                                        defaultsToolbar.ObjectId = this.objectId;
+                                        $(this).html('<div class="toolbar" ></div><div class="mailItem"></div>');
+                                        this.toolbar = response.Toolbar;
+                                        this.renderToolbar(JSON.stringify(defaultsToolbar));
+                                        this.render(response.Mail);
+                                    }
                                 }
                                 else {
+                                    $(this).html(flexygo.localization.translate('flxmail.nomail'));
+                                }
+                                this.stopLoading();
+                                resolve();
+                            }, 
+                            //Error Function
+                            err => {
+                                flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                                this.stopLoading();
+                                resolve();
+                            }, null, 
+                            //Before Function
+                            () => { this.startLoading(); });
+                        }
+                        else {
+                            flexygo.ajax.post('~/api/Mail', 'GetMail', params, 
+                            //Success Function
+                            (response) => {
+                                if (response) {
                                     let defaultsToolbar = {};
                                     defaultsToolbar.MessageIds = this.messageid;
                                     defaultsToolbar.To = response.Mail.FromAddress;
                                     defaultsToolbar.Subject = response.Mail.Subject;
                                     defaultsToolbar.ToAll = response.Mail.MailTo;
                                     defaultsToolbar.CC = response.Mail.MailCC;
-                                    defaultsToolbar.Mode = "imap";
+                                    defaultsToolbar.Mode = "bd";
                                     defaultsToolbar.ObjectName = this.objectName;
                                     defaultsToolbar.ObjectId = this.objectId;
                                     $(this).html('<div class="toolbar" ></div><div class="mailItem"></div>');
@@ -88,36 +126,20 @@ var flexygo;
                                     this.renderToolbar(JSON.stringify(defaultsToolbar));
                                     this.render(response.Mail);
                                 }
-                            }
-                            else {
-                                $(this).html(flexygo.localization.translate('flxmail.nomail'));
-                            }
-                            this.stopLoading();
-                        }, (error) => { flexygo.exceptions.httpShow(error); this.stopLoading(); }, null, () => { this.startLoading(); });
-                    }
-                    else {
-                        flexygo.ajax.post('~/api/Mail', 'GetMail', params, (response) => {
-                            if (response) {
-                                let defaultsToolbar = {};
-                                defaultsToolbar.MessageIds = this.messageid;
-                                defaultsToolbar.To = response.Mail.FromAddress;
-                                defaultsToolbar.Subject = response.Mail.Subject;
-                                defaultsToolbar.ToAll = response.Mail.MailTo;
-                                defaultsToolbar.CC = response.Mail.MailCC;
-                                defaultsToolbar.Mode = "bd";
-                                defaultsToolbar.ObjectName = this.objectName;
-                                defaultsToolbar.ObjectId = this.objectId;
-                                $(this).html('<div class="toolbar" ></div><div class="mailItem"></div>');
-                                this.toolbar = response.Toolbar;
-                                this.renderToolbar(JSON.stringify(defaultsToolbar));
-                                this.render(response.Mail);
-                            }
-                            else {
-                                $(this).html('Mail not found');
-                            }
-                            this.stopLoading();
-                        }, (error) => { flexygo.exceptions.httpShow(error); this.stopLoading(); }, null, () => { this.startLoading(); });
-                    }
+                                else {
+                                    $(this).html('Mail not found');
+                                }
+                                this.stopLoading();
+                                resolve();
+                            }, 
+                            //Error Function
+                            err => {
+                                flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                                this.stopLoading();
+                                resolve();
+                            }, null, () => { this.startLoading(); });
+                        }
+                    });
                 }
                 render(ret) {
                     let me = $(this);
@@ -221,8 +243,9 @@ var flexygo;
                 */
                 refresh(ret) {
                     if ($(this).attr('manualInit') != 'true') {
-                        this.load();
+                        return this.load();
                     }
+                    return;
                 }
                 /**
                 * Fires when element is attached to DOM

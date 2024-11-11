@@ -1,5 +1,5 @@
-import { r as registerInstance, q as readTask, f as writeTask, l as forceUpdate, k as h, n as Host, m as getElement } from './index-d0d1673d.js';
-import { c as componentOnReady } from './helpers-719f4c54.js';
+import { r as registerInstance, q as readTask, f as writeTask, l as forceUpdate, k as h, o as Host, m as getElement } from './index-8e5b11cb.js';
+import { c as componentOnReady } from './helpers-7ecb2fa5.js';
 
 const CELL_TYPE_ITEM = 'item';
 const CELL_TYPE_HEADER = 'header';

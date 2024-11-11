@@ -38,9 +38,9 @@ declare namespace flexygo.ui.wc {
        * @method attributeChangedCallback
        */
         attributeChangedCallback(attrName: any, oldVal: any, newVal: any): void;
-        refresh(): void;
-        init(): void;
-        render(): void;
+        refresh(): Promise<void>;
+        init(): Promise<void>;
+        render(response: flexygo.api.pages.PageModuleCollection): void;
         showModule(modIndex: number): void;
         saveModulePresetHistory(module: api.pages.PageModule): void;
         flxTranslate(str: string): string;

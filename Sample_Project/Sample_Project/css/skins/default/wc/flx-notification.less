@@ -2,8 +2,22 @@
 //Notify
 .notifypopover {
     min-width: 600px;
+    height: ~"calc(100% - 35px)";
+}
+.notifypopover flx-list[objectname="sysNotices"] {
+    height: inherit;
+    display: grid;
+
+    .btn-default {
+        background-color: @toolbarbtn-color;
+        color: @toolbarbtntext-color;
+        border-color: @toolbarbtnborder-color
+    }
 }
 
+.notify-dropdown b.badge {
+    margin: 2px 0;
+}
 .notifypopover .notify {
     border: solid 1px silver;
     border-bottom: none 0;
@@ -12,6 +26,10 @@
     overflow-y: auto;
 }
 
+.notifypopover .notifypopover-buttons{
+    display: flex;
+    justify-content: right;
+}
 .notify .active {
     background-color: lighten(@notify-color, 60);
     color: @notify-color;

@@ -190,8 +190,22 @@ var flexygo;
                                 }
                             }
                         });
-                    }).off('shown.bs.popover').on('shown.bs.popover', (e) => {
+                    }).off('inserted.bs.popover').on('inserted.bs.popover', (e) => {
                         this.elementid = $(e.target).attr('aria-describedby');
+                        $(`#${this.elementid}`).css('visibility', 'hidden');
+                    }).off('shown.bs.popover').on('shown.bs.popover', (e) => {
+                        let parent = $(e.target).closest('#mainContent,main:not(.realMain),body')[0];
+                        let bodyHeight = $(document.body).height();
+                        let availableScroll = (parent.scrollHeight - bodyHeight) - $(parent).scrollTop();
+                        availableScroll = Math.max(availableScroll, 0);
+                        let currentHeight = $(`#${this.elementid}`).height();
+                        let maxHeight = ((bodyHeight + availableScroll) - $(`#${this.elementid}`).position().top) - 20;
+                        if (currentHeight > maxHeight) {
+                            $(`#${this.elementid}`).css('height', `min(${maxHeight}px, calc(100%))`);
+                            $(`#${this.elementid} .popover-content`).css({ "height": "100%", "overflow-y": "scroll" });
+                            $(e.target).popover('show');
+                        }
+                        $(`#${this.elementid}`).css('visibility', 'visible');
                         if (this.mode === "popover") {
                             $(document).on('click.flxtooltip.' + this.elementid, (e) => {
                                 //Allow nested clicks on tooltip
@@ -206,8 +220,15 @@ var flexygo;
                                 }
                             });
                         }
+                        $(parent).off('scroll.outpopup').on('scroll.outpopup', (e) => {
+                            if (e.target != $(`#${this.elementid} .popover-content`)[0]) {
+                                this.pop.popover('hide');
+                            }
+                        });
                     }).off('hide.bs.popover').on('hide.bs.popover', (e) => {
+                        let parent = $(e.target).closest('#mainContent,main:not(.realMain),body')[0];
                         this.opened = false;
+                        $(parent).off('scroll.outpopup');
                     });
                     if (trigger === "hover") {
                         parent.off("mouseover.flxtooltip").on("mouseover.flxtooltip", () => {
@@ -218,7 +239,9 @@ var flexygo;
                         });
                     }
                     else { //manual (click)
-                        parent.off("click.flxtooltip").on("click.flxtooltip", () => {
+                        parent.off("click.flxtooltip").on("click.flxtooltip", (ev) => {
+                            // to avoid sort edit grid
+                            ev.stopPropagation();
                             if (this.opened === false) {
                                 this.opened = true;
                                 this.pop.popover('show');

@@ -120,15 +120,15 @@ var flexygo;
                 init() {
                     //Capture events from entity modification
                     flexygo.events.on(this, "entity", "all", this.onEntityUpdate);
+                    let me = $(this);
+                    let wcModule = me.closest('flx-module')[0];
                     try {
-                        let me = $(this);
                         me.removeAttr('manualInit');
                         $(this).closest('flx-module').find('.flx-noInitContent').remove();
                         var defString;
                         var defObject;
                         defString = flexygo.history.getDefaults(this.objectName, me);
                         defObject = JSON.parse(flexygo.utils.parser.replaceAll(defString, "'", '"'));
-                        let wcModule = me.closest('flx-module')[0];
                         if (this.managerMode == 'flexygo') {
                             this.rObjectName = (this.objectName && this.objectId) ? this.objectName : (defObject && defObject.ObjectName) ? defObject.ObjectName : (wcModule.objectdefaults) ? wcModule.objectdefaults.ObjectName : '';
                             this.rObjectId = (this.objectName && this.objectId) ? this.objectId : (defObject && defObject.ObjectId) ? defObject.ObjectId : (wcModule.objectdefaults) ? wcModule.objectdefaults.ObjectId : '';
@@ -157,8 +157,10 @@ var flexygo;
                         }
                         this.getConfig();
                         this.getCategories();
+                        wcModule.moduleLoaded(this);
                     }
                     catch (ex) {
+                        flexygo.utils.modules.removeSkeleton(wcModule);
                         console.log(ex);
                     }
                 }
@@ -171,6 +173,7 @@ var flexygo;
                         try {
                             this.getConfig();
                             this.getCategories();
+                            this.closest('flx-module').moduleLoaded(this);
                         }
                         catch (ex) {
                             console.log(ex);
@@ -1302,6 +1305,7 @@ var flexygo;
                         let ev = { class: "document", type: "updated", sender: this, masterIdentity: response.docGuid, detailIdentity: response };
                         flexygo.events.trigger(ev, $(this));
                         flexygo.msg.success('documentmanager.saved');
+                        this.refresh();
                     }
                     else {
                         name = doc.find('input.dtc-name').attr('firstvalue');
@@ -1394,7 +1398,6 @@ var flexygo;
                 */
                 getCategories() {
                     try {
-                        let me = $(this);
                         flexygo.ajax.post('~/api/DocumentManager', 'GetCategories', { "Mode": this.managerMode, 'ObjectName': this.rObjectName }, (response) => {
                             if (response) {
                                 this.categories = response;
@@ -1652,7 +1655,7 @@ var flexygo;
                     if (this.file.size > this.bufferSize) {
                         //El envio es multipart
                         if (this.currentPosition == 0) {
-                            this.setDocument(event.target.result, this.file.name, true);
+                            this.setDocument(event.target.result, this.file.name, true, null, null, null, this.file.size);
                         }
                         else {
                             if (this.currentPosition < this.file.size) {
@@ -1668,7 +1671,7 @@ var flexygo;
                     }
                     else {
                         //El envio es completo
-                        this.setDocument(event.target.result, this.file.name, false);
+                        this.setDocument(event.target.result, this.file.name, false, null, null, null, this.file.size);
                     }
                 };
                 this.upload_file();
@@ -1718,7 +1721,7 @@ var flexygo;
                     console.log(ex);
                 }
             }
-            setDocument(base64, documentName, multipart, lastProcessName, lastAfterProcessName, endMethodExecuted = false) {
+            setDocument(base64, documentName, multipart, lastProcessName, lastAfterProcessName, endMethodExecuted = false, fileSizeBytes) {
                 try {
                     if ((this.objectid || this.objectid == '0') && this.objectname) {
                         let me = $(this);
@@ -1748,7 +1751,8 @@ var flexygo;
                             'PartialUpload': multipart,
                             'CategoryId': this.categoryId,
                             'LastProcessName': lastProcessName,
-                            'LastAfterProcessName': lastAfterProcessName
+                            'LastAfterProcessName': lastAfterProcessName,
+                            'FileSizeBytes': fileSizeBytes
                         };
                         flexygo.ajax.post('~/api/DocumentManager', 'SetDocument', params, (response) => {
                             if (response.jsCode) {
@@ -1772,7 +1776,7 @@ var flexygo;
                                     flexygo.utils.execAsyncFunction(response.jsCode).then((res) => {
                                         if (res === false)
                                             return;
-                                        this.setDocument(base64, documentName, multipart, response.lastProcessName, response.lastAfterProcessName, endMethodExecuted);
+                                        this.setDocument(base64, documentName, multipart, response.lastProcessName, response.lastAfterProcessName, endMethodExecuted, fileSizeBytes);
                                     }).catch((err) => {
                                         flexygo.msg.error(flexygo.utils.getErrorMessage(err));
                                     });

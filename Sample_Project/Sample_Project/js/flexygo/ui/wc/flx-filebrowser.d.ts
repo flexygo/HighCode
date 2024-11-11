@@ -65,17 +65,17 @@ declare namespace flexygo.ui.wc {
         * Init the webcomponent. REQUIRED.
         * @method init
         */
-        init(): void;
+        init(): Promise<void>;
         /**
         * Refresh de webcomponent. REQUIRED.
         * @method refresh
         */
-        refresh(): void;
+        refresh(): Promise<void>;
         /**
         * Render HTML data.
         * @method render
         */
-        render(): void;
+        render(): Promise<void>;
         /**
          * Renders the header part of the filebrowser
          * @method renderHeader
@@ -94,7 +94,7 @@ declare namespace flexygo.ui.wc {
         * @param path {string} The path to use
         * @param actionType {string} The action to execute
         */
-        getData(path: string, actionType: string): void;
+        getData(path: string, actionType: string): Promise<void>;
         private flxTranslate;
         startFileUpload(files: any): void;
         disableEvents(): void;

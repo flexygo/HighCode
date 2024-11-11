@@ -303,7 +303,10 @@ var flexygo;
                                 tooltip: 'Lowdy',
                                 click: function () {
                                     // invoke insertText method with 'hello' on editor module.
-                                    flexygo.ui.wc.FlxAIElement.prototype.open($(this).closest('flx-htmledit'));
+                                    let options = {
+                                        TargetItem: $(this).closest('flx-htmledit')
+                                    };
+                                    flexygo.ui.wc.FlxAIElement.prototype.open(options);
                                 }
                             });
                             return button.render(); // return button as jquery object

@@ -85,17 +85,17 @@ declare namespace flexygo.ui.wc {
         * Init the webcomponent.
         * @method init
         */
-        init(): void;
+        init(): Promise<void>;
         /**
         * Refresh de webcomponent.
         * @method refresh
         */
-        refresh(): void;
+        refresh(): Promise<void>;
         /**
         * Render HTML data.
         * @method render
         */
-        render(): void;
+        render(): Promise<void>;
         nodeClick(params: any): void;
         onModuleResize(e: flexygo.events.FlexygoEvent): void;
         nodeContext(params: any): boolean;

@@ -53,12 +53,12 @@ declare namespace flexygo.ui.wc {
         * Refresh de webcomponent. REQUIRED.
         * @method refresh
         */
-        refresh(): void;
+        refresh(): Promise<void>;
         /**
         * Render HTML data.
         * @method render
         */
-        render(): void;
+        render(): Promise<void>;
         /**
         * Render HTML data from module configuration.
         * @method renderFromModule

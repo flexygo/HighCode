@@ -55,7 +55,7 @@ declare namespace flexygo.ui.wc {
         * @method init
         */
         init(): void;
-        load(sync: any): void;
+        load(sync: any): Promise<void>;
         loadMore(): void;
         loadConfig(): void;
         renderToolbar(defaults: any): void;
@@ -82,7 +82,7 @@ declare namespace flexygo.ui.wc {
         * Refresh de webcomponent. REQUIRED.
         * @method refresh
         */
-        refresh(): void;
+        refresh(): Promise<void>;
         /**
         * Render HTML data.
         * @method render

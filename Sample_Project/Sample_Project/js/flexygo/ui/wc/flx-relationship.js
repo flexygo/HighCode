@@ -17,6 +17,11 @@ var flexygo;
             class FlxRelationshipElement extends HTMLElement {
                 constructor() {
                     super();
+                    /**
+                     * Boolean that controls whether or not the manual mode structure is checked
+                     * @property checkSintaxis {boolean}
+                     */
+                    this.checkSintaxis = false;
                     this.previousOffset = { top: null, left: null, };
                 }
                 /**
@@ -41,6 +46,7 @@ var flexygo;
                     flexygo.events.off(this, "module", "resized");
                     flexygo.events.off(this, "property", "changed");
                     flexygo.events.off(this, "module", "loaded");
+                    flexygo.events.off(this, "module", "refreshed");
                     $(window).off('resize.relationship').on('resize.relationship', function () {
                         element.paperScale = 1;
                         element.resizePaper();
@@ -49,7 +55,6 @@ var flexygo;
                         element.paperScale = 1;
                         element.resizePaper();
                     });
-                    flexygo.events.on(this, "property", "changed", this.onPropertyConfChange);
                     flexygo.events.on(this, "module", "loaded", this.setObjects);
                     $("#mainContent").off('scroll.relationship').on('scroll.relationship', function () {
                         let initialX = element.initialDimentions["wrapper"]["properties"]["translateX"];
@@ -74,6 +79,7 @@ var flexygo;
                     (_b = (_a = $(this.confModule)) === null || _a === void 0 ? void 0 : _a.find(`[property="${this.inputPropertyName}"]`)) === null || _b === void 0 ? void 0 : _b.removeAttr("disabled");
                     flexygo.events.off(this, "property", "changed");
                     flexygo.events.off(this, "module", "loaded");
+                    flexygo.events.off(this, "module", "refreshed");
                     this.clearRelations();
                 }
                 /**
@@ -94,10 +100,9 @@ var flexygo;
                 * Init the webcomponent.
                 * @method init
                 */
-                init() {
+                init(refresh = false) {
                     var _a, _b;
                     try {
-                        let me = this;
                         this.paperScale = 1.0;
                         this.parentKeyProperties = [];
                         $(this).removeAttr('manualInit');
@@ -114,13 +119,15 @@ var flexygo;
                             this.parentObjectName = this.confModule.find('[property="ObjectName"]').val();
                             this.childObjectName = this.confModule.find('[property="ChildCollection"]').val();
                             this.manageInputValue = !this.confModule.find('[property="manual"]').val();
-                            if (!this.manageInputValue) {
-                                this.checkSintaxis = !this.confModule.find('[property="manual"]').val();
-                                (_a = $(this.confModule).find(`[property="${this.inputPropertyName}"]`)) === null || _a === void 0 ? void 0 : _a.removeAttr("disabled");
-                            }
-                            else {
-                                this.checkSintaxis = true;
-                                (_b = $(this.confModule).find(`[property="${this.inputPropertyName}"]`)) === null || _b === void 0 ? void 0 : _b.attr("disabled", "disabled");
+                            if (refresh) {
+                                if (!this.manageInputValue) {
+                                    this.checkSintaxis = !this.confModule.find('[property="manual"]').val();
+                                    (_a = $(this.confModule).find(`[property="${this.inputPropertyName}"]`)) === null || _a === void 0 ? void 0 : _a.removeAttr("disabled");
+                                }
+                                else {
+                                    this.checkSintaxis = true;
+                                    (_b = $(this.confModule).find(`[property="${this.inputPropertyName}"]`)) === null || _b === void 0 ? void 0 : _b.attr("disabled", "disabled");
+                                }
                             }
                             $(this).attr("focusable", `${this.manageInputValue}`);
                         }
@@ -153,9 +160,10 @@ var flexygo;
                 refresh() {
                     if ($(this).attr('manualInit') != 'true') {
                         this.clearRelations();
-                        this.init();
+                        this.init(true);
                         this.adjustWrapper();
                         this.adjustRelationLines();
+                        this.closest('flx-module').moduleLoaded();
                     }
                 }
                 /**
@@ -173,11 +181,6 @@ var flexygo;
                                     <div class="wrapper"></div>
                             </div>
                         </div>
-                    </div>
-                    <div id="customContextMenu" class="hidden">
-                        <ul>
-                            <li id="removeRelationOption">Remove Relation</li>
-                        </ul>
                     </div>
                     <div class="relationship-toolbar">
                         <span class="relationship-buttons">
@@ -200,7 +203,7 @@ var flexygo;
                             $(this).find('.relationship-container>.parent-object').remove();
                             renderedTables += `<div class="table parent-object" ObjectName="${this.parentObjectName}" style="margin:0 3em 0 0;">
                                     <div class="tableTab"></div>
-                                    <div class="header no-select">
+                                    <div class="relationship-header no-select">
                                         <span class="title">${this.parentObjectName}</span>
                                     </div>
                                     <div class="properties">
@@ -221,7 +224,7 @@ var flexygo;
                             $(this).find('.relationship-container>.child-object').remove();
                             renderedTables += `<div class="table child-object" ObjectName="${this.childObjectName}" style="margin: 0 0 0 3em;">
                                     <div class="tableTab"></div>
-                                    <div class="header no-select">
+                                    <div class="relationship-header no-select">
                                         <span class="title">${this.childObjectName}</span>
                                     </div>
                                     <div class="properties">
@@ -238,72 +241,58 @@ var flexygo;
                         $(this).find('.relationship-container>.child-object').remove();
                     }
                     $(this).find('.relationship-container').html(renderedTables);
-                    $(this).find('.table .header').each((i, element) => {
-                        let headerDims = element.getBoundingClientRect();
-                        let titleDims = $(element).find('.title')[0].getBoundingClientRect();
-                        if (headerDims.width < titleDims.width) {
-                            $(element).css("justify-content", "start");
-                            $(element).find('.title').css({ "width": "100%", "text-overflow": "ellipsis", "overflow": "hidden" });
-                            $(element).attr("title", $(element).closest('.table').attr('objectname'));
-                        }
-                    });
-                    $(this).find('.table .nameProperties li').each((i, element) => {
-                        let listItemDims = element.getBoundingClientRect();
-                        let spanDims = $(element).find('span')[0].getBoundingClientRect();
-                        if (listItemDims.width < spanDims.width) {
-                            $(element).attr("title", $(element).attr('propertyname'));
-                        }
-                    });
                 }
                 renderProperties(ObjectName, selector) {
-                    let me = this;
-                    let propertiesTemplate = $(`<div>
-                                            <div class="nameProperties">
-                                                <ul/>
-                                            </div>
-                                            <div class="typeProperties">
-                                                <ul/>
-                                            </div>
-                                        </div>`);
+                    let container = $(`<div></div>`);
+                    let rowTemplate = `<div class="tableRow" PropertyName="{{propertyName}}">
+                                <div id="keyIcon" class="flx-icon icon-key-2 tableRowCol tableRowIcon"></div>
+                                <div class="tableRowCol" data-type="columnName" title="{{propertyName}}">
+                                    <span>{{propertyName}}</span>
+                                </div>
+                                <div class="tableRowCol" data-type="columnDataType" title="{{dataType}}">
+                                    <span>{{dataType}}</span>
+                                </div>
+                                <div id="closeIcon" class="fa fa-close tableRowCol tableRowIcon"></div>
+                            </div>`;
                     flexygo.ajax.syncPost('~/api/Edit', 'GetEditConfig', { ObjectName: ObjectName }, (response) => {
                         if (response) {
                             for (let property of Object.keys(response.Properties)) {
                                 let clearType = response.Properties[property].DataType.split('.');
-                                propertiesTemplate.find('.nameProperties ul').append($(` <li PropertyName="${property}"><span>${property}</span></li>`));
-                                let typeElement = $(` <li PropertyName="${property}"><span>${clearType[clearType.length - 1].replace(/\d/g, '')}</span></li>`);
+                                let dataType = clearType[clearType.length - 1].replace(/\d/g, '');
+                                let row = flexygo.utils.parser.compile({ "propertyName": property, "dataType": dataType }, rowTemplate);
+                                container.append(row);
                                 if (response.Properties[property].Key) {
-                                    typeElement.append($('<i class="flx-icon icon-key-2"></i>'));
-                                    typeElement.find('span').css("margin-right", "-4px");
+                                    container.find(`[PropertyName="${property}"] .tableRowIcon#keyIcon`).addClass("pkKey");
                                 }
-                                propertiesTemplate.find('.typeProperties ul').append(typeElement);
                                 if (selector == "parent-object" && response.Properties[property].Key) {
                                     this.parentKeyProperties.push(property);
                                 }
                             }
                         }
                     });
-                    return propertiesTemplate.html();
+                    return container.html();
                 }
                 setObjects(e) {
                     var _a, _b, _c, _d, _e, _f, _g, _h, _j;
-                    let me = this;
                     let moduleConf = this.confModule ? this.confModule : $($(this).closest('main')).find(`flx-module[modulename="${this.confModuleName}"]`).length > 0 ? $($(this).closest('main')).find(`flx-module[modulename="${this.confModuleName}"]`)[0] : undefined;
                     if (((_b = (_a = e === null || e === void 0 ? void 0 : e.sender) === null || _a === void 0 ? void 0 : _a.moduleName) === null || _b === void 0 ? void 0 : _b.toLowerCase()) == this.confModuleName && $(moduleConf).length > 0 && $(moduleConf)[0] === e.sender) {
                         this.parentObjectName = $(e.sender).find('[property="ObjectName"]').val();
                         this.childObjectName = $(e.sender).find('[property="ChildCollection"]').val();
                         this.parentKeyProperties = [];
                         this.manageInputValue = !$(e.sender).find('[property="manual"]').val();
+                        this.checkSintaxis = false;
                         if (!this.manageInputValue) {
-                            this.checkSintaxis = !$(e.sender).find('[property="manual"]').val();
                             (_c = $(this.confModule).find(`[property="${this.inputPropertyName}"]`)) === null || _c === void 0 ? void 0 : _c.removeAttr("disabled");
                         }
                         else {
-                            this.checkSintaxis = true;
                             (_d = $(this.confModule).find(`[property="${this.inputPropertyName}"]`)) === null || _d === void 0 ? void 0 : _d.attr("disabled", "disabled");
                         }
                         $(this).attr("focusable", `${this.manageInputValue}`);
                         this.confModule = $(e.sender);
                         this.renderTables();
+                        //We hide the skeleton beffore adjusting the papersize so it gets properly calculated
+                        const module = this.closest('flx-module');
+                        flexygo.utils.modules.removeSkeleton(module);
                         this.adjustPaperSize();
                         this.mainEvents();
                         if (this.initialDimentions) {
@@ -324,6 +313,7 @@ var flexygo;
                             this.adjustRelationLines();
                         }
                         this.updateDimentions();
+                        flexygo.events.on(this, "property", "changed", this.onPropertyConfChange);
                     }
                 }
                 onPropertyConfChange(e) {
@@ -343,10 +333,14 @@ var flexygo;
                                 if (this.initialDimentions) {
                                     this.initialDimentions["relationship-container"]["properties"]["height"] = $(this).find('.relationship-container')[0].getBoundingClientRect().height;
                                 }
-                                this.adjustTablesPosition();
-                                this.adjustWrapper();
                                 if (this.paperScale == 1) {
+                                    this.adjustTablesPosition();
+                                    this.adjustWrapper();
                                     this.updateDimentions();
+                                }
+                                else {
+                                    this.paperScale = 1;
+                                    this.resizePaper();
                                 }
                                 this.suggestRelations();
                             }
@@ -364,10 +358,14 @@ var flexygo;
                                 if (this.initialDimentions) {
                                     this.initialDimentions["relationship-container"]["properties"]["height"] = $(this).find('.relationship-container')[0].getBoundingClientRect().height;
                                 }
-                                this.adjustTablesPosition();
-                                this.adjustWrapper();
                                 if (this.paperScale == 1) {
+                                    this.adjustTablesPosition();
+                                    this.adjustWrapper();
                                     this.updateDimentions();
+                                }
+                                else {
+                                    this.paperScale = 1;
+                                    this.resizePaper();
                                 }
                                 this.suggestRelations();
                             }
@@ -382,6 +380,9 @@ var flexygo;
                             }
                             $(this).attr("focusable", `${this.manageInputValue}`);
                             this.mainEvents();
+                            if (!this.manageInputValue) {
+                                this.checkSintaxis = true;
+                            }
                         }
                         else if (((_p = e === null || e === void 0 ? void 0 : e.masterIdentity) === null || _p === void 0 ? void 0 : _p.toLowerCase()) == this.inputPropertyName.toLowerCase() && this.manageInputValue == false) {
                             this.setRelations();
@@ -409,16 +410,17 @@ var flexygo;
                             "properties": { "width": flexygo.utils.parser.replaceAll($(this).find('.table').css("width"), "px", "") },
                             "elementData": {
                                 "ListItem": {
-                                    "selector": ".table li",
+                                    "selector": ".table .tableRow",
                                     "properties": {
-                                        "font-size": flexygo.utils.parser.replaceAll($(this).find('.table li').css("font-size"), "px", ""),
-                                        "padding": flexygo.utils.parser.replaceAll($(this).find('.table li').css("padding"), "px", "")
+                                        "font-size": flexygo.utils.parser.replaceAll($(this).find('.table .tableRow').css("font-size"), "px", ""),
+                                        "padding": flexygo.utils.parser.replaceAll($(this).find('.table .tableRow').css("padding"), "px", ""),
+                                        "height": flexygo.utils.parser.replaceAll($(this).find('.table .tableRow').css("height"), "px", "")
                                     }
                                 },
-                                "List": {
-                                    "selector": ".table ul",
+                                "Icons": {
+                                    "selector": ".table .tableRow .tableRowIcon",
                                     "properties": {
-                                        "padding": flexygo.utils.parser.replaceAll($(this).find('.table ul').css("padding"), "px", "")
+                                        "font-size": flexygo.utils.parser.replaceAll($(this).find('.table .tableRow .tableRowIcon').css("font-size"), "px", "")
                                     }
                                 },
                                 "TableTab": {
@@ -428,9 +430,9 @@ var flexygo;
                                     }
                                 },
                                 "Header": {
-                                    "selector": ".table .header",
+                                    "selector": ".table .relationship-header",
                                     "properties": {
-                                        "margin": flexygo.utils.parser.replaceAll($(this).find('.table .header').css("margin"), "px", "")
+                                        "margin": flexygo.utils.parser.replaceAll($(this).find('.table .relationship-header').css("margin"), "px", "")
                                     }
                                 },
                                 "Title": {
@@ -438,6 +440,12 @@ var flexygo;
                                     "properties": {
                                         "font-size": flexygo.utils.parser.replaceAll($(this).find('.table .title').css("font-size"), "px", ""),
                                         "padding": flexygo.utils.parser.replaceAll($(this).find('.table .title').css("padding"), "px", "")
+                                    }
+                                },
+                                "Table": {
+                                    "selector": ".table",
+                                    "properties": {
+                                        "padding-bottom": flexygo.utils.parser.replaceAll($(this).find('.table').css("padding-bottom"), "px", "")
                                     }
                                 }
                             },
@@ -497,6 +505,7 @@ var flexygo;
                             currentSecundaryInputValues = filteredArray;
                             secundaryInput === null || secundaryInput === void 0 ? void 0 : secundaryInput.val(currentSecundaryInputValues === null || currentSecundaryInputValues === void 0 ? void 0 : currentSecundaryInputValues.join("|"));
                         }
+                        $(this).find(`.properties .tableRow #closeIcon`).removeClass("relationship").removeAttr("title");
                     }
                     catch (ex) { }
                     finally {
@@ -511,45 +520,39 @@ var flexygo;
                     let me = this;
                     //table draggable
                     $(this).find('.table').draggable({
-                        cancel: "ul", stack: ".table",
+                        cancel: ".tableRow", stack: ".table",
                         drag: me.adjustRelationLines,
                         scroll: false
                     });
                     if (this.manageInputValue == true) {
-                        //trigger hover event in list items(properties)
-                        $(this).find('.properties ul').off('mouseenter.toogleHover').on('mouseenter.toogleHover', 'li', function () {
-                            me.toogleOnHover(this, true);
-                        });
-                        //remove hover status in list items
-                        $(this).find('.properties ul').off('mouseleave.toogleHover').on('mouseleave.toogleHover', 'li', function () {
-                            me.toogleOnHover(this, false);
-                        });
                         //Add Relation
-                        $(this).find('.properties ul').off('click.addRelation').on('click.addRelation', 'li', function () {
+                        $(this).find('.properties .tableRow').off('click.addRelation').on('click.addRelation', function () {
                             me.propertySelected(this);
                         });
                         //ShowContextMenu
-                        $(this).find('.properties ul').off('contextmenu.showRelationMenu').on('contextmenu.showRelationMenu', 'li', function (e) {
-                            e.preventDefault();
-                            let PropertyName = $(this).attr('PropertyName');
+                        $(this).find('.properties .tableRow #closeIcon').off("click.removeRelation").on("click.removeRelation", function (e) {
+                            e.stopPropagation();
+                            let PropertyName = $(this).closest(".tableRow").attr('PropertyName');
                             let ObjectName = $(this).closest('.table').attr('ObjectName');
-                            me.showContextMenu(`${ObjectName}.${PropertyName}`, e);
-                            //removeRelation
-                            $(me).find('#customContextMenu #removeRelationOption').off('click.removeRelation').on('click.removeRelation', function () {
-                                flexygo.utils.showLoadingEffect(10000, $(me));
-                                try {
-                                    for (let key of Object.keys(me.relations)) {
-                                        let properties = key.split("-");
-                                        if (properties[0] == `${ObjectName}.${PropertyName}` || properties[1] == `${ObjectName}.${PropertyName}`) {
-                                            me.removeRelation(key, me.manageInputValue);
-                                        }
+                            flexygo.utils.showLoadingEffect(10000, $(me));
+                            try {
+                                for (let key of Object.keys(me.relations)) {
+                                    let properties = key.split("-");
+                                    if (properties[0] == `${ObjectName}.${PropertyName}` || properties[1] == `${ObjectName}.${PropertyName}`) {
+                                        let tablename = properties[0].split(".")[0];
+                                        let propertyname = properties[0].split(".")[1];
+                                        $(me).find(`.table[objectname="${tablename}"] .properties .tableRow[propertyname="${propertyname}"] #closeIcon`).removeClass("relationship").removeAttr("title");
+                                        tablename = properties[1].split(".")[0];
+                                        propertyname = properties[1].split(".")[1];
+                                        $(me).find(`.table[objectname="${tablename}"] .properties .tableRow[propertyname="${propertyname}"] #closeIcon`).removeClass("relationship").removeAttr("title");
+                                        me.removeRelation(key, me.manageInputValue);
                                     }
                                 }
-                                catch (ex) { }
-                                finally {
-                                    flexygo.utils.removeLoadingEffect($(me));
-                                }
-                            });
+                            }
+                            catch (ex) { }
+                            finally {
+                                flexygo.utils.removeLoadingEffect($(me));
+                            }
                         });
                         //Discard add relation
                         $(this).find('.paper').off('click.clearRelationsView').on('click.clearRelationsView', function (e) {
@@ -558,11 +561,8 @@ var flexygo;
                         $(this).find('.relationship-buttons [id="relationshipSuggestions"]').on('click.suggestRelations', function () { me.suggestRelations(); });
                     }
                     else {
-                        $(this).find('.properties ul').off('mouseenter.toogleHover');
-                        $(this).find('.properties ul').off('mouseleave.toogleHover');
-                        $(this).find('.properties ul').off('click.addRelation');
-                        $(this).find('.properties ul').off('contextmenu.showRelationMenu').on('contextmenu.showRelationMenu', function (e) { e.preventDefault(); });
-                        $(this).find('#customContextMenu #removeRelationOption').off('click.removeRelation');
+                        $(this).find('.properties .tableRow').off('click.addRelation');
+                        $(this).find('.properties .tableRow #closeIcon').off("click.removeRelation");
                         $(this).find('.paper').off('click.clearRelationsView');
                     }
                     //ZoomIn ZoomOut
@@ -638,7 +638,7 @@ var flexygo;
                     });
                 }
                 propertySelected(selectedProperty) {
-                    let selectedProperties = $(this).find('.properties li.selectedProperty');
+                    let selectedProperties = $(this).find('.properties .tableRow.selectedProperty');
                     let tableClass = $(selectedProperty).closest('.table')[0].classList[1];
                     let propertyName = $(selectedProperty).attr("propertyname");
                     if (selectedProperties.length > 0) {
@@ -663,7 +663,7 @@ var flexygo;
                         $(selectedProperties).removeClass('selectedProperty');
                     }
                     else {
-                        $(this).find(`.${tableClass} li[propertyname="${propertyName}"]`).addClass('selectedProperty');
+                        $(this).find(`.${tableClass} .tableRow[propertyname="${propertyName}"]`).addClass('selectedProperty');
                     }
                 }
                 addRelation(parentProperty, childProperty, refresh) {
@@ -693,6 +693,8 @@ var flexygo;
                         if (refresh) {
                             this.setNewRelationValue();
                         }
+                        $(parentProperty).find('#closeIcon').addClass("relationship").attr("title", "Remove Relation");
+                        $(childProperty).find('#closeIcon').addClass("relationship").attr("title", "Remove Relation");
                     }
                 }
                 setRelations() {
@@ -711,8 +713,8 @@ var flexygo;
                             for (let relation of relationArray) {
                                 if (regex.exec(relation)) {
                                     let properties = relation.split('=');
-                                    let parentProperty = findElement(`.parent-object .properties li[propertyname="${properties[0]}"]`);
-                                    let childProperty = findElement(`.child-object .properties li[propertyname="${properties[1]}"]`);
+                                    let parentProperty = findElement(`.parent-object .properties .tableRow[propertyname="${properties[0]}"]`);
+                                    let childProperty = findElement(`.child-object .properties .tableRow[propertyname="${properties[1]}"]`);
                                     if (parentProperty.length > 0 && childProperty.length > 0) {
                                         this.addRelation(parentProperty, childProperty, false);
                                         newRelationString += relation + "|";
@@ -745,9 +747,9 @@ var flexygo;
                     flexygo.utils.showLoadingEffect(10000, $(this));
                     try {
                         for (let key of this.parentKeyProperties) {
-                            let childProperty = $(this).find(`.table.child-object li[PropertyName="${key}"]`);
+                            let childProperty = $(this).find(`.table.child-object .tableRow[PropertyName="${key}"]`);
                             if (childProperty.length > 0) {
-                                let parentProperty = $(this).find(`.table.parent-object li[PropertyName="${key}"]`);
+                                let parentProperty = $(this).find(`.table.parent-object .tableRow[PropertyName="${key}"]`);
                                 this.addRelation(parentProperty, childProperty, true);
                             }
                         }
@@ -787,8 +789,8 @@ var flexygo;
                     }
                 }
                 discardRelation(event) {
-                    if (!$(event.target).is('li') && !$(event.target).is('span')) {
-                        let selectedProperties = $(this).find('.properties li.selectedProperty');
+                    if (!$(event.target).is('.tableRow') && !$(event.target).is('span') && !$(event.target).is('.tableRowCol')) {
+                        let selectedProperties = $(this).find('.properties .tableRow.selectedProperty');
                         if (selectedProperties.length > 0) {
                             $(selectedProperties).removeClass('selectedProperty');
                         }
@@ -821,7 +823,7 @@ var flexygo;
                     let me = $(this).closest('flx-relationship')[0];
                     for (let key in me.relations) {
                         let line = me.relations[key];
-                        let nodes = me.getAnchorNodes($(line.start).closest('li').attr("PropertyName"), $(line.end).closest('li').attr("PropertyName"));
+                        let nodes = me.getAnchorNodes($(line.start).closest('.tableRow').attr("PropertyName"), $(line.end).closest('.tableRow').attr("PropertyName"));
                         line.setOptions({ size: me.relationlineSize * me.paperScale });
                         line.setOptions({ start: nodes['start']['node'], startSocket: nodes['start']['socket'] });
                         line.setOptions({ end: nodes['end']['node'], endSocket: nodes['end']['socket'] });
@@ -866,6 +868,7 @@ var flexygo;
                         conteinerHeight = $(this).find('.relationship-container')[0].getBoundingClientRect().height;
                     }
                     if (scrollerHeight < conteinerHeight) {
+                        this.centerOffset();
                         $(this).find('.relationship-container').css("top", 0);
                         let scrollerRects = $(this).find('.scroller-paper')[0].getBoundingClientRect();
                         let containerRects = $(this).find('.relationship-container')[0].getBoundingClientRect();
@@ -911,10 +914,10 @@ var flexygo;
                     this.scaleStyle('.table', "width", this.initialDimentions["table"]["properties"]["width"]);
                     this.scaleStyle('.table.parent-object', 'top', flexygo.utils.parser.replaceAll($(this).find('.table.parent-object').css("top"), "px", ""), currentScale);
                     this.scaleStyle('.table.parent-object', 'left', flexygo.utils.parser.replaceAll($(this).find('.table.parent-object').css("left"), "px", ""), currentScale);
-                    this.scaleStyle('.table.parent-object', 'height', this.initialDimentions["table"]["parent-object"]["properties"]["height"]);
+                    this.scaleStyle('.table.parent-object', 'min-height', this.initialDimentions["table"]["parent-object"]["properties"]["height"]);
                     this.scaleStyle('.table.child-object', 'top', flexygo.utils.parser.replaceAll($(this).find('.table.child-object').css("top"), "px", ""), currentScale);
                     this.scaleStyle('.table.child-object', 'left', flexygo.utils.parser.replaceAll($(this).find('.table.child-object').css("left"), "px", ""), currentScale);
-                    this.scaleStyle('.table.child-object', 'height', this.initialDimentions["table"]["child-object"]["properties"]["height"]);
+                    this.scaleStyle('.table.child-object', 'min-height', this.initialDimentions["table"]["child-object"]["properties"]["height"]);
                     this.scaleStyle('.table.parent-object', 'margin', this.initialDimentions["table"]["parent-object"]["properties"]["margin"]);
                     this.scaleStyle('.table.child-object', 'margin', this.initialDimentions["table"]["child-object"]["properties"]["margin"]);
                     $(this).find('.relationship-container').attr("scale", this.paperScale);
@@ -930,21 +933,21 @@ var flexygo;
                     let childCoords = $(this).find('.child-object')[0].getBoundingClientRect();
                     let halfWidth = parentCoords.width / 2;
                     if (childCoords.left >= parentCoords.left + halfWidth) {
-                        nodes['start']['node'] = $(this).find('.parent-object').find(`.properties .typeProperties li[PropertyName="${firstPropertyName}"] span`)[0];
+                        nodes['start']['node'] = $(this).find('.parent-object').find(`.properties .tableRow[PropertyName="${firstPropertyName}"] .tableRowIcon#closeIcon`)[0];
                         nodes['start']['socket'] = 'right';
-                        nodes['end']['node'] = $(this).find('.child-object').find(`.properties .nameProperties li[PropertyName="${secondPropertyName}"] span`)[0];
+                        nodes['end']['node'] = $(this).find('.child-object').find(`.properties .tableRow[PropertyName="${secondPropertyName}"] .tableRowIcon#keyIcon`)[0];
                         nodes['end']['socket'] = 'left';
                     }
                     else if (childCoords.left <= parentCoords.left + halfWidth && Math.trunc(childCoords.right) > Math.trunc(parentCoords.left)) {
-                        nodes['start']['node'] = $(this).find('.parent-object').find(`.properties .nameProperties li[PropertyName="${firstPropertyName}"] span`)[0];
+                        nodes['start']['node'] = $(this).find('.parent-object').find(`.properties .tableRow[PropertyName="${firstPropertyName}"] .tableRowIcon#keyIcon`)[0];
                         nodes['start']['socket'] = 'left';
-                        nodes['end']['node'] = $(this).find('.child-object').find(`.properties .nameProperties li[PropertyName="${secondPropertyName}"] span`)[0];
+                        nodes['end']['node'] = $(this).find('.child-object').find(`.properties .tableRow[PropertyName="${secondPropertyName}"] .tableRowIcon#keyIcon`)[0];
                         nodes['end']['socket'] = 'left';
                     }
                     else {
-                        nodes['start']['node'] = $(this).find('.parent-object').find(`.properties .nameProperties li[PropertyName="${firstPropertyName}"] span`)[0];
+                        nodes['start']['node'] = $(this).find('.parent-object').find(`.properties .tableRow[PropertyName="${firstPropertyName}"] .tableRowIcon#keyIcon`)[0];
                         nodes['start']['socket'] = 'left';
-                        nodes['end']['node'] = $(this).find('.child-object').find(`.properties .typeProperties li[PropertyName="${secondPropertyName}"] span`)[0];
+                        nodes['end']['node'] = $(this).find('.child-object').find(`.properties .tableRow[PropertyName="${firstPropertyName}"] .tableRowIcon#closeIcon`)[0];
                         nodes['end']['socket'] = 'right';
                     }
                     return nodes;
@@ -973,28 +976,6 @@ var flexygo;
                             left: event.clientX + "px",
                         });
                         customContextMenu.removeClass("hidden");
-                    }
-                }
-                toogleOnHover(element, onHover) {
-                    if (onHover) {
-                        let index = $(element).index();
-                        let partSelected = element.closest('div').classList.value;
-                        if (partSelected == 'typeProperties') {
-                            $($(element).closest('.properties')).find('.nameProperties ul li').eq(index).addClass('active');
-                        }
-                        else {
-                            $($(element).closest('.properties')).find('.typeProperties ul li').eq(index).addClass('active');
-                        }
-                    }
-                    else {
-                        let index = $(element).index();
-                        let partSelected = element.closest('div').classList.value;
-                        if (partSelected == 'typeProperties') {
-                            $($(element).closest('.properties')).find('.nameProperties ul li').eq(index).removeClass('active');
-                        }
-                        else {
-                            $($(element).closest('.properties')).find('.typeProperties ul li').eq(index).removeClass('active');
-                        }
                     }
                 }
                 centerOffset(element = null) {

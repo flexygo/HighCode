@@ -101,13 +101,13 @@ var flexygo;
                     {
                         name: "apply",
                         text: flexygo.localization.translate('sortmanager.apply'),
-                        class: "btn btn-default bg-success",
+                        class: "btn btn-default",
                         click: function () { $(this).closest('.ui-dialog').find('flx-sortmanager')[0].apply(); }
                     },
                     {
                         name: "delete",
                         text: flexygo.localization.translate('sortmanager.clean'),
-                        class: "btn btn-default bg-danger",
+                        class: "btn btn-default",
                         click: function () { $(this).closest('.ui-dialog').find('flx-sortmanager')[0].clean(); }
                     }
                 ];

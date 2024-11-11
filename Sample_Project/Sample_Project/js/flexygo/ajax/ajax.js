@@ -85,6 +85,44 @@ var flexygo;
             });
         }
         ajax.syncPost = syncPost;
+        /**
+         * Method to call AJAX functions returned as a Promise.
+         * @method post
+         * @param {string} url - The url of the service.
+         * @param {string} method - POST or GET.
+         * @param {string} params - Params sent to service.
+         */
+        function promisePost(url, method, params, show_succes = true, show_error = true) {
+            return new Promise((resolve, reject) => {
+                const successFunction = function (response) {
+                    if (show_succes)
+                        flexygo.msg.alert(response);
+                };
+                const errorFunction = function (error) {
+                    if (show_error)
+                        flexygo.exceptions.httpShow(error);
+                };
+                url = flexygo.utils.resolveUrl(url);
+                $.ajax({
+                    type: 'POST',
+                    url: url + '/' + method,
+                    dataType: 'json',
+                    data: params ? JSON.stringify(params) : null,
+                    contentType: 'application/json; charset=utf-8',
+                    success: response => { successFunction(response); resolve(response); },
+                    error: error => { errorFunction(error); reject(error); }
+                });
+                var ev = {
+                    class: "post",
+                    type: "executed",
+                    sender: this,
+                    masterIdentity: method,
+                    detailIdentity: JSON.stringify(params)
+                };
+                flexygo.events.trigger(ev);
+            });
+        }
+        ajax.promisePost = promisePost;
     })(ajax = flexygo.ajax || (flexygo.ajax = {}));
 })(flexygo || (flexygo = {}));
 //# sourceMappingURL=ajax.js.map

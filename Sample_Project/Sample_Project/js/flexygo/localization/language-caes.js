@@ -9,17 +9,18 @@ var flexygo;
         (function (caes) {
             caes.process = {
                 executing: 'Executant el procés...',
-                loadingdata: 'Carregant dades...'
+                loadingdata: 'Carregant dades...',
+                pleaserefresh: 'Cal refrescar l&#39;aplicació, vols fer- ho ara?'
             };
             caes.dependecymanager = {
                 sort: 'Ordena',
-                valuedep: 'Valor Dep.',
-                classdep: 'Classe Dep.',
-                combodep: 'Combo Dep.',
-                enabledep: 'Habilitar Dep.',
-                visibledep: 'Dep. Visible',
-                requireddep: 'Dep. Requirida',
-                CustomProperty: 'Custom Property Dep.',
+                valuedep: 'Valor',
+                classdep: 'Classe',
+                combodep: 'Combo',
+                enabledep: 'Habilitar',
+                visibledep: 'Visible',
+                requireddep: 'Requirida',
+                CustomProperty: 'Propietat personalitzada',
                 save: 'Desa',
                 addmore: 'Afegeix més propietats depenents',
                 addmorefilter: 'Afegir més filtres dependents',
@@ -42,9 +43,16 @@ var flexygo;
                 SQLCustomProperty: 'SQL Custom Property',
                 connectionstrings: 'Cadenas de conexión',
                 connStringvalues: 'valores de conexión',
-                relateddep: 'Dependències relacionades'
+                relateddep: 'Dependències relacionades',
+                sqllabel: 'Etiqueta SQL'
             };
             caes.develop = {
+                pagename: 'Pàgina Conf.',
+                placeholder: 'Seleccione l\'objecte per a obtindre la configuració.',
+                originSystem: '0. Sistema',
+                originProduct: '1. Producte',
+                originProject: '2. Projecte',
+                originUser: '3. Usuari',
                 developer: 'Desenvolupador',
                 adminarea: 'Àrea d&#39;administració',
                 help: 'Ajuda',
@@ -73,6 +81,7 @@ var flexygo;
                 users: 'Usuaris',
                 roles: 'Rols',
                 processes: 'Processos',
+                minifyjscss: 'Minificar JS/CSS'
             };
             caes.history = {
                 historyempty: 'Historial de la navegació buit',
@@ -82,6 +91,10 @@ var flexygo;
                 confirm: 'Confirmeu',
                 fieldrequired: 'Camp requerit',
                 copied: 'Copiat',
+                noticetitle: 'Avís de recollida de dades',
+                noticemsg: `Flexygo recopila i tracta dades amb l'objectiu de millorar la vostra experiència i optimitzar el rendiment dels nostres serveis. <a class="clickable" target="_blank" href="https://docs.flexygo.com/telemetry.html">Més informació</a>`,
+                noticeaccept: 'Acceptar',
+                tokentimeout: 'El valor introduït és massa alt'
             };
             caes.navigation = {
                 relatedobjects: 'Objectes relacionats',
@@ -145,7 +158,10 @@ var flexygo;
                 affectedby: 'Afectada per',
                 persistdefaultvalue: 'Valor per defecte persistent',
                 defaultvalue: 'Valor per defecte',
-                detachedproperty: 'Propietat desconnectada'
+                detachedproperty: 'Propietat desconnectada',
+                notdisplayform: 'No mostrar al formulari',
+                tips: 'Consells',
+                ctrclick: "Pots accedir directament a les opcions avançades d'una propietat usant control + click"
             };
             caes.flxeditgrid = {
                 addrow: 'Afegeix fila',
@@ -337,6 +353,7 @@ var flexygo;
                 requiredreport: 'Completeu tots els camps obligatoris abans d&#39;obrir l&#39;informe',
                 deleted: 'Eliminat :)',
                 saved: 'Desada :)',
+                errorSaving: 'Hi va haver un error en desar',
                 uniqueBagError: 'Camp d&#39;identificador únic sense definir.',
                 nofieldBagError: 'No es pot trobar el camp <b> {0} </b> a la fila actual. Afegiu-la per consultar o eliminar el botó de selecció..',
                 noItemsSelected: 'Primer seleccioneu alguns elements de la llista.',
@@ -476,6 +493,9 @@ var flexygo;
                 events: 'Actes adjunts',
                 security: 'Seguretat del mòdul',
                 tabMode: 'Model de pestanya',
+                groups: 'Agrupar per',
+                objectGroup: 'Objecte',
+                moduleTypeGroup: 'Tipus de mòdul',
             };
             caes.moduletab = {
                 emptytabs: 'Pestanyes buides',
@@ -537,6 +557,9 @@ var flexygo;
                 colproperties: 'Editar les propietats de la graella (opcional)',
                 save: 'Desa',
                 filtersettings: 'Configuració de filtres',
+                listtemplatesettings: "Plantilla de Llista (opcional)",
+                viewtemplatesettings: "Plantilla de Visualització (opcional)",
+                createdatamodel: 'Crear model de dades'
             };
             caes.flxpropertymanager = {
                 addfields: 'Feu clic al botó "afegir camps" per començar.',
@@ -555,6 +578,28 @@ var flexygo;
                 close: 'Tancar',
                 hasdefinition: 'Revisi a la taula la propietat:',
                 valueTemplate: 'Valor',
+                areYouSure: "¿Segur que no vols desar els canvis de @?",
+                quickStart: "Selecciona una propietat per començar a configurar-la ràpidament",
+                quickSettings: "Configuració ràpida",
+                default: "Valor per defecte",
+                css: "Classe CSS",
+                icon: "Icona",
+                hide: "Amagar",
+                isrequired: "És requerit",
+                settings: "Configuracions del control",
+                type: "Tipus",
+                customSettings: "Hereta la configuració",
+                sqlValue: "Camp de valor SQL",
+                sqlDisplay: "Camp de visualització SQL",
+                extension: "Extensió",
+                sqlSentence: "Sentència SQL",
+                connectionString: "Cadena de connexió",
+                pathType: "Tipus de ruta arrel",
+                path: "Ruta arrel",
+                compression: "Compressió d'imatge",
+                width: "Amplada màxima",
+                height: "Alçada màxima",
+                barcode: "Lectors de codis de barres"
             };
             caes.flxversioninfo = {
                 currentversion: 'Versió actual ({{CurrentVersion}}).',
@@ -861,10 +906,11 @@ var flexygo;
                 maxSize: "Mida màxima",
             };
             caes.databaseScript = {
-                infoGenerate: "Els fitxers es generaran directament sobre la carpeta predeterminada",
-                infoDownload: "Els fitxers es comprimiran en un zip i seran descarregats",
+                infoGenerate: "Els fitxers de dades es generaran directament sobre la carpeta predeterminada",
+                infoDownload: "Els fitxers de dades es comprimiran en un zip i seran descarregats",
                 generate: "Generar fitxers",
-                download: "Descarregar fitxers"
+                download: "Descarregar fitxers",
+                infoStructure: "i els scripts d'estructura es generaran directament sobre la carpeta predeterminada"
             };
             caes.flxcode = {
                 readonlyMode: 'No pots editar en mode de visualització',
@@ -932,7 +978,39 @@ var flexygo;
                 deprecated: 'Obsolet',
                 features: 'Novetats',
                 fixes: 'Correccions',
-                notfound: 'Cap versió oposada.'
+                notfound: 'Cap versió oposada.',
+                noreleasenotes: 'No hi ha notes de llançament.'
+            };
+            caes.getTableChangesPage = {
+                needsADate: 'Selecciona una data per poder filtrar a totes les taules',
+                needsFiltering: "Has de filtrar primer per una data abans de generar l'script",
+                needsGenerating: "Has de generar primer l'script",
+                loading: 'Generant l\'script...',
+                selectATable: 'Si us plau selecciona almenys una taula'
+            };
+            caes.flxnotification = {
+                showAll: 'Veure Tots',
+                allOk: 'Tots Vistos',
+                title: 'Ultimes notificacions'
+            };
+            caes.flxtemplatemanager = {
+                titleView: 'Seleccioneu la vista de dades que voleu utilitzar',
+                placeholderView: "Propietats de l'objecte",
+                titleManager: 'Seleccioneu la propietat corresponent a cada marcador',
+                placeholderManager: 'Seleccioneu la propietat corresponent',
+                saveManager: 'Guardar',
+                confirmSaveManager: 'Esteu segur que voleu guardar i generar la plantilla?',
+                newView: 'Introduïu el nom de la visualització nova',
+                errorTemplate: "Error en crear la plantilla",
+                existsTemplate: "La plantilla ja existeix",
+                successTemplate: "Plantilla creada amb èxit",
+                noView: "Cap vista seleccionada",
+                noObject: "Si us plau, selecciona un objecte"
+            };
+            caes.flxchatgptfieldselector = {
+                addButton: 'Afegir Taules',
+                clearButton: 'Netejar Taules',
+                saveButton: 'Desar Canvis'
             };
         })(caes = culture.caes || (culture.caes = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

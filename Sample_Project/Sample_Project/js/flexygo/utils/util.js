@@ -1353,6 +1353,106 @@ var flexygo;
             flexygo.history.historyLog.add('', history.description, history);
         }
         utils.saveFilterValueHistory = saveFilterValueHistory;
+        function openEditWizard(mode, identifier) {
+            let flxedit = $("<flx-edit/>");
+            let flxeditwc = flxedit[0];
+            flxeditwc.mode = "process";
+            switch (mode) {
+                case 'report':
+                    flxeditwc.reportName = identifier;
+                    break;
+                case 'process':
+                    flxeditwc.processName = identifier;
+                    break;
+                default:
+                    flxeditwc.objectname = identifier;
+            }
+            flxeditwc.openConfig();
+            var loadCloseBtn = setInterval(() => {
+                if ($($('.ui-dialog')[$('.ui-dialog').length - 1]).find('.ui-dialog-titlebar-buttonpane button.ui-dialog-titlebar-close').length > 0) {
+                    clearInterval(loadCloseBtn);
+                    $($('.ui-dialog')[$('.ui-dialog').length - 1]).find('.ui-dialog-titlebar-buttonpane button.ui-dialog-titlebar-close').off("click").on('click.configure', (e) => {
+                        $(e.target).closest('.ui-dialog').find('main.pageContainer').dialog("close");
+                    });
+                }
+            }, 200);
+        }
+        utils.openEditWizard = openEditWizard;
+        function switchBundleOptimization(e) {
+            let check = $(e)[0];
+            let checkVal = check.getValue();
+            utils.changeSettingValue("BundleOptimization", checkVal.toString().toLowerCase());
+            reloadCacheAndRefresh();
+        }
+        utils.switchBundleOptimization = switchBundleOptimization;
+        function reloadCacheAndRefresh(delay = false) {
+            flexygo.nav.execProcessObj({ processname: "ReloadQuietCache", objectname: "", objectwhere: "", targetid: "current", showProgress: false, excludeHist: true });
+            if (delay) {
+                setTimeout(() => { utils.showLoading(null, null, null); setTimeout(() => { location.reload(); }, 750); }, 600);
+            }
+            else {
+                utils.showLoading(null, null, null);
+                setTimeout(() => { location.reload(); }, 750);
+            }
+        }
+        utils.reloadCacheAndRefresh = reloadCacheAndRefresh;
+        function changeSettingValue(settingName, settingValue) {
+            let obj = new flexygo.obj.Entity("sysSetting", `Settings.SettingName='${settingName}'`);
+            obj.read();
+            obj.data["SettingValue"].Value = settingValue;
+            obj.update();
+        }
+        utils.changeSettingValue = changeSettingValue;
+        function getSettingValue(settingName) {
+            let obj = new flexygo.obj.Entity("sysSetting", `Settings.SettingName='${settingName}'`);
+            obj.read();
+            return isBlank(obj.data["SettingValue"].Value) ? "" : obj.data["SettingValue"].Value;
+        }
+        utils.getSettingValue = getSettingValue;
+        /**
+         * Calculates the remaining space on both sides of a given HTML Element
+         * @param element - The element of which we want to knwo it's left and right space
+         */
+        function calculateSidesSpace(element) {
+            const coordinates = element.getBoundingClientRect();
+            const right_position = coordinates.x + coordinates.width;
+            const right_space = window.innerWidth - right_position;
+            const left_space = coordinates.x;
+            return { right: right_space, left: left_space };
+        }
+        utils.calculateSidesSpace = calculateSidesSpace;
+        function parseAIMessage(message) {
+            let codeBlocks = message.match(/```(\w+)?([\s\S]*?)```/g);
+            if (codeBlocks) {
+                codeBlocks.forEach((codeBlock) => {
+                    let language = 'plaintext';
+                    let content = codeBlock;
+                    let matchLanguage = codeBlock.match(/```(\w+)/);
+                    if (matchLanguage) {
+                        language = matchLanguage[1];
+                        content = codeBlock.replace(/```(\w+)/, ''); // Elimina el nombre del lenguaje
+                    }
+                    content = content.replace(/```/img, '').trim(); // Elimina las comillas de apertura
+                    if (language === 'chart') {
+                        content = content.replace(/\n/img, '');
+                        message = content;
+                    }
+                    else {
+                        content = flexygo.string.escapeHTML(content);
+                        content = content.replace(/\n/img, '&#10');
+                        message = message.replace(codeBlock, `<flx-code forcecodemirror="true" returnEnabled="true" help mode="view" type="${language}" value="${content}"></flx-code>`);
+                        message = `<p>${message}</p>`;
+                    }
+                });
+            }
+            else {
+                message = flexygo.string.escapeHTML(message);
+            }
+            message = message.replace(/\n\n/img, '</p><p>');
+            message = message.replace(/\n/img, '<br>');
+            return message;
+        }
+        utils.parseAIMessage = parseAIMessage;
     })(utils = flexygo.utils || (flexygo.utils = {}));
 })(flexygo || (flexygo = {}));
 (function (flexygo) {
@@ -1564,13 +1664,26 @@ jQuery.fn.print = function (title) {
     objDoc.write("</html>");
     objDoc.close();
     //Establecer valores para los edit
-    $(objDoc).find('flx-edit flx-text,flx-check,flx-dbcombo,flx-combo,flx-switch').each(function () {
+    const print_edits = $(objDoc).find('flx-module[type="flx-edit"]');
+    print_edits.each((_, current_module) => {
+        const current_module_name = current_module.getAttribute('modulename');
+        const form_controls = $(`[modulename ="${current_module_name}"] [property]:visible`);
+        form_controls.each((_, control) => {
+            const property_name = control.getAttribute('property');
+            const print_property = current_module.querySelectorAll(`[property ="${property_name}"] input`);
+            print_property.forEach((input) => {
+                input.value = control.getValue();
+            });
+        });
+    });
+    /*$(objDoc).find('flx-edit flx-text,flx-check,flx-dbcombo,flx-combo,flx-switch').each(function () {
+        
         switch ($(this).prop("tagName").toLowerCase()) {
             case 'flx-dbcombo':
                 $(this).find('input').attr('value', $(this).attr('text'));
                 break;
             case 'flx-combo':
-                $(this).find('select option[value="' + $(this).attr('value') + '"]').attr('selected', 'selected');
+                $(this).find('select option[value="' + $(this).attr('value') + '"]').attr('selected','selected');
                 break;
             case 'flx-check':
             case 'flx-switch':
@@ -1581,7 +1694,8 @@ jQuery.fn.print = function (title) {
             default:
                 $(this).find('input').attr('value', $(this).attr('value'));
         }
-    });
+        
+    });*/
     // Print the document.
     objFrame.focus();
     //gridstack CssRules
@@ -1596,6 +1710,7 @@ jQuery.fn.print = function (title) {
         }
     });
     setTimeout(function () {
+        setEditsValues(objDoc);
         objFrame.print();
         flexygo.utils.removeLoadingEffect();
     }, 5500);
@@ -1605,6 +1720,38 @@ jQuery.fn.print = function (title) {
         jFrame.remove();
     }, (60 * 1000));
 };
+function setEditsValues(objDoc) {
+    //We loop through all edits that are gonna get printed
+    const print_edits = $(objDoc).find('flx-edit');
+    print_edits.each((_, current_print_edit) => {
+        //We look for all the edit in the current page visible controls so we can use its values
+        const current_module_name = current_print_edit.getAttribute('modulename');
+        const form_controls = $(`flx-edit[modulename="${current_module_name}"] [property]:visible`);
+        form_controls.each((_, control) => {
+            const property_name = control.getAttribute('property');
+            const print_property = current_print_edit.querySelector(`[property ="${property_name}"]`);
+            const value = control.getText ? control.getText() : control.getValue();
+            //We set the value on the control depending on its type
+            switch (print_property.nodeName) {
+                case 'FLX-SWITCH':
+                    print_property.setValue(value);
+                    break;
+                case 'FLX-CHECK':
+                    print_property.querySelector('input').checked = value;
+                    break;
+                case 'FLX-COMBO':
+                    //We substitute the flx-combo so we can set its value without executing its corresponding SQL
+                    let new_input = $('<input class="form-control"/>');
+                    new_input.val(value);
+                    $(print_property).children().replaceWith(new_input);
+                    break;
+                default:
+                    $(print_property).find('input').val(value);
+                    break;
+            }
+        });
+    });
+}
 $(function () {
     $.fn.oldVal = $.fn.val;
     $.fn.val = function (value, text) {
@@ -1970,6 +2117,274 @@ $(function () {
             }
             maintenance.setAdvice = setAdvice;
         })(maintenance = utils.maintenance || (utils.maintenance = {}));
+    })(utils = flexygo.utils || (flexygo.utils = {}));
+})(flexygo || (flexygo = {}));
+(function (flexygo) {
+    var utils;
+    (function (utils) {
+        var geTablesChangeTemplate;
+        (function (geTablesChangeTemplate) {
+            let is_showing_changes = false;
+            function showChanges(button) {
+                if (is_showing_changes)
+                    return;
+                is_showing_changes = true;
+                const module = button.closest('#realMain').querySelector('flx-module[modulename="sysMod_GetTablesChanges"]');
+                const list = module.querySelector('flx-list');
+                const filter_date = list.querySelector('input').value + ":00";
+                if (filter_date !== ':00') {
+                    list.defaults = `{"FilterDate": "${filter_date}"}`;
+                    module.objectdefaults = `{"FilterDate": "${filter_date}"}`;
+                    list.refresh();
+                }
+                else {
+                    flexygo.msg.warning(flexygo.localization.translate('getTableChangesPage.needsADate'));
+                    is_showing_changes = false;
+                }
+            }
+            geTablesChangeTemplate.showChanges = showChanges;
+            function executeLoadedModuleFunctions() {
+                let realMain = document.getElementById('realMain');
+                let list = document.getElementById('mod-sysMod_GetTablesChanges');
+                $(list).find('[value="true"]').click();
+                //We change the is_showing_changes variable here so it will be changed just when module is loaded
+                is_showing_changes = false;
+                if (list.querySelector('td'))
+                    realMain.querySelector('button.pressableBtn.warning').classList.remove('disabled');
+            }
+            geTablesChangeTemplate.executeLoadedModuleFunctions = executeLoadedModuleFunctions;
+            let is_generating_script = false;
+            function generateScript(button) {
+                if (is_generating_script)
+                    return;
+                if (button.classList.contains('disabled')) {
+                    flexygo.msg.warning(flexygo.localization.translate('getTableChangesPage.needsFiltering'));
+                    return;
+                }
+                is_generating_script = true;
+                let tables = '';
+                const realMain = button.closest('#realMain');
+                const flxList = realMain.querySelector('flx-list');
+                flxList.querySelectorAll('input:checked').forEach(el => {
+                    tables += el.getAttribute('tablename') + "|";
+                });
+                if (tables) {
+                    flexygo.utils.showLoading(null, flexygo.localization.translate('getTableChangesPage.loading'));
+                    const date = JSON.parse(flxList.defaults).FilterDate;
+                    flexygo.nav.execProcess('GetTableChanges', null, null, null, [{ 'key': 'date', 'value': date }, { 'key': 'tables_string', 'value': tables }], 'current', true, $(button), res => {
+                        //We add the script into the flx-code component
+                        let script = "EXEC sp_MSforeachtable 'ALTER TABLE ? NOCHECK CONSTRAINT all'\nEXEC sp_MSforeachtable 'ALTER TABLE ? DISABLE TRIGGER all'\n";
+                        script += res.Data.scripts.join('\n');
+                        script += "EXEC sp_MSforeachtable 'ALTER TABLE ? ENABLE TRIGGER all'\nEXEC sp_MSforeachtable 'ALTER TABLE ? WITH CHECK CHECK CONSTRAINT ALL'\n";
+                        realMain.querySelector('flx-code').setValue(script);
+                        realMain.querySelector('button.pressableBtn.outstanding').classList.remove('disabled');
+                        is_generating_script = false;
+                        flexygo.utils.removeLoadingEffect();
+                    }, false, null, (err) => {
+                        is_generating_script = false;
+                        flexygo.utils.removeLoadingEffect();
+                        throw err;
+                    });
+                }
+                else {
+                    flexygo.msg.warning(flexygo.localization.translate('getTableChangesPage.selectATable'));
+                    is_generating_script = false;
+                }
+            }
+            geTablesChangeTemplate.generateScript = generateScript;
+            let is_copying_script = false;
+            function copyScriptToClipboard(button) {
+                if (is_copying_script)
+                    return;
+                if (button.classList.contains('disabled')) {
+                    flexygo.msg.warning(flexygo.localization.translate('getTableChangesPage.needsGenerating'));
+                    return;
+                }
+                //We copy the script into the clipboard
+                is_copying_script = true;
+                const flxModule = button.closest('flx-module');
+                const flxCode_value = flxModule.querySelector('flx-code').getValue();
+                navigator.clipboard.writeText(flxCode_value);
+                //We show a tooltip showing that the script has been copied
+                const tooltip = $(button).find('.copiedTooltip');
+                tooltip.fadeIn(400);
+                setTimeout(() => {
+                    tooltip.fadeOut(300);
+                }, 1100);
+                is_copying_script = false;
+            }
+            geTablesChangeTemplate.copyScriptToClipboard = copyScriptToClipboard;
+        })(geTablesChangeTemplate = utils.geTablesChangeTemplate || (utils.geTablesChangeTemplate = {}));
+    })(utils = flexygo.utils || (flexygo.utils = {}));
+})(flexygo || (flexygo = {}));
+(function (flexygo) {
+    var utils;
+    (function (utils) {
+        var modules;
+        (function (modules) {
+            function loadingErrorFunction(module, error) {
+                flexygo.exceptions.httpShow(error);
+                if (module === null || module === void 0 ? void 0 : module.skeleton) {
+                    const skeleton_component = module.querySelector('.flxSkeleton');
+                    if (skeleton_component) {
+                        skeleton_component.remove();
+                    }
+                    module.querySelector('.cntBody').classList.remove('displayingSkeleton');
+                }
+            }
+            modules.loadingErrorFunction = loadingErrorFunction;
+            function groupButtonActive(e, groupName) {
+                return (e.hasGroup(groupName) ? 'bg-outstanding' : 'btn-outstanding');
+            }
+            modules.groupButtonActive = groupButtonActive;
+            function removeSkeleton(module) {
+                var _a, _b;
+                if (module.skeleton) {
+                    //If there's a scroll saved we restore it
+                    if (module.skeleton_scroll) {
+                        let module_container = module.closest('#mainContent');
+                        if (!module_container)
+                            module_container = module.closest('main');
+                        module_container.scrollTop = module.skeleton_scroll;
+                    }
+                    (_a = module.querySelector('.flxSkeleton')) === null || _a === void 0 ? void 0 : _a.remove();
+                    (_b = module.querySelector('.cntBody')) === null || _b === void 0 ? void 0 : _b.classList.remove('displayingSkeleton');
+                }
+            }
+            modules.removeSkeleton = removeSkeleton;
+            function openEditTemplate(module) {
+                if ($(module).find('[property="TemplateId"]').length > 0) {
+                    let templateId = $(module).find('[property="TemplateId"]')[0].getValue();
+                    if (!flexygo.utils.isBlank(templateId)) {
+                        let where = `TemplateId='${templateId}'`;
+                        flexygo.nav.openPage('edit', 'sysObjectTemplate', where, null, 'new', false);
+                        let dialogs = $('main.ui-dialog-content');
+                        dialogs.dialog('close');
+                    }
+                }
+            }
+            modules.openEditTemplate = openEditTemplate;
+            function getActiveModuleType(module) {
+                //If the module is not a tab module we just return its WebComponent
+                if (module.moduleConfig.WebComponent !== 'flx-moduletab')
+                    return module.moduleConfig.WebComponent;
+                //If its is we search for its active module and get its tagName
+                return searchLastChildTypeFromTab(module.module[0]);
+            }
+            modules.getActiveModuleType = getActiveModuleType;
+            function searchLastChildTypeFromTab(current_tab) {
+                while (true) {
+                    //If its a not initialized tab
+                    if (!(current_tab === null || current_tab === void 0 ? void 0 : current_tab.activeModule))
+                        return 'flx-moduletab';
+                    //If the tab active name is not another tab we return that modules type
+                    if (!current_tab.activeModule.WebComponent.startsWith('flx-moduletab'))
+                        return current_tab.activeModule.WebComponent;
+                    //If the tab child is other tab we set this as the current_tab and continue searching for the active child type
+                    current_tab = current_tab.querySelector(`flx-moduletab[modulename="${current_tab.activeModule.ModuleName}"]`);
+                }
+            }
+        })(modules = utils.modules || (utils.modules = {}));
+    })(utils = flexygo.utils || (flexygo.utils = {}));
+})(flexygo || (flexygo = {}));
+(function (flexygo) {
+    var utils;
+    (function (utils) {
+        var toolbar;
+        (function (toolbar) {
+            function sortButtons(e) {
+                let paramOrder = [], params = [];
+                let containers = $(e).find(".flx-toolbar-buttons-sortable-container");
+                let sortId = flexygo.utils.uniqueUUID();
+                $(e).attr("sort-id", sortId);
+                $(containers).sortable({
+                    connectWith: `[sort-id="${sortId}"] .flx-toolbar-buttons-sortable-container`,
+                    stop: function (evt, ui) {
+                        if ($(e).find("#flx-toolbar-buttons-remove.toRemove").length == 0) {
+                            let element = ui.item;
+                            let container = $(element).closest('.flx-toolbar-buttons-sortable-container');
+                            let positionId = $(container).attr("positionid");
+                            let buttons = container.find("li");
+                            paramOrder = [], params = [];
+                            for (var i = 0; i < buttons.length; i++) {
+                                paramOrder.push({ 'ButtonId': $(buttons[i]).attr("buttonid"), 'PositionId': positionId, 'ButtonOrder': i });
+                            }
+                            params.push({ 'key': 'UserId', 'value': flexygo.context.currentReference }, { 'key': 'OrderedToolBarsButtons', 'value': JSON.stringify(paramOrder) });
+                            flexygo.nav.execProcess("pNet_SaveToolBarsButtonsOrder", "", "", null, params, "popup", false, $(this), false, false);
+                        }
+                        else {
+                            $(e).find("#flx-toolbar-buttons-remove").removeClass("toRemove");
+                        }
+                    }
+                });
+                $(containers).disableSelection();
+                $(e).find("#flx-toolbar-buttons-remove").droppable({
+                    accept: `[sort-id="${sortId}"] .flx-toolbar-buttons-sortable-container > li`,
+                    activeClass: "flx-toolbar-buttons-remove-highlight",
+                    hoverClass: "flx-toolbar-buttons-remove-hover",
+                    drop: function (event, ui) {
+                        let element = ui.draggable;
+                        $(this).addClass("toRemove");
+                        flexygo.ui.wc.FlxModuleElement.prototype.deleteModule('sysButton', `ButtonId='${$(element).attr("buttonid")}'`, $(this).closest('flx-module'), $(this));
+                    },
+                });
+            }
+            toolbar.sortButtons = sortButtons;
+        })(toolbar = utils.toolbar || (utils.toolbar = {}));
+    })(utils = flexygo.utils || (flexygo.utils = {}));
+})(flexygo || (flexygo = {}));
+(function (flexygo) {
+    var utils;
+    (function (utils) {
+        var processes;
+        (function (processes) {
+            function objectToKeyValue(object) {
+                return Object.entries(object).map(([key, value]) => ({ key, value }));
+            }
+            processes.objectToKeyValue = objectToKeyValue;
+        })(processes = utils.processes || (utils.processes = {}));
+    })(utils = flexygo.utils || (flexygo.utils = {}));
+})(flexygo || (flexygo = {}));
+(function (flexygo) {
+    var utils;
+    (function (utils) {
+        var scriptjob;
+        (function (scriptjob) {
+            function sort(e) {
+                let containers = $(e).closest('.flx-scriptjobs-sortable').find(".flx-scriptjobs-sortable-container");
+                if ($(e).val()) {
+                    let paramOrder = [], params = [];
+                    let sortId = flexygo.utils.uniqueUUID();
+                    $(e).attr("sort-id", sortId);
+                    $(containers).sortable({
+                        //connectWith: `[sort-id="${sortId}"] .flx-scriptjobs-sortable-container`,
+                        tolerance: "pointer",
+                        start: function (event, ui) {
+                            var height = ui.item.outerHeight();
+                            var width = ui.item.outerWidth() - 20;
+                            ui.placeholder.height(height);
+                            ui.placeholder.width(width);
+                        },
+                        stop: function (evt, ui) {
+                            let element = ui.item;
+                            let container = $(element).closest('.flx-scriptjobs-sortable-container');
+                            let scripts = container.find("div[scriptid]");
+                            paramOrder = [], params = [];
+                            for (var i = 0; i < scripts.length; i++) {
+                                paramOrder.push({ 'ScriptId': $(scripts[i]).attr("scriptid"), 'ButtonOrder': i });
+                            }
+                            params.push({ 'key': 'UserId', 'value': flexygo.context.currentReference }, { 'key': 'OrderedScripts', 'value': JSON.stringify(paramOrder) });
+                            flexygo.nav.execProcess("pNet_SaveScriptJobsOrder", "", "", null, params, "popup", false, $(this), false, false);
+                        }
+                    });
+                    $(containers).disableSelection();
+                }
+                else {
+                    $(containers).sortable("destroy");
+                }
+            }
+            scriptjob.sort = sort;
+        })(scriptjob = utils.scriptjob || (utils.scriptjob = {}));
     })(utils = flexygo.utils || (flexygo.utils = {}));
 })(flexygo || (flexygo = {}));
 //# sourceMappingURL=util.js.map

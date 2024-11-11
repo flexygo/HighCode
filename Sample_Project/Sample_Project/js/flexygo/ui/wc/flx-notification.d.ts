@@ -35,12 +35,12 @@ declare namespace flexygo.ui.wc {
         * Initialize Web Control
         * @method init
         */
-        init(): void;
+        init(): Promise<void>;
         /**
         * Refreses Web Control
         * @method refresh
         */
-        refresh(): void;
+        refresh(): Promise<void>;
         /**
        * Navigates to notify node specification
        * @method goToNotice
@@ -50,7 +50,7 @@ declare namespace flexygo.ui.wc {
         * Checks and refresh Notify Badge
         * @method refreshBadge
         */
-        refreshBadge(): void;
+        refreshBadge(): Promise<void>;
         /**
         * Refereshes Notify Badge
         * @method updateBadge
@@ -63,5 +63,6 @@ declare namespace flexygo.ui.wc {
      * @method markAsRead
      */
         markAsRead(elm: any, noticeId: any): void;
+        showAll(elm: any): void;
     }
 }

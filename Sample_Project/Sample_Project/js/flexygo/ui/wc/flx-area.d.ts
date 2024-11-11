@@ -64,17 +64,17 @@ declare namespace flexygo.ui.wc {
         * Init the webcomponent.
         * @method init
         */
-        init(): void;
+        init(): Promise<void>;
         /**
         * Refresh de webcomponent.
         * @method refresh
         */
-        refresh(): void;
+        refresh(): Promise<void>;
         /**
         * Does post to load Areas Nodes.
         * @method loadNodes
         */
-        loadNodes(): void;
+        loadNodes(): Promise<void>;
         /**
         * loads Nodes with post result.
         * @method loadNodesRet

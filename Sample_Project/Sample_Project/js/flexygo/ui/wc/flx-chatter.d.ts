@@ -120,7 +120,7 @@ declare namespace flexygo.ui.wc {
         * Render HTML data.
         * @method render
         */
-        render(): void;
+        render(): Promise<void>;
         /**
         * Set main events.
         * @method setMainEvents
@@ -141,7 +141,7 @@ declare namespace flexygo.ui.wc {
         * Get messages.
         * @method getMessages
         */
-        getMessages(): void;
+        getMessages(): Promise<void>;
         /**
         * Set mentions.
         * @method setMentions

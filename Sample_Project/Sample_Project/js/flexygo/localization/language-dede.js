@@ -9,7 +9,8 @@ var flexygo;
         (function (dede) {
             dede.process = {
                 executing: 'Prozess wird ausgeführt...',
-                loadingdata: 'Daten werden geladen...'
+                loadingdata: 'Daten werden geladen...',
+                pleaserefresh: 'Die Anwendung muss aktualisiert werden. Möchten Sie dies jetzt tun?'
             };
             dede.dependecymanager = {
                 sort: 'Sortieren',
@@ -42,9 +43,16 @@ var flexygo;
                 SQLCustomProperty: 'Benutzerdefinierte SQL-Eigenschaft',
                 connectionstrings: 'Verbindungszeichenfolgen',
                 connStringvalues: 'Verbindungszeichenfolgen',
-                relateddep: 'Verwandte abhängigkeiten'
+                relateddep: 'Verwandte abhängigkeiten',
+                sqllabel: 'SQL Etikett'
             };
             dede.develop = {
+                pagename: 'Einstellungsseite.',
+                placeholder: 'Wählen Sie das Objekt aus, um die Konfiguration abzurufen.',
+                originSystem: '0. System',
+                originProduct: '1. Produkt',
+                originProject: '2. Projekt',
+                originUser: '3. Benutzer',
                 developer: 'Entwickler',
                 adminarea: 'Admin Bereich',
                 help: 'Hilfe',
@@ -73,6 +81,7 @@ var flexygo;
                 users: 'Benutzer',
                 roles: 'Rollen',
                 processes: 'Prozesse',
+                minifyjscss: 'JS/CSS Minimieren'
             };
             dede.history = {
                 historyempty: 'Navigationsverlauf leer',
@@ -82,6 +91,10 @@ var flexygo;
                 confirm: 'Bestätigen',
                 fieldrequired: 'Benötigtes Feld',
                 copied: 'Kopiert',
+                noticetitle: 'Datenerhebungshinweis',
+                noticemsg: `Flexygo sammelt und verarbeitet Daten mit dem Ziel, Ihr Erlebnis zu verbessern und die Leistung unserer Dienste zu optimieren. <a class="clickable" target="_blank" href="https://docs.flexygo.com/telemetry.html">Weitere Informationen</a>`,
+                noticeaccept: 'Akzeptieren',
+                tokentimeout: 'Der eingegebene Wert ist zu hoch'
             };
             dede.navigation = {
                 relatedobjects: 'Verwandte Objekte',
@@ -146,7 +159,10 @@ var flexygo;
                 affectedby: 'Beeinflusst durch',
                 persistdefaultvalue: 'Dauerhafter Standard',
                 defaultvalue: 'Standardwert',
-                detachedproperty: 'Getrenntes Eigentum'
+                detachedproperty: 'Getrenntes Eigentum',
+                notdisplayform: 'Nicht im Formular anzeigen',
+                tips: 'Tipps',
+                ctrclick: 'Sie können mit Strg + Klick direkt auf die erweiterten Einstellungen einer Eigenschaft zugreifen'
             };
             dede.flxeditgrid = {
                 addrow: 'Zeile hinzufügen',
@@ -336,6 +352,7 @@ var flexygo;
                 requiredreport: 'Vervollständigen Sie alle benötigten Felder bevor Sie den Bericht öffnen.',
                 deleted: 'Gelöscht :)',
                 saved: 'Gespeichert :)',
+                errorSaving: 'Beim Speichern ist ein Fehler aufgetreten',
                 uniqueBagError: 'Nicht definiertes eindeutiges Bezeichnerfeld.',
                 nofieldBagError: 'Kan veld <b>{0}</b> niet vinden. Voeg het toe om te vragen of de selectieknop te verwijderen.',
                 noItemsSelected: 'Wählen Sie zuerst ein Element aus der Liste aus.',
@@ -475,6 +492,9 @@ var flexygo;
                 events: 'Angehängte Events',
                 security: 'Modul Sicherheit',
                 tabMode: 'Tab modus',
+                groups: 'Gruppe nach',
+                objectGroup: 'Objekt',
+                moduleTypeGroup: 'Modultyp',
             };
             dede.moduletab = {
                 emptytabs: 'Tabs leer',
@@ -536,6 +556,9 @@ var flexygo;
                 colproperties: 'Bearbeiten Grid Eigenschaften (Optional)',
                 save: 'Speichern',
                 filtersettings: 'Filter Einstellungen',
+                listtemplatesettings: "Listenvorlage (optional)",
+                viewtemplatesettings: "Ansichtsvorlage (optional)",
+                createdatamodel: 'Datenmodell erstellen'
             };
             dede.flxpropertymanager = {
                 addfields: 'Klicken Sie auf "Felder hinzufügen", um zu starten.',
@@ -554,6 +577,28 @@ var flexygo;
                 close: 'Schließen',
                 hasdefinition: 'Überprüfen Sie die Eigenschaft in der Tabelle:',
                 valueTemplate: 'Wert',
+                areYouSure: "Sind Sie sicher, dass Sie die @ Änderungen nicht speichern wollen?",
+                quickStart: "Wählen Sie eine Eigenschaft aus, um schnell mit der Konfiguration zu beginnen",
+                quickSettings: "Schnelleinstellungen",
+                default: "Standardwert",
+                css: "CSS-Klasse",
+                icon: "Symbol",
+                hide: "Ausblenden",
+                isrequired: "Ist erforderlich",
+                settings: "Steuereinstellungen",
+                type: "Typ",
+                customSettings: "Einstellungen erben",
+                sqlValue: "SQL-Wertfeld",
+                sqlDisplay: "SQL-Anzeigefeld",
+                extension: "Erweiterung",
+                sqlSentence: "SQL-Satz",
+                connectionString: "Verbindungszeichenfolge",
+                pathType: "Wurzelpfadtyp",
+                path: "Wurzelpfad",
+                compression: "Bildkompression",
+                width: "Maximale Breite",
+                height: "Maximale Höhe",
+                barcode: "Barcode-Scanner"
             };
             dede.flxversioninfo = {
                 currentversion: 'Aktuelle Version ({{CurrentVersion}}).',
@@ -860,10 +905,11 @@ var flexygo;
                 maxSize: "Maximale Größe",
             };
             dede.databaseScript = {
-                infoGenerate: "Die Dateien werden direkt im Standardordner generiert",
-                infoDownload: "Die Dateien werden in einer ZIP-Datei komprimiert und heruntergeladen",
+                infoGenerate: "Datenskripte werden direkt im Standardskript-Ordner generiert.",
+                infoDownload: "Datenskripte werden als Zip-Datei komprimiert und zum Download bereitgestellt.",
                 generate: "Dateien generieren",
-                download: "Dateien herunterladen"
+                download: "Dateien herunterladen",
+                infoStructure: "und Strukturskripte werden direkt im Standardskript-Ordner generiert"
             };
             dede.flxcode = {
                 readonlyMode: 'Sie können im Anzeigemodus nicht bearbeiten',
@@ -931,7 +977,39 @@ var flexygo;
                 deprecated: 'Abgelehnt',
                 features: 'Neue Funktionen',
                 fixes: 'Behebt',
-                notfound: 'Keine Version gefunden.'
+                notfound: 'Keine Version gefunden.',
+                noreleasenotes: 'Keine Versionshinweise.'
+            };
+            dede.getTableChangesPage = {
+                needsADate: 'Wählen Sie das Datum, um durch alle Tabellen zu filtern',
+                needsFiltering: 'Sie müssen zuerst nach einem Datum filtern, bevor Sie das Skript erstellen',
+                needsGenerating: 'Sie müssen das Skript zuerst generieren',
+                loading: 'Generating script...',
+                selectATable: 'Bitte wählen Sie mindestens eine Tabelle für das Script aus'
+            };
+            dede.flxnotification = {
+                showAll: 'Alle sehen',
+                allOk: 'Alle Ok',
+                title: 'Neueste Benachrichtigungen'
+            };
+            dede.flxtemplatemanager = {
+                titleView: 'Bitte wählen Sie die Datenansicht aus, die Sie verwenden möchten',
+                placeholderView: 'Objekteigenschaften',
+                titleManager: 'Bitte wählen Sie die entsprechende Eigenschaft für jeden Platzhalter aus',
+                placeholderManager: 'Entsprechende Eigenschaft auswählen',
+                saveManager: 'Speichern',
+                confirmSaveManager: 'Sind Sie sicher, dass Sie speichern und die Vorlage generieren möchten?',
+                newView: 'Neuen Ansichtsnamen eingeben',
+                errorTemplate: "Fehler beim Erstellen der Vorlage",
+                existsTemplate: "Die Vorlage existiert bereits",
+                successTemplate: "Vorlage erfolgreich erstellt",
+                noView: "Keine Ansicht ausgewählt",
+                noObject: "Bitte wählen Sie ein Objekt aus"
+            };
+            dede.flxchatgptfieldselector = {
+                addButton: 'Tabellen Hinzufügen',
+                clearButton: 'Tabellen Löschen',
+                saveButton: 'Änderungen Speichern'
             };
         })(dede = culture.dede || (culture.dede = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

@@ -27,4 +27,12 @@ declare namespace flexygo.ajax {
      * @param {string} beforeFunction - function to run before ajax call.
      */
     function syncPost(url: string, method: string, params: object, successFunction?: any, errorFunction?: any, completeFunction?: any, beforeFunction?: any): void;
+    /**
+     * Method to call AJAX functions returned as a Promise.
+     * @method post
+     * @param {string} url - The url of the service.
+     * @param {string} method - POST or GET.
+     * @param {string} params - Params sent to service.
+     */
+    function promisePost(url: string, method: string, params: object, show_succes?: boolean, show_error?: boolean): Promise<any>;
 }

@@ -24,6 +24,7 @@ declare namespace flexygo.ui.wc {
             [key: string]: SidePanelItem;
         };
         lastTimer: number;
+        developPanel: JQuery;
         /**
         * Fires when element is attached to DOM
         * @method connectedCallback
@@ -41,6 +42,7 @@ declare namespace flexygo.ui.wc {
         attributeChangedCallback(attrName: any, oldVal: any, newVal: any): void;
         init(): void;
         clearPanels(): void;
+        setDevelopPanel(): void;
         addPanel(title: string, icon: string, content: JQuery, debugOnly: boolean): void;
         togglePanel(itm: JQuery): void;
         removePanel(key: string): void;

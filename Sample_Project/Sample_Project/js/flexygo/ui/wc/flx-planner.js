@@ -1,6 +1,15 @@
 /**
  * @namespace flexygo.ui.wc
  */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var flexygo;
 (function (flexygo) {
     var ui;
@@ -10,17 +19,17 @@ var flexygo;
             /**
             * Library for the FlxPlanner
             *
-            * @class FlxPlanner
+            * @class FlxPlannerElement
             * @constructor
-            * @return {FlxPlanner} .
+            * @return {
+            FlxPlannerElement} .
             */
-            class FlxPlanner extends HTMLElement {
+            class FlxPlannerElement extends HTMLElement {
                 //currentIndex: number = 0;
                 constructor() {
                     super();
                     this.connected = false;
                     this.groupsFilter = '';
-                    this.draggablesFilter = '';
                     this.additionalWhere = '';
                     this.pendingCards = new Array();
                     this.columns = new Array();
@@ -63,9 +72,6 @@ var flexygo;
                     else if (attrName.toLowerCase() == 'plannerInitMode' && newVal && newVal != '') {
                         this.currentModeId = newVal;
                         needInit = true;
-                        //} else if (attrName.toLowerCase() == 'plannerInitDate' && newVal && newVal != '') {
-                        //    this.plannerInitDate = newVal
-                        //    needInit = true
                     }
                     if (this.connected && needInit) {
                         this.init();
@@ -78,6 +84,10 @@ var flexygo;
                         flexygo.utils.showLoadingEffect(10000000000, me.closest('flx-module'));
                         if (!this.plannerInitDate) {
                             this.plannerInitDate = moment().format('YYYY-MM-DD');
+                        }
+                        let LastActiveMode = flexygo.storage.local.get('PlannersActivesModes');
+                        if (LastActiveMode && LastActiveMode[this.moduleName] && !this.currentModeId) {
+                            this.currentModeId = LastActiveMode[this.moduleName];
                         }
                         this.wcParentModule = me.closest('flx-module')[0];
                         if (this.defaults) {
@@ -104,77 +114,96 @@ var flexygo;
                                 }
                             }
                         }
-                        this.getPlannerConfig();
+                        return this.getPlannerConfig();
                     }
                     catch (ex) {
                         console.error('FlexyGo Planner', ex);
                     }
                 }
                 refresh() {
-                    this.init();
+                    return this.init();
                 }
                 getPlannerConfig() {
-                    let params = {
-                        ObjectName: $(this).attr('ObjectName'),
-                        ObjectWhere: $(this).attr('ObjectWhere'),
-                        ModuleName: this.moduleName,
-                        Defaults: flexygo.utils.dataToArray(this.objDef),
-                        PageName: flexygo.history.getPageName($(this)),
-                        PlannerInitDate: moment(this.plannerInitDate).format('YYYY-MM-DD'),
-                        PlannerInitMode: this.currentModeId,
-                        TimeMode: this.currentTimemode,
-                        AdditionalWhere: this.additionalWhere,
-                        GroupsFilter: this.groupsFilter,
-                        DraggablesFilter: this.draggablesFilter,
-                        FilterValues: this.filterValues,
-                        SearchId: this.activeFilter,
-                    };
-                    flexygo.ajax.post('~/api/Planner', 'GetPlanner', params, (response) => {
-                        if (response) {
-                            this.plannerId = response.PlannerId;
-                            if (response.ErrorMessage) {
-                                let html = `<div class="" id="pln-error-cont">
-                                        <span class="pln-error-msg">${response.ErrorMessage}</span>
-                                        <div class="pln-error-conf">
-                                            <i class="flx-icon icon-settings3 pln-error-conf-icon"></i>
-                                            <span class="pln-error-conf-txt">${flexygo.localization.translate('flxplanner.noconf')}</span>
-                                        </div>
-                                    </div>`;
-                                $(this).html(html);
-                                $(this).find('.pln-error-conf').on('click', (e) => {
-                                    this.configure();
-                                });
+                    return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
+                        let params = {
+                            ObjectName: $(this).attr('ObjectName'),
+                            ObjectWhere: $(this).attr('ObjectWhere'),
+                            ModuleName: this.moduleName,
+                            Defaults: flexygo.utils.dataToArray(this.objDef),
+                            PageName: flexygo.history.getPageName($(this)),
+                            PlannerInitDate: moment(this.plannerInitDate).format('YYYY-MM-DD'),
+                            PlannerInitMode: this.currentModeId,
+                            TimeMode: this.currentTimemode,
+                            AdditionalWhere: this.additionalWhere,
+                            GroupsFilter: this.groupsFilter,
+                            FilterValues: this.filterValues,
+                            SearchId: this.activeFilter,
+                        };
+                        flexygo.ajax.post('~/api/Planner', 'GetPlanner', params, 
+                        //Success Function
+                        (response) => {
+                            if (response) {
+                                this.plannerId = response.PlannerId;
+                                if (response.ErrorMessage) {
+                                    let html = `<div class="" id="pln-error-cont">
+                                                <span class="pln-error-msg">${response.ErrorMessage}</span>
+                                                <div class="pln-error-conf">
+                                                    <i class="flx-icon icon-settings3 pln-error-conf-icon"></i>
+                                                    <span class="pln-error-conf-txt">${flexygo.localization.translate('flxplanner.noconf')}</span>
+                                                </div>
+                                            </div>`;
+                                    $(this).html(html);
+                                    $(this).find('.pln-error-conf').on('click', (e) => {
+                                        this.configure();
+                                    });
+                                }
+                                else {
+                                    this.objectName = response.PlannerObject;
+                                    this.objectWhere = response.PlannerWhere;
+                                    this.PlannerName = response.PlannerName;
+                                    this.MonthView = response.MonthView;
+                                    this.plannerModesSettings = response.PlannerModes;
+                                    this.plannerTitle = response.PlannerTitle;
+                                    this.currentModeId = response.PlannerInitMode;
+                                    this.plannerInitDate = moment(response.PlannerInitDate).format('YYYY-MM-DD');
+                                    this.currentTimemode = response.TimeMode;
+                                    this.dateStart = moment(response.StartDate).toDate();
+                                    this.dateEnd = moment(response.EndDate).toDate();
+                                    this.plannerSettings = response;
+                                    this.lastLoaded = response.PageSize;
+                                    this.pageSize = response.PageSize;
+                                    this.collectionName = response.CollectionName;
+                                    this.toolbar = response.Toolbar;
+                                    this.searchSettings = response.SearchSettings;
+                                    this.firstColumnInfo = flexygo.utils.isBlank(response.ItemGroups) ? [] : response.ItemGroups;
+                                    this.cardList = response.Items;
+                                    this.pendingCards = response.Items.Items;
+                                    this.currentModeSettings = this.plannerModesSettings.find((element) => element['ModeId'] === this.currentModeId);
+                                    this.wcParentModule.setButtons(this.toolbar, this.objectName, this.objectWhere);
+                                    //Save active mode for next time
+                                    let LastActiveMode = flexygo.storage.local.get('PlannersActivesModes');
+                                    if (LastActiveMode == null) {
+                                        LastActiveMode = {};
+                                    }
+                                    LastActiveMode[this.moduleName] = this.currentModeId;
+                                    flexygo.storage.local.add('PlannersActivesModes', LastActiveMode);
+                                    this.loadFilters();
+                                    this.draggablesIsRender = false;
+                                    this.isRendered = false;
+                                    this.render();
+                                    this.wcParentModule.moduleLoaded(this);
+                                }
                             }
-                            else {
-                                this.objectName = response.PlannerObject;
-                                this.objectWhere = response.PlannerWhere;
-                                this.PlannerName = response.PlannerName;
-                                this.MonthView = response.MonthView;
-                                this.plannerModesSettings = response.PlannerModes;
-                                this.plannerTitle = response.PlannerTitle;
-                                this.currentModeId = response.PlannerInitMode;
-                                this.plannerInitDate = moment(response.PlannerInitDate).format('YYYY-MM-DD');
-                                this.currentTimemode = response.TimeMode;
-                                this.dateStart = moment(response.StartDate).toDate();
-                                this.dateEnd = moment(response.EndDate).toDate();
-                                this.plannerSettings = response;
-                                this.lastLoaded = response.PageSize;
-                                this.pageSize = response.PageSize;
-                                this.collectionName = response.CollectionName;
-                                this.toolbar = response.Toolbar;
-                                this.searchSettings = response.SearchSettings;
-                                this.firstColumnInfo = flexygo.utils.isBlank(response.ItemGroups) ? [] : response.ItemGroups;
-                                this.cardList = response.Items;
-                                this.pendingCards = response.Items.Items;
-                                this.currentModeSettings = this.plannerModesSettings.find((element) => element['ModeId'] === this.currentModeId);
-                                this.wcParentModule.setButtons(this.toolbar, this.objectName, this.objectWhere);
-                                this.loadFilters();
-                                this.draggablesIsRender = false;
-                                this.isRendered = false;
-                                this.render();
-                            }
-                        }
-                    }, null, () => { flexygo.utils.removeLoadingEffect(this.closest('flx-module')); });
+                            resolve();
+                        }, 
+                        //Error Function
+                        err => {
+                            flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                            resolve();
+                        }, 
+                        //Complete Function
+                        () => { flexygo.utils.removeLoadingEffect(this.closest('flx-module')); });
+                    }));
                 }
                 render() {
                     this.drawBoard();
@@ -420,7 +449,8 @@ var flexygo;
                                     Descrip: mode.CardEntityConfiguration.Descrip,
                                     GroupField: mode.CardRowId,
                                     DateField: mode.CardDateField.toLocaleLowerCase(),
-                                    IconClass: mode.CardEntityConfiguration.Icon
+                                    IconClass: mode.CardEntityConfiguration.Icon,
+                                    Target: mode.EditableTarget
                                 };
                                 buttons += `<button class="btn btn-default bg-outstanding margin-s planner-objects-action" objectName="${mode.CardColName}">
                                         <i class="${myButtons[mode.CardColName].IconClass}"></i>
@@ -434,20 +464,15 @@ var flexygo;
                             });
                             $(".planner-objects-action").click(function (e) {
                                 let object = myButtons[$(e.currentTarget).attr('objectName')];
-                                me.openEvent(object.ObjectName, object.GroupField, object.DateField, cell.attr("rowidvalue"), cell.attr("datecolumn"));
+                                me.openEvent(object.ObjectName, object.GroupField, object.DateField, cell.attr("rowidvalue"), cell.attr("datecolumn"), object.Target);
                                 $('.sweet-modal-overlay').remove();
                             });
                         }
                         else if (modeStg.length == 1) {
-                            me.openEvent(modeStg[0].CardColName, modeStg[0].CardRowId, modeStg[0].CardDateField.toLocaleLowerCase(), cell.attr("rowidvalue"), cell.attr("datecolumn"));
+                            me.openEvent(modeStg[0].CardColName, modeStg[0].CardRowId, modeStg[0].CardDateField.toLocaleLowerCase(), cell.attr("rowidvalue"), cell.attr("datecolumn"), modeStg[0].EditableTarget);
                         }
                     });
-                    me.find('.pln-card .pln-card-delete i').off('click').on('click', (e) => {
-                        this.objectActions($(e.currentTarget).closest(".pln-card")[0], "delete");
-                    });
-                    me.find('.pln-card .pln-card-edit i').off('click').on('click', (e) => {
-                        this.objectActions($(e.currentTarget).closest(".pln-card")[0], "edit");
-                    });
+                    this.cardsEvents(me);
                     me.find('.pln-cell.pln-date-cell:not(.pln-cell-sortable)').sortable({
                         connectWith: ".pln-cell.pln-date-cell",
                         items: "> .pln-card.pln-sortable",
@@ -473,9 +498,36 @@ var flexygo;
                             }
                         }
                     }).disableSelection();
+                    flexygo.events.on(me, "entity", 'inserted', function (e) {
+                        let pln = $(e.context)[0];
+                        let cardsMode = e.context[0].currentModeSettings.CardsMode;
+                        let insertedObject = e.masterIdentity;
+                        let insertedCardConf = cardsMode.filter((mode) => mode.CardColName == insertedObject)[0];
+                        if (insertedCardConf) {
+                            let dateValue, rowValue;
+                            let data = Object.keys(e.sender.data).map((key) => [key, e.sender.data[key]]);
+                            data.forEach(([key]) => {
+                                if (key.toLowerCase() == insertedCardConf.CardRowId) {
+                                    rowValue = e.sender.data[key].Value;
+                                }
+                                if (key.toLowerCase() == insertedCardConf.CardDateField) {
+                                    dateValue = moment(e.sender.data[key].Value).format('YYYY-MM-DD');
+                                }
+                            });
+                            pln.refreshCell(pln.currentModeId, rowValue, dateValue, pln);
+                        }
+                    });
                     me.find('#planner-items-container:not(.pln-container-sortable)').addClass("pln-container-sortable");
                     this.dragScroll();
                     flexygo.utils.removeLoadingEffect(me.closest('flx-module'));
+                }
+                cardsEvents(element) {
+                    element.find('.pln-card .pln-card-delete i').off('click').on('click', (e) => {
+                        this.objectActions($(e.currentTarget).closest(".pln-card")[0], "delete");
+                    });
+                    element.find('.pln-card .pln-card-edit i').off('click').on('click', (e) => {
+                        this.objectActions($(e.currentTarget).closest(".pln-card")[0], "edit");
+                    });
                 }
                 timeButtonsEvents() {
                     let me = $(this);
@@ -539,12 +591,12 @@ var flexygo;
                         });
                     });
                 }
-                openEvent(objectName, GroupField, DateField, GroupId, DateInfo) {
+                openEvent(objectName, GroupField, DateField, GroupId, DateInfo, target) {
                     let defaults = {
                         [GroupField]: GroupId,
                         [DateField]: DateInfo
                     };
-                    flexygo.nav.openPage('edit', objectName, null, JSON.stringify(defaults), 'modal1024x768', false, $(this));
+                    flexygo.nav.openPage('edit', objectName, null, JSON.stringify(defaults), target, false, $(this));
                 }
                 showContextMenu(template, e) {
                     let plannerContext = $("flx-contextmenu");
@@ -603,19 +655,25 @@ var flexygo;
                                         this.highlightItem(card, flexygo.colors.success);
                                     }
                                     this.refreshDraggrableGroup(card.plannerCardData.modeCardId);
-                                    this.refreshCell(this.currentModeId, groupId, dateInfo);
+                                    this.refreshCell(this.currentModeId, groupId, dateInfo, this);
                                 }).catch((err) => {
                                     flexygo.msg.error(flexygo.utils.getErrorMessage(err));
                                 });
                             }
                             break;
                         case "update":
-                            if (!$(card).hasClass("pln-carg-draggable")) {
+                            if (!$(card).hasClass("pln-card-draggable")) {
                                 obj.read();
                                 let onMoveFunction = card.plannerCardData.onMoveFunction;
                                 if (flexygo.utils.isBlank(onMoveFunction)) {
-                                    obj.data[card.plannerCardData.groupField].Value = groupId;
-                                    obj.data[card.plannerCardData.dateField].Value = dateInfo;
+                                    Object.entries(obj.toValuesArray()).forEach(([key, value]) => {
+                                        if (key.toLowerCase() == card.plannerCardData.groupField) {
+                                            obj.data[key].Value = groupId;
+                                        }
+                                        if (key.toLowerCase() == card.plannerCardData.dateField) {
+                                            obj.data[key].Value = dateInfo;
+                                        }
+                                    });
                                     if (obj.update()) {
                                         this.highlightItem(card, flexygo.colors.success);
                                     }
@@ -632,7 +690,7 @@ var flexygo;
                                     });
                                 }
                             }
-                            this.refreshCell(this.currentModeId, groupId, dateInfo);
+                            this.refreshCell(this.currentModeId, groupId, dateInfo, this);
                             break;
                         case "delete":
                             flexygo.msg.confirm(flexygo.localization.translate('flxplanner.remove'), (result) => {
@@ -665,13 +723,14 @@ var flexygo;
                                             flexygo.msg.error(flexygo.utils.getErrorMessage(err));
                                         });
                                     }
-                                    this.refreshCell(this.currentModeId, groupId, dateInfo);
+                                    this.refreshCell(this.currentModeId, groupId, dateInfo, this);
                                 }
                             });
                             break;
                         case 'edit':
                             obj.read();
-                            flexygo.nav.openPage('edit', obj.objectName, obj.objectWhere, null, 'popup', false, $(this));
+                            let target = card.plannerCardData.data._editabletarget;
+                            flexygo.nav.openPage('edit', obj.objectName, obj.objectWhere, null, target, false, $(this));
                             break;
                     }
                 }
@@ -761,7 +820,7 @@ var flexygo;
                         });
                     }
                 }
-                refreshCell(modeId, rowIdField, dateColumn) {
+                refreshCell(modeId, rowIdField, dateColumn, element) {
                     let cards;
                     let params = {
                         PlannerModeId: modeId,
@@ -775,34 +834,37 @@ var flexygo;
                                 cell.children('.pln-card').remove();
                                 cards = response.Items;
                                 if (cards.length > 0) {
-                                    let cardsConfig = this.currentModeSettings.CardsMode;
+                                    let cardsConfig = element.currentModeSettings.CardsMode;
                                     cardsConfig.forEach((cardConfig) => {
-                                        let currentCard = cards.filter((card) => card._cardconfigid == cardConfig.ModeCardId)[0];
-                                        if (currentCard) {
-                                            let customClass = !flexygo.utils.isBlank(cardConfig.CardClassNameField) ? (!flexygo.utils.isBlank(currentCard[cardConfig.CardClassNameField]) ? currentCard[cardConfig.CardClassNameField] : '') : '';
-                                            let customStyle = !flexygo.utils.isBlank(cardConfig.CardStyleField) ? (!flexygo.utils.isBlank(currentCard[cardConfig.CardStyleField]) ? currentCard[cardConfig.CardStyleField] : '') : '';
-                                            let descrip = flexygo.utils.parser.recursiveCompile(currentCard, cardConfig.CardTemplate);
-                                            descrip = flexygo.utils.parser.recursiveCompile({ PlannerMode: this.currentTimemode }, descrip);
-                                            if (!flexygo.utils.isBlank(this.objDef)) {
-                                                descrip = flexygo.utils.parser.recursiveCompile(this.objDef, descrip);
-                                            }
-                                            if ((cell.find('.pln-card')[0] && cell.find('.pln-card')[0].plannerCardData.priority == cardConfig.Order.toString()) || $(cell).find('.pln-card').length == 0) {
-                                                let cardTemplate;
-                                                if (cardConfig.Editable) {
-                                                    cardTemplate = $(`<div class="pln-card pln-sortable ${customClass}" style="${customStyle}">
+                                        let currentCards = cards.filter((card) => card._cardconfigid == cardConfig.ModeCardId);
+                                        if (currentCards.length > 0) {
+                                            currentCards.forEach((currentCard) => {
+                                                let customClass = !flexygo.utils.isBlank(cardConfig.CardClassNameField) ? (!flexygo.utils.isBlank(currentCard[cardConfig.CardClassNameField]) ? currentCard[cardConfig.CardClassNameField] : '') : '';
+                                                let customStyle = !flexygo.utils.isBlank(cardConfig.CardStyleField) ? (!flexygo.utils.isBlank(currentCard[cardConfig.CardStyleField]) ? currentCard[cardConfig.CardStyleField] : '') : '';
+                                                let descrip = flexygo.utils.parser.recursiveCompile(currentCard, cardConfig.CardTemplate);
+                                                descrip = flexygo.utils.parser.recursiveCompile({ PlannerMode: element.currentTimemode }, descrip);
+                                                if (!flexygo.utils.isBlank(element.objDef)) {
+                                                    descrip = flexygo.utils.parser.recursiveCompile(element.objDef, descrip);
+                                                }
+                                                if ((cell.find('.pln-card')[0] && cell.find('.pln-card')[0].plannerCardData.priority == cardConfig.Order.toString()) || $(cell).find('.pln-card').length == 0) {
+                                                    let cardTemplate;
+                                                    if (cardConfig.Editable) {
+                                                        cardTemplate = $(`<div class="pln-card pln-sortable ${customClass}" style="${customStyle}">
                                         <span class="pln-card-edit clickable"><i class="flx-icon icon-pencil txt-notify icon-zoom-115"></i></span>
                                         <span class="pln-card-delete clickable"><i class="fa fa-close txt-danger icon-zoom-115"></i></span>
                                         ${descrip}
                                     </div>`)[0];
-                                                }
-                                                else {
-                                                    cardTemplate = $(`<div class="pln-card ${customClass}" style="${customStyle}">
+                                                    }
+                                                    else {
+                                                        cardTemplate = $(`<div class="pln-card ${customClass}" style="${customStyle}">
                                         ${descrip}
                                     </div>`)[0];
+                                                    }
+                                                    this.setCardData(cardTemplate, currentCard, cardConfig);
+                                                    cell.append(cardTemplate);
+                                                    this.cardsEvents(cell);
                                                 }
-                                                this.setCardData(cardTemplate, currentCard, cardConfig);
-                                                cell.append(cardTemplate);
-                                            }
+                                            });
                                         }
                                     });
                                 }
@@ -811,9 +873,9 @@ var flexygo;
                     });
                 }
             }
-            wc.FlxPlanner = FlxPlanner;
+            wc.FlxPlannerElement = FlxPlannerElement;
         })(wc = ui_1.wc || (ui_1.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));
 })(flexygo || (flexygo = {}));
-window.customElements.define("flx-planner", flexygo.ui.wc.FlxPlanner);
+window.customElements.define("flx-planner", flexygo.ui.wc.FlxPlannerElement);
 //# sourceMappingURL=flx-planner.js.map

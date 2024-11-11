@@ -189,7 +189,7 @@ var flexygo;
                         if (!this.options) {
                             this.options = new flexygo.api.ObjectProperty();
                         }
-                        this.options.PageSize = Number(PageSize);
+                        this.options.DropDownRows = Number(PageSize);
                     }
                     let cnnString = element.attr('CnnString');
                     if (cnnString && cnnString !== '') {
@@ -362,7 +362,7 @@ var flexygo;
                         if (!this.options) {
                             this.options = new flexygo.api.ObjectProperty();
                         }
-                        this.options.PageSize = Number(newVal);
+                        this.options.DropDownRows = Number(newVal);
                         this.refresh();
                     }
                     if (attrName.toLowerCase() === 'additionalwhere' && newVal) {
@@ -654,7 +654,7 @@ var flexygo;
                             DisplayField: this.options.SQLDisplayField,
                             Value: this.getValue(),
                             Page: 0,
-                            PageSize: this.options.PageSize,
+                            PageSize: this.options.DropDownRows,
                             AdditionalWhere: this.additionalWhere,
                             SQLFilter: null,
                             CnnString: this.cnnString,

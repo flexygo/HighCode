@@ -1,4 +1,13 @@
 //FlxFileBrowserElement
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 /**
  * @namespace flexygo.ui.wc
  */
@@ -35,14 +44,14 @@ var flexygo;
                 * @method init
                 */
                 init() {
-                    this.render();
+                    return this.render();
                 }
                 /**
                 * Refresh de webcomponent. REQUIRED.
                 * @method refresh
                 */
                 refresh() {
-                    this.render();
+                    return this.render();
                 }
                 /**
                 * Render HTML data.
@@ -50,7 +59,7 @@ var flexygo;
                 */
                 render() {
                     //$(this).html('Hola flexygo');
-                    this.getData(this.currentDirPath, "list");
+                    return this.getData(this.currentDirPath, "list");
                 }
                 /**
                  * Renders the header part of the filebrowser
@@ -114,78 +123,88 @@ var flexygo;
                 * @param actionType {string} The action to execute
                 */
                 getData(path, actionType) {
-                    let me = $(this);
-                    let rendered = `<div class="flx-filebrowser" style="height: 100%">`;
-                    //rendered += `<a href="https://docs.google.com/viewer/viewer?url=http://localhost:63083/custom/documents/BBDD_Access_IVO.docx">Test </a>
-                    //    <a href="https://docs.google.com/viewer/viewer?url=https://calibre-ebook.com/downloads/demos/demo.docx"> Test2</a>
-                    //`
-                    let params = {
-                        ObjectName: me.attr('ObjectName'),
-                        ObjectWhere: me.attr('ObjectWhere'),
-                        ModuleName: this.moduleName,
-                        Path: path,
-                        ActionType: actionType,
-                        SelectedEntries: this.selectedEntries,
-                        NewFolderName: this.newFolderName
-                    };
-                    flexygo.ajax.post('~/api/FileBrowser', 'getData', params, (response) => {
-                        if (response) {
-                            rendered += this.renderHeader();
-                            if (response.length == 0) { // If there is nothing in current path
-                                rendered += `<div class="dir-entry dir-empty">
-                                            <div class="dir-icon">
-                                                <i class="transition-all dir flx-icon icon-folder icon-5x"></i>
-                                            </div>
-                                            <div class="dir-name">${this.flxTranslate('emptyfolder')}</div>
-                                        </div>`;
-                            }
-                            else { // If there are entries in current path
-                                response
-                                    .sort((a, b) => a.Type - b.Type)
-                                    .forEach(value => {
-                                    if (value.Type == 0) { // If is dir
-                                        let dirpath = this.currentDirPath + value.Name;
-                                        rendered += `
-                                        <div class="dir-entry animated fadeIn">
-                                            <div class="dir-icon">
-                                                <i data-path="${dirpath}"
-                                                    class="clickable transition-all dir flx-icon icon-folder icon-5x">
-                                                </i>
+                    return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
+                        let me = $(this);
+                        let rendered = `<div class="flx-filebrowser" style="height: 100%">`;
+                        //rendered += `<a href="https://docs.google.com/viewer/viewer?url=http://localhost:63083/custom/documents/BBDD_Access_IVO.docx">Test </a>
+                        //    <a href="https://docs.google.com/viewer/viewer?url=https://calibre-ebook.com/downloads/demos/demo.docx"> Test2</a>
+                        //`
+                        let params = {
+                            ObjectName: me.attr('ObjectName'),
+                            ObjectWhere: me.attr('ObjectWhere'),
+                            ModuleName: this.moduleName,
+                            Path: path,
+                            ActionType: actionType,
+                            SelectedEntries: this.selectedEntries,
+                            NewFolderName: this.newFolderName
+                        };
+                        flexygo.ajax.post('~/api/FileBrowser', 'getData', params, 
+                        //Success Function
+                        (response) => {
+                            if (response) {
+                                rendered += this.renderHeader();
+                                if (response.length == 0) { // If there is nothing in current path
+                                    rendered += `<div class="dir-entry dir-empty">
+                                                <div class="dir-icon">
+                                                    <i class="transition-all dir flx-icon icon-folder icon-5x"></i>
+                                                </div>
+                                                <div class="dir-name">${this.flxTranslate('emptyfolder')}</div>
+                                            </div>`;
+                                }
+                                else { // If there are entries in current path
+                                    response
+                                        .sort((a, b) => a.Type - b.Type)
+                                        .forEach(value => {
+                                        if (value.Type == 0) { // If is dir
+                                            let dirpath = this.currentDirPath + value.Name;
+                                            rendered += `
+                                            <div class="dir-entry animated fadeIn">
+                                                <div class="dir-icon">
+                                                    <i data-path="${dirpath}"
+                                                        class="clickable transition-all dir flx-icon icon-folder icon-5x">
+                                                    </i>
+                                                </div>
+                                                <div class="dir-name">${value.Name}</div>
+                                                <div class="fb-check"></div>
+                                            </div>`;
+                                        }
+                                        else { // If is file
+                                            let filepath = this.currentDirPath + value.Name;
+                                            if (this.isImage(value.Name)) { // If is a known img format
+                                                rendered += `
+                                                <div class="dir-entry animated fadeIn">
+                                                    <div class="dir-img shadow clickable transition-all image"><img data-path="${filepath}"
+                                                        src="${value.Url.split("/").splice(1).join("/")}"></div>
+                                                    <div class="dir-name">${value.Name.toLowerCase()}</div>
+                                                    <div class="fb-check"></div>
+                                                </div>`;
+                                            }
+                                            else { // If we don't know format or is flx-download.zip
+                                                rendered += `
+                                        <div class="dir-entry animated fadeIn ${value.Name == 'flx-download.zip' ? 'hidden' : ''}">
+                                            <div class="dir-icon"><a href="${value.Url.split("/").splice(1).join("/")}"><i data-path="${filepath}" class="clickable file transition-all ${flexygo.utils.getFileIcon(value.Name.split(".").pop())} icon-4x"></i></a>
                                             </div>
                                             <div class="dir-name">${value.Name}</div>
                                             <div class="fb-check"></div>
                                         </div>`;
-                                    }
-                                    else { // If is file
-                                        let filepath = this.currentDirPath + value.Name;
-                                        if (this.isImage(value.Name)) { // If is a known img format
-                                            rendered += `
-                                            <div class="dir-entry animated fadeIn">
-                                                <div class="dir-img shadow clickable transition-all image"><img data-path="${filepath}"
-                                                    src="${value.Url.split("/").splice(1).join("/")}"></div>
-                                                <div class="dir-name">${value.Name.toLowerCase()}</div>
-                                                <div class="fb-check"></div>
-                                            </div>`;
+                                            }
                                         }
-                                        else { // If we don't know format or is flx-download.zip
-                                            rendered += `
-                                    <div class="dir-entry animated fadeIn ${value.Name == 'flx-download.zip' ? 'hidden' : ''}">
-                                        <div class="dir-icon"><a href="${value.Url.split("/").splice(1).join("/")}"><i data-path="${filepath}" class="clickable file transition-all ${flexygo.utils.getFileIcon(value.Name.split(".").pop())} icon-4x"></i></a>
-                                        </div>
-                                        <div class="dir-name">${value.Name}</div>
-                                        <div class="fb-check"></div>
-                                    </div>`;
-                                        }
-                                    }
-                                });
+                                    });
+                                }
+                                rendered += `</div>`; // Cerramos
+                                rendered += this.renderFooter();
+                                //rendered += `${this.renderFooter()}`
+                                me.html(rendered);
+                                this.setupEvents();
+                                resolve();
                             }
-                            rendered += `</div>`; // Cerramos
-                            rendered += this.renderFooter();
-                            //rendered += `${this.renderFooter()}`
-                            me.html(rendered);
-                            this.setupEvents();
-                        }
-                    });
+                        }, 
+                        //Error Function
+                        err => {
+                            flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                            resolve();
+                        });
+                    }));
                 }
                 flxTranslate(str) {
                     return flexygo.localization.translate(`flxfilebrowser.${str}`);
@@ -419,7 +438,7 @@ var flexygo;
             * Array of observed attributes. REQUIRED
             * @property observedAttributes {Array}
             */
-            FlxFileBrowserElement.observedAttributes = ['ObjectName', 'ObjectWhere', 'ModuleName', 'asd'];
+            FlxFileBrowserElement.observedAttributes = ['ObjectName', 'ObjectWhere', 'ModuleName'];
             wc.FlxFileBrowserElement = FlxFileBrowserElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

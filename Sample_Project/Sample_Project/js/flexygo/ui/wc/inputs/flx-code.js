@@ -21,7 +21,8 @@ var flexygo;
                     this.options = null;
                     this.moduleName = null;
                     this.editor = 'codemirror';
-                    this.intellisense = true;
+                    this.intellisense = "online";
+                    this.libraryLoaded = false;
                     this.readonly = false;
                     this.inTemplate = false;
                     this.help = false;
@@ -52,7 +53,6 @@ var flexygo;
                     this.type = element.attr('type') || 'html';
                     if (($(this).attr('forcecodemirror') || '').toLowerCase() == 'true' || this.renderMode == "preview") {
                         this.editor = 'codemirror';
-                        this.type = "text/pain";
                     }
                     let propName = element.attr('property');
                     if (propName && flexygo.utils.isBlank(this.options)) {
@@ -82,18 +82,6 @@ var flexygo;
                     this.height = element.attr("height") ? element.attr("height") : "300px";
                     element.removeAttr("height");
                     element.attr('editor', this.editor);
-                    if (this.editor == 'monaco') {
-                        flexygo.events.on(this, 'property', 'resized', this.setCodeEditor);
-                        flexygo.events.on(this, 'module', 'resized', this.setCodeEditor);
-                        flexygo.events.on(this, 'dialog', 'resized', this.setCodeEditor);
-                        $(window).off('resize.monacoeditor').on('resize.monacoeditor', () => {
-                            for (let i = 0; i < $('flx-code[editor="monaco"]').length; i++) {
-                                if ($('flx-code[editor="monaco"]')[i].monaco) {
-                                    $('flx-code[editor="monaco"]')[i].monaco.layout();
-                                }
-                            }
-                        });
-                    }
                     if (typeof element.attr('Required') != 'undefined') {
                         if (!this.options) {
                             this.options = new flexygo.api.ObjectProperty();
@@ -155,6 +143,20 @@ var flexygo;
                         }
                         this.options.MaxNumOfChars = parseInt(MaxNumOfChars);
                     }
+                    const SearchFunction = element.attr('SearchFunction');
+                    if (SearchFunction) {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.SearchFunction = SearchFunction;
+                    }
+                    const ChatGPTSettingId = element.attr('ChatGPTSettingId');
+                    if (ChatGPTSettingId) {
+                        if (!this.options) {
+                            this.options = new flexygo.api.ObjectProperty();
+                        }
+                        this.options.ChatGPTSettingId = ChatGPTSettingId;
+                    }
                     let val = element.html();
                     this.help = $(element)[0].hasAttribute('help');
                     if (!this.connected) {
@@ -173,15 +175,24 @@ var flexygo;
                             this.setValue(val);
                         }
                     }
-                    if (this.inTemplate) {
-                        this.setCodeEditor();
-                    }
                 }
                 static setTypeScriptLibraries(libraries) {
                     this.typeScriptLibraries = libraries;
                 }
+                static setOfflineLibraries(libraries) {
+                    this.offlineLibraries = libraries;
+                }
+                static setHtmlStyles(styles) {
+                    this.htmlStyles = styles;
+                }
                 static getTypeScriptLibraries() {
                     return this.typeScriptLibraries;
+                }
+                static getOfflineLibraries() {
+                    return this.offlineLibraries;
+                }
+                static getHtmlStyles() {
+                    return this.htmlStyles;
                 }
                 /**
                 * Fires when the attribute value of the element is changed.
@@ -290,7 +301,6 @@ var flexygo;
                             this.monaco.dispose();
                         }
                         this.initMonaco();
-                        this.setCodeEditor();
                     }
                     if (val && val != "") {
                         this.setValue(val);
@@ -307,9 +317,11 @@ var flexygo;
                         if (this.type == 'sql' && ((_a = $(document.head).find('script[ID="sqlFormat"]')) === null || _a === void 0 ? void 0 : _a.length) == 0) {
                             $(document.head).append(`<script id="sqlFormat" defer src="${flexygo.utils.resolveUrl('~/js/plugins/sql-formatter/sql-formatter.min.js')}"/>`);
                             if (me.closest('flx-edit').length > 0) {
-                                let context = new flexygo.obj.Entity(me.closest('flx-edit').attr("objectname"), me.closest('flx-edit').attr("objectwhere"));
-                                context.read();
-                                me.attr('ConnStringId', context.data["ConnStringId"] ? context.data["ConnStringId"].Value : context.getConfig()["ConnStringId"]);
+                                if (!flexygo.utils.isBlank(me.closest('flx-edit').attr("objectname")) && !flexygo.utils.isBlank(me.closest('flx-edit').attr("objectwhere"))) {
+                                    let context = new flexygo.obj.Entity(me.closest('flx-edit').attr("objectname"), me.closest('flx-edit').attr("objectwhere"));
+                                    context.read();
+                                    me.attr('ConnStringId', context.data["ConnStringId"] ? context.data["ConnStringId"].Value : context.getConfig()["ConnStringId"]);
+                                }
                             }
                         }
                     }
@@ -322,7 +334,13 @@ var flexygo;
                     if (this.options && this.options.Tag) {
                         try {
                             let intellisenseConfig = JSON.parse(this.options.Tag);
-                            this.intellisense = typeof (intellisenseConfig.intellisense) == 'boolean' ? intellisenseConfig.intellisense : true;
+                            if (typeof (intellisenseConfig.intellisense) == 'boolean' && intellisenseConfig.intellisense == false) {
+                                this.intellisense = "none";
+                            }
+                            else if (!flexygo.utils.isBlank(intellisenseConfig.intellisense)) {
+                                this.intellisense = intellisenseConfig.intellisense.toLowerCase();
+                            }
+                            this.intellisense = this.intellisense == "online" || this.intellisense == "offline" ? this.intellisense : "none";
                         }
                         catch (ex) {
                             console.log("Error: " + ex.message);
@@ -343,191 +361,199 @@ var flexygo;
                         }
                     }
                     this.setOptions();
+                    this.setCodeEditor();
                 }
-                setCodeEditor(e) {
+                setCodeEditor() {
+                    var _a;
                     let me = this;
-                    if (this.monaco && e && e.type === 'resized') {
-                        this.monaco.layout();
-                    }
-                    else {
-                        this.monaco ? this.monaco.dispose() : null;
-                        this.monaco = monaco.editor.create($(me).find('.monacoContainer')[0], {
-                            value: flexygo.utils.isBlank(me.value) ? '' : me.value,
-                            language: me.type == 'js' ? 'javascript' : me.type,
-                            theme: $(document.body).attr("mode") == 'dark' ? 'vs-dark' : 'vs',
-                            readOnly: this.readonly,
-                            minimap: {
-                                enabled: false
-                            }
-                        });
-                        const options = { childList: true, subtree: true };
-                        const observer = new MutationObserver((mutationsList, observer) => {
-                            for (const mutation of mutationsList) {
-                                if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-                                    mutation.addedNodes.forEach((value) => {
-                                        if ($(value).hasClass('view-line')) {
-                                            me.adjustPlaceHolder($(value));
-                                        }
-                                    });
-                                    observer.disconnect();
-                                    break;
-                                }
-                            }
-                        });
-                        observer.observe($(me).find('.monacoContainer')[0], options);
-                        this.monaco.onDidLayoutChange((e) => {
-                            me.adjustPlaceHolder($(this).find('.view-line'));
-                        });
-                        this.monaco.onDidFocusEditorWidget(() => {
-                            let librariesCount = Object.keys(monaco.languages.typescript.javascriptDefaults.getExtraLibs()).length;
-                            if (me.type == 'js') {
-                                if (me.intellisense) {
-                                    if (librariesCount === 0) {
-                                        let libraries = flexygo.ui.wc.FlxCodeElement.getTypeScriptLibraries();
-                                        monaco.languages.typescript.javascriptDefaults.setExtraLibs(libraries);
+                    this.monaco ? this.monaco.dispose() : null;
+                    //get the languageId if me.type is an language alias
+                    let language = monaco.languages.getEncodedLanguageId(me.type) != 0 ? me.type : (_a = monaco.languages.getLanguages().find(lang => lang.aliases && lang.aliases.includes(me.type))) === null || _a === void 0 ? void 0 : _a.id;
+                    this.monaco = monaco.editor.create($(me).find('.monacoContainer')[0], {
+                        value: flexygo.utils.isBlank(me.value) ? '' : me.value,
+                        language: language,
+                        theme: $(document.body).attr("mode") == 'dark' ? 'vs-dark' : 'vs',
+                        readOnly: this.readonly,
+                        minimap: {
+                            enabled: false
+                        },
+                        automaticLayout: true
+                    });
+                    const options = { childList: true, subtree: true };
+                    const observer = new MutationObserver((mutationsList, observer) => {
+                        for (const mutation of mutationsList) {
+                            if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                                mutation.addedNodes.forEach((value) => {
+                                    if ($(value).hasClass('view-line')) {
+                                        me.adjustPlaceHolder($(value));
                                     }
-                                }
-                                else if (librariesCount !== 0) {
-                                    monaco.languages.typescript.javascriptDefaults.setExtraLibs(null);
+                                });
+                                observer.disconnect();
+                                break;
+                            }
+                        }
+                    });
+                    observer.observe($(me).find('.monacoContainer')[0], options);
+                    this.monaco.onDidLayoutChange((e) => {
+                        me.adjustPlaceHolder($(this).find('.view-line'));
+                    });
+                    this.monaco.onDidFocusEditorWidget(() => {
+                        let librariesCount = Object.keys(monaco.languages.typescript.javascriptDefaults.getExtraLibs()).length;
+                        if (me.type == 'js') {
+                            if (me.intellisense == "online") {
+                                if (!this.libraryLoaded) {
+                                    let libraries = flexygo.ui.wc.FlxCodeElement.getTypeScriptLibraries();
+                                    monaco.languages.typescript.javascriptDefaults.setExtraLibs(libraries);
+                                    this.libraryLoaded = true;
                                 }
                             }
+                            else if (me.intellisense == "offline") {
+                                if (!this.libraryLoaded) {
+                                    let libraries = flexygo.ui.wc.FlxCodeElement.getOfflineLibraries();
+                                    monaco.languages.typescript.javascriptDefaults.setExtraLibs(libraries);
+                                    this.libraryLoaded = true;
+                                }
+                            }
+                            else if (librariesCount !== 0) {
+                                monaco.languages.typescript.javascriptDefaults.setExtraLibs(null);
+                            }
+                        }
+                        if (!flexygo.utils.isBlank($(me).attr("placeholder")) && !me.readonly) {
+                            $(me).find('.monaco-placeholder').addClass('focused');
+                        }
+                    });
+                    $(this).off('mousedown.flxcode').on('mousedown.flxcode', (e) => {
+                        if (e.button === 2) {
+                            $(me).addClass("openingContextMenu");
+                        }
+                    });
+                    this.monaco.onDidBlurEditorWidget(() => {
+                        if (!$(me).hasClass("openingContextMenu")) {
+                            let oldValue = me.value;
+                            let newValue = me.monaco.getValue();
                             if (!flexygo.utils.isBlank($(me).attr("placeholder")) && !me.readonly) {
-                                $(me).find('.monaco-placeholder').addClass('focused');
-                            }
-                        });
-                        $(this).off('mousedown.flxcode').on('mousedown.flxcode', (e) => {
-                            if (e.button === 2) {
-                                $(me).addClass("openingContextMenu");
-                            }
-                        });
-                        this.monaco.onDidBlurEditorWidget(() => {
-                            if (!$(me).hasClass("openingContextMenu")) {
-                                let oldValue = me.value;
-                                let newValue = me.monaco.getValue();
-                                if (!flexygo.utils.isBlank($(me).attr("placeholder")) && !me.readonly) {
-                                    $(me).find('.monaco-placeholder').removeClass('focused');
-                                }
-                                if (oldValue != newValue) {
-                                    $(me).find('input').val(newValue);
-                                    me.value = newValue;
-                                    me.triggerDependencies();
-                                }
-                            }
-                        });
-                        this.monaco.onContextMenu(() => {
-                            $(me).removeClass("openingContextMenu");
-                        });
-                        $(this).find('.superContainer')[0].style.backgroundColor = this.monaco._themeService._theme.getColor("editor.background")._toString;
-                        if (!flexygo.utils.isBlank($(this).attr("placeholder"))) {
-                            $($(this).find('.monaco-placeholder')[0]).html(`<span style="font-family:${this.monaco.getOption(monaco.editor.EditorOption.fontInfo).fontFamily}">${$(this).attr("placeholder")}</span>`);
-                            if (flexygo.utils.isBlank(me.monaco.getValue())) {
                                 $(me).find('.monaco-placeholder').removeClass('focused');
                             }
-                            else {
-                                $(me).find('.monaco-placeholder').addClass('focused');
+                            if (oldValue != newValue) {
+                                $(me).find('input').val(newValue);
+                                me.value = newValue;
+                                me.triggerDependencies();
                             }
                         }
-                        if (this.readonly) {
-                            let message = this.options && this.options.Locked && $(this).attr('mode') !== 'view' ? flexygo.localization.translate('flxcode.propertyLocked') : flexygo.localization.translate('flxcode.readonlyMode');
-                            $(this).tooltip({ title: message, trigger: 'manual', delay: { show: 0, hide: 5000 } });
-                            this.monaco.onDidAttemptReadOnlyEdit((e) => {
-                                let messageController = me.monaco.getContribution('editor.contrib.messageController');
-                                messageController.showMessage('', me.monaco.getPosition());
-                                if ($(this).next('div.tooltip:visible').length == 0) {
-                                    $(this).tooltip('show');
-                                    setTimeout(function () {
-                                        $(me).tooltip('hide');
-                                    }, 1000);
-                                }
-                            });
+                    });
+                    this.monaco.onContextMenu(() => {
+                        $(me).removeClass("openingContextMenu");
+                    });
+                    $(this).find('.superContainer')[0].style.backgroundColor = this.monaco._themeService._theme.getColor("editor.background")._toString;
+                    if (!flexygo.utils.isBlank($(this).attr("placeholder"))) {
+                        $($(this).find('.monaco-placeholder')[0]).html(`<span style="font-family:${this.monaco.getOption(monaco.editor.EditorOption.fontInfo).fontFamily}">${$(this).attr("placeholder")}</span>`);
+                        if (flexygo.utils.isBlank(me.monaco.getValue())) {
+                            $(me).find('.monaco-placeholder').removeClass('focused');
                         }
-                        $(me).find('input').val(me.monaco.getValue());
-                        if (this.type == 'sql') {
-                            this.monaco.addAction({
-                                id: "format_sql",
-                                label: "Format Document",
-                                keybindings: [
-                                    monaco.KeyMod.Shift | monaco.KeyMod.Alt | monaco.KeyCode.KeyF,
-                                    // chord
-                                    //monaco.KeyMod.chord(
-                                    //    monaco.KeyMod.Shift | monaco.KeyCode.Escape,
-                                    //    monaco.KeyCode.F11
-                                    //),
-                                ],
-                                precondition: '!editorReadonly && !inCompositeEditor',
-                                contextMenuGroupId: "1_modification",
-                                contextMenuOrder: 1.2,
-                                run: function () {
-                                    let sqlFormatter = require('js/plugins/sql-formatter/sql-formatter.js');
-                                    let newText = sqlFormatter.format(me.monaco.getValue(), { language: 'transactsql', keywordCase: 'upper' });
-                                    me.monaco.executeEdits(null, [{ text: newText, range: me.monaco.getModel().getFullModelRange() }]);
-                                },
-                            });
-                            var contextKey = this.monaco.createContextKey('contentSelected', false);
-                            this.monaco.onContextMenu(function () {
-                                let condition = !flexygo.utils.isBlank(me.monaco.getModel().getValueInRange(me.monaco.getSelection())) ? true : false;
-                                contextKey.set(condition);
-                            });
-                            this.monaco.addAction({
-                                id: "format_selection_sql",
-                                label: "Format Selection",
-                                keybindings: [
-                                    // chord
-                                    monaco.KeyMod.chord(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyK, monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyF),
-                                ],
-                                precondition: 'contentSelected && !editorReadonly',
-                                contextMenuGroupId: "1_modification",
-                                contextMenuOrder: 1.3,
-                                run: function () {
-                                    let sqlFormatter = require('js/plugins/sql-formatter/sql-formatter.js');
-                                    me.monaco.getSelections().forEach((e) => {
-                                        let text = me.monaco.getModel().getValueInRange(e);
-                                        try {
-                                            text = sqlFormatter.format(text, { language: 'transactsql', keywordCase: 'upper' });
-                                        }
-                                        catch (ex) { }
-                                        me.monaco.getModel().pushEditOperations([], [
-                                            {
-                                                range: e,
-                                                text: text,
-                                                forceMoveMarkers: true
-                                            }
-                                        ], null);
-                                    });
-                                },
-                            });
+                        else {
+                            $(me).find('.monaco-placeholder').addClass('focused');
                         }
+                    }
+                    if (this.readonly) {
+                        let message = this.options && this.options.Locked && $(this).attr('mode') !== 'view' ? flexygo.localization.translate('flxcode.propertyLocked') : flexygo.localization.translate('flxcode.readonlyMode');
+                        $(this).tooltip({ title: message, trigger: 'manual', delay: { show: 0, hide: 5000 } });
+                        this.monaco.onDidAttemptReadOnlyEdit((e) => {
+                            let messageController = me.monaco.getContribution('editor.contrib.messageController');
+                            messageController.showMessage('', me.monaco.getPosition());
+                            if ($(this).next('div.tooltip:visible').length == 0) {
+                                $(this).tooltip('show');
+                                setTimeout(function () {
+                                    $(me).tooltip('hide');
+                                }, 1000);
+                            }
+                        });
+                    }
+                    $(me).find('input').val(me.monaco.getValue());
+                    if (this.type == 'sql') {
                         this.monaco.addAction({
-                            id: "fullscreen_action",
-                            label: "Flexygo: Toggle fullscreen",
+                            id: "format_sql",
+                            label: "Format Document",
                             keybindings: [
-                                monaco.KeyCode.F11,
+                                monaco.KeyMod.Shift | monaco.KeyMod.Alt | monaco.KeyCode.KeyF,
                                 // chord
                                 //monaco.KeyMod.chord(
                                 //    monaco.KeyMod.Shift | monaco.KeyCode.Escape,
                                 //    monaco.KeyCode.F11
                                 //),
                             ],
-                            contextMenuGroupId: "navigation",
-                            contextMenuOrder: 1.5,
+                            precondition: '!editorReadonly && !inCompositeEditor',
+                            contextMenuGroupId: "1_modification",
+                            contextMenuOrder: 1.2,
                             run: function () {
-                                me.fullscreen();
+                                let sqlFormatter = require('js/plugins/sql-formatter/sql-formatter.js');
+                                let newText = sqlFormatter.format(me.monaco.getValue(), { language: 'transactsql', keywordCase: 'upper' });
+                                me.monaco.executeEdits(null, [{ text: newText, range: me.monaco.getModel().getFullModelRange() }]);
                             },
                         });
+                        var contextKey = this.monaco.createContextKey('contentSelected', false);
+                        this.monaco.onContextMenu(function () {
+                            let condition = !flexygo.utils.isBlank(me.monaco.getModel().getValueInRange(me.monaco.getSelection())) ? true : false;
+                            contextKey.set(condition);
+                        });
                         this.monaco.addAction({
-                            id: 'custom-esc',
-                            label: 'Close',
-                            keybindings: [monaco.KeyCode.Escape],
-                            precondition: '!suggestWidgetVisible && !markersNavigationVisible && !findWidgetVisible',
+                            id: "format_selection_sql",
+                            label: "Format Selection",
+                            keybindings: [
+                                // chord
+                                monaco.KeyMod.chord(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyK, monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyF),
+                            ],
+                            precondition: 'contentSelected && !editorReadonly',
+                            contextMenuGroupId: "1_modification",
+                            contextMenuOrder: 1.3,
                             run: function () {
-                                let inFullscreen = $('flx-code.fullscreen');
-                                if (inFullscreen.length > 0) {
-                                    $(inFullscreen[0]).removeClass("fullscreen");
-                                    inFullscreen[0].monaco.layout();
-                                }
-                            }
+                                let sqlFormatter = require('js/plugins/sql-formatter/sql-formatter.js');
+                                me.monaco.getSelections().forEach((e) => {
+                                    let text = me.monaco.getModel().getValueInRange(e);
+                                    try {
+                                        text = sqlFormatter.format(text, { language: 'transactsql', keywordCase: 'upper' });
+                                    }
+                                    catch (ex) { }
+                                    me.monaco.getModel().pushEditOperations([], [
+                                        {
+                                            range: e,
+                                            text: text,
+                                            forceMoveMarkers: true
+                                        }
+                                    ], null);
+                                });
+                            },
                         });
                     }
+                    this.monaco.addAction({
+                        id: "fullscreen_action",
+                        label: "Flexygo: Toggle fullscreen",
+                        keybindings: [
+                            monaco.KeyCode.F11,
+                            // chord
+                            //monaco.KeyMod.chord(
+                            //    monaco.KeyMod.Shift | monaco.KeyCode.Escape,
+                            //    monaco.KeyCode.F11
+                            //),
+                        ],
+                        contextMenuGroupId: "navigation",
+                        contextMenuOrder: 1.5,
+                        run: function () {
+                            me.fullscreen();
+                        },
+                    });
+                    this.monaco.addAction({
+                        id: 'custom-esc',
+                        label: 'Close',
+                        keybindings: [monaco.KeyCode.Escape],
+                        precondition: '!suggestWidgetVisible && !markersNavigationVisible && !findWidgetVisible',
+                        run: function () {
+                            let inFullscreen = $('flx-code.fullscreen');
+                            if (inFullscreen.length > 0) {
+                                $(inFullscreen[0]).removeClass("fullscreen");
+                                inFullscreen[0].monaco.layout();
+                            }
+                        }
+                    });
                 }
                 adjustPlaceHolder(node) {
                     if (this.options && this.options.PlaceHolder && (node === null || node === void 0 ? void 0 : node.length) > 0) {
@@ -556,15 +582,14 @@ var flexygo;
                     let txtArea = '<textarea style="min-height:100%;width:100%;"></textarea>';
                     let rnd;
                     if (!this.help) {
-                        rnd = $(this.getWizardButton() + txtArea);
+                        me.html($(this.getWizardButton() + txtArea));
                     }
                     else if (((_a = $(this).attr('returnEnabled')) === null || _a === void 0 ? void 0 : _a.toLowerCase()) == "true") {
-                        rnd = $(this.getHeadBar() + txtArea);
+                        me.append(this.getHeadBar()).append($(txtArea));
                     }
                     else {
-                        rnd = $(txtArea);
+                        me.html($(txtArea));
                     }
-                    me.html(rnd);
                     !this.help ? this.setButtonsSettings(this) : null;
                     if (me.attr("onchange") && me.attr("onchange") != '') {
                         rnd.off('change');
@@ -688,7 +713,7 @@ var flexygo;
                         if (this.monaco) {
                             return this.monaco.getValue();
                         }
-                        return '';
+                        return this.value ? this.value : '';
                     }
                     else {
                         return $(this).find('textarea').val();
@@ -763,6 +788,7 @@ var flexygo;
                     if (type) {
                         type = type.toLowerCase();
                     }
+                    //this modes can be query in CodeMirror.mimeModes
                     switch (type) {
                         case 'html':
                             return 'htmlmixed';
@@ -776,6 +802,8 @@ var flexygo;
                             return 'text/x-csharp';
                         case 'plaintext':
                             return 'text/plain';
+                        case 'json':
+                            return 'application/json';
                         default:
                             return null;
                     }
@@ -790,17 +818,35 @@ var flexygo;
                         temButtons += `<button class="btn btn-assistant" type= "button" name="helpButton" title= "${flexygo.localization.translate('templates.openiconlist')}"><i class="flx-icon icon-images"></i></button>`;
                     }
                     if ((_c = this.options) === null || _c === void 0 ? void 0 : _c.ChatGPTSettingId) {
-                        temButtons += '<button class="btn btn-assistant" type= "button" name="AIButton" title="Lowdy" onclick="flexygo.ui.wc.FlxAIElement.prototype.open($(this).closest(\'flx-code\'));"><i class="flx-icon icon-roboto-logo"></i></button>';
+                        temButtons += '<button class="btn btn-assistant" type= "button" name="AIButton" title="Lowdy"><i class="flx-icon icon-roboto-logo"></i></button>';
                     }
                     return temButtons;
                 }
                 getHeadBar() {
-                    let headBar = '';
+                    var _a;
+                    let headBar;
+                    let me = this;
                     if ($(this).closest('flx-ai').length > 0) {
-                        headBar = `<div class="flx-headBar" >
+                        let aiElement = $(this).closest('flx-ai')[0];
+                        headBar = $(`<div class="flx-headBar" >
                                 <span class="headBar-language">${this.type}</span>
-                                <button class="flx-icon icon-return-2 copy_response icon-zoom-115 headbar-button" type="button" onclick="flexygo.ui.wc.FlxCodeElement.prototype.triggerReturnEvent($(this));"></button>
-                            </div>`;
+                                <button class="${aiElement.targetItem !== undefined && $((_a = aiElement.targetItem) === null || _a === void 0 ? void 0 : _a.context).is("button") ? "flx-icon icon-return-2" : "flx-icon icon-copy"} copy_response icon-zoom-115 headbar-button" type="button"></button>
+                            </div>`);
+                        $(headBar).find('.headbar-button').off('click.headBarAction').on('click.headBarAction', function () {
+                            var _a;
+                            if (aiElement.targetItem !== undefined && $((_a = aiElement.targetItem) === null || _a === void 0 ? void 0 : _a.context).is("button")) {
+                                if (aiElement.targetItem.is('flx-code')) {
+                                    aiElement.targetItem[0].setValueWithHistory(me.getValue());
+                                }
+                                else {
+                                    aiElement.targetItem.val(me.getValue());
+                                }
+                                $(aiElement).find('.chat_ai_close').click();
+                            }
+                            else {
+                                flexygo.utils.copyClipboard(me.getValue());
+                            }
+                        });
                     }
                     return headBar;
                 }
@@ -831,6 +877,12 @@ var flexygo;
                     });
                     helpButton.on('click', function () {
                         flexygo.utils.execDynamicCode.call(m, m.options.AllowNewFunction);
+                    });
+                    AIButton.on('click', function () {
+                        let options = {
+                            TargetItem: $(this).closest('flx-code')
+                        };
+                        flexygo.ui.wc.FlxAIElement.prototype.open(options);
                     });
                 }
                 /**

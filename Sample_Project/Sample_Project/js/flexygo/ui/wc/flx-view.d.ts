@@ -56,8 +56,8 @@ declare namespace flexygo.ui.wc {
        * @method attributeChangedCallback
        */
         attributeChangedCallback(attrName: string, oldVal: any, newVal: any): void;
-        refresh(): void;
-        init(): void;
+        refresh(): Promise<void>;
+        init(): Promise<void>;
         render(): void;
         processLoadDependencies(): void;
         refreshProperty(itm: flexygo.api.edit.DependencyAction, prop: JQuery, lblprop: JQuery, loadDependency: boolean): void;

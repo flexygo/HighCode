@@ -58,7 +58,10 @@
             });
             $('.securityCode input[type="number"]').on('paste', function (e) {
                 e.preventDefault();
-                var pastedText = (e.originalEvent || e).clipboardData.getData('text');
+                let pastedText = (e.originalEvent || e).clipboardData.getData('text');
+                if (pastedText) {
+                    pastedText = pastedText.trim().replace(/[\n\t\r]/g, '');
+                }
                 //check that pasted text only contains numbers
                 if (/^\d+$/.test(pastedText)) {
                     var characters = pastedText.split('');

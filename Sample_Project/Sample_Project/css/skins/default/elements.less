@@ -314,4 +314,134 @@ div.reportSpinner {
     color:black;
 }
 
+/* ArrowTab */
+.arrowtab {
+    list-style: none;
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+    margin: 0;
+    padding: 20px;
+}
+
+.arrowtab li {
+    cursor: pointer;
+    position: relative;
+    margin: 0;
+    text-align: center;
+    display: flex;
+    flex: 1 1 80px;
+    min-width: 80px;
+    text-transform: none !important;
+    margin-left: 10px;
+    height: 30px;
+    padding: 5px;
+}
+
+
+.arrowtab li {
+    background-color: dbColor(SuccessColor);
+    color: white;
+}
+
+.arrowtab li:after {
+    border-color: transparent transparent transparent dbColor(SuccessColor);
+}
+
+.arrowtab li.selected {
+    background-color: #061c3f;
+    color: white;
+}
+
+.arrowtab li.selected:after {
+    border-color: transparent transparent transparent #061c3f;
+}
+
+.arrowtab li.active {
+    background-color: dbColor(SuccessColor);
+    color: white;
+}
+
+.arrowtab li.active:after {
+    border-color: transparent transparent transparent dbColor(SuccessColor);
+}
+
+.arrowtab li.active.won {
+    background-color: dbColor(NotifyColor);
+}
+
+.arrowtab li.active.won:after {
+    border-color: transparent transparent transparent dbColor(NotifyColor);
+}
+
+.arrowtab li.active.lost {
+    background-color: dbColor(ToolsColor);
+}
+
+.arrowtab li.active.lost:after {
+    border-color: transparent transparent transparent dbColor(ToolsColor);
+}
+
+.arrowtab li.active ~ li {
+    background-color: #f0f1f1;
+    color: silver;
+}
+
+.arrowtab li.active ~ li:after {
+    border-color: transparent transparent transparent #f0f1f1;
+}
+
+.arrowtab li:not(.selector):after {
+    content: '';
+    height: 0;
+    display: block;
+    border-width: 15px;
+    border-style: solid;
+    position: absolute;
+    top: 0;
+    right: -29px;
+    z-index: 1;
+}
+
+.arrowtab li:not(.selector):before {
+    content: '';
+    height: 0;
+    display: block;
+    border-color: transparent transparent transparent white;
+    border-width: 15px;
+    border-style: solid;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.arrowtab li:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.arrowtab li:first-child:before {
+    border: none;
+}
+
+.arrowtab li span {
+    text-overflow: ellipsis;
+    font-weight: lighter;
+    text-align: center;
+    width: 100%;
+}
+
+.arrowtab li.selector {
+    color: white;
+    background-color: #0b5ba1 !important;
+    border: 1px solid rgb(221, 219, 218);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    margin-left: 25px
+}
+
+
 //ENd ReportLoader

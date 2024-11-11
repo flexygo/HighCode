@@ -203,8 +203,10 @@ var flexygo;
                         this.destinationObjectName = (this.objectName && this.objectId) ? this.objectName : (defObject && defObject.DestinationObjectName) ? defObject.DestinationObjectName : (wcModule.objectdefaults) ? wcModule.objectdefaults.DestinationObjectName : '';
                         this.destinationObjectId = (this.objectName && this.objectId) ? this.objectId : (defObject && defObject.DestinationObjectId) ? defObject.DestinationObjectId : (wcModule.objectdefaults) ? wcModule.objectdefaults.DestinationObjectId : '';
                         this.render();
+                        wcModule.moduleLoaded(this);
                     }
                     catch (ex) {
+                        flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), ex);
                         console.log(ex);
                     }
                 }
@@ -234,12 +236,13 @@ var flexygo;
                         if (this.destinationObjectName && this.destinationObjectId) {
                             me.html(this.chatterTemplate());
                             this.setMainEvents();
-                            this.getMessages();
+                            return this.getMessages();
                         }
                         else {
                             me.html(this.startInfoTemplate());
                             this.setStartInfoEvents();
                         }
+                        return;
                     }
                     catch (ex) {
                         console.log(ex);
@@ -478,6 +481,15 @@ var flexygo;
                                 parentMessage = $(me[0].parentMessageTemplate(parentMessageData)).prependTo(me.find('.chatter_composer_input'));
                                 setTimeout(function () {
                                     parentMessage.css({ opacity: 1, height: 56, padding: 10, 'margin-bottom': 5 });
+                                    message.find('#messageContent').first().mentionsInput("getMentions", (m) => {
+                                        let mentionsIds = m.map((mention) => { return mention.id; });
+                                        if (mentionsIds.includes(flexygo.context.currentUserId)) {
+                                            let ownerId = me.find(`.chatter_thread_message[chatter-message-id='${parentMessage.attr("chatter-parent-message-id")}']`).data("userOwner");
+                                            let ownerInfo = $(me[0].mentionsData.find((mention) => mention.id == ownerId))[0];
+                                            let mention = `${m[0].trigger}[${ownerInfo.name}](${ownerInfo.type}:${ownerId}) `;
+                                            me.find('.chatter_composer_input textarea.chatter_composer_textarea').mentionsInput('resetValue', mention);
+                                        }
+                                    });
                                 }, 0);
                                 parentMessage.find('.chatter_composer_parent_message_delete').off('click.chatter').on('click.chatter', function () {
                                     parentMessage.css({ opacity: 0, height: 0, padding: 0, 'margin-bottom': 0 });
@@ -553,28 +565,38 @@ var flexygo;
                 * @method getMessages
                 */
                 getMessages() {
-                    try {
-                        let me = $(this);
-                        let chatter = this;
-                        let params;
-                        params = {
-                            'ObjectName': this.destinationObjectName,
-                            'ObjectId': this.destinationObjectId,
-                        };
-                        flexygo.ajax.post('~/api/Chatter', 'GetMessages', params, (response) => {
-                            response.forEach((message) => {
-                                me.find((!message.parentMessage) ? '.chatter_thread' : `[chatter-message-id="${message.parentMessage}"] .chatter_thread_message_children:first`).append(this.messageTemplate(message));
-                                me.find(`[chatter-message-id="${message.messageId}"]`).find('#messageContent').mentionsInput({ defaultValue: (message.contentMarked == '') ? message.content : message.contentMarked });
-                                me.find(`[chatter-message-id="${message.messageId}"]`).find('textarea.chatter_composer_textarea_edit').mentionsInput(this.defaultSettings);
-                                me.find(`[chatter-message-id="${message.messageId}"]`).find('textarea.chatter_composer_textarea_edit').mentionsInput('resetValue', (message.contentMarked == '') ? message.content : message.contentMarked);
+                    return new Promise((resolve, _) => {
+                        try {
+                            let me = $(this);
+                            let params;
+                            params = {
+                                'ObjectName': this.destinationObjectName,
+                                'ObjectId': this.destinationObjectId,
+                            };
+                            flexygo.ajax.post('~/api/Chatter', 'GetMessages', params, 
+                            //Success Function
+                            (response) => {
+                                response.forEach((message) => {
+                                    me.find((!message.parentMessage) ? '.chatter_thread' : `[chatter-message-id="${message.parentMessage}"] .chatter_thread_message_children:first`).append(this.messageTemplate(message));
+                                    me.find(`[chatter-message-id="${message.messageId}"]`).data("userOwner", message.userOwner);
+                                    me.find(`[chatter-message-id="${message.messageId}"]`).find('#messageContent').mentionsInput({ defaultValue: (message.contentMarked == '') ? message.content : message.contentMarked });
+                                    me.find(`[chatter-message-id="${message.messageId}"]`).find('textarea.chatter_composer_textarea_edit').mentionsInput(this.defaultSettings);
+                                    me.find(`[chatter-message-id="${message.messageId}"]`).find('textarea.chatter_composer_textarea_edit').mentionsInput('resetValue', (message.contentMarked == '') ? message.content : message.contentMarked);
+                                });
+                                //me.find('.chatter_thread').append(this.separatorTemplate(new Date));
+                                this.setMessageEvents();
+                                resolve();
+                            }, 
+                            //Error Function
+                            err => {
+                                flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                                resolve();
                             });
-                            //me.find('.chatter_thread').append(this.separatorTemplate(new Date));
-                            this.setMessageEvents();
-                        });
-                    }
-                    catch (ex) {
-                        console.log(ex);
-                    }
+                        }
+                        catch (ex) {
+                            console.log(ex);
+                        }
+                    });
                 }
                 /**
                 * Set mentions.

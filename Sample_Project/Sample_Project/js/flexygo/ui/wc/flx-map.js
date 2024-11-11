@@ -1,3 +1,12 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 /**
  * @namespace flexygo.ui.wc
  */
@@ -85,35 +94,51 @@ var flexygo;
                 }
                 refresh() {
                     if ($(this).attr('manualInit') != 'true') {
-                        this.init();
+                        return this.init();
                     }
+                    return;
                 }
                 init() {
-                    let me = $(this);
-                    me.removeAttr('manualInit');
-                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
-                    me.prepend('<div class="mapContainer" style="width: auto; height: auto;"></div>');
-                    if (this.moduleName) {
-                        let params = {
-                            ObjectName: me.attr('ObjectName'),
-                            ObjectWhere: me.attr('ObjectWhere'),
-                            ModuleName: this.moduleName,
-                            PageName: flexygo.history.getPageName(me)
-                        };
-                        flexygo.ajax.post('~/api/Map', 'GetHTML', params, (response) => {
-                            if (response) {
-                                for (let i = 0, x; x = response.Markers[i++];) {
-                                    let html = $('<marker/>').attr('lat', x.lat).attr('lng', x.lng).attr('address', x.address).attr('radius', x.radius).attr('radiuscolor', x.radiuscolor).attr('title', x.title).attr('icon', x.icon).attr('label', x.label).attr('zIndex', x.zIndex).html(x.content);
-                                    me.append(html);
+                    return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
+                        let me = $(this);
+                        me.removeAttr('manualInit');
+                        $(this).closest('flx-module').find('.flx-noInitContent').remove();
+                        me.prepend('<div class="mapContainer" style="width: auto; height: auto;"></div>');
+                        if (this.moduleName) {
+                            let params = {
+                                ObjectName: me.attr('ObjectName'),
+                                ObjectWhere: me.attr('ObjectWhere'),
+                                ModuleName: this.moduleName,
+                                PageName: flexygo.history.getPageName(me)
+                            };
+                            flexygo.ajax.post('~/api/Map', 'GetHTML', params, 
+                            //Success Function
+                            (response) => {
+                                if (response) {
+                                    for (let i = 0, x; x = response.Markers[i++];) {
+                                        let html = $('<marker/>').attr('lat', x.lat).attr('lng', x.lng).attr('address', x.address).attr('radius', x.radius).attr('radiuscolor', x.radiuscolor).attr('title', x.title).attr('icon', x.icon).attr('label', x.label).attr('zIndex', x.zIndex).html(x.content);
+                                        me.append(html);
+                                    }
+                                    this.options = response.Options;
+                                    this.render();
                                 }
-                                this.options = response.Options;
-                                this.render();
-                            }
-                        }, null, () => { this.stopLoading(); }, () => { this.startLoading(); });
-                    }
-                    else {
-                        this.render();
-                    }
+                                resolve();
+                            }, 
+                            //Error Function
+                            err => {
+                                flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                                resolve();
+                            }, 
+                            //Complete Function
+                            () => { this.stopLoading(); }, 
+                            //Before Function
+                            () => { this.startLoading(); });
+                        }
+                        else {
+                            this.render();
+                            resolve();
+                        }
+                    }));
                 }
                 render() {
                     let me = $(this);

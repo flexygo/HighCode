@@ -29,7 +29,7 @@ flx-propertymanager[mode="list"] {
                         margin-right: @margin-grid;
                         margin-left: @margin-grid;
 
-                        span.btn.btn-default {
+                        span.btn.btn-default, button.btn.btn-default {
                             flex: 1;
                         }
                     }
@@ -37,7 +37,7 @@ flx-propertymanager[mode="list"] {
             }
 
             tfoot {
-              
+
                 td {
                     height: @prop-height;
 
@@ -58,7 +58,7 @@ flx-propertymanager[mode="list"] {
     }
 
     label > input[type=text] {
-        border-radius: 5px;
+        border-radius: @border-radius;
         font-size: 12px;
         border: solid 1px rgb(231, 231, 231);
         margin-top: 2px;
@@ -142,13 +142,25 @@ flx-propertymanager {
                     text-align: right;
                 }
             }
+
+            &:nth-child(2) {
+                width: auto;
+            }
+        }
+
+        .flx-property-legend {
+            transition: all .3s;
+
+            &:hover {
+                color: @outstanding-color;
+            }
         }
     }
 
     .cntBody {
         color: @txt-module-color;
         background-color: @module-color;
-        border: solid 1px @border-module-color;
+        border-top: solid 1px @border-module-color;
         padding: 10px;
         margin-bottom: 50px;
     }
@@ -158,12 +170,30 @@ flx-propertymanager {
         font-size: .8em;
     }
 
+    .flx-property-manager-container {
+        ul li {
+            display: flex;
+            padding: 4px;
+
+            & > div {
+                min-width: 170px;
+            }
+        }
+    }
+
+
+
     .grid-stack-item {
 
         &:not(.ui-draggable-disabled):not(.ui-resizable-disabled) .grid-stack-item-content {
             border: dashed 1px @border-module-color;
+            border-radius: 5px;
             margin-bottom: 2px;
             margin-top: 5px;
+
+            &.activeProperty {
+                border: dashed 3px @outstanding-color;
+            }
 
             .property-toolbar > div.btn-group > span.btn {
                 z-index: 1;
@@ -184,8 +214,7 @@ flx-propertymanager {
         .item {
             margin: 5px;
             height: 100%;
-
-            &:after {
+            /*&:after {
                 content: ' ';
                 display: block;
                 position: absolute;
@@ -195,7 +224,7 @@ flx-propertymanager {
                 right: 0;
                 bottom: 0;
             }
-
+*/
             label[lblproperty] {
                 margin-bottom: 7px;
 
@@ -217,7 +246,7 @@ flx-propertymanager {
                 }
 
                 input[type="text"].lblEdit {
-                    border-radius: 5px;
+                    border-radius: @border-radius;
                     font-size: 12px;
                     border: none;
                     margin-top: 2px;
@@ -231,7 +260,7 @@ flx-propertymanager {
                     width: 142px;
                     color: #434a4d;
                     height: 22px;
-                    border-radius: 5px;
+                    border-radius: @border-radius;
                     padding: 3px;
                 }
 
@@ -256,16 +285,60 @@ flx-propertymanager {
             div[data-tag="control"] {
                 position: relative;
                 /*height: auto;*/
-    bottom: 5px;
+                bottom: 5px;
 
-    .propertymanager-default {
-        position: absolute;
-        top: 4px;
-        right: 38px;
-        z-index: 12;
-        font-size: 12px;
+                .propertymanager-default {
+                    position: absolute;
+                    top: 4px;
+                    right: 38px;
+                    z-index: 12;
+                    font-size: 12px;
+                }
+            }
+        }
     }
-}
+
+    .keepAlive.propertyMenu {
+        z-index: 91;
+        border-radius: 5px;
+        color: @txt-menu-color;
+        box-sizing: border-box;
+        font-size: 1em;
+        background-color: @menu-color;
+        text-align: left;
+        min-width: 190px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+        div {
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+
+            .flx-icon.icon-remove {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+            }
+
+            .addsep {
+                text-align: center;
+                height: 30px;
+                display: flex;
+                align-items: center;
+                padding-inline: 4px 12px;
+
+                &:hover {
+                    background: @outstanding-color;
+
+                    > i, > span {
+                        color: white;
+                    }
+                }
+
+                &:last-child {
+                    border-radius: 0 0 @border-radius @border-radius;
+                }
+            }
         }
     }
 }
@@ -370,5 +443,24 @@ flx-propertymanager {
         .caret {
             margin-right: 10px;
         }
+    }
+
+    div.resizable-row > div {
+        cursor: pointer;
+
+        input.form-control.form-control[readonly] {
+            background: #f7f7f7;
+            cursor: pointer;
+        }
+    }
+
+    .form-control[disabled] {
+        cursor: pointer;
+    }
+}
+
+@media (max-width: @small) {
+    flx-propertymanager.col-8 {
+        width: 100%;
     }
 }

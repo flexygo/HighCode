@@ -21,13 +21,16 @@ var flexygo;
         * @method alert
         * @param {string} str - The message to show.
         */
-        function alert(str, callback = (() => { })) {
+        function alert(str, callback = (() => { }), customTitle) {
             return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
+                customTitle = flexygo.localization.translate(customTitle);
                 Lobibox.alert("info", {
+                    title: customTitle,
                     msg: flexygo.localization.translate(str),
                     iconSource: 'fontAwesome',
                     sound: (!flexygo.utils.testMode),
                     soundPath: flexygo.utils.resolveUrl('~/js/plugins/lobibox-master/sounds/'),
+                    draggable: true,
                     callback: (dlg, type, ev) => {
                         if (type == "ok") {
                             callback(true);
@@ -69,6 +72,7 @@ var flexygo;
                             closeOnClick: true
                         }
                     },
+                    draggable: true,
                     callback: (dlg, type, ev) => {
                         if (type == "yes") {
                             callback(true);
@@ -110,6 +114,7 @@ var flexygo;
                         closeOnClick: true
                     }
                 },
+                draggable: true,
                 callback: (dlg, type, ev) => {
                     if (type == "yes") {
                         callback("yes");
@@ -140,10 +145,14 @@ var flexygo;
                 $(element).notify(str, { className: type, position: position, clickToHide: true, autoHide: false });
             }
             else {
+                let opts = { msg: str, iconSource: 'fontAwesome', title: customTitle, position: position, sound: (!flexygo.utils.testMode), soundPath: flexygo.utils.resolveUrl('~/js/plugins/lobibox-master/sounds/') };
                 if (!position) {
                     position = "bottom right";
+                    opts.position = position;
+                    opts['showClass'] = "fadeInRight";
+                    opts['hideClass'] = "fadeOutRight";
                 }
-                Lobibox.notify(type, { msg: str, iconSource: 'fontAwesome', title: customTitle, position: position, sound: (!flexygo.utils.testMode), soundPath: flexygo.utils.resolveUrl('~/js/plugins/lobibox-master/sounds/') });
+                Lobibox.notify(type, opts);
             }
         }
         msg_1.generic = generic;
@@ -234,6 +243,7 @@ var flexygo;
                 type: type,
                 label: msg,
                 required: false,
+                draggable: true,
                 errorMessage: flexygo.localization.translate(flexygo.localization.translate('msg.fieldrequired')),
                 callback: function (lobibox, type) {
                     if (type === 'ok') {

@@ -1,9 +1,9 @@
-import { f as writeTask, r as registerInstance, o as createEvent, q as readTask, k as h, n as Host, m as getElement } from './index-d0d1673d.js';
-import { a as isPlatform, g as getIonMode } from './ionic-global-f9661584.js';
-import { g as getTimeGivenProgression } from './cubic-bezier-93f47170.js';
-import { c as componentOnReady, f as clamp, g as getElementRoot, r as raf } from './helpers-719f4c54.js';
-import { d as hapticImpact } from './haptic-f13d1040.js';
-import { c as createAnimation } from './animation-10ea33c3.js';
+import { f as writeTask, r as registerInstance, n as createEvent, q as readTask, k as h, o as Host, m as getElement } from './index-8e5b11cb.js';
+import { a as isPlatform, g as getIonMode } from './ionic-global-6d118971.js';
+import { g as getTimeGivenProgression } from './cubic-bezier-ed243a9b.js';
+import { c as componentOnReady, f as clamp, g as getElementRoot, r as raf } from './helpers-7ecb2fa5.js';
+import { d as hapticImpact } from './haptic-ffb0c0b9.js';
+import { c as createAnimation } from './animation-b4670628.js';
 
 const getRefresherAnimationType = (contentEl) => {
   const previousSibling = contentEl.previousElementSibling;
@@ -382,7 +382,7 @@ const Refresher = class {
       });
     };
     this.scrollEl.addEventListener('scroll', this.scrollListenerCallback);
-    this.gesture = (await import('./index-7fe827c3.js')).createGesture({
+    this.gesture = (await import('./index-d086042f.js')).createGesture({
       el: this.scrollEl,
       gestureName: 'refresher',
       gesturePriority: 31,
@@ -434,7 +434,7 @@ const Refresher = class {
         refreshingCircle.style.setProperty('animation-delay', '-655ms');
       });
     }
-    this.gesture = (await import('./index-7fe827c3.js')).createGesture({
+    this.gesture = (await import('./index-d086042f.js')).createGesture({
       el: this.scrollEl,
       gestureName: 'refresher',
       gesturePriority: 31,
@@ -539,7 +539,7 @@ const Refresher = class {
       this.setupNativeRefresher(contentEl);
     }
     else {
-      this.gesture = (await import('./index-7fe827c3.js')).createGesture({
+      this.gesture = (await import('./index-d086042f.js')).createGesture({
         el: contentEl,
         gestureName: 'refresher',
         gesturePriority: 31,

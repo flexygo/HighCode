@@ -62,7 +62,7 @@ var flexygo;
                 $('#mainSidePanel').css('display', 'none');
                 $('body').removeClass('develop');
                 if (typeof (wcSidePanel) != 'undefined') {
-                    wcSidePanel.removePanel('Page Config.');
+                    wcSidePanel.removePanel(flexygo.localization.translate('develop.pagename'));
                 }
                 //$('#realMain').off('pageloaded.config');
                 flexygo.events.off($('#realMain'), "page", "loaded");
@@ -74,21 +74,25 @@ var flexygo;
             if (showAnimation && !flexygo.utils.testMode) {
                 flexygo.debug.launchAnimation();
             }
+            else {
+                wcSidePanel.setDevelopPanel();
+                importMonaco();
+            }
             $('body').addClass('develop');
             $('#mainSidePanel').css('display', 'flex');
-            wcSidePanel.addPanel('Page Config.', 'fa fa-cogs', flexygo.debug.getPagePanel(), true);
             if (!flexygo.utils.isSizeMobile()) {
                 //$('#realMain').on('pageloaded.config', function (ev, page) {
                 //falta: enviar el  histobj en el openPageReturn y por ende en el "page" "loaded" para luego en el controlador del realmain solo actuar si el target actual es la
                 //ventana de fondo
             }
         }
-        function showDevelopOriginsPanel(wcSidePanel) {
-            flexygo.debug.launchOriginAnimation();
+        function showDevelopOriginsPanel(wcSidePanel, isFirstTime = true) {
+            flexygo.debug.launchOriginAnimation(isFirstTime);
             $('body').addClass('develop');
             $('#mainSidePanel').css('display', 'flex');
-            wcSidePanel.addPanel('Page Config.', 'fa fa-cogs', flexygo.debug.getPagePanel(), true);
+            wcSidePanel.setDevelopPanel();
         }
+        debug.showDevelopOriginsPanel = showDevelopOriginsPanel;
         function showObject(mode) {
             let selectObjectname = $('.sysObjConfigCombo flx-dbcombo').val();
             //only if an object is selected
@@ -123,8 +127,13 @@ var flexygo;
                     $('.sysObjConfigCombo flx-dbcombo').val(currentPageObject);
                 }
             });
+            let isBundleOptimization = flexygo.utils.getSettingValue("BundleOptimization").toLowerCase();
+            container.append(`<div id="bundleOptimization">
+                    <label>${flexygo.localization.translate('develop.minifyjscss')}</label>
+                    <flx-switch class="size-s" ${isBundleOptimization == "true" || isBundleOptimization == "1" ? 'checked' : ''} onchange="flexygo.utils.switchBundleOptimization($(this))"></flx-switch>
+                </div>`);
             container.append(`<section class="sysObjConfigCombo">
-                            <flx-dbcombo AllowNewFunction="flexygo.debug.showObject('edit');" SearchFunction="flexygo.debug.showObject('list');" placeholder="Select object to get settings"
+                            <flx-dbcombo AllowNewFunction="flexygo.debug.showObject('edit');" SearchFunction="flexygo.debug.showObject('list');" placeholder="${flexygo.localization.translate('develop.placeholder')}"
                             iconclass="flx-icon icon-object" objectname="SysObject" viewname="Objects_Config_Combo" sqlvaluefield="ObjectName" sqldisplayfield="Descrip" value="${currentObject}" 
                             control-class="size-m" sqlfilter="(ObjectName LIKE '%{{FindString}}%' OR Descrip LIKE '%{{FindString}}%')" additionalwhere="Iscollection=0">
                                 <template>
@@ -712,8 +721,9 @@ var flexygo;
          * @param {Array} classes - current classes of htmlElement
          * @return {Array} - suggestions array.
          */
-        function getCssSuggestions(range, styles, classes) {
+        function getCssSuggestions(range, classes) {
             let suggestions = [];
+            let styles = flexygo.ui.wc.FlxCodeElement.getHtmlStyles();
             for (let i = 0; i < styles.length; i++) {
                 if (!classes.includes(styles[i])) {
                     suggestions.push({
@@ -732,30 +742,14 @@ var flexygo;
          * @return {Array} - suggestions array.
          */
         function loadMonacoLibraries() {
-            if (Object.keys(monaco.languages.typescript.javascriptDefaults.getExtraLibs()).length == 0) {
-                let cacheResponse = flexygo.storage.cache.get('monacoDefinitions', { developMode: true });
-                let libraries;
-                let styles;
-                if (!cacheResponse || cacheResponse && flexygo.utils.isBlank(cacheResponse.response)) {
-                    flexygo.ajax.syncPost('~/api/Sys', 'loadMonacoDefinitions', null, (response) => {
-                        if (response) {
-                            libraries = response["javascript"];
-                            styles = response["css"];
-                            flexygo.storage.cache.add('monacoDefinitions', { developMode: true }, response, 1440);
-                        }
-                    });
-                }
-                else {
-                    libraries = cacheResponse.response["javascript"];
-                }
-                flexygo.ui.wc.FlxCodeElement.setTypeScriptLibraries(libraries);
-                monaco.languages.typescript.javascriptDefaults.setExtraLibs(libraries);
-                //Object.keys(libraries).forEach((key) => {
-                //    monaco.languages.typescript.javascriptDefaults.addExtraLib(
-                //        libraries[key].Content,
-                //        `ts:${libraries[key].Path}`
-                //    );
-                //});
+            if (flexygo.ui.wc.FlxCodeElement.getTypeScriptLibraries() == undefined) {
+                flexygo.ajax.post('~/api/Sys', 'loadMonacoDefinitions', null, (response) => {
+                    if (response) {
+                        flexygo.ui.wc.FlxCodeElement.setTypeScriptLibraries(response["js"]);
+                        flexygo.ui.wc.FlxCodeElement.setOfflineLibraries(response["offlineJs"]);
+                        flexygo.ui.wc.FlxCodeElement.setHtmlStyles(response["css"]);
+                    }
+                });
             }
         }
         function GetSqlSuggestions(model, position, availableConnections) {
@@ -780,13 +774,16 @@ var flexygo;
                     return { suggestions: [] };
                 }
                 else {
-                    let flxEdit = $(document.activeElement).closest("flx-edit")[0];
-                    let connStringProperty = $(flxEdit).find("[property='ConnStringId']")[0];
-                    let currentConnStringId = connStringProperty ? $(connStringProperty).attr("value") : null;
-                    if (!currentConnStringId) {
-                        let context = new flexygo.obj.Entity($(flxEdit).attr("objectname"), $(flxEdit).closest('flx-edit').attr("objectwhere"));
-                        context.read();
-                        currentConnStringId = context.getConfig()["ConnStringId"];
+                    let flxContainer = $(document.activeElement).closest("flx-edit, flx-viewmanager").first()[0];
+                    let currentConnStringId = "ConfConnectionString";
+                    if (flxContainer !== undefined) {
+                        let connStringProperty = $(flxContainer).find("[property='ConnStringId']")[0];
+                        let currentConnStringId = connStringProperty ? $(connStringProperty).attr("value") : null;
+                        if (!currentConnStringId) {
+                            let context = new flexygo.obj.Entity($(flxContainer).attr("objectname"), $(flxContainer).closest('flx-edit').attr("objectwhere"));
+                            context.read();
+                            currentConnStringId = context.getConfig()["ConnStringId"];
+                        }
                     }
                     let values = extractCurrentSentence(contentUntilPosition);
                     let firstPartOfSentence = values[0].toString();
@@ -985,7 +982,6 @@ var flexygo;
          */
         function isDevelopMode() {
             if (flexygo.storage.session.get('DevelopMode')) {
-                configureMonaco();
                 return true;
             }
             else {
@@ -993,88 +989,81 @@ var flexygo;
             }
         }
         debug.isDevelopMode = isDevelopMode;
-        function configureMonaco() {
-            let waitForMonaco = () => {
-                return new Promise(function (resolve) {
-                    if (typeof monaco !== 'undefined' && monaco !== null) {
-                        resolve(true);
-                    }
-                    else {
-                        var intervalo = setInterval(function () {
-                            if (typeof monaco !== 'undefined' && monaco !== null) {
-                                clearInterval(intervalo);
-                                resolve(true);
-                            }
-                        }, 100);
-                    }
-                });
-            };
+        function importMonaco() {
             if ($(document.head).find('script[class="monaco"]').length == 0) {
-                $(document.head).append(`<script class="monaco" defer src="${flexygo.utils.resolveUrl('~/js/plugins/monaco-editor/promise.js')}"/>`);
                 $(document.head).append(`<script class="monaco" defer src="${flexygo.utils.resolveUrl('~/js/plugins/monaco-editor/min/vs/loader.js')}"/>`);
-                $(document.head).append(`<script class="monaco" defer src="${flexygo.utils.resolveUrl('~/js/plugins/monaco-editor/min/vs/editor/editor.main.nls.js')}"/>`);
-                $(document.head).append(`<script class="monaco" defer src="${flexygo.utils.resolveUrl('~/js/plugins/monaco-editor/min/vs/editor/editor.main.js')}"/>`);
+                let script = `
+            <script class="monaco" defer>
+                let url = flexygo.utils.resolveUrl("~/js/plugins/monaco-editor/min/vs");
+            	require.config({ paths: { vs: url } });
+                require(['vs/editor/editor.main'], function () {
+                    flexygo.debug.configureMonaco();
+                });
+            </script>
+            `;
                 $(document.head).append(`<script class="monaco" defer src="${flexygo.utils.resolveUrl('~/js/plugins/monaco-editor/monacoVars.js')}"/>`);
-                //Get the SQL SCHEMA from all connectionString
-                flexygo.ajax.post('~/api/Sys', 'getDBSchema', {}, (response) => {
-                    if (response) {
-                        DBSchema = response;
-                    }
-                });
-                waitForMonaco().then(function () {
-                    loadMonacoLibraries();
-                    //Autocompletion HTML provider
-                    let styles = flexygo.storage.cache.get('monacoDefinitions', { developMode: true }).response["css"];
-                    monaco.languages.registerCompletionItemProvider('html', {
-                        provideCompletionItems: function (model, position) {
-                            let currentCodeEditor = $(document.activeElement).closest('flx-code')[0];
-                            if (currentCodeEditor.intellisense) {
-                                let contentUntilPosition = model.getValueInRange({
-                                    startLineNumber: 1,
-                                    startColumn: 1,
-                                    endLineNumber: position.lineNumber,
-                                    endColumn: position.column
-                                });
-                                let wordUntilPosition = model.getWordUntilPosition(position);
-                                let match = /<[^<>\s]+[^<>\w]*class="([^"]*)[^"]*$/.exec(contentUntilPosition);
-                                if (match) {
-                                    let classes = match[1].split(' ');
-                                    let suggestions = [];
-                                    let range = {
-                                        startLineNumber: position.lineNumber,
-                                        endLineNumber: position.lineNumber,
-                                        startColumn: wordUntilPosition.startColumn,
-                                        endColumn: wordUntilPosition.endColumn,
-                                    };
-                                    return { suggestions: getCssSuggestions(range, styles, classes) };
-                                }
-                            }
-                            return { suggestions: [] };
-                        }
-                    });
-                    //AUTOCOMPLETION SQL
-                    let ob = new flexygo.obj.Entity('sysObject');
-                    ob.read();
-                    let availableConnections = ob.getView('CnnStrings');
-                    try {
-                        monaco.languages.registerCompletionItemProvider('sql', {
-                            provideCompletionItems: (model, position) => {
-                                return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
-                                    let suggestions = yield GetSqlSuggestions(model, position, availableConnections);
-                                    resolve(suggestions);
-                                }));
-                            }
-                        });
-                    }
-                    catch (ex) {
-                        console.log(ex);
-                    }
-                });
+                $(document.head).append(script);
             }
-            else {
-                waitForMonaco().then(function () { loadMonacoLibraries(); });
+            else if (typeof monaco !== 'undefined' && monaco !== null) {
+                loadMonacoLibraries();
             }
         }
+        function configureMonaco() {
+            flexygo.ajax.post('~/api/Sys', 'getDBSchema', {}, (response) => {
+                if (response) {
+                    DBSchema = response;
+                }
+            }, function (e) {
+                console.error(e);
+            });
+            loadMonacoLibraries();
+            //Autocompletion HTML provider
+            monaco.languages.registerCompletionItemProvider('html', {
+                provideCompletionItems: function (model, position) {
+                    let currentCodeEditor = $(document.activeElement).closest('flx-code')[0];
+                    if (currentCodeEditor.intellisense) {
+                        let contentUntilPosition = model.getValueInRange({
+                            startLineNumber: 1,
+                            startColumn: 1,
+                            endLineNumber: position.lineNumber,
+                            endColumn: position.column
+                        });
+                        let wordUntilPosition = model.getWordUntilPosition(position);
+                        let match = /<[^<>\s]+[^<>\w]*class="([^"]*)[^"]*$/.exec(contentUntilPosition);
+                        if (match) {
+                            let classes = match[1].split(' ');
+                            let suggestions = [];
+                            let range = {
+                                startLineNumber: position.lineNumber,
+                                endLineNumber: position.lineNumber,
+                                startColumn: wordUntilPosition.startColumn,
+                                endColumn: wordUntilPosition.endColumn,
+                            };
+                            return { suggestions: getCssSuggestions(range, classes) };
+                        }
+                    }
+                    return { suggestions: [] };
+                }
+            });
+            //AUTOCOMPLETION SQL
+            let ob = new flexygo.obj.Entity('sysObject');
+            ob.read();
+            let availableConnections = ob.getView('CnnStrings');
+            try {
+                monaco.languages.registerCompletionItemProvider('sql', {
+                    provideCompletionItems: (model, position) => {
+                        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+                            let suggestions = yield GetSqlSuggestions(model, position, availableConnections);
+                            resolve(suggestions);
+                        }));
+                    }
+                });
+            }
+            catch (ex) {
+                console.log(ex);
+            }
+        }
+        debug.configureMonaco = configureMonaco;
         /**
          * Displays develop mode animation.
          * @method launchAnimation
@@ -1095,12 +1084,21 @@ var flexygo;
                 $('#debugBackground').remove();
                 $('body>.ui-effects-wrapper').remove();
                 $('body').off('click.debug');
+                wcSidePanel.setDevelopPanel();
+                importMonaco();
             });
+            let wcSidePanel = $('#mainSidePanel')[0];
             $('#developerLogo').textillate({
                 autoStart: false,
                 in: {
                     delayScale: 2, delay: 40, effect: 'flipInY', callback: function () {
-                        $('#debugBackground').hide('clip', null, 400, function () { $('#debugBackground').remove(); $('body>.ui-effects-wrapper').remove(); $('body').off('click.debug'); });
+                        $('#debugBackground').hide('clip', null, 400, function () {
+                            $('#debugBackground').remove();
+                            $('body>.ui-effects-wrapper').remove();
+                            $('body').off('click.debug');
+                        });
+                        wcSidePanel.setDevelopPanel();
+                        importMonaco();
                     }
                 }
             });
@@ -1111,7 +1109,7 @@ var flexygo;
             });
         }
         debug.launchAnimation = launchAnimation;
-        function launchOriginAnimation() {
+        function launchOriginAnimation(isFirstTime) {
             let anim = $(`<div id="debugBackground">
             <table>
                 <span id="developOriginSelector">
@@ -1120,21 +1118,27 @@ var flexygo;
                         <div origin="0" class="system  ${flexygo.context.currentOriginId !== '0' ? 'muted' : ''}">
                             <span>
                                 <i class="flx-icon icon-settings-12"></i>
-                                <div>0. System</div>
+                                <div>${flexygo.localization.translate('develop.originSystem')}</div>
                             </span>
                         </div>
                         <div origin="1" class="product ${flexygo.context.currentOriginId !== '1' ? 'muted' : ''}">
                             <span>
                                 <i class="flx-icon icon-object-1"></i>
-                                <div>1. Product</div>
+                                <div>${flexygo.localization.translate('develop.originProduct')}</div>
                             </span>
                         </div>
                         <div origin="2" class="project ${flexygo.context.currentOriginId !== '2' ? 'muted' : ''}">
                             <span>
                                 <i class="flx-icon icon-folder-41"></i>
-                                <div>2. Project</div>
+                                <div>${flexygo.localization.translate('develop.originProject')}</div>
                             </span>
                         </div>
+                        ${isFirstTime ? '' : `<div origin="3" class="user ${flexygo.context.currentOriginId !== '3' ? 'muted' : ''}">
+                            <span>
+                                <i class="flx-icon icon-user"></i>
+                                <div>${flexygo.localization.translate('develop.originUser')}</div>
+                            </span>
+                        </div>`}
                     </div>
                 </span>
             </table>
@@ -1154,6 +1158,7 @@ var flexygo;
             }).on('click', ev => {
                 $('#debugBackground').remove();
                 $('#originBackdrop').remove();
+                importMonaco();
                 flexygo.nav.execProcess('SetNewOrigin', 'sysObjects', null, null, [{ 'key': 'NewOriginId', 'value': ev.currentTarget.getAttribute('origin') }], 'modal640x480', false, $(this), null, false);
             });
             $('body').prepend('<div id="originBackdrop"></div>');
@@ -1244,7 +1249,7 @@ var flexygo;
             modal.empty();
             modal.closest('.ui-dialog').find('.ui-dialog-title').html(flexygo.localization.translate('develop.modulemanager'));
             modal.addClass('nopadding');
-            modal.append('<flx-modulemanager pageName="' + pageContext.pagename + '" ObjectName="' + pageContext.objectname + '"></flx-modulemanager>');
+            modal.append('<flx-modulemanager pageName="' + pageContext.pagename + '" ObjectName="' + (pageContext.objectname !== 'undefined' ? pageContext.objectname : '') + '"></flx-modulemanager>');
             let mm = modal.find('flx-modulemanager')[0];
             mm.targetItem = targetItem;
         }
@@ -1329,6 +1334,33 @@ var flexygo;
             }
         }
         debug._drawText = _drawText;
+        // SHORTCUTS
+        $(document).on('keydown', function (ev) {
+            var _a;
+            ev.stopPropagation();
+            if (((_a = ev.key) === null || _a === void 0 ? void 0 : _a.toLowerCase()) === 'f1') {
+                ev.preventDefault();
+                if ($('.ui-dialog-content[pagename="db6ce0fb-2f28-4056-b14e-e9aed2769f97"]').length == 0) {
+                    flexygo.nav.openPageName('db6ce0fb-2f28-4056-b14e-e9aed2769f97', 'sysHelp', '', null, 'sliderightx75%', false);
+                }
+                else {
+                    $('.ui-dialog-content[pagename="db6ce0fb-2f28-4056-b14e-e9aed2769f97"]').dialog('close');
+                }
+            }
+        });
+        $(document).on('keyup', function (ev) {
+            var _a;
+            ev.stopPropagation();
+            if (((_a = ev.key) === null || _a === void 0 ? void 0 : _a.toLowerCase()) === 'f2') {
+                ev.preventDefault();
+                if ($('[objectname="sysSettingGroups"]').closest('.ui-dialog-content').length == 0) {
+                    flexygo.nav.openPage('list', 'sysSettingGroups', '', null, 'sliderightx75%', false, $(this));
+                }
+                else {
+                    $('[objectname="sysSettingGroups"]').closest('.ui-dialog-content').dialog('close');
+                }
+            }
+        });
     })(debug = flexygo.debug || (flexygo.debug = {}));
 })(flexygo || (flexygo = {}));
 /**

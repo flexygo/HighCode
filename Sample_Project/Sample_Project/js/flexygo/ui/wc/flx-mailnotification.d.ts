@@ -40,12 +40,12 @@ declare namespace flexygo.ui.wc {
         * Refreses Web Control
         * @method refresh
         */
-        refresh(): void;
+        refresh(): Promise<void>;
         /**
         * Checks and refresh Notify Badge
         * @method refreshBadge
         */
-        refreshBadge(): void;
+        refreshBadge(): Promise<void>;
         /**
         * Refreshes Notify Badge
         * @method updateBadge

@@ -56,14 +56,6 @@ var flexygo;
                 render() {
                     let me = $(this);
                     me.html(this.formComponents());
-                    if ($(me[0]).find('flx-code[editor="monaco"]').length > 0) {
-                        var ev = {
-                            class: "property",
-                            type: "resized",
-                            masterIdentity: "flx-edit"
-                        };
-                        flexygo.events.trigger(ev, $(this));
-                    }
                     let connstring = me.find('[name="cnnstring"]');
                     let tableName = me.find('[name="tablename"]');
                     let valueField = me.find('[name="valuefield"]');
@@ -327,7 +319,8 @@ var flexygo;
                * @method openWizard
                */
                 openWizard(e) {
-                    let module = e.closest("flx-module");
+                    var _a;
+                    let module = (_a = e.closest("flx-module")) !== null && _a !== void 0 ? _a : e.closest("flx-container");
                     let histObj = new flexygo.nav.FlexygoHistory();
                     histObj.targetid = 'modal1024x550';
                     let modal = flexygo.targets.createContainer(histObj, true, null, true);
@@ -393,7 +386,7 @@ var flexygo;
             * Array of observed attributes. REQUIRED
             * @property observedAttributes {Array}
             */
-            FlxComboBuilderElement.observedAttributes = ['ObjectName', 'ObjectWhere', 'ModuleName', 'asd'];
+            FlxComboBuilderElement.observedAttributes = ['ObjectName', 'ObjectWhere', 'ModuleName'];
             wc.FlxComboBuilderElement = FlxComboBuilderElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

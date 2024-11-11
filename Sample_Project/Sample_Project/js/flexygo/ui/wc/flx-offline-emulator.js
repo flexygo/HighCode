@@ -67,6 +67,9 @@ var flexygo;
                             this.renderHelpOptions(),
                         ].join(''));
                         this.setMainEvents();
+                        const module = this.closest('flx-module');
+                        if (module)
+                            module.moduleLoaded();
                     }
                     else {
                         flexygo.msg.warning("The emulator needs the url attribute");

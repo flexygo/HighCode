@@ -1,6 +1,15 @@
 /**
  * @namespace flexygo.ui.wc
  */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var flexygo;
 (function (flexygo) {
     var ui;
@@ -53,31 +62,42 @@ var flexygo;
                     }
                     $(this).append(template);
                     this.responseShown = false;
-                    this.refresh(force);
+                    return this.refresh(force);
                 }
                 /**
                 * Refresh the webcomponent.
                 * @method refresh
                 */
                 refresh(force = false) {
-                    if (flexygo.debug && flexygo.debug.isDevelopMode && flexygo.debug.isDevelopMode()) {
-                        let params = {
-                            Force: force
-                        };
-                        $(this).show();
-                        flexygo.ajax.post('~/api/Sys', 'getVersion', params, (response) => {
-                            if (this.mode === 'icon' && response.ErrorMessage != '') {
-                                flexygo.msg.info(response.ErrorMessage);
-                            }
-                            else {
-                                this.settings = response;
-                                this.render();
-                            }
-                        });
-                    }
-                    else {
-                        $(this).hide();
-                    }
+                    return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
+                        if (flexygo.debug && flexygo.debug.isDevelopMode && flexygo.debug.isDevelopMode()) {
+                            let params = {
+                                Force: force
+                            };
+                            $(this).show();
+                            flexygo.ajax.post('~/api/Sys', 'getVersion', params, 
+                            //Success Function
+                            (response) => {
+                                if (this.mode === 'icon' && response.ErrorMessage != '') {
+                                    flexygo.msg.info(response.ErrorMessage);
+                                }
+                                else {
+                                    this.settings = response;
+                                    this.render();
+                                }
+                                resolve();
+                            }, 
+                            //Error Function
+                            err => {
+                                flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                                resolve();
+                            });
+                        }
+                        else {
+                            $(this).hide();
+                            resolve();
+                        }
+                    }));
                 }
                 /**
                * Renders the webcomponent.

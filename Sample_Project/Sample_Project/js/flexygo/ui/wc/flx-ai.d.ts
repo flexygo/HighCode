@@ -1,3 +1,5 @@
+declare var webkitSpeechRecognition: any;
+declare var marked: any;
 /**
  * @namespace flexygo.ui.wc
  */
@@ -30,6 +32,11 @@ declare namespace flexygo.ui.wc {
         */
         settings: flexygo.api.ChatGPTSetting;
         /**
+        * ChatGPT settings Id
+        * @property settingId {string}
+        */
+        settingId: string;
+        /**
         * ChatGPT messages
         * @property messages {string}
         */
@@ -46,6 +53,8 @@ declare namespace flexygo.ui.wc {
         refresh(): void;
         input: HTMLTextAreaElement;
         sendButton: JQuery;
+        voiceButton: JQuery;
+        recognition: any;
         /**
         * Render HTML data.
         * @method render
@@ -59,16 +68,18 @@ declare namespace flexygo.ui.wc {
         */
         sendToAI(message: string): void;
         writeMessage(role: any, avatar: any, srcavatar: any, author: any, time: any, message: any, enableReturn: any, positionClass: any, originalMessage?: any): void;
+        parseToMarkdown(message: any): string;
         updateLastMessage(role: any, avatar: any, srcavatar: any, author: any, time: any, message: any, enableReturn: any, positionClass: any, originalMessage?: any): void;
+        updateLastFunctionMessage(avatar: any, srcavatar: any, author: any, time: any, message: any, enableReturn: any, positionClass: any, originalMessage: any): void;
         setReturnButton(msgElement: JQuery, originalMessage: any): void;
-        returnCode(ev: flexygo.events.FlexygoEvent): void;
-        parseMessage(message: string): string;
         /**
         *
         * @method open
         */
-        open(e: any): void;
+        open(options: flexygo.api.ChatGPTOptions): void;
+        open_from_toolbar(settingId: string, module: JQuery): void;
         close(e?: flexygo.events.FlexygoEvent): void;
+        resizeInput(): void;
         /**
         * Fires when element is attached to DOM
         * @method connectedCallback
@@ -79,5 +90,10 @@ declare namespace flexygo.ui.wc {
         * @method attributeChangedCallback
         */
         attributeChangedCallback(attrName: any, oldVal: any, newVal: any): void;
+        /**
+        * Fires when element is detached to DOM
+        * @method disconnectedCallback
+        */
+        disconnectedCallback(): void;
     }
 }

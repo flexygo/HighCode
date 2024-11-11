@@ -1,6 +1,15 @@
 /**
  * @namespace flexygo.ui.wc
  */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var flexygo;
 (function (flexygo) {
     var ui;
@@ -53,170 +62,189 @@ var flexygo;
                 * @method init
                 */
                 init() {
-                    let ctx = this;
-                    let me = $(this);
-                    let activeMode;
-                    let SQLValueField;
-                    let SQLDisplayField;
-                    let SQLFilterField;
-                    let directTemplate;
-                    let objectName;
-                    let viewName;
-                    let maxTime;
-                    let minTime;
-                    let onClickEvent;
-                    let tokenDefault;
-                    let allDaySlot;
-                    let slotDuration;
-                    let pageType;
-                    let target;
-                    let eventLimit;
-                    let disableResize;
-                    let disableDrag;
-                    let onClickJS;
-                    let onClickDayJS;
-                    me.removeAttr('manualInit');
-                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
-                    let parentModule = me.closest('flx-module');
-                    let wcModule = parentModule[0];
-                    if (parentModule && wcModule) {
-                        wcModule.moduleLoaded(this);
-                    }
-                    let options = new Array();
-                    let schedulerParams = {
-                        ModuleName: ctx.moduleName
-                    };
-                    flexygo.ajax.post('~/api/Scheduler', 'GetSchedulerTemplate', schedulerParams, (response) => {
-                        if (response) {
-                            activeMode = response.ActiveMode;
-                            SQLValueField = response.SQLValueField;
-                            SQLDisplayField = response.SQLDisplayField;
-                            SQLFilterField = response.SQLFilterField;
-                            directTemplate = response.DirectTemplate;
-                            objectName = response.ObjectName;
-                            viewName = response.ViewName;
-                            maxTime = response.MaxTime;
-                            minTime = response.MinTime;
-                            onClickEvent = response.OnClickEvent;
-                            onClickJS = response.OnClickJS;
-                            onClickDayJS = response.OnClickDayJS;
-                            tokenDefault = response.TokenDefault;
-                            allDaySlot = response.AllDaySlot;
-                            slotDuration = response.SlotDuration;
-                            pageType = response.PageType;
-                            target = response.Target;
-                            eventLimit = response.EventLimit;
-                            disableResize = response.DisableResize;
-                            disableDrag = response.DisableDrag;
-                            if (response.MonthView == "True") {
-                                options.push("month");
-                            }
-                            if (response.AgendaWeekView == "True") {
-                                options.push("agendaWeek");
-                            }
-                            if (response.AgendaDayView == "True") {
-                                options.push("agendaDay");
-                            }
-                            if (response.ListWeekView == "True") {
-                                options.push("listWeek");
-                            }
-                            var objectParams = {
-                                Scheduler: response.SchedulerName
-                            };
-                            //Distintos objetos
-                            flexygo.ajax.post('~/api/Scheduler', 'GetSchedulerConfig', objectParams, (response) => {
-                                if (response) {
-                                    me.append('<div id="loading"></div><div id="calendar" style="margin:1%;"></div>');
-                                    for (var i in response) {
-                                        ctx.objects.push({
-                                            SchedulerName: response[i].SchedulerName,
-                                            ObjectName: response[i].ObjectName,
-                                            ObjectDescrip: response[i].ObjectDescrip,
-                                            StartDateField: response[i].StartDateField,
-                                            EndDateField: response[i].EndDateField,
-                                            EndTimeField: response[i].EndTimeField,
-                                            StartTimeField: response[i].StartTimeField,
-                                            DurationField: response[i].DurationField,
-                                            ViewName: response[i].ViewName,
-                                            ColorField: response[i].ColorField,
-                                            DescripTemplate: response[i].DescripTemplate,
-                                            key: response[i].key,
-                                            table: response[i].table,
-                                            Icon: response[i].Icon,
-                                            UserIdField: response[i].UserIdField,
-                                            Filter: "",
-                                            TextColorField: response[i].TextColorField,
-                                            TokenDefault: tokenDefault,
-                                            CanInsert: response[i].CanInsert,
-                                            CanView: response[i].CanView,
-                                            CanEdit: response[i].CanEdit,
-                                            AllDayField: response[i].AllDayField
-                                        });
-                                        ctx.checkObjects.push(response[i].ObjectName);
-                                    }
-                                    if (ctx.objects.length > 0) {
-                                        ctx.render(options, activeMode, maxTime, minTime, onClickEvent, allDaySlot, slotDuration, pageType, target, eventLimit, disableResize, disableDrag, onClickJS, onClickDayJS);
-                                        //$('.fc-left').addClass('col-lg-5');
-                                        //$('.fc-left').addClass('col-md-6');
-                                        if (objectName != '') {
-                                            $('#calendar').prepend('<div class="fc-toolbar fc-header-toolbar filter"><div class="a" style="text-align:left;" id="filters"><flx-multicombo class="combo" ObjectName="' + objectName + '" ViewName="' + viewName + '" IconClass="flx-icon icon-role" SQLValueField="' + SQLValueField + '" SQLDisplayField="' + SQLDisplayField + '" SQLFilter="' + SQLFilterField + '" filtertype="dbcombo"><template>' + directTemplate + '</template></flx-multicombo></div></div>');
-                                            //$('.fc-left').append('<div id="filters"><flx-multicombo style="width:250px" ObjectName="' + objectName + '" ViewName="' + viewName + '" IconClass="flx-icon icon-role" SQLValueField="' + SQLValueField + '" SQLDisplayField="' + SQLDisplayField + '" filtertype="dbcombo"><template>' + directTemplate + '</template></flx-multicombo></div>');                    
-                                            $('.fc-left').css("margin-left", "10px");
+                    return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
+                        let ctx = this;
+                        let me = $(this);
+                        let activeMode;
+                        let SQLValueField;
+                        let SQLDisplayField;
+                        let SQLFilterField;
+                        let directTemplate;
+                        let objectName;
+                        let viewName;
+                        let maxTime;
+                        let minTime;
+                        let onClickEvent;
+                        let tokenDefault;
+                        let allDaySlot;
+                        let slotDuration;
+                        let pageType;
+                        let target;
+                        let eventLimit;
+                        let disableResize;
+                        let disableDrag;
+                        let onClickJS;
+                        let onClickDayJS;
+                        me.removeAttr('manualInit');
+                        $(this).closest('flx-module').find('.flx-noInitContent').remove();
+                        let parentModule = me.closest('flx-module');
+                        let wcModule = parentModule[0];
+                        if (parentModule && wcModule) {
+                            wcModule.moduleLoaded(this);
+                        }
+                        let options = new Array();
+                        let schedulerParams = {
+                            ModuleName: ctx.moduleName
+                        };
+                        flexygo.ajax.post('~/api/Scheduler', 'GetSchedulerTemplate', schedulerParams, 
+                        //Success Function
+                        (response) => {
+                            if (response) {
+                                activeMode = response.ActiveMode;
+                                SQLValueField = response.SQLValueField;
+                                SQLDisplayField = response.SQLDisplayField;
+                                SQLFilterField = response.SQLFilterField;
+                                directTemplate = response.DirectTemplate;
+                                objectName = response.ObjectName;
+                                viewName = response.ViewName;
+                                maxTime = response.MaxTime;
+                                minTime = response.MinTime;
+                                onClickEvent = response.OnClickEvent;
+                                onClickJS = response.OnClickJS;
+                                onClickDayJS = response.OnClickDayJS;
+                                tokenDefault = response.TokenDefault;
+                                allDaySlot = response.AllDaySlot;
+                                slotDuration = response.SlotDuration;
+                                pageType = response.PageType;
+                                target = response.Target;
+                                eventLimit = response.EventLimit;
+                                disableResize = response.DisableResize;
+                                disableDrag = response.DisableDrag;
+                                if (response.MonthView == "True") {
+                                    options.push("month");
+                                }
+                                if (response.AgendaWeekView == "True") {
+                                    options.push("agendaWeek");
+                                }
+                                if (response.AgendaDayView == "True") {
+                                    options.push("agendaDay");
+                                }
+                                if (response.ListWeekView == "True") {
+                                    options.push("listWeek");
+                                }
+                                var objectParams = {
+                                    Scheduler: response.SchedulerName
+                                };
+                                //Distintos objetos
+                                flexygo.ajax.post('~/api/Scheduler', 'GetSchedulerConfig', objectParams, 
+                                //Success Function
+                                (response) => {
+                                    if (response) {
+                                        me.append('<div id="loading"></div><div id="calendar" style="margin:1%;"></div>');
+                                        for (var i in response) {
+                                            ctx.objects.push({
+                                                SchedulerName: response[i].SchedulerName,
+                                                ObjectName: response[i].ObjectName,
+                                                ObjectDescrip: response[i].ObjectDescrip,
+                                                StartDateField: response[i].StartDateField,
+                                                EndDateField: response[i].EndDateField,
+                                                EndTimeField: response[i].EndTimeField,
+                                                StartTimeField: response[i].StartTimeField,
+                                                DurationField: response[i].DurationField,
+                                                ViewName: response[i].ViewName,
+                                                ColorField: response[i].ColorField,
+                                                DescripTemplate: response[i].DescripTemplate,
+                                                key: response[i].key,
+                                                table: response[i].table,
+                                                Icon: response[i].Icon,
+                                                UserIdField: response[i].UserIdField,
+                                                Filter: "",
+                                                TextColorField: response[i].TextColorField,
+                                                TokenDefault: tokenDefault,
+                                                CanInsert: response[i].CanInsert,
+                                                CanView: response[i].CanView,
+                                                CanEdit: response[i].CanEdit,
+                                                AllDayField: response[i].AllDayField
+                                            });
+                                            ctx.checkObjects.push(response[i].ObjectName);
                                         }
-                                        if (ctx.objects.length > 1) {
-                                            $('.fc-left').append("<div style='margin-right: .75em;' class='fc-button'><div style='width: 140px;'><div class='panel panel-default objects' style='margin-bottom: 0px;background-color: #f5f5f5;'><div style='padding: 3.5px 10px;'><div><div class='fa fa-filter'></div><a data-toggle='collapse' href='#collapse1' style='color: #777;'>  " + flexygo.localization.translate('flxscheduler.objects') + "</a></div></div><div id='collapse1' class='panel-collapse collapse'></div></div></div></div>");
-                                            for (var x = 0; x < ctx.objects.length; x++) {
-                                                $('#collapse1').append("<div class='panel-footer'><i style='float:left;margin-top: 2px;margin-right: 5px;' class='" + ctx.objects[x].Icon + "'></i>" + ctx.objects[x].ObjectName + "<flx-check style='float:right;' id='" + ctx.objects[x].ObjectName + "' property='" + ctx.objects[x].ObjectName + "' checked></flx-check>");
+                                        if (ctx.objects.length > 0) {
+                                            ctx.render(options, activeMode, maxTime, minTime, onClickEvent, allDaySlot, slotDuration, pageType, target, eventLimit, disableResize, disableDrag, onClickJS, onClickDayJS);
+                                            //$('.fc-left').addClass('col-lg-5');
+                                            //$('.fc-left').addClass('col-md-6');
+                                            if (objectName != '') {
+                                                $('#calendar').prepend('<div class="fc-toolbar fc-header-toolbar filter"><div class="a" style="text-align:left;" id="filters"><flx-multicombo class="combo" ObjectName="' + objectName + '" ViewName="' + viewName + '" IconClass="flx-icon icon-role" SQLValueField="' + SQLValueField + '" SQLDisplayField="' + SQLDisplayField + '" SQLFilter="' + SQLFilterField + '" filtertype="dbcombo"><template>' + directTemplate + '</template></flx-multicombo></div></div>');
+                                                //$('.fc-left').append('<div id="filters"><flx-multicombo style="width:250px" ObjectName="' + objectName + '" ViewName="' + viewName + '" IconClass="flx-icon icon-role" SQLValueField="' + SQLValueField + '" SQLDisplayField="' + SQLDisplayField + '" filtertype="dbcombo"><template>' + directTemplate + '</template></flx-multicombo></div>');                    
+                                                $('.fc-left').css("margin-left", "10px");
                                             }
-                                            $('#collapse1').on('show.bs.collapse', function () {
-                                                $(".objects").css("position", "absolute");
-                                                //$(".fc-left").addClass("margin-filter");
-                                            });
-                                            $('#collapse1').on('hide.bs.collapse', function () {
-                                                $(".objects").css("position", "static");
-                                                //$(".fc-left").removeClass("margin-filter");
-                                            });
-                                            $('#mainContent').on('scroll', function () {
-                                                $("#collapse1").removeClass("in");
-                                                $(".objects").css("position", "static");
-                                            });
-                                            //Cambiar por me.find
-                                            $("flx-check input[type=checkbox]").click(function () {
-                                                if (this.checked) {
-                                                    ctx.checkObjects.push(this.parentElement.parentElement.id);
+                                            if (ctx.objects.length > 1) {
+                                                $('.fc-left').append("<div style='margin-right: .75em;' class='fc-button'><div style='width: 140px;'><div class='panel panel-default objects' style='margin-bottom: 0px;background-color: #f5f5f5;'><div style='padding: 3.5px 10px;'><div><div class='fa fa-filter'></div><a data-toggle='collapse' href='#collapse1' style='color: #777;'>  " + flexygo.localization.translate('flxscheduler.objects') + "</a></div></div><div id='collapse1' class='panel-collapse collapse'></div></div></div></div>");
+                                                for (var x = 0; x < ctx.objects.length; x++) {
+                                                    $('#collapse1').append("<div class='panel-footer'><i style='float:left;margin-top: 2px;margin-right: 5px;' class='" + ctx.objects[x].Icon + "'></i>" + ctx.objects[x].ObjectName + "<flx-check style='float:right;' id='" + ctx.objects[x].ObjectName + "' property='" + ctx.objects[x].ObjectName + "' checked></flx-check>");
                                                 }
-                                                else {
-                                                    for (var i in ctx.checkObjects) {
-                                                        if (ctx.checkObjects[i] == this.parentElement.parentElement.id) {
-                                                            ctx.checkObjects.splice(ctx.checkObjects.indexOf(ctx.checkObjects[i]), 1);
+                                                $('#collapse1').on('show.bs.collapse', function () {
+                                                    $(".objects").css("position", "absolute");
+                                                    //$(".fc-left").addClass("margin-filter");
+                                                });
+                                                $('#collapse1').on('hide.bs.collapse', function () {
+                                                    $(".objects").css("position", "static");
+                                                    //$(".fc-left").removeClass("margin-filter");
+                                                });
+                                                $('#mainContent').on('scroll', function () {
+                                                    $("#collapse1").removeClass("in");
+                                                    $(".objects").css("position", "static");
+                                                });
+                                                //Cambiar por me.find
+                                                $("flx-check input[type=checkbox]").click(function () {
+                                                    if (this.checked) {
+                                                        ctx.checkObjects.push(this.parentElement.parentElement.id);
+                                                    }
+                                                    else {
+                                                        for (var i in ctx.checkObjects) {
+                                                            if (ctx.checkObjects[i] == this.parentElement.parentElement.id) {
+                                                                ctx.checkObjects.splice(ctx.checkObjects.indexOf(ctx.checkObjects[i]), 1);
+                                                            }
                                                         }
                                                     }
-                                                }
-                                                if (ctx.checkObjects.length != 0) {
-                                                    ctx.checkPanelObjects(ctx.additionalWhere);
-                                                }
-                                                else {
-                                                    var myCalendar = me.find('#calendar');
-                                                    myCalendar.fullCalendar('removeEvents');
-                                                }
-                                            });
+                                                    if (ctx.checkObjects.length != 0) {
+                                                        ctx.checkPanelObjects(ctx.additionalWhere);
+                                                    }
+                                                    else {
+                                                        var myCalendar = me.find('#calendar');
+                                                        myCalendar.fullCalendar('removeEvents');
+                                                    }
+                                                });
+                                            }
                                         }
-                                    }
-                                    else {
-                                        me.append('<div class="box-danger"><i class="flx-icon icon-close icon-lg icon-margin-right"></i><span><strong>Error</strong> No scheduler objects configurations are found</span></div>');
-                                    }
-                                    $('flx-multicombo[viewname="' + viewName + '"]').find('div:not(.mobileinputdiv)').on('change', function () {
-                                        let filtros = this.closest('flx-multicombo').getValue();
-                                        let where = '';
-                                        for (var i in ctx.checkObjects) {
-                                            ctx.objects[i].Filter = filtros.split('|').join('\',\'');
+                                        else {
+                                            me.append('<div class="box-danger"><i class="flx-icon icon-close icon-lg icon-margin-right"></i><span><strong>Error</strong> No scheduler objects configurations are found</span></div>');
                                         }
-                                        ctx.checkPanelObjects(ctx.additionalWhere);
-                                    });
-                                }
-                            });
-                        }
-                    });
+                                        $('flx-multicombo[viewname="' + viewName + '"]').find('div:not(.mobileinputdiv)').on('change', function () {
+                                            let filtros = this.closest('flx-multicombo').getValue();
+                                            for (var i in ctx.checkObjects) {
+                                                ctx.objects[i].Filter = filtros.split('|').join('\',\'');
+                                            }
+                                            ctx.checkPanelObjects(ctx.additionalWhere);
+                                        });
+                                    }
+                                    resolve();
+                                }, 
+                                //Error Function
+                                err => {
+                                    flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                                    resolve();
+                                });
+                            }
+                            else {
+                                resolve();
+                            }
+                        }, 
+                        //Error Function
+                        err => {
+                            flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                            resolve();
+                        });
+                    }));
                 }
                 /**
                 * Refresh de webcomponent.

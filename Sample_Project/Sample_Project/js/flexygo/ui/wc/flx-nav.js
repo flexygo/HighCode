@@ -1,6 +1,15 @@
 /**
  * @namespace flexygo.ui.wc
  */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var flexygo;
 (function (flexygo) {
     var ui;
@@ -54,6 +63,20 @@ var flexygo;
                     if (navBar.attr('manualInit') != 'true') {
                         this.init();
                     }
+                    flexygo.events.on(this, "entity", "all", (e) => {
+                        if (e.masterIdentity == "sysNavigationNode" && !flexygo.utils.isBlank(e.detailIdentity)) {
+                            if (e.type === "inserted" || e.type === "updated" || e.type === "deleted") {
+                                this.refresh();
+                            }
+                        }
+                    });
+                }
+                /**
+                * Fires when element is detached to DOM
+                * @method disconnectedCallback
+                */
+                disconnectedCallback() {
+                    flexygo.events.off(this, "entity", "all");
                 }
                 /**
               * Fires when the attribute value of the element is changed.
@@ -156,8 +179,9 @@ var flexygo;
                             }
                         }
                         this.initNode = initNode;
-                        this.loadNodes();
+                        return this.loadNodes();
                     }
+                    return;
                 }
                 /**
                 * Refresh de webcomponent.
@@ -166,23 +190,34 @@ var flexygo;
                 refresh() {
                     if ($(this).attr('manualInit') != 'true') {
                         $(this).empty();
-                        this.loadNodes();
+                        return this.loadNodes();
                     }
+                    return;
                 }
                 /**
                * Does post to load Nodes.
                * @method loadNodes
                */
                 loadNodes() {
-                    flexygo.ajax.post('~/api/Navigation', this.method, this.methodParams, (response) => {
-                        $(this).empty();
-                        let arrOrdered = flexygo.utils.sortObject(response, 'Order');
-                        this.loadNodesRet(arrOrdered);
-                        let parentModule = this.closest('flx-module');
-                        if (parentModule) {
-                            parentModule.moduleLoaded(this);
-                        }
-                    });
+                    return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
+                        flexygo.ajax.post('~/api/Navigation', this.method, this.methodParams, 
+                        //Success Function
+                        (response) => {
+                            $(this).empty();
+                            let arrOrdered = flexygo.utils.sortObject(response, 'Order');
+                            this.loadNodesRet(arrOrdered);
+                            let parentModule = this.closest('flx-module');
+                            if (parentModule) {
+                                parentModule.moduleLoaded(this);
+                            }
+                            resolve();
+                        }, 
+                        //Error Function
+                        err => {
+                            flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                            resolve();
+                        });
+                    }));
                 }
                 /**
                 * loads Nodes with post result.
@@ -434,7 +469,7 @@ var flexygo;
                 * @param {JSON} json. json with the nodes
                 * @return {String} Returns nodes built as HTML ul element string
                 */
-                getChildNodes(json) {
+                getChildNodes(json, print = false) {
                     let cnt = '';
                     let ret = json.childnodes;
                     if (Object.keys(ret).length > 0) {
@@ -448,6 +483,7 @@ var flexygo;
                                         cnt += '<li class="separator"></li>';
                                     }
                                     else {
+                                        ret[nKey].print = print;
                                         cnt += flexygo.utils.parser.compile(ret[nKey], this.template, this);
                                     }
                                 }
@@ -568,10 +604,10 @@ var flexygo;
                         case 'report': // Report Link
                             if (json.reportname && json.reportname != '') {
                                 if (json.reporthasparams) {
-                                    retFunction = flexygo.utils.functionToString('flexygo.nav.openReportsParams', [json.reportname, json.reportwhere, json.objectname, json.objectwhere, objDef, json.targetid], [false, '$(this)']);
+                                    retFunction = flexygo.utils.functionToString('flexygo.nav.openReportsParams', [json.reportname, json.reportwhere, json.objectname, json.objectwhere, objDef, json.targetid], [false, '$(this)', json.print]);
                                 }
                                 else {
-                                    retFunction = flexygo.utils.functionToString('flexygo.nav.viewReport', [json.reportname, json.reportwhere, json.objectname, json.objectwhere, objDef, null, json.targetid], [false, '$(this)']);
+                                    retFunction = flexygo.utils.functionToString('flexygo.nav.viewReport', [json.reportname, json.reportwhere, json.objectname, json.objectwhere, objDef, null, json.targetid], [false, '$(this)', json.print]);
                                 }
                             }
                             else {
@@ -710,6 +746,18 @@ var flexygo;
                                     $(e).find('.item-opened').addClass("item-closed").removeClass("item-opened");
                                 }
                             });
+                            //If it's a menu nav and it's gonna open on a side, we check if the default side (right) has enough space availabe and if not we 
+                            if (!navItem.closest('ul').parent().is('flx-nav') && wcNavBar.mode === 'menu') {
+                                const sides_space = flexygo.utils.calculateSidesSpace(navItem[0]);
+                                if (sides_space.right > navChild.width()) {
+                                    navChild.addClass('onRight');
+                                    navChild.removeClass('onLeft');
+                                }
+                                else {
+                                    navChild.addClass('onLeft');
+                                    navChild.removeClass('onRight');
+                                }
+                            }
                             navChild.slideDown(flexygo.utils.animationTime);
                             navItem.removeClass("item-closed").addClass("item-opened");
                         }

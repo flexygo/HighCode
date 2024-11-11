@@ -21,6 +21,7 @@
     --txt-nav-color: @txt-nav-color;
     --txt-outstanding-color: @txt-outstanding-color;
     --txt-color: @txt-color;
+    --txt-muted: @txt-muted;
     /*Notify Colors*/
     --success-color: @success-color;
     --tools-color: @tools-color;
@@ -72,6 +73,10 @@
     --scrollbar-border-radius: @scrollbar-border-radius;
     /*Muted*/
     --muted-blue: @muted-blue;
+    /*Shadows*/
+    --module-manager-shadow: @module-manager-shadow;
+    /*Skeleton*/
+    --skeleton-color: @skeleton-color;
 }
 
 //BODY
@@ -172,7 +177,7 @@ header {
 }
 
 .txt-muted, .txt-muted a, a.txt-muted, .btn-toolbar .btn.txt-danger {
-    color: #bec6cc;
+    color: @txt-muted;
 }
 
 .ellipsis{
@@ -1118,14 +1123,14 @@ button.bg-white {
 
         > .subtitle {
             font-size: 12px;
-            color: #bec6cc;
+            color: @txt-muted;
         }
 
         > .text {
             font-size: 11px;
             width: ~"calc(100% - 11px)";
             position: relative;
-            color: #bec6cc;
+            color: @txt-muted;
         }
     }
 
@@ -1214,7 +1219,7 @@ button.bg-white {
     }
 
     .text-muted {
-        color: #bec6cc;
+        color: @txt-muted;
     }
 
     .btn .caret {
@@ -1233,11 +1238,11 @@ button.bg-white {
 }
 
 .lobibox, .lobibox-notify-wrapper {
-    z-index: 1000001!important;
+    z-index: 10000001!important;
 }
 
 .lobibox-backdrop {
-    z-index: 1000000
+    z-index: 10000000;
 }
 
     // lobibox overloads
@@ -1298,8 +1303,15 @@ pre code {
     padding: 0.3em 1em;
 }
 
+
 .flx-dialog-modal.flx-slide:hover .ui-dialog-titlebar-close, .flx-dialog-modal.flx-slide:hover .ui-widget-header a.flx-icon.icon-select {
     opacity: 1;
+}
+
+@media(max-width: @medium){
+    .flx-dialog-modal.flx-slide .ui-dialog-titlebar-close, .flx-dialog-modal.flx-slide .ui-widget-header a.flx-icon.icon-select {
+        opacity: 1;
+    }
 }
 
 body:not(.develop) .flx-dialog-modal.flx-slide .develop-only {
@@ -1873,4 +1885,9 @@ div.flx-slide [pagename="syspage-list-icons-simplified"] flx-module[modulename="
     position: sticky;
     top: 0;
     z-index: 9;
+}
+
+//fixed flx-slide
+.ui-dialog.flx-slide {
+    position: fixed;
 }

@@ -56,7 +56,7 @@ declare namespace flexygo.ui.wc {
         presetId: string;
         presetText: string;
         presetIcon: string;
-        removePreset: string;
+        removePreset: boolean;
         templatetype: string;
         tEmpty: string;
         tModuleClass: string;
@@ -121,12 +121,12 @@ declare namespace flexygo.ui.wc {
         * Refresh the webcomponent
         * @method refresh
         */
-        refresh(): void;
+        refresh(): Promise<void>;
         /**
        * Init the webcomponent.
        * @method init
        */
-        init(): void;
+        init(): Promise<void>;
         setDefaultOrder(): void;
         saveDefaultOrder(): void;
         setDefaultGroup(): void;
@@ -147,7 +147,7 @@ declare namespace flexygo.ui.wc {
         * @param {boolean} refreshFilters
         * @param {number} newPage
         */
-        initGrid(refreshButtons: boolean, refreshFilters: boolean, newPage?: number): void;
+        initGrid(refreshButtons: boolean, refreshFilters: boolean, newPage?: number): Promise<void>;
         /**
          * Sets the parent module to start loading mode.
          * @method startLoading
@@ -353,4 +353,3 @@ declare namespace flexygo.ui.wc {
     function clearRow(list: JQuery, btn: JQuery): void;
     function saveRow(objectName: string, objectWhere: string, list: JQuery, btn: JQuery, msg?: boolean, lastProcessName?: string, lastAfterProcessName?: string): boolean;
 }
-declare let ev: any;

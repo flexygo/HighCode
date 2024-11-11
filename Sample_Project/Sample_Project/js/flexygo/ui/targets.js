@@ -389,6 +389,7 @@ var flexygo;
                     draggable: false,
                     closeOnEscape: false,
                     close: function () {
+                        $('body').css('overflow', 'initial');
                         let ev = {
                             class: "dialog",
                             type: "closed",

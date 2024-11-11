@@ -31,54 +31,111 @@ flx-relationship .relationship-container {
     justify-content: center;
 }
 
-flx-relationship .table {
-    cursor: auto;
-    transform-origin: 0 0;
-    z-index: 1;
-    overflow: hidden;
-    background: @module-color;
-    width: 218.4px;
-    user-select: none;
-    filter: drop-shadow(0.1rem 0.1rem 0.15rem rgba(0, 0, 0, 0.2));
-}
-flx-relationship .table .header {
-    margin: 0 0 6px 0;
-    background: darken(@module-color,5);
-    display:flex;
-    cursor: move;
-    justify-content: center;
-    text-overflow: ellipsis;
+flx-relationship {
+    .paper {
+
+        > .wrapper {
+            width: 0;
+            height: 0;
+            position: relative;
+        }
+
+        .table {
+            cursor: auto;
+            transform-origin: 0 0;
+            z-index: 1;
+            border-radius: @border-radius;
+            overflow: hidden;
+            background: @module-color;
+            width: 218.4px;
+            padding-bottom: 6px;
+            user-select: none;
+            filter: drop-shadow(0.1rem 0.1rem 0.15rem rgba(0, 0, 0, 0.2));
+
+            .tableTab {
+                height: 4px;
+                background: @outstanding-color;
+            }
+
+            .relationship-header {
+                margin: 0 0 6px 0;
+                background: darken(@module-color,5);
+                display: flex;
+                cursor: move;
+                justify-content: center;
+
+                > .title {
+                    font-size: 21px;
+                    white-space-collapse: preserve;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    color: @txt-color;
+                    font-weight: bold;
+                    font-family: sans-serif;
+                    text-anchor: middle;
+                    padding: 0 3px 0 3px;
+                }
+            }
+
+            .properties {
+                display: flex;
+                flex-direction: column;
+
+                .tableRow {
+                    display: flex;
+                    height: 24px;
+                    align-items: center;
+                    padding: 0px 8px;
+                    color: @txt-color;
+
+                    .tableRowCol {
+                        padding: 2px 8px 2px 0px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+
+                        &[data-type*="column"] {
+                            flex: 1;
+                            min-width: 42%;
+                        }
+                    }
+
+                    .tableRowIcon {
+                        font-size: x-small;
+                        visibility: hidden;
+                        text-overflow: inherit;
+
+                        &.pkKey {
+                            color: #ffc53d;
+                            visibility: visible;
+                        }
+
+                        &.fkKey {
+                            color: #e54666;
+                            visibility: visible;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &[focusable="true"] .properties .tableRow {
+        &:hover, &.active, &.selectedProperty {
+            background-color: #e9e9e9; /* #e8e8ec */
+            border-top: 0.6px solid #d3d3d3;
+            border-bottom: 0.6px solid #d3d3d3;
+
+            .tableRowIcon.relationship {
+                color: inherit;
+                visibility: visible;
+            }
+        }
+    }
 }
 
-flx-relationship .table .tableTab {
-    height: 3px;
-    background: @outstanding-color;
-}
 
-flx-relationship .table .header > .title {
-    font-size: 21px;
-    white-space-collapse: preserve;
-    text-wrap: nowrap;
-    color: @txt-color;
-    font-weight: bold;
-    font-family: sans-serif;
-    text-anchor: middle;
-    padding: 0 3px 0 3px;
-}
-
-flx-relationship .table ul {
-    list-style: none;
-    font-size: 15px;
-    padding: 0 0 6px;
-    margin: 0;
-}
-
-flx-relationship .nameProperties, .typeProperties {
-    flex: 1;
-    width: 50%;
-    box-sizing: border-box;
-}
-
+/*
 flx-relationship .nameProperties > ul > li {
     overflow:hidden;
     text-overflow:ellipsis;
@@ -86,100 +143,7 @@ flx-relationship .nameProperties > ul > li {
     box-sizing: border-box;
     padding: 4.2px 0 4.2px 0;
 }
-
-
-flx-relationship .typeProperties > ul > li {
-    text-align: right;
-    padding: 4.2px 0 4.2px 0;
-    color: #959595;
-    box-sizing: border-box;
-}
-flx-relationship .typeProperties > ul > li > i.icon-key-2 {
-    color: #cecece;
-    margin:0px 6px;
-}
-
-flx-relationship[focusable="true"] .typeProperties > ul > li:hover, flx-relationship[focusable="true"] .nameProperties > ul > li:hover {
-    background: #e9e9e9;
-    border-top: 0.6px solid #d3d3d3;
-    border-bottom: 0.6px solid #d3d3d3;
-}
-
-flx-relationship .typeProperties > ul > li.active, flx-relationship .nameProperties > ul > li.active {
-    background: #e9e9e9;
-    border-top: 0.6px solid #d3d3d3;
-    border-bottom: 0.6px solid #d3d3d3;
-}
-
-flx-relationship .properties {
-    display: flex;
-}
-
-
-flx-relationship .typeProperties span {
-    padding: 0 6px 0 0;
-}
-
-flx-relationship .nameProperties span {
-    padding: 0 0 0 6px;
-}
-
-/*flx-relationship .scroller-paper::-webkit-scrollbar {
-    width: 8px;*/ /* Ancho de la barra de desplazamiento vertical */
-    /*height: 8px;*/ /* Altura de la barra de desplazamiento horizontal */
-/*}
-
-flx-relationship .scroller-paper::-webkit-scrollbar-thumb {
-    background-color: #f3f7f6;*/ /* Color del pulgar de la barra de desplazamiento */
-/*}
-flx-relationship .scroller-paper::-webkit-scrollbar-track {
-    background: #f3f7f6;
-}
-flx-relationship .scroller-paper::-webkit-scrollbar-corner {
-    background: #f3f7f6;
-}*/
-flx-relationship #customContextMenu {
-    position: absolute;
-    font-family: sans-serif;
-    background: rgba(255, 255, 255, 0.21);
-    border-radius: 5px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(1.1px);
-    border: 1px solid rgba(255, 255, 255, 0.64);
-    padding: 0;
-    z-index: 9;
-}
-
-flx-relationship #customContextMenu ul {
-    margin: 0;
-    padding: 0;
-}
-
-flx-relationship #customContextMenu li {
-    padding: 8px 12px;
-    color: @outstanding-color;
-    cursor: pointer;
-    list-style: none;
-}
-
-flx-relationship #customContextMenu li:hover {
-    font-weight: bold;
-}
-flx-relationship .paper > .wrapper {
-    width: 0;
-    height: 0;
-    position: relative;
-}
-
-flx-relationship .hidden {
-    display: none;
-}
-
-flx-relationship .selectedProperty {
-    background: #e9e9e9;
-    border-top: 1px solid #d3d3d3;
-    border-bottom: 1px solid #d3d3d3;
-}
+*/
 
 flx-relationship .relationship-toolbar {
     box-shadow: 0 4px 30px rgba(0,0,0,0.1);

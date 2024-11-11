@@ -122,7 +122,7 @@ declare namespace flexygo.ui.wc {
         * Init the webcomponent.
         * @method init
         */
-        init(): void;
+        init(refresh?: boolean): void;
         /**
         * Refresh de webcomponent.
         * @method refresh
@@ -162,7 +162,6 @@ declare namespace flexygo.ui.wc {
         };
         scaleStyle(element: string, property: string, initialValue: any, currentScale?: any): void;
         showContextMenu(relationKey: string, event: JQueryEventObject): void;
-        toogleOnHover(element: JQuery, onHover: boolean): void;
         centerOffset(element?: HTMLElement): void;
     }
 }

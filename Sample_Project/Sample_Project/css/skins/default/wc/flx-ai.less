@@ -24,30 +24,53 @@
 flx-ai {
     font-family: "Calibri", "Roboto", sans-serif;
 
-    .chat_window.closing {
-        animation: closeAIChat 1s forwards;
-    }
-
-    .chat_window {
-        animation: openAIChat 1s forwards;
+    &[typeId="chat"] .chat_window {
         position: fixed;
-        display: flex;
-        flex-direction: column;
-        right: 0;
-        bottom: 1%;
+        animation: openAIChat 1s forwards;
         width: 30vw;
         min-width: 426px;
         max-width: 800px;
-        border-radius: 10px;
+        height: 75vh;
+
+        .messages {
+            height: 58vh;
+        }
+
+        .chat_window.closing {
+            animation: closeAIChat 1s forwards;
+        }
+    }
+
+    &[typeId="db"] .chat_window {
+        height: 90vh;
+
+        .chat_ai_close {
+            display: none;
+        }
+
+        .messages {
+            height: 100%;
+        }
+    }
+
+    .chat_window {
+        animation: none;
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: column;
+        right: 0;
+        bottom: 1%;
+        border-radius: @border-radius;
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
         background-color: @bg-color;
         overflow: hidden;
-
 
         .top_menu {
             border-bottom: 1px solid @bg-color;
             background-color: @module-color;
             width: 100%;
+            position: relative;
+            border-radius: @border-radius @border-radius 0 0;
             padding: 6px 0 6px;
             box-shadow: 0 1px 30px rgba(0, 0, 0, 0.1);
 
@@ -68,7 +91,7 @@ flx-ai {
 
             .title {
                 text-align: center;
-                color: #bcbdc0;
+                color: @txt-header-color;
                 font-size: 20px;
             }
         }
@@ -78,8 +101,7 @@ flx-ai {
             list-style: none;
             padding: 20px 10px 0 10px;
             margin: 0;
-            height: 55vh;
-            overflow: scroll;
+            overflow: auto;
 
             &::-webkit-scrollbar {
                 background-color: transparent;
@@ -131,6 +153,15 @@ flx-ai {
                         font-size: 18px;
                         margin-top: 2%;
                         font-weight: 300;
+
+                        td {
+                            padding-right: 15px;
+                        }
+
+                        canvas {
+                            display: block;
+                            margin: 0 auto;
+                        }
                     }
 
                     .chat_ai_author {
@@ -221,65 +252,73 @@ flx-ai {
 
         .bottom_wrapper {
             width: 100%;
-            z-index: 4;
+            border-radius: 0 0 @border-radius @border-radius;
             background-color: @module-color;
             padding: 20px 20px 10px 20px;
 
             .message_input_wrapper {
-                display: inline-block;
+                display: flex;
+                gap: .5rem;
+                margin: 5px 0;
+                align-items: flex-end;
                 overflow: hidden;
                 box-sizing: border-box;
-                height: calc(@send_message_button_size + 20);
                 border-radius: 1rem;
                 border: 1px solid #bcbdc0;
                 width: 100%;
                 padding: 0 20px;
 
-                .message_input {
-                    padding-top: 15px;
-                    padding-right: 5rem;
-                    line-height: 20px;
-                    resize: none;
-                    border: none;
-                    height: 100%;
-                    box-sizing: border-box;
-                    font-size: 15px;
-                    width: ~"calc(100% + 20px)"; //the 20 make reference to padding of message_input_wrapper
-                    outline-width: 0;
-                    color: @txt-color;
+                .textarea_container {
+                    flex-direction: column;
+                    flex: 1 1 0%;
+                    display: flex;
 
-                    &::placeholder {
-                        opacity: 0.5;
-                    }
+                    .message_input {
+                        padding-top: 9px;
+                        height: 40px;
+                        padding-right: 5rem;
+                        line-height: 24px;
+                        resize: none;
+                        border: none;
+                        max-height: ~"25dvh";
+                        box-sizing: border-box;
+                        font-size: 15px;
+                        width: ~"calc(100% + 55px)"; //the 20 make reference to padding of message_input_wrapper
+                        outline-width: 0;
+                        color: @txt-color;
 
-                    &::-webkit-scrollbar {
-                        background-color: transparent;
-                        width: 0.5rem;
-                    }
+                        &::placeholder {
+                            opacity: 0.5;
+                        }
 
-                    &::-webkit-scrollbar-thumb {
-                        background-color: #80808099;
-                        border-width: 1px;
-                        border-radius: 6px;
+                        &::-webkit-scrollbar {
+                            background-color: transparent;
+                            width: 0.5rem;
+                        }
+
+                        &::-webkit-scrollbar-thumb {
+                            background-color: #80808099;
+                            border-width: 1px;
+                            border-radius: 6px;
+                        }
                     }
                 }
 
                 .send_message {
                     position: relative;
-                    bottom: 44px;
+                    bottom: 5px;
+                    justify-content: center;
+                    align-items: center;
                     right: -8px;
                     width: @send_message_button_size;
-                    box-sizing: border-box;
                     height: @send_message_button_size;
-                    display: inline-block;
+                    display: flex;
                     border-radius: 0.5rem;
                     background-color: @outstanding-color;
                     border: 2px solid @outstanding-color;
                     color: @module-color;
                     cursor: pointer;
                     transition: all 0.2s linear;
-                    text-align: center;
-                    float: right;
 
                     &:not([disabled]):hover {
                         color: @outstanding-color;
@@ -298,6 +337,31 @@ flx-ai {
                         top: 50%;
                         left: 50%;
                         transform: translate(-50%,-50%);
+                    }
+                }
+
+                #send_voice_message {
+
+                    @keyframes redToDarkRed {
+                        0% {
+                            background-color: red;
+                            border-color: red;
+                        }
+
+                        50% {
+                            background-color: darkred;
+                            border-color: darkred;
+                        }
+
+                        100% {
+                            background-color: red;
+                            border-color: red;
+                        }
+                    }
+
+                    &.listening {
+                        color: @module-color;
+                        animation: redToDarkRed 2s infinite normal;
                     }
                 }
             }
@@ -349,18 +413,23 @@ flx-ai {
 }
 
 
-body:not([mode="dark"]) div.ui-dialog:has(flx-ai), div.ui-dialog:has(flx-ai) {
+body:not([mode="dark"]) div.ui-dialog:has(flx-ai[typeId="chat"]), div.ui-dialog:has(flx-ai[typeId="chat"]) {
     border: none;
     box-shadow: none;
     background-color: transparent;
 }
-.ui-dialog:has(flx-ai) .ui-dialog-titlebar.ui-widget-header.ui-corner-all.ui-helper-clearfix {
+.ui-dialog:has(flx-ai[typeId="chat"]) .ui-dialog-titlebar.ui-widget-header.ui-corner-all.ui-helper-clearfix {
     display: none;
 }
 
-.ui-dialog:has(flx-ai) main.pageContainer.ui-dialog-content.ui-widget-content.ui-dialog-normal {
-    border:none;
-    background-color:transparent !important;
+.ui-dialog:has(flx-ai[typeId="chat"]) main.pageContainer.ui-dialog-content.ui-widget-content.ui-dialog-normal {
+    border: none;
+    background-color: transparent !important;
+}
+
+flx-ai canvas{
+    //max-height : 400px;
+    max-width : 400px;
 }
 
 /****************************************************DARK MODE**********************************************/
@@ -377,6 +446,6 @@ body[mode="dark"] flx-ai {
     }
 }
 
-body[mode="dark"] .ui-widget-content:has(flx-ai) {
+body[mode="dark"] .ui-widget-content:has(flx-ai[typeId="chat"]) {
     background-color: transparent;
 }

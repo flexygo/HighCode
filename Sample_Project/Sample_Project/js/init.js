@@ -174,6 +174,36 @@ function initPage() {
     if (flexygo.debug && flexygo.debug.isDevelopMode && flexygo.debug.isDevelopMode()) {
         flexygo.debug.enableDevelopMode(true, false);
     }
+    if (flexygo.context.currentUserLogin === 'admin' && flexygo.utils.TelemetryEnabled === '') {
+        flexygo.nav.execProcess("IsRunningInVisualStudio", "", "", null, null, "current", false, $(this), ret => {
+            if (!ret.Data.running_on_vs) {
+                Lobibox.confirm({
+                    title: flexygo.localization.translate('msg.noticetitle'),
+                    msg: flexygo.localization.translate('msg.noticemsg'),
+                    iconClass: 'flx-icon icon-information-3',
+                    closeButton: false,
+                    buttonsAlign: 'center',
+                    buttons: {
+                        accept: {
+                            'class': 'lobibox-btn lobibox-btn-yes',
+                            text: flexygo.localization.translate('msg.noticeaccept'),
+                            closeOnClick: true
+                        }
+                    },
+                    callback: (dlg, type, ev) => {
+                        if (type == "accept") {
+                            flexygo.nav.execProcess('SetTelemetry', '', '', null, [{ 'Key': 'Value', 'Value': 'true' }], 'current', false, $(this), null, false);
+                        }
+                    }
+                });
+            }
+        }, false);
+    }
+    $(document).on('keydown', function (ev) {
+        if (ev.ctrlKey && ev.key === 's') {
+            ev.preventDefault();
+        }
+    });
 }
 /**
 * Resize Main.

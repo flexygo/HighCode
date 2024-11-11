@@ -102,6 +102,11 @@ var flexygo;
         * @return {ObjectProperty} .
         */
         class ObjectProperty {
+            constructor() {
+                this.CanView_ComboObject = true;
+                this.CanEdit_ComboObject = true;
+                this.CanInsert_ComboObject = true;
+            }
         }
         api.ObjectProperty = ObjectProperty;
         /**
@@ -228,6 +233,7 @@ var flexygo;
         class ToolbarButton {
             constructor() {
                 this.BagOnly = false;
+                this.ExcludeHist = false;
             }
         }
         api.ToolbarButton = ToolbarButton;
@@ -318,6 +324,12 @@ var flexygo;
         class ButtonPromptLoweredKey {
         }
         api.ButtonPromptLoweredKey = ButtonPromptLoweredKey;
+        class ChatGPTOptions {
+        }
+        api.ChatGPTOptions = ChatGPTOptions;
+        class ChatGPTOptionsLoweredKey {
+        }
+        api.ChatGPTOptionsLoweredKey = ChatGPTOptionsLoweredKey;
         class RequestChatGPTParameters {
         }
         api.RequestChatGPTParameters = RequestChatGPTParameters;
@@ -735,6 +747,33 @@ var flexygo;
             }
             edit.getEditConfigParams = getEditConfigParams;
             /**
+           * api for getPropertyWizardConfigParams
+           * @class getPropertyWizardConfigParams
+           * @constructor
+           * @return {getPropertyWizardConfigParams} .
+           */
+            class getPropertyWizardConfigParams {
+            }
+            edit.getPropertyWizardConfigParams = getPropertyWizardConfigParams;
+            /**
+            * api for getProcessParamsConfigParams
+            * @class getProcessParamsConfigParams
+            * @constructor
+            * @return {getProcessParamsConfigParams}.
+            */
+            class getProcessParamsConfigParams {
+            }
+            edit.getProcessParamsConfigParams = getProcessParamsConfigParams;
+            /**
+            * api for getReportParamsConfigParams
+            * @class getReportParamsConfigParams
+            * @constructor
+            * @return {getReportParamsConfigParams}.
+            */
+            class getReportParamsConfigParams {
+            }
+            edit.getReportParamsConfigParams = getReportParamsConfigParams;
+            /**
            * api for getEditConfigResponse
            * @class getEditConfigResponse
            * @constructor
@@ -743,6 +782,24 @@ var flexygo;
             class getEditConfigResponse {
             }
             edit.getEditConfigResponse = getEditConfigResponse;
+            /**
+            * api for getProcessParamsConfigResponse
+            * @class getProcessParamsConfigResponse
+            * @constructor
+            * @return {getProcessParamsConfigResponse} .
+            */
+            class getProcessParamsConfigResponse {
+            }
+            edit.getProcessParamsConfigResponse = getProcessParamsConfigResponse;
+            /**
+            * api for getReportParamsConfigResponse
+            * @class getReportParamsConfigResponse
+            * @constructor
+            * @return {getReportParamsConfigResponse} .
+            */
+            class getReportParamsConfigResponse {
+            }
+            edit.getReportParamsConfigResponse = getReportParamsConfigResponse;
             /**
            * api for getNewPropertiesParams
            * @class getNewPropertiesParams
@@ -1253,6 +1310,15 @@ var flexygo;
             * @class GetHTMLParams
             * @constructor
             * @return {GetHTMLParams} .
+            */
+            class GetHTMLResponse {
+            }
+            rss.GetHTMLResponse = GetHTMLResponse;
+            /**
+            * api for GetVersionInfoParams
+            * @class GetVersionInfoParams
+            * @constructor
+            * @return {GetVersionInfoParams} .
             */
             class GetVersionInfoParams {
             }

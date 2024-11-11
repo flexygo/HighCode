@@ -238,7 +238,7 @@ var flexygo;
                     let htmlCtl = '';
                     htmlCtl += '<div>';
                     htmlCtl += '<div class="onoffswitch">';
-                    htmlCtl += '    <input type="checkbox" style="display:none" name="onoffswitch" class="onoffswitch-checkbox" id="' + id + '">';
+                    htmlCtl += '    <input type="checkbox" style="display:none" name="onoffswitch" class="onoffswitch-checkbox form-control" id="' + id + '">';
                     htmlCtl += '    <label class="onoffswitch-label" for="' + id + '">';
                     htmlCtl += '        <span class="onoffswitch-inner"></span>';
                     htmlCtl += '        <span class="onoffswitch-switch"></span>';
@@ -275,7 +275,7 @@ var flexygo;
                         input.attr('name', flexygo.utils.uniqueName());
                     }
                     const module = me.closest('flx-module')[0];
-                    if ((this.options && this.options.CauseRefresh) || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
+                    if ((this.options && (this.options.CauseRefresh || this.options.SQLValidator != null)) || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
                         input.on('change', (e) => {
                             //$(document).trigger('refreshProperty', [input.closest('flx-edit'), this.options.Name]);
                             let ev = {
@@ -286,6 +286,9 @@ var flexygo;
                             };
                             flexygo.events.trigger(ev, me);
                         });
+                        if (this.options && this.options.ValidatorMessage && this.options.ValidatorMessage !== '') {
+                            input.attr('data-msg-sqlvalidator', this.options.ValidatorMessage);
+                        }
                     }
                     if (this.options && this.options.Locked) {
                         input.prop('disabled', this.options.Locked);

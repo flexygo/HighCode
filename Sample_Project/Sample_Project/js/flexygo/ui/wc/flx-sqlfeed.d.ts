@@ -32,8 +32,8 @@ declare namespace flexygo.ui.wc {
        * @method attributeChangedCallback
        */
         attributeChangedCallback(attrName: string, oldVal: any, newVal: any): void;
-        refresh(): void;
-        init(): void;
+        refresh(): Promise<void>;
+        init(): Promise<void>;
         flxTranslate(str: string): string;
         startLoading(): void;
         stopLoading(): void;

@@ -9,7 +9,8 @@ var flexygo;
         (function (itit) {
             itit.process = {
                 executing: 'Processo in esecuzione...',
-                loadingdata: 'Caricamento dati...'
+                loadingdata: 'Caricamento dati...',
+                pleaserefresh: 'È necessario aggiornare l&#39;applicazione.Vuoi farlo adesso?'
             };
             itit.dependecymanager = {
                 sort: 'Ordine',
@@ -19,7 +20,7 @@ var flexygo;
                 enabledep: 'Abilitato',
                 visibledep: 'Visibile',
                 requireddep: 'Necessario',
-                CustomProperty: 'Custom Property Dep.',
+                CustomProperty: 'Proprietà personalizzata',
                 save: 'Salvare',
                 addmore: 'Aggiungi altre proprietà dipendenti',
                 addmorefilter: 'Aggiungi altre proprietà dipendenti',
@@ -42,9 +43,16 @@ var flexygo;
                 SQLCustomProperty: 'SQL Custom Property',
                 connectionstrings: 'Stringhe di connessione',
                 connStringvalues: 'Valori della stringa di connessione',
-                relateddep: 'Dipendenze correlate'
+                relateddep: 'Dipendenze correlate',
+                sqllabel: 'Etichetta SQL'
             };
             itit.develop = {
+                pagename: 'Pagina di conf.',
+                placeholder: 'Seleziona l\'oggetto per ottenere la configurazione.',
+                originSystem: '0. Sistema',
+                originProduct: '1. Prodotto',
+                originProject: '2. Progetto',
+                originUser: '3. Utente',
                 developer: 'Sviluppatore',
                 adminarea: 'Area di progettazione',
                 help: 'Aiuto',
@@ -73,6 +81,7 @@ var flexygo;
                 users: 'Utenti',
                 roles: 'Ruoli',
                 processes: 'Processi',
+                minifyjscss: 'Minimizzare JS/CSS'
             };
             itit.history = {
                 historyempty: 'Cronologia di navigazione vuota',
@@ -90,6 +99,10 @@ var flexygo;
                 confirm: 'Confirme la acción',
                 fieldrequired: 'Conferma l&#39;azione',
                 copied: 'Copiato',
+                noticetitle: 'Avviso sulla raccolta dei dati',
+                noticemsg: `Flexygo raccoglie ed elabora i dati con l'obiettivo di migliorare la tua esperienza e ottimizzare le prestazioni dei nostri servizi. <a class="clickable" target="_blank" href="https://docs.flexygo.com/telemetry.html">Ulteriori informazioni</a>`,
+                noticeaccept: 'Accettare',
+                tokentimeout: 'Il valore inserito è troppo alto'
             };
             itit.flxkanban = {
                 addCard: 'Aggiungere nuova',
@@ -138,7 +151,10 @@ var flexygo;
                 affectedby: 'Colpiti da',
                 persistdefaultvalue: 'Predefinito persistente',
                 defaultvalue: 'Valore di default',
-                detachedproperty: 'Proprietà disconnessa'
+                detachedproperty: 'Proprietà disconnessa',
+                notdisplayform: 'Non mostrare nel modulo',
+                tips: 'Suggerimenti',
+                ctrclick: 'Puoi accedere direttamente alle opzioni avanzate di un immobile utilizzando control + clic'
             };
             itit.flxeditgrid = {
                 addrow: 'Aggiungi riga',
@@ -338,6 +354,7 @@ var flexygo;
                 requiredreport: 'Completa tutti i parametri richiesti prima di avviare il rapporto.',
                 deleted: 'Cancellato :)',
                 saved: 'Salvato :)',
+                errorSaving: 'Si è verificato un errore nel salvataggio',
                 uniqueBagError: 'Campo chiave univoco non definito.',
                 nofieldBagError: 'Il campo <b>{0}</b> non è stato trovato. Aggiungilo alla query o rimuovi il pulsante di opzione.',
                 noItemsSelected: 'Per prima cosa seleziona un elemento dall&#39;elenco.',
@@ -476,6 +493,9 @@ var flexygo;
                 events: 'Eventi collegati',
                 security: 'Sicurezza de modulo',
                 tabMode: 'Tipo di tab',
+                groups: 'Gruppo per',
+                objectGroup: 'Oggetto',
+                moduleTypeGroup: 'Tipo di modulo',
             };
             itit.moduletab = {
                 emptytabs: 'Tabs vuote',
@@ -537,6 +557,9 @@ var flexygo;
                 colproperties: 'Proprietà Edit grid (opzionale)',
                 save: 'Salvare',
                 filtersettings: 'Ambientazione di filtri',
+                listtemplatesettings: "Modello di Elenco (opzionale)",
+                viewtemplatesettings: "Modello di Visualizzazione (opzionale)",
+                createdatamodel: 'Creare un modello di dati'
             };
             itit.flxpropertymanager = {
                 addfields: 'Fare clic su "aggiungi campi" per iniziare.',
@@ -555,6 +578,28 @@ var flexygo;
                 close: 'Chiudere',
                 hasdefinition: 'Controlla la tabella per la proprietà:',
                 valueTemplate: 'Valore',
+                areYouSure: "Siete sicuri di non voler salvare le modifiche di @?",
+                quickStart: "Seleziona una proprietà per iniziare rapidamente a configurarla",
+                quickSettings: "Impostazioni rapide",
+                default: "Valore predefinito",
+                css: "Classe CSS",
+                icon: "Icona",
+                hide: "Nascondi",
+                isrequired: "È richiesto",
+                settings: "Impostazioni di controllo",
+                type: "Tipo",
+                customSettings: "Eredita impostazioni",
+                sqlValue: "Campo di valore SQL",
+                sqlDisplay: "Campo di visualizzazione SQL",
+                extension: "Estensione",
+                sqlSentence: "Sentenza SQL",
+                connectionString: "Stringa di connessione",
+                pathType: "Tipo di percorso radice",
+                path: "Percorso radice",
+                compression: "Compressione immagine",
+                width: "Larghezza massima",
+                height: "Altezza massima",
+                barcode: "Lettori di codici a barre"
             };
             itit.flxversioninfo = {
                 currentversion: 'Versione corrente ({{CurrentVersion}}).',
@@ -861,10 +906,11 @@ var flexygo;
                 maxSize: "Taglia massima",
             };
             itit.databaseScript = {
-                infoGenerate: "I file verranno generati direttamente nella cartella predefinita",
-                infoDownload: "I file verranno compressi in una zip e scaricati",
+                infoGenerate: "Gli script dei dati verranno generati direttamente nella cartella degli script predefinita",
+                infoDownload: "Gli script dei dati verranno compressi in un file zip e inviati per il download",
                 generate: "Genera file",
-                download: "Scaricare files"
+                download: "Scaricare files",
+                infoStructure: "e gli script di struttura verranno generati direttamente nella cartella degli script predefinita"
             };
             itit.flxcode = {
                 readonlyMode: 'Non puoi modificare in modalità di visualizzazione',
@@ -932,7 +978,39 @@ var flexygo;
                 deprecated: 'Deprecato',
                 features: 'Nuove caratteristiche',
                 fixes: 'Correzioni',
-                notfound: 'Nessuna versione trovata.'
+                notfound: 'Nessuna versione trovata.',
+                noreleasenotes: 'Nessuna nota di rilascio.'
+            };
+            itit.getTableChangesPage = {
+                needsADate: 'Selezionare una data per filtrare su tutte le tabelle',
+                needsFiltering: 'È necessario filtrare per una data prima di generare lo script',
+                needsGenerating: "È necessario generare prima lo script",
+                loading: 'Generare lo script...',
+                selectATable: 'Selezionare almeno una tabella per lo script'
+            };
+            itit.flxnotification = {
+                showAll: 'Vedi tutti',
+                allOk: 'Tutto ok',
+                title: 'Ultime notifiche'
+            };
+            itit.flxtemplatemanager = {
+                titleView: 'Seleziona la vista dei dati che desideri utilizzare',
+                placeholderView: "Proprietà dell'oggetto",
+                titleManager: 'Seleziona la proprietà corrispondente in ogni segnaposto',
+                placeholderManager: 'Seleziona la proprietà corrispondente',
+                saveManager: 'Salva',
+                confirmSaveManager: 'Sei sicuro di voler salvare e generare il modello?',
+                newView: 'Inserisci il nuovo nome della vista',
+                errorTemplate: "Errore nella creazione del modello",
+                existsTemplate: "Il modello esiste già",
+                successTemplate: "Modello creato con successo",
+                noView: "Nessuna vista selezionata",
+                noObject: "Per favore, seleziona un oggetto"
+            };
+            itit.flxchatgptfieldselector = {
+                addButton: 'Aggiungi Tabelle',
+                clearButton: 'Cancella Tabelle',
+                saveButton: 'Salva Modifiche'
             };
         })(itit = culture.itit || (culture.itit = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

@@ -99,12 +99,12 @@ declare namespace flexygo.ui.wc {
         * Init the webcomponent. REQUIRED.
         * @method init
         */
-        init(): void;
+        init(): Promise<void>;
         /**
         * Refresh of webcomponent. REQUIRED.
         * @method refresh
         */
-        refresh(): void;
+        refresh(): Promise<void>;
         /**
         * Set filter of webcomponent. REQUIRED.
         * @method refresh
@@ -140,7 +140,7 @@ declare namespace flexygo.ui.wc {
         * Get Timeline.
         * @method getTimeline
         */
-        getTimeline(): void;
+        getTimeline(): Promise<void>;
         /**
         * Build Vis Options.
         * @method buildVisOptions

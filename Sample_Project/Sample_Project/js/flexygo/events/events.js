@@ -187,7 +187,9 @@ var flexygo;
                                 switch (event.class) {
                                     case "entity":
                                         let entity = event.sender;
-                                        if (ee.ObjectFilter === "" || (entity && entity.objectName && ee.ObjectFilter.toLowerCase() === entity.objectName.toLowerCase())) {
+                                        let objectName = (entity ? entity.objectName : "");
+                                        objectName = event.type == "check" || event.type == "uncheck" ? entity.childname : objectName;
+                                        if (ee.ObjectFilter === "" || (objectName && ee.ObjectFilter.toLowerCase() === objectName.toLowerCase())) {
                                             catched = true;
                                         }
                                         break;
@@ -227,6 +229,9 @@ var flexygo;
                                     case "document":
                                         catched = true;
                                         break;
+                                    case "image":
+                                        catched = true;
+                                        break;
                                 }
                                 if (catched) {
                                     switch (ee.EventAction) {
@@ -234,7 +239,8 @@ var flexygo;
                                             e.refresh();
                                             break;
                                         case "process":
-                                            flexygo.nav.execProcess(ee.ProcessName, (event.class == "entity") ? event.masterIdentity : e.objectname, (event.class == "entity") ? event.detailIdentity : e.objectwhere, null, null, null, false, $(e), null, null, null, null, event);
+                                            let objectWhere = (event.class == "entity") ? ((event.type == "check" || event.type == "uncheck") ? event.detailIdentity.moduleFilter : event.detailIdentity) : e.objectwhere;
+                                            flexygo.nav.execProcess(ee.ProcessName, (event.class == "entity") ? event.masterIdentity : e.objectname, objectWhere, null, null, null, false, $(e), null, null, null, null, event);
                                             break;
                                         default:
                                             console.warn('Event Action: ' + ee.EventAction);

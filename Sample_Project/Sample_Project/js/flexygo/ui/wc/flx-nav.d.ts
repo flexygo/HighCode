@@ -41,6 +41,11 @@ declare namespace flexygo.ui.wc {
         * @method connectedCallback
         */
         connectedCallback(): void;
+        /**
+        * Fires when element is detached to DOM
+        * @method disconnectedCallback
+        */
+        disconnectedCallback(): void;
         static readonly observedAttributes: string[];
         /**
       * Fires when the attribute value of the element is changed.
@@ -54,17 +59,17 @@ declare namespace flexygo.ui.wc {
         * Init the webcomponent.
         * @method init
         */
-        init(): void;
+        init(): Promise<void>;
         /**
         * Refresh de webcomponent.
         * @method refresh
         */
-        refresh(): void;
+        refresh(): Promise<void>;
         /**
        * Does post to load Nodes.
        * @method loadNodes
        */
-        loadNodes(): void;
+        loadNodes(): Promise<void>;
         /**
         * loads Nodes with post result.
         * @method loadNodesRet
@@ -116,7 +121,7 @@ declare namespace flexygo.ui.wc {
         * @param {JSON} json. json with the nodes
         * @return {String} Returns nodes built as HTML ul element string
         */
-        getChildNodes(json: flexygo.api.navigation.LoweredNavigationNode): string;
+        getChildNodes(json: flexygo.api.navigation.LoweredNavigationNode, print?: boolean): string;
         /**
         * set Additional Buttons
         * @method setAdditionalButtons

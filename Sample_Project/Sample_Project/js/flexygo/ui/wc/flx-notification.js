@@ -55,12 +55,12 @@ var flexygo;
                 * @method init
                 */
                 init() {
-                    this.refresh();
                     flexygo.events.on(this, 'push', 'notify', function (e) {
                         if (e.masterIdentity == 'updateBadgeNotice' && typeof e.sender['pendingNotices'] != 'undefined') {
                             this.updateBadge(e.sender.pendingNotices, true);
                         }
                     });
+                    return this.refresh();
                 }
                 /**
                 * Refreses Web Control
@@ -76,10 +76,21 @@ var flexygo;
                         });
                     }
                     else {
-                        let tooltip = '<flx-tooltip container="body" mode="popover" placement="bottom"><div class="notifypopover"><flx-list objectname="sysNotices" objectwhere="" templateId="sysNotiFyListPopup" modulename="sysmod-Notification-list"></flx-list></div></flx-tooltip>';
+                        let tooltip = $(`<flx-tooltip container="body" mode="popover" placement="bottom">
+                                    <div class="notifypopover">
+                                        <h4 class="text-center notificationsTitle"><i class="fa fa-bell-o icon-margin-right"></i>${flexygo.localization.translate('flxnotification.title')}</h4>
+                                        <flx-list objectname="sysNotices" objectwhere="" modulename="sysmod-Notification-list"/>
+                                        <div class="row">
+                                            <div class="btn-group notifypopover-buttons">
+                                                <button class="size-xs btn btn-default showAll" onclick="$(document).find('flx-notification')[0].showAll(this)">${flexygo.localization.translate('flxnotification.showAll')}</button>
+                                                <button class="size-xs btn btn-default" onclick="$(document).find('flx-notification')[0].markAsRead(this,null)">${flexygo.localization.translate('flxnotification.allOk')}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                               </flx-tooltip>`);
                         ctx.prepend(tooltip);
                     }
-                    this.refreshBadge();
+                    return this.refreshBadge();
                 }
                 /**
                * Navigates to notify node specification
@@ -103,10 +114,21 @@ var flexygo;
                 */
                 refreshBadge() {
                     if ($('#notifyBadge')) {
-                        flexygo.ajax.post('~/api/Notify', 'GetBadgeValue', null, (response) => {
-                            this.updateBadge(response, false);
+                        return new Promise((resolve, _) => {
+                            flexygo.ajax.post('~/api/Notify', 'GetBadgeValue', null, 
+                            //Success Function
+                            (response) => {
+                                this.updateBadge(response, false);
+                                resolve();
+                            }, 
+                            //Error Function
+                            err => {
+                                flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                                resolve();
+                            });
                         });
                     }
+                    return;
                 }
                 /**
                 * Refereshes Notify Badge
@@ -121,14 +143,19 @@ var flexygo;
                     }
                     if (pendingNotices > parseInt(currentNotices)) {
                         var snd = new Audio(flexygo.utils.resolveUrl('~/js/plugins/lobibox-master/sounds/sound1.ogg'));
-                        if (!flexygo.utils.testMode) {
+                        if (!flexygo.utils.testMode && sound) {
                             snd.play();
                         }
                     }
                     if (pendingNotices == 0) {
                         $('#notifyBadge').html('');
                     }
+                    else if (pendingNotices > 9) {
+                        $('#notifyBadge').css({ padding: "2px" });
+                        $('#notifyBadge').html("+9");
+                    }
                     else {
+                        $('#notifyBadge').css({ padding: "2px 6px" });
                         $('#notifyBadge').html(pendingNotices.toString());
                     }
                 }
@@ -152,6 +179,13 @@ var flexygo;
                         }
                         this.refreshBadge();
                     });
+                }
+                showAll(elm) {
+                    let popover = $(elm).closest('.popover');
+                    if (elm && popover.length > 0) {
+                        $(this).popover('hide');
+                        flexygo.nav.openPageName('syspage-extended-notify', 'sysNotices', '', null, 'current', false, null);
+                    }
                 }
             }
             wc.FlxNotificationElement = FlxNotificationElement;

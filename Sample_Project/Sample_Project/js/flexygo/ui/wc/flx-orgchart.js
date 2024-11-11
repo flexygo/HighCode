@@ -1,3 +1,12 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var flexygo;
 (function (flexygo) {
     var ui;
@@ -88,54 +97,71 @@ var flexygo;
                */
                 refresh() {
                     if ($(this).attr('manualInit') != 'true') {
-                        this.init();
+                        return this.init();
                     }
+                    return;
                 }
                 /**
                * Init the webcomponent.
                * @method init
                */
                 init() {
-                    let me = $(this);
-                    me.removeAttr('manualInit');
-                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
-                    me.empty();
-                    this.options = { chart: { connectors: { type: 'step' }, node: { HTMLclass: 'orgchartnode' }, hideRootNode: true, animteOnInit: true } };
-                    if (this.moduleName) {
-                        let def;
-                        let histObj = flexygo.history.get(me);
-                        if (typeof histObj != 'undefined' && histObj.defaults) {
-                            if (typeof histObj.defaults == 'string') {
-                                def = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
-                            }
-                            else {
-                                def = histObj.defaults;
-                            }
-                        }
-                        let params = {
-                            ObjectName: me.attr('ObjectName'),
-                            ObjectWhere: me.attr('ObjectWhere'),
-                            ModuleName: me.attr('ModuleName'),
-                            PageName: flexygo.history.getPageName(me),
-                            Defaults: flexygo.utils.dataToArray(def),
-                            AdditionalWhere: this.AdditionalWhere,
-                        };
-                        flexygo.ajax.post('~/api/OrgChart', 'GetNodes', params, (response) => {
-                            if (response) {
-                                this.tHeader = response.Template.Header;
-                                this.tFooter = response.Template.Footer;
-                                this.tBody = response.Template.Body;
-                                this.data = response.Template.TableData;
-                                if (!flexygo.utils.isBlank(response.Options)) {
-                                    this.options = response.Options;
+                    return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
+                        let me = $(this);
+                        me.removeAttr('manualInit');
+                        $(this).closest('flx-module').find('.flx-noInitContent').remove();
+                        me.empty();
+                        this.options = { chart: { connectors: { type: 'step' }, node: { HTMLclass: 'orgchartnode' }, hideRootNode: true, animteOnInit: true } };
+                        if (this.moduleName) {
+                            let def;
+                            let histObj = flexygo.history.get(me);
+                            if (typeof histObj != 'undefined' && histObj.defaults) {
+                                if (typeof histObj.defaults == 'string') {
+                                    def = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
                                 }
-                                this.render();
+                                else {
+                                    def = histObj.defaults;
+                                }
                             }
-                            else {
+                            let params = {
+                                ObjectName: me.attr('ObjectName'),
+                                ObjectWhere: me.attr('ObjectWhere'),
+                                ModuleName: me.attr('ModuleName'),
+                                PageName: flexygo.history.getPageName(me),
+                                Defaults: flexygo.utils.dataToArray(def),
+                                AdditionalWhere: this.AdditionalWhere,
+                            };
+                            flexygo.ajax.post('~/api/OrgChart', 'GetNodes', params, 
+                            //Success Function
+                            (response) => {
+                                if (response) {
+                                    this.tHeader = response.Template.Header;
+                                    this.tFooter = response.Template.Footer;
+                                    this.tBody = response.Template.Body;
+                                    this.data = response.Template.TableData;
+                                    if (!flexygo.utils.isBlank(response.Options)) {
+                                        this.options = response.Options;
+                                    }
+                                    this.render();
+                                }
+                                else {
+                                    this.stopLoading();
+                                }
+                                resolve();
+                            }, 
+                            //Error Function
+                            err => {
+                                flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
                                 this.stopLoading();
-                            }
-                        }, (error) => { flexygo.exceptions.httpShow(error); this.stopLoading(); }, null, () => { this.startLoading(); });
-                    }
+                                resolve();
+                            }, null, 
+                            //Before Function
+                            () => { this.startLoading(); });
+                        }
+                        else {
+                            resolve();
+                        }
+                    }));
                 }
                 /**
                * Render from module configuration.
@@ -146,6 +172,7 @@ var flexygo;
                     let parentModule = me.closest('flx-module');
                     let wcModule = parentModule[0];
                     let rendered = '';
+                    flexygo.utils.modules.removeSkeleton(wcModule); //We remove the skeleton so the chart gets properly rendered
                     if (this.data.length > 0) {
                         if (this.tHeader && this.tHeader !== '') {
                             let render = flexygo.utils.parser.recursiveCompile(this.data[0], this.tHeader, this);

@@ -37,18 +37,18 @@ declare namespace flexygo.ui.wc {
         * Init the webcomponent.
         * @method init
         */
-        init(): void;
+        init(): Promise<void>;
         resto: number;
         /**
         * Refresh de webcomponent.
         * @method refresh
         */
-        refresh(): void;
+        refresh(): Promise<void>;
         /**
        * Gets filters from controller
        * @method getFilters
        */
-        getFilters(): void;
+        getFilters(): Promise<void>;
         /**
          * Hides the properties already selected
          * @method hideProperties

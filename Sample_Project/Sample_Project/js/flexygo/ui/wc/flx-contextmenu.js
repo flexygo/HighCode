@@ -46,7 +46,9 @@ var flexygo;
                     this.menu.show();
                     this.setPosition(coord);
                     $(window).on('resize.contextmenu', () => { this.setPosition(coord); this.menu.find('[submenuid]').hide(); });
-                    this.parent.closest('main').parent().on('scroll.contextmenu', () => { this.setPosition(coord); this.menu.find('[submenuid]').hide(); });
+                    if (this.parent) {
+                        this.parent.closest('main').parent().on('scroll.contextmenu', () => { this.setPosition(coord); this.menu.find('[submenuid]').hide(); });
+                    }
                 }
                 setPosition(coord) {
                     if (coord) {

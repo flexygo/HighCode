@@ -5,6 +5,7 @@ declare namespace flexygo.culture.itit {
     const process: {
         executing: string;
         loadingdata: string;
+        pleaserefresh: string;
     };
     const dependecymanager: {
         sort: string;
@@ -38,8 +39,15 @@ declare namespace flexygo.culture.itit {
         connectionstrings: string;
         connStringvalues: string;
         relateddep: string;
+        sqllabel: string;
     };
     const develop: {
+        pagename: string;
+        placeholder: string;
+        originSystem: string;
+        originProduct: string;
+        originProject: string;
+        originUser: string;
         developer: string;
         adminarea: string;
         help: string;
@@ -68,6 +76,7 @@ declare namespace flexygo.culture.itit {
         users: string;
         roles: string;
         processes: string;
+        minifyjscss: string;
     };
     const history: {
         historyempty: string;
@@ -85,6 +94,10 @@ declare namespace flexygo.culture.itit {
         confirm: string;
         fieldrequired: string;
         copied: string;
+        noticetitle: string;
+        noticemsg: string;
+        noticeaccept: string;
+        tokentimeout: string;
     };
     const flxkanban: {
         addCard: string;
@@ -134,6 +147,9 @@ declare namespace flexygo.culture.itit {
         persistdefaultvalue: string;
         defaultvalue: string;
         detachedproperty: string;
+        notdisplayform: string;
+        tips: string;
+        ctrclick: string;
     };
     const flxeditgrid: {
         addrow: string;
@@ -333,6 +349,7 @@ declare namespace flexygo.culture.itit {
         requiredreport: string;
         deleted: string;
         saved: string;
+        errorSaving: string;
         uniqueBagError: string;
         nofieldBagError: string;
         noItemsSelected: string;
@@ -471,6 +488,9 @@ declare namespace flexygo.culture.itit {
         events: string;
         security: string;
         tabMode: string;
+        groups: string;
+        objectGroup: string;
+        moduleTypeGroup: string;
     };
     const moduletab: {
         emptytabs: string;
@@ -532,6 +552,9 @@ declare namespace flexygo.culture.itit {
         colproperties: string;
         save: string;
         filtersettings: string;
+        listtemplatesettings: string;
+        viewtemplatesettings: string;
+        createdatamodel: string;
     };
     const flxpropertymanager: {
         addfields: string;
@@ -550,6 +573,28 @@ declare namespace flexygo.culture.itit {
         close: string;
         hasdefinition: string;
         valueTemplate: string;
+        areYouSure: string;
+        quickStart: string;
+        quickSettings: string;
+        default: string;
+        css: string;
+        icon: string;
+        hide: string;
+        isrequired: string;
+        settings: string;
+        type: string;
+        customSettings: string;
+        sqlValue: string;
+        sqlDisplay: string;
+        extension: string;
+        sqlSentence: string;
+        connectionString: string;
+        pathType: string;
+        path: string;
+        compression: string;
+        width: string;
+        height: string;
+        barcode: string;
     };
     const flxversioninfo: {
         currentversion: string;
@@ -860,6 +905,7 @@ declare namespace flexygo.culture.itit {
         infoDownload: string;
         generate: string;
         download: string;
+        infoStructure: string;
     };
     const flxcode: {
         readonlyMode: string;
@@ -928,5 +974,37 @@ declare namespace flexygo.culture.itit {
         features: string;
         fixes: string;
         notfound: string;
+        noreleasenotes: string;
+    };
+    const getTableChangesPage: {
+        needsADate: string;
+        needsFiltering: string;
+        needsGenerating: string;
+        loading: string;
+        selectATable: string;
+    };
+    const flxnotification: {
+        showAll: string;
+        allOk: string;
+        title: string;
+    };
+    const flxtemplatemanager: {
+        titleView: string;
+        placeholderView: string;
+        titleManager: string;
+        placeholderManager: string;
+        saveManager: string;
+        confirmSaveManager: string;
+        newView: string;
+        errorTemplate: string;
+        existsTemplate: string;
+        successTemplate: string;
+        noView: string;
+        noObject: string;
+    };
+    const flxchatgptfieldselector: {
+        addButton: string;
+        clearButton: string;
+        saveButton: string;
     };
 }

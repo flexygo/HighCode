@@ -1,6 +1,15 @@
 /**
  * @namespace flexygo.ui.wc
  */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var flexygo;
 (function (flexygo) {
     var ui;
@@ -58,51 +67,98 @@ var flexygo;
                */
                 refresh() {
                     if ($(this).attr('manualInit') != 'true') {
-                        this.init();
+                        return this.init();
                     }
+                    return;
                 }
                 /**
                 * Init the webcomponent.
                 * @method init
                 */
                 init() {
-                    let me = $(this);
-                    me.removeAttr('manualInit');
-                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
-                    me.html('');
-                    me.css("display", "block");
-                    me.css('height', '130px');
-                    let params = {
-                        ObjectName: me.attr('ObjectName'),
-                        ObjectWhere: me.attr('ObjectWhere'),
-                        "ModuleName": this.moduleName,
-                        "PageName": flexygo.history.getPageName(me)
-                    };
-                    if (this.productsVersionInfo == undefined) {
-                        flexygo.ajax.post('~/api/Rss', 'GetVersionInfo', params, (response) => {
-                            if (response) {
-                                response.Products.forEach((product) => {
-                                    product.Versions = JSON.parse(product.Versions);
-                                });
-                                this.productsVersionInfo = response.Products;
-                                this.render();
-                                this.setMainEvents();
-                                flexygo.utils.removeLoadingEffect(me.closest('flx-module')[0]);
+                    return __awaiter(this, void 0, void 0, function* () {
+                        let me = $(this);
+                        let module = $(this).closest('flx-module');
+                        me.removeAttr('manualInit');
+                        module.find('.flx-noInitContent').remove();
+                        me.html('');
+                        me.css("display", "block");
+                        me.css('height', '130px');
+                        //We show the loading spinner
+                        if (module.length)
+                            flexygo.utils.showLoadingEffect(0, module[0], null, "top", true);
+                        let params = {
+                            ObjectName: me.attr('ObjectName'),
+                            ObjectWhere: me.attr('ObjectWhere'),
+                            "ModuleName": this.moduleName,
+                            "PageName": flexygo.history.getPageName(me)
+                        };
+                        if (this.getAttribute('mode') === 'GetVersionInfo') {
+                            yield this.initVersionInfo(module, params);
+                        }
+                        else {
+                            yield this.initRSS(module, params);
+                        }
+                        //We remove the display and height styles and hide the loading spinner even if there's an error
+                        me.css("display", "initial");
+                        me.css('height', 'inherit');
+                        if (module.length)
+                            flexygo.utils.removeLoadingEffect(module[0]);
+                    });
+                }
+                initVersionInfo(module, params) {
+                    return __awaiter(this, void 0, void 0, function* () {
+                        //We check for version info
+                        const has_version_info = yield this.setProductVersionInfo(params, module);
+                        //If there's version info we render normally the component
+                        if (has_version_info) {
+                            this.render();
+                            this.setMainEvents();
+                        }
+                        return;
+                    });
+                }
+                setProductVersionInfo(params, module) {
+                    return __awaiter(this, void 0, void 0, function* () {
+                        //If no product info has already been loaded we search for it
+                        if (!this.productsVersionInfo) {
+                            try {
+                                let response = yield flexygo.ajax.promisePost('~/api/Rss', 'GetVersionInfo', params, false, false);
+                                //If a response is received we properly set the productsVersionInfo on the HTMLElement
+                                if (response) {
+                                    response.Products.forEach((product) => {
+                                        product.Versions = JSON.parse(product.Versions);
+                                    });
+                                    this.productsVersionInfo = response.Products;
+                                }
+                                //If its contained inside a flx-module, we execute its moduleLoaded function
+                                if (module.length) {
+                                    module[0].moduleLoaded(this);
+                                }
                             }
-                        }, null, () => {
-                            me.css("display", "initial");
-                            me.css('height', 'inherit');
-                            flexygo.utils.removeLoadingEffect(me.closest('flx-module')[0]);
-                        }, () => {
-                            flexygo.utils.showLoadingEffect(0, me.closest('flx-module')[0], null, "top", true);
-                        });
-                    }
-                    else {
-                        flexygo.utils.showLoadingEffect(0, me.closest('flx-module')[0], null, "top", true);
-                        this.render();
-                        this.setMainEvents();
-                        flexygo.utils.removeLoadingEffect(me.closest('flx-module')[0]);
-                    }
+                            catch (err) {
+                                flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                            }
+                        }
+                        return this.productsVersionInfo ? true : false;
+                    });
+                }
+                initRSS(module, params) {
+                    return __awaiter(this, void 0, void 0, function* () {
+                        try {
+                            let response = yield flexygo.ajax.promisePost('~/api/Rss', 'GetHTML', params, false, false);
+                            if (response)
+                                $(this).html(response.Html);
+                            //If its contained inside a flx-module, we execute its moduleLoaded function
+                            if (module.length) {
+                                module[0].moduleLoaded(this);
+                            }
+                        }
+                        catch (err) {
+                            flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                        }
+                        return;
+                    });
                 }
                 render() {
                     let ulTabs = $('<ul class="nav nav-tabs"></ul>');
@@ -122,6 +178,9 @@ var flexygo;
                         contents.append(currentContent);
                     });
                     $(this).append(ulTabs);
+                    contents.find('.version:has(empty) .collapsible').addClass("noContent");
+                    contents.find('.version:has(empty) .collapsible .flx-icon').addClass("txt-muted");
+                    contents.find('.version:has(empty)').attr("title", flexygo.localization.translate("flxrss.noreleasenotes"));
                     $(this).append(contents.html());
                 }
                 renderVersions(productIndex) {
@@ -152,7 +211,11 @@ var flexygo;
                 }
                 renderReleaseNotes(productIndex, versionIndex) {
                     try {
-                        let notesParts = this.productsVersionInfo[productIndex].Versions[versionIndex].releaseNotes.split("\n\n");
+                        let releaseNotesContent = this.productsVersionInfo[productIndex].Versions[versionIndex].releaseNotes;
+                        if (flexygo.utils.isBlank(releaseNotesContent)) {
+                            return "<empty></empty>";
+                        }
+                        let notesParts = releaseNotesContent.split("\n\n");
                         let mappedNotes = notesParts.reduce((acc, topic) => {
                             //separating topic and content by :
                             let topicFind = /\b(\w+)\s*:/.exec(topic);
@@ -192,7 +255,7 @@ var flexygo;
                 }
                 setMainEvents() {
                     let me = this;
-                    $(this).find('.collapsible').off('click.collapsible').on('click.collapsible', function (e) {
+                    $(this).find('.collapsible:not(.noContent)').off('click.collapsible').on('click.collapsible', function (e) {
                         $(this).attr('collapsed', 'expanded');
                         //avoid innecesary calls
                         if ($(this).attr('transitioning') != 'true') {

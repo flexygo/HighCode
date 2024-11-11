@@ -1,6 +1,15 @@
 /**
  * @namespace flexygo.ui.wc
  */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var flexygo;
 (function (flexygo) {
     var ui;
@@ -52,7 +61,7 @@ var flexygo;
                             this.filterValues = state.properties;
                         }
                     }
-                    this.loadKanban(true, true);
+                    return this.loadKanban(true, true);
                 }
                 /**
                 * Refresh de webcomponent. REQUIRED.
@@ -60,8 +69,9 @@ var flexygo;
                 */
                 refresh() {
                     if ($(this).attr('manualInit') != 'true') {
-                        this.loadKanban(false, false);
+                        return this.loadKanban(false, false);
                     }
+                    return;
                 }
                 /**
                 * Refresh de one colum. REQUIRED.
@@ -336,90 +346,100 @@ var flexygo;
                     });
                 }
                 loadKanban(refreshButtons, refreshFilters) {
-                    var me = $(this);
-                    var scrollColumn = new Map();
-                    var itms = $(this).find('ul.kanban-container');
-                    itms.each((indx, el) => {
-                        scrollColumn.set($(el).closest('div.kanban-div').attr('column-id'), $(el).scrollTop());
-                    });
-                    me.empty();
-                    let params = {
-                        ObjectName: me.attr('ObjectName'),
-                        ObjectWhere: me.attr('ObjectWhere'),
-                        ModuleName: this.moduleName,
-                        AdditionalWhere: this.additionalWhere,
-                        searchId: this.activeFilter,
-                        filterValues: this.filterValues
-                    };
-                    flexygo.ajax.post('~/api/Kanban', 'GetKanban', params, (response) => {
-                        if (response && response.KanbanSettings != null) {
-                            this.config = response.KanbanSettings;
-                            this.columns = response.Columns;
-                            this.cards = response.Cards;
-                            this.defaults = response.Defaults;
-                            this.boardTitle = flexygo.utils.parser.compile(null, response.Title);
-                            this.boardDescrip = flexygo.utils.parser.compile(null, response.Descrip);
-                            this.boardId = response.BoardId;
-                            this.boardOrder = JSON.parse(response.BoardOrder);
-                            let parentModule = me.closest('flx-module');
-                            let wcModule = parentModule[0];
-                            this.filterobjectname = response.FilterObjectName;
-                            if (parentModule.length > 0) {
-                                let parentModuleClass = wcModule.moduleClass;
-                                if (wcModule.moduleInitClass && wcModule.moduleInitClass != '') {
-                                    parentModule.attr('class', wcModule.moduleInitClass);
-                                }
-                                if (parentModuleClass && parentModuleClass != '') {
-                                    parentModule.addClass(parentModuleClass);
-                                }
-                                if (parentModule && wcModule) {
-                                    this.moduleButtons = response.Buttons;
-                                    if (refreshButtons) {
-                                        if (response.Buttons) {
-                                            wcModule.setButtons(response.Buttons, response.FilterObjectName, response.FilterObjectWhere);
-                                        }
-                                        else {
-                                            wcModule.setButtons(null, response.FilterObjectName, response.FilterObjectWhere);
-                                        }
+                    return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
+                        var me = $(this);
+                        var scrollColumn = new Map();
+                        var itms = $(this).find('ul.kanban-container');
+                        itms.each((indx, el) => {
+                            scrollColumn.set($(el).closest('div.kanban-div').attr('column-id'), $(el).scrollTop());
+                        });
+                        me.empty();
+                        let params = {
+                            ObjectName: me.attr('ObjectName'),
+                            ObjectWhere: me.attr('ObjectWhere'),
+                            ModuleName: this.moduleName,
+                            AdditionalWhere: this.additionalWhere,
+                            searchId: this.activeFilter,
+                            filterValues: this.filterValues
+                        };
+                        flexygo.ajax.post('~/api/Kanban', 'GetKanban', params, 
+                        //Success Function
+                        (response) => {
+                            if (response && response.KanbanSettings != null) {
+                                this.config = response.KanbanSettings;
+                                this.columns = response.Columns;
+                                this.cards = response.Cards;
+                                this.defaults = response.Defaults;
+                                this.boardTitle = flexygo.utils.parser.compile(null, response.Title);
+                                this.boardDescrip = flexygo.utils.parser.compile(null, response.Descrip);
+                                this.boardId = response.BoardId;
+                                this.boardOrder = JSON.parse(response.BoardOrder);
+                                let parentModule = me.closest('flx-module');
+                                let wcModule = parentModule[0];
+                                this.filterobjectname = response.FilterObjectName;
+                                if (parentModule.length > 0) {
+                                    let parentModuleClass = wcModule.moduleClass;
+                                    if (wcModule.moduleInitClass && wcModule.moduleInitClass != '') {
+                                        parentModule.attr('class', wcModule.moduleInitClass);
                                     }
-                                    wcModule.setObjectDescrip(response.Title);
-                                }
-                                if (wcModule.ModuleViewers) {
-                                    this.currentViewers = response.CurrentViewers;
-                                    flexygo.utils.refreshModuleViewersInfo(wcModule, this.currentViewers);
-                                    flexygo.utils.checkObserverModule(wcModule, 20000);
-                                    flexygo.events.on(this, 'push', 'notify', function (e) {
-                                        switch (e.masterIdentity) {
-                                            case 'GetSetModuleViewers': {
-                                                if ((wcModule.moduleName == '' ? null : wcModule.moduleName) == (e.sender.ModuleName == '' ? null : e.sender.ModuleName)
-                                                    && (wcModule.objectname == '' ? null : wcModule.objectname) == (e.sender.ObjectName == '' ? null : e.sender.ObjectName)
-                                                    && (wcModule.objectwhere == '' ? null : wcModule.objectwhere) == (e.sender.ObjectWhere == '' ? null : e.sender.ObjectWhere)) {
-                                                    flexygo.utils.refreshModuleViewersInfo(wcModule, e.sender.ActiveUsers);
-                                                }
-                                                break;
+                                    if (parentModuleClass && parentModuleClass != '') {
+                                        parentModule.addClass(parentModuleClass);
+                                    }
+                                    if (parentModule && wcModule) {
+                                        this.moduleButtons = response.Buttons;
+                                        if (refreshButtons) {
+                                            if (response.Buttons) {
+                                                wcModule.setButtons(response.Buttons, response.FilterObjectName, response.FilterObjectWhere);
                                             }
-                                            default: {
-                                                break;
+                                            else {
+                                                wcModule.setButtons(null, response.FilterObjectName, response.FilterObjectWhere);
                                             }
                                         }
-                                    });
+                                        wcModule.setObjectDescrip(response.Title);
+                                    }
+                                    if (wcModule.ModuleViewers) {
+                                        this.currentViewers = response.CurrentViewers;
+                                        flexygo.utils.refreshModuleViewersInfo(wcModule, this.currentViewers);
+                                        flexygo.utils.checkObserverModule(wcModule, 20000);
+                                        flexygo.events.on(this, 'push', 'notify', function (e) {
+                                            switch (e.masterIdentity) {
+                                                case 'GetSetModuleViewers': {
+                                                    if ((wcModule.moduleName == '' ? null : wcModule.moduleName) == (e.sender.ModuleName == '' ? null : e.sender.ModuleName)
+                                                        && (wcModule.objectname == '' ? null : wcModule.objectname) == (e.sender.ObjectName == '' ? null : e.sender.ObjectName)
+                                                        && (wcModule.objectwhere == '' ? null : wcModule.objectwhere) == (e.sender.ObjectWhere == '' ? null : e.sender.ObjectWhere)) {
+                                                        flexygo.utils.refreshModuleViewersInfo(wcModule, e.sender.ActiveUsers);
+                                                    }
+                                                    break;
+                                                }
+                                                default: {
+                                                    break;
+                                                }
+                                            }
+                                        });
+                                    }
                                 }
+                                this.savedSearches = response.SavedSearches;
+                                this.searchSettings = response.SearchSettings;
+                                if (refreshFilters && response.SearchSettings) {
+                                    this.loadFilters(response.SearchSettings);
+                                }
+                                this.render();
+                                itms = $(this).find('ul.kanban-container');
+                                itms.each((indx, el) => {
+                                    $(el).scrollTop(scrollColumn.get($(el).closest('div.kanban-div').attr('column-id')));
+                                });
                             }
-                            this.savedSearches = response.SavedSearches;
-                            this.searchSettings = response.SearchSettings;
-                            if (refreshFilters && response.SearchSettings) {
-                                this.loadFilters(response.SearchSettings);
+                            else {
+                                me.append('<div class="box-info"><i class="flx-icon icon-information-2 icon-lg icon-margin-right"></i><span><strong>Info!</strong> ' + flexygo.localization.translate('flxlist.noentriesfound') + '</span></div>');
                             }
-                            this.render();
-                            itms = $(this).find('ul.kanban-container');
-                            itms.each((indx, el) => {
-                                $(el).scrollTop(scrollColumn.get($(el).closest('div.kanban-div').attr('column-id')));
-                            });
-                        }
-                        else {
-                            me.append('<div class="box-info"><i class="flx-icon icon-information-2 icon-lg icon-margin-right"></i><span><strong>Info!</strong> ' + flexygo.localization.translate('flxlist.noentriesfound') + '</span></div>');
-                        }
-                    });
+                            resolve();
+                        }, 
+                        //Error Function
+                        err => {
+                            flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                            resolve();
+                        });
+                    }));
                 }
                 loadColumn(refreshButtons, refreshFilters, columnid) {
                     var me = $(this);

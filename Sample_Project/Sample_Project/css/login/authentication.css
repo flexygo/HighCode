@@ -62,4 +62,8 @@
             border: 3.5px solid #f64040;
             background-color: lightsalmon;
             transition: none;
-        }   
+        }
+
+body:has(form#claveAuthForm) .lobibox-header .btn-close {
+    display: none;
+} 

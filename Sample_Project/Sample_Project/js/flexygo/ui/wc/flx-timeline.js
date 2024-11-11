@@ -1,3 +1,12 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 /**
  * @namespace flexygo.ui.wc
  */
@@ -50,7 +59,7 @@ var flexygo;
                                 this.filterValues = filterHistoryValue.properties;
                             }
                         }
-                        this.getTimeline();
+                        return this.getTimeline();
                     }
                     catch (ex) {
                         console.error('FlexyGo Timeline', ex);
@@ -62,8 +71,9 @@ var flexygo;
                 */
                 refresh() {
                     if ($(this).attr('manualInit') != 'true') {
-                        this.init();
+                        return this.init();
                     }
+                    return;
                 }
                 /**
                 * Set filter of webcomponent. REQUIRED.
@@ -475,48 +485,58 @@ var flexygo;
                 * @method getTimeline
                 */
                 getTimeline() {
-                    let params = {
-                        PageName: flexygo.history.getPageName($(this)),
-                        ModuleName: this.moduleName,
-                        ObjectName: $(this).attr('ObjectName'),
-                        ObjectWhere: $(this).attr('ObjectWhere'),
-                        SearchId: this.activeFilter,
-                        FilterValues: this.filterValues
-                    };
-                    flexygo.ajax.post('~/api/Timeline', 'GetTimeline', params, (response) => {
-                        if (response) {
-                            let visItems = new vis.DataSet(), visGroups;
-                            this.timelineSetting = response.TimelineSetting;
-                            this.defaults = (response.Defaults) ? response.Defaults : {};
-                            this.toolbar = response.Toolbar;
-                            this.searchSettings = response.SearchSettings;
-                            this.savedSearches = response.SavedSearches;
-                            this.objectName = this.timelineSetting.EntityConfiguration.ObjectName;
-                            this.objectWhere = response.ObjectWhere;
-                            this.filterWhere = response.FilterWhere;
-                            this.render();
-                            this.wcParentModule.setButtons(this.toolbar, this.timelineSetting.EntityConfiguration.CollectionName, this.objectWhere);
-                            this.loadFilters();
-                            for (const item of response.Items.filter(item => !(this.timelineSetting.WithGroups && flexygo.utils.isBlank(item[(this.timelineSetting.Advanced) ? this.timelineSetting.ItemGroupField : this.timelineSetting.PropertyGroup])))) {
-                                visItems.add(this.buildVisItem(item));
-                            }
-                            if (this.timelineSetting.WithGroups) {
-                                let groups = [];
-                                for (let i = 0; i < response.Groups.length; i++) {
-                                    groups.push(this.buildVisGroup(response.Groups[i], i));
+                    return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
+                        let params = {
+                            PageName: flexygo.history.getPageName($(this)),
+                            ModuleName: this.moduleName,
+                            ObjectName: $(this).attr('ObjectName'),
+                            ObjectWhere: $(this).attr('ObjectWhere'),
+                            SearchId: this.activeFilter,
+                            FilterValues: this.filterValues
+                        };
+                        flexygo.ajax.post('~/api/Timeline', 'GetTimeline', params, 
+                        //Success Function
+                        (response) => {
+                            if (response) {
+                                let visItems = new vis.DataSet(), visGroups;
+                                this.timelineSetting = response.TimelineSetting;
+                                this.defaults = (response.Defaults) ? response.Defaults : {};
+                                this.toolbar = response.Toolbar;
+                                this.searchSettings = response.SearchSettings;
+                                this.savedSearches = response.SavedSearches;
+                                this.objectName = this.timelineSetting.EntityConfiguration.ObjectName;
+                                this.objectWhere = response.ObjectWhere;
+                                this.filterWhere = response.FilterWhere;
+                                this.render();
+                                this.wcParentModule.setButtons(this.toolbar, this.timelineSetting.EntityConfiguration.CollectionName, this.objectWhere);
+                                this.loadFilters();
+                                for (const item of response.Items.filter(item => !(this.timelineSetting.WithGroups && flexygo.utils.isBlank(item[(this.timelineSetting.Advanced) ? this.timelineSetting.ItemGroupField : this.timelineSetting.PropertyGroup])))) {
+                                    visItems.add(this.buildVisItem(item));
                                 }
-                                visGroups = new vis.DataSet(groups);
+                                if (this.timelineSetting.WithGroups) {
+                                    let groups = [];
+                                    for (let i = 0; i < response.Groups.length; i++) {
+                                        groups.push(this.buildVisGroup(response.Groups[i], i));
+                                    }
+                                    visGroups = new vis.DataSet(groups);
+                                }
+                                else {
+                                    visGroups = null;
+                                }
+                                if (this.timelineSetting.WithGroups && this.timelineSetting.Editable && this.timelineSetting.ShowItemsWithoutGroup) {
+                                    this.setItemsWithoutGroups(response.Items.filter(item => flexygo.utils.isBlank(item[(this.timelineSetting.Advanced) ? this.timelineSetting.ItemGroupField : this.timelineSetting.PropertyGroup])));
+                                }
+                                this.initVisTimeline(visItems, visGroups, this.buildVisOptions());
+                                this.wcParentModule.moduleLoaded(this);
                             }
-                            else {
-                                visGroups = null;
-                            }
-                            if (this.timelineSetting.WithGroups && this.timelineSetting.Editable && this.timelineSetting.ShowItemsWithoutGroup) {
-                                this.setItemsWithoutGroups(response.Items.filter(item => flexygo.utils.isBlank(item[(this.timelineSetting.Advanced) ? this.timelineSetting.ItemGroupField : this.timelineSetting.PropertyGroup])));
-                            }
-                            this.initVisTimeline(visItems, visGroups, this.buildVisOptions());
-                            this.wcParentModule.moduleLoaded(this);
-                        }
-                    });
+                            resolve();
+                        }, 
+                        //Error Function
+                        err => {
+                            flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                            resolve();
+                        });
+                    }));
                 }
                 /**
                 * Build Vis Options.

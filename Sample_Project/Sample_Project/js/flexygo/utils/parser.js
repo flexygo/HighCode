@@ -45,7 +45,17 @@ var flexygo;
                             //Es una funcion javascript.
                             let fFunc = marker.substring(2, marker.length - 2).trim();
                             let fName = fFunc.substring(0, fFunc.indexOf('(')).trim();
-                            let fParams = fFunc.substring(fFunc.indexOf('(') + 1, fFunc.lastIndexOf(')')).trim().split(',');
+                            let paramsPart = fFunc.substring(fFunc.indexOf('(') + 1, fFunc.lastIndexOf(')')).trim();
+                            let fParams;
+                            if (paramsPart.includes("(") || paramsPart.includes(")")) {
+                                paramsPart = paramsPart.replace(/\(([^)]+)\)/g, (match) => {
+                                    return match.replace(/,/g, '&colon;');
+                                });
+                                fParams = paramsPart.split(',').map((e) => { return e.replaceAll("&colon;", ","); });
+                            }
+                            else {
+                                fParams = paramsPart.split(',');
+                            }
                             for (let j = 0; j < fParams.length; j++) {
                                 let jKey = fParams[j].toLowerCase().trim();
                                 if ((jKey.startsWith("'") && jKey.endsWith("'")) || (jKey.startsWith('"') && jKey.endsWith('"'))) {
@@ -477,7 +487,7 @@ var flexygo;
                     return str.replace(callee.sRE, '\\$1');
                 };
                 if (!flexygo.utils.isBlank(replace)) {
-                    replace = replace.toString().replaceAll('$&', '&dollar;&amp;');
+                    replace = replace.toString().replace(/$&/g, '&dollar;&amp;');
                 }
                 return str.toString().replace(new RegExp(escapeRegExp(find), 'ig'), replace);
             }
@@ -529,7 +539,7 @@ var flexygo;
                     str = replaceAll(str, '&', '&amp;');
                     str = replaceAll(str, '<', '&lt;');
                     str = replaceAll(str, '>', '&gt;');
-                    str = replaceAll(str, '"', '&quot');
+                    str = replaceAll(str, '"', '&quot;');
                     str = replaceAll(str, "'", '&#39;');
                     str = replaceAll(str, ',', '&#44;');
                     str = replaceAll(str, ':', '&#58;');

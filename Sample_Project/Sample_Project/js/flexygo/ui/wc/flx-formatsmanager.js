@@ -543,7 +543,7 @@ var flexygo;
             * Array of observed attributes. REQUIRED
             * @property observedAttributes {Array}
             */
-            FlxFormatsManagerElement.observedAttributes = ['ObjectName', 'ObjectWhere', 'ModuleName', 'asd'];
+            FlxFormatsManagerElement.observedAttributes = ['ObjectName', 'ObjectWhere', 'ModuleName'];
             wc.FlxFormatsManagerElement = FlxFormatsManagerElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

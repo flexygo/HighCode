@@ -1,7 +1,7 @@
-import { r as registerInstance, o as createEvent, k as h, n as Host, m as getElement } from './index-d0d1673d.js';
-import { g as getIonMode } from './ionic-global-f9661584.js';
-import { f as clamp } from './helpers-719f4c54.js';
-import { a as hapticSelectionChanged, b as hapticSelectionEnd, h as hapticSelectionStart } from './haptic-f13d1040.js';
+import { r as registerInstance, n as createEvent, k as h, o as Host, m as getElement } from './index-8e5b11cb.js';
+import { g as getIonMode } from './ionic-global-6d118971.js';
+import { f as clamp } from './helpers-7ecb2fa5.js';
+import { a as hapticSelectionChanged, b as hapticSelectionEnd, h as hapticSelectionStart } from './haptic-ffb0c0b9.js';
 
 const pickerColumnIosCss = ".picker-col{display:flex;position:relative;flex:1;justify-content:center;height:100%;box-sizing:content-box;contain:content}.picker-opts{position:relative;flex:1;max-width:100%}.picker-opt{left:0;top:0;display:block;position:absolute;width:100%;border:0;text-align:center;text-overflow:ellipsis;white-space:nowrap;contain:strict;overflow:hidden;will-change:transform}[dir=rtl] .picker-opt,:host-context([dir=rtl]) .picker-opt{left:unset;right:unset;right:0}.picker-opt.picker-opt-disabled{pointer-events:none}.picker-opt-disabled{opacity:0}.picker-opts-left{justify-content:flex-start}.picker-opts-right{justify-content:flex-end}.picker-opt:active,.picker-opt:focus{outline:none}.picker-prefix{position:relative;flex:1;text-align:end;white-space:nowrap}.picker-suffix{position:relative;flex:1;text-align:start;white-space:nowrap}.picker-col{padding-left:4px;padding-right:4px;padding-top:0;padding-bottom:0;transform-style:preserve-3d}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){.picker-col{padding-left:unset;padding-right:unset;-webkit-padding-start:4px;padding-inline-start:4px;-webkit-padding-end:4px;padding-inline-end:4px}}.picker-prefix,.picker-suffix,.picker-opts{top:77px;transform-style:preserve-3d;color:inherit;font-size:20px;line-height:42px;pointer-events:none}.picker-opt{padding-left:0;padding-right:0;padding-top:0;padding-bottom:0;margin-left:0;margin-right:0;margin-top:0;margin-bottom:0;transform-origin:center center;height:46px;transform-style:preserve-3d;transition-timing-function:ease-out;background:transparent;color:inherit;font-size:20px;line-height:42px;backface-visibility:hidden;pointer-events:auto}[dir=rtl] .picker-opt,:host-context([dir=rtl]) .picker-opt{transform-origin:calc(100% - center) center}";
 
@@ -31,7 +31,7 @@ const PickerColumnCmp = class {
     }
     this.rotateFactor = pickerRotateFactor;
     this.scaleFactor = pickerScaleFactor;
-    this.gesture = (await import('./index-7fe827c3.js')).createGesture({
+    this.gesture = (await import('./index-d086042f.js')).createGesture({
       el: this.el,
       gestureName: 'picker-swipe',
       gesturePriority: 100,

@@ -1,7 +1,7 @@
-import { q as readTask, f as writeTask, r as registerInstance, k as h, n as Host, m as getElement } from './index-d0d1673d.js';
-import { g as getIonMode } from './ionic-global-f9661584.js';
-import { f as clamp, i as inheritAttributes } from './helpers-719f4c54.js';
-import { h as hostContext } from './theme-f934266c.js';
+import { q as readTask, f as writeTask, r as registerInstance, k as h, o as Host, m as getElement } from './index-8e5b11cb.js';
+import { g as getIonMode } from './ionic-global-6d118971.js';
+import { f as clamp, i as inheritAriaAttributes } from './helpers-7ecb2fa5.js';
+import { h as hostContext } from './theme-12606872.js';
 
 const TRANSITION = 'all 0.2s ease-in-out';
 const cloneElement = (tagName) => {
@@ -157,7 +157,7 @@ const Header = class {
     this.translucent = false;
   }
   componentWillLoad() {
-    this.inheritedAttributes = inheritAttributes(this.el, ['role']);
+    this.inheritedAttributes = inheritAriaAttributes(this.el);
   }
   async componentDidLoad() {
     await this.checkCollapsibleHeader();

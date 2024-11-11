@@ -55,6 +55,6 @@ declare namespace flexygo {
         * Close loading funcion after executing process
         * @method showLoading
         */
-        closeLoading(lastProcess?: boolean): void;
+        closeLoading(lastProcess?: boolean, showProgress?: boolean): void;
     }
 }

@@ -1,10 +1,90 @@
-﻿flx-dependencymanager .pnlProperties{
-  background-color: white;
-  border: 1px solid #ddd;
-  border-top:none;
-  padding: 15px;
-  list-style:none;
-  border-radius: 0 5px 5px 5px;
+﻿flx-dependencymanager {
+
+    .pnl-container {
+        display: flex;
+
+        & > div:first-child {
+            flex: 1;
+
+            .pnlNavigate {
+                li {
+                    width: 110px;
+                    overflow: hidden;
+                    transition: width 0.5s ease-out;
+
+                    &.small-width {
+                        width: 80px;
+                    }
+
+                    a {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        height: 55px;
+
+                        span {
+                            margin-top: 6px;
+                            font-size: 10px;
+                            text-align: center;
+                            //opacity: 0;
+                        }
+                    }
+                    /*&:hover, &.active {
+                        width: 150px;
+
+                        span {
+                            opacity: 1;
+                            text-wrap: nowrap;
+                        }
+                    }*/
+                }
+            }
+        }
+
+        .pnlNavigate-actions {
+            display: flex;
+            align-items: center;
+
+            #relateddepbtn {
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+        }
+    }
+
+    .pnlProperties {
+        .value-controls, .class-controls, .label-controls, .combo-controls > div, .enabled-controls > div, .visible-controls > div, .customControl-controls > div, .required-controls > div {
+            display: flex;
+            align-items: center;
+
+            & > div {
+                flex: 1;
+            }
+        }
+    }
+}
+
+flx-html#mod-sysmod-html-dependencyfiltermanager {
+    .pnlNavigate-actions {
+        #relateddepbtn {
+            position: initial;
+            margin-right: 10px;
+        }
+    }
+}
+
+flx-moduletab[modulename="sysmod-tab-properties"], flx-moduletab[modulename="sysmod-tab-process-properties"], flx-moduletab[modulename="sysmod-tab-report-properties"], flx-moduletab[modulename="sysmod-tab-view"] {
+    position: relative;
+}
+
+flx-dependencymanager .pnlProperties {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-top: none;
+    padding: 15px;
+    list-style: none;
+    border-radius: 0 5px 5px 5px;
 }
 
 flx-dependencymanager .pnlProperties.ui-sortable:not(.ui-sortable-disabled) li:hover {
@@ -32,4 +112,29 @@ flx-dependencymanager .ctlDescrip{
 flx-dependencymanager .unactiveProperties li.active a:hover{
   background-color: #ddd;
   color: grey;
+}
+
+/****** MONACO EDITOR ******/
+.flx-dependency-sqlEditor {
+    text-align: left;
+
+    .sweet-modal-content {
+
+        & > div:first-child {
+            margin-top: 20px;
+        }
+
+        ul.nav-pills {
+            max-height: 150px;
+            height: 150px;
+            width: 100%;
+            overflow: overlay;
+            margin: 10px;
+
+            li a {
+                margin-left: 5px;
+                margin-bottom: 5px;
+            }
+        }
+    }
 }

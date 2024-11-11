@@ -76,96 +76,107 @@ var flexygo;
                     me.append(div);
                     let module = $(this).closest('flx-module');
                     this.initialHeight = module.height();
-                    this.render();
+                    return this.render();
                 }
                 /**
                 * Refresh de webcomponent.
                 * @method refresh
                 */
                 refresh() {
-                    this.render();
+                    return this.render();
                 }
                 /**
                 * Render HTML data.
                 * @method render
                 */
                 render() {
-                    let me = $(this);
-                    let params = {
-                        ObjectName: this.objectName,
-                        ObjectWhere: this.objectWhere,
-                        ModuleName: me.attr("modulename"),
-                        Details: false,
-                        ParentId: 0,
-                        MaxId: 0
-                    };
-                    //console.log(params);
-                    flexygo.ajax.post('~/api/Network', 'GetData', params, (response) => {
-                        if (response) {
-                            let respnodes = [];
-                            let respedges = [];
-                            this.maxId = 0;
-                            $.each(response.Nodes, (i, e) => {
-                                if (e.id > this.maxId) {
-                                    this.maxId = e.id;
-                                }
-                                respnodes.push({
-                                    id: e.id,
-                                    label: e.label,
-                                    shape: 'icon',
-                                    icon: {
-                                        face: 'Flexygo-icons',
+                    return new Promise((resolve, _) => {
+                        let me = $(this);
+                        let params = {
+                            ObjectName: this.objectName,
+                            ObjectWhere: this.objectWhere,
+                            ModuleName: me.attr("modulename"),
+                            Details: false,
+                            ParentId: 0,
+                            MaxId: 0
+                        };
+                        //console.log(params);
+                        flexygo.ajax.post('~/api/Network', 'GetData', params, 
+                        //Success Function
+                        (response) => {
+                            let module = $(this).closest('flx-module');
+                            if (response) {
+                                let respnodes = [];
+                                let respedges = [];
+                                this.maxId = 0;
+                                $.each(response.Nodes, (_, e) => {
+                                    if (e.id > this.maxId) {
+                                        this.maxId = e.id;
+                                    }
+                                    respnodes.push({
+                                        id: e.id,
+                                        label: e.label,
+                                        shape: 'icon',
+                                        icon: {
+                                            face: 'Flexygo-icons',
+                                            color: flexygo.colors.outstanding,
+                                            code: this.toUnicode(e.objecticon)
+                                        },
+                                        objectname: e.objectname,
+                                        objectwhere: e.objectwhere,
+                                        objectchildname: e.objectchildname,
+                                        objectdefaults: e.objectdefaults,
+                                        objectdetails: false,
+                                        objectexpanded: e.id === 1
+                                    });
+                                });
+                                $.each(response.Edges, (i, e) => {
+                                    respedges.push({
+                                        from: e.from,
+                                        to: e.to
+                                    });
+                                });
+                                this.nodes = new vis.DataSet(respnodes);
+                                this.edges = new vis.DataSet(respedges);
+                                let container = document.getElementById(this.uuid);
+                                let data = {
+                                    nodes: this.nodes,
+                                    edges: this.edges
+                                };
+                                let options = {
+                                    autoResize: true,
+                                    height: '100%',
+                                    width: '100%',
+                                    nodes: {
+                                        shape: 'box',
                                         color: flexygo.colors.outstanding,
-                                        code: this.toUnicode(e.objecticon)
+                                        borderWidth: 2,
+                                        shadow: true
                                     },
-                                    objectname: e.objectname,
-                                    objectwhere: e.objectwhere,
-                                    objectchildname: e.objectchildname,
-                                    objectdefaults: e.objectdefaults,
-                                    objectdetails: false,
-                                    objectexpanded: e.id === 1
-                                });
-                            });
-                            $.each(response.Edges, (i, e) => {
-                                respedges.push({
-                                    from: e.from,
-                                    to: e.to
-                                });
-                            });
-                            this.nodes = new vis.DataSet(respnodes);
-                            this.edges = new vis.DataSet(respedges);
-                            let container = document.getElementById(this.uuid);
-                            let data = {
-                                nodes: this.nodes,
-                                edges: this.edges
-                            };
-                            let options = {
-                                autoResize: true,
-                                height: '100%',
-                                width: '100%',
-                                nodes: {
-                                    shape: 'box',
-                                    color: flexygo.colors.outstanding,
-                                    borderWidth: 2,
-                                    shadow: true
-                                },
-                                edges: {
-                                    width: 2,
-                                    color: flexygo.colors.outstanding,
-                                    shadow: true
-                                },
-                                physics: {
-                                    maxVelocity: 25,
-                                    minVelocity: 1
-                                }
-                            };
-                            this.network = new vis.Network(container, data, options);
-                            this.network.on("click", this.nodeClick);
-                            this.network.on("oncontext", this.nodeContext);
-                            let body = $(this).closest('flx-module');
-                            this.network.setSize(body.width().toString(), body.height().toString());
-                            this.network.fit();
-                        }
+                                    edges: {
+                                        width: 2,
+                                        color: flexygo.colors.outstanding,
+                                        shadow: true
+                                    },
+                                    physics: {
+                                        maxVelocity: 25,
+                                        minVelocity: 1
+                                    }
+                                };
+                                this.network = new vis.Network(container, data, options);
+                                this.network.on("click", this.nodeClick);
+                                this.network.on("oncontext", this.nodeContext);
+                                this.network.setSize(module.width().toString(), module.height().toString());
+                                this.network.fit();
+                            }
+                            module[0].moduleLoaded(this);
+                            resolve();
+                        }, 
+                        //Error Function
+                        err => {
+                            flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                            resolve();
+                        });
                     });
                 }
                 nodeClick(params) {

@@ -47,8 +47,8 @@ declare namespace flexygo.ui.wc {
         * Init the webcomponent. REQUIRED.
         * @method init
         */
-        init(): void;
-        load(): void;
+        init(): Promise<void>;
+        load(): Promise<void>;
         render(ret: any): void;
         renderToolbar(defaults: any): void;
         observer: MutationObserver;
@@ -68,7 +68,7 @@ declare namespace flexygo.ui.wc {
         * Refresh de webcomponent. REQUIRED.
         * @method refresh
         */
-        refresh(ret: any): void;
+        refresh(ret: any): Promise<void>;
         /**
         * Fires when element is attached to DOM
         * @method connectedCallback

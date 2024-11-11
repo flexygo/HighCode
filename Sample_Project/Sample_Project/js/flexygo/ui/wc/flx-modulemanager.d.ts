@@ -30,12 +30,14 @@ declare namespace flexygo.ui.wc {
         init(): void;
         onModuleChanged(e: flexygo.events.FlexygoEvent): void;
         refresh(): void;
+        private setActiveButton;
         addTabModule(): void;
         updateModule(module: flexygo.obj.Entity, form?: string): void;
         saveModuleConfig(): void;
         loadCurrentPage(): void;
         private loadLayoutPanel;
         private loadNodes;
+        private paintGroupManager;
         private setSorting;
         private setActionButtons;
         private getModulePosition;

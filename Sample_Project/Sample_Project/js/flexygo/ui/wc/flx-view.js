@@ -1,6 +1,15 @@
 /**
  * @namespace flexygo.ui.wc
  */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var flexygo;
 (function (flexygo) {
     var ui;
@@ -65,102 +74,133 @@ var flexygo;
                     }
                 }
                 refresh() {
-                    for (let i = 0; i < $(this).find('flx-code[editor="monaco"]').length; i++) {
-                        let monacoEditor = $(this).find('flx-code[editor="monaco"]')[i];
-                        if (monacoEditor.monaco) {
-                            monacoEditor.monaco.dispose();
-                        }
-                        flexygo.events.off(monacoEditor, 'property', 'resized');
-                        flexygo.events.off(monacoEditor, 'module', 'resized');
-                        flexygo.events.off(monacoEditor, 'dialog', 'resized');
-                    }
                     if ($(this).attr('manualInit') != 'true') {
                         this.templateId = null;
-                        this.init();
+                        return this.init();
                     }
+                    return;
                 }
                 init() {
-                    let me = $(this);
-                    me.removeAttr('manualInit');
-                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
-                    me.html('');
-                    flexygo.ui.templates.setDefaultTemplate(this);
-                    //let loadRet = this.loadRet;
-                    let objDef;
-                    let histObj = flexygo.history.get(me);
-                    if (typeof histObj != 'undefined' && histObj.defaults) {
-                        if (typeof histObj.defaults == 'string') {
-                            objDef = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
-                        }
-                        else {
-                            objDef = histObj.defaults;
-                        }
-                    }
-                    if (objDef == null) {
-                        let wcMod = me.closest('flx-module')[0];
-                        if (wcMod) {
-                            objDef = wcMod.objectdefaults;
-                        }
-                    }
-                    let params = {
-                        ObjectName: me.attr('ObjectName'),
-                        ObjectWhere: me.attr('ObjectWhere'),
-                        ModuleName: this.moduleName,
-                        PageName: flexygo.history.getPageName(me),
-                        TemplateId: this.templateId,
-                        Defaults: flexygo.utils.dataToArray(objDef)
-                    };
-                    flexygo.ajax.post('~/api/View', 'GetViewTemplate', params, (response) => {
-                        if (response) {
-                            this.data = response.Template.Data;
-                            this.objectname = response.Template.ObjectName;
-                            this.properties = response.Properties;
-                            this.tHeader = response.Template.Header;
-                            this.tBody = response.Template.Body;
-                            this.tFooter = response.Template.Footer;
-                            this.tEmpty = response.Template.Empty;
-                            this.tScriptText = response.Template.ScriptText;
-                            this.tCSSText = response.Template.CSSText;
-                            this.templateId = response.Template.Id;
-                            this.isNew = response.IsNew;
-                            this.TemplateToolbarCollection = response.TemplateToolbarCollection;
-                            if (response.TemplateList) {
-                                this.templateList = response.TemplateList;
+                    return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
+                        let me = $(this);
+                        me.removeAttr('manualInit');
+                        $(this).closest('flx-module').find('.flx-noInitContent').remove();
+                        me.html('');
+                        flexygo.ui.templates.setDefaultTemplate(this);
+                        //let loadRet = this.loadRet;
+                        let objDef;
+                        let histObj = flexygo.history.get(me);
+                        if (typeof histObj != 'undefined' && histObj.defaults) {
+                            if (typeof histObj.defaults == 'string') {
+                                objDef = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
                             }
-                            this.render();
-                            let parentModule = me.closest('flx-module');
-                            let wcModule = parentModule[0];
-                            if (parentModule && wcModule) {
-                                if (response.Buttons) {
-                                    wcModule.setButtons(response.Buttons, response.ObjectName, response.ObjectWhere);
+                            else {
+                                objDef = histObj.defaults;
+                            }
+                        }
+                        if (objDef == null) {
+                            let wcMod = me.closest('flx-module')[0];
+                            if (wcMod) {
+                                objDef = wcMod.objectdefaults;
+                            }
+                        }
+                        let params = {
+                            ObjectName: me.attr('ObjectName'),
+                            ObjectWhere: me.attr('ObjectWhere'),
+                            ModuleName: this.moduleName,
+                            PageName: flexygo.history.getPageName(me),
+                            TemplateId: this.templateId,
+                            Defaults: flexygo.utils.dataToArray(objDef)
+                        };
+                        flexygo.ajax.post('~/api/View', 'GetViewTemplate', params, 
+                        //Success Function
+                        (response) => {
+                            if (response) {
+                                this.data = response.Template.Data;
+                                this.objectname = response.Template.ObjectName;
+                                this.properties = response.Properties;
+                                this.tHeader = response.Template.Header;
+                                this.tBody = response.Template.Body;
+                                this.tFooter = response.Template.Footer;
+                                this.tEmpty = response.Template.Empty;
+                                this.tScriptText = response.Template.ScriptText;
+                                this.tCSSText = response.Template.CSSText;
+                                this.templateId = response.Template.Id;
+                                this.isNew = response.IsNew;
+                                this.TemplateToolbarCollection = response.TemplateToolbarCollection;
+                                if (response.TemplateList) {
+                                    this.templateList = response.TemplateList;
                                 }
-                                else {
-                                    wcModule.setButtons(null, response.ObjectName, response.ObjectWhere);
-                                }
-                                wcModule.setObjectDescrip(response.Title);
-                                if (wcModule.ModuleViewers) {
-                                    this.currentViewers = response.CurrentViewers;
-                                    flexygo.utils.refreshModuleViewersInfo(wcModule, this.currentViewers);
-                                    flexygo.utils.checkObserverModule(wcModule, 20000);
-                                    flexygo.events.on(this, 'push', 'notify', function (e) {
-                                        switch (e.masterIdentity) {
-                                            case 'GetSetModuleViewers': {
-                                                if ((wcModule.moduleName == '' ? null : wcModule.moduleName) == (e.sender.ModuleName == '' ? null : e.sender.ModuleName)
-                                                    && (wcModule.objectname == '' ? null : wcModule.objectname) == (e.sender.ObjectName == '' ? null : e.sender.ObjectName)
-                                                    && (wcModule.objectwhere == '' ? null : wcModule.objectwhere) == (e.sender.ObjectWhere == '' ? null : e.sender.ObjectWhere)) {
-                                                    flexygo.utils.refreshModuleViewersInfo(wcModule, e.sender.ActiveUsers);
+                                this.render();
+                                let parentModule = me.closest('flx-module');
+                                let wcModule = parentModule[0];
+                                if (parentModule && wcModule) {
+                                    if (response.Buttons) {
+                                        wcModule.setButtons(response.Buttons, response.ObjectName, response.ObjectWhere);
+                                    }
+                                    else {
+                                        wcModule.setButtons(null, response.ObjectName, response.ObjectWhere);
+                                    }
+                                    wcModule.setObjectDescrip(response.Title);
+                                    if (wcModule.ModuleViewers) {
+                                        this.currentViewers = response.CurrentViewers;
+                                        flexygo.utils.refreshModuleViewersInfo(wcModule, this.currentViewers);
+                                        flexygo.utils.checkObserverModule(wcModule, 20000);
+                                        flexygo.events.off(wcModule, 'push', 'notify');
+                                        flexygo.events.on(wcModule, 'push', 'notify', function (e) {
+                                            if ($(wcModule).closest('html').length > 0) {
+                                                switch (e.masterIdentity) {
+                                                    case 'GetSetModuleViewers': {
+                                                        if ((wcModule.moduleName == '' ? null : wcModule.moduleName) == (e.sender.ModuleName == '' ? null : e.sender.ModuleName)
+                                                            && (wcModule.objectname == '' ? null : wcModule.objectname) == (e.sender.ObjectName == '' ? null : e.sender.ObjectName)
+                                                            && (wcModule.objectwhere == '' ? null : wcModule.objectwhere) == (e.sender.ObjectWhere == '' ? null : e.sender.ObjectWhere)) {
+                                                            flexygo.utils.refreshModuleViewersInfo(wcModule, e.sender.ActiveUsers);
+                                                        }
+                                                        break;
+                                                    }
+                                                    default: {
+                                                        break;
+                                                    }
                                                 }
-                                                break;
                                             }
-                                            default: {
-                                                break;
+                                            else {
+                                                flexygo.events.off(wcModule, 'push', 'notify');
                                             }
-                                        }
-                                    });
+                                        });
+                                    }
+                                    if (!flexygo.utils.isBlank(flexygo.debug)) {
+                                        flexygo.events.off(wcModule, 'push', 'updated');
+                                        flexygo.events.on(wcModule, 'push', 'updated', function (e) {
+                                            if ($(wcModule).closest('html').length > 0) {
+                                                switch (e.masterIdentity) {
+                                                    case 'sysObjectTemplate': {
+                                                        let currentTemplate = me[0].templateId;
+                                                        if (currentTemplate == e.sender) {
+                                                            flexygo.events.off(wcModule, 'push', 'updated');
+                                                            wcModule.refresh();
+                                                        }
+                                                        break;
+                                                    }
+                                                    default: {
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                            else {
+                                                flexygo.events.off(wcModule, 'push', 'updated');
+                                            }
+                                        });
+                                    }
                                 }
                             }
-                        }
-                    });
+                            resolve();
+                        }, 
+                        //Error Function
+                        err => {
+                            flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                            resolve();
+                        });
+                    }));
                 }
                 render() {
                     let me = $(this);
@@ -227,22 +267,8 @@ var flexygo;
                     this.processLoadDependencies();
                     var hideControls = me.find('.resizable-row').find('.hideControlGridStack [property]');
                     me.find('.resizable-row').gridstack(options);
-                    if ($(me[0]).find('flx-code[editor="monaco"]').length > 0) {
-                        var ev = {
-                            class: "property",
-                            type: "resized",
-                            masterIdentity: "flx-view"
-                        };
-                        flexygo.events.trigger(ev, $(this));
-                        for (let i = 0; i < $(me[0]).find('flx-code[editor="monaco"]').length; i++) {
-                            let monacoEditor = $(this).find('flx-code[editor="monaco"]')[i];
-                            flexygo.events.off(monacoEditor, 'property', 'resized');
-                            flexygo.events.off(monacoEditor, 'module', 'resized');
-                            flexygo.events.off(monacoEditor, 'dialog', 'resized');
-                        }
-                    }
                     //detach hideControls before gridstack in order to avoid field gaps
-                    hideControls.each((index, elem) => { this.removeStack($(elem)); });
+                    hideControls.each((_, elem) => { this.removeStack($(elem)); });
                     let parentModule = me.closest('flx-module');
                     let wcModule = parentModule[0];
                     if (parentModule && wcModule) {

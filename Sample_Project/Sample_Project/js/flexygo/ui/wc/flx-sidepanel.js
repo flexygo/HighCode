@@ -47,6 +47,9 @@ var flexygo;
                 init() {
                     this.clearPanels();
                     this.panels = {};
+                    if (typeof flexygo.debug !== 'undefined' && flexygo.debug !== null) {
+                        this.developPanel = flexygo.debug.getPagePanel();
+                    }
                 }
                 clearPanels() {
                     let me = $(this);
@@ -67,6 +70,10 @@ var flexygo;
                             this.lastTimer = null;
                         }
                     });
+                }
+                setDevelopPanel() {
+                    let panel = this.developPanel.clone(true);
+                    this.addPanel(flexygo.localization.translate('develop.pagename'), 'fa fa-cogs', panel, true);
                 }
                 addPanel(title, icon, content, debugOnly) {
                     let me = $(this);

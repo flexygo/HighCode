@@ -1,0 +1,50 @@
+﻿@import "../CssVars.less";
+
+flx-propertywizard {
+    background: @module-color;
+    border-radius: @border-radius;
+    z-index: 9;
+    position: sticky;
+
+    .cntBody {
+        height: 100%;
+        padding: 10px 16px 10px 16px;
+    }
+
+    .emptyWizard {
+        height: 100%;
+        font-size: 27px;
+        opacity: 0.7;
+    }
+
+    form {
+        overflow-y: auto;
+        height: 95%;
+        width: 100%;
+
+        > div > div, .controlSettings > div > div {
+            margin: 5px 0 5px 0;
+        }
+
+        span.status:before {
+            content: "*";
+            color: @danger-color;
+        }
+    }
+}
+
+flx-objectmanager:has(flx-propertywizard flx-code.fullscreen) flx-propertymanager .grid-stack-item .item div[data-tag="control"] .propertymanager-default {
+        z-index: 9;
+}
+
+:has(flx-propertywizard flx-code.fullscreen) {
+    flx-nav, #miniButton {
+        z-index: 9;
+    }
+}
+
+@media (max-width: @small) {
+    flx-propertywizard {
+        display: none;
+    }
+}

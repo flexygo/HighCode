@@ -55,6 +55,8 @@ var flexygo;
                     this.emptyTimer = null;
                     this.TemplateToolbarCollection = null;
                     this.newObjectWhere = null;
+                    this.skeleton = null;
+                    this.skeleton_scroll = null; //This variable stores the scroll before loading the skeleton so when the skeleton gets removed the scroll gets restored
                     this.module = null;
                     this.ctxMenusValues = {};
                 }
@@ -77,6 +79,11 @@ var flexygo;
                 init() {
                     let me = $(this);
                     let def;
+                    //We only initiate the skeleton if its not a manual init module, the skeleton module property comes from navigation.ts openPageReturn function
+                    if (!this.ManualInit && this.skeleton) {
+                        me.find('.cntBody').addClass('displayingSkeleton');
+                        me.find('.cntBody').append(`<span class="flxSkeleton">${this.skeleton}</span>`);
+                    }
                     let histObj = flexygo.history.get(me);
                     if (typeof histObj != 'undefined' && histObj.defaults) {
                         if (typeof histObj.defaults == 'string') {
@@ -147,6 +154,10 @@ var flexygo;
                         });
                         me.find('.cntButtons').append(btnConfig);
                     }
+                    var btnMoreOptions = $('<b class="flx-icon icon-more-1 develop-only" />').on('click', (e) => {
+                        this.showContextMenuOptions(e.target);
+                    });
+                    me.find('.cntButtons').append(btnMoreOptions);
                     let moduleObject = this.getObjectName(0);
                     if (!flexygo.utils.isBlank(moduleObject)) {
                         var btnWizard = $('<b class="flx-icon icon-wizard-1 develop-only" />').on('click', () => {
@@ -154,7 +165,7 @@ var flexygo;
                             if (!flexygo.utils.isBlank(modObj) && !modObj.includes("{{")) {
                                 let mobj = new flexygo.obj.Entity(modObj);
                                 let mcnf = mobj.getConfig();
-                                flexygo.nav.openPageName('syspage-generic-objectwizard', 'sysObject', "ObjectName='" + mcnf.ObjectName + "'", '{"step":7}', 'current', false, $(this));
+                                flexygo.nav.openPageName('syspage-generic-objectwizard', 'sysObject', "ObjectName='" + mcnf.ObjectName + "'", '{"step":8}', 'current', false, $(this));
                             }
                             else {
                                 flexygo.msg.warning(flexygo.localization.translate('formatsmanager.requiredobject'));
@@ -223,47 +234,92 @@ var flexygo;
                     }
                     return modObj;
                 }
+                showContextMenuOptions(e) {
+                    let triggerElement = $(e);
+                    var cntMenu = $('flx-contextmenu')[0];
+                    if (cntMenu.hideMenu(triggerElement))
+                        return;
+                    let menuUl = $('<ul/>'), menuLi = $('<li/>');
+                    let btn = new flexygo.api.ToolbarButton;
+                    btn.TypeId = "page";
+                    btn.Text = flexygo.localization.translate('modulemanager.security');
+                    btn.IconClass = "flx-icon icon-group-security";
+                    btn.TargetId = "popup";
+                    btn.PageName = "syspage-generic-modulesecurity";
+                    menuUl.append(menuLi.append(this.getButton(btn, "sysModule", `Modules.moduleName='${this.moduleName}'`, null, null, null, null, true)));
+                    menuLi = $('<li/>');
+                    btn = new flexygo.api.ToolbarButton;
+                    btn.TypeId = "list";
+                    btn.Text = flexygo.localization.translate('modulemanager.events');
+                    btn.IconClass = "flx-icon icon-wifi";
+                    btn.TargetId = "popup";
+                    menuUl.append(menuLi.append(this.getButton(btn, "sysModuleEvents", `Modules_Events.moduleName='${this.moduleName}'`, '{\'ModuleName\':\'' + this.moduleName + '\'}', null, null, null, true)));
+                    menuLi = $('<li/>');
+                    btn = new flexygo.api.ToolbarButton;
+                    btn.TypeId = "edit";
+                    btn.Text = flexygo.localization.translate('modulemanager.changepagerelation');
+                    btn.IconClass = "flx-icon icon-project";
+                    btn.TargetId = "popup";
+                    menuUl.append(menuLi.append(this.getButton(btn, "sysPageModule", `moduleName='${this.moduleName}' and PageName='${$(triggerElement).closest('main').attr('pagename')}'`, null, null, null, null, true)));
+                    cntMenu.showMenu(menuUl, triggerElement);
+                }
                 /**
               * Refresh module.
               * @method refresh
               */
                 refresh() {
-                    let me = $(this);
-                    for (let i = 0; i < $(this).find('flx-view,flx-edit').find('flx-code[editor="monaco"]').length; i++) {
-                        let monacoEditor = $(this).find('flx-code[editor="monaco"]')[i];
-                        if (monacoEditor.monaco) {
-                            monacoEditor.monaco.dispose();
+                    return __awaiter(this, void 0, void 0, function* () {
+                        let me = $(this);
+                        //We show the Skeleton Element and hide the content
+                        if (this.skeleton) {
+                            //If the active module is an flx-list we save its scroll so we can restore it after it has been fully refreshed
+                            const active_module_type = flexygo.utils.modules.getActiveModuleType(this);
+                            if (active_module_type.startsWith('flx-list')) {
+                                let module_container = this.closest('#mainContent');
+                                if (!module_container)
+                                    module_container = this.closest('main');
+                                this.skeleton_scroll = module_container.scrollTop;
+                            }
+                            this.querySelector('.cntBody').classList.add('displayingSkeleton');
+                            me.find('.cntBody').append(`<span class="flxSkeleton">${this.skeleton}</span>`);
+                            me.find('.cntBody').find('.flxSkeleton .skeletonHeader, .flxSkeleton .skeletonFooter').hide(); //We hide the Skeleton header and footer cause they do not get refreshed
                         }
-                        flexygo.events.off(monacoEditor, 'property', 'resized');
-                        flexygo.events.off(monacoEditor, 'module', 'resized');
-                        flexygo.events.off(monacoEditor, 'dialog', 'resized');
-                    }
-                    me.find(".moduleToolbar > .btn-group > .tooltip").tooltip('hide');
-                    me.find('*:not(flx-inputview,flx-input,flx-filter,flx-multicombo,flx-combo,flx-dbcombo)').filter((i, s) => {
-                        return /^flx\-/i.test(s.nodeName);
-                    }).each((i, e) => {
-                        me.find('.cntButtons .pager').empty();
-                        me.find('.cntBodyHeader .pager').empty();
-                        me.find('.cntBodyFooter .pager').empty();
-                        let wce = e;
-                        if (typeof wce.refresh != 'undefined') {
-                            wce.refresh();
-                            if ((wce.tagName.toLowerCase() == 'flx-moduletab') || (wce.tagName.toLowerCase() == 'flx-buttontab')) {
-                                return false;
+                        me.find(".moduleToolbar > .btn-group > .tooltip").tooltip('hide');
+                        let refreshable_element = me.find('.cntBody>:first-child');
+                        yield this.refreshFlexygoElements(refreshable_element, me);
+                        //We need to reload the filter after the list if there's one
+                        if (me.find('flx-filter').length > 0) {
+                            let wc = me.find('flx-filter')[0];
+                            wc.refresh();
+                        }
+                        //We remove the skeleton element
+                        flexygo.utils.modules.removeSkeleton(this);
+                        let ev = {
+                            class: "module",
+                            type: "refreshed",
+                            sender: this
+                        };
+                        flexygo.events.trigger(ev, me);
+                        return;
+                    });
+                }
+                refreshFlexygoElements(elements, me) {
+                    return __awaiter(this, void 0, void 0, function* () {
+                        for (var i = 0; i < elements.length; i++) {
+                            let flexygo_component = elements[i];
+                            me.find('.cntButtons .pager').empty();
+                            me.find('.cntBodyHeader .pager').empty();
+                            me.find('.cntBodyFooter .pager').empty();
+                            if (typeof flexygo_component != 'undefined') {
+                                yield flexygo_component.refresh();
+                                const component_name = flexygo_component.tagName.toLowerCase();
+                                if ((component_name == 'flx-moduletab') || (component_name == 'flx-buttontab')) {
+                                    return;
+                                }
                             }
                         }
+                        return;
                     });
-                    //we need filter to reload after list
-                    if (me.find('flx-filter').length > 0) {
-                        let wc = me.find('flx-filter')[0];
-                        wc.refresh();
-                    }
-                    let ev = {
-                        class: "module",
-                        type: "refreshed",
-                        sender: this
-                    };
-                    flexygo.events.trigger(ev, me);
                 }
                 moduleLoaded(wc) {
                     //TODO_TS: wc es un WebControl
@@ -287,6 +343,7 @@ var flexygo;
                             }
                         }
                     }
+                    flexygo.utils.modules.removeSkeleton(this);
                     if (jsAF != '') {
                         flexygo.utils.execDynamicCode.call(this, jsAF);
                     }
@@ -301,7 +358,8 @@ var flexygo;
                     $(this).find('.icon-minus, .icon-plus').toggleClass("icon-minus icon-plus");
                     $(this).find('.cntBody, .cntBodyHeader, .cntFooterHeader').toggle();
                 }
-                setButtons(buttons, objectname, objectwhere, reportname, processname, reportwhere, callBack) {
+                setButtons(buttons, objectname, objectwhere, reportname, processname, reportwhere, callBack, print = false) {
+                    var _a;
                     let me = $(this);
                     if (me.find('.cntBodyHeader .moduleToolbar').length == 0) {
                         me.find('.cntBodyHeader').append('<div class="moduleToolbar btn-toolbar" />');
@@ -321,7 +379,8 @@ var flexygo;
                     else {
                         me.find('.cntBodyFooter .moduleButtons').empty();
                     }
-                    var defString = flexygo.history.getDefaults(objectname, me);
+                    var defString = (_a = flexygo.history.get(me)) === null || _a === void 0 ? void 0 : _a.defaults;
+                    ;
                     if (this.objectdefaults) {
                         defString = JSON.stringify(this.objectdefaults);
                     }
@@ -353,7 +412,7 @@ var flexygo;
                                         btnGroup = null;
                                     }
                                     else {
-                                        btnGroup.append(this.getButton(btn, objectname, objectwhere, defString, reportname, this.reportwhere, processname, undefined, callBack));
+                                        btnGroup.append(this.getButton(btn, objectname, objectwhere, defString, reportname, this.reportwhere, processname, undefined, callBack, print));
                                     }
                                     lastPosition = btn.PositionId;
                                 }
@@ -484,8 +543,10 @@ var flexygo;
                     });
                 }
                 getTemplateToolbar(buttons, objectname, objectwhere, reportname, processname, reportwhere) {
+                    var _a;
                     let me = $(this);
-                    var defString = flexygo.history.getDefaults(objectname, me);
+                    var defString = (_a = flexygo.history.get(me)) === null || _a === void 0 ? void 0 : _a.defaults;
+                    ;
                     if (this.objectdefaults) {
                         defString = JSON.stringify(this.objectdefaults);
                     }
@@ -532,8 +593,10 @@ var flexygo;
                     }
                 }
                 refreshButtons(buttons, objectname, objectwhere, reportname, processname) {
+                    var _a;
                     let me = $(this);
-                    var defString = flexygo.history.getDefaults(objectname, me);
+                    var defString = (_a = flexygo.history.get(me)) === null || _a === void 0 ? void 0 : _a.defaults;
+                    ;
                     if (this.objectdefaults) {
                         defString = JSON.stringify(this.objectdefaults);
                     }
@@ -576,7 +639,7 @@ var flexygo;
                     let newBtn = this.getButton(btn, objectname, objectwhere, objectdefaults, reportname, reportwhere, processname);
                     htmlBtn.replaceWith(newBtn);
                 }
-                getButton(btn, objectname, objectwhere, objectdefaults, reportname, reportwhere, processname, notABtn, callBack) {
+                getButton(btn, objectname, objectwhere, objectdefaults, reportname, reportwhere, processname, notABtn, callBack, print = false) {
                     let type = btn.TypeId;
                     if (type) {
                         type = type.toLowerCase();
@@ -623,12 +686,12 @@ var flexygo;
                             break;
                         case 'saveview':
                             htmlBTN.addClass("saveButton");
-                            htmlBTN.attr('onclick', "flexygo.ui.wc.FlxModuleElement.prototype.checkNewComboObjectsMessage(this.closest('flx-contextmenu').parent.closest('flx-module')).then((res) => { if(res) " + flexygo.utils.functionToString('flexygo.ui.wc.FlxModuleElement.prototype.saveModule', [objectname, objectwhere], ['$(`[buttonId="${$(this).attr("parentId") ? $(this).attr("parentId") : $(this).attr("buttonId") }"]`).closest(\'flx-module\')', '$(this)', '\'view\'', objectdefaults]) + ";})");
+                            htmlBTN.attr('onclick', "const module = this.closest('flx-contextmenu') ? this.closest('flx-contextmenu').parent.closest('flx-module') : $(this).closest('flx-module'); flexygo.ui.wc.FlxModuleElement.prototype.checkNewComboObjectsMessage(module).then((res) => { if(res) " + flexygo.utils.functionToString('flexygo.ui.wc.FlxModuleElement.prototype.saveModule', [objectname, objectwhere], ['$(`[buttonId="${$(this).attr("parentId") ? $(this).attr("parentId") : $(this).attr("buttonId") }"]`).closest(\'flx-module\')', '$(this)', '\'view\'', objectdefaults, undefined, undefined, undefined, btn.ExcludeHist]) + ";})");
                             htmlBTN.tooltip({ title: flexygo.localization.translate('flxmodule.save'), placement: 'bottom' });
                             break;
                         case 'saveandnew':
                             htmlBTN.addClass("saveButton");
-                            htmlBTN.attr('onclick', "flexygo.ui.wc.FlxModuleElement.prototype.checkNewComboObjectsMessage(this.closest('flx-contextmenu').parent.closest('flx-module')).then((res) => { if(res) " + flexygo.utils.functionToString('flexygo.ui.wc.FlxModuleElement.prototype.saveModule', [objectname, objectwhere], ['$(`[buttonId="${$(this).attr("parentId") ? $(this).attr("parentId") : $(this).attr("buttonId") }"]`).closest(\'flx-module\')', '$(this)', '\'edit\'', objectdefaults]) + ";})");
+                            htmlBTN.attr('onclick', "const module = this.closest('flx-contextmenu') ? this.closest('flx-contextmenu').parent.closest('flx-module') : $(this).closest('flx-module'); flexygo.ui.wc.FlxModuleElement.prototype.checkNewComboObjectsMessage(module).then((res) => { if(res) " + flexygo.utils.functionToString('flexygo.ui.wc.FlxModuleElement.prototype.saveModule', [objectname, objectwhere], ['$(`[buttonId="${$(this).attr("parentId") ? $(this).attr("parentId") : $(this).attr("buttonId") }"]`).closest(\'flx-module\')', '$(this)', '\'edit\'', objectdefaults, undefined, undefined, undefined, btn.ExcludeHist]) + ";})");
                             htmlBTN.tooltip({ title: flexygo.localization.translate('flxmodule.save'), placement: 'bottom' });
                             break;
                         case 'saverow':
@@ -641,16 +704,26 @@ var flexygo;
                             if (btn.ObjectName) {
                                 objN = btn.ObjectName;
                             }
-                            htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.nav.openPage', ['edit', objN, null, objectdefaults, btn.TargetId, false], ['$(this)']));
+                            htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.nav.openPage', ['edit', objN, null, objectdefaults, btn.TargetId, btn.ExcludeHist], ['$(this)']));
                             htmlBTN.tooltip({ title: flexygo.localization.translate('flxmodule.new'), placement: 'bottom' });
                             break;
                         case 'edit':
-                            htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.nav.openPage', ['edit', objectname, objectwhere, objectdefaults, btn.TargetId, false], ['$(this)']));
+                            htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.nav.openPage', ['edit', objectname, objectwhere, objectdefaults, btn.TargetId, btn.ExcludeHist], ['$(this)']));
                             htmlBTN.tooltip({ title: flexygo.localization.translate('flxmodule.edit'), placement: 'bottom' });
                             break;
                         case 'view':
-                            htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.nav.openPage', ['view', objectname, objectwhere, objectdefaults, btn.TargetId, false], ['$(this)']));
+                            htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.nav.openPage', ['view', objectname, objectwhere, objectdefaults, btn.TargetId, btn.ExcludeHist], ['$(this)']));
                             htmlBTN.tooltip({ title: flexygo.localization.translate('flxmodule.view'), placement: 'bottom' });
+                            break;
+                        case 'list':
+                            htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.nav.openPage', ['list', objectname, objectwhere, objectdefaults, btn.TargetId, btn.ExcludeHist], ['$(this)']));
+                            if (htmlBTN.attr('title'))
+                                htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
+                            break;
+                        case 'page':
+                            htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.nav.openPageName', [btn.PageName, objectname, objectwhere, objectdefaults, btn.TargetId, btn.ExcludeHist], ['$(this)']));
+                            if (htmlBTN.attr('title'))
+                                htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
                             break;
                         case 'print':
                             //htmlBTN.on('click', () => {
@@ -663,7 +736,7 @@ var flexygo;
                             htmlBTN.tooltip({ title: flexygo.localization.translate('flxmodule.print'), placement: 'bottom', trigger: 'hover' });
                             break;
                         case 'help':
-                            htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.nav.openHelpId', [btn.HelpId, btn.TargetId, false], ['$(this)']));
+                            htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.nav.openHelpId', [btn.HelpId, btn.TargetId, btn.ExcludeHist], ['$(this)']));
                             htmlBTN.tooltip({ title: flexygo.localization.translate('flxmodule.help'), placement: 'bottom' });
                             break;
                         case 'templates':
@@ -678,7 +751,7 @@ var flexygo;
                                 htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
                             break;
                         case 'process':
-                            let retFunction = flexygo.utils.functionToString('flexygo.nav.execProcess', [btn.ProcessName, objectname, objectwhere, objectdefaults, null, btn.TargetId, false], ['$(this)']);
+                            let retFunction = flexygo.utils.functionToString('flexygo.nav.execProcess', [btn.ProcessName, objectname, objectwhere, objectdefaults, null, btn.TargetId, btn.ExcludeHist], ['$(this)']);
                             if (btn.BagOnly) {
                                 retFunction = 'if(flexygo.selection.getArray(\'' + btn.BagObject + '\').length==0){flexygo.msg.error(\'flxmodule.noItemsSelected\');}else{' + retFunction + '}';
                             }
@@ -688,10 +761,10 @@ var flexygo;
                             break;
                         case 'report':
                             if (btn.ReportHasParams) {
-                                htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.nav.openReportsParams', [btn.ReportName, reportwhere, objectname, objectwhere, objectdefaults, btn.TargetId, false], ['$(this)']));
+                                htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.nav.openReportsParams', [btn.ReportName, reportwhere, objectname, objectwhere, objectdefaults, btn.TargetId, btn.ExcludeHist], ['$(this)']));
                             }
                             else {
-                                htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.nav.viewReport', [btn.ReportName, reportwhere, objectname, objectwhere, objectdefaults, null, btn.TargetId, false]));
+                                htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.nav.viewReport', [btn.ReportName, reportwhere, objectname, objectwhere, objectdefaults, null, btn.TargetId, btn.ExcludeHist,]));
                             }
                             if (htmlBTN.attr('title'))
                                 htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
@@ -716,7 +789,7 @@ var flexygo;
                             break;
                         case 'runreport':
                             htmlBTN.addClass("saveReportButton");
-                            htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.ui.wc.FlxModuleElement.prototype.saveReportParams', [reportname, reportwhere, objectname, objectwhere, objectdefaults], ['$(this).closest(\'flx-module\')', '$(this)']));
+                            htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.ui.wc.FlxModuleElement.prototype.saveReportParams', [reportname, reportwhere, objectname, objectwhere, objectdefaults], ['$(this).closest(\'flx-module\')', '$(this)', print]));
                             if (htmlBTN.attr('title'))
                                 htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
                             break;
@@ -767,7 +840,7 @@ var flexygo;
                                 htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
                             break;
                         case 'clearrow':
-                            htmlBTN.attr('onclick', 'flexygo.ui.wc.clearRow($(this).closest(\'flx-module\'),$(this));');
+                            htmlBTN.attr('onclick', 'flexygo.ui.wc.clearRow($(this).closest(\'flx-list\'),$(this));');
                             if (htmlBTN.attr('title'))
                                 htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
                             break;
@@ -782,6 +855,11 @@ var flexygo;
                                 htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
                             break;
                         case 'text':
+                            if (htmlBTN.attr('title'))
+                                htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
+                            break;
+                        case 'assistantchatgpt':
+                            htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.ui.wc.FlxAIElement.prototype.open_from_toolbar', [btn.SettingId, $(this)]));
                             if (htmlBTN.attr('title'))
                                 htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
                             break;
@@ -877,11 +955,14 @@ var flexygo;
                                 currentFilter = flexygo.selection.getFilterString(objectname);
                             }
                             mod[0].refreshButtons(list.moduleButtons, list.collectionname, currentFilter);
+                            if (list.presetId) {
+                                list.changePresetText();
+                            }
                         }
                         var ev = {
                             class: "entity",
                             type: eventType,
-                            sender: this,
+                            sender: list,
                             masterIdentity: list.collectionname,
                             detailIdentity: { moduleFilter: currentFilter, selectedItems: flexygo.selection.getArray(objectname) }
                         };
@@ -904,8 +985,18 @@ var flexygo;
                     }
                 }
                 bagSelectionNone(objectName, objectWhere, module, button, cllbck) {
+                    let flxList = module.find('flx-list')[0];
                     flexygo.selection.clear(objectName);
-                    module[0].refresh();
+                    module[0].refresh().then(() => {
+                        var ev = {
+                            class: "entity",
+                            type: "uncheck",
+                            sender: flxList,
+                            masterIdentity: flxList.collectionname,
+                            detailIdentity: { moduleFilter: flxList.processwhere, selectedItems: flexygo.selection.getArray(objectName) }
+                        };
+                        flexygo.events.trigger(ev, module);
+                    });
                 }
                 bagSelectionAll(objectName, objectWhere, module, button, cllbck) {
                     let flxList = module.find('flx-list')[0];
@@ -915,7 +1006,20 @@ var flexygo;
                         if (response.length > 0) {
                             let newArray = flexygo.selection.getArray(objectName).concat(response);
                             flexygo.selection.appendArray(objectName, newArray);
-                            module[0].refresh();
+                            module[0].refresh().then(() => {
+                                let selectionLength = flexygo.selection.getArray(objectName).length;
+                                if (selectionLength > 0) {
+                                    currentFilter = flexygo.selection.getFilterString(objectName);
+                                }
+                                var ev = {
+                                    class: "entity",
+                                    type: "check",
+                                    sender: flxList,
+                                    masterIdentity: flxList.collectionname,
+                                    detailIdentity: { moduleFilter: currentFilter, selectedItems: flexygo.selection.getArray(objectName) }
+                                };
+                                flexygo.events.trigger(ev, module);
+                            });
                         }
                     });
                 }
@@ -1020,7 +1124,7 @@ var flexygo;
                         }
                     });
                 }
-                saveModule(objectName, objectWhere, module, button, afterSaveGoTo = '', defaults = null, lastObj, lastProcessName, lastAfterProcessName) {
+                saveModule(objectName, objectWhere, module, button, afterSaveGoTo = '', defaults = null, lastObj, lastProcessName, lastAfterProcessName, excludeHist = false) {
                     var _a;
                     if (objectWhere.includes('&quot;')) {
                         objectWhere = objectWhere.replace(/&quot;/g, '"');
@@ -1096,7 +1200,7 @@ var flexygo;
                                                 flexygo.utils.execAsyncFunction(obj.jsCode, ['sysObj', 'triggerElement'], [obj, button]).then((res) => {
                                                     if (res === false)
                                                         return;
-                                                    this.saveModule(objectName, objectWhere, module, button, afterSaveGoTo, defaults, obj, obj.lastProcessName, obj.lastAfterProcessName);
+                                                    this.saveModule(objectName, objectWhere, module, button, afterSaveGoTo, defaults, obj, obj.lastProcessName, obj.lastAfterProcessName, excludeHist);
                                                 }).catch((err) => {
                                                     flexygo.msg.error(flexygo.utils.getErrorMessage(err));
                                                 });
@@ -1173,10 +1277,10 @@ var flexygo;
                                         }
                                         if (!obj.warningMessage) {
                                             if (afterSaveGoTo === 'view') {
-                                                flexygo.nav.openPage('view', objectName, obj.objectWhere, defaults, 'current', false, module);
+                                                flexygo.nav.openPage('view', objectName, obj.objectWhere, defaults, 'current', excludeHist, module);
                                             }
                                             else if (afterSaveGoTo === 'edit') {
-                                                flexygo.nav.openPage('edit', objectName, '', defaults, 'current', false, module);
+                                                flexygo.nav.openPage('edit', objectName, '', defaults, 'current', excludeHist, module);
                                             }
                                         }
                                         return true;
@@ -1288,7 +1392,7 @@ var flexygo;
                         return true;
                     });
                 }
-                saveReportParams(reportname, reportwhere, objectname, objectwhere, objectdefaults, module, button) {
+                saveReportParams(reportname, reportwhere, objectname, objectwhere, objectdefaults, module, button, print = false) {
                     if ($(module)[0].componentString.includes('flx-edit')) {
                         let edit = module.find('flx-edit')[0];
                         edit.validateSQLProperties();
@@ -1305,7 +1409,7 @@ var flexygo;
                                         params.push({ 'key': prop.property, 'value': prop.getValue() });
                                     }
                                 }
-                                flexygo.nav.viewReport(reportname, reportwhere, objectname, objectwhere, objectdefaults, params, 'new', true);
+                                flexygo.nav.viewReport(reportname, reportwhere, objectname, objectwhere, objectdefaults, params, 'new', true, undefined, print);
                             }
                             else {
                                 flexygo.msg.success(flexygo.localization.translate('flxmodule.noparams'));
@@ -1380,36 +1484,38 @@ var flexygo;
                     let form = me.find('form');
                     let dirtyForms = form.filter('.dirty');
                     if (dirtyForms.length != 0 && document.body.contains(this)) {
-                        Lobibox.confirm({
-                            title: flexygo.localization.translate('flxedit.areyousuretitle'),
-                            msg: flexygo.localization.translate('flxedit.areyousuremsg'),
-                            buttons: {
-                                yes: {
-                                    'class': 'lobibox-btn lobibox-btn-yes',
-                                    text: flexygo.localization.translate('flxedit.areyousuremsgyes'),
-                                    closeOnClick: true
+                        setTimeout(() => {
+                            Lobibox.confirm({
+                                title: flexygo.localization.translate('flxedit.areyousuretitle'),
+                                msg: flexygo.localization.translate('flxedit.areyousuremsg'),
+                                buttons: {
+                                    yes: {
+                                        'class': 'lobibox-btn lobibox-btn-yes',
+                                        text: flexygo.localization.translate('flxedit.areyousuremsgyes'),
+                                        closeOnClick: true
+                                    },
+                                    no: {
+                                        'class': 'lobibox-btn lobibox-btn-no',
+                                        text: flexygo.localization.translate('flxedit.areyousuremsgno'),
+                                        closeOnClick: true
+                                    }
                                 },
-                                no: {
-                                    'class': 'lobibox-btn lobibox-btn-no',
-                                    text: flexygo.localization.translate('flxedit.areyousuremsgno'),
-                                    closeOnClick: true
+                                iconClass: '',
+                                callback: (dialog, type, ev) => {
+                                    if (type == "yes") {
+                                        let ev = {
+                                            class: "dialog",
+                                            type: "closed",
+                                            sender: dlg.data('context')
+                                        };
+                                        dlg.addClass("closing");
+                                        flexygo.events.trigger(ev, me);
+                                        dlg.dialog('close');
+                                        //dlg.dialog('destroy').remove();
+                                    }
                                 }
-                            },
-                            iconClass: '',
-                            callback: (dialog, type, ev) => {
-                                if (type == "yes") {
-                                    let ev = {
-                                        class: "dialog",
-                                        type: "closed",
-                                        sender: dlg.data('context')
-                                    };
-                                    dlg.addClass("closing");
-                                    flexygo.events.trigger(ev, me);
-                                    dlg.dialog('close');
-                                    //dlg.dialog('destroy').remove();
-                                }
-                            }
-                        });
+                            });
+                        }, 150);
                         return false; //cancel default close
                     }
                 }

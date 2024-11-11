@@ -51,11 +51,11 @@ declare namespace flexygo.ui.wc {
         * Init menu manager
         * @method init
         */
-        init(): void;
+        init(): Promise<void>;
         template: string;
         emptyTemplate: string;
-        refresh(): void;
-        loadMenus(): void;
+        refresh(): Promise<void>;
+        loadMenus(): Promise<void>;
         renderNode(id: string, ret: NavigationMenu[]): JQuery;
         loadMenusRet(ret: NavigationMenu[]): void;
         showEdit(placeHolder: JQuery, isNewMenu: boolean): void;

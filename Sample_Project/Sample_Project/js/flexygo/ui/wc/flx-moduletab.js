@@ -1,6 +1,15 @@
 /**
  * @namespace flexygo.ui.wc
  */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var flexygo;
 (function (flexygo) {
     var ui;
@@ -82,34 +91,50 @@ var flexygo;
                 }
                 refresh() {
                     if ($(this).attr('manualInit') != 'true') {
-                        this.init();
+                        return this.init();
                     }
+                    return;
                 }
                 init() {
-                    let me = $(this);
-                    me.removeAttr('manualInit');
-                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
-                    me.html('');
-                    let params = {
-                        ObjectName: me.attr('ObjectName'),
-                        ObjectWhere: me.attr('ObjectWhere'),
-                        ModuleName: this.moduleName
-                        //PageName: flexygo.history.getPageName(me)
-                    };
-                    this.pageName = flexygo.history.getPageName(me);
-                    flexygo.ajax.post('~/api/Page', 'GetPageTabModules', params, (response) => {
-                        if (response) {
-                            me.empty();
-                            this.config = flexygo.utils.sortObject(response, 'TabOrder');
-                            this.render();
-                        }
-                    }, null, () => { this.stopLoading(); }, () => { this.startLoading(); });
+                    return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
+                        let me = $(this);
+                        me.removeAttr('manualInit');
+                        $(this).closest('flx-module').find('.flx-noInitContent').remove();
+                        me.html('');
+                        let params = {
+                            ObjectName: me.attr('ObjectName'),
+                            ObjectWhere: me.attr('ObjectWhere'),
+                            ModuleName: this.moduleName
+                            //PageName: flexygo.history.getPageName(me)
+                        };
+                        this.pageName = flexygo.history.getPageName(me);
+                        flexygo.ajax.post('~/api/Page', 'GetPageTabModules', params, 
+                        //Success Function
+                        (response) => {
+                            if (response) {
+                                me.empty();
+                                this.render(response);
+                            }
+                            resolve();
+                        }, 
+                        //Error Function
+                        err => {
+                            flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                            resolve();
+                        }, 
+                        //Complete Function
+                        () => { this.stopLoading(); }, 
+                        //Before Function
+                        () => { this.startLoading(); });
+                    }));
                 }
-                render() {
+                render(response) {
+                    var _a;
                     let me = $(this);
                     let rendered = '';
-                    let module;
+                    let module, manualInitHTML;
                     let tabActiveMod = null;
+                    this.config = flexygo.utils.sortObject(response, 'TabOrder');
                     /*remove default paddding from body*/
                     me.closest('.cntBody').addClass("tabPadding");
                     /*Create list elements*/
@@ -133,6 +158,7 @@ var flexygo;
                         rendered += ' <ul class="' + tabclass + '"><li class="active"><a data-toggle="tab" href="#hr1"> <i class="flx-icon icon-danger icon-margin-right"></i>' + flexygo.localization.translate('moduletab.emptytabs') + '</a></li></ul>';
                         rendered += '<div class="row empty-tab clear-both"><i class="flx-icon icon-information-2 icon-lg icon-margin-right"></i><span><strong>Info!</strong> ' + flexygo.localization.translate('moduletab.nocontent') + '</span></div>';
                         me.html(rendered);
+                        flexygo.utils.modules.removeSkeleton(this.closest('flx-module'));
                     }
                     else {
                         //Get active module for tabs from local storage
@@ -140,6 +166,10 @@ var flexygo;
                         let tabs = flexygo.storage.local.get('activeTabs');
                         if (tabs != null) {
                             tabActiveMod = tabs[tabName];
+                        }
+                        //If the current active module is checked as ManualInit we remove the skeleton so that it does not continue showin it even though the module has been loaded
+                        if (((_a = response[tabActiveMod]) === null || _a === void 0 ? void 0 : _a.ManualInit) || this.config[0].ManualInit) {
+                            flexygo.utils.modules.removeSkeleton(this.closest('flx-module'));
                         }
                         if (typeof tabActiveMod != 'undefined' && tabActiveMod != null) {
                             let activeTabExists = false;
@@ -162,9 +192,14 @@ var flexygo;
                                     componentString += ' ' + mod.Params;
                                 }
                                 activeModId = i;
-                                module = $('<' + componentString + ' />').attr('ObjectName', me.attr('ObjectName')).attr('ObjectWhere', me.attr('ObjectWhere')).attr('isClone', me.attr('isClone')).attr('id', 'mod-' + mod.ModuleName).attr('modulename', mod.ModuleName);
+                                module = $('<' + componentString + ' />').attr('ObjectName', me.attr('ObjectName')).attr('ObjectWhere', me.attr('ObjectWhere')).attr('isClone', me.attr('isClone')).attr('id', 'mod-' + mod.ModuleName).attr('modulename', mod.ModuleName).attr('manualInit', mod.ManualInit.toString());
                                 this.activeModule = mod;
                                 this.activeTitle = mod.Title;
+                                if (mod.ManualInit) {
+                                    if (mod.HTMLInit && mod.HTMLInit.length > 0) {
+                                        manualInitHTML = mod.HTMLInit;
+                                    }
+                                }
                             }
                         }
                         me.empty();
@@ -239,6 +274,9 @@ var flexygo;
                     me.parents('flx-module').each((i, e) => {
                         e.objectdefaults = this.activeModule.ObjectDefaults;
                     });
+                    if (manualInitHTML && manualInitHTML.length > 0) {
+                        cont.prepend('<div class="flx-noInitContent">' + flexygo.utils.parser.recursiveCompile(null, manualInitHTML, this) + '</div>');
+                    }
                     cont.append(module);
                     this.moduleInitClass = cont.attr('class');
                     cont.addClass(this.activeModule.ModuleClass);
@@ -271,7 +309,7 @@ var flexygo;
                     $.each(me.parents('flx-module'), (i, e) => {
                         e.objectdefaults = mod.ObjectDefaults;
                     });
-                    let module = $('<' + componentString + ' />').attr('ObjectName', me.attr('ObjectName')).attr('ObjectWhere', me.attr('ObjectWhere')).attr('id', 'mod-' + mod.ModuleName).attr('modulename', mod.ModuleName);
+                    let module = $('<' + componentString + ' />').attr('ObjectName', me.attr('ObjectName')).attr('ObjectWhere', me.attr('ObjectWhere')).attr('id', 'mod-' + mod.ModuleName).attr('modulename', mod.ModuleName).attr('manualInit', mod.ManualInit.toString());
                     /*remove previous module*/
                     me.children('.modulediv').empty();
                     me.children('.modulediv').append(module);
@@ -290,6 +328,12 @@ var flexygo;
                     }
                     tabs[tabName] = mod.ModuleName;
                     flexygo.storage.local.add('activeTabs', tabs);
+                    let ev = {
+                        class: "module",
+                        type: "selected",
+                        sender: this
+                    };
+                    flexygo.events.trigger(ev, me);
                 }
                 saveModulePresetHistory(module) {
                     let me = $(this);
@@ -305,6 +349,7 @@ var flexygo;
                         history.presetsValues[module.ModuleName].presetId = module.PresetName;
                         history.presetsValues[module.ModuleName].presetText = module.PresetText;
                         history.presetsValues[module.ModuleName].presetIcon = module.PresetIcon;
+                        history.presetsValues[module.ModuleName].removePreset = module.RemovePreset;
                     }
                     flexygo.history.replace(history, me, false);
                 }

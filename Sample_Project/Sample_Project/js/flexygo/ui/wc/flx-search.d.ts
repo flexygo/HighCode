@@ -77,10 +77,10 @@ declare namespace flexygo.ui.wc {
         */
         observedAttributes(): string[];
         attributeChangedCallback(attrName: string, oldVal: any, newVal: any): void;
-        init(): void;
-        refresh(): void;
+        init(): Promise<void>;
+        refresh(): Promise<void>;
         setFilter(): void;
-        initGrid(initMode: boolean): void;
+        initGrid(initMode: boolean): Promise<void>;
         startLoading(): void;
         stopLoading(): void;
         render(): void;

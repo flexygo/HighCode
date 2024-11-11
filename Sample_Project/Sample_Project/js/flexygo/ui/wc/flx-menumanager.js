@@ -1,6 +1,15 @@
 /**
  * @namespace flexygo.ui.wc
  */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var flexygo;
 (function (flexygo) {
     var ui;
@@ -82,19 +91,29 @@ var flexygo;
                 * @method init
                 */
                 init() {
-                    this.loadMenus();
+                    return this.loadMenus();
                 }
                 refresh() {
-                    this.loadMenus();
+                    return this.loadMenus();
                 }
                 loadMenus() {
-                    $(this).find('[data-toggle="tooltip"]').tooltip('destroy');
-                    $(this).empty();
-                    flexygo.ajax.post('~/api/MenuManager', this.method, this.methodParams, (response) => {
-                        let arrOrdered = this.sortMenus(flexygo.utils.lowerKeys(response, true), "order");
-                        $(this).html('<div class="managerpanel"></div>');
-                        this.loadMenusRet(arrOrdered);
-                    });
+                    return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
+                        $(this).find('[data-toggle="tooltip"]').tooltip('destroy');
+                        $(this).empty();
+                        flexygo.ajax.post('~/api/MenuManager', this.method, this.methodParams, 
+                        //Success Function
+                        (response) => {
+                            let arrOrdered = this.sortMenus(flexygo.utils.lowerKeys(response, true), "order");
+                            $(this).html('<div class="managerpanel"></div>');
+                            this.loadMenusRet(arrOrdered);
+                            resolve();
+                        }, 
+                        //Error Function
+                        err => {
+                            flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                            resolve();
+                        });
+                    }));
                 }
                 renderNode(id, ret) {
                     let nodes = $('<ul class="sortable"></ul>');
@@ -157,7 +176,6 @@ var flexygo;
                             let params = this.findMenu(Menus, Menuid);
                             if (params) {
                                 flexygo.ajax.post('~/api/MenuManager', this.relocateMethod, params, (response) => {
-                                    //this.refreshNavBar();
                                 });
                             }
                         }

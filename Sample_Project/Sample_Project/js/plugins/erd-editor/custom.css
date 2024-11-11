@@ -1,0 +1,147 @@
+﻿/*shadow-root elements*/
+:host {
+    --table-headerPadding: 8;
+    --table-nameWidth: 180;
+}
+
+.root .noPreviewLayout {
+    user-select: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(2px);
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.root .toolbar {
+    z-index: 1;
+    height: 45.56px;
+    border-bottom: 1px solid var(--bg-color);
+    box-shadow: 0 1px 30px rgba(0, 0, 0, 0.1);
+    color: var(--txt-header-color);
+    background-color: var(--module-color);
+}
+
+    .root .toolbar > input[type="text"] {
+        margin: 0 15px 0 20%;
+    }
+
+.root:has(.timeLineContainer) .scriptButton, .root:has(.toast-container) .scriptButton {
+    display: none;
+}
+
+.root .context-menu-content{
+    z-index: 5;
+}
+
+.root button:disabled {
+    cursor: not-allowed !important;
+    box-shadow: none;
+    opacity: .65;
+}
+
+.root .scriptButton {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    user-select: none;
+}
+
+    .root .scriptButton button {
+        letter-spacing: var(--letter-spacing-1);
+        line-height: var(--line-height-1);
+        font-weight: var(--font-weight-medium);
+        height: 32px;
+        display: flex;
+        color: var(--bg-color);
+        background-color: var(--outstanding-color);
+        border: 2px solid var(--outstanding-color);
+        align-items: center;
+        float: left;
+        cursor: pointer;
+        transition: all 0.2s linear;
+    }
+        .root .scriptButton button:disabled {
+            color: var(--module-color);
+            background-color: color-mix(in srgb, var(--outstanding-color) 60%, black 75%);
+            cursor: default;
+            border-color: color-mix(in srgb, var(--outstanding-color) 60%, black 75%);
+        }
+        .root .scriptButton button:not([disabled]):hover, .root .scriptButton button#options.selected {
+            color: var(--outstanding-color);
+            background-color: var(--bg-color);
+        }
+            .root .scriptButton button#directExec {
+            border-top-left-radius: var(--border-radius);
+            border-bottom-left-radius: var(--border-radius);
+            padding: 1.5em;
+            border-right: 1px solid;
+        }
+
+        .root .scriptButton button#options {
+            border-top-right-radius: var(--border-radius);
+            border-bottom-right-radius: var(--border-radius);
+            padding: 1.5em 10px;
+        }
+
+            .root .scriptButton button#options span.caret {
+                display: inline-block;
+                width: 0;
+                height: 0;
+                margin-left: 2px;
+                vertical-align: middle;
+                border-top: 4px dashed;
+                border-top: 4px solid\9;
+                border-right: 4px solid transparent;
+                border-left: 4px solid transparent;
+            }
+
+.root .paper .table {
+    border-radius: var(--border-radius);
+}
+.root .paper .table .headerContainer {
+    cursor: move;
+    background-color: color-mix(in srgb, var(--module-color) 95%, #000);
+    --sum: calc(var(--table-headerPadding) * 1px + 1 * 1px);
+    top: calc(var(--sum) * -1);
+    padding: 0 calc(var(--table-headerPadding) * 1px);
+}
+
+    .root .paper .table .headerContainer .table-header-color {
+        top: 0;
+        background-color: var(--outstanding-color);
+    }
+
+    .root .paper .table .headerContainer .headerToolbar {
+        position: relative;
+        top: 6px;
+    }
+
+    .root .paper .table .headerContainer .tableName:has(div.edit-input) {
+        justify-content: center;
+    }
+
+    .root .paper .table .headerContainer .tableName:has(input.edit-input) .input-padding {
+        width: 100%;
+    }
+
+    .root .paper .table .headerContainer .tableName > [data-type="tableName"] > .edit-input {
+        font-family: var(--erd-title-font-family);
+        text-anchor: middle;
+        color: var(--txt-color);
+        width: 100%;
+        font-weight: bold;
+    }
+
+    .root .paper .table .headerContainer .tableName > [data-type="tableName"] > div.edit-input {
+        font-size: 21px;
+        max-width: calc(var(--table-nameWidth) * 1px);
+    }
+
+.root .paper .table .column-row > .column-col[data-type*="column"] {
+    flex: 1;
+    min-width: 42%;
+}

@@ -12,6 +12,7 @@ declare namespace flexygo.ui.wc {
         parentnodeid: string;
         title: string;
         childnodes: NavigationNode[];
+        containsChilds?: boolean;
         strtype: string;
     }
     class HierarchicalNode {
@@ -37,7 +38,6 @@ declare namespace flexygo.ui.wc {
         methodParams: LoadNodesParams;
         deleteMethod: string;
         relocateMethod: string;
-        refreshMetod: string;
         initNode: string;
         rootNodeId: string;
         openNodes: string[];
@@ -53,12 +53,11 @@ declare namespace flexygo.ui.wc {
         * Init menu manager
         * @method init
         */
-        init(): void;
+        init(): Promise<void>;
         template: string;
-        refreshNavBar(): void;
-        refresh(): void;
-        loadNodes(): void;
-        setRootNode(ret: NavigationNode[]): NavigationNode;
+        refresh(): Promise<void>;
+        loadNodes(): Promise<void>;
+        setRootNode(nodes: NavigationNode[]): NavigationNode;
         loadNodesRet(ret: NavigationNode[]): void;
         showEdit(placeHolder: JQuery, isNewNode: boolean): void;
         findNode(nodes: HierarchicalNode[], nodeid: string, parentid?: string): HierarchicalNode;

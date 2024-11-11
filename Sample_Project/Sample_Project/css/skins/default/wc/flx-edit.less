@@ -59,16 +59,23 @@ flx-edit .item [data-tag=control] .btn {
 // Inputs WC Less Styles
 // HTML Editor*
 flx-htmledit .note-editor {
+    display: flex;
+    flex-direction: column;
     height: 90%;
     overflow: hidden;
-}
 
-flx-htmledit .note-editor .note-editable {
-    height: 90% !important ;
-}
+    .note-statusbar {
+        display: none;
+    }
 
-flx-htmledit .note-editor .note-statusbar {
-    display: none;
+    .panel-heading {
+        flex-shrink: 0;
+    }
+
+    &.note-frame .note-editing-area {
+        overflow-y: auto;
+        flex-grow: 1;
+    }
 }
 
 .grid-stack-item .item div[data-tag=control] {
@@ -93,10 +100,6 @@ flx-htmledit .note-editor .note-statusbar {
     }
 }
 
-flx-htmledit .note-editor.note-frame .note-editing-area {
-    overflow: auto;
-    height: 100%;
-}
 //Text area
 flx-textarea .btn {
     padding: 0 12px;
@@ -308,12 +311,19 @@ flx-multicombo, flx-dbcombo {
     }
 }
 
+flx-module.fullscreen {
+    flx-dbcombo > ul, flx-multicombo > ul {
+        position: fixed;
+    }
+}
+
 flx-dbcombo > ul, flx-multicombo > ul {
     border-radius: 4px;
     color: @txt-menu-color;
-    position: absolute;
+    position: fixed;
     top: auto;
     min-height: 22px;
+    height: fit-content;
 
     @media (max-width: @medium) {
         z-index: 999999;
@@ -329,6 +339,10 @@ flx-dbcombo > ul, flx-multicombo > ul {
     padding: 0 !important;
     overflow-y: auto;
     overflow-x: hidden;
+
+    li {
+        cursor: pointer;
+    }
 }
 
 flx-dbcombo > ul.mobile, flx-multicombo > ul.mobile {
@@ -626,6 +640,25 @@ flx-switch .switch-text .onoffswitch-switch {
     //width: 20px;
     margin: -5px;
     //right: 40px;
+}
+
+flx-switch:has(input[sqlvalidator="0"]) {
+    label.onoffswitch-label, span.onoffswitch-switch {
+        border-color: @danger-color;
+    }
+
+    label.txt-danger {
+        float: left;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+
+        &:hover {
+            white-space: normal;
+            overflow: visible;
+            text-overflow: inherit;
+        }
+    }
 }
 
 flx-separator legend {
@@ -1496,7 +1529,7 @@ label:hover {
     color: @nav-color;
 }
 
-label > span.help-icon, legend > span.help-icon {
+label > span.help-icon, legend > span.help-icon, th[data-sort] > span.help-icon {
     font-size: 12px;
     color: @txt-nav-color;
 }
@@ -1506,7 +1539,7 @@ label > span.danger-icon, legend > span.danger-icon {
     color: lighten(@danger-color, 20);
 }
 
-label:hover > span.help-icon, legend:hover > span.help-icon {
+label:hover > span.help-icon, legend:hover > span.help-icon, th[data-sort] > span.help-icon:hover {
     cursor: pointer;
     color: @outstanding-color;
 }
@@ -1516,7 +1549,7 @@ label:hover > span.danger-icon, legend:hover > span.danger-icon {
     color: @danger-color;
 }
 
-label > span.help-icon:before, legend > span.help-icon:before {
+label > span.help-icon:before, legend > span.help-icon:before, th[data-sort] > span.help-icon:before {
     font-family: 'Flexygo-icons';
     content: "\f233";
     margin-left: 5px;
@@ -1541,22 +1574,6 @@ label > span.danger-icon:before, legend > span.danger-icon:before {
 .propertyMenu {
     min-width: 250px;
     z-index: 91;
-}
-
-.propertyMenu ul {
-    width: 250px;
-    z-index: 91;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    list-style: none;
-    color: @txt-menu-color;
-    box-sizing: border-box;
-    border: 1px solid #e0e0e0;
-    border-left: 4px solid @outstanding-color;
-    font-size: 1em;
-    background-color: @menu-color;
-    text-align: left;
 }
 
 .propertyMenu li {
@@ -1867,7 +1884,6 @@ div.item:has(flx-code[editor="monaco"]) label {
 /*New styles due to AI button*/
 flx-textarea .input-group {
     display: flex;
-    z-index: 3;
 }
 flx-textarea .input-group span.input-group-addon/*, *//*flx-textarea .input-group span.input-group-btn*/{
     padding: 0;

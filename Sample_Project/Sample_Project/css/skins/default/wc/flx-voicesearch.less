@@ -12,8 +12,8 @@ flx-voicesearch .input-group-addon {
     border-radius: 4px;
 }*/
 
-flx-nav li[class='wcsearch'] {
-    z-index:11 !important;
+flx-nav li.wcsearch:has(flx-voicesearch) {
+    z-index: 11 !important;
 }
 flx-voicesearch .main-search-btn {
     display: table-cell;

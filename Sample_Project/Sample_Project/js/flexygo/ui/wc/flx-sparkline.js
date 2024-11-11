@@ -1,6 +1,15 @@
 /**
  * @namespace flexygo.ui.wc
  */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var flexygo;
 (function (flexygo) {
     var ui;
@@ -67,32 +76,48 @@ var flexygo;
                 }
                 refresh() {
                     if ($(this).attr('manualInit') != 'true') {
-                        this.init();
+                        return this.init();
                     }
+                    return;
                 }
                 init() {
-                    let me = $(this);
-                    me.removeAttr('manualInit');
-                    $(this).closest('flx-module').find('.flx-noInitContent').remove();
-                    me.html('');
-                    if (this.moduleName) {
-                        let params = {
-                            ObjectName: me.attr('ObjectName'),
-                            ObjectWhere: me.attr('ObjectWhere'),
-                            ModuleName: this.moduleName,
-                            PageName: flexygo.history.getPageName(me)
-                        };
-                        flexygo.ajax.post('~/api/SparkLine', 'GetHTML', params, (response) => {
-                            if (response) {
-                                this.data = response.Values;
-                                this.options = response.Options;
-                                this.render();
-                            }
-                        }, null, () => { this.stopLoading(); }, () => { this.startLoading(); });
-                    }
-                    else {
-                        this.render();
-                    }
+                    return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
+                        let me = $(this);
+                        me.removeAttr('manualInit');
+                        $(this).closest('flx-module').find('.flx-noInitContent').remove();
+                        me.html('');
+                        if (this.moduleName) {
+                            let params = {
+                                ObjectName: me.attr('ObjectName'),
+                                ObjectWhere: me.attr('ObjectWhere'),
+                                ModuleName: this.moduleName,
+                                PageName: flexygo.history.getPageName(me)
+                            };
+                            flexygo.ajax.post('~/api/SparkLine', 'GetHTML', params, 
+                            //Success Function
+                            (response) => {
+                                if (response) {
+                                    this.data = response.Values;
+                                    this.options = response.Options;
+                                    this.render();
+                                }
+                                resolve();
+                            }, 
+                            //Error Function
+                            err => {
+                                flexygo.utils.modules.loadingErrorFunction(this.closest('flx-module'), err);
+                                resolve();
+                            }, 
+                            //Complete Function
+                            () => { this.stopLoading(); }, 
+                            //Before Function
+                            () => { this.startLoading(); });
+                        }
+                        else {
+                            this.render();
+                            resolve();
+                        }
+                    }));
                 }
                 render() {
                     let me = $(this);
