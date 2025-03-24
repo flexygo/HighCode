@@ -521,6 +521,7 @@ var flexygo;
                             let fileExtension = this.name.substring(this.name.lastIndexOf(".")).toLowerCase();
                             if (extns.indexOf(fileExtension) > -1 || this.options.ExtensionId == 'sysAll') {
                                 this.setValue(result);
+                                this.triggerDependencies();
                             }
                             else {
                                 flexygo.msg.error('image.extension');
@@ -731,6 +732,7 @@ var flexygo;
                         if (method === 'remove') {
                             if (this.options.ObjectName != 'sysObjectImage') {
                                 this.setValue(value);
+                                this.triggerDependencies();
                                 this.pageContainer.dialog('destroy').remove();
                             }
                         }

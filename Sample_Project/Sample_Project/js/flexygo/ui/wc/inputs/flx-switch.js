@@ -275,7 +275,7 @@ var flexygo;
                         input.attr('name', flexygo.utils.uniqueName());
                     }
                     const module = me.closest('flx-module')[0];
-                    if ((this.options && (this.options.CauseRefresh || this.options.SQLValidator != null)) || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
+                    if ((this.options && (this.options.CauseRefresh || !flexygo.utils.isBlank(this.options.SQLValidator))) || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
                         input.on('change', (e) => {
                             //$(document).trigger('refreshProperty', [input.closest('flx-edit'), this.options.Name]);
                             let ev = {

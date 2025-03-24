@@ -272,4 +272,62 @@ var flexygo;
         })(webapi = security.webapi || (security.webapi = {}));
     })(security = flexygo.security || (flexygo.security = {}));
 })(flexygo || (flexygo = {}));
+(function (flexygo) {
+    var security;
+    (function (security) {
+        var AIObject;
+        (function (AIObject) {
+            function init(el, settingId) {
+                let divlist = $(el).find('[data-security]');
+                let isPropertylist = divlist.attr('is-property-list');
+                divlist.each((i, e) => {
+                    // element columns handle click on icon
+                    $(e).children('[data-element]').each((j, f) => {
+                        let parentDiv = $(f).closest('[data-security]');
+                        let dataSecurity = parentDiv.attr('data-security');
+                        let dataKey = parentDiv.attr('data-key');
+                        let dataKeyField = parentDiv.attr('data-key-field');
+                        let dataKey2 = parentDiv.attr('data-key2');
+                        let dataKey3 = parentDiv.attr('data-key3');
+                        let dataKey2Field = parentDiv.attr('data-key2-field');
+                        let dataKey3Field = parentDiv.attr('data-key3-field');
+                        let chatGPTSetting = (settingId && isPropertylist) ? settingId : parentDiv.attr('chatgpt-setting');
+                        let objectName = isPropertylist ? parentDiv.attr('object-name') : '';
+                        let properties = parentDiv.attr('prop-object');
+                        $(f).find('i:first').css('cursor', 'pointer');
+                        $(f).off();
+                        $(f).on("click", (ev) => {
+                            let currentDiv = $(ev.currentTarget);
+                            // create object where
+                            let objectwhere = '';
+                            objectwhere += dataKeyField + "='" + dataKey + "'";
+                            if (dataKey2Field) {
+                                objectwhere += " and " + dataKey2Field + "='" + dataKey2 + "'";
+                            }
+                            if (dataKey3Field) {
+                                objectwhere += " and " + dataKey3Field + "='" + dataKey3 + "'";
+                            }
+                            let dataElement = currentDiv.attr('data-element');
+                            let obj = new flexygo.obj.Entity(dataSecurity, objectwhere);
+                            obj.read();
+                            obj.data['SettingId'].Value = chatGPTSetting;
+                            obj.data[dataKeyField].Value = dataKey;
+                            if (isPropertylist) {
+                                obj.data["ObjectName"].Value = objectName;
+                            }
+                            if (dataKey2Field) {
+                                obj.data[dataKey2Field].Value = dataKey2;
+                            }
+                            obj.data[dataElement].Value = !obj.data[dataElement].Value;
+                            if (obj.update()) {
+                                currentDiv.find('i').attr('class', 'flx-icon icon-bool-' + ((obj.data[dataElement].Value) ? 'v' : 'x'));
+                            }
+                        });
+                    });
+                });
+            }
+            AIObject.init = init;
+        })(AIObject = security.AIObject || (security.AIObject = {}));
+    })(security = flexygo.security || (flexygo.security = {}));
+})(flexygo || (flexygo = {}));
 //# sourceMappingURL=security.js.map

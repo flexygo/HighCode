@@ -544,6 +544,12 @@ var flexygo;
                         this.cnnString = newVal;
                         this.refresh();
                     }
+                    if (attrName.toLowerCase() === 'objwherelink' && newVal) {
+                        this.options.ObjWhereLink = newVal;
+                    }
+                    if (attrName.toLowerCase() === 'allownewdefaults' && newVal) {
+                        this.options.AllowNewDefaults = newVal;
+                    }
                 }
                 refresh() {
                     let val = this.getValue();
@@ -644,7 +650,6 @@ var flexygo;
                         if (this.closest('flx-filter') || !this.options.ComboAllowSave_CanInsert) {
                             this.options.ComboAllowSave = false;
                         }
-                        //var lastHeight;
                         let iconsLeft;
                         let iconsRight = this.getIconButtons();
                         let control = $('<div class="input-group">');
@@ -866,11 +871,11 @@ var flexygo;
                             let max_height_margin = 20; //This determines how much space we want between the datalist fully opened and the window margin
                             if (is_closer_to_top) {
                                 const top_position = position_data.y + position_data.height;
-                                this.datalist.css({ top: top_position, width: position_data.width, 'max-height': window.innerHeight - top_position - max_height_margin });
+                                this.datalist.css({ top: top_position, bottom: 'unset', width: position_data.width, 'max-height': window.innerHeight - top_position - max_height_margin });
                             }
                             else {
                                 const bottom_position = window.innerHeight - position_data.y;
-                                this.datalist.css({ bottom: bottom_position, width: position_data.width, 'max-height': window.innerHeight - bottom_position - max_height_margin });
+                                this.datalist.css({ top: 'unset', bottom: bottom_position, width: position_data.width, 'max-height': window.innerHeight - bottom_position - max_height_margin });
                             }
                             this.datalist.slideDown(250);
                         }
@@ -920,6 +925,7 @@ var flexygo;
                     }
                 }
                 loadValues(page, autoselect, fromvalue, value, append) {
+                    var _a;
                     let params;
                     let method = null;
                     this.page = page;
@@ -931,7 +937,7 @@ var flexygo;
                             DisplayField: this.options.SQLDisplayField,
                             Value: this.input.val(),
                             Page: page,
-                            PageSize: this.options.DropDownRows,
+                            PageSize: (_a = this.options.DropDownRows) !== null && _a !== void 0 ? _a : null,
                             AdditionalWhere: this.additionalWhere,
                             SQLFilter: this.options.SQLFilter,
                             CnnString: this.cnnString,
@@ -1016,7 +1022,8 @@ var flexygo;
                             }
                             this.datalist.append(elm);
                         }
-                        if (this.datalist.find(' > li').length >= (this.options.DropDownRows || flexygo.profiles.defaultDropDownRows) && data.length > 0) {
+                        const uses_sql = !!this.options.ViewName || !!this.options.SQLEditSentence || !!this.options.SQLSentence;
+                        if (this.datalist.find(' > li').length >= (this.options.DropDownRows || flexygo.profiles.defaultDropDownRows) && data.length > 0 && uses_sql) {
                             this.datalist.append(`<div class="load-more txt-muted clickable"><span>${flexygo.localization.translate('flxedit.loadmore')}</span><i class="fa fa-angle-down"></div>`);
                             $('.load-more').on('mousedown.load-more', (e) => {
                                 e.stopPropagation();
@@ -1502,7 +1509,7 @@ var flexygo;
            * Array of observed attributes.
            * @property observedAttributes {Array}
            */
-            FlxDbComboElement.observedAttributes = ['type', 'property', 'objectname', 'viewname', 'sqlvaluefield', 'sqldisplayfield', 'required', 'disabled', 'requiredmessage', 'style', 'class', 'placeholder', 'iconclass', 'template', 'helpid', 'hide', 'additionalwhere', 'sqlfilter', 'pagesize', 'validatormessage', 'cnnstring'];
+            FlxDbComboElement.observedAttributes = ['type', 'property', 'objectname', 'viewname', 'sqlvaluefield', 'sqldisplayfield', 'required', 'disabled', 'requiredmessage', 'style', 'class', 'placeholder', 'iconclass', 'template', 'helpid', 'hide', 'additionalwhere', 'sqlfilter', 'pagesize', 'validatormessage', 'cnnstring', 'allownewdefaults', 'objwherelink'];
             wc.FlxDbComboElement = FlxDbComboElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

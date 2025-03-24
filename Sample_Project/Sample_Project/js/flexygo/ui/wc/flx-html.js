@@ -78,7 +78,13 @@ var flexygo;
                         let histObj = flexygo.history.get(me);
                         if (typeof histObj != 'undefined' && histObj.defaults) {
                             if (typeof histObj.defaults == 'string') {
-                                def = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
+                                //We first try firectly parsing, if it fails we replace the ' fro " because they are normally used to avoid HTML attributes from breaking
+                                try {
+                                    def = JSON.parse(histObj.defaults);
+                                }
+                                catch (_a) {
+                                    def = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
+                                }
                             }
                             else {
                                 def = histObj.defaults;

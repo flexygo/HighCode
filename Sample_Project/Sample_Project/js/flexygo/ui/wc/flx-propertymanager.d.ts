@@ -16,6 +16,7 @@ declare namespace flexygo.ui.wc {
         * @property connected {boolean}
         */
         connected: boolean;
+        offline: boolean;
         objectname: string;
         reportName: string;
         processName: string;

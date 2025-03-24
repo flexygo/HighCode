@@ -1,21 +1,21 @@
-import { r as registerInstance, k as h } from './index-8e5b11cb.js';
-import { k as flxSync, W as Webapi, C as ConftokenProvider, i as gps, t as tracking, x as storage, v as ConftokenService, n as nav, m as msg, u as util, s as sql } from './conftoken-89472368.js';
-import { p as parser } from './parser-e9709966.js';
-import { j as jquery } from './jquery-34624bb9.js';
+import { r as registerInstance, k as h } from './index-3f6ae35e.js';
+import { n as nav, C as ConftokenProvider, m as msg, u as util, k as flxSync, W as Webapi, i as gps, t as tracking, z as storage, w as ConftokenService, s as sql } from './conftoken-6a608b71.js';
+import { p as parser } from './parser-52bcdf66.js';
+import { j as jquery } from './jquery-254bc370.js';
 import './process-es6-cc264d03.js';
-import './utils-224de961.js';
-import './animation-b4670628.js';
-import './helpers-7ecb2fa5.js';
-import './ios.transition-e14f38db.js';
-import './index-c59a2c3f.js';
-import './md.transition-8bd31aee.js';
+import './utils-515e0805.js';
+import './animation-160b6d8d.js';
+import './helpers-0fb1c204.js';
+import './ios.transition-9f5405f1.js';
+import './index-7e5eab7f.js';
+import './md.transition-d5eeb7f8.js';
 import './cubic-bezier-ed243a9b.js';
 import './index-d086042f.js';
-import './ionic-global-6d118971.js';
+import './ionic-global-7b33f09f.js';
 import './index-cc97b114.js';
-import './index-81d32235.js';
+import './index-f393b124.js';
 import './hardware-back-button-508e48cf.js';
-import './overlays-cda44124.js';
+import './overlays-71eb67ef.js';
 import './_commonjsHelpers-2a12c1e6.js';
 
 const flxHomeCss = "#menuIonTitle{position:absolute;left:0;right:0;margin-left:auto;margin-right:auto;top:0;height:100%}";
@@ -27,29 +27,6 @@ const FlxHome = class {
     this.footer = undefined;
     this.header = undefined;
     this.title = undefined;
-  }
-  componentDidLoad() {
-    jquery('#loadingSpinnerModule').css('visibility', 'hidden');
-    flxSync.checkSendErrors();
-    this.createLogsTable();
-    if (window.cordova)
-      this.activateTracking(); //Checks if location is required to be tracked
-    this.checkSyncNeed(); //Checks if user needs to sync and if so it will start syncing
-  }
-  async activateTracking() {
-    let auth = await (new Webapi()).getAuth();
-    ConftokenProvider.config().then((token) => {
-      if (auth.b64 && token && token.tracking && token.tracking.active)
-        gps.showActivationMsg(true, true);
-      else
-        tracking.clean();
-    });
-  }
-  checkSyncNeed() {
-    storage.get('needsToSync').then(val => {
-      if (val === true)
-        (new ConftokenService).showResyncModal();
-    });
   }
   async componentWillLoad() {
     if (!await this.didUserSync())
@@ -74,6 +51,29 @@ const FlxHome = class {
       }
     });
   }
+  componentDidLoad() {
+    jquery('#loadingSpinnerModule').css('visibility', 'hidden');
+    flxSync.checkSendErrors();
+    this.createLogsTable();
+    if (window.cordova)
+      this.activateTracking(); //Checks if location is required to be tracked
+    this.checkSyncNeed(); //Checks if user needs to sync and if so it will start syncing
+  }
+  async activateTracking() {
+    let auth = await (new Webapi()).getAuth();
+    ConftokenProvider.config().then((token) => {
+      if (auth.b64 && token && token.tracking && token.tracking.active)
+        gps.showActivationMsg(true, true);
+      else
+        tracking.clean();
+    });
+  }
+  checkSyncNeed() {
+    storage.get('needsToSync').then(val => {
+      if (val === true)
+        (new ConftokenService).showResyncModal();
+    });
+  }
   async refresh(ev) {
     return this.loadData().then(() => {
       if (ev)
@@ -85,10 +85,16 @@ const FlxHome = class {
   }
   loadData() {
     return ConftokenProvider.config().then(async (cnf) => {
+      var _a;
       this.title = '';
       this.body = '';
       this.header = '';
       this.footer = '';
+      //We configure sleepmMode here because every time a user syncs it will return here, and every time the user logs it will also arrive here so we will set the sleepMode whenever the user logs or syncs
+      if (cnf) {
+        const sleep_mode_url = ((_a = cnf.generalConfig) === null || _a === void 0 ? void 0 : _a.sleepMode) ? (await ConftokenProvider.getCurrentApp()).app.auth.url : '';
+        ConftokenProvider.changeAppSleepModeUrl(sleep_mode_url);
+      }
       if (cnf && cnf.homePage) {
         this.page = cnf.homePage;
         if (this.page.SQLSentence) {

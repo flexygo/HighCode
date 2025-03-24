@@ -220,10 +220,6 @@ ion-card-header.ion-color .ion-inherit-color {
   box-shadow: 4px 0px 16px rgba(0, 0, 0, 0.18);
 }
 
-ion-input input::-webkit-date-and-time-value {
-  text-align: start;
-}
-
 /*# sourceMappingURL=core.css.map */
 
 

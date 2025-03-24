@@ -38,3 +38,6 @@ declare namespace flexygo.security.users {
 declare namespace flexygo.security.webapi {
     function init(el: Element): void;
 }
+declare namespace flexygo.security.AIObject {
+    function init(el: Element, settingId: string | undefined): void;
+}

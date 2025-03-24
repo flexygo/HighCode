@@ -561,7 +561,13 @@ var flexygo;
                 filtersettings: 'Paramètres de filtre',
                 listtemplatesettings: "Modèle de Liste (facultatif)",
                 viewtemplatesettings: "Modèle de Afficher (facultatif)",
-                createdatamodel: 'Créer un modèle de données'
+                createdatamodel: 'Créer un modèle de données',
+                manuallygeneration: 'Génération Manuelle',
+                aigeneration: 'Génération d’IA',
+                generatingobjects: 'Générant des Objets',
+                generatingtemplate: 'Générant des Modèles',
+                objectsaved: 'Objet enregistré :)',
+                templatesaved: 'Modèle enregistré :)'
             };
             frfr.flxpropertymanager = {
                 addfields: 'Cliquez sur "ajouter champs" pour démarrer.',
@@ -601,7 +607,11 @@ var flexygo;
                 compression: "Compression d'image",
                 width: "Largeur maximale",
                 height: "Hauteur maximale",
-                barcode: "Lecteurs de codes-barres"
+                barcode: "Lecteurs de codes-barres",
+                sqlObjectName: "Objet de source de données",
+                sqlViewName: "Affichage de la source de données",
+                sqlOfflineSentence: "Offline SQL Sentence",
+                addingProperties: "Ajout de propriétés..."
             };
             frfr.flxversioninfo = {
                 currentversion: 'Version actuelle ({{CurrentVersion}}).',
@@ -871,9 +881,9 @@ var flexygo;
                 lightmode: 'Mode Lumière'
             };
             frfr.flxBarcode = {
-                noCamera: 'Aucune caméra disponible trouvée',
-                IOSerr: 'Cette fonctionnalité n\'est pas disponible sur IOS',
-                noCode: 'Aucun code ne peut être trouvé dans cette image.'
+                scanCode: "Scanner le Code",
+                uploadImage: "Télécharger l'image",
+                switchCamera: "Changer de caméra"
             };
             frfr.abhSign = {
                 save: 'Enregistrer',
@@ -950,7 +960,20 @@ var flexygo;
             frfr.flxai = {
                 beginMessage: 'Bonjour!\nComment puis-je vous aider?',
                 alertInfoMessage: 'Vous n\'avez pas configuré le jeton Berear, veuillez vérifier la documentation.',
-                settingNotFound: 'La configuration de l\'assistant avec SettindId "{0}" n\'a pas pu être récupérée.'
+                settingNotFound: 'La configuration de l\'assistant avec SettindId "{0}" n\'a pas pu être récupérée.',
+                placeholder: "Demandez quelque chose...",
+                mediatypenotallowed: "Type de média non autorisé",
+                filepreview: "Aperçu du fichier",
+                removedocument: "Supprimer le document",
+                senddocument: "Envoyer des documents à l'assistant",
+                codehelperDescrip: "Un assistant IA pour vous aider à concevoir, refactoriser et écrire du code de manière plus efficace.",
+                dbhelperDescrip: "Développeur IA full-stack pour vous aider à créer des projets FlexyGo. {{name}} peut vous aider à créer rapidement votre modèle de données de base de données.",
+                docuhubhelperDescrip: "{{name}} peut utiliser toute la documentation de la suite de produits AHORA pour vous aider avec toute question ou doute, chaque jour.",
+                helperDescrip: "Pour toute tâche de rédaction, {{name}} peut vous aider à écrire ce dont vous avez besoin, afin que vous puissiez vous concentrer sur ce que vous voulez écrire.",
+                objecthelperDescrip: "{{name}} est l'assistant IA qui peut créer de nouveaux objets FlexyGo pour vous.",
+                templatehelperDescrip: "{{Name}} peut vous aider à créer les meilleurs modèles pour vos objets, rapidement et facilement.",
+                aititle: "IA",
+                aitooltip: "Assistant propulsé par le modèle OpenAI"
             };
             frfr.excelExport = {
                 title: "Sélectionnez les champs que vous souhaitez voir dans l'export Excel",
@@ -1013,6 +1036,15 @@ var flexygo;
                 addButton: 'Ajouter des Tables',
                 clearButton: 'Effacer les Tables',
                 saveButton: 'Enregistrer les Modifications'
+            };
+            frfr.dbviewer = {
+                whichtables: 'Quelles tables ?',
+                summary: 'Résumé',
+                withTestData: 'Avec Des Données De Test',
+                withoutTestData: 'Sans Données De Test',
+                generateObjects: 'Générer Des Objets',
+                retry: 'Réessayer',
+                executeScript: 'Exécuter le Script',
             };
         })(frfr = culture.frfr || (culture.frfr = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

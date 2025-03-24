@@ -2,6 +2,7 @@
  * @namespace flexygo.ui.wc
  */
 declare namespace flexygo.ui.wc {
+    type FlxChartType = 'bar' | 'bubble' | 'doughnut' | 'horizontalbar' | 'line' | 'mixed' | 'pie' | 'polararea' | 'radar' | 'semidoughnut';
     /**
    * Library for the flx-chartElement web component.
    *
@@ -40,7 +41,7 @@ declare namespace flexygo.ui.wc {
         Params: string;
         Background: string;
         Border: string;
-        type: string;
+        type: FlxChartType;
         MixedChartLabels: string;
         MixedChartTypes: string;
         ChartSettingName: string;

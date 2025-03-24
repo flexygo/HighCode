@@ -346,9 +346,16 @@ var flexygo;
                     let iconsLeft;
                     let iconsRight;
                     let control = $('<div>');
-                    me.html(control);
                     let input = $('<label class="form-control input-view" />');
+                    if (this.options && this.options.IconClass && this.options.IconClass !== '') {
+                        iconsLeft = $('<span class="input-group-addon" ><i class="' + this.options.IconClass + '" /></span>');
+                        control.append(iconsLeft);
+                    }
                     control.append(input);
+                    if (iconsLeft || (iconsRight && iconsRight.length > 0)) {
+                        control.addClass("input-group");
+                    }
+                    me.html(control);
                     if (this.options && this.options.Style) {
                         me.children('div').attr('style', this.options.Style);
                     }
@@ -508,7 +515,7 @@ var flexygo;
                         input.attr('tabindex', me.attr('tab'));
                     }
                     const module = me.closest('flx-module')[0];
-                    if ((this.options && (this.options.CauseRefresh || this.options.SQLValidator != null)) || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
+                    if ((this.options && (this.options.CauseRefresh || !flexygo.utils.isBlank(this.options.SQLValidator))) || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
                         input.on('change', (e) => {
                             //$(document).trigger('refreshProperty', [input.closest('flx-edit'), this.options.Name]);
                             let ev = {

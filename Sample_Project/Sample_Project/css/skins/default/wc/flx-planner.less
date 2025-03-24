@@ -18,18 +18,7 @@
 
 @row-grey: rgba(24,66,148,0.04);
 @border-card: #dadde2;
-/*    @bg-table-color: #fff;
-@bg-btn-schedule: @outstanding-color;
-@bg-btn-viewmode: @nav-color;
-@txt-btn-viewmode: @outstanding-color;
 
-@bg-btn-mode: @notify-color;
-
-@bg-table-color: #dfe5ef;
-@bg-table-color: #fff;
-
-@bg-card: rgba(0,83,147,0.84);
-@txt-card: #fff;*/
 flx-planner {
     z-index: 5;
 
@@ -118,20 +107,38 @@ flx-planner {
                     width: 100%;
                 }
 
-                div.pln-draggable-item-container {
-                    margin-bottom: 20px;
-                    background: @row-grey;
-                    border-radius: @border-radius;
-                    border: 1px solid @border-card;
-                    padding: 5px 1px;
+                .parent-cnt {
                     width: 100%;
 
-                    span.pln-draggable-item-title {
-                        font-weight: bold;
-                        font-size: 16px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
+                    div.pln-draggable-item-container {
+                        margin-bottom: 20px;
+                        background: @row-grey;
+                        border-radius: @border-radius;
+                        border: 1px solid @border-card;
+                        padding: 5px 1px;
+                        width: 100%;
+
+                        span.pln-draggable-item-title {
+                            font-weight: bold;
+                            font-size: 16px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            position: relative;
+
+                            i.pln-draggable-refresh {
+                                position: absolute;
+                                right: 5px;
+                                transition: transform 0.4s ease-in-out;
+                                font-size: 14px;
+                                color: #999999;
+
+                                &:hover {
+                                    transform: rotate(-40deg);
+                                    color: @bg-table-color;
+                                }
+                            }
+                        }
                     }
                 }
             }

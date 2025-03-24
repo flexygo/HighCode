@@ -106,6 +106,7 @@ declare namespace flexygo.ui.wc {
         * @method init
         */
         init(refresh?: boolean): Promise<void>;
+        setMainEvents(): void;
         /**
         * Refresh de webcomponent.
         * @method refresh
@@ -125,7 +126,7 @@ declare namespace flexygo.ui.wc {
         */
         mainEvents(): void;
         propertySelected(selectedProperty: JQuery, onlySelect: boolean): void;
-        relatedSelected(selectedProperty: JQuery): Promise<void>;
+        relatedSelected(selectedProperty: JQuery): void;
         tableSelected(selectedTable: JQuery, select: boolean): void;
         adjustPaperSize(): void;
         adjustTablesPosition(): void;
@@ -134,11 +135,11 @@ declare namespace flexygo.ui.wc {
         scaleStyle(element: string, property: string, initialValue: any, currentScale?: any): void;
         toogleOnHover(element: JQuery, onHover: boolean): void;
         centerOffset(element?: HTMLElement): void;
-        clearTables(): Promise<void>;
+        clearTables(): void;
         getSelectedFields(): void;
         getTables(): void;
-        saveTables(): Promise<void>;
+        saveTables(): void;
         getSavedTables(): Promise<unknown>;
-        addNewTables(names: any): Promise<void>;
+        addNewTables(names: any): void;
     }
 }

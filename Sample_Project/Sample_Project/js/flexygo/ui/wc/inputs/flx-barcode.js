@@ -1,4 +1,12 @@
-;
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 /**
  * @namespace flexygo.ui.wc
  */
@@ -142,7 +150,7 @@ var flexygo;
                         if (!this.options) {
                             this.options = new flexygo.api.ObjectProperty();
                         }
-                        this.options.BarcodeReaders = BarcodeReaders;
+                        this.options.BarcodeReaders = this.formatReaders(BarcodeReaders);
                     }
                     this.init();
                     let Value = element.attr('Value');
@@ -282,7 +290,7 @@ var flexygo;
                         if (!this.options) {
                             this.options = new flexygo.api.ObjectProperty();
                         }
-                        this.options.BarcodeReaders = newVal;
+                        this.options.BarcodeReaders = this.formatReaders(newVal);
                     }
                 }
                 refresh() {
@@ -308,111 +316,172 @@ var flexygo;
                     }
                 }
                 initScanCodeUI() {
-                    if (/iPad|iPhone|iPod/.test(navigator.platform)) {
-                        flexygo.msg.warning(flexygo.localization.translate('flxBarcode.IOSerr'));
-                        return;
-                    }
-                    let body = $('body');
-                    if (body.find('.barcode-scanner').length > 0)
-                        return;
-                    let scannerUI = $(`<div id="barcode-${this.property}" class="barcode-scanner hidden"/>`);
-                    let scannerBackdrop = $('<div class="barcode-backdrop hidden"/>');
-                    let closeBtn = $('<span class="flx-icon icon-close-2 clickable"/>');
-                    let scannerLine = $('<div class="scannerLine"/>');
-                    body.append(scannerBackdrop);
-                    body.append(scannerUI);
-                    scannerUI.append('<canvas/>');
-                    scannerUI.append(closeBtn);
-                    scannerUI.append(scannerLine);
-                    closeBtn.click(() => {
-                        this.closeScanUI();
-                    });
-                    scannerBackdrop.click(() => {
-                        this.closeScanUI();
-                    });
-                    this.initScanMode();
-                }
-                getOptions() {
-                    let readers;
-                    if (this.options && this.options.BarcodeReaders) {
-                        readers = this.options.BarcodeReaders.split('|').map(element => {
-                            return { format: element, config: {} };
-                        });
-                    }
-                    else {
-                        readers = [{ format: 'code_128_reader', config: {} },
-                            { format: 'ean_reader', config: {} },
-                            { format: 'ean_8_reader', config: {} },
-                            { format: 'code_39_reader', config: {} },
-                            { format: 'code_39_vin_reader', config: {} },
-                            { format: 'codabar_reader', config: {} },
-                            { format: 'upc_reader', config: {} },
-                            { format: 'upc_e_reader', config: {} },
-                            { format: 'i2of5_reader', config: {} },
-                            { format: '2of5_reader', config: {} },
-                            { format: 'code_93_reader', config: {} }
-                        ];
-                    }
-                    let quaggaState = {
-                        decoder: {
-                            readers: readers
-                        },
-                        frequency: 10,
-                        inputStream: {
-                            constraints: {
-                                aspectRatio: {
-                                    min: 1,
-                                    max: 100
-                                },
-                                facingMode: 'environment',
-                                height: { min: 480 },
-                                width: { min: 640 }
-                            },
-                            type: 'ImageStream',
-                            //target: document.querySelector(`#barcode-${this.property}`)
-                        },
-                        lastResult: null,
-                        locate: true,
-                        locator: {
-                            halfSample: true,
-                            patchSize: 'medium'
-                        },
-                        numOfWorkers: 2
-                    };
-                    return quaggaState;
-                }
-                initScanMode() {
-                    let fileInput = null;
-                    Quagga.init(this.getOptions(), (err) => {
-                        if (err) {
-                            $('.barcode-scanner').remove();
-                            $('.barcode-backdrop').remove();
-                            flexygo.msg.warning(flexygo.localization.translate('flxBarcode.noCamera'));
+                    return __awaiter(this, void 0, void 0, function* () {
+                        if (document.querySelector('barcode-scanner'))
                             return;
+                        //We search for possible device cameras
+                        let cameras;
+                        try {
+                            cameras = yield Html5Qrcode.getCameras();
                         }
-                        $('body').addClass('barcodeLock');
-                        $('.barcode-backdrop').removeClass('hidden');
-                        $(`#barcode-${this.property}`).removeClass('hidden');
-                        Quagga.start();
-                    });
-                    let lastValue = "";
-                    Quagga.offDetected();
-                    Quagga.onDetected((result) => {
-                        var code = result.codeResult.code;
-                        if (code === lastValue) {
-                            this.setValue(code);
+                        catch (err) {
+                            console.log(err);
+                        }
+                        //We create and append the UI directly to the body
+                        const is_mobile = flexygo.utils.isAgentMobile();
+                        const scannerUI = this.getScannerUI(is_mobile, cameras);
+                        const scanner_backdrop = $(`<div id="barcode-backdrop-${this.property}" class="barcode-backdrop"/>`);
+                        const close_button = $(`<span id="barcode-scanner-close-${this.property}" class="barcode-scanner-close flx-icon icon-close-2 clickable ${is_mobile ? 'barcode-mobile' : ''}"/>`);
+                        const body = $('body');
+                        body.append(scanner_backdrop);
+                        body.append(scannerUI);
+                        body.append(close_button);
+                        close_button.click(() => this.closeScanUI());
+                        scanner_backdrop.click(() => this.closeScanUI());
+                        //We declare functions inside the function to avoid passing file_scanner and camera_scanner variables
+                        //We also declare them here so onScanSuccess is declared before being used
+                        const readBarcodeFile = (file) => {
+                            file_scanner.scanFile(file, true)
+                                .then(onScanSuccess)
+                                .catch(err => {
+                                flexygo.msg.error(`Error scanning file. Reason: ${err}`);
+                            });
+                        };
+                        const onScanSuccess = (decodedText) => {
+                            if (camera_scanner)
+                                camera_scanner.stop();
+                            this.setValue(decodedText);
                             this.closeScanUI();
-                            $(this).find('input[type=text]').trigger('change');
                             this.waitToTab($(this));
+                        };
+                        //Activate Barcode Camera scanner if the device've got cameras
+                        let camera_scanner;
+                        if (!!cameras) {
+                            //On phones we just set the default camera as the environment one, and we will only allow switch between environment and user one with the switch button
+                            //On pc we will set the first camera that we get as the main, and we will allow switching to any camera that is detected using the flx-combo
+                            const camera_options = is_mobile ? { facingMode: "environment" } : { deviceId: { exact: cameras[0].id } };
+                            camera_scanner = new Html5Qrcode(`barcode-scanner-${this.property}`);
+                            camera_scanner.start(camera_options, { fps: 10, qrbox: 250 }, onScanSuccess);
+                            //Camera Select input, when value is changed we just change the camera the plugin uses
+                            const cameras_combo = document.querySelector(`#barcode-${this.property} flx-combo`);
+                            let deactivating = false; //We use this variable to avoid user clicking multiple times the button and colapsing the scanner
+                            cameras_combo.addEventListener('change', input => {
+                                if (deactivating)
+                                    return;
+                                deactivating = true;
+                                camera_scanner.stop().then(() => {
+                                    deactivating = false;
+                                    camera_scanner.start({ deviceId: { exact: input.currentTarget.getValue() } }, { fps: 10, qrbox: 250 }, onScanSuccess);
+                                });
+                            });
+                            //Camera Switch button, when clicked we just alternate between environment and user camera
+                            let facing_environment = true;
+                            const switch_button = document.querySelector(`#barcode-${this.property} button`);
+                            switch_button.addEventListener('click', () => {
+                                facing_environment = !facing_environment;
+                                camera_scanner.stop().then(() => {
+                                    const facing_mode = facing_environment ? 'environment' : 'user';
+                                    camera_scanner.start({ facingMode: facing_mode }, { fps: 10, qrbox: 250 }, onScanSuccess);
+                                });
+                            });
                         }
-                        else {
-                            lastValue = code;
+                        //Activate Barcode File scanner
+                        const file_scanner = new Html5Qrcode(`barcode-file-${this.property}`);
+                        const file_input = document.getElementById(`barcode-file-${this.property}`);
+                        file_input.addEventListener('change', (event) => {
+                            const files = event.target.files;
+                            if (event.length !== 0) {
+                                readBarcodeFile(files[0]);
+                            }
+                        });
+                        //Drag and drop functionality
+                        //On drag we just read the dragged file
+                        const drop_zone = document.getElementById(`barcode-drop-${this.property}`);
+                        drop_zone.addEventListener('drop', event => {
+                            const files = event.dataTransfer.files;
+                            if (files.length > 0) {
+                                readBarcodeFile(files[0]);
+                            }
+                        });
+                        //Drag enter and drag leave style changes
+                        ['dragenter', 'dragover'].forEach(eventType => {
+                            drop_zone.addEventListener(eventType, () => drop_zone.classList.add('dropping'));
+                        });
+                        ['dragleave', 'drop'].forEach(eventType => {
+                            drop_zone.addEventListener(eventType, () => drop_zone.classList.remove('dropping'));
+                        });
+                    });
+                }
+                getScannerUI(is_mobile, cameras) {
+                    const has_cameras = !!cameras;
+                    let cameras_options;
+                    if (has_cameras) {
+                        cameras_options = cameras.map(camera => `<option value="${camera.id}">${camera.label}</option>`);
+                    }
+                    //The button that switches HIDDEN class of the two sections ONLY USED in MOBILE
+                    const toggle_mobile_button = `<button class="barcode-switch" onclick="let divs = this.closest('.barcode-scanner').children; for (let i = 0; i < divs.length; i++) {divs[i].classList.toggle('hidden');}">`;
+                    return `<span class="barcode-scanner ${is_mobile ? 'barcode-mobile' : ''}">
+                <div id="barcode-${this.property}" class="barcode-scanner-reader ${has_cameras ? '' : 'hidden'}">
+                    <h1 class="align-vertical-center">${flexygo.localization.translate('flxBarcode.scanCode')}</h1>
+                    <div id="barcode-scanner-${this.property}" class="barcode-scanner-container"></div>
+                    <span class="barcode-select-span align-vertical-center ${is_mobile ? 'hidden' : ''}">
+                        <i class="fa fa-camera"></i>
+                        <flx-combo>
+                            ${cameras_options}
+                        </flx-combo>
+                    </span>
+                    <span class="barcode-button-span centerFlex ${!is_mobile ? 'hidden' : ''}">
+                        <button class="barcode-camera-switch">
+                            <i class="flx-icon icon-photo-camera-8 icon-lg icon-fw margin-right-xs"></i>
+                            ${flexygo.localization.translate('flxBarcode.switchCamera')}
+                        </button>
+                    </span>
+                    ${is_mobile ? toggle_mobile_button + flexygo.localization.translate('flxBarcode.uploadImage') + '</button>' : ''}
+                </div>
+                <div class="barcode-scanner-file ${is_mobile && has_cameras ? 'hidden' : ''}">
+                    <h1 class="align-vertical-center" >${flexygo.localization.translate('flxBarcode.uploadImage')}</h1>
+                    <input id="barcode-file-${this.property}" class="hidden" type="file" id="qr-input-file" accept="image/*">
+                    <span id="barcode-drop-${this.property}" class="barcode-dropzone centerFlex">
+                        <i class="flx-icon icon-upload-1"></i>
+                        ${flexygo.localization.translate('upload.info')}
+                    </span>
+                    <span class="barcode-button-span centerFlex">
+                        <button class="barcode-upload" onclick="this.closest('.barcode-scanner-file').querySelector('#barcode-file-${this.property}').click()">
+                            <i class="flx-icon icon-upload"></i>
+                            ${flexygo.localization.translate('documentmanager.upload')}
+                        </button>
+                    </span>
+                    ${is_mobile && has_cameras ? toggle_mobile_button + flexygo.localization.translate('flxBarcode.scanCode') + '</button>' : ''}
+                </div>
+            </span>`;
+                }
+                formatReaders(readers_string) {
+                    return readers_string.split('|').map(reader_format => {
+                        //If the format does not end with _reader it means that it's one of the new ones included in the new plugin so it does not require changes
+                        if (!reader_format.endsWith('_reader')) {
+                            return reader_format;
+                        }
+                        //Most of the new formats name change can just be substituted by this line, for those who don't is the following switch
+                        reader_format = reader_format.replace('_reader', '').toUpperCase();
+                        switch (reader_format) {
+                            case 'CODE_39_VIN':
+                                return 'CODE_39';
+                            case 'I2OF5':
+                            case '2OF5':
+                                return 'ITF';
+                            case 'EAN':
+                                return 'EAN_13';
+                            case 'UPC':
+                                return 'UPC_A';
+                            default:
+                                return reader_format;
                         }
                     });
                 }
+                //After inserting we wait for dependencies to end, and we autotab to next input
                 waitToTab(div) {
-                    let flxEdit = $(this).closest('flx-edit');
-                    var dependenciesLoad = setInterval(() => {
+                    const flxEdit = $(this).closest('flx-edit');
+                    const dependenciesLoad = setInterval(() => {
                         if (flxEdit.find('.item #flx-dependency-loader, .grid-stack-item #flx-dependency-loader').length === 0) {
                             if (!$(this).find('> div').hasClass('has-error')) {
                                 this.tabToNext(div, flxEdit);
@@ -458,15 +527,12 @@ var flexygo;
                     }
                 }
                 closeScanUI() {
-                    $('.barcode-scanner').remove();
-                    $('.barcode-backdrop').remove();
-                    $('body').removeClass('barcodeLock');
-                    Quagga.stop();
+                    document.getElementById(`barcode-${this.property}`).parentElement.remove();
+                    document.getElementById(`barcode-backdrop-${this.property}`).remove();
+                    document.getElementById(`barcode-scanner-close-${this.property}`).remove();
                 }
                 initViewMode() {
-                    let me = $(this);
-                    let iconsLeft;
-                    let iconsRight;
+                    let me = $(this), iconsLeft;
                     let control = $('<div>');
                     me.html(control);
                     let input = $('<label class="form-control input-view" />');
@@ -475,10 +541,7 @@ var flexygo;
                         control.append(iconsLeft);
                     }
                     control.append(input);
-                    if (iconsRight) {
-                        control.append(iconsRight);
-                    }
-                    if (iconsLeft || (iconsRight && iconsRight.length > 0)) {
+                    if (iconsLeft) {
                         control.addClass("input-group");
                     }
                     if (this.options && this.options.Style) {
@@ -494,64 +557,21 @@ var flexygo;
                 initEditMode() {
                     let me = $(this);
                     let iconsLeft;
-                    let iconsRight = this.getIconButtons();
-                    let control = $('<div>');
+                    let barcode_button = $(`<div class="input-group-btn">
+                <button class="btn btn-default" type="button"><i class="flx-icon icon-barcode-1" /></button>
+            </div>`).on('click', () => { this.initScanCodeUI(); });
+                    let control = $('<div class="input-group"/>');
                     let input = $('<input type="text" class="form-control" />');
-                    input.on('blur', (e) => { me.trigger('blur'); });
+                    input.on('blur', () => { me.trigger('blur'); });
                     if (this.options && this.options.IconClass && this.options.IconClass !== '') {
-                        iconsLeft = $('<span class="input-group-addon" ><i class="' + this.options.IconClass + '" /></span>');
-                    }
-                    if (iconsLeft) {
+                        iconsLeft = $(`<span class="input-group-addon" ><i class="${this.options.IconClass}'" /></span>`);
                         control.append(iconsLeft);
-                    }
-                    control.append(input);
-                    if (iconsRight && iconsRight.length > 0) {
-                        control.append(iconsRight);
-                    }
-                    if (iconsLeft || (iconsRight && iconsRight.length > 0)) {
                         control.addClass("input-group");
                     }
+                    control.append(input);
+                    control.append(barcode_button);
                     me.html(control);
                     this.setOptions();
-                    $(this).find("input[type=file]").on("change", (e) => {
-                        if (e.target.files && e.target.files.length) {
-                            let options = this.getOptions();
-                            let config = $.extend({}, options, { src: URL.createObjectURL(e.target.files[0]) });
-                            Quagga.decodeSingle(config, (result) => {
-                                if (result && result.codeResult && result.codeResult.code) {
-                                    var code = result.codeResult.code;
-                                    this.setValue(code);
-                                    $(this).find('input[type=text]').trigger('change');
-                                    this.waitToTab($(this));
-                                }
-                                else {
-                                    flexygo.msg.warning(flexygo.localization.translate('flxBarcode.noCode'));
-                                }
-                            });
-                        }
-                    });
-                }
-                getIconButtons() {
-                    let ret = $('<div class="input-group-btn" />');
-                    let me = $(this);
-                    let editCtl = me.closest('flx-edit, flx-list')[0];
-                    let parseEdit = function (val, ctx, property) { return val; };
-                    if (editCtl && editCtl.parseEditString) {
-                        parseEdit = editCtl.parseEditString;
-                    }
-                    let scanIcon = $('<button class="btn btn-default" type="button"><i class="flx-icon icon-barcode-1" /></button>').on('click', (e) => {
-                        this.initScanCodeUI();
-                    });
-                    scanIcon = $(`<label class="btn upload-btn">
-                <i class="flx-icon icon-barcode-1"></i><input type="file" accept="image/*;capture=camera" capture class="hide" multiple/>
-            </label>`);
-                    ret.append(scanIcon);
-                    if (ret.html() === '') {
-                        return null;
-                    }
-                    else {
-                        return ret;
-                    }
                 }
                 setOptions() {
                     let me = $(this);

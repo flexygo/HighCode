@@ -25,7 +25,7 @@ declare namespace flexygo.camera {
     function onFail(message: any): void;
     function getPicture(myWidth?: number, myHeight?: number, myQuality?: number, typeCrop?: any, alternativeCam?: boolean): Promise<unknown>;
     function stopCamera(): void;
-    function getGalleryPicture(myWidth?: number, myHeight?: number, myQuality?: number): Promise<any>;
+    function getGalleryPicture(myWidth?: number, myHeight?: number, myQuality?: number): Promise<any[]>;
     function savePicture(image: any): Promise<any>;
     function getDefaultImage(): string;
 }

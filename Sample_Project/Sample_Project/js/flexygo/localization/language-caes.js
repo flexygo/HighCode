@@ -559,7 +559,13 @@ var flexygo;
                 filtersettings: 'Configuració de filtres',
                 listtemplatesettings: "Plantilla de Llista (opcional)",
                 viewtemplatesettings: "Plantilla de Visualització (opcional)",
-                createdatamodel: 'Crear model de dades'
+                createdatamodel: 'Crear model de dades',
+                manuallygeneration: 'Generació Manual',
+                aigeneration: ' Generació d’IA',
+                generatingobjects: 'Generant Objectes',
+                generatingtemplate: 'Generant Plantilles',
+                objectsaved: 'Objecte desat :)',
+                templatesaved: 'Plantilla desada :)'
             };
             caes.flxpropertymanager = {
                 addfields: 'Feu clic al botó "afegir camps" per començar.',
@@ -599,7 +605,11 @@ var flexygo;
                 compression: "Compressió d'imatge",
                 width: "Amplada màxima",
                 height: "Alçada màxima",
-                barcode: "Lectors de codis de barres"
+                barcode: "Lectors de codis de barres",
+                sqlObjectName: "Objecte font de dades",
+                sqlViewName: "Vista de la font de dades",
+                sqlOfflineSentence: "Sentencia SQL Offline",
+                addingProperties: "Afegint propietats..."
             };
             caes.flxversioninfo = {
                 currentversion: 'Versió actual ({{CurrentVersion}}).',
@@ -869,9 +879,9 @@ var flexygo;
                 lightmode: 'Mode Clar'
             };
             caes.flxBarcode = {
-                noCamera: 'No s\'ha trobat una càmera disponible',
-                IOSerr: 'Aquesta funcionalitat no està disponible a IOS',
-                noCode: 'No es pot trobar cap codi en aquesta imatge.'
+                scanCode: "Escanejar Codi",
+                uploadImage: "Pujar Imatge",
+                switchCamera: "Alternar càmera"
             };
             caes.abhSign = {
                 save: 'Guardar',
@@ -948,7 +958,18 @@ var flexygo;
             caes.flxai = {
                 beginMessage: 'Hola!\nCom puc ajudar-te?',
                 alertInfoMessage: 'No has configurat el Token Berear, si us plau, revisa la documentació.',
-                settingNotFound: 'No s\'ha pogut obtenir la configuració de l\'assistent amb SettindId "{0}".'
+                settingNotFound: 'No s\'ha pogut obtenir la configuració de l\'assistent amb SettindId "{0}".',
+                placeholder: "Pregunti lo que necesitis...",
+                mediatypenotallowed: "Tipus de mitjà no permès",
+                filepreview: "Previsualització del fitxer",
+                removedocument: "Eliminar document",
+                senddocument: "Enviar documents a l'assistent",
+                codehelperDescrip: "Un assistent amb intel·ligència artificial per ajudar-te a dissenyar, refactoritzar i escriure codi millor.",
+                dbhelperDescrip: "Desenvolupador d’IA full-stack per ajudar-te a crear projectes FlexyGo. {{name}} pot ajudar-te a crear el teu model de dades de base de dades ràpidament.",
+                docuhubhelperDescrip: "{{name}} pot utilitzar tota la documentació de la suite de productes AHORA per ajudar-te amb qualsevol dubte o pregunta, cada dia.",
+                helperDescrip: "Per a qualsevol tasca d'escriptura de textos, {{name}} et pot ajudar a escriure el que necessites perquè et puguis centrar en el que realment vols escriure.",
+                objecthelperDescrip: "{{name}} és l'assistent d'IA que pot crear nous objectes FlexyGo per a tu.",
+                templatehelperDescrip: "{{Name}} pot ajudar-te a crear les millors plantilles per als teus objectes, de manera ràpida i senzilla.",
             };
             caes.excelExport = {
                 title: "Trieu els camps que voleu mostrar a Excel",
@@ -1011,6 +1032,15 @@ var flexygo;
                 addButton: 'Afegir Taules',
                 clearButton: 'Netejar Taules',
                 saveButton: 'Desar Canvis'
+            };
+            caes.dbviewer = {
+                whichtables: 'Quines taules?',
+                summary: 'Resum',
+                withTestData: 'Amb Dades De Prova',
+                withoutTestData: 'Sense Dades De Prova',
+                generateObjects: 'Generar Objectes',
+                retry: 'Reintentar',
+                executeScript: 'Executar Script',
             };
         })(caes = culture.caes || (culture.caes = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

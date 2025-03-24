@@ -1,20 +1,20 @@
-import { r as registerInstance, k as h } from './index-8e5b11cb.js';
-import { s as sql, u as util, m as msg, L as LocalNotifications, F as FileOpener, C as ConftokenProvider, W as Webapi } from './conftoken-89472368.js';
-import { j as jquery } from './jquery-34624bb9.js';
-import './jquery-validate-flexygo-b272e167.js';
-import { m as modalController } from './overlays-cda44124.js';
+import { r as registerInstance, k as h } from './index-3f6ae35e.js';
+import { s as sql, u as util, m as msg, L as LocalNotifications, F as FileOpener, C as ConftokenProvider, W as Webapi } from './conftoken-6a608b71.js';
+import { j as jquery } from './jquery-254bc370.js';
+import './jquery-validate-flexygo-99364df3.js';
+import { m as modalController } from './overlays-71eb67ef.js';
 import './process-es6-cc264d03.js';
-import './utils-224de961.js';
-import './animation-b4670628.js';
-import './helpers-7ecb2fa5.js';
-import './ios.transition-e14f38db.js';
-import './index-c59a2c3f.js';
-import './md.transition-8bd31aee.js';
+import './utils-515e0805.js';
+import './animation-160b6d8d.js';
+import './helpers-0fb1c204.js';
+import './ios.transition-9f5405f1.js';
+import './index-7e5eab7f.js';
+import './md.transition-d5eeb7f8.js';
 import './cubic-bezier-ed243a9b.js';
 import './index-d086042f.js';
-import './ionic-global-6d118971.js';
+import './ionic-global-7b33f09f.js';
 import './index-cc97b114.js';
-import './index-81d32235.js';
+import './index-f393b124.js';
 import './hardware-back-button-508e48cf.js';
 import './_commonjsHelpers-2a12c1e6.js';
 
@@ -333,7 +333,10 @@ const FlxImagegallery = class {
       jquery(content).find('.swiper-pagination.swiper-pagination-bullets').fadeToggle(350);
     });
     jquery(content).find('ion-fab-button.close').on('click', () => { modalElement.dismiss(); });
-    jquery(content).find('ion-fab-button.changeDescrip').on('click', async () => { this.msgEdit(await slider.getActiveIndex()); });
+    jquery(content).find('ion-fab-button.changeDescrip').on('click', async () => {
+      const active_slide_index = await slider.getActiveIndex();
+      this.showImagePropertyEditModal(active_slide_index);
+    });
     jquery(content).find('ion-fab-button.edit').on('click', async () => {
       const activeIndex = await slider.getActiveIndex();
       const img = this.table[activeIndex];
@@ -355,21 +358,25 @@ const FlxImagegallery = class {
     const editBtn = document.getElementById("editButton");
     editBtn.style.display = (online ? "none" : "block");
   }
-  async msgEdit(index) {
-    const image_data = this.table[index];
+  async showImagePropertyEditModal(slide_index) {
+    const image_data = this.table[slide_index];
     let content = jquery(`<div class="wrapper">
                             <h1>${util.translate('document.msgEdit')}</h1>
                             <form class="form" novalidate="novalidate">
                                 <ion-list>
-                               <ion-item>
-                                    <ion-label color="header" position="floating">${util.translate('document.description')}</ion-label>
-                                    <ion-input value="${image_data.Descrip ? image_data.Descrip : ""}" name="Descrip" property="Descrip" ></ion-input>
-                                </ion-item>
-                                <ion-item>
-                                    <ion-label color="header" position="floating">${util.translate('document.category')}</ion-label>
-                                    <flx-dbcombo container="body" class="input hydrated" value="${image_data.ImageClassId}" name="ImageClassId" property="ImageClassId" required="true" valuefield="ImageClassId" displayfield="Descrip" orderby="Descrip asc" sqlsentence="select ImageClassId, Descrip from flxImagesClass" clearbutton=""></flx-dbcombo>
-                                </ion-item>
-                            </ion-list>
+                                    <ion-item>
+                                        <ion-label color="header" position="floating">${util.translate('document.name')}</ion-label>
+                                        <ion-input value="${image_data.Name ? image_data.Name : ""}" name="Name" property="Name" ></ion-input>
+                                    </ion-item>
+                                    <ion-item>
+                                        <ion-label color="header" position="floating">${util.translate('document.description')}</ion-label>
+                                        <ion-input value="${image_data.Descrip ? image_data.Descrip : ""}" name="Descrip" property="Descrip" ></ion-input>
+                                    </ion-item>
+                                    <ion-item>
+                                        <ion-label color="header" position="floating">${util.translate('document.category')}</ion-label>
+                                        <flx-dbcombo container="body" class="input hydrated" value="${image_data.ImageClassId}" name="ImageClassId" property="ImageClassId" required="true" valuefield="ImageClassId" displayfield="Descrip" orderby="Descrip asc" sqlsentence="select ImageClassId, Descrip from flxImagesClass" clearbutton=""></flx-dbcombo>
+                                    </ion-item>
+                                </ion-list>
                             </form>
                             <ion-toolbar>
                                 <ion-buttons slot="end">
@@ -404,16 +411,23 @@ const FlxImagegallery = class {
     });
     jquery(document).off('saveEdit').on('saveEdit', (_evm) => {
       if (jquery(modalElement).find('form').valid()) {
+        //We create an object with the new property values
         let properties = {};
         jquery(modalElement).find('form [property]').each(function () {
-          let key = jquery(this).attr('property');
-          let value = jquery(this).val();
+          const key = jquery(this).attr('property');
+          const value = jquery(this).val();
           properties[key] = value;
         });
-        sql.execSQL('UPDATE flxImages SET Descrip = ?,ImageClassId = ? WHERE ImageId = ?;', [properties["Descrip"], properties["ImageClassId"], image_data.ImageId]);
+        //We update the values of the image
+        sql.execSQL('UPDATE flxImages SET Name = ?, Descrip = ?,ImageClassId = ? WHERE ImageId = ?;', [properties["Name"], properties["Descrip"], properties["ImageClassId"], image_data.ImageId]);
+        image_data.Name = properties["Name"];
         image_data.Descrip = properties["Descrip"];
         image_data.ImageClassId = properties["ImageClassId"];
-        document.getElementById(`imgDesc${image_data.ImageId}`).innerHTML = image_data.Descrip;
+        //We update the Descrip and Name values visually
+        const descrip_element = document.getElementById(`imgDesc${image_data.ImageId}`);
+        const name_element = descrip_element.parentElement.querySelector('h2');
+        descrip_element.innerHTML = image_data.Descrip;
+        name_element.innerHTML = image_data.Name;
         msg.success(util.translate('document.msgEditSuccess'));
         modalElement.dismiss();
         jquery(document).off('saveEdit');

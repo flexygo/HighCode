@@ -44,6 +44,11 @@ var flexygo;
                 * @method init
                 */
                 init() {
+                    let me = $(this);
+                    me.removeAttr('manualInit');
+                    this.objectName = me.attr("ObjectName");
+                    this.objectWhere = me.attr("ObjectWhere");
+                    this.moduleName = me.attr("ModuleName");
                     return this.render();
                 }
                 /**
@@ -51,7 +56,9 @@ var flexygo;
                 * @method refresh
                 */
                 refresh() {
-                    return this.render();
+                    if ($(this).attr('manualInit') != 'true') {
+                        return this.init();
+                    }
                 }
                 /**
                 * Render HTML data.
@@ -404,12 +411,10 @@ var flexygo;
                 * @method connectedCallback
                 */
                 connectedCallback() {
-                    let element = $(this);
                     this.connected = true;
-                    this.objectName = element.attr("ObjectName");
-                    this.objectWhere = element.attr("ObjectWhere");
-                    this.moduleName = element.attr("ModuleName");
-                    this.init();
+                    if ($(this).attr('manualInit') != 'true') {
+                        this.init();
+                    }
                 }
                 /**
                 * Fires when the attribute value of the element is changed.

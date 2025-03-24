@@ -29,40 +29,10 @@ var flexygo;
                 * @method connectedCallback
                 */
                 connectedCallback() {
-                    let element = this;
+                    this.connected = true;
                     if ($(document.head).find('script[id="leader-line"]').length == 0) {
                         $(document.head).append(`<script ID="leader-line" defer src="${flexygo.utils.resolveUrl('~/js/plugins/LeaderLine/leader-line.min.js')}"/>`);
                     }
-                    this.connected = true;
-                    this.objectName = $(this).attr('ObjectName');
-                    this.objectWhere = $(this).attr('ObjectWhere');
-                    this.inputPropertyName = $(this).attr("InputPropertyName") ? $(this).attr("InputPropertyName") : "";
-                    this.secundaryInputPropertyName = $(this).attr("secundaryInputPropertyName") ? $(this).attr("secundaryInputPropertyName") : "";
-                    this.confModuleName = $(this).attr("ConfModuleName") ? $(this).attr("ConfModuleName") : "";
-                    this.moduleName = $(this).attr('ModuleName');
-                    this.relations = {};
-                    this.paperScale = 1.0;
-                    this.relationlineSize = 4;
-                    flexygo.events.off(this, "module", "resized");
-                    flexygo.events.off(this, "property", "changed");
-                    flexygo.events.off(this, "module", "loaded");
-                    flexygo.events.off(this, "module", "refreshed");
-                    $(window).off('resize.relationship').on('resize.relationship', function () {
-                        element.paperScale = 1;
-                        element.resizePaper();
-                    });
-                    flexygo.events.on(this, "module", "resized", function (e) {
-                        element.paperScale = 1;
-                        element.resizePaper();
-                    });
-                    flexygo.events.on(this, "module", "loaded", this.setObjects);
-                    $("#mainContent").off('scroll.relationship').on('scroll.relationship', function () {
-                        let initialX = element.initialDimentions["wrapper"]["properties"]["translateX"];
-                        let initialY = element.initialDimentions["wrapper"]["properties"]["translateY"];
-                        $(element).find(".wrapper").css("transform", `translate(${initialX + this.scrollLeft}px,${initialY + this.scrollTop}px)`);
-                        element.adjustRelationLines();
-                        element.adjustWrapper();
-                    });
                     if ($(this).attr('manualInit') != 'true') {
                         this.init();
                     }
@@ -102,6 +72,8 @@ var flexygo;
                 */
                 init(refresh = false) {
                     var _a, _b;
+                    $(this).removeAttr("manualInit");
+                    this.setMainEvents();
                     try {
                         this.paperScale = 1.0;
                         this.parentKeyProperties = [];
@@ -150,8 +122,40 @@ var flexygo;
                         }
                     }
                     catch (ex) {
-                        console.log(ex);
+                        flexygo.exceptions.httpShow(ex);
                     }
+                }
+                setMainEvents() {
+                    let me = $(this);
+                    this.objectName = me.attr('ObjectName');
+                    this.objectWhere = me.attr('ObjectWhere');
+                    this.inputPropertyName = me.attr("InputPropertyName") ? me.attr("InputPropertyName") : "";
+                    this.secundaryInputPropertyName = me.attr("secundaryInputPropertyName") ? me.attr("secundaryInputPropertyName") : "";
+                    this.confModuleName = me.attr("ConfModuleName") ? me.attr("ConfModuleName") : "";
+                    this.moduleName = me.attr('ModuleName');
+                    this.relations = {};
+                    this.paperScale = 1.0;
+                    this.relationlineSize = 4;
+                    flexygo.events.off(this, "module", "resized");
+                    flexygo.events.off(this, "property", "changed");
+                    flexygo.events.off(this, "module", "loaded");
+                    flexygo.events.off(this, "module", "refreshed");
+                    $(window).off('resize.relationship').on('resize.relationship', () => {
+                        this.paperScale = 1;
+                        this.resizePaper();
+                    });
+                    flexygo.events.on(this, "module", "resized", (e) => {
+                        this.paperScale = 1;
+                        this.resizePaper();
+                    });
+                    flexygo.events.on(this, "module", "loaded", this.setObjects);
+                    $("#mainContent").off('scroll.relationship').on('scroll.relationship', () => {
+                        let initialX = this.initialDimentions["wrapper"]["properties"]["translateX"];
+                        let initialY = this.initialDimentions["wrapper"]["properties"]["translateY"];
+                        me.find(".wrapper").css("transform", `translate(${initialX + this.scrollLeft}px,${initialY + this.scrollTop}px)`);
+                        this.adjustRelationLines();
+                        this.adjustWrapper();
+                    });
                 }
                 /**
                 * Refresh de webcomponent.

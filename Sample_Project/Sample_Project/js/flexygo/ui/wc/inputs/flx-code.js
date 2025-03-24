@@ -177,12 +177,15 @@ var flexygo;
                     }
                 }
                 static setTypeScriptLibraries(libraries) {
+                    flexygo.storage.session.add('typeScriptLibraries', libraries);
                     this.typeScriptLibraries = libraries;
                 }
                 static setOfflineLibraries(libraries) {
+                    flexygo.storage.session.add('offlineLibraries', libraries);
                     this.offlineLibraries = libraries;
                 }
                 static setHtmlStyles(styles) {
+                    flexygo.storage.session.add('htmlStyles', styles);
                     this.htmlStyles = styles;
                 }
                 static getTypeScriptLibraries() {

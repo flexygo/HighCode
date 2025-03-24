@@ -561,7 +561,13 @@ var flexygo;
                 filtersettings: 'Configuração do filtros',
                 listtemplatesettings: "Modelo de Lista (opcional)",
                 viewtemplatesettings: "Modelo de Visualização (opcional)",
-                createdatamodel: 'Criar modelo de dados'
+                createdatamodel: 'Criar modelo de dados',
+                manuallygeneration: 'Geração Manual',
+                aigeneration: 'Geração IA',
+                generatingobjects: 'Gerando Objetos',
+                generatingtemplate: 'Gerando Modelos',
+                objectsaved: 'Objeto salvo :)',
+                templatesaved: 'Modelo salvo :)'
             };
             ptpt.flxpropertymanager = {
                 addfields: 'Clique em "Adicionar campos" para começar.',
@@ -601,7 +607,11 @@ var flexygo;
                 compression: "Compressão de imagem",
                 width: "Largura máxima",
                 height: "Altura máxima",
-                barcode: "Leitores de código de barras"
+                barcode: "Leitores de código de barras",
+                sqlObjectName: "Fonte de dados de Objeto",
+                sqlViewName: "Visualização da fonte de dados",
+                sqlOfflineSentence: "Sentença SQL offline",
+                addingProperties: "Adicionar propriedades..."
             };
             ptpt.flxversioninfo = {
                 currentversion: 'Versão actual ({{CurrentVersion}}).',
@@ -871,9 +881,9 @@ var flexygo;
                 lightmode: 'Modo de Luz'
             };
             ptpt.flxBarcode = {
-                noCamera: 'Nenhuma câmera disponível encontrada',
-                IOSerr: 'Esta funcionalidade não está disponível no IOS',
-                noCode: 'Nenhum código pode ser encontrado nesta imagem.'
+                scanCode: "Digitalizar Código",
+                uploadImage: "Carregar Imagem",
+                switchCamera: "Alternar câmera"
             };
             ptpt.abhSign = {
                 save: 'Salve',
@@ -949,7 +959,20 @@ var flexygo;
             ptpt.flxai = {
                 beginMessage: '¡Olá!\nComo posso te ajudar?',
                 alertInfoMessage: 'Você não configurou o Token Berear, por favor, verifique a documentação.',
-                settingNotFound: 'A configuração do assistente com SettindId "{0}" não pôde ser obtida.'
+                settingNotFound: 'A configuração do assistente com SettindId "{0}" não pôde ser obtida.',
+                placeholder: "Peça algo...",
+                mediatypenotallowed: "Tipo de mídia não permitido",
+                filepreview: "Pré-visualização do arquivo",
+                removedocument: "Remover documento",
+                senddocument: "Enviar documentos para o assistente",
+                codehelperDescrip: "Um assistente de IA para ajudar você a projetar, refatorar e escrever código melhor.",
+                dbhelperDescrip: "Desenvolvedor de IA full-stack para ajudá-lo a criar projetos FlexyGo. {{name}} pode ajudar você a criar seu modelo de dados do banco de dados rapidamente.",
+                docuhubhelperDescrip: "{{name}} pode usar toda a documentação da suíte de produtos AHORA para ajudá-lo com qualquer dúvida ou pergunta, todos os dias.",
+                helperDescrip: "Para qualquer tarefa de escrita de texto, {{name}} pode ajudá-lo a escrever o que você precisa, para focar no que realmente deseja escrever.",
+                objecthelperDescrip: "{{name}} é o assistente de IA que pode criar novos objetos FlexyGo para você.",
+                templatehelperDescrip: "{{Name}} pode ajudá-lo a criar os melhores templates para seus objetos, de forma rápida e fácil.",
+                aititle: "IA",
+                aitooltip: "Assistente alimentado pelo modelo OpenAI"
             };
             ptpt.excelExport = {
                 title: 'Escolha os campos que deseja exibir no Excel',
@@ -1012,6 +1035,15 @@ var flexygo;
                 addButton: 'Adicionar Tabelas',
                 clearButton: 'Limpar Tabelas',
                 saveButton: 'Salvar Alterações'
+            };
+            ptpt.dbviewer = {
+                whichtables: 'Quais tabelas?',
+                summary: 'Resumo',
+                withTestData: 'Com Dados De Teste',
+                withoutTestData: 'Sem Dados De Teste',
+                generateObjects: 'Gerar Objetos',
+                retry: 'Tentar Novamente',
+                executeScript: 'Executar Script',
             };
         })(ptpt = culture.ptpt || (culture.ptpt = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

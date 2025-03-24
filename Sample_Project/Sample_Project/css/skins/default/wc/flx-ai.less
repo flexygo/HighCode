@@ -26,18 +26,21 @@ flx-ai {
 
     &[typeId="chat"] .chat_window {
         position: fixed;
-        animation: openAIChat 1s forwards;
         width: 30vw;
         min-width: 426px;
         max-width: 800px;
-        height: 75vh;
 
         .messages {
+            min-height: 15vh;
             height: 58vh;
         }
 
-        .chat_window.closing {
+        &.closing {
             animation: closeAIChat 1s forwards;
+        }
+
+        &:not(.closing) {
+            animation: openAIChat 1s forwards;
         }
     }
 
@@ -63,36 +66,58 @@ flx-ai {
         border-radius: @border-radius;
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
         background-color: @bg-color;
-        overflow: hidden;
 
-        .top_menu {
-            border-bottom: 1px solid @bg-color;
-            background-color: @module-color;
+        .top-menu {
+            display: flex;
+            justify-content: space-between;
+            padding: 3px 0 3px;
             width: 100%;
-            position: relative;
+            border-bottom: 1px solid @bg-color;
             border-radius: @border-radius @border-radius 0 0;
-            padding: 6px 0 6px;
+            background-color: @module-color;
             box-shadow: 0 1px 30px rgba(0, 0, 0, 0.1);
 
-            .buttons {
-                margin: 6px 0 0 20px;
-                position: absolute;
+            .chat_ai_close {
+                cursor: pointer;
+                padding: 0 2px 2px;
+                font-size: 16px;
 
-                .chat_ai_close {
-                    cursor: pointer;
-                    padding: 0 2px 2px;
-                    font-size: 16px;
-
-                    &:hover {
-                        color: @outstanding-color;
-                    }
+                &:hover {
+                    color: @outstanding-color;
                 }
             }
 
+            .close-button{
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                margin-left:10px;
+            }
+
             .title {
+                display:flex;
+                align-items:center;
                 text-align: center;
                 color: @txt-header-color;
                 font-size: 20px;
+
+                .title-content{
+                    color: @outstanding-color;
+                }
+
+                .title-content:hover{
+                    color: @info-color;
+                }
+            }
+
+            .ai-title {
+                display:flex;
+                align-items:center;
+                text-align: center;
+                color: @txt-header-color;
+                font-size: 20px;
+                margin-right:10px;
+                cursor:pointer;
             }
         }
 
@@ -162,6 +187,23 @@ flx-ai {
                             display: block;
                             margin: 0 auto;
                         }
+
+                        a {
+                            color: lighten(@outstanding-color, 15);
+                        }
+
+                        .link-navbutton {
+                            color: lighten(@outstanding-color, 15);
+                        }
+
+                        .chat_ai_image {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: contain;
+                            margin: 12px 0;
+                            max-width: 550px;
+                            display: block;
+                        }
                     }
 
                     .chat_ai_author {
@@ -207,11 +249,11 @@ flx-ai {
                     }
 
                     .text_wrapper {
-                        background-color: darken(@outstanding-color,20);
+                        background-color: @bg-ai-message;
                         margin-left: 20px;
 
                         &::after {
-                            border-right-color: darken(@outstanding-color,20);
+                            border-right-color: @bg-ai-message;
                         }
 
                         .chat_ai_text {
@@ -377,6 +419,43 @@ flx-ai {
                     }
                 }
             }
+
+            .document_input_wrapper {
+                display: flex;
+                flex-direction: row;
+
+                div {
+                    margin-right: 25px;
+                    position: relative;
+
+                    .img_context {
+                        width: 50px;
+                        height: 50px;
+                        border: 1px solid @outstanding-color;
+                        border-radius: @border-radius;
+                        z-index: 1;
+                    }
+
+                    .close_image {
+                        cursor: pointer;
+                        z-index: 2;
+                        background-color: transparent;
+                        color: @outstanding-color;
+                        border: 0px;
+                        cursor: pointer;
+                        z-index: 2;
+                        position: absolute;
+                        top: -12px;
+                        right: -16px;
+                        font-size: 24px;
+                        border-radius: 50%;
+
+                        &:hover {
+                            color: darken(@outstanding-color, 15);
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -412,6 +491,17 @@ flx-ai {
     }
 }
 
+@media (max-width: @medium) {
+    flx-ai[typeId="chat"] .chat_window {
+        min-width: ~"100dvw";
+        min-height: ~"calc(100dvh - 65px)"; // We substract 65px to allow some space for the header so the user knows it didn't navigate to a new page
+        justify-content: space-between;
+
+        .messages {
+            height: 100%;
+        }
+    }
+}
 
 body:not([mode="dark"]) div.ui-dialog:has(flx-ai[typeId="chat"]), div.ui-dialog:has(flx-ai[typeId="chat"]) {
     border: none;
@@ -433,18 +523,6 @@ flx-ai canvas{
 }
 
 /****************************************************DARK MODE**********************************************/
-
-body[mode="dark"] flx-ai {
-    .messages .message.left_message .text_wrapper {
-        background-color: #4f4f4f;
-
-        &::after {
-            border-right-color: #4f4f4f;
-        }
-
-        margin-left: 20px;
-    }
-}
 
 body[mode="dark"] .ui-widget-content:has(flx-ai[typeId="chat"]) {
     background-color: transparent;

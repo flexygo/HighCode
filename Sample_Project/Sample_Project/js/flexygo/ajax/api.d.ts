@@ -263,6 +263,7 @@ declare namespace flexygo.api {
         CanView_ComboObject: boolean;
         CanEdit_ComboObject: boolean;
         CanInsert_ComboObject: boolean;
+        IsCustomControl: boolean;
     }
     /**
     * api for ObjectPropertyLoweredKey
@@ -671,9 +672,13 @@ declare namespace flexygo.api {
     * @return {ChatGPTSetting} .
     */
     class ChatGPTSetting {
-        SettingId: string;
+        AssistantId: string;
+        Name: string;
+        ProfilePhoto: string;
+        Role: string;
+        Description: string;
         ApiUrl: string;
-        BearerToken: string;
+        Token: string;
         Model: string;
         IntroMessage: string;
         SystemPrompt: string;
@@ -681,9 +686,11 @@ declare namespace flexygo.api {
         ImplementedTools: string;
         CanAccessDB: string;
         CanCallProcesses: string;
+        CanUseRAG: string;
+        CanChat: boolean;
         ConnectionString: string;
-        MaxLevel: number;
-        PromptsBar: ButtonPrompt[];
+        MaxContext: number;
+        Buttons: ButtonPrompt[];
     }
     class ChatGPTSettingLoweredKey {
         settingid: string;
@@ -723,14 +730,18 @@ declare namespace flexygo.api {
     class ChatGPTOptions {
         TargetItem?: any;
         SettingId?: string;
+        ObjectTemplate?: string;
     }
     class ChatGPTOptionsLoweredKey {
         targetitem?: any;
         settingid?: string;
+        objecttemplate?: string;
     }
     class RequestChatGPTParameters {
         Chat: ChatGPTSetting;
         Messages: string;
+        ConversationId: string;
+        ConversationType: string;
     }
 }
 /**
@@ -1654,6 +1665,7 @@ declare namespace flexygo.api.entity {
         KeyFields: string[];
         FriendlyURL: boolean;
         DeleteConfirm: string;
+        AIDescription: string;
     }
     /**
    * api for GetProcessesResponse
@@ -3080,6 +3092,7 @@ declare namespace flexygo.api.Planner {
         TimeMode: string;
         AdditionalWhere: string;
         GroupsFilter: string;
+        DraggableFilter: string;
         FilterValues: flexygo.ui.wc.FlxFilterInfo[];
         SearchId: string;
     }
@@ -3159,6 +3172,7 @@ declare namespace flexygo.api.Planner {
         DraggableTitle: string;
         DraggableTemplate: string;
         DraggableObjectWhere: string;
+        DraggablesRefresh: boolean;
         DraggableEntityConfiguration: PlannerEntityConfiguration;
         OnAddFunction: string;
         OnMoveFunction: string;
@@ -3186,5 +3200,10 @@ declare namespace flexygo.api.Planner {
         PlannerModeId: string;
         CellDay: string;
         CellRowId: string;
+    }
+    class PlannerDraggableCardsParams {
+        ModeCardId: string;
+        DraggableFilter: string;
+        Defaults?: flexygo.api.GenericKeyValueObject[];
     }
 }

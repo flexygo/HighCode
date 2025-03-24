@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title><%= Me.getProjectName()%> by Flexygo</title>
-    <link rel="manifest" href="./manifest.json">
+    <%= Me.getManifest() %>
      <!-- FAVICON -->
     <%= Me.getFavIcon()%>
 

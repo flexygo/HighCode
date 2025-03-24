@@ -130,6 +130,7 @@ var flexygo;
                 renderFromModule() {
                     let me = $(this);
                     if (this.data) {
+                        let divs = $("<div></div>");
                         for (let i = 0; i < this.data.length; i++) {
                             let size = 'm';
                             if (this.data[i]['size']) {
@@ -137,8 +138,9 @@ var flexygo;
                             }
                             let div = $('<div class="flx-easyinfo"></div>').attr('size', size);
                             div.append(this.addEasInfo(this.data[i]['value'], this.data[i]['symbol'], this.data[i]['label'], this.data[i]['iconclass'], this.data[i]['color'], this.data[i]['click']));
-                            me.append(div);
+                            divs.append(div);
                         }
+                        me.html(divs.html());
                     }
                     let parentModule = me.closest('flx-module');
                     let wcModule = parentModule[0];

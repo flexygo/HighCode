@@ -1,23 +1,23 @@
-import { r as registerInstance, k as h } from './index-8e5b11cb.js';
-import { C as ConftokenProvider, u as util, m as msg, n as nav, k as flxSync } from './conftoken-89472368.js';
-import { j as jquery } from './jquery-34624bb9.js';
+import { r as registerInstance, k as h } from './index-3f6ae35e.js';
+import { C as ConftokenProvider, u as util, m as msg, n as nav, k as flxSync } from './conftoken-6a608b71.js';
+import { j as jquery } from './jquery-254bc370.js';
 import './process-es6-cc264d03.js';
-import './utils-224de961.js';
-import './animation-b4670628.js';
-import './helpers-7ecb2fa5.js';
-import './ios.transition-e14f38db.js';
-import './index-c59a2c3f.js';
-import './md.transition-8bd31aee.js';
+import './utils-515e0805.js';
+import './animation-160b6d8d.js';
+import './helpers-0fb1c204.js';
+import './ios.transition-9f5405f1.js';
+import './index-7e5eab7f.js';
+import './md.transition-d5eeb7f8.js';
 import './cubic-bezier-ed243a9b.js';
 import './index-d086042f.js';
-import './ionic-global-6d118971.js';
+import './ionic-global-7b33f09f.js';
 import './index-cc97b114.js';
-import './index-81d32235.js';
+import './index-f393b124.js';
 import './hardware-back-button-508e48cf.js';
-import './overlays-cda44124.js';
+import './overlays-71eb67ef.js';
 import './_commonjsHelpers-2a12c1e6.js';
 
-const flxSyncCss = ".loading-content{overflow:auto}.rectangle{width:100%;float:left;position:relative;display:flex;justify-content:center}.rectangle>div{width:calc(100% - 16px);max-height:252px;height:calc(100% - 16px);margin:8px;padding-bottom:16px;color:var(--ion-color-outstanding-contrast);background-color:var(--ion-color-outstanding-shade);box-shadow:0 2px 5px rgb(0 0 0 / 26%);text-align:center;cursor:pointer;border-radius:10px;max-width:520px}.rectangle ion-icon,.square ion-icon{font-size:80px;margin-top:20px}.square #sendDataInfo ion-icon{color:#fdd235}.square #indexedDB ion-icon{color:#dfdedf}.rectangle h6{margin-top:0}ion-row.changeAccount{place-content:center;padding-top:5px}ion-row.changeAccount>a{cursor:pointer}";
+const flxSyncCss = ".loading-content{overflow:auto}.rectangle{width:100%;float:left;position:relative;display:flex;justify-content:center}.rectangle>div{width:calc(100% - 16px);max-height:252px;height:calc(100% - 16px);margin:8px;padding-bottom:16px;color:var(--ion-color-outstanding-contrast);background-color:var(--ion-color-outstanding-shade);box-shadow:0 2px 5px rgb(0 0 0 / 26%);text-align:center;cursor:pointer;border-radius:10px;max-width:520px}.rectangle ion-icon,.square ion-icon{font-size:80px;margin-top:20px}.square #sendDataInfo ion-icon{color:#fdd235}.square #indexedDB ion-icon,.square #manageAccounts ion-icon{color:#dfdedf}.rectangle h6{margin-top:0}ion-row.changeAccount{place-content:center;padding-top:5px}ion-row.changeAccount>a{cursor:pointer}";
 
 const FlxSync = class {
   constructor(hostRef) {
@@ -80,7 +80,7 @@ const FlxSync = class {
             flxSync.restoreBackup(ev);
           }, type: "file", style: { "display": "none" } }), h("div", { id: "result_block", class: "hidden" }, h("h3", null, "Content :"), h("div", { id: "result" })), h("div", { class: "square-container", color: "outstanding" }, (this.lastSync !== '-' ?
           h("div", { class: "square" }, h("div", { id: "backup", class: "content", onClick: () => flxSync.msgCreateBackup() }, h("img", { src: "./assets/img/sync-backup.png" }), h("h6", null, util.translate('sync.backup'))))
-          : h("div", null)), h("div", { class: "square" }, h("div", { id: "restore", class: "content", onClick: flxSync.showRestoreBackupModal }, h("img", { src: "./assets/img/sync-restore.png" }), h("h6", null, util.translate('sync.restore')))))), h("div", null, h("div", { class: "square-container", color: "outstanding" }, h("div", { class: "square" }, h("div", { id: "indexedDB", class: "content", onClick: () => nav._nav('indexeddb', 'forward') }, h("ion-icon", { name: "server-outline" }), h("h6", null, util.translate('indexedDB.title')))), h("div", { class: "square" }, h("div", { id: "sendDataInfo", class: "content", onClick: () => this.showSendDataInfo() }, h("ion-icon", { name: "information-circle-outline" }), h("h6", null, util.translate('sendData.title')))))))
+          : h("div", null)), h("div", { class: "square" }, h("div", { id: "restore", class: "content", onClick: flxSync.showRestoreBackupModal }, h("img", { src: "./assets/img/sync-restore.png" }), h("h6", null, util.translate('sync.restore')))))), h("div", null, h("div", { class: "square-container", color: "outstanding" }, h("div", { class: "square" }, h("div", { id: "indexedDB", class: "content", onClick: () => nav._nav('indexeddb', 'forward') }, h("ion-icon", { name: "server-outline" }), h("h6", null, util.translate('indexedDB.title')))), h("div", { class: "square" }, h("div", { id: "sendDataInfo", class: "content", onClick: () => this.showSendDataInfo() }, h("ion-icon", { name: "information-circle-outline" }), h("h6", null, util.translate('sendData.title')))))), h("div", { class: "square-container", color: "outstanding" }, h("div", { class: "square" }, h("div", { id: "manageAccounts", class: "content", onClick: () => flxSync.showAccountsModal() }, h("ion-icon", { name: "people-outline" }), h("h6", null, util.translate('sync.manageAccounts'))))))
         : h("div", null)))), h("ion-row", { class: "changeAccount" }, h("a", { onClick: () => flxSync.showAccountsModal() }, "Change account"))))
     ];
   }

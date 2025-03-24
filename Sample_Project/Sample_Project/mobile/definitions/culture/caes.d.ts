@@ -17,6 +17,7 @@ declare namespace flexygo.culture.caes {
         sync: string;
         syncMore: string;
         logout: string;
+        trueLogout: string;
         logoutHeader: string;
         logoutMessage: string;
     };
@@ -77,6 +78,7 @@ declare namespace flexygo.culture.caes {
         download: string;
         edit: string;
         description: string;
+        category: string;
         msg: string;
         msgEdit: string;
         msgEditSuccess: string;
@@ -85,6 +87,7 @@ declare namespace flexygo.culture.caes {
         downloaded: string;
         errDownload: string;
         downloadedNoti: string;
+        name: string;
     };
     const gps: {
         activationMsg: string;

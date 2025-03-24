@@ -558,7 +558,13 @@ var flexygo;
                 filtersettings: 'Filter Einstellungen',
                 listtemplatesettings: "Listenvorlage (optional)",
                 viewtemplatesettings: "Ansichtsvorlage (optional)",
-                createdatamodel: 'Datenmodell erstellen'
+                createdatamodel: 'Datenmodell erstellen',
+                manuallygeneration: 'Manuelle Generierung',
+                aigeneration: 'KI-Generierung',
+                generatingobjects: 'Objekte werden Generiert',
+                generatingtemplate: 'Vorlagen Erstellen',
+                objectsaved: 'Objekt gespeichert :)',
+                templatesaved: 'Vorlage gespeichert :)'
             };
             dede.flxpropertymanager = {
                 addfields: 'Klicken Sie auf "Felder hinzufügen", um zu starten.',
@@ -598,7 +604,11 @@ var flexygo;
                 compression: "Bildkompression",
                 width: "Maximale Breite",
                 height: "Maximale Höhe",
-                barcode: "Barcode-Scanner"
+                barcode: "Barcode-Scanner",
+                sqlObjectName: "Datenquellenobjekt",
+                sqlViewName: "Datenquellenansicht",
+                sqlOfflineSentence: "Offline SQL Sentence",
+                addingProperties: "Hinzufügen von Eigenschaften..."
             };
             dede.flxversioninfo = {
                 currentversion: 'Aktuelle Version ({{CurrentVersion}}).',
@@ -868,9 +878,9 @@ var flexygo;
                 lightmode: 'Licht Modus'
             };
             dede.flxBarcode = {
-                noCamera: 'Keine verfügbare Kamera gefunden',
-                IOSerr: 'Diese Funktionalität ist unter IOS nicht verfügbar',
-                noCode: 'In diesem Bild ist kein Code zu finden.'
+                scanCode: "Code Scannen",
+                uploadImage: "Bild Hochladen",
+                switchCamera: "Kamera umschalten"
             };
             dede.abhSign = {
                 save: 'Speichern',
@@ -947,7 +957,20 @@ var flexygo;
             dede.flxai = {
                 beginMessage: 'Hallo!\nWie kann ich Ihnen helfen?',
                 alertInfoMessage: 'Sie haben das Berear-Token nicht konfiguriert, überprüfen Sie die Dokumentation.',
-                settingNotFound: 'Die Konfiguration des Assistenten mit SettindId "{0}" konnte nicht abgerufen werden.'
+                settingNotFound: 'Die Konfiguration des Assistenten mit SettindId "{0}" konnte nicht abgerufen werden.',
+                placeholder: "Bitten Sie um etwas...",
+                mediatypenotallowed: "Medientyp nicht erlaubt",
+                filepreview: "Dateivorschau",
+                removedocument: "Dokument entfernen",
+                senddocument: "Dokumente an den Assistenten senden",
+                codehelperDescrip: "Ein KI-gestützter Assistent, der Ihnen hilft, Code besser zu entwerfen, zu refaktorisieren und zu schreiben.",
+                dbhelperDescrip: "Full-Stack-KI-Entwickler zur Unterstützung bei der Erstellung von FlexyGo-Projekten. {{name}} kann Ihnen helfen, Ihr Datenbankmodell sehr schnell zu erstellen.",
+                docuhubhelperDescrip: "{{name}} kann die gesamte Dokumentation der AHORA-Produktreihe nutzen, um Ihnen täglich bei Fragen und Zweifeln zu helfen.",
+                helperDescrip: "Für jede Textschreibaufgabe kann {{name}} Ihnen helfen, das zu schreiben, was Sie brauchen, damit Sie sich auf das konzentrieren können, was Sie schreiben möchten.",
+                objecthelperDescrip: "{{name}} ist der KI-gestützte Assistent, der für Sie neue FlexyGo-Objekte erstellen kann.",
+                templatehelperDescrip: "{{Name}} kann Ihnen helfen, die besten Vorlagen für Ihre Objekte schnell und einfach zu erstellen.",
+                aititle: "KI",
+                aitooltip: "Assistent, angetrieben vom OpenAI-Modell"
             };
             dede.excelExport = {
                 title: "Wählen Sie die Felder aus, die Sie im Excel-Export sehen möchten",
@@ -1010,6 +1033,15 @@ var flexygo;
                 addButton: 'Tabellen Hinzufügen',
                 clearButton: 'Tabellen Löschen',
                 saveButton: 'Änderungen Speichern'
+            };
+            dede.dbviewer = {
+                whichtables: 'Welche Tabellen?',
+                summary: 'Zusammenfassung',
+                withTestData: 'Mit Testdaten',
+                withoutTestData: 'Ohne Testdaten',
+                generateObjects: 'Objekte Erzeugen',
+                retry: 'Wiederholen',
+                executeScript: 'Skript Ausführen',
             };
         })(dede = culture.dede || (culture.dede = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

@@ -101,8 +101,8 @@ var flexygo;
                             }
                         });
                         if (flexygo.utils.isSizeMobile()) {
-                            $('.icon-mic').remove();
-                            $('.icon-flx-search').remove();
+                            me.find('.icon-mic').remove();
+                            me.find('.icon-flx-search').remove();
                             $('#search-icon').after('<span id="search-after"></span>');
                             $('#search-after').text(' ' + flexygo.localization.translate('flxsearch.searchnode'));
                         }

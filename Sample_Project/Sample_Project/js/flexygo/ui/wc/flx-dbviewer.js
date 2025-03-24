@@ -38,6 +38,9 @@ var flexygo;
                 * @method init
                 */
                 init() {
+                    $(this).removeAttr('manualInit');
+                    // For ChatGPT Logging control
+                    this.conversationId = flexygo.utils.uniqueUUID();
                     let eventClass = "DbViewer";
                     let eventType = "Preview";
                     flexygo.events.off(this, eventClass, eventType);
@@ -54,13 +57,16 @@ var flexygo;
                     this.editor.value = JSON.stringify(schema);
                     this.render();
                     this.setMainEvents();
+                    this.closest("flx-module").moduleLoaded();
                 }
                 /**
                 * Refresh de webcomponent. REQUIRED.
                 * @method refresh
                 */
                 refresh() {
-                    this.init();
+                    if ($(this).attr('manualInit') != 'true') {
+                        this.init();
+                    }
                 }
                 /**
                 * Render HTML data.
@@ -68,7 +74,7 @@ var flexygo;
                 */
                 render() {
                     let toolbarTemplate = `<div class="scriptButton">
-                                      <button id="directExec" disabled>Execute Script</button>
+                                      <button id="directExec" disabled>${flexygo.localization.translate('dbviewer.executeScript')}</button>
                                         <button id="options" disabled>
                                             <span class="caret"></span>
                                         </button>
@@ -95,9 +101,9 @@ var flexygo;
                         $(this).addClass("selected");
                         let contextMenu = $('flx-contextmenu')[0];
                         let menu = $(`<ul>
-                                <li><span class="btn1">With Test Data</span></li>
-                                <li><span class="btn2">Without Test Data</span></li>
-                                <li><span class="btn3">Generate Objects</span></li>
+                                <li><span class="btn1">${flexygo.localization.translate('dbviewer.withTestData')}</span></li>
+                                <li><span class="btn2">${flexygo.localization.translate('dbviewer.withoutTestData')}</span></li>
+                                <li><span class="btn3">${flexygo.localization.translate('dbviewer.generateObjects')}</span></li>
                             </ul>`);
                         menu.find('span.btn1').on("click", function () {
                             if (!me.missingConnection()) {
@@ -129,14 +135,14 @@ var flexygo;
                                 contextMenu.destroy();
                             }
                             else {
-                                let tablesTitle = $(`<h4 class="table-menu">Which tables?</h4>`);
+                                let tablesTitle = $(`<h4 class="table-menu">${flexygo.localization.translate('dbviewer.whichtables')}</h4>`);
                                 let tablesList = $(`<ul class="table-menu">`);
                                 tables.forEach((table) => {
                                     tablesList.append(`<li><span><input type="checkbox">${table}</span></li>`);
                                 });
                                 let buttons = $(`<div class="table-menu-buttons">
-                                            <button class="table-menu-buttons ok-button" disabled>Accept</button>
-                                            <button class="table-menu-buttons cancel-button">Cancel</button>
+                                            <button class="table-menu-buttons ok-button" disabled>${flexygo.localization.translate('msg.noticeaccept')}</button>
+                                            <button class="table-menu-buttons cancel-button">${flexygo.localization.translate('flxgipe.buttoncancel')}</button>
                                         </div>`);
                                 // Selecting the tables we want
                                 let lastSelectedIndex = null;
@@ -243,11 +249,13 @@ var flexygo;
                         settings.ImplementedTools = "generateTestData";
                         let params = {
                             Chat: settings,
-                            Messages: JSON.stringify(messages)
+                            Messages: JSON.stringify(messages),
+                            ConversationId: this.conversationId,
+                            ConversationType: "DbViewer",
                         };
                         flexygo.ajax.post("~/api/AI", 'RequestChatGPT', params, (response) => {
                             if (response) {
-                                let resp = JSON.parse(response);
+                                let resp = JSON.parse(response.Result);
                                 if (resp.error) {
                                     flexygo.msg.warning(resp.error.message, null, "It was not possible to generate test data");
                                 }
@@ -269,53 +277,80 @@ var flexygo;
                     this.setSchemaSQL(code);
                 }
                 generateObjects(connection, tables) {
-                    var _a;
                     return __awaiter(this, void 0, void 0, function* () {
                         let me = this;
-                        let chatgpt = $(this).closest("main").find("flx-ai");
-                        flexygo.utils.showLoading(null, "Generating Objects");
-                        if (chatgpt.length > 0) {
-                            let settings = JSON.parse(JSON.stringify(chatgpt[0].settings));
-                            settings.CanCallProcesses = "true";
-                            settings.ToolsCategory = "process";
-                            settings.SystemPrompt = "Create objects for database tables. YOU DO NOT NEED THE VIEW KEYS";
-                            settings.ImplementedTools = "createObject";
-                            settings.ConnectionString = connection;
-                            let results = "";
-                            let objectNames = [];
-                            for (const table of tables) {
-                                let messages = [{
-                                        "role": "user",
-                                        "content": "Create the object for the database table '" + table + "' with the dafault values",
-                                    }];
-                                let params = {
-                                    Chat: settings,
-                                    Messages: JSON.stringify(messages)
-                                };
-                                let result = yield me.apiObjectCreationCall(params, table);
-                                results += result;
-                                objectNames.push(result.split(' ')[2]); // The object name will always be in the 2nd position
+                        let settings = new flexygo.api.ChatGPTSetting;
+                        flexygo.ajax.post('~/api/AI', 'GetChatGPTSetting', { SettingId: "ObjectHelper" }, (response) => __awaiter(this, void 0, void 0, function* () {
+                            var _a;
+                            if (response && response.AssistantId == "ObjectHelper") {
+                                settings = response;
+                                if (flexygo.utils.isBlank(settings.Token)) {
+                                    let btnLink = '<a class="btn fa fa-external-link" onclick="flexygo.nav.openHelpId(\'syshelp-OpenAI\',\'new\',false,$(this))" target="_blank"/a>';
+                                    flexygo.msg.alert(`<div><span>${flexygo.localization.translate('flxai.alertInfoMessage')}</span> ${btnLink}</div>`);
+                                }
+                                else {
+                                    flexygo.utils.showLoading(null, flexygo.localization.translate('objectmanager.generatingobjects'));
+                                    let results = "";
+                                    let objectNames = [];
+                                    let tableErrors = [];
+                                    for (const table of tables) {
+                                        let messages = [{
+                                                "role": "user",
+                                                "content": "Create the object for the database table '" + table + "' with the dafault values",
+                                            }];
+                                        let params = {
+                                            Chat: settings,
+                                            Messages: JSON.stringify(messages),
+                                            ConversationId: this.conversationId,
+                                            ConversationType: "DbViewer",
+                                        };
+                                        let result = yield me.apiObjectCreationCall(params, table);
+                                        objectNames.push(result.split(' ')[2]); // The object name will always be in the 2nd position
+                                        // Add retry button in case of error
+                                        if (result.includes("ERROR")) {
+                                            let retryButton = `<button title="${flexygo.localization.translate('dbviewer.retry')}" class="objects-retry-btn"><i class="flx-icon icon-reload-1"></i></button>`;
+                                            result = result.replace('</p>', `&emsp;${retryButton}</p>`);
+                                            result = result.replace('ERROR', '<strong style="color: red;">ERROR</strong>');
+                                            tableErrors.push(table);
+                                        }
+                                        else {
+                                            result = result.replace('OK', '<strong style="color: green;">OK</strong>');
+                                        }
+                                        results += result;
+                                    }
+                                    ;
+                                    let objectWhere = "ObjectName=''";
+                                    objectNames.forEach((objName) => {
+                                        objectWhere += ` OR ObjectName='${objName}'`;
+                                    });
+                                    (_a = $('#mainNav')[0]) === null || _a === void 0 ? void 0 : _a.refresh();
+                                    flexygo.utils.removeLoadingEffect();
+                                    flexygo.msg.alert(results, () => {
+                                        flexygo.nav.goHome();
+                                        flexygo.nav.openPage("list", "sysObjects", objectWhere, null, "popup");
+                                    }, flexygo.localization.translate('dbviewer.summary'));
+                                    $('div.lobibox-body').on('click', 'button', function () {
+                                        $(this).closest('.lobibox-info').remove();
+                                        let table = $(this).data('table');
+                                        me.generateObjects(connection, tableErrors);
+                                    });
+                                }
                             }
-                            ;
-                            let objectWhere = "ObjectName=''";
-                            objectNames.forEach((objName) => {
-                                objectWhere += ` OR ObjectName='${objName}'`;
-                            });
-                            (_a = $('#mainNav')[0]) === null || _a === void 0 ? void 0 : _a.refresh();
-                            flexygo.utils.removeLoadingEffect();
-                            flexygo.msg.alert(results, () => {
-                                flexygo.nav.openPage("list", "sysObjects", objectWhere, null, "popup");
-                            }, "Summary");
-                        }
+                            else {
+                                flexygo.msg.error(flexygo.localization.translate('flxai.settingNotFound').replace("{0}", "ObjectHelper"));
+                            }
+                        }), (error) => {
+                            flexygo.exceptions.httpShow(error);
+                        });
                     });
                 }
                 apiObjectCreationCall(params, table) {
                     return new Promise((resolve, reject) => {
                         flexygo.ajax.post("~/api/AI", 'RequestChatGPT', params, (response) => {
                             if (response) {
-                                let resp = JSON.parse(response);
+                                let resp = JSON.parse(response.Result);
                                 if (resp.error) {
-                                    reject(`<hr><p><strong>${table}</strong>: ${resp.error.message}</p>`);
+                                    reject(`<hr><p><strong>${table}</strong>: ERROR: ${resp.error.message}</p>`);
                                 }
                                 else if (resp.choices && resp.choices[0] && resp.choices[0].message.content) {
                                     resolve(`<hr><p><strong>${table}</strong>: ${resp.choices[0].message.content}</p>`);
@@ -328,7 +363,7 @@ var flexygo;
                                 reject(`<hr><p><strong>${table}</strong>: ERROR: No response from server</p>`);
                             }
                         }, () => { reject(); });
-                    }).catch(() => { return `<hr><p><strong>${table}</strong>: <strong style="color: red;">Critical error</strong></p>`; });
+                    }).catch(() => { return `<hr><p><strong>${table}</strong>: <strong style="color: red;">CRITICAL ERROR</strong></p>`; });
                 }
                 /**
                 * Fires when element is attached to DOM
@@ -336,22 +371,22 @@ var flexygo;
                 */
                 connectedCallback() {
                     this.connected = true;
-                    let script = `
+                    if ($(document.head).find('script[class="dbviewer"]').length == 0) {
+                        $(document.head).append(`
             <script class="dbviewer">
                 import('../../../js/plugins/erd-editor/erd-editor.js').then((module) => {
-                    $('flx-dbviewer')[0].init();
-                    $('flx-dbviewer').closest("flx-module")[0].moduleLoaded();
+                    if ($('flx-dbviewer').attr('manualInit') != 'true') {
+                        $('flx-dbviewer')[0].init();
+                    }
                 }).catch((error) => {
                     console.error('Error al cargar el módulo:', error);
                 });
             </script>
-            `;
-                    if ($(document.head).find('script[class="dbviewer"]').length == 0) {
-                        $(document.head).append(script);
+            `);
+                        return;
                     }
-                    else {
+                    if ($(this).attr('manualInit') != 'true') {
                         this.init();
-                        this.closest("flx-module").moduleLoaded();
                     }
                 }
                 /**

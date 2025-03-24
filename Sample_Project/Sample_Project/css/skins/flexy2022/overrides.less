@@ -32,7 +32,7 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="datetime-loca
 
 input[type="date"]::-webkit-calendar-picker-indicator:hover, input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
     opacity: 1;
-    color: bdcolor(OutstandingColor);
+    color: @outstanding-color;
 }
 
 .ui-widget-content {
@@ -69,7 +69,7 @@ label:hover {
     border: none;
 }
 
-input[type="search"] {
+input[type="search"]:not(:disabled) {
     border: none;
     outline: none;
 }
@@ -2575,3 +2575,13 @@ flx-propertywizard {
     }
 }
 
+//FLX-SWITCH
+
+flx-switch .onoffswitch-label {
+    border: 1px solid @input-border-color;
+    background-color: darken(@input-background-color,10%);
+}
+
+[mode="dark"] flx-switch .onoffswitch-label {
+    background-color: lighten(@input-background-color,10%);
+}

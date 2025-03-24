@@ -561,7 +561,13 @@ var flexygo;
                 filtersettings: 'Filter Settings',
                 listtemplatesettings: 'List Template (optional)',
                 viewtemplatesettings: 'View Template (optional)',
-                createdatamodel: 'Create Data Model'
+                createdatamodel: 'Create Data Model',
+                manuallygeneration: 'Manually Generation',
+                aigeneration: 'AI Generation',
+                generatingobjects: 'Generating Objects',
+                generatingtemplate: 'Generating Templates',
+                objectsaved: 'Object saved :)',
+                templatesaved: 'Template saved :)'
             };
             engb.flxpropertymanager = {
                 addfields: 'Click "add fields" button to start.',
@@ -601,7 +607,11 @@ var flexygo;
                 compression: "Image Compression",
                 width: "Maximum Width",
                 height: "Maximim Height",
-                barcode: "Barcode Readers"
+                barcode: "Barcode Readers",
+                sqlObjectName: "Data Source Object",
+                sqlViewName: "Data Source View",
+                sqlOfflineSentence: "Offline SQL Sentence",
+                addingProperties: "Adding properties..."
             };
             engb.flxversioninfo = {
                 currentversion: 'Actual version ({{CurrentVersion}}).',
@@ -871,9 +881,9 @@ var flexygo;
                 lightmode: 'Light Mode'
             };
             engb.flxBarcode = {
-                noCamera: 'No available camera found',
-                IOSerr: 'This functionalitie isn\'t available on IOS',
-                noCode: 'Can\'t find any code on this picture.'
+                scanCode: "Scan Code",
+                uploadImage: "Upload Image",
+                switchCamera: "Switch camera"
             };
             engb.abhSign = {
                 save: 'Save',
@@ -950,7 +960,19 @@ var flexygo;
             engb.flxai = {
                 beginMessage: 'Hello!\nHow can I help you?',
                 alertInfoMessage: 'You haven\'t configured the Berear Token, please check the documentation.',
-                settingNotFound: 'The assistant configuration with SettindId "{0}" could not be retrieved.'
+                settingNotFound: 'The assistant configuration with SettindId "{0}" could not be retrieved.',
+                placeholder: "Ask for something...",
+                mediatypenotallowed: "Media type not allowed",
+                filepreview: "File preview",
+                removedocument: "Remove document",
+                codehelperDescrip: "An AI-powered assistant to help you Design, Refactor and Write Code, better.",
+                dbhelperDescrip: "Full-stack AI developer to help you create FlexyGo projects. {{name}} can help you create your DB data model really fast.",
+                docuhubhelperDescrip: "{{name}} can use all of AHORA's product suite documentation to help you with any doubt or question, everyday.",
+                helperDescrip: "For any text-writing task, {{name}} can help you to do what you have to write, to focus on what do you want to write.",
+                objecthelperDescrip: "{{name}} is the AI-powered assistant can create new FlexyGo objects for you.",
+                templatehelperDescrip: "{{Name}} can help you making the best templates for your objects, fast and easily.",
+                aititle: "AI",
+                aitooltip: "Assistant powered by the OpenAI model "
             };
             engb.excelExport = {
                 title: 'Select the fields you wanna see in the excel export',
@@ -1013,6 +1035,15 @@ var flexygo;
                 addButton: 'Add Tables',
                 clearButton: 'Clear Tables',
                 saveButton: 'Save Changes'
+            };
+            engb.dbviewer = {
+                whichtables: 'Which tables?',
+                summary: 'Summary',
+                withTestData: 'With Test Data',
+                withoutTestData: 'Without Test Data',
+                generateObjects: 'Generate Objects',
+                retry: 'Retry',
+                executeScript: 'Execute Script',
             };
         })(engb = culture.engb || (culture.engb = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

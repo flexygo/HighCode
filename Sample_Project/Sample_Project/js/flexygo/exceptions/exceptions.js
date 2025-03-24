@@ -22,7 +22,7 @@ var flexygo;
                 lastError = httpExc.responseJSON;
                 msg = httpExc.responseJSON.message;
                 tit = httpExc.responseJSON.title;
-                if (!element && (httpExc.responseJSON.stackTrace != '' || httpExc.responseJSON.innermessage != '' || httpExc.responseJSON.message != '')) {
+                if (!element && (!flexygo.utils.isBlank(httpExc.responseJSON.stackTrace) || !flexygo.utils.isBlank(httpExc.responseJSON.innermessage) || !flexygo.utils.isBlank(httpExc.responseJSON.message))) {
                     msg = '<span onclick="flexygo.exceptions.showFullError();" >' + msg + '<br/><u>More info</u></span>';
                     tit = '<span onclick="flexygo.exceptions.showFullError();" >' + tit + '</span>';
                 }

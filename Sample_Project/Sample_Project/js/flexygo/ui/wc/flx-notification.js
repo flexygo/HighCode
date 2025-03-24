@@ -105,6 +105,7 @@ var flexygo;
                             let lfnav = new flexygo.ui.wc.FlxNavElement();
                             var itemClick = new Function(lfnav.getTreeNavigate(flexygo.utils.lowerKeys(response)));
                             itemClick.call(elm);
+                            this.querySelector('flx-tooltip').pop.popover('hide');
                         }
                     });
                 }

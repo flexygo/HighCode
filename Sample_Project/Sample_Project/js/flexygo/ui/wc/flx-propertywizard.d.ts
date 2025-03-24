@@ -28,6 +28,8 @@ declare namespace flexygo.ui.wc {
         setBasicSettings(): void;
         setControlSettings(control_settings: any, property_data: any): void;
         init(): Promise<void>;
+        setPropertyAsRequired(property: HTMLElement): void;
+        setPropertyAsNotRequired(property: HTMLElement): void;
         quickSettingChange(input: FlxCheckElement, type: string, class_name?: string): void;
         changeQuickSettingVisuallyString(value: string, type: string, property_name?: string): void;
         changeQuickSettingVisuallyBoolean(value: boolean, class_name: string): void;
@@ -40,6 +42,7 @@ declare namespace flexygo.ui.wc {
          * - If a new property type is added, it would only be necessary to add its class (depProperty_Type) to its necessary inputs
          * @param current_type It must be the key name of the property type
          */
-        triggerDependencies(): void;
+        triggerVisibilityDependencies(): void;
+        setOfflineSQLPropertiesBasicConfiguraction(): void;
     }
 }

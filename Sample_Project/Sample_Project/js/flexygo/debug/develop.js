@@ -742,7 +742,7 @@ var flexygo;
          * @return {Array} - suggestions array.
          */
         function loadMonacoLibraries() {
-            if (flexygo.ui.wc.FlxCodeElement.getTypeScriptLibraries() == undefined) {
+            if (flexygo.storage.session.get('typeScriptLibraries') == null) {
                 flexygo.ajax.post('~/api/Sys', 'loadMonacoDefinitions', null, (response) => {
                     if (response) {
                         flexygo.ui.wc.FlxCodeElement.setTypeScriptLibraries(response["js"]);
@@ -750,6 +750,11 @@ var flexygo;
                         flexygo.ui.wc.FlxCodeElement.setHtmlStyles(response["css"]);
                     }
                 });
+            }
+            else {
+                flexygo.ui.wc.FlxCodeElement.setTypeScriptLibraries(flexygo.storage.session.get('typeScriptLibraries'));
+                flexygo.ui.wc.FlxCodeElement.setOfflineLibraries(flexygo.storage.session.get('offlineLibraries'));
+                flexygo.ui.wc.FlxCodeElement.setHtmlStyles(flexygo.storage.session.get('htmlStyles'));
             }
         }
         function GetSqlSuggestions(model, position, availableConnections) {
@@ -778,7 +783,7 @@ var flexygo;
                     let currentConnStringId = "ConfConnectionString";
                     if (flxContainer !== undefined) {
                         let connStringProperty = $(flxContainer).find("[property='ConnStringId']")[0];
-                        let currentConnStringId = connStringProperty ? $(connStringProperty).attr("value") : null;
+                        currentConnStringId = connStringProperty ? $(connStringProperty).attr("value") : null;
                         if (!currentConnStringId) {
                             let context = new flexygo.obj.Entity($(flxContainer).attr("objectname"), $(flxContainer).closest('flx-edit').attr("objectwhere"));
                             context.read();
@@ -1009,13 +1014,20 @@ var flexygo;
             }
         }
         function configureMonaco() {
-            flexygo.ajax.post('~/api/Sys', 'getDBSchema', {}, (response) => {
-                if (response) {
-                    DBSchema = response;
-                }
-            }, function (e) {
-                console.error(e);
-            });
+            let getDBSchema = flexygo.storage.session.get('getDBSchema');
+            if (getDBSchema == null) {
+                flexygo.ajax.post('~/api/Sys', 'getDBSchema', {}, (response) => {
+                    if (response) {
+                        flexygo.storage.session.add('getDBSchema', LZString.compressToBase64(JSON.stringify(response)));
+                        DBSchema = response;
+                    }
+                }, function (e) {
+                    console.error(e);
+                });
+            }
+            else {
+                DBSchema = JSON.parse(LZString.decompressFromBase64(getDBSchema));
+            }
             loadMonacoLibraries();
             //Autocompletion HTML provider
             monaco.languages.registerCompletionItemProvider('html', {
@@ -1110,6 +1122,14 @@ var flexygo;
         }
         debug.launchAnimation = launchAnimation;
         function launchOriginAnimation(isFirstTime) {
+            //This function is created inside the main function so it receives the changeOriginWithKeys function directly
+            const setOriginId = (origin_id) => {
+                $('#debugBackground').remove();
+                $('#originBackdrop').remove();
+                importMonaco();
+                document.removeEventListener('keydown', changeOriginWithKeys);
+                flexygo.nav.execProcess('SetNewOrigin', 'sysObjects', null, null, [{ 'key': 'NewOriginId', 'value': origin_id }], 'modal640x480', false, $(this), null, false);
+            };
             let anim = $(`<div id="debugBackground">
             <table>
                 <span id="developOriginSelector">
@@ -1156,11 +1176,35 @@ var flexygo;
                     current_button.parentElement.querySelector(`[origin='${flexygo.context.currentOriginId}']`).classList.remove('muted');
                 }
             }).on('click', ev => {
-                $('#debugBackground').remove();
-                $('#originBackdrop').remove();
-                importMonaco();
-                flexygo.nav.execProcess('SetNewOrigin', 'sysObjects', null, null, [{ 'key': 'NewOriginId', 'value': ev.currentTarget.getAttribute('origin') }], 'modal640x480', false, $(this), null, false);
+                const origin_id = ev.currentTarget.getAttribute('origin');
+                setOriginId(origin_id);
             });
+            //Origin set with arrow keys
+            let current_selected_origin = parseInt(flexygo.context.currentOriginId);
+            const changeOriginWithKeys = (ev) => {
+                const main_div = document.querySelector('#developOriginSelector');
+                switch (ev.key) {
+                    case 'ArrowLeft':
+                        if (current_selected_origin !== 0) {
+                            --current_selected_origin;
+                            main_div.querySelector(`[origin="${current_selected_origin}"]`).classList.remove('muted');
+                            main_div.querySelector(`[origin="${current_selected_origin + 1}"]`).classList.add('muted');
+                        }
+                        break;
+                    case 'ArrowRight':
+                        if (current_selected_origin !== 3) {
+                            ++current_selected_origin;
+                            main_div.querySelector(`[origin="${current_selected_origin}"]`).classList.remove('muted');
+                            main_div.querySelector(`[origin="${current_selected_origin - 1}"]`).classList.add('muted');
+                        }
+                        break;
+                    case 'Enter':
+                        const origin_id = main_div.querySelector('[origin]:not(.muted)').getAttribute('origin');
+                        setOriginId(origin_id);
+                        break;
+                }
+            };
+            document.addEventListener('keydown', changeOriginWithKeys);
             $('body').prepend('<div id="originBackdrop"></div>');
             $('body').append(anim);
             $('#debugBackground').show('fold', null, 500);

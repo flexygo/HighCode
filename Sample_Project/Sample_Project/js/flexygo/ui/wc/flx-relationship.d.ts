@@ -123,6 +123,7 @@ declare namespace flexygo.ui.wc {
         * @method init
         */
         init(refresh?: boolean): void;
+        setMainEvents(): void;
         /**
         * Refresh de webcomponent.
         * @method refresh

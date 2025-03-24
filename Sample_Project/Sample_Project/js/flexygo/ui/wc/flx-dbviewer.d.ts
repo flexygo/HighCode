@@ -24,6 +24,11 @@ declare namespace flexygo.ui.wc {
         editor: any;
         connectionCombo: flexygo.ui.wc.FlxDbComboElement;
         /**
+         * Conversation Id
+         * @property conversationId
+         */
+        conversationId: string;
+        /**
         * Init the webcomponent. REQUIRED.
         * @method init
         */

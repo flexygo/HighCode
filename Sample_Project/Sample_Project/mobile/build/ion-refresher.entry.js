@@ -1,9 +1,9 @@
-import { f as writeTask, r as registerInstance, n as createEvent, q as readTask, k as h, o as Host, m as getElement } from './index-8e5b11cb.js';
-import { a as isPlatform, g as getIonMode } from './ionic-global-6d118971.js';
+import { f as writeTask, r as registerInstance, o as createEvent, q as readTask, k as h, n as Host, l as getElement } from './index-3f6ae35e.js';
+import { a as isPlatform, g as getIonMode } from './ionic-global-7b33f09f.js';
 import { g as getTimeGivenProgression } from './cubic-bezier-ed243a9b.js';
-import { c as componentOnReady, f as clamp, g as getElementRoot, r as raf } from './helpers-7ecb2fa5.js';
+import { c as componentOnReady, f as clamp, g as getElementRoot, r as raf } from './helpers-0fb1c204.js';
 import { d as hapticImpact } from './haptic-ffb0c0b9.js';
-import { c as createAnimation } from './animation-b4670628.js';
+import { c as createAnimation } from './animation-160b6d8d.js';
 
 const getRefresherAnimationType = (contentEl) => {
   const previousSibling = contentEl.previousElementSibling;

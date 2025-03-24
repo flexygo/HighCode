@@ -38,12 +38,8 @@ var flexygo;
                 * @method connectedCallback
                 */
                 connectedCallback() {
-                    let element = $(this);
                     this.connected = true;
-                    this.moduleName = element.attr("ModuleName");
-                    this.data = element.attr('value');
-                    this.AdditionalWhere = element.attr('additionalwhere');
-                    if (element.attr('manualInit') != 'true') {
+                    if ($(this).attr('manualInit') != 'true') {
                         this.init();
                     }
                 }
@@ -71,6 +67,10 @@ var flexygo;
                         this.AdditionalWhere = newVal;
                         this.refresh();
                     }
+                    if (attrName.toLowerCase() == 'type' && newVal && newVal != '') {
+                        this.type = newVal.toLowerCase();
+                        this.refresh();
+                    }
                 }
                 /**
                 * Refresh de webcomponent.
@@ -96,9 +96,12 @@ var flexygo;
                * @method init
                */
                 init() {
+                    let me = $(this);
+                    me.removeAttr('manualInit');
+                    this.moduleName = me.attr("ModuleName");
+                    this.data = me.attr('value');
+                    this.AdditionalWhere = me.attr('additionalwhere');
                     return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
-                        let me = $(this);
-                        me.removeAttr('manualInit');
                         $(this).closest('flx-module').find('.flx-noInitContent').remove();
                         let parentModule = me.closest('flx-module');
                         let wcModule = parentModule[0];
@@ -149,7 +152,7 @@ var flexygo;
                                         this.Series = response.Series;
                                         this.Values = response.Value;
                                         this.Params = response.Params;
-                                        this.type = response.ChartType;
+                                        this.type = response.ChartType.toLowerCase();
                                         this.Background = response.ChartBackground;
                                         this.Border = response.ChartBorder;
                                         this.MixedChartLabels = response.MixedChartLabels;
@@ -209,7 +212,7 @@ var flexygo;
                     let listModule = me.closest('flx-list');
                     let wcListModule = listModule[0];
                     if (me.attr('type') && me.attr('type') != '') {
-                        this.type = me.attr('type');
+                        this.type = me.attr('type').toLowerCase();
                     }
                     if (me.attr('options') && me.attr('options') != '') {
                         this.options = me.attr('options');
@@ -676,7 +679,6 @@ var flexygo;
                                     options: overwriteOptionsRadar
                                 });
                                 break;
-                            case 'polarArea':
                             case 'polararea':
                                 //Para cada serie y label sus valores correspondientes
                                 value = [];
@@ -765,7 +767,6 @@ var flexygo;
                                 });
                                 break;
                             case 'bar':
-                            case 'horizontalBar':
                             case 'horizontalbar':
                                 //Para cada serie y label sus valores correspondientes
                                 for (let z = 0; z < series.length; z++) {
@@ -845,7 +846,7 @@ var flexygo;
                                 });
                                 break;
                             default:
-                                break;
+                                flexygo.msg.error(`Chart type ${this.type} is not supported.`);
                         }
                     }
                     else {
@@ -925,7 +926,7 @@ var flexygo;
             * Array of observed attributes.
             * @property observedAttributes {Array}
             */
-            FlxChartElement.observedAttributes = ['ObjectName', 'ObjectWhere', 'modulename', 'value', 'additionalwhere'];
+            FlxChartElement.observedAttributes = ['objectname', 'objectwhere', 'type', 'modulename', 'value', 'additionalwhere'];
             wc.FlxChartElement = FlxChartElement;
         })(wc = ui.wc || (ui.wc = {}));
     })(ui = flexygo.ui || (flexygo.ui = {}));

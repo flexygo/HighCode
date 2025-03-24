@@ -409,6 +409,10 @@ input::-webkit-inner-spin-button {
     position: fixed !important;
     z-index: 10;
     height: 100vh;
+
+    > .cntBody {
+        overflow: auto;
+    }
 }
 
 #mainBlock {
@@ -938,6 +942,10 @@ div#bundleOptimization {
     justify-content: space-around;
     padding-top: 40px;
     background-color: initial;
+}
+
+div#bundleOptimization flx-switch> div {
+    margin-top: -5px;
 }
 
 .sysObjConfigCombo {
@@ -2430,7 +2438,7 @@ flx-text .form-control[type='color'] {
     }
 }
 
-@media (min-width: @medium) and (max-width: @large) {   
+@media (min-width: @medium) and (max-width: @large) {
     .show-only-l {
         display: inherit !important;
     }
@@ -3653,6 +3661,7 @@ body:not([mode="dark"]) .flxhelp {
         display: none;
     }
 }
+
 body[mode="dark"] .flxhelp .svgIcon {
     filter: invert(100%) sepia(2%) saturate(254%) hue-rotate(118deg) brightness(114%) contrast(100%);
 }
@@ -4791,39 +4800,32 @@ flx-module .cntBodyFooter .pager:not(.onlyPageInfo):not(:empty) {
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 1px;
-    display: inline;
+    display: inline-block;
+    margin: 2px 0;
     vertical-align: middle;
 }
+@myArrayNames: outstanding, success, notify, danger, warning, primary, tools;
+@myArray: @outstanding-color, @success-color, @notify-color, @danger-color, @warning-color, @primary-color, @tools-color;
 
-.flx-state-danger {
-    background-color: lighten(@danger-color, 40%);
-    color: @danger-color;
+.generate-classes() {
+    @index: length(@myArray);
+
+    .-loop(@i) when (@i > 0) {
+        @className: extract(@myArrayNames, @i);
+        @classValue: extract(@myArray, @i);
+
+        .flx-state-@{className} {
+            background-color: lighten(@classValue, 38);
+            color: darken(@classValue, 15);
 }
 
-.flx-state-success {
-    background-color: lighten(@success-color, 55%);
-    color: @success-color;
+        .-loop(@i - 1);
 }
 
-.flx-state-info {
-    background-color: lighten(@info-color, 40%);
-    color: @info-color;
+    .-loop(@index);
 }
 
-.flx-state-primary {
-    background-color: lighten(@primary-color, 50%);
-    color: @primary-color;
-}
-
-.flx-state-warning {
-    background-color: lighten(@warning-color, 45%);
-    color: @warning-color;
-}
-
-.flx-state-tools {
-    background-color: lighten(@tools-color, 35%);
-    color: @tools-color;
-}
+.generate-classes();
 
 .flx-card-view {
     color: #322c2c;
@@ -5002,12 +5004,49 @@ flx-module .cntBodyFooter .pager:not(.onlyPageInfo):not(:empty) {
         color: @notify-color;
     }
 }
+
+.start-box-button {
+    padding: 10px;
+    border-radius: 25px;
+    font-size: 20px;
+    margin-left: 5px;
+}
+
+.start-box-button.icon-tools {
+    background-color: lighten(@tools-color, 40%);
+    color: @tools-color;
+}
+
+.start-box-button.icon-tools:hover {
+    background-color: lighten(@tools-color, 20%);
+    color: @tools-color;
+}
+
+.start-box-button.icon-info {
+    background-color: lighten(@warning-color, 45%);
+    color: @warning-color;
+}
+
+.start-box-button.icon-info:hover {
+    background-color: lighten(@warning-color, 25%);
+    color: @warning-color;
+}
+
+.start-box-button.icon-success {
+    background-color: lighten(@notify-color, 35%);
+    color: @notify-color;
+}
+
+.start-box-button.icon-success:hover {
+    background-color: lighten(@notify-color, 25%);
+    color: @notify-color;
+}
+
+.start-box-img:hover {
+    opacity: 0.8;
+}
 //flexygo startpage ends
-
-
 /// FLX LOADER
-
-
 section.flx-loading-effect {
     container-type: size;
     z-index: 999999999999999999999;
@@ -5441,6 +5480,25 @@ body[mode="dark"] section.flx-loading-effect {
     }
 }
 
+
+[modulename="sysmod-list-ChatGPTSettingButtons"], [modulename="sys-chatgpt-processes-selector"] {
+
+    .prompt {
+        display: inline-flex;
+        align-items: center;
+        max-width: calc(100% / 3);
+        width: 100%;
+    }
+
+    .promptText {
+        display: flex;
+        margin-left: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        align-items: center;
+    }
+}
 //flx-sortmanager
 flx-sortmanager .fieldSortItem i.delbutton {
     cursor: pointer;
@@ -5534,7 +5592,7 @@ flx-sortmanager .fieldSortItem i.delbutton {
 //Skeleton Page
 .flxImageCard {
     background-color: #e6eaf1;
-    border-radius: 5px;
+    border-radius: @border-radius;
     padding: 10px;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
     display: flex;
@@ -5670,4 +5728,475 @@ flx-switch:has(input[disabled]) label.onoffswitch-label {
 .flex-column {
     display: flex;
     flex-direction: column;
+}
+
+//ChatGPT_Setting assistant list
+
+.chat-assistant-card-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 1rem;
+}
+
+.assistant-list-card-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+
+.chat-assistant-card {
+    flex: 0 0 auto;
+    width: 250px;
+    margin: auto;
+    display: flex;
+    justify-content: space-around;
+
+    .user-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        margin: auto;
+        min-width: 150px;
+        width: 100%;
+        height: 90%;
+        min-height: 400px;
+        margin: 2rem auto;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        overflow: visible;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+    }
+
+    .user-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+        outline: 1px solid @outstanding-color;
+    }
+
+    .assistant-list-card-chat-button {
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        z-index: 5;
+        background-color: transparent;
+        border: 0px;
+    }
+
+
+    .card-text {
+        text-align: start;
+        height: 135px;
+        width: 200px;
+        overflow: auto;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
+
+
+    .assistant-card-title-centered {
+        justify-content: center;
+        align-items: center;
+        padding: 2px;
+        margin: 2px;
+    }
+
+    .profile-img {
+        width: 140px;
+        height: 140px;
+        margin: 2px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 4px solid #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    body[mode="dark"] .user-card {
+        box-shadow: 0 2px 4px rgba(255, 255, 255, 0.25);
+    }
+
+    .user-name {
+        font-weight: bold;
+        font-size: 1.5rem;
+        color: #212529;
+    }
+}
+
+flx-module[modulename="syschatgptsettings-list"] .assistant-list-card-header .btn-toolbar .btn-default {
+    display: inline-flex !important;
+    align-items: center;
+
+    //To allow a proper vertical centering we set the same height as the text
+    .flx-icon.icon-tokens {
+        height: 21px;
+        width: 21px;
+        display: flex;
+        align-items: center;
+    }
+}
+
+// ChatGPT Setting Edit Steps
+.flx-chatgpt-setting-steps {
+    ul.wizardnodes {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        list-style: none;
+        padding: 0;
+        position: relative;
+        width: 100%;
+        height: 85px;
+        margin-bottom: 40px;
+
+        li {
+            display: block;
+            float: left;
+            width: 16%;
+            text-align: center;
+            padding-left: 0;
+
+            &::before {
+                border-top: 3px solid #55606E;
+                content: "";
+                display: block;
+                font-size: 0;
+                overflow: hidden;
+                position: relative;
+                top: 11px;
+                right: 1px;
+                width: 100%;
+                z-index: 1;
+            }
+
+            &:first-child:before {
+                left: 50%;
+                max-width: 50%
+            }
+
+            &:last-child:before {
+                max-width: 50%;
+                width: 50%;
+            }
+
+            .step {
+                background: #B2B5B9;
+                color: #fff;
+                display: inline;
+                font-size: 15px;
+                font-weight: 700;
+                padding: 7px 13px;
+                border: 3px solid transparent;
+                border-radius: 50%;
+                line-height: normal;
+                position: relative;
+                text-align: center;
+                z-index: 2;
+                transition: all .1s linear 0s;
+            }
+
+            &.complete {
+                .step {
+                    background: #0aa66e;
+                    padding: 1px 6px;
+                    border: 3px solid #55606E;
+                }
+            }
+
+            .title {
+                color: #bfbfbf;
+                display: block;
+                font-size: 13px;
+                line-height: 15px;
+                height: 15px;
+                max-width: 100%;
+                position: relative;
+                table-layout: fixed;
+                text-align: center;
+                top: 20px;
+                word-wrap: break-word;
+                z-index: 2;
+            }
+
+            &.active, &.active.complete {
+                .step {
+                    background: #0091d9;
+                    color: #fff;
+                    font-weight: 700;
+                    padding: 7px 13px;
+                    font-size: 15px;
+                    border-radius: 50%;
+                    border: 3px solid #55606E;
+                }
+
+                .title {
+                    color: #2B3D53
+                }
+            }
+        }
+
+        flx-navbutton:active, flx-navbutton:focus, flx-navbutton:hover {
+            text-decoration: none;
+
+            .step {
+                background-color: #0091d9;
+                cursor: pointer;
+            }
+        }
+    }
+
+    ul.option-icons {
+        list-style-type: none;
+        margin: 0 auto;
+        width: 50%;
+        text-align: center;
+
+        li {
+            text-align: center;
+            display: inline-block;
+            padding: 2em;
+        }
+    }
+
+    .datasource {
+        button {
+            &.activeTab {
+                border: 1px solid @success-color;
+
+                &:not(:last-child) {
+                    border-right: 2px solid @success-color;
+                }
+            }
+
+            &:not(.activeTab):hover {
+                &:not(:last-child) {
+                    border-right: 2px solid @outstanding-color;
+                }
+            }
+        }
+    }
+}
+
+.step-chat-container {
+    max-width: 768px;
+    margin: auto;
+}
+
+.chatgpt_rag_buttons_module {
+
+    .step-rag-buttons-container {
+        display: flex;
+        margin: auto;
+        justify-content: center;
+        align-items: baseline;
+
+        .btn {
+            margin: 0;
+            padding: 0;
+
+            p #text-title {
+                margin: 0 0 0 !important;
+                padding: 0;
+            }
+        }
+    }
+}
+
+.chatgpt_convs {
+    .txt {
+        color: @txt-color;
+    }
+}
+
+.chatgpt_logs {
+    flex-flow: wrap;
+    gap: 20px;
+    justify-content: center;
+    font-family: "Calibri", "Roboto", sans-serif;
+    background-color: @bg-color;
+    border-radius: @border-radius;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+
+    .messages {
+        list-style-type: none;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s ease;
+        margin-bottom: 30px;
+
+        .message {
+            clear: both;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 20px;
+
+            .text_wrapper {
+                display: inline-block;
+                padding: 20px;
+                border-radius: 6px;
+                max-width: 80%;
+                min-width: 40%;
+                position: relative;
+                box-sizing: border-box;
+
+                &::before, &::after {
+                    top: 18px;
+                    border: solid transparent;
+                    content: " ";
+                    height: 0;
+                    width: 0;
+                    position: absolute;
+                    pointer-events: none;
+                }
+
+                &::before {
+                    border-width: 15px;
+                    margin-top: -2px;
+                }
+
+                &::after {
+                    border-width: 13px;
+                    margin-top: 0px;
+                    right: 100%;
+                }
+
+                .chat_ai_text {
+                    font-size: 18px;
+                    margin-top: 2%;
+                    font-weight: 300;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 3;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+
+                    td {
+                        padding-right: 15px;
+                    }
+
+                    canvas {
+                        display: block;
+                        margin: 0 auto;
+                    }
+
+                    .chat_ai_image {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: contain;
+                        margin: 12px 0;
+                        max-width: 550px;
+                        display: block;
+                    }
+                }
+
+                .chat_ai_author {
+                    display: flex;
+                    width: 100%;
+                    justify-content: space-between;
+                    position: absolute;
+                    top: 8px;
+                    font-weight: bold;
+                    color: @txt-header-color;
+
+                    .list-unstyled {
+                        list-style-type: none;
+                        padding: 0;
+                        margin-right: 25px;
+                        display: flex;
+                        align-content: end;
+
+                        li {
+                            margin-right: 5px;
+                            display: flex;
+                            align-items: center;
+
+                            i {
+                                margin-right: 5px;
+                            }
+
+                            span {
+                                margin-right: 15px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .avatar {
+                padding: 0 1px 0 1px;
+                border-radius: 50%;
+                display: inline-block;
+
+                img {
+                    width: 60px;
+                    height: 60px;
+                }
+
+                .chat_ai_timestamp {
+                    color: @txt-header-color;
+                    text-align: center;
+                }
+            }
+
+            &.left_message {
+                display: flex;
+
+                .avatar {
+                    box-sizing: border-box;
+                    float: left;
+                }
+
+                .text_wrapper {
+                    background-color: @bg-ai-message;
+                    margin-left: 20px;
+                    transition: all linear 0.2s;
+
+                    &:hover {
+                        cursor: pointer;
+                        background-color: darken(@bg-ai-message, 8);
+                    }
+
+                    &:hover::after {
+                        cursor: pointer;
+                        border-right-color: darken(@bg-ai-message, 8);
+                    }
+
+                    &::after {
+                        transition: all linear 0.2s;
+                        border-right-color: @bg-ai-message;
+                    }
+
+                    .chat_ai_text {
+                        color: white;
+                    }
+
+                    .chat_ai_author {
+                        color: white;
+                    }
+                }
+            }
+
+            &.right_message {
+                display: flex;
+                flex-direction: row-reverse;
+
+                &.avatar {
+                    float: right;
+                }
+
+                .text_wrapper {
+                    background-color: @module-color;
+                    margin-right: 20px;
+                    float: right;
+
+                    &::before, &::after {
+                        left: 100%;
+                        border-left-color: @module-color;
+                    }
+                }
+            }
+        }
+    }
 }

@@ -153,6 +153,7 @@ export declare class ViewConfig {
     fields: Array<fieldConfig>;
     primaryKeys: Array<string>;
     indexFields: Array<string>;
+    bufferSize: number;
 }
 export declare class FileConfig {
     objectPK: string;
@@ -243,6 +244,8 @@ export declare class GeneralConfig {
     waitOnSendError: boolean;
     cameraDimensions: string;
     syncOnInitLapse: number;
+    askForPasswordOnAccountChange: boolean;
+    sleepMode: boolean;
 }
 export declare class UrlConfig {
     url: string;
@@ -357,4 +360,24 @@ export declare class flexyApps {
     currentApp: string;
     lastLoggedOutApp: string;
     [key: string]: flexyApp | string;
+}
+export declare class AccountInfo {
+    appName: string;
+    bbdd_GUID: string;
+    avatar: string;
+    sendError: boolean;
+    userNameSpan: Array<any>;
+}
+export declare class profilerData {
+    sentence: string | string[];
+    result: string;
+    method: string;
+    state: string;
+}
+export declare class IAChatMessage {
+    message: string;
+    not_parsed_message: string;
+    time: string;
+    is_assistant: boolean;
+    loading: boolean;
 }

@@ -4,6 +4,13 @@ declare var marked: any;
  * @namespace flexygo.ui.wc
  */
 declare namespace flexygo.ui.wc {
+    interface ChatGPTMessageContent {
+        type: string;
+        text?: string;
+        image_url?: {
+            url: string;
+        };
+    }
     /**
     * Library for the FlxAIElement
     *
@@ -11,9 +18,10 @@ declare namespace flexygo.ui.wc {
     * @constructor
     * @return {FlxAIElement} .
     */
-    class FlxAIElement extends HTMLElement {
+    export class FlxAIElement extends HTMLElement {
         constructor();
         targetItem: JQuery;
+        objectTemplate: string;
         initTemplate: string;
         messageTemplate: string;
         /**
@@ -42,6 +50,21 @@ declare namespace flexygo.ui.wc {
         */
         messages: any[];
         /**
+         * Conversation Id
+         * @property conversationId
+         */
+        conversationId: string;
+        /**
+         * Documents
+         * @property documents {string[]}
+         */
+        documents: string[];
+        /**
+        * Fires when element is attached to DOM
+        * @method connectedCallback
+        */
+        connectedCallback(): void;
+        /**
         * Init the webcomponent. REQUIRED.
         * @method init
         */
@@ -54,24 +77,30 @@ declare namespace flexygo.ui.wc {
         input: HTMLTextAreaElement;
         sendButton: JQuery;
         voiceButton: JQuery;
+        documentButton: JQuery;
+        documentInput: JQuery;
         recognition: any;
         /**
         * Render HTML data.
         * @method render
         */
         render(): void;
+        readDocuments(event: any): void;
+        addDocuments(event: any): void;
+        clearDocuments(fileDataUrl: any): void;
         getButtons(): void;
         /**
         * Send message to AI.
         * @method sendToAI
         * @param {String} message. Message to send to AI
         */
-        sendToAI(message: string): void;
-        writeMessage(role: any, avatar: any, srcavatar: any, author: any, time: any, message: any, enableReturn: any, positionClass: any, originalMessage?: any): void;
+        sendToAI(message: ChatGPTMessageContent[]): void;
+        writeMessage(role: any, avatar: any, srcavatar: any, author: any, time: any, message: any, enableReturn: any, positionClass: any, name: any, ProfilePhoto: any, originalMessage?: any): void;
         parseToMarkdown(message: any): string;
-        updateLastMessage(role: any, avatar: any, srcavatar: any, author: any, time: any, message: any, enableReturn: any, positionClass: any, originalMessage?: any): void;
+        updateLastMessage(role: any, avatar: any, srcavatar: any, author: any, time: any, message: any, enableReturn: any, positionClass: any, profilePhoto: any, originalMessage?: any): void;
         updateLastFunctionMessage(avatar: any, srcavatar: any, author: any, time: any, message: any, enableReturn: any, positionClass: any, originalMessage: any): void;
         setReturnButton(msgElement: JQuery, originalMessage: any): void;
+        resetAttachments(): void;
         /**
         *
         * @method open
@@ -80,11 +109,6 @@ declare namespace flexygo.ui.wc {
         open_from_toolbar(settingId: string, module: JQuery): void;
         close(e?: flexygo.events.FlexygoEvent): void;
         resizeInput(): void;
-        /**
-        * Fires when element is attached to DOM
-        * @method connectedCallback
-        */
-        connectedCallback(): void;
         /**
         * Fires when the attribute value of the element is changed.
         * @method attributeChangedCallback
@@ -96,4 +120,5 @@ declare namespace flexygo.ui.wc {
         */
         disconnectedCallback(): void;
     }
+    export {};
 }

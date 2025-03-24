@@ -131,7 +131,7 @@ var flexygo;
                         defObject = JSON.parse(flexygo.utils.parser.replaceAll(defString, "'", '"'));
                         if (this.managerMode == 'flexygo') {
                             this.rObjectName = (this.objectName && this.objectId) ? this.objectName : (defObject && defObject.ObjectName) ? defObject.ObjectName : (wcModule.objectdefaults) ? wcModule.objectdefaults.ObjectName : '';
-                            this.rObjectId = (this.objectName && this.objectId) ? this.objectId : (defObject && defObject.ObjectId) ? defObject.ObjectId : (wcModule.objectdefaults) ? wcModule.objectdefaults.ObjectId : '';
+                            this.rObjectId = (this.objectName && this.objectId) ? this.objectId : (defObject && (defObject.ObjectId || defObject.ObjectId == '0')) ? defObject.ObjectId : (wcModule.objectdefaults) ? wcModule.objectdefaults.ObjectId : '';
                             if (defObject && defObject.CategoryId) {
                                 this.categoryId = defObject.CategoryId;
                             }

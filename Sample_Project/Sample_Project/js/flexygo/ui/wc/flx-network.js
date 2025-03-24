@@ -104,7 +104,8 @@ var flexygo;
                         flexygo.ajax.post('~/api/Network', 'GetData', params, 
                         //Success Function
                         (response) => {
-                            let module = $(this).closest('flx-module');
+                            //Module(mdl)
+                            let mdl = $(this).closest('flx-module');
                             if (response) {
                                 let respnodes = [];
                                 let respedges = [];
@@ -166,10 +167,10 @@ var flexygo;
                                 this.network = new vis.Network(container, data, options);
                                 this.network.on("click", this.nodeClick);
                                 this.network.on("oncontext", this.nodeContext);
-                                this.network.setSize(module.width().toString(), module.height().toString());
+                                this.network.setSize(mdl.width().toString(), mdl.height().toString());
                                 this.network.fit();
                             }
-                            module[0].moduleLoaded(this);
+                            mdl[0].moduleLoaded(this);
                             resolve();
                         }, 
                         //Error Function

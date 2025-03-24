@@ -58,43 +58,19 @@ var flexygo;
                 * @method connectedCallback
                 */
                 connectedCallback() {
-                    let element = this;
                     this.connected = true;
                     this.objectName = $(this).attr('ObjectName');
                     this.objectWhere = $(this).attr('ObjectWhere');
                     this.confModuleName = $(this).attr("ConfModuleName") ? $(this).attr("ConfModuleName") : "";
                     this.moduleName = $(this).attr('ModuleName');
                     this.paperScale = 1.0;
-                    if (!this.checkVisibilityConfig()) {
-                        return;
-                    }
-                    ;
-                    flexygo.events.off(this, "module", "resized");
-                    flexygo.events.off(this, "property", "changed");
-                    flexygo.events.off(this, "module", "loaded");
-                    flexygo.events.off(this, "module", "refreshed");
-                    $(window).off('resize.tables').on('resize.tables', function () {
-                        element.paperScale = 1;
-                    });
-                    flexygo.events.on(this, "module", "resized", function (e) {
-                        this.refresh();
-                    });
-                    //flexygo.events.on(this, "module", "loaded", this.setObjects);
-                    flexygo.events.on(this, "module", "refreshed", function (e) {
-                        var _a, _b;
-                        let me = this;
-                        let moduleConf = this.confModule ? this.confModule : $($(this).closest('main')).find(`flx-module[modulename="${this.confModuleName}"]`).length > 0 ? $($(this).closest('main')).find(`flx-module[modulename="${this.confModuleName}"]`)[0] : undefined;
-                        if (((_b = (_a = e === null || e === void 0 ? void 0 : e.sender) === null || _a === void 0 ? void 0 : _a.moduleName) === null || _b === void 0 ? void 0 : _b.toLowerCase()) == this.confModuleName && $(moduleConf).length > 0 && $(moduleConf)[0] === e.sender) {
-                            flexygo.events.off(me, "property", "changed");
+                    if ($(this).attr('manualInit') != 'true') {
+                        if (!this.checkVisibilityConfig()) {
+                            return;
                         }
-                    });
-                    $("#mainContent").off('scroll.tables').on('scroll.tables', function () {
-                        let initialX = element.initialDimentions["wrapper"]["properties"]["translateX"];
-                        let initialY = element.initialDimentions["wrapper"]["properties"]["translateY"];
-                        $(element).find(".wrapper").css("transform", `translate(${initialX + this.scrollLeft}px,${initialY + this.scrollTop}px)`);
-                        element.adjustWrapper();
-                    });
-                    this.init();
+                        ;
+                        this.init();
+                    }
                 }
                 /**
                 * Fires when element is detached to DOM
@@ -128,9 +104,10 @@ var flexygo;
                 init(refresh = false) {
                     var _a, _b;
                     return __awaiter(this, void 0, void 0, function* () {
+                        $(this).removeAttr('manualInit');
+                        this.setMainEvents();
                         try {
                             this.paperScale = 1.0;
-                            $(this).removeAttr('manualInit');
                             $(this).closest('flx-module').find('.flx-noInitContent').remove();
                             $(this).closest("flx-module").removeClass("hidden");
                             yield this.getSavedTables();
@@ -165,8 +142,36 @@ var flexygo;
                             this.closest('flx-module').moduleLoaded(this);
                         }
                         catch (ex) {
-                            console.log(ex);
+                            flexygo.exceptions.httpShow(ex);
                         }
+                    });
+                }
+                setMainEvents() {
+                    let element = this;
+                    flexygo.events.off(this, "module", "resized");
+                    flexygo.events.off(this, "property", "changed");
+                    flexygo.events.off(this, "module", "loaded");
+                    flexygo.events.off(this, "module", "refreshed");
+                    $(window).off('resize.tables').on('resize.tables', function () {
+                        element.paperScale = 1;
+                    });
+                    flexygo.events.on(this, "module", "resized", function (e) {
+                        this.refresh();
+                    });
+                    //flexygo.events.on(this, "module", "loaded", this.setObjects);
+                    flexygo.events.on(this, "module", "refreshed", function (e) {
+                        var _a, _b;
+                        let me = this;
+                        let moduleConf = this.confModule ? this.confModule : $($(this).closest('main')).find(`flx-module[modulename="${this.confModuleName}"]`).length > 0 ? $($(this).closest('main')).find(`flx-module[modulename="${this.confModuleName}"]`)[0] : undefined;
+                        if (((_b = (_a = e === null || e === void 0 ? void 0 : e.sender) === null || _a === void 0 ? void 0 : _a.moduleName) === null || _b === void 0 ? void 0 : _b.toLowerCase()) == this.confModuleName && $(moduleConf).length > 0 && $(moduleConf)[0] === e.sender) {
+                            flexygo.events.off(me, "property", "changed");
+                        }
+                    });
+                    $("#mainContent").off('scroll.tables').on('scroll.tables', function () {
+                        let initialX = element.initialDimentions["wrapper"]["properties"]["translateX"];
+                        let initialY = element.initialDimentions["wrapper"]["properties"]["translateY"];
+                        $(element).find(".wrapper").css("transform", `translate(${initialX + this.scrollLeft}px,${initialY + this.scrollTop}px)`);
+                        element.adjustWrapper();
                     });
                 }
                 /**
@@ -182,10 +187,13 @@ var flexygo;
                     this.typeFields = [];
                     this.selectedFields = [];
                     this.fields = {};
-                    if (this.checkVisibilityConfig()) {
-                        this.init(true);
+                    if ($(this).attr('manualInit') != 'true') {
+                        if (!this.checkVisibilityConfig()) {
+                            return;
+                        }
+                        ;
+                        this.init();
                     }
-                    ;
                 }
                 checkVisibilityConfig() {
                     let entity = new flexygo.obj.Entity(this.objectName, this.objectWhere);
@@ -518,28 +526,26 @@ var flexygo;
                     this.getSelectedFields();
                 }
                 relatedSelected(selectedProperty) {
-                    return __awaiter(this, void 0, void 0, function* () {
-                        let titulo = $(selectedProperty).closest('li').attr('title');
-                        this.propertySelected($(selectedProperty).closest('li'), true);
-                        yield this.saveTables();
-                        const lines = titulo.split('\n');
-                        let names = new Set();
-                        lines.forEach(line => {
-                            let trimmedLine = line.trim();
-                            if (trimmedLine.includes(':')) {
-                                const parts = trimmedLine.split(':');
-                                trimmedLine = parts[1].trim();
-                            }
-                            if (trimmedLine.includes('.')) {
-                                const parts = trimmedLine.split('.');
-                                names.add(parts[0] + ";" + parts[1] + "@int");
-                            }
-                        }); // We get the related fields set from the title
-                        // Adding the tables
-                        if (names.size > 0) {
-                            this.addNewTables(names);
+                    let titulo = $(selectedProperty).closest('li').attr('title');
+                    this.propertySelected($(selectedProperty).closest('li'), true);
+                    this.saveTables();
+                    const lines = titulo.split('\n');
+                    let names = new Set();
+                    lines.forEach(line => {
+                        let trimmedLine = line.trim();
+                        if (trimmedLine.includes(':')) {
+                            const parts = trimmedLine.split(':');
+                            trimmedLine = parts[1].trim();
                         }
-                    });
+                        if (trimmedLine.includes('.')) {
+                            const parts = trimmedLine.split('.');
+                            names.add(parts[0] + ";" + parts[1] + "@int");
+                        }
+                    }); // We get the related fields set from the title
+                    // Adding the tables
+                    if (names.size > 0) {
+                        this.addNewTables(names);
+                    }
                 }
                 tableSelected(selectedTable, select) {
                     if (select) {
@@ -685,10 +691,8 @@ var flexygo;
                     }
                 }
                 clearTables() {
-                    return __awaiter(this, void 0, void 0, function* () {
-                        this.fields = {};
-                        yield this.saveTables();
-                    });
+                    this.fields = {};
+                    this.saveTables();
                 }
                 // Gets lis with the selectedProperty class
                 getSelectedFields() {
@@ -722,83 +726,86 @@ var flexygo;
                 }
                 // Stored Procedure to save the fields in the Datamodels table that are selected
                 saveTables() {
-                    return __awaiter(this, void 0, void 0, function* () {
-                        let params = [];
-                        params.push({ 'key': 'SettingId', 'value': this.confModule.find('[property="SettingId"]').val() }, { 'key': 'Json', 'value': JSON.stringify(this.fields) });
-                        yield flexygo.nav.execProcess("sysChatGPT_saveTablesAndFields", this.objectName, this.objectWhere, null, params, "popup", false, $(this), (response) => {
-                            flexygo.msg.success(flexygo.localization.translate('flxmodule.saved'));
-                        }, false);
+                    let params = [];
+                    const match = this.objectWhere.match(`SettingId=['"](.*?)['"]`);
+                    let settingId = undefined;
+                    if (match && match.length > 0 && match[0].includes('=')) {
+                        settingId = match[0].split('=')[1].replace('\'', '').replace('\'', '');
+                    }
+                    if (!settingId) {
+                        flexygo.msg.error(flexygo.localization.translate('flxmodule.errorSaving'));
+                        return;
+                    }
+                    params.push({ 'key': 'SettingId', 'value': settingId }, { 'key': 'Json', 'value': JSON.stringify(this.fields) });
+                    flexygo.nav.execProcess("sysChatGPT_saveTablesAndFields", this.objectName, this.objectWhere, null, params, "popup", false, $(this), (response) => {
+                        flexygo.msg.success(flexygo.localization.translate('flxmodule.saved'));
                         this.tables = [];
                         this.tableFields = [];
                         this.typeFields = [];
                         this.selectedFields = [];
                         this.fields = {};
-                        yield this.getSavedTables();
+                        this.getSavedTables();
                         this.getSelectedFields();
                         let mod = $(this).closest('flx-module')[0];
-                        yield mod.refresh();
-                        yield this.refresh();
-                    });
+                        mod.refresh();
+                        this.refresh();
+                    }, false);
                 }
                 // Gets the fields from the Datamodels tables. Used to obtain the tables when loading.
                 getSavedTables() {
-                    return __awaiter(this, void 0, void 0, function* () {
-                        return new Promise((resolve, reject) => {
-                            let SQLValidatorparams = {
-                                objectWhere: this.objectWhere
-                            };
-                            // Call to the controller. Response: tableName;field1;field2;|tableName2;...;|...|...@tableName|fieldselected1;tableName2|fieldselected2...;...;
-                            flexygo.ajax.syncPost('~/api/AI', 'GetSavedTables', SQLValidatorparams, (response) => {
-                                let resp = response;
-                                if (response !== "") {
-                                    let all = resp.split("@"); //separate allFields from selectedFields: {tableName;field1;field2;|tableName2;...;|...|...} - {tableName|fieldselected1;tableName2|fieldselected2...|}
-                                    let selectedfields = all[1].split(";"); //separate selected fields: {tableName|fieldselected1} - {tableName2|fieldselected2} - {...}}
-                                    selectedfields.pop();
-                                    let newTables = all[0].split("|"); // separate table and fields strings
-                                    newTables.pop();
-                                    let typefields = all[2].split("|");
-                                    typefields.pop();
-                                    // For each table and fields
-                                    newTables.forEach((tables) => {
-                                        let nameAndColumns = tables.split(";"); // separate table and fields {tableName} - {field1} - {field2} - ...
-                                        nameAndColumns.pop();
-                                        let names = [nameAndColumns.shift()]; //add the fields only the first
-                                        this.tables.push(names[0]);
-                                        let fields = [nameAndColumns];
-                                        this.tableFields.push(...fields);
-                                    });
-                                    typefields.forEach((table) => {
-                                        let types = table.split(";");
-                                        types.pop();
-                                        this.typeFields.push(...[types]);
-                                    });
-                                    this.selectedFields.push(...selectedfields); //add the selected fields
-                                }
-                                resolve(true);
-                            }, (err) => { reject(err); });
-                        });
+                    return new Promise((resolve, reject) => {
+                        let SQLValidatorparams = {
+                            objectWhere: this.objectWhere
+                        };
+                        // Call to the controller. Response: tableName;field1;field2;|tableName2;...;|...|...@tableName|fieldselected1;tableName2|fieldselected2...;...;
+                        flexygo.ajax.syncPost('~/api/AI', 'GetSavedTables', SQLValidatorparams, (response) => {
+                            let resp = response;
+                            if (response !== "") {
+                                let all = resp.split("@"); //separate allFields from selectedFields: {tableName;field1;field2;|tableName2;...;|...|...} - {tableName|fieldselected1;tableName2|fieldselected2...|}
+                                let selectedfields = all[1].split(";"); //separate selected fields: {tableName|fieldselected1} - {tableName2|fieldselected2} - {...}}
+                                selectedfields.pop();
+                                let newTables = all[0].split("|"); // separate table and fields strings
+                                newTables.pop();
+                                let typefields = all[2].split("|");
+                                typefields.pop();
+                                // For each table and fields
+                                newTables.forEach((tables) => {
+                                    let nameAndColumns = tables.split(";"); // separate table and fields {tableName} - {field1} - {field2} - ...
+                                    nameAndColumns.pop();
+                                    let names = [nameAndColumns.shift()]; //add the fields only the first
+                                    this.tables.push(names[0]);
+                                    let fields = [nameAndColumns];
+                                    this.tableFields.push(...fields);
+                                });
+                                typefields.forEach((table) => {
+                                    let types = table.split(";");
+                                    types.pop();
+                                    this.typeFields.push(...[types]);
+                                });
+                                this.selectedFields.push(...selectedfields); //add the selected fields
+                            }
+                            resolve(true);
+                        }, (err) => { reject(err); });
                     });
                 }
                 // Given a array of tables, add them in the visualization 
                 addNewTables(names) {
-                    return __awaiter(this, void 0, void 0, function* () {
-                        names.forEach((tables) => {
-                            let typesAndTables = tables.split("@");
-                            let nameAndColumns = typesAndTables[0].split(";");
-                            let fieldTypes = typesAndTables[1].split(";");
-                            let names = [nameAndColumns.shift()];
-                            this.tables = Array.from(new Set([...this.tables, ...names]));
-                            let fields = [nameAndColumns];
-                            this.tableFields = Array.from(new Set([...this.tableFields, ...fields]));
-                            let types = [fieldTypes];
-                            this.typeFields = Array.from(new Set([...this.typeFields, ...types]));
-                            let save = names[0] + "." + fields[0];
-                            this.selectedFields.push(...[save]);
-                        });
-                        this.renderTables();
-                        this.getSelectedFields();
-                        yield this.saveTables();
+                    names.forEach((tables) => {
+                        let typesAndTables = tables.split("@");
+                        let nameAndColumns = typesAndTables[0].split(";");
+                        let fieldTypes = typesAndTables[1].split(";");
+                        let names = [nameAndColumns.shift()];
+                        this.tables = Array.from(new Set([...this.tables, ...names]));
+                        let fields = [nameAndColumns];
+                        this.tableFields = Array.from(new Set([...this.tableFields, ...fields]));
+                        let types = [fieldTypes];
+                        this.typeFields = Array.from(new Set([...this.typeFields, ...types]));
+                        let save = names[0] + "." + fields[0];
+                        this.selectedFields.push(...[save]);
                     });
+                    this.renderTables();
+                    this.getSelectedFields();
+                    this.saveTables();
                 }
             }
             wc.FlxChatGPTFieldsElement = FlxChatGPTFieldsElement;

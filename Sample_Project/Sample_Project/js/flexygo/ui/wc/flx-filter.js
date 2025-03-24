@@ -393,7 +393,7 @@ var flexygo;
                                     objectname = wcElement.objectName;
                                 }
                                 if (wcElement instanceof flexygo.ui.wc.FlxModuleTabElement && containerItem.find('flx-moduletab').length > 0) {
-                                    objectname = containerItem.find('flx-moduletab').attr('objectname');
+                                    objectname = wcElement.activeModule.ModuleObjectName;
                                 }
                                 if (wcElement instanceof flexygo.ui.wc.FlxSearchElement) {
                                     objectname = wcElement.objectname;

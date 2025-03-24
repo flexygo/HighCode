@@ -1,21 +1,21 @@
-import { r as registerInstance, k as h, m as getElement } from './index-8e5b11cb.js';
-import { s as sql, C as ConftokenProvider, m as msg, u as util } from './conftoken-89472368.js';
-import { p as parser } from './parser-e9709966.js';
-import { j as jquery } from './jquery-34624bb9.js';
+import { r as registerInstance, k as h, l as getElement } from './index-3f6ae35e.js';
+import { s as sql, C as ConftokenProvider, m as msg, u as util } from './conftoken-6a608b71.js';
+import { p as parser } from './parser-52bcdf66.js';
+import { j as jquery } from './jquery-254bc370.js';
 import './process-es6-cc264d03.js';
-import './utils-224de961.js';
-import './animation-b4670628.js';
-import './helpers-7ecb2fa5.js';
-import './ios.transition-e14f38db.js';
-import './index-c59a2c3f.js';
-import './md.transition-8bd31aee.js';
+import './utils-515e0805.js';
+import './animation-160b6d8d.js';
+import './helpers-0fb1c204.js';
+import './ios.transition-9f5405f1.js';
+import './index-7e5eab7f.js';
+import './md.transition-d5eeb7f8.js';
 import './cubic-bezier-ed243a9b.js';
 import './index-d086042f.js';
-import './ionic-global-6d118971.js';
+import './ionic-global-7b33f09f.js';
 import './index-cc97b114.js';
-import './index-81d32235.js';
+import './index-f393b124.js';
 import './hardware-back-button-508e48cf.js';
-import './overlays-cda44124.js';
+import './overlays-71eb67ef.js';
 import './_commonjsHelpers-2a12c1e6.js';
 
 const flxSqllistCss = "flx-sqllist{}";
@@ -27,7 +27,7 @@ const FlxSqllist = class {
     this.filter = undefined;
     this.defaults = undefined;
     this.additional = undefined;
-    this.pageElements = 20;
+    this.pageelements = 20;
     this.sqlsentence = undefined;
     this.params = [];
     this.orderby = undefined;
@@ -55,7 +55,7 @@ const FlxSqllist = class {
     sentence = sql.addWhere(sentence, filter);
     sentence = sql.addOrderBy(sentence, this.orderby);
     this.currentSentence = sentence;
-    sentence = sql.addPager(this.currentSentence, this.currentPage, this.pageElements);
+    sentence = sql.addPager(this.currentSentence, this.currentPage, this.pageelements);
     sql.getTable(sentence, this.params).then(async (table) => {
       this.body = await this.getRows(table, null, this, true);
     });
@@ -98,7 +98,7 @@ const FlxSqllist = class {
   }
   async loadMore() {
     this.currentPage += 1;
-    let sentence = sql.addPager(this.currentSentence, this.currentPage, this.pageElements);
+    let sentence = sql.addPager(this.currentSentence, this.currentPage, this.pageelements);
     sql.getTable(sentence, this.params).then(async (table) => {
       let newItems = await this.getRows(table, null, this, false);
       this.body = this.body.concat(newItems);
@@ -114,7 +114,7 @@ const FlxSqllist = class {
     sentence = sql.addWhere(sentence, this.additional);
     sentence = sql.addOrderBy(sentence, this.orderby);
     this.currentSentence = sentence;
-    sentence = sql.addPager(this.currentSentence, this.currentPage, this.pageElements);
+    sentence = sql.addPager(this.currentSentence, this.currentPage, this.pageelements);
     return sql.getTable(sentence, this.params).then(async (table) => {
       this.body = await this.getRows(table, null, this, true);
     });
@@ -150,7 +150,7 @@ const FlxSqllist = class {
     if (infiniteScroll) {
       infiniteScroll.complete();
     }
-    if (table && table.rows.length < this.pageElements) {
+    if (table && table.rows.length < this.pageelements) {
       if (infiniteScroll) {
         infiniteScroll.disabled = true;
       }

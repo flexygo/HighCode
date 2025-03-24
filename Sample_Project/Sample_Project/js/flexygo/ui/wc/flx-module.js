@@ -56,7 +56,8 @@ var flexygo;
                     this.TemplateToolbarCollection = null;
                     this.newObjectWhere = null;
                     this.skeleton = null;
-                    this.skeleton_scroll = null; //This variable stores the scroll before loading the skeleton so when the skeleton gets removed the scroll gets restored
+                    //This variable stores the scroll before loading the skeleton so when the skeleton gets removed the scroll gets restored and also the element which the scroll will be applied
+                    this.skeleton_data = { scroll: null, element: null };
                     this.module = null;
                     this.ctxMenusValues = {};
                 }
@@ -80,14 +81,20 @@ var flexygo;
                     let me = $(this);
                     let def;
                     //We only initiate the skeleton if its not a manual init module, the skeleton module property comes from navigation.ts openPageReturn function
-                    if (!this.ManualInit && this.skeleton) {
+                    if (!this.ManualInit && this.skeleton && this.skeleton !== 'No Skeleton') {
                         me.find('.cntBody').addClass('displayingSkeleton');
                         me.find('.cntBody').append(`<span class="flxSkeleton">${this.skeleton}</span>`);
                     }
                     let histObj = flexygo.history.get(me);
                     if (typeof histObj != 'undefined' && histObj.defaults) {
                         if (typeof histObj.defaults == 'string') {
-                            def = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
+                            //We first try firectly parsing, if it fails we replace the ' fro " because they are normally used to avoid HTML attributes from breaking
+                            try {
+                                def = JSON.parse(histObj.defaults);
+                            }
+                            catch (_a) {
+                                def = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
+                            }
                         }
                         else {
                             def = histObj.defaults;
@@ -271,17 +278,24 @@ var flexygo;
                     return __awaiter(this, void 0, void 0, function* () {
                         let me = $(this);
                         //We show the Skeleton Element and hide the content
-                        if (this.skeleton) {
+                        if (this.skeleton && this.skeleton !== 'No Skeleton') {
                             //If the active module is an flx-list we save its scroll so we can restore it after it has been fully refreshed
                             const active_module_type = flexygo.utils.modules.getActiveModuleType(this);
                             if (active_module_type.startsWith('flx-list')) {
+                                //We search for the element that contains the scroll, normally the #mainContent or the modal main, but if instead of a flexy its a CRM we gotta get the main from #mainContent because for some reason its the element containing the scroll there
                                 let module_container = this.closest('#mainContent');
                                 if (!module_container)
                                     module_container = this.closest('main');
-                                this.skeleton_scroll = module_container.scrollTop;
+                                else if (module_container.scrollTop === 0) {
+                                    const main_element = module_container.querySelector('main');
+                                    if (main_element.scrollTop > 0)
+                                        module_container = main_element;
+                                }
+                                this.skeleton_data.scroll = module_container.scrollTop;
+                                this.skeleton_data.element = module_container;
                             }
-                            this.querySelector('.cntBody').classList.add('displayingSkeleton');
                             me.find('.cntBody').append(`<span class="flxSkeleton">${this.skeleton}</span>`);
+                            this.querySelector('.cntBody').classList.add('displayingSkeleton');
                             me.find('.cntBody').find('.flxSkeleton .skeletonHeader, .flxSkeleton .skeletonFooter').hide(); //We hide the Skeleton header and footer cause they do not get refreshed
                         }
                         me.find(".moduleToolbar > .btn-group > .tooltip").tooltip('hide');
@@ -380,7 +394,6 @@ var flexygo;
                         me.find('.cntBodyFooter .moduleButtons').empty();
                     }
                     var defString = (_a = flexygo.history.get(me)) === null || _a === void 0 ? void 0 : _a.defaults;
-                    ;
                     if (this.objectdefaults) {
                         defString = JSON.stringify(this.objectdefaults);
                     }
@@ -546,7 +559,6 @@ var flexygo;
                     var _a;
                     let me = $(this);
                     var defString = (_a = flexygo.history.get(me)) === null || _a === void 0 ? void 0 : _a.defaults;
-                    ;
                     if (this.objectdefaults) {
                         defString = JSON.stringify(this.objectdefaults);
                     }
@@ -596,7 +608,6 @@ var flexygo;
                     var _a;
                     let me = $(this);
                     var defString = (_a = flexygo.history.get(me)) === null || _a === void 0 ? void 0 : _a.defaults;
-                    ;
                     if (this.objectdefaults) {
                         defString = JSON.stringify(this.objectdefaults);
                     }
@@ -859,7 +870,7 @@ var flexygo;
                                 htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
                             break;
                         case 'assistantchatgpt':
-                            htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.ui.wc.FlxAIElement.prototype.open_from_toolbar', [btn.SettingId, $(this)]));
+                            htmlBTN.attr('onclick', flexygo.utils.functionToString('flexygo.ui.wc.FlxAIElement.prototype.open_from_toolbar', [btn.SettingId], ['$(this)']));
                             if (htmlBTN.attr('title'))
                                 htmlBTN.tooltip({ title: htmlBTN.attr('title'), placement: 'bottom' });
                             break;
@@ -984,10 +995,11 @@ var flexygo;
                         mod.find('.moduleToolbar [data-type="objectmenu"]').append(badgeSelect);
                     }
                 }
-                bagSelectionNone(objectName, objectWhere, module, button, cllbck) {
-                    let flxList = module.find('flx-list')[0];
+                //Module(mdl)
+                bagSelectionNone(objectName, objectWhere, mdl, button, cllbck) {
+                    let flxList = mdl.find('flx-list')[0];
                     flexygo.selection.clear(objectName);
-                    module[0].refresh().then(() => {
+                    mdl[0].refresh().then(() => {
                         var ev = {
                             class: "entity",
                             type: "uncheck",
@@ -995,18 +1007,19 @@ var flexygo;
                             masterIdentity: flxList.collectionname,
                             detailIdentity: { moduleFilter: flxList.processwhere, selectedItems: flexygo.selection.getArray(objectName) }
                         };
-                        flexygo.events.trigger(ev, module);
+                        flexygo.events.trigger(ev, mdl);
                     });
                 }
-                bagSelectionAll(objectName, objectWhere, module, button, cllbck) {
-                    let flxList = module.find('flx-list')[0];
+                //Module(mdl)
+                bagSelectionAll(objectName, objectWhere, mdl, button, cllbck) {
+                    let flxList = mdl.find('flx-list')[0];
                     let currentFilter = flxList.processwhere;
                     let additionalWhere = flxList.additionalWhere;
                     flexygo.ajax.post('~/api/List', 'GetBagPage', { ObjectName: objectName, ObjectWhere: currentFilter, AdditionalWhere: additionalWhere }, (response) => {
                         if (response.length > 0) {
                             let newArray = flexygo.selection.getArray(objectName).concat(response);
                             flexygo.selection.appendArray(objectName, newArray);
-                            module[0].refresh().then(() => {
+                            mdl[0].refresh().then(() => {
                                 let selectionLength = flexygo.selection.getArray(objectName).length;
                                 if (selectionLength > 0) {
                                     currentFilter = flexygo.selection.getFilterString(objectName);
@@ -1018,7 +1031,7 @@ var flexygo;
                                     masterIdentity: flxList.collectionname,
                                     detailIdentity: { moduleFilter: currentFilter, selectedItems: flexygo.selection.getArray(objectName) }
                                 };
-                                flexygo.events.trigger(ev, module);
+                                flexygo.events.trigger(ev, mdl);
                             });
                         }
                     });
@@ -1062,7 +1075,8 @@ var flexygo;
                         setTimeout(() => { $(prompt).find('.lobibox-input').focus(); }, 300);
                     }
                 }
-                deleteModuleResponse(objectName, objectWhere, module, button, cllbck, lastProcessName, lastAfterProcessName) {
+                //Module(mdl)
+                deleteModuleResponse(objectName, objectWhere, mdl, button, cllbck, lastProcessName, lastAfterProcessName) {
                     return __awaiter(this, void 0, void 0, function* () {
                         let obj = new flexygo.obj.Entity(objectName, objectWhere);
                         obj.read();
@@ -1080,7 +1094,7 @@ var flexygo;
                                 yield flexygo.utils.execAsyncFunction(obj.jsCode, ['sysObj', 'triggerElement'], [obj, button]).then((res) => {
                                     if (res === false)
                                         return;
-                                    this.deleteModuleResponse(objectName, objectWhere, module, button, cllbck, obj.lastProcessName, obj.lastAfterProcessName);
+                                    this.deleteModuleResponse(objectName, objectWhere, mdl, button, cllbck, obj.lastProcessName, obj.lastAfterProcessName);
                                 }).catch((err) => {
                                     flexygo.msg.error(flexygo.utils.getErrorMessage(err));
                                 });
@@ -1102,16 +1116,16 @@ var flexygo;
                                     currentForm.remove();
                                 }
                                 else {
-                                    if (!module) {
-                                        module = $(button).closest('flx-module');
+                                    if (!mdl) {
+                                        mdl = $(button).closest('flx-module');
                                     }
                                     //module.find('flx-edit, flx-list, flx-view').data('controller').refresh();
-                                    if (module) {
-                                        var edit = module.find("flx-edit").first();
+                                    if (mdl) {
+                                        var edit = mdl.find("flx-edit").first();
                                         if (edit.length > 0) {
                                             edit.attr("objectWhere", "");
                                         }
-                                        let wcModule = module[0];
+                                        let wcModule = mdl[0];
                                         if (wcModule) {
                                             wcModule.refresh();
                                         }
@@ -1198,8 +1212,10 @@ var flexygo;
                                                 if (!this.newObjectWhere && obj.objectWhere)
                                                     this.newObjectWhere = obj.objectWhere; //Sets the newObjectWhere to avoid loading a new incomplete edit
                                                 flexygo.utils.execAsyncFunction(obj.jsCode, ['sysObj', 'triggerElement'], [obj, button]).then((res) => {
-                                                    if (res === false)
+                                                    if (res === false) {
+                                                        this.newObjectWhere = null;
                                                         return;
+                                                    }
                                                     this.saveModule(objectName, objectWhere, module, button, afterSaveGoTo, defaults, obj, obj.lastProcessName, obj.lastAfterProcessName, excludeHist);
                                                 }).catch((err) => {
                                                     flexygo.msg.error(flexygo.utils.getErrorMessage(err));
@@ -1262,6 +1278,13 @@ var flexygo;
                                                             //Refresh defaults for dependant modules
                                                             if (response.Modules[e.moduleName]) {
                                                                 e.objectdefaults = response.Modules[e.moduleName].ObjectDefaults;
+                                                                if (e.objectdefaults) {
+                                                                    for (let key in e.objectdefaults) {
+                                                                        if (e.objectdefaults[key] != null && e.objectdefaults[key].toString().indexOf('/Date(') != -1) {
+                                                                            e.objectdefaults[key] = moment(moment.utc(e.objectdefaults[key]).toDate()).format('YYYY-MM-DDTHH:mm:ss');
+                                                                        }
+                                                                    }
+                                                                }
                                                             }
                                                             e.init();
                                                             mod.show();
@@ -1269,6 +1292,13 @@ var flexygo;
                                                         else if (e.moduleName != module.moduleName) {
                                                             if (response.Modules[e.moduleName]) {
                                                                 e.objectdefaults = response.Modules[e.moduleName].ObjectDefaults;
+                                                                if (e.objectdefaults) {
+                                                                    for (let key in e.objectdefaults) {
+                                                                        if (e.objectdefaults[key] != null && e.objectdefaults[key].toString().indexOf('/Date(') != -1) {
+                                                                            e.objectdefaults[key] = moment(moment.utc(e.objectdefaults[key]).toDate()).format('YYYY-MM-DDTHH:mm:ss');
+                                                                        }
+                                                                    }
+                                                                }
                                                             }
                                                         }
                                                     });

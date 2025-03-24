@@ -61,7 +61,7 @@ var flexygo;
                         btns = $('<div class="margin-left-l"><legend><i class="flx-icon icon-wizard-1"></i>' + flexygo.localization.translate('viewmanager.viewwizard') + '</legend></div>');
                     }
                     else if (this.mode == 'templateManager') {
-                        btns = $('<div class="row"><div class="col-6"><div class="btn-group" role="listType" /></div><div class="col-6"><button style="float:right" class="btn btn-info btnSaveList">Save  <i class="flx-icon icon-order-right-2" /></button></div></div>');
+                        btns = $('<div class="row"><div class="col-6"><div class="btn-group" role="listType" /></div><div class="col-6"><button style="float:right" class="btn btn-info btnSaveManager">Save  <i class="flx-icon icon-order-right-2" /></button></div></div>');
                         btns.find('.btn-group').append('<button type="button" class="btn btn-success" name="btn-fields"><i class="flx-icon icon-listbox-2" /> From Fields</button>');
                         btns.find('.btn-group').append('<button type="button" class="btn btn-default" name="btn-sql"><i class="flx-icon icon-sql" /> From SQL</button>');
                     }
@@ -120,6 +120,9 @@ var flexygo;
                         });
                     });
                     me.find('.btnSaveList').on('click', (e) => {
+                        this.saveView();
+                    });
+                    me.find('.btnSaveManager').on('click', (e) => {
                         this.saveView();
                     });
                     me.find('.btnTestView').on('click', (e) => {

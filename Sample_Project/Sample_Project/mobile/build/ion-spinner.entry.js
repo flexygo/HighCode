@@ -1,5 +1,5 @@
-import { r as registerInstance, k as h, o as Host } from './index-8e5b11cb.js';
-import { c as config, g as getIonMode } from './ionic-global-6d118971.js';
+import { r as registerInstance, k as h, n as Host } from './index-3f6ae35e.js';
+import { c as config, g as getIonMode } from './ionic-global-7b33f09f.js';
 import { c as createColorClasses } from './theme-12606872.js';
 import { S as SPINNERS } from './spinner-configs-9536fae2.js';
 

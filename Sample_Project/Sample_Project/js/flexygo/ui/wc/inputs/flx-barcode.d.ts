@@ -1,12 +1,7 @@
-declare namespace Quagga {
-    function init(obj: object, fnc: Function): void;
-    function stop(): void;
-    function onProcessed(fnc: Function): void;
-    function offDetected(): void;
-    function onDetected(fnc: Function): void;
-    function start(): void;
-    function decodeSingle(config: any, fnc: Function): void;
-}
+declare var Html5Qrcode: {
+    new (elementId: string): any;
+    getCameras: Function;
+};
 /**
  * @namespace flexygo.ui.wc
  */
@@ -46,44 +41,15 @@ declare namespace flexygo.ui.wc {
         attributeChangedCallback(attrName: string, oldVal: any, newVal: any): void;
         refresh(): void;
         init(): void;
-        initScanCodeUI(): void;
-        getOptions(): {
-            decoder: {
-                readers: any;
-            };
-            frequency: number;
-            inputStream: {
-                constraints: {
-                    aspectRatio: {
-                        min: number;
-                        max: number;
-                    };
-                    facingMode: string;
-                    height: {
-                        min: number;
-                    };
-                    width: {
-                        min: number;
-                    };
-                };
-                type: string;
-            };
-            lastResult: any;
-            locate: boolean;
-            locator: {
-                halfSample: boolean;
-                patchSize: string;
-            };
-            numOfWorkers: number;
-        };
-        initScanMode(): void;
+        initScanCodeUI(): Promise<void>;
+        getScannerUI(is_mobile: boolean, cameras: any): string;
+        formatReaders(readers_string: any): any;
         waitToTab(div: any): void;
         tabToNext(div: any, flxEdit: any): void;
         orderStackItems(a: any, b: any): 1 | -1;
         closeScanUI(): void;
         initViewMode(): void;
         initEditMode(): void;
-        getIconButtons(): JQuery;
         setOptions(): void;
         setValue(value: any): void;
         setValueView(value: any): void;

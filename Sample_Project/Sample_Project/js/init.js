@@ -30,6 +30,11 @@ $(function () {
             }
         }
     });
+    flexygo.events.on(this, 'process', 'error', function (e) {
+        if (document.body.querySelector(`flx-ai[settingid="${e.masterIdentity}"]`)) {
+            flexygo.msg.warning(e.detailIdentity);
+        }
+    });
     window.addEventListener("dragenter", function (e) {
         e.preventDefault();
     }, false);

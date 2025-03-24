@@ -23,17 +23,33 @@ var flexygo;
             if (typeof text == 'undefined' || text == '') {
                 text = document.location.href;
             }
-            let elm = $('<div id="lastQR" style="width:400px;height:400px;margin: 0 auto;" />');
-            Lobibox.window({ title: 'QR Code', content: elm });
-            let qrcode = new QRCode($('#lastQR')[0], { width: 400, height: 400 });
-            qrcode.makeCode(text);
+            const id = utils.uniqueUUID();
+            let qr_container = document.createElement('div');
+            qr_container.style.width = '400px';
+            qr_container.style.height = '400px';
+            qr_container.style.margin = '0 auto';
+            qr_container.id = `lastQR-${id}`;
+            let canvas = document.createElement('canvas');
+            qr_container.appendChild(canvas);
+            Lobibox.window({ title: 'QR Code', content: qr_container });
+            QRCode.toCanvas(canvas, text, { width: 400, errorCorrectionLevel: 'H' }, function (error) { if (error)
+                flexygo.msg.error(error); });
         }
         utils.showQR = showQR;
         function generateQR(text, size = 400) {
-            let elm = $('<div style="width:' + size + 'px;height:' + size + 'px;margin: 0 auto;" />');
-            let qrcode = new QRCode(elm[0], { width: size, height: size });
-            qrcode.makeCode(text);
-            return elm.find('canvas')[0].toDataURL();
+            // Creates a container for the QR
+            let qr_container = document.createElement('div');
+            qr_container.style.width = size + 'px';
+            qr_container.style.height = size + 'px';
+            qr_container.style.margin = '0 auto';
+            // Creates a canvas element to render the QR
+            let canvas = document.createElement('canvas');
+            qr_container.appendChild(canvas);
+            // Generates the QR
+            QRCode.toCanvas(canvas, text, { width: size, errorCorrectionLevel: 'H' }, function (error) { if (error)
+                flexygo.msg.error(error); });
+            // We return the qr as a b64
+            return canvas.toDataURL();
         }
         utils.generateQR = generateQR;
         /**
@@ -171,35 +187,55 @@ var flexygo;
         * @return {boolean} True if works, false if not.
         */
         function copyClipboard(text) {
-            // create hidden text element, if it doesn't already exist
-            var origSelectionStart, origSelectionEnd;
-            // must use a temporary form element for the selection and copy
-            var target = document.createElement("textarea");
-            target.style.position = "absolute";
-            target.style.left = "-9999px";
-            target.style.top = "0";
-            target.id = "_hiddenCopyText_";
-            document.body.appendChild(target);
-            target.textContent = text;
-            // select the content
-            var currentFocus = document.activeElement;
-            target.focus();
-            target.setSelectionRange(0, target.value.length);
-            // copy the selection
-            var succeed;
-            try {
-                succeed = document.execCommand("copy");
-                Lobibox.notify('default', { size: 'mini', msg: flexygo.localization.translate('msg.copied'), sound: false, width: 100, closable: false, delay: 1000 });
-            }
-            catch (e) {
-                succeed = false;
-            }
-            // restore original focus
-            if (currentFocus) {
-                $(currentFocus).focus();
-            }
-            $(target).remove();
-            return succeed;
+            return __awaiter(this, void 0, void 0, function* () {
+                if (flexygo.utils.isBlank(text))
+                    return false;
+                const msgKey = 'msg.copied';
+                let msg = flexygo.localization.translate(msgKey);
+                if (msg === msgKey) {
+                    msg = "Copied";
+                }
+                try {
+                    if (window.isSecureContext) {
+                        yield navigator.clipboard.writeText(text);
+                    }
+                    else {
+                        // create a temporary text element
+                        const target = document.createElement("textarea");
+                        target.style.position = "absolute";
+                        target.style.left = "-9999px";
+                        target.style.top = "0";
+                        target.id = "_hiddenCopyText_";
+                        document.body.appendChild(target);
+                        target.textContent = text;
+                        const currentFocus = document.activeElement;
+                        target.focus();
+                        target.setSelectionRange(0, target.value.length);
+                        //try copy text
+                        const succeed = document.execCommand("copy");
+                        // Get focus again
+                        if (currentFocus)
+                            currentFocus.focus();
+                        document.body.removeChild(target);
+                        if (!succeed)
+                            throw new Error("Copy command failed");
+                    }
+                    // success notify
+                    Lobibox.notify('default', {
+                        size: 'mini',
+                        msg,
+                        sound: false,
+                        width: 100,
+                        closable: false,
+                        delay: 1000
+                    });
+                    return true;
+                }
+                catch (error) {
+                    console.error("Error copying to clipboard:", error);
+                    return false;
+                }
+            });
         }
         utils.copyClipboard = copyClipboard;
         /**
@@ -290,6 +326,33 @@ var flexygo;
             return check;
         }
         utils.isAgentMobile = isAgentMobile;
+        /**
+         * Returns the name of the OS being used, if we don't recognize it we return null
+         * @method getOs
+         * @returns {string|null} Returns "WINDOWS", "MACOS", "LINUX", "ANDROID", "IOS" or null
+         */
+        function getOS() {
+            const userAgent = navigator.userAgent || navigator.platform;
+            if (/Win/.test(userAgent)) {
+                return "WINDOWS";
+            }
+            else if (/Mac/.test(userAgent)) {
+                return "MACOS";
+            }
+            else if (/Android/.test(userAgent)) {
+                return "ANDROID";
+            }
+            else if (/iOS|iPhone|iPad|iPod/.test(userAgent)) {
+                return "IOS";
+            }
+            else if (/Linux/.test(userAgent)) {
+                return "LINUX";
+            }
+            else {
+                return null;
+            }
+        }
+        utils.getOS = getOS;
         /**
        * Says if the agent's navigator comes from Electron.
        * @method isAgentElectron
@@ -1030,6 +1093,16 @@ var flexygo;
             return flexygo.utils.colors[value];
         }
         utils.randomColor = randomColor;
+        function randomColorClass(seed) {
+            let classList = ['outstanding', 'success', 'notify', 'danger', 'warning', 'primary', 'tools'];
+            let hash = 0;
+            for (let i = 0; i < seed.length; i++) {
+                hash = (hash << 5) - hash + seed.charCodeAt(i);
+            }
+            let numero = Math.abs(hash) % 7;
+            return `flx-state-${classList[numero]}`;
+        }
+        utils.randomColorClass = randomColorClass;
         function formatFileSize(size) {
             const units = ["B", "KB", "MB", "GB", "TB"];
             let currentSize = size;
@@ -1274,9 +1347,8 @@ var flexygo;
             }
         }
         utils.wizardSetStep = wizardSetStep;
-        utils.showLoading = (element, text, position) => {
+        utils.showLoading = (element, text, position, zIndex) => {
             var _a;
-            let zIndex;
             if (isBlank(element)) {
                 element = $('#mainContent');
             }
@@ -1285,7 +1357,8 @@ var flexygo;
                 return;
             if (((_a = element[0]) === null || _a === void 0 ? void 0 : _a.id) !== 'mainContent') {
                 $(element).css('position', 'relative');
-                zIndex = getZIndexElement(element);
+                if (!zIndex)
+                    zIndex = getZIndexElement(element);
             }
             let template = `
             <section ${zIndex ? `style="z-index: ${parseInt(zIndex) + 1};"` : ""}class="flx-loading-effect fadeIn animated${position ? " " + position : ""}">
@@ -1294,8 +1367,8 @@ var flexygo;
             </section>`;
             $(element).append(template);
         };
-        utils.showLoadingEffect = (time = 5000, element = null, text, position, noTimer = false) => {
-            utils.showLoading(element, text, position);
+        utils.showLoadingEffect = (time = 5000, element = null, text, position, noTimer = false, zIndex) => {
+            utils.showLoading(element, text, position, zIndex);
             if (!noTimer) {
                 setTimeout(function () {
                     flexygo.utils.removeLoadingEffect(element);
@@ -1320,7 +1393,12 @@ var flexygo;
             if (elm != undefined && $(elm)[0] !== $(document)[0]) {
                 zindex = parseInt(getComputedStyle($(elm)[0]).getPropertyValue('z-index'));
                 if (isNaN(zindex)) {
-                    return getZIndexElement($(elm).parent()[0]);
+                    if ($(elm).parent()[0] instanceof Element) {
+                        return getZIndexElement($(elm).parent()[0]);
+                    }
+                    else {
+                        return 0;
+                    }
                 }
                 return zindex;
             }
@@ -2238,17 +2316,14 @@ $(function () {
             }
             modules.groupButtonActive = groupButtonActive;
             function removeSkeleton(module) {
-                var _a, _b;
+                var _a, _b, _c;
                 if (module.skeleton) {
                     //If there's a scroll saved we restore it
-                    if (module.skeleton_scroll) {
-                        let module_container = module.closest('#mainContent');
-                        if (!module_container)
-                            module_container = module.closest('main');
-                        module_container.scrollTop = module.skeleton_scroll;
+                    if ((_a = module.skeleton_data) === null || _a === void 0 ? void 0 : _a.scroll) {
+                        module.skeleton_data.element.scrollTop = module.skeleton_data.scroll;
                     }
-                    (_a = module.querySelector('.flxSkeleton')) === null || _a === void 0 ? void 0 : _a.remove();
-                    (_b = module.querySelector('.cntBody')) === null || _b === void 0 ? void 0 : _b.classList.remove('displayingSkeleton');
+                    (_b = module.querySelector('.flxSkeleton')) === null || _b === void 0 ? void 0 : _b.remove();
+                    (_c = module.querySelector('.cntBody')) === null || _c === void 0 ? void 0 : _c.classList.remove('displayingSkeleton');
                 }
             }
             modules.removeSkeleton = removeSkeleton;

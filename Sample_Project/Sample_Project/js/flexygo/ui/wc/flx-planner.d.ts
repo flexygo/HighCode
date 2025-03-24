@@ -50,6 +50,7 @@ declare namespace flexygo.ui.wc {
         defaults: {};
         objDef: object;
         groupsFilter: string;
+        draggableFilter: string;
         additionalWhere: string;
         plannerId: string;
         plannerObject: string;
@@ -95,6 +96,7 @@ declare namespace flexygo.ui.wc {
         drawRows(): void;
         mainEvents(): void;
         cardsEvents(element: any): void;
+        draggableEvents(element: any): void;
         timeButtonsEvents(): void;
         modesButtonsEvents(): void;
         openEvent(objectName: string, GroupField: string, DateField: string, GroupId: string, DateInfo: string, target: string): void;
@@ -107,7 +109,8 @@ declare namespace flexygo.ui.wc {
         configureMode(): void;
         configure(): void;
         loadFilters(): void;
-        refreshDraggrableGroup(mode: string): void;
+        refreshDraggrableGroup(ModeCardId: string, cardConfig?: any): void;
+        drawDraggableList(draggablecards: any, modeCard: string, cardConfig: any): void;
         refreshCell(modeId: any, rowIdField: any, dateColumn: any, element: flexygo.ui.wc.FlxPlannerElement): void;
     }
 }

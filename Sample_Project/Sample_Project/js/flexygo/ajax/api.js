@@ -106,6 +106,7 @@ var flexygo;
                 this.CanView_ComboObject = true;
                 this.CanEdit_ComboObject = true;
                 this.CanInsert_ComboObject = true;
+                this.IsCustomControl = false;
             }
         }
         api.ObjectProperty = ObjectProperty;

@@ -105,7 +105,10 @@ var flexygo;
                     //We set the inputs values
                     this.setBasicSettings();
                     //With the values already set we trigger dependencies so the only visible inputs are the needed ones
-                    this.triggerDependencies();
+                    this.triggerVisibilityDependencies();
+                    //If its an offline property we set its initial dependencies, combo and required, state
+                    if (this.propertyManager.offline)
+                        this.setOfflineSQLPropertiesBasicConfiguraction();
                 }
                 setBasicSettings() {
                     const property_data = this.propertyManager.properties[this.propertyName];
@@ -113,7 +116,8 @@ var flexygo;
                     quick_settings.forEach((setting) => {
                         let property_name = setting.getAttribute('property');
                         try {
-                            setting.setValue(property_data[property_name]);
+                            if (property_data[property_name] != null) //We only set the value when its not null to avoid multicombos executing calls when its not needed
+                                setting.setValue(property_data[property_name]);
                         }
                         catch (_a) { }
                     });
@@ -121,22 +125,27 @@ var flexygo;
                     this.setControlSettings(control_settings, property_data);
                 }
                 setControlSettings(control_settings, property_data) {
-                    if (property_data.CustomPropName) {
-                        this.querySelector('[property="TypeId"]').setValue('custom');
-                        this.querySelector('[property="CustomPropName"]').setValue(property_data.CustomPropName);
-                        return;
-                    }
-                    control_settings.forEach((setting) => {
+                    let is_custom = false;
+                    for (let i = 0; i < control_settings.length; i++) {
+                        const setting = control_settings[i];
                         let property_name = setting.getAttribute('property');
                         if (property_name === 'TypeId')
                             property_name = 'ControlType';
                         if (property_name === 'SQLSentence')
                             property_name = '_SQlSentence';
                         try {
-                            setting.setValue(property_data[property_name]);
+                            let prop_value = property_data[property_name];
+                            if (property_name === 'ControlType' && property_data.IsCustomControl) {
+                                prop_value = 'custom';
+                                is_custom = true;
+                            }
+                            setting.setValue(prop_value);
+                            //If its a custom property and we have just set the CustomPropName value, we just end the function so no settings from the custom control get set on the rest of the properties
+                            if (is_custom && property_name === 'CustomPropName')
+                                return;
                         }
                         catch (_a) { }
-                    });
+                    }
                 }
                 init() {
                     return __awaiter(this, void 0, void 0, function* () {
@@ -150,14 +159,14 @@ var flexygo;
                 </div>
                 <form class="hidden">
                     <div class="col-12">
-                        <legend><i class="fa fa-flash"></i>` + flexygo.localization.translate('flxpropertymanager.quickSettings')
-                            + `</legend>
+                        <legend><i class="fa fa-flash"></i>${flexygo.localization.translate('flxpropertymanager.quickSettings')}</legend>
                     </div>
 
                     <div class="col-12">
                         <div class="col-6">
                             <label data-tag="label" class="required" lblproperty="Label" lbloriginal="Label" aria-required="true">
-                                <span class="lbltext">` + flexygo.localization.translate('flxpropertymanager.label') + `</span>:<span class="help-icon" data-original-title="" title="">
+                                <span class="lbltext">${flexygo.localization.translate('flxpropertymanager.label')}</span>:
+                                <span class="help-icon" data-original-title="" title="">
                                     <i></i>
                                     <flx-tooltip mode="popover" container="body" helpid="sys-sysObjectProperty"></flx-tooltip>
                                 </span>
@@ -179,7 +188,7 @@ var flexygo;
                         </div>
                         <div class="col-6">
                             <label data-tag="label" lblproperty="CSSClass" lbloriginal="CSS Class">
-                                <span class="lbltext">` + flexygo.localization.translate('flxpropertymanager.css') + `</span>:
+                                <span class="lbltext">${flexygo.localization.translate('flxpropertymanager.css')}</span>:
                                 <span class="help-icon" data-original-title="" title="">
                                     <i></i>
                                     <flx-tooltip mode="popover" container="body" helpid="sys-sysObjectProperty-cssclassstyle"></flx-tooltip>
@@ -191,7 +200,7 @@ var flexygo;
                         </div>
                         <div class="col-6">
                             <label data-tag="label" lblproperty="IconName" lbloriginal="Icon">
-                                <span class="lbltext">` + flexygo.localization.translate('flxpropertymanager.icon') + `</span>:
+                                <span class="lbltext">${flexygo.localization.translate('flxpropertymanager.icon')}</span>:
                                 <span class="help-icon" data-original-title="" title="">
                                     <i></i>
                                     <flx-tooltip mode="popover" container="body" helpid="sys-sysObject-Icons"></flx-tooltip>
@@ -208,7 +217,8 @@ var flexygo;
                     <div class="col-12">
                         <div class="col-4">
                             <label data-tag="label" class="required" lblproperty="Hide" lbloriginal="Hide" aria-required="true">
-                                <span class="lbltext">` + flexygo.localization.translate('flxpropertymanager.hide') + `</span>:<span class="help-icon" data-original-title="" title="">
+                                <span class="lbltext">${flexygo.localization.translate('flxpropertymanager.hide')}</span>:
+                                <span class="help-icon" data-original-title="" title="">
                                     <i></i>
                                     <flx-tooltip mode="popover" container="body" helpid="sys-sysObjectProperty-hide"></flx-tooltip>
                                 </span>
@@ -219,7 +229,7 @@ var flexygo;
                         </div>
                         <div class="col-4">
                             <label data-tag="label" class="required" lblproperty="IsRequired" lbloriginal="Is Required" aria-required="true">
-                                <span class="lbltext">` + flexygo.localization.translate('flxpropertymanager.isrequired') + `</span>:
+                                <span class="lbltext">${flexygo.localization.translate('flxpropertymanager.isrequired')}</span>:
                                 <span class="help-icon" data-original-title="" title="">
                                     <i></i>
                                     <flx-tooltip mode="popover" container="body" helpid="sys-sysObjectProperties-required"></flx-tooltip>
@@ -231,7 +241,7 @@ var flexygo;
                         </div>
                         <div class="col-4">
                             <label data-tag="label" class="required" lblproperty="Locked" lbloriginal="Locked" aria-required="true">
-                                <span class="lbltext">` + flexygo.localization.translate('flxpropertymanager.locked') + `</span>:
+                                <span class="lbltext">${flexygo.localization.translate('flxpropertymanager.locked')}</span>:
                                 <span class="help-icon" data-original-title="" title="">
                                     <i></i>
                                     <flx-tooltip mode="popover" container="body" helpid="sys-sysObjectProperties-locked"></flx-tooltip>
@@ -245,13 +255,13 @@ var flexygo;
 
                     <span class="controlSettings">
                         <div class="col-12">
-                            <legend><i class="flx-icon icon-input-1"></i>` + flexygo.localization.translate('flxpropertymanager.settings') + `</legend>
+                            <legend><i class="flx-icon icon-input-1"></i>${flexygo.localization.translate('flxpropertymanager.settings')}</legend>
                         </div>
 
                         <div class="col-12">
                             <div class="col-4">
                                 <label data-tag="label" lblproperty="TypeId" lbloriginal="Type" aria-required="true">
-                                    <span class="lbltext">` + flexygo.localization.translate('flxpropertymanager.type') + `</span>:
+                                    <span class="lbltext">${flexygo.localization.translate('flxpropertymanager.type')}</span>:
                                     <span class="help-icon" data-original-title="" title="">
                                         <i></i>
                                         <flx-tooltip mode="popover" container="body" helpid="sys-sysObjectProperty-type"></flx-tooltip>
@@ -264,7 +274,7 @@ var flexygo;
                             </div>
                             <div class="col-8 wizardControl depcustom">
                                 <label data-tag="label" lblproperty="CustomPropName" lbloriginal="Inherit Settings">
-                                    <span class="lbltext">` + flexygo.localization.translate('flxpropertymanager.customSettings') + `</span>:
+                                    <span class="lbltext">${flexygo.localization.translate('flxpropertymanager.customSettings')}</span>:
                                     <span class="help-icon" data-original-title="" title="">
                                         <i></i>
                                         <flx-tooltip mode="popover" container="body" helpid="sys-sysObjectProperty-inheritsetting"></flx-tooltip>
@@ -275,9 +285,10 @@ var flexygo;
                                     <flx-dbcombo required property="CustomPropName" ObjectName="sysObjectProperty" viewname="sysObjectsPropertiesTemplates" sqlvaluefield="CustomPropName" sqldisplayfield="Descrip" AllowNewObject="SysCustomProperty" ObjNameLink="SysCustomProperty" ObjWhereLink="CustomPropName='{{CustomPropName}}'" ObjModeLink="edit" TargetIdAllowNew="modal" TargetIdLink="popup"></flx-dbcombo>
                                 </div>
                             </div>
-                            <div class="col-4 wizardControl depcheck depcombo depdbcombo depmulticombo depcheck-multi depradio">
+                            <div class="col-4 wizardControl depcombo depdbcombo depmulticombo depcheck-multi depradio depofflinecombo depofflinedbcombo depofflinemulticombo depofflinecheck-multi depofflineradio">
                                 <label data-tag="SQLValueField" lblproperty="SQLValueField" lbloriginal="SQLValueField">
-                                    <span class="lbltext">` + flexygo.localization.translate('flxpropertymanager.sqlValue') + `</span>:<span class="help-icon" data-original-title="" title="">
+                                    <span class="lbltext">${flexygo.localization.translate('flxpropertymanager.sqlValue')}</span>:
+                                    <span class="help-icon" data-original-title="" title="">
                                         <i></i>
                                         <flx-tooltip mode="popover" container="body" helpid="sys-sysCustomProperty-SQLValueField"></flx-tooltip>
                                     </span>
@@ -287,9 +298,10 @@ var flexygo;
                                     <flx-text required type="text" property="SQLValueField"></flx-text>
                                 </div>
                             </div>
-                            <div class="col-4 wizardControl depcheck depcombo depdbcombo depmulticombo depcheck-multi depradio">
+                            <div class="col-4 wizardControl depcombo depdbcombo depmulticombo depcheck-multi depradio depofflinecombo depofflinedbcombo depofflinemulticombo depofflinecheck-multi depofflineradio">
                                 <label data-tag="SQLDisplayField" lblproperty="SQLDisplayField" lbloriginal="SQLDisplayField">
-                                    <span class="lbltext">` + flexygo.localization.translate('flxpropertymanager.sqlDisplay') + `</span>:<span class="help-icon" data-original-title="" title="">
+                                    <span class="lbltext">${flexygo.localization.translate('flxpropertymanager.sqlDisplay')}</span>:
+                                    <span class="help-icon" data-original-title="" title="">
                                         <i></i>
                                         <flx-tooltip mode="popover" container="body" helpid="sys-sysCustomProperty-DisplayField"></flx-tooltip>
                                     </span>
@@ -301,18 +313,21 @@ var flexygo;
                             </div>
                             <div class="col-8 wizardControl depfilefile depfilebase64 depuploadbase64 depuploadfile depimagefile depimage">
                                 <label data-tag="ExtensionId" lblproperty="ExtensionId" lbloriginal="Extension">
-                                    <span class="lbltext">` + flexygo.localization.translate('flxpropertymanager.extension') + `</span>:<span class="help-icon" data-original-title="" title="">
+                                    <span class="lbltext">${flexygo.localization.translate('flxpropertymanager.extension')}</span>:
+                                    <span class="help-icon" data-original-title="" title="">
                                         <i></i>
                                         <flx-tooltip mode="popover" container="body" helpid="sys-ExtensionProperty"></flx-tooltip>
                                     </span>
+                                    <span class="status"></span>
                                 </label>
                                 <div data-tag="control">
-                                    <flx-dbcombo property="ExtensionId" ObjectName="sysObjectProperty" viewname="SysExtensions" sqlvaluefield="ExtensionId" sqldisplayfield="Descrip"></flx-dbcombo>
+                                    <flx-dbcombo required property="ExtensionId" ObjectName="sysObjectProperty" viewname="SysExtensions" sqlvaluefield="ExtensionId" sqldisplayfield="Descrip"></flx-dbcombo>
                                 </div>
                             </div>
                             <div class="col-8 wizardControl depbarcode">
                                 <label data-tag="BarcodeReaders" lblproperty="BarcodeReaders" lbloriginal="Barcode Readers">
-                                    <span class="lbltext">` + flexygo.localization.translate('flxpropertymanager.barcode') + `</span>:<span class="help-icon" data-original-title="" title="">
+                                    <span class="lbltext">${flexygo.localization.translate('flxpropertymanager.barcode')}</span>:
+                                    <span class="help-icon" data-original-title="" title="">
                                         <i></i>
                                         <flx-tooltip mode="popover" container="body" helpid="23921b32-9979-456d-b388-68c876d4d053"></flx-tooltip>
                                     </span>
@@ -324,9 +339,48 @@ var flexygo;
                         </div>
 
                         <div class="col-12">
-                            <div class="col-12 wizardControl depcheck depcombo depdbcombo depmulticombo depcheck-multi depradio">
+                            <div class="col-6 wizardControl depofflinecombo depofflinedbcombo depofflinemulticombo depofflinecheck-multi depofflineradio">
+                                <label data-tag="SQLObjectName" lblproperty="SQLObjectName" lbloriginal="SQLObjectName">
+                                    <span class="lbltext">${flexygo.localization.translate('flxpropertymanager.sqlObjectName')}</span>:
+                                    <span class="status"></span>
+                                </label>
+                                <div data-tag="control">
+                                    <flx-dbcombo required property="SQLObjectName" ObjectName="sysObject" viewname="sysObjectsExtendedCombo" sqlvaluefield="ObjectName" sqldisplayfield="ObjectName">
+                                        <template><span class="{{Active|bool:txt-outstanding,txt-danger}}"> <i class="{{IconClass}} icon-margin-right" ></i>{{ObjectName}}</span></template>
+                                    </flx-dbcombo>
+                                </div>
+                            </div>
+                            <div class="col-6 wizardControl depofflinecombo depofflinedbcombo depofflinemulticombo depofflinecheck-multi depofflineradio">
+                                <label data-tag="SQLViewName" lblproperty="SQLViewName" lbloriginal="SQLViewName">
+                                    <span class="lbltext">${flexygo.localization.translate('flxpropertymanager.sqlViewName')}</span>:
+                                </label>
+                                <div data-tag="control">
+                                    <flx-dbcombo property="SQLViewName" ObjectName="sysObjectView" viewname="sysViewsExtendedCombo" sqlvaluefield="ViewName" sqldisplayfield="ViewName" AllowNewObject="sysObjectView" ObjNameLink="sysObjectView" ObjWhereLink="ObjectName='' and  ViewName=''" AllowNewDefaults="{'ObjectName':'{{ObjectName}}'}" AllowNewReturnFields="ViewName" ObjModeLink="edit" TargetIdAllowNew="modal" TargetIdLink="popup"></flx-dbcombo>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="col-12 wizardControl depofflinecombo depofflinedbcombo depofflinemulticombo depofflinecheck-multi depofflineradio">
+                                <label data-tag="SQLOfflineSentence" lblproperty="SQLOfflineSentence" lbloriginal="SQLOfflineSentence">
+                                    <span class="lbltext">${flexygo.localization.translate('flxpropertymanager.sqlOfflineSentence')}</span>:
+                                    <span class="help-icon" data-original-title="" title="">
+                                        <i></i>
+                                        <flx-tooltip mode="popover" container="body" helpid="sys-sysCustomProperties-SQL"></flx-tooltip>
+                                    </span>
+                                    <span class="status"></span>
+                                </label>
+                                <div data-tag="control" style="height: 150px;">
+                                    <flx-code required type="sql" property="SQLOfflineSentence" searchfunction="flexygo.ui.wc.FlxComboBuilderElement.prototype.openWizard(this);" ChatGPTSettingId="CodeHelper"></flx-code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="col-12 wizardControl depcombo depdbcombo depmulticombo depcheck-multi depradio">
                                 <label data-tag="SQLSentence" lblproperty="SQLSentence" lbloriginal="SQLSentence">
-                                    <span class="lbltext">` + flexygo.localization.translate('flxpropertymanager.sqlSentence') + `</span>:<span class="help-icon" data-original-title="" title="">
+                                    <span class="lbltext">${flexygo.localization.translate('flxpropertymanager.sqlSentence')}</span>:
+                                    <span class="help-icon" data-original-title="" title="">
                                         <i></i>
                                         <flx-tooltip mode="popover" container="body" helpid="sys-sysCustomProperties-SQL"></flx-tooltip>
                                     </span>
@@ -339,9 +393,9 @@ var flexygo;
                         </div>
 
                         <div class="col-12">
-                            <div class="col-8 wizardControl depcheck depcombo depdbcombo depmulticombo depcheck-multi depradio">
+                            <div class="col-8 wizardControl depcombo depdbcombo depmulticombo depcheck-multi depradio">
                                 <label data-tag="ConnStringId" lblproperty="ConnStringId" lbloriginal="Connection String">
-                                    <span class="lbltext">` + flexygo.localization.translate('flxpropertymanager.connectionString') + `</span>:
+                                    <span class="lbltext">${flexygo.localization.translate('flxpropertymanager.connectionString')}</span>:
                                     <span class="help-icon" data-original-title="" title="">
                                         <i></i>
                                         <flx-tooltip mode="popover" container="body" helpid="sys-sysObject-connection"></flx-tooltip>
@@ -357,7 +411,8 @@ var flexygo;
                         <div class="col-12">
                             <div class="col-4 wizardControl depimagefile depfilefile depuploadfile">
                                 <label data-tag="RootPathType" lblproperty="RootPathType" lbloriginal="Root Path Type">
-                                    <span class="lbltext">` + flexygo.localization.translate('flxpropertymanager.pathType') + `</span>:<span class="help-icon" data-original-title="" title="">
+                                    <span class="lbltext">${flexygo.localization.translate('flxpropertymanager.pathType')}</span>:
+                                        <span class="help-icon" data-original-title="" title="">
                                         <i></i>
                                         <flx-tooltip mode="popover" container="body" helpid="sys-sysObjectProperty-rootpathtype"></flx-tooltip>
                                     </span>
@@ -366,15 +421,17 @@ var flexygo;
                                     <flx-dbcombo property="RootPathType" ObjectName="sysObjectProperty" viewname="sysRootPathTypes" sqlvaluefield="TypeId" sqldisplayfield="Description"></flx-dbcombo>
                                 </div>
                             </div>
-                            <div class="col-8 wizardControl depimagefile depjavacode depuploadfile depfilefile">
+                            <div class="col-8 wizardControl depimagefile depuploadfile depfilefile">
                                 <label data-tag="RootPath" lblproperty="RootPath" lbloriginal="Root Path">
-                                    <span class="lbltext">` + flexygo.localization.translate('flxpropertymanager.path') + `</span>:<span class="help-icon">
+                                    <span class="lbltext">${flexygo.localization.translate('flxpropertymanager.path')}</span>:
+                                    <span class="help-icon">
                                         <i></i>
                                         <flx-tooltip mode="popover" container="body" helpid="sys-sysObjectProperty-thepath"></flx-tooltip>
                                     </span>
+                                    <span class="status"></span>
                                 </label>
                                 <div data-tag="control">
-                                    <flx-text type="text" property="RootPath"></flx-text>
+                                    <flx-text required type="text" property="RootPath"></flx-text>
                                 </div>
                             </div>
                         </div>
@@ -382,18 +439,21 @@ var flexygo;
                         <div class="col-12">
                             <div class="col-4 wizardControl depimagefile depimage">
                                 <label data-tag="ImageCompressionType" lblproperty="ImageCompressionType" lbloriginal="Image Compression Type">
-                                    <span class="lbltext">` + flexygo.localization.translate('flxpropertymanager.compression') + `</span>:<span class="help-icon" data-original-title="" title="">
+                                    <span class="lbltext">${flexygo.localization.translate('flxpropertymanager.compression')}</span>:
+                                    <span class="help-icon" data-original-title="" title="">
                                         <i></i>
                                         <flx-tooltip mode="popover" container="body" helpid="8d842d0a-249b-443b-a80a-e9c240ff974e"></flx-tooltip>
                                     </span>
+                                    <span class="status"></span>
                                 </label>
                                 <div data-tag="control">
-                                    <flx-dbcombo property="ImageCompressionType" ObjectName="sysObjectProperty" viewname="SysImageCompressionType" sqlvaluefield="TypeId" sqldisplayfield="Descrip"></flx-dbcombo>
+                                    <flx-dbcombo required property="ImageCompressionType" ObjectName="sysObjectProperty" viewname="SysImageCompressionType" sqlvaluefield="TypeId" sqldisplayfield="Descrip"></flx-dbcombo>
                                 </div>
                             </div>
                             <div class="col-4 wizardControl depimagefile depimage">
                                 <label data-tag="ImageMaxWidth" lblproperty="Maximum Width" lbloriginal="Maximum Width">
-                                    <span class="lbltext">` + flexygo.localization.translate('flxpropertymanager.width') + `</span>:<span class="help-icon">
+                                    <span class="lbltext">${flexygo.localization.translate('flxpropertymanager.width')}</span>:
+                                    <span class="help-icon">
                                         <i></i>
                                         <flx-tooltip mode="popover" container="body" helpid="3a053ff2-a7ae-4716-be80-b99b0623e99e"></flx-tooltip>
                                     </span>
@@ -404,7 +464,8 @@ var flexygo;
                             </div>
                             <div class="col-4 wizardControl depimagefile depimage">
                                 <label data-tag="ImageMaxHeight" lblproperty="ImageMaxHeight" lbloriginal="Maximum Height">
-                                    <span class="lbltext">` + flexygo.localization.translate('flxpropertymanager.height') + `</span>:<span class="help-icon">
+                                    <span class="lbltext">${flexygo.localization.translate('flxpropertymanager.height')}</span>:
+                                    <span class="help-icon">
                                         <i></i>
                                         <flx-tooltip mode="popover" container="body" helpid="dba9632c-a19d-4e73-9cb2-389e0a30b917"></flx-tooltip>
                                     </span>
@@ -424,6 +485,42 @@ var flexygo;
                     </span>
                 </form>
             </div>`;
+                        //SqlObjectName Change as a fake dependency
+                        const sqlObjectName_input = this.querySelector('[property="SQLObjectName"]');
+                        sqlObjectName_input.inputval.on('change', () => {
+                            const sqlObjectName = sqlObjectName_input.getValue();
+                            sqlViewName_input.additionalWhere = `ObjectName='${sqlObjectName}'`;
+                            sqlViewName_input.setAttribute('AllowNewDefaults', `{'ObjectName':'${sqlObjectName}'}`);
+                            sqlViewName_input.loadValues(0, false); //We load the values so the additionalWhere trully gets applied
+                            sqlViewName_input.setValue(null); //We set the SQLViewName to null because when changing the SQLObjectName  the same view will never be possible as an option
+                            //If the new value is null we set sqlViewName as a NOT REQUIRED property and  sqlOfflineSentence as REQUIRED, if not we do the opposite
+                            if (sqlObjectName == null) {
+                                this.setPropertyAsNotRequired(sqlViewName_input);
+                                this.setPropertyAsRequired(sqlOfflineSentence_input);
+                            }
+                            else {
+                                this.setPropertyAsRequired(sqlViewName_input);
+                                this.setPropertyAsNotRequired(sqlOfflineSentence_input);
+                            }
+                        });
+                        //sqlViewName Change as a fake dependency
+                        const sqlViewName_input = this.querySelector('[property="SQLViewName"]');
+                        sqlViewName_input.inputval.on('change', () => {
+                            const sqlObjectName = sqlObjectName_input.getValue();
+                            const viewName = sqlViewName_input.getValue();
+                            sqlViewName_input.setAttribute('objwherelink', `ObjectName='${sqlObjectName}' and  ViewName='${viewName}'`);
+                        });
+                        const sqlOfflineSentence_input = this.querySelector('[property="SQLOfflineSentence"]');
+                        sqlOfflineSentence_input.addEventListener('change', () => {
+                            //If the new value is null we set sqlObjectName as a required property, if not we do the opposite
+                            const sqlOfflineSentence = sqlOfflineSentence_input.getValue();
+                            if (sqlOfflineSentence == null || sqlOfflineSentence === "") {
+                                this.setPropertyAsRequired(sqlObjectName_input);
+                            }
+                            else {
+                                this.setPropertyAsNotRequired(sqlObjectName_input);
+                            }
+                        });
                         //Label IsRequired
                         const label_input = this.querySelector('[property="Label"]');
                         label_input.addEventListener('change', () => {
@@ -475,7 +572,8 @@ var flexygo;
                             });
                         });
                         //Save Button
-                        this.querySelector('.saveButton').addEventListener('click', () => {
+                        const save_button = this.querySelector('.saveButton');
+                        save_button.addEventListener('click', () => {
                             const control_settings_properties = this.querySelectorAll('.controlSettings .wizardControl:not(.hidden) [property], .controlSettings [property="TypeId"]');
                             //We check if any of the control settings is required, so if one of the required ones is empty we show a warning and stop the saving process
                             for (let i = 0; i < control_settings_properties.length; i++) {
@@ -501,6 +599,7 @@ var flexygo;
                             //We change the properties values of the current control settings
                             control_settings_properties.forEach((setting) => {
                                 let property_name = setting.getAttribute('property');
+                                //We change the property_name to fix a typo on EntityObjects
                                 if (property_name === 'SQLSentence')
                                     property_name = 'SQlSentence';
                                 property_config.data[property_name].Value = setting.getValue();
@@ -523,10 +622,31 @@ var flexygo;
                         });
                         //OnChange TypeId (Visibility dependencies)
                         $(this).find('[property="TypeId"] div:not(.mobileinputdiv)').on('change', () => {
-                            this.triggerDependencies();
+                            this.triggerVisibilityDependencies();
+                        });
+                        this.addEventListener('keydown', ev => {
+                            if (ev.ctrlKey && ev.key === 's') {
+                                save_button.click();
+                            }
                         });
                         this.loaded = true;
                     });
+                }
+                setPropertyAsRequired(property) {
+                    const is_required = property.hasAttribute('required');
+                    if (!is_required) {
+                        const asterisk_span = document.createElement('span');
+                        asterisk_span.classList.add('status');
+                        property.setAttribute('required', '');
+                        property.closest('.wizardControl').querySelector('label[lblproperty]').append(asterisk_span);
+                    }
+                }
+                setPropertyAsNotRequired(property) {
+                    const is_required = property.hasAttribute('required');
+                    if (is_required) {
+                        property.removeAttribute('required');
+                        property.closest('.wizardControl').querySelector('label[lblproperty] span.status').remove();
+                    }
                 }
                 quickSettingChange(input, type, class_name) {
                     const value = input === null || input === void 0 ? void 0 : input.getValue();
@@ -634,14 +754,43 @@ var flexygo;
                  * - If a new property type is added, it would only be necessary to add its class (depProperty_Type) to its necessary inputs
                  * @param current_type It must be the key name of the property type
                  */
-                triggerDependencies() {
-                    const current_type = this.querySelector('[property="TypeId"]').getValue();
+                triggerVisibilityDependencies() {
+                    let current_type = this.querySelector('[property="TypeId"]').getValue();
+                    //When configuring offline properties we show different properties on combos
+                    const property_types_with_sql = ['combo', 'dbcombo', 'radio', 'check-multi', 'multicombo'];
+                    if (this.propertyManager.offline && property_types_with_sql.includes(current_type)) {
+                        current_type = 'offline' + current_type;
+                    }
                     //We hide or show the necessary inputs
                     this.querySelectorAll(`.controlSettings .wizardControl.dep${current_type}`).forEach(control => control.classList.remove('hidden'));
                     this.querySelectorAll(`.controlSettings .wizardControl:not(.dep${current_type})`).forEach(control => control.classList.add('hidden'));
-                    //We remove customcontrol value if the value is not set to custom
-                    if (current_type !== 'custom') {
-                        this.querySelector('[property="CustomPropName"]').setValue('');
+                }
+                setOfflineSQLPropertiesBasicConfiguraction() {
+                    //We set the SQLViewName attributes necessary for its buttons to properly work and we add the AdditionalWhere
+                    const sqlObjectName_input = this.querySelector('[property="SQLObjectName"]');
+                    const sqlViewName_input = this.querySelector('[property="SQLViewName"]');
+                    const sqlObjectName = sqlObjectName_input.getValue();
+                    const viewName = sqlViewName_input.getValue();
+                    sqlViewName_input.additionalWhere = `ObjectName='${sqlObjectName}'`;
+                    sqlViewName_input.loadValues(0, false); //We load the values so the additionalWhere trully gets applied
+                    sqlViewName_input.setAttribute('AllowNewDefaults', `{'ObjectName':'${sqlObjectName}'}`);
+                    sqlViewName_input.setAttribute('objwherelink', `ObjectName='${sqlObjectName}' and  ViewName='${viewName}'`);
+                    //We set the initial state of required dependencies depending on the values already loaded
+                    const sqlOfflineSentence_input = this.querySelector('[property="SQLOfflineSentence"]');
+                    const sqlOfflineSentence = sqlOfflineSentence_input.getValue();
+                    if (sqlObjectName == null || sqlObjectName === "") {
+                        //If sqlObjectName is empty we set sqlOfflineSentence as required and if that property is also emty we also set sqlObjectName as required
+                        this.setPropertyAsRequired(sqlOfflineSentence_input);
+                        this.setPropertyAsNotRequired(sqlViewName_input);
+                        if (sqlOfflineSentence == null || sqlOfflineSentence === "")
+                            this.setPropertyAsRequired(sqlObjectName_input);
+                        else
+                            this.setPropertyAsNotRequired(sqlObjectName_input);
+                    }
+                    else {
+                        //If sqlObjectName isn't empty we set sqlOfflineSentence as not required while sqlObjectName and sqlViewName as required
+                        this.setPropertyAsNotRequired(sqlOfflineSentence_input);
+                        this.setPropertyAsRequired(sqlViewName_input);
                     }
                 }
             }

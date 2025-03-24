@@ -13,12 +13,21 @@
     <iconUrl>https://nuget.flexygo.com/isotipo.png</iconUrl>
     <releaseNotes/>
     <dependencies>
+		<dependency id="Microsoft.Data.SqlClient.SNI" version="5.1.1" />
+		<dependency id="Microsoft.Playwright" version="1.31.1" />
     </dependencies>
   </metadata>
   <files>
-    <file src="..\..\publish\bin\**\*.*" target="lib\net46\" />
-    <file src="..\..\publish\**\*.*" target="content\" exclude="..\..\publish\bin\**\*.*;..\..\publish\db\*.dacpac"/>
-    <file src=".\Sample_ProjectBD\bin\$configuration$\*.dacpac" target="content\db\" />
-	<file src=".\Sample_Project_DataBD\bin\$configuration$\Sample_Project_DataBD.dacpac" target="content\db\" />
+	<file src="..\..\publish\bin\**\*.*" target="lib\net46\"  exclude="..\..\publish\bin\*Microsoft.Data.SqlClient.SNI.*;..\..\publish\bin\*playwright.ps1*;..\..\publish\bin\.playwright\**\*"/>
+    <file src="..\..\publish\**\*.*" target="content\" exclude="..\..\publish\bin\**\*.*;..\..\publish\db\*.dacpac;..\..\publish\nuget\**\*.*;..\..\publish\*playwright.ps1*;..\..\publish\.playwright\**\*"/>    
+    <file src="..\..\publish\bin\*Microsoft.Data.SqlClient.SNI.*;..\..\publish\bin\*playwright.ps1*" target="content\bin\" />
+	<file src="..\..\publish\bin\.playwright\**\*.*" target="content\bin\.playwright" />
+	<!--Project databases--> 
+	<file src=".\Sample_ProjectBD\bin\$configuration$\*.dacpac" target="content\db\" />	
+    <file src=".\Sample_Project_DataBD\bin\$configuration$\Sample_Project_DataBD.dacpac" target="content\db\" />
+	<!--Typescript definitions are included so you can modify/replace our functions--> 
+	<file src=".\Sample_Project\Scripts\typings\**\*.d.ts" target="content\Scripts\typings\" />
+    <file src=".\Sample_Project\js\flexygo\**\*.d.ts" target="content\js\flexygo\" />
   </files>
+  </metadata>
 </package>

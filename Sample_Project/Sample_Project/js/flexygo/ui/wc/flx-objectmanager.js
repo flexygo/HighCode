@@ -1,3 +1,12 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 /**
  * @namespace flexygo.ui.wc
  */
@@ -59,11 +68,13 @@ var flexygo;
                     this.init();
                 }
                 onViewChanged(e) {
-                    if (e.masterIdentity === 'saveView') {
+                    if (e.masterIdentity === 'saveView' && e.detailIdentity.indexOf("templateManager") === -1) {
                         $(this).find('[href="#tab4"]').click();
                     }
                 }
                 init() {
+                    // For ChatGPT Logging control
+                    this.conversationId = flexygo.utils.uniqueUUID();
                     let me = $(this);
                     let defaults = (flexygo.history.get(me)) ? flexygo.history.get(me).defaults : null;
                     let objData;
@@ -102,6 +113,7 @@ var flexygo;
                             ev.stopPropagation();
                             ev.preventDefault();
                         });
+                        me.find('.createObject.withoutCaret').hide();
                     }
                     else {
                         me.find('[name="objectname"]').val(this.objectname);
@@ -212,11 +224,57 @@ var flexygo;
                         flexygo.nav.openPage('search', 'sysicons', '', null, 'modal');
                         ;
                     });
-                    pnl.closest('.tab-pane').find('h3').append('<button style="float:right" class="btn btn-default btn-info createObject">' + flexygo.localization.translate('objectmanager.savecontinue') + ' <i class="flx-icon icon-order-right-2" /></button>');
+                    let buttonWithCaret = `
+                <div class="btn-group withCaret onlyNew" style="float:right">
+                    <button class="btn btn-default btn-info createObject">
+                        ${flexygo.localization.translate('objectmanager.savecontinue')}
+                        <i class="flx-icon icon-order-right-2"></i>
+                    </button>
+
+                    <button class="btn-info createObject-caret">
+                        <span class="caret">
+                        </span>
+                    </button>
+                </div>
+            `;
+                    let buttonWithoutCaret = '<button style="float:right" class="btn btn-default btn-info createObject withoutCaret">' + flexygo.localization.translate('objectmanager.savecontinue') + ' <i class="flx-icon icon-order-right-2" /></button>';
+                    pnl.closest('.tab-pane').find('h3').append(buttonWithCaret);
+                    pnl.closest('.tab-pane').find('h3').append(buttonWithoutCaret);
                     pnl.closest('.tab-pane').find('.createObject').on('click', (e) => {
-                        //if ($('#tab1 > Form').valid()){
                         this.createObject();
-                        //}
+                    });
+                    let optionsButton = pnl.closest('.tab-pane').find('.createObject-caret');
+                    optionsButton.on('click', (e) => {
+                        let contextMenu = $('flx-contextmenu')[0];
+                        let menu = $(`<ul>
+                                <li><span class="btn1"> <i class="flx-icon icon-add-objects-2"></i> ${flexygo.localization.translate('objectmanager.manuallygeneration')}</span></li>
+                                <li><span class="btn2"> <i class="flx-icon icon-roboto-logo"></i> ${flexygo.localization.translate('objectmanager.aigeneration')}</span></li>
+                            </ul>`);
+                        menu.find('span.btn1').on("click", function () {
+                            me.createObject();
+                            contextMenu.destroy();
+                        });
+                        menu.find('span.btn2').on("click", function () {
+                            flexygo.ajax.post('~/api/AI', 'GetChatGPTSetting', { SettingId: "ObjectHelper" }, (response) => {
+                                if (response && response.AssistantId == "ObjectHelper") {
+                                    me.createObjectAI(response);
+                                    contextMenu.destroy();
+                                }
+                                else {
+                                    flexygo.msg.error(flexygo.localization.translate('flxai.settingNotFound').replace("{0}", "ObjectHelper"));
+                                }
+                            }, (error) => {
+                                flexygo.exceptions.httpShow(error);
+                            });
+                        });
+                        contextMenu.createMenu(null).append(menu);
+                        contextMenu.show({ top: e.clientY + 20, left: e.clientX - 165 });
+                    });
+                    optionsButton.blur(function (e) {
+                        setTimeout(() => {
+                            let contextMenu = $('flx-contextmenu')[0];
+                            contextMenu.destroy();
+                        }, 150);
                     });
                     form.find('[name="cnnstring"]').on('change', (e) => {
                         let DbType = $(me).find('[name="cnnstring"] li.selected span').length > 0 ? $(me).find('[name="cnnstring"] li.selected span').attr("typeid").toLowerCase() : null;
@@ -359,18 +417,34 @@ var flexygo;
                 }
                 listTemplateSettingsPane() {
                     let pnl = this.addPane('5', flexygo.localization.translate('objectmanager.listtemplatesettings'));
-                    pnl.closest('.tab-pane').find('h3').append('<button style="float:right" class="btn btn-info btnContinueListTemplate">' + flexygo.localization.translate('objectmanager.continue') + '<i class="flx-icon icon-order-right-2" /></button>');
+                    pnl.closest('.tab-pane').find('h3').append('<button style="float:right;margin-left:10px" class="btn btn-info btnContinueListTemplate">' + flexygo.localization.translate('objectmanager.continue') + '<i class="flx-icon icon-order-right-2" /></button>');
+                    pnl.closest('.tab-pane').find('h3').append('<button style="float:right;margin-left:10px" class="btn btn-info btnIaListTemplate"> <i class="flx-icon icon-roboto-logo"></i>' + flexygo.localization.translate('objectmanager.aigeneration') + '</button>');
                     pnl.addClass('listtemplatepanel');
                     pnl.closest('.tab-pane').find('.btnContinueListTemplate').on('click', (e) => {
                         $('[href="#tab6"]').click();
                     });
+                    pnl.closest('.tab-pane').find('.btnIaListTemplate').on('click', (e) => {
+                        let defaults = {
+                            'type': 'List',
+                            'objectName': this.objectname
+                        };
+                        flexygo.nav.execProcess('sysChatGPT_getTemplate', '', '', JSON.stringify(defaults), null, 'modal640x480', false, $(this));
+                    });
                 }
                 viewTemplateSettingsPane() {
                     let pnl = this.addPane('6', flexygo.localization.translate('objectmanager.viewtemplatesettings'));
-                    pnl.closest('.tab-pane').find('h3').append('<button style="float:right" class="btn btn-info btnContinueViewTemplate">' + flexygo.localization.translate('objectmanager.continue') + '<i class="flx-icon icon-order-right-2" /></button>');
+                    pnl.closest('.tab-pane').find('h3').append('<button style="float:right;margin-left:10px" class="btn btn-info btnContinueViewTemplate">' + flexygo.localization.translate('objectmanager.continue') + '<i class="flx-icon icon-order-right-2" /></button>');
+                    pnl.closest('.tab-pane').find('h3').append('<button style="float:right;margin-left:10px" class="btn btn-info btnIaViewTemplate"> <i class="flx-icon icon-roboto-logo"></i>' + flexygo.localization.translate('objectmanager.aigeneration') + '</button>');
                     pnl.addClass('viewtemplatepanel');
                     pnl.closest('.tab-pane').find('.btnContinueViewTemplate').on('click', (e) => {
                         $('[href="#tab7"]').click();
+                    });
+                    pnl.closest('.tab-pane').find('.btnIaViewTemplate').on('click', (e) => {
+                        let defaults = {
+                            'type': 'View',
+                            'objectName': this.objectname
+                        };
+                        flexygo.nav.execProcess('sysChatGPT_getTemplate', '', '', JSON.stringify(defaults), null, 'modal640x480', false, $(this));
                     });
                 }
                 colPropertiesPane() {
@@ -594,6 +668,163 @@ var flexygo;
                             };
                             flexygo.events.trigger(ev, me);
                         }
+                    });
+                }
+                createObjectAI(settings) {
+                    return __awaiter(this, void 0, void 0, function* () {
+                        let me = $(this);
+                        if (!this.validateRequired()) {
+                            return;
+                        }
+                        this.objectname = me.find('[name="objectname"]')[0].getValue();
+                        this.collectionname = me.find('[name="collectionname"]')[0].getValue();
+                        let objectDescrip = me.find('[name="objectdescrip"]')[0].getValue();
+                        let tableName = me.find('[name="tablename"]')[0].getValue();
+                        let newTableName = me.find('[name="newtablename"]')[0].getValue();
+                        let connString = me.find('[name="cnnstring"]')[0].getValue();
+                        let viewKeys = me.find('[name="viewkeyfields"]')[0].getValue();
+                        let icon = me.find('[name="iconclass"]')[0].getValue();
+                        let message = `Create the object for the database ${viewKeys === '' ? 'table' : 'view'} ${tableName || newTableName}.
+                Object Name: ${this.objectname}
+                Collection Name: ${this.collectionname}
+                Object Descrip: ${objectDescrip}
+                ${viewKeys === '' ? '' : `View Keys: ${viewKeys}`}
+                Icon Name: ${icon}
+                `;
+                        // Case when you select from new table
+                        if (tableName == null) {
+                            let keys = "";
+                            let keysPK = "";
+                            viewKeys.split('|').forEach((key) => {
+                                keys += `${key} INT NOT NULL, `;
+                                keysPK += `${key}, `;
+                            });
+                            keysPK = keysPK.slice(0, -2);
+                            yield new Promise((resolve, reject) => {
+                                flexygo.nav.execProcess('CreateDataModel', '', '', '', [
+                                    { 'key': 'ConnStringId', 'value': connString },
+                                    { 'key': 'Script', 'value': `CREATE TABLE ${newTableName} (${keys} PRIMARY KEY(${keysPK}));` },
+                                    { 'key': 'Inserts', 'value': null },
+                                    { 'key': 'TableNames', 'value': newTableName }
+                                ], null, false, $(this), () => { resolve(); }, false);
+                            });
+                        }
+                        if (flexygo.utils.isBlank(settings.Token)) {
+                            let btnLink = '<a class="btn fa fa-external-link" onclick="flexygo.nav.openHelpId(\'syshelp-OpenAI\',\'new\',false,$(this))" target="_blank"/a>';
+                            flexygo.msg.alert(`<div><span>${flexygo.localization.translate('flxai.alertInfoMessage')}</span> ${btnLink}</div>`);
+                        }
+                        else {
+                            let messages = [{
+                                    "role": "user",
+                                    "content": message,
+                                }];
+                            let params = {
+                                Chat: settings,
+                                Messages: JSON.stringify(messages),
+                                ConversationId: this.conversationId,
+                                ConversationType: "Object Manager",
+                            };
+                            flexygo.utils.showLoading(null, flexygo.localization.translate('objectmanager.generatingobjects'));
+                            flexygo.ajax.post("~/api/AI", 'RequestChatGPT', params, (response) => {
+                                var _a;
+                                if (response) {
+                                    flexygo.utils.removeLoadingEffect();
+                                    let resp = JSON.parse(response.Result);
+                                    if (resp.error) {
+                                        flexygo.msg.error(resp.error);
+                                    }
+                                    else if (resp.choices && resp.choices[0] && resp.choices[0].message.content) {
+                                        if (resp.choices[0].message.content.includes('OK')) {
+                                            flexygo.msg.info(flexygo.localization.translate('objectmanager.objectsaved'));
+                                            (_a = $('#mainNav')[0]) === null || _a === void 0 ? void 0 : _a.refresh();
+                                            me.find('.onlyNew').hide();
+                                            me.find('.createObject.withoutCaret').show();
+                                            this.activeEditMode();
+                                            me.find('[href="#tab2"]').click();
+                                            let obj = new flexygo.obj.Entity('sysObject', `objectName='${this.objectname}'`);
+                                            obj.read();
+                                            let ev = {
+                                                class: "entity",
+                                                type: "inserted",
+                                                sender: obj,
+                                                masterIdentity: obj.objectName,
+                                                detailIdentity: obj.objectWhere
+                                            };
+                                            flexygo.events.trigger(ev, me);
+                                        }
+                                        else {
+                                            flexygo.msg.error(resp.choices[0].message.content);
+                                        }
+                                    }
+                                    else {
+                                        flexygo.msg.error('Critical error');
+                                    }
+                                }
+                                else {
+                                    flexygo.utils.removeLoadingEffect();
+                                    flexygo.msg.error('No response from server');
+                                }
+                            }, () => {
+                                flexygo.utils.removeLoadingEffect();
+                                flexygo.msg.error('Critical error');
+                            });
+                        }
+                    });
+                }
+                createTemplateAI(settings, type, objectname, viewName, templateName, templateDescrip, instructions) {
+                    return new Promise((resolve, reject) => {
+                        let message = `Create a template according to the provided guidelines without pausing, stopping, or responding until all modification steps are completed. Directly call the \`createTemplate\` tool with the created JSON, without informing or notifying the user.:
+                    - Template Type: '${type}'
+                    - Object Name: '${objectname}'
+                    - View Name: '${viewName}'
+                    - Template Name: '${templateName}'
+                    - Template Description: '${templateDescrip}'
+                    - User Instructions: '${instructions}'
+                    `;
+                        let messages = [
+                            {
+                                "role": "user",
+                                "content": message
+                            }
+                        ];
+                        let params = {
+                            Chat: settings,
+                            Messages: JSON.stringify(messages),
+                            ConversationId: this.conversationId,
+                            ConversationType: "Object Manager",
+                        };
+                        flexygo.utils.showLoading(null, flexygo.localization.translate('objectmanager.generatingtemplate'));
+                        flexygo.ajax.post("~/api/AI", 'RequestChatGPT', params, (response) => {
+                            if (response) {
+                                flexygo.utils.removeLoadingEffect();
+                                let resp = JSON.parse(response.Result);
+                                if (resp.error) {
+                                    flexygo.msg.error(resp.error);
+                                }
+                                else if (resp.choices && resp.choices[0] && resp.choices[0].message.content) {
+                                    if (!resp.choices[0].message.content.startsWith('ERROR.')) {
+                                        flexygo.utils.removeLoadingEffect();
+                                        flexygo.msg.info(flexygo.localization.translate('objectmanager.templatesaved'));
+                                        resolve(null);
+                                    }
+                                    else {
+                                        flexygo.msg.error(resp.choices[0].message.content);
+                                    }
+                                }
+                                else {
+                                    flexygo.msg.error('Critical error');
+                                }
+                            }
+                            else {
+                                flexygo.utils.removeLoadingEffect();
+                                flexygo.msg.error('No response from server');
+                            }
+                            reject();
+                        }, () => {
+                            flexygo.utils.removeLoadingEffect();
+                            flexygo.msg.error('Critical error');
+                            reject();
+                        });
                     });
                 }
             }

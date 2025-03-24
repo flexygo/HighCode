@@ -30,6 +30,7 @@ var flexygo;
                     super();
                     this.connected = false;
                     this.groupsFilter = '';
+                    this.draggableFilter = '';
                     this.additionalWhere = '';
                     this.pendingCards = new Array();
                     this.columns = new Array();
@@ -102,7 +103,13 @@ var flexygo;
                             let histObj = flexygo.history.get(me);
                             if (typeof histObj != 'undefined' && histObj.defaults) {
                                 if (typeof histObj.defaults == 'string') {
-                                    this.objDef = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
+                                    //We first try firectly parsing, if it fails we replace the ' fro " because they are normally used to avoid HTML attributes from breaking
+                                    try {
+                                        this.objDef = JSON.parse(histObj.defaults);
+                                    }
+                                    catch (_a) {
+                                        this.objDef = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
+                                    }
                                 }
                                 else {
                                     this.objDef = histObj.defaults;
@@ -136,6 +143,7 @@ var flexygo;
                             TimeMode: this.currentTimemode,
                             AdditionalWhere: this.additionalWhere,
                             GroupsFilter: this.groupsFilter,
+                            DraggableFilter: this.draggableFilter,
                             FilterValues: this.filterValues,
                             SearchId: this.activeFilter,
                         };
@@ -395,7 +403,12 @@ var flexygo;
                             if (draggablecards.length > 0) {
                                 $(this).find("aside").removeClass("hidden");
                                 let container = $(this).find('#planner-withoutgroup #planner-items-container');
-                                container.append(`<div class="pln-draggable-item-container" id="pln-draggable-${cardConfig.ModeCardId}"><span class="pln-draggable-item-title">${cardConfig.DraggableTitle}</span></div>`);
+                                container.append(`<div class="parent-cnt" id="pln-draggable-items-parent-container"><div class="pln-draggable-item-container" id="pln-draggable-${cardConfig.ModeCardId}">
+                        <span class="pln-draggable-item-title">
+                            <span>${cardConfig.DraggableTitle}</span>
+                            <i id="${cardConfig.ModeCardId}" class="flx-icon icon-sincronize pln-draggable-refresh clickable"></i>
+                            </span>
+                        </div></div>`);
                                 draggablecards.forEach((card) => {
                                     let dragableContainer = $(`#pln-draggable-${cardConfig.ModeCardId}`);
                                     let descrip = flexygo.utils.parser.recursiveCompile(card, cardConfig.DraggableTemplate);
@@ -517,6 +530,7 @@ var flexygo;
                             pln.refreshCell(pln.currentModeId, rowValue, dateValue, pln);
                         }
                     });
+                    this.draggableEvents(me);
                     me.find('#planner-items-container:not(.pln-container-sortable)').addClass("pln-container-sortable");
                     this.dragScroll();
                     flexygo.utils.removeLoadingEffect(me.closest('flx-module'));
@@ -527,6 +541,12 @@ var flexygo;
                     });
                     element.find('.pln-card .pln-card-edit i').off('click').on('click', (e) => {
                         this.objectActions($(e.currentTarget).closest(".pln-card")[0], "edit");
+                    });
+                }
+                draggableEvents(element) {
+                    element.find('i.pln-draggable-refresh').on('click', (e) => {
+                        let id = $(e.currentTarget)[0].id;
+                        this.refreshDraggrableGroup(id);
                     });
                 }
                 timeButtonsEvents() {
@@ -637,6 +657,7 @@ var flexygo;
                 objectActions(e, mode) {
                     let card = e;
                     let cellContainer = $(e).closest('th');
+                    let cardConfig = this.currentModeSettings.CardsMode.find((element) => element['ModeCardId'] === card.plannerCardData.modeCardId);
                     let groupId = cellContainer.attr("rowidvalue");
                     let dateInfo = cellContainer.attr("datecolumn");
                     let obj = new flexygo.obj.Entity(card.plannerCardData.entityConfiguration.ObjectName, (flexygo.utils.isJSON(card.plannerCardData.id.toString())) ? this.getObjectWhere(card) : null);
@@ -654,7 +675,10 @@ var flexygo;
                                         this.setCardData(card, newData, this.currentModeSettings.CardsMode.find((element) => element['ModeCardId'] === card.plannerCardData.modeCardId));
                                         this.highlightItem(card, flexygo.colors.success);
                                     }
-                                    this.refreshDraggrableGroup(card.plannerCardData.modeCardId);
+                                    if (cardConfig.DraggablesRefresh) {
+                                        let draggablecards = this.cardList.ItemsDraggable.filter((card) => card._cardconfigid == cardConfig.ModeCardId);
+                                        this.drawDraggableList(draggablecards, card.plannerCardData.modeCardId, cardConfig);
+                                    }
                                     this.refreshCell(this.currentModeId, groupId, dateInfo, this);
                                 }).catch((err) => {
                                     flexygo.msg.error(flexygo.utils.getErrorMessage(err));
@@ -682,7 +706,7 @@ var flexygo;
                                     flexygo.utils.execAsyncFunction(onMoveFunction, ['entity', 'groupId', 'plannerDate', 'triggerElement'], [obj, groupId, dateInfo, $(card)])
                                         .then((newData) => {
                                         if (newData) {
-                                            this.setCardData(card, newData, this.currentModeSettings.CardsMode.find((element) => element['ModeCardId'] === card.plannerCardData.modeCardId));
+                                            this.setCardData(card, newData, cardConfig);
                                             this.highlightItem(card, flexygo.colors.success);
                                         }
                                     }).catch((err) => {
@@ -724,6 +748,7 @@ var flexygo;
                                         });
                                     }
                                     this.refreshCell(this.currentModeId, groupId, dateInfo, this);
+                                    this.refreshDraggrableGroup(card.plannerCardData.modeCardId, cardConfig);
                                 }
                             });
                             break;
@@ -801,14 +826,37 @@ var flexygo;
                         }
                     }
                 }
-                refreshDraggrableGroup(mode) {
-                    let groupsContainer = $(`#pln-draggable-${mode}`);
+                refreshDraggrableGroup(ModeCardId, cardConfig) {
+                    if (flexygo.utils.isBlank(cardConfig)) {
+                        cardConfig = (this.currentModeSettings.CardsMode.filter((cardC) => cardC.ModeCardId == ModeCardId))[0];
+                    }
+                    let params = {
+                        ModeCardId: ModeCardId,
+                        Defaults: flexygo.utils.dataToArray(this.objDef),
+                        DraggableFilter: this.draggableFilter
+                    };
+                    flexygo.utils.showLoadingEffect(10000000000, $(this).find('#planner-withoutgroup'));
+                    flexygo.ajax.post('~/api/Planner', 'GetDraggableCards', params, (response) => {
+                        if (response) {
+                            let draggablecards = response.ItemsDraggable;
+                            this.cardList.ItemsDraggable = this.cardList.ItemsDraggable.filter((card) => card._cardconfigid != ModeCardId);
+                            this.cardList.ItemsDraggable.push(...draggablecards);
+                            this.drawDraggableList(draggablecards, ModeCardId, cardConfig);
+                        }
+                    });
+                }
+                drawDraggableList(draggablecards, modeCard, cardConfig) {
+                    let groupsContainer = $(this).find('div#pln-draggable-items-parent-container');
                     groupsContainer.empty();
-                    let cardConfig = (this.currentModeSettings.CardsMode.filter((cardC) => cardC.ModeCardId == mode))[0];
-                    let draggablecards = this.cardList.ItemsDraggable.filter((card) => card._cardconfigid == cardConfig.ModeCardId);
                     if (draggablecards.length > 0) {
                         $(this).find("aside").removeClass("hidden");
-                        groupsContainer.append(`<span class="pln-draggable-item-title">${cardConfig.DraggableTitle}</span>`);
+                        groupsContainer.append(`<div class="pln-draggable-item-container" id="pln-draggable-${cardConfig.ModeCardId}">
+                        <span class="pln-draggable-item-title">
+                            <span>${cardConfig.DraggableTitle}</span>
+                            <i id="${cardConfig.ModeCardId}" class="flx-icon icon-sincronize pln-draggable-refresh clickable"></i>
+                            </span>
+                        </div>`);
+                        let cnt = groupsContainer.find('.pln-draggable-item-container');
                         draggablecards.forEach((card) => {
                             let descrip = flexygo.utils.parser.recursiveCompile(card, cardConfig.DraggableTemplate);
                             if (!flexygo.utils.isBlank(this.objDef)) {
@@ -816,9 +864,11 @@ var flexygo;
                             }
                             let cardTemplate = $(`<div class="pln-card pln-card-draggable clickable" draggableidfield="${cardConfig.DraggableObjectId}" draggableidvalue="${card[cardConfig.DraggableObjectId]}" draggableobjectname="${cardConfig.DraggableCollection}">${descrip}</div>`)[0];
                             this.setCardData(cardTemplate, card, cardConfig, true);
-                            groupsContainer.append(cardTemplate);
+                            cnt.append(cardTemplate);
                         });
+                        this.draggableEvents($(this));
                     }
+                    flexygo.utils.removeLoadingEffect($(this).find('#planner-withoutgroup'));
                 }
                 refreshCell(modeId, rowIdField, dateColumn, element) {
                     let cards;

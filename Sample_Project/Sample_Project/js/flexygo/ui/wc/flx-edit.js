@@ -153,9 +153,12 @@ var flexygo;
                                 let mode = edit.attr('mode') || '';
                                 if (mode === '') {
                                     flexygo.ui.wc.FlxModuleElement.prototype.checkNewComboObjectsMessage(module).then((res) => {
+                                        var _a;
                                         if (res) {
                                             let objectName = edit.attr('objectname');
-                                            let objectWhere = edit.attr('objectwhere') || '';
+                                            // Check for isclone because when saving, it checks if objectwhere is empty, if it is, it inserts, if not, updates
+                                            // The clone button of an object, calls the edit page with same object name and object where and tries to update
+                                            let objectWhere = ((_a = edit.attr("isclone")) === null || _a === void 0 ? void 0 : _a.toString().toLowerCase()) === 'true' ? '' : edit.attr('objectwhere') || '';
                                             flexygo.ui.wc.FlxModuleElement.prototype.saveModule(objectName, objectWhere, module, null);
                                         }
                                     });
@@ -206,9 +209,16 @@ var flexygo;
                         }
                         else {
                             let histObj = flexygo.history.get(me);
-                            if (typeof histObj != 'undefined' && histObj.defaults) {
+                            //We transform defaults into an object
+                            if (histObj != null && histObj.defaults) {
                                 if (typeof histObj.defaults == 'string') {
-                                    objDef = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
+                                    //We first try firectly parsing, if it fails we replace the ' fro " because they are normally used to avoid HTML attributes from breaking
+                                    try {
+                                        objDef = JSON.parse(histObj.defaults);
+                                    }
+                                    catch (_a) {
+                                        objDef = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
+                                    }
                                 }
                                 else {
                                     objDef = histObj.defaults;
@@ -312,7 +322,7 @@ var flexygo;
                 setFocusOnFirstElement(me) {
                     //We look which is the main content div depending if it's opened in a modal or not
                     const main_content_selector = !me.closest('div.ui-dialog').length ? 'div#mainContent' : 'div.ui-dialog';
-                    me.closest(main_content_selector).find('flx-module flx-edit').first().find('[property] select:enabled:visible, [property] input:enabled:visible, [property] textarea:enabled:visible').first().focus();
+                    me.closest(main_content_selector).find('flx-module:not(.noFocusFirstInput) flx-edit').first().find('[property] select:enabled:visible, [property] input:enabled:visible, [property] textarea:enabled:visible').first().focus();
                 }
                 /**
                * Init the webcomponent in edit report parameter mode.
@@ -415,10 +425,14 @@ var flexygo;
                         let me = $(this);
                         me.html('');
                         let objDef = null;
-                        let selector;
                         if (this.defaults) {
                             if (typeof this.defaults == 'string') {
-                                objDef = JSON.parse(this.defaults);
+                                try {
+                                    objDef = JSON.parse(this.defaults);
+                                }
+                                catch (_a) {
+                                    objDef = JSON.parse(flexygo.utils.parser.replaceAll(this.defaults, "'", '"'));
+                                }
                             }
                             else {
                                 objDef = this.defaults;
@@ -1292,6 +1306,7 @@ var flexygo;
                         if (element.attr('type') == 'time' || element.attr('type') == 'date' || element.attr('type') == 'datetime-local' ||
                             element[0].localName == 'flx-tag' || element.attr('type') == 'text' || element[0].localName == 'flx-tag' ||
                             element[0].localName == 'flx-barcode' || element[0].localName == 'flx-switch') {
+                            this.initValidate();
                             if (!prop.valid()) {
                                 $(prop).focus().select();
                             }

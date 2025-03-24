@@ -384,7 +384,7 @@ var flexygo;
                     imgControlToSave = itm.find('img');
                     inputControlToSave = itm.find('input');
                     imgControlToSave = itm.find('img');
-                    wgssSignatureSDK = new WacomGSS_SignatureSDK(() => { this.onDetectRunning(itm[0]); }, SERVICEPORT);
+                    let wgssSignatureSDK = new WacomGSS_SignatureSDK(() => { this.onDetectRunning(itm[0]); }, SERVICEPORT);
                     this.timeout = setTimeout(this.timedDetect, 1500);
                 }
                 timedDetect() {
@@ -397,7 +397,7 @@ var flexygo;
                     itm.captureSignature();
                 }
                 restartSession(onRestartSession) {
-                    wgssSignatureSDK = new WacomGSS_SignatureSDK(onRestartSession, SERVICEPORT);
+                    let wgssSignatureSDK = new WacomGSS_SignatureSDK(onRestartSession, SERVICEPORT);
                 }
                 showError(method, status) {
                     let message = "";

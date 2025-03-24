@@ -343,6 +343,7 @@ var flexygo;
                         }
                     }).on('mouseup', () => {
                         $(this).find('.kanban-card').removeClass('locked');
+                        me.find('.board-endbox').hide();
                     });
                 }
                 loadKanban(refreshButtons, refreshFilters) {

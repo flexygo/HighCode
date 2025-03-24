@@ -561,7 +561,13 @@ var flexygo;
                 filtersettings: 'Configuración de filtros',
                 listtemplatesettings: "Plantilla de Lista (opcional)",
                 viewtemplatesettings: "Plantilla de Visualización (opcional)",
-                createdatamodel: 'Crear modelo de datos'
+                createdatamodel: 'Crear modelo de datos',
+                manuallygeneration: 'Generación Manual',
+                aigeneration: 'Generación IA',
+                generatingobjects: 'Generando Objetos',
+                generatingtemplate: 'Generando Plantillas',
+                objectsaved: 'Objeto guardado :)',
+                templatesaved: 'Plantilla guardada :)'
             };
             eses.flxpropertymanager = {
                 addfields: 'Haga click en "añadir campos" para comenzar.',
@@ -601,7 +607,11 @@ var flexygo;
                 compression: "Compresión de imagen",
                 width: "Ancho máximo",
                 height: "Altura máxima",
-                barcode: "Lectores de códigos de barras"
+                barcode: "Lectores de códigos de barras",
+                sqlObjectName: "Objeto de origen de datos",
+                sqlViewName: "Vista de fuente de datos",
+                sqlOfflineSentence: "Sentencia SQL Offline",
+                addingProperties: "Añadiendo propiedades..."
             };
             eses.flxversioninfo = {
                 currentversion: 'Versión actual ({{CurrentVersion}}).',
@@ -871,9 +881,9 @@ var flexygo;
                 lightmode: 'Modo Claro'
             };
             eses.flxBarcode = {
-                noCamera: 'No se ha encontrado ninguna cámara',
-                IOSerr: 'Esta funcionalidad no está disponible en IOS',
-                noCode: 'No se puede encontrar ningún código en esta imagen.'
+                scanCode: "Escanear Código",
+                uploadImage: "Subir Imagen",
+                switchCamera: "Alternar cámara"
             };
             eses.abhSign = {
                 save: 'Guardar',
@@ -950,7 +960,20 @@ var flexygo;
             eses.flxai = {
                 beginMessage: '¡Hola!\n¿Cómo puedo ayudarte?',
                 alertInfoMessage: 'No tienes, configurado el Berear Token, por favor revisa la documentación.',
-                settingNotFound: 'La configuracion del asistente con SettindId "{0}" no se ha podido obtener'
+                settingNotFound: 'La configuracion del asistente con SettindId "{0}" no se ha podido obtener',
+                placeholder: "Pregunta lo que necesites...",
+                mediatypenotallowed: "Tipo de medio no permitido",
+                filepreview: "Vista previa del archivo",
+                removedocument: "Eliminar documento",
+                senddocument: "Enviar documentos al asistente",
+                aititle: "IA",
+                aitooltip: "Asistente basado en el modelo de OpenAI ",
+                codehelperDescrip: "Un asistente de IA para ayudarte a diseñar, refactorizar y escribir código de manera más eficiente.",
+                dbhelperDescrip: "Desarrollador de IA full-stack para ayudarte a crear proyectos FlexyGo. {{name}} puede ayudarte a crear tu modelo de datos de base de datos rápidamente.",
+                docuhubhelperDescrip: "{{name}} puede utilizar toda la documentación de la suite de productos AHORA para ayudarte con cualquier duda o pregunta, todos los días.",
+                helperDescrip: "Para cualquier tarea de redacción de textos, {{name}} puede ayudarte a escribir lo que necesitas, para que te concentres en lo que realmente quieres escribir.",
+                objecthelperDescrip: "{{name}} es el asistente de IA que puede crear nuevos objetos FlexyGo para ti.",
+                templatehelperDescrip: "{{Name}} puede ayudarte a crear las mejores plantillas para tus objetos, de forma rápida y sencilla."
             };
             eses.excelExport = {
                 title: 'Elige los campos que quieres mostrar en el excel',
@@ -1013,6 +1036,15 @@ var flexygo;
                 addButton: 'Añadir Tablas',
                 clearButton: 'Limpiar Tablas',
                 saveButton: 'Guardar Cambios'
+            };
+            eses.dbviewer = {
+                whichtables: '¿Qué tablas?',
+                summary: 'Resumen',
+                withTestData: 'Con Datos De Prueba',
+                withoutTestData: 'Sin Datos De Prueba',
+                generateObjects: 'Generar Objetos',
+                retry: 'Reintentar',
+                executeScript: 'Ejecutar Script',
             };
         })(eses = culture.eses || (culture.eses = {}));
     })(culture = flexygo.culture || (flexygo.culture = {}));

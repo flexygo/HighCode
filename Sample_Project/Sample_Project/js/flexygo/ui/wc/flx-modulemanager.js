@@ -195,10 +195,14 @@ var flexygo;
                     moduleContent.append('<div><flx-dbcombo prop="ClassId" objectname="sysModule" required viewname="sysModuleClasses" sqlvaluefield="ClassId" sqldisplayfield="Descrip" placeholder="' + flexygo.localization.translate('modulemanager.classification') + '"></flx-dbcombo></div>');
                     moduleContent.append('<div><flx-dbcombo prop="TabMode" objectname="sysModule" required viewname="sysTabModes" sqlvaluefield="TypeId" sqldisplayfield="Descrip" placeholder="' + flexygo.localization.translate('modulemanager.tabMode') + '"></flx-dbcombo></div>');
                     moduleContent.append('<button required class="SaveTabModule btn btn-default bg-info saveButton"><i class="flx-icon icon-save"></i> ' + flexygo.localization.translate('modulemanager.save') + '</button>');
-                    Lobibox.window({
-                        title: flexygo.localization.translate('modulemanager.addnewtabmodule'),
-                        content: moduleContent
-                    });
+                    let histObj = new flexygo.nav.FlexygoHistory();
+                    histObj.targetid = "modal540x420";
+                    let modal = flexygo.targets.createContainer(histObj, true, null, true);
+                    modal.empty();
+                    modal.closest('.ui-dialog').find('.ui-dialog-title').html(flexygo.localization.translate('modulemanager.addnewtabmodule'));
+                    modal.closest('.ui-dialog').find('.ui-dialog-titlebar-minimize').remove();
+                    modal.closest('.ui-dialog').find('.ui-dialog-titlebar-maximize').remove();
+                    modal.append(moduleContent);
                     $('.tabForm').validate({
                         ignore: '',
                         unhighlight: (element, errorClass, validClass) => {
@@ -231,7 +235,7 @@ var flexygo;
                             newTab.data.FullscreenButton.Value = true;
                             newTab.data.RefreshButton.Value = true;
                             if (newTab.insert()) {
-                                $(event.currentTarget).closest('.lobibox-window').find('.btn-close').click();
+                                $(event.currentTarget).closest('.ui-dialog').find('.ui-dialog-titlebar-close').click();
                                 this.updateModule(newTab);
                             }
                         }

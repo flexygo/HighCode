@@ -300,7 +300,8 @@ var flexygo;
                         placeHolder.attr('isnewmenu', isNewMenu.toString());
                         placeHolder.empty();
                         placeHolder.append(container);
-                        let module = null;
+                        //Module(mdl)
+                        let mdl = null;
                         let parent = placeHolder.attr('Menuid');
                         if (isNewMenu === true) {
                             let objDef = {
@@ -308,7 +309,7 @@ var flexygo;
                                 appname: this.appName
                             };
                             let strobjDef = JSON.stringify(objDef);
-                            module = $('<flx-edit />').attr('ObjectName', 'sysOfflineMenu').attr('defaults', strobjDef).attr('modulename', editModuleName);
+                            mdl = $('<flx-edit />').attr('ObjectName', 'sysOfflineMenu').attr('defaults', strobjDef).attr('modulename', editModuleName);
                             flexygo.events.on(this, "entity", "all", (e) => {
                                 flexygo.events.off(this, "entity", "all");
                                 if (e.type === "inserted") {
@@ -327,9 +328,9 @@ var flexygo;
                             });
                         }
                         else {
-                            module = $('<flx-edit />').attr('ObjectName', 'sysOfflineMenu').attr('ObjectWhere', 'Menuid=\'' + placeHolder.attr('Menuid') + '\'').attr('modulename', editModuleName);
+                            mdl = $('<flx-edit />').attr('ObjectName', 'sysOfflineMenu').attr('ObjectWhere', 'Menuid=\'' + placeHolder.attr('Menuid') + '\'').attr('modulename', editModuleName);
                         }
-                        container.find('.cntBody').append(module);
+                        container.find('.cntBody').append(mdl);
                         let ctrl = container[0];
                         ctrl.moduleName = editModuleName;
                         ctrl.canCollapse = true;

@@ -1,22 +1,22 @@
-import { r as registerInstance, k as h, m as getElement } from './index-8e5b11cb.js';
-import { s as sql, k as flxSync, u as util, m as msg, C as ConftokenProvider, n as nav } from './conftoken-89472368.js';
-import { p as parser } from './parser-e9709966.js';
-import { j as jquery } from './jquery-34624bb9.js';
-import './jquery-validate-flexygo-b272e167.js';
+import { r as registerInstance, k as h, l as getElement } from './index-3f6ae35e.js';
+import { s as sql, k as flxSync, u as util, m as msg, C as ConftokenProvider, n as nav } from './conftoken-6a608b71.js';
+import { p as parser } from './parser-52bcdf66.js';
+import { j as jquery } from './jquery-254bc370.js';
+import './jquery-validate-flexygo-99364df3.js';
 import './process-es6-cc264d03.js';
-import './utils-224de961.js';
-import './animation-b4670628.js';
-import './helpers-7ecb2fa5.js';
-import './ios.transition-e14f38db.js';
-import './index-c59a2c3f.js';
-import './md.transition-8bd31aee.js';
+import './utils-515e0805.js';
+import './animation-160b6d8d.js';
+import './helpers-0fb1c204.js';
+import './ios.transition-9f5405f1.js';
+import './index-7e5eab7f.js';
+import './md.transition-d5eeb7f8.js';
 import './cubic-bezier-ed243a9b.js';
 import './index-d086042f.js';
-import './ionic-global-6d118971.js';
+import './ionic-global-7b33f09f.js';
 import './index-cc97b114.js';
-import './index-81d32235.js';
+import './index-f393b124.js';
 import './hardware-back-button-508e48cf.js';
-import './overlays-cda44124.js';
+import './overlays-71eb67ef.js';
 import './_commonjsHelpers-2a12c1e6.js';
 
 var dependencies;
@@ -34,7 +34,7 @@ var dependencies;
   async function processPropDependency(isNew, form, prop, conf, props) {
     if (form.length > 0 && prop) {
       for (let i = 0; i < prop.DependingProperties.length; i++) {
-        processDependency(isNew, form, prop.DependingProperties[i], conf.user, props);
+        await processDependency(isNew, form, prop.DependingProperties[i], conf.user, props);
       }
     }
   }
@@ -51,7 +51,7 @@ var dependencies;
     //withValue Value dependencies
     const dependant_property = props.find((el) => el.PropertyName === dep.DependantPropertyName); //We get the dependant property to look for the possibility of it being a detached property
     if (isNew || (dependant_property === null || dependant_property === void 0 ? void 0 : dependant_property.DetachedFromDB)) {
-      execValueDependency(form, dep, tokens);
+      await execValueDependency(form, dep, tokens);
     }
     //CSS Class dependencies
     execCssClassDependency(form, dep, tokens);
@@ -150,7 +150,8 @@ var dependencies;
     if (dep.SQLValue) {
       const form_js = form[0];
       form_js.is_executing_value_dep = true;
-      let value = await sql.getValue(parseSQLdependency(dep.SQLValue, form, tokens));
+      let value = await sql.getValue(parseSQLdependency(dep.SQLValue, form, tokens))
+        .catch(() => form_js.is_executing_value_dep = false); //If the dependency fails we avoid form from not getting saved ever
       let prop = form.find('[property=' + dep.DependantPropertyName + ']');
       let is_custom_component = false;
       if (prop.is('ion-toggle') || prop.is('ion-checkbox')) {
@@ -174,7 +175,8 @@ var dependencies;
       if (prop.attr('cascadedependencies') === 'true') {
         prop.trigger('change');
       }
-      prop[0].removeAttribute('avoid_dependencies');
+      if (prop === null || prop === void 0 ? void 0 : prop.length)
+        prop[0].removeAttribute('avoid_dependencies');
       form_js.is_executing_value_dep = false;
       if (form_js.save_function)
         form_js.save_function();
@@ -545,6 +547,7 @@ const FlxEdit = class {
         }
         if (jquery(prop).is('ion-textarea'))
           jquery(prop).attr('rows', properties[i].Height);
+        itm.setAttribute('label', properties[i].Label);
         itm.appendChild(this.getLabel(properties[i], true));
         itm.appendChild(prop);
         column.appendChild(itm);

@@ -503,22 +503,21 @@ flx-edit .grid-stack-item .grid-stack-item-content {
 }
 //SWITcHES
 flx-switch > div {
-    clear: both;
-    //   width:60px;
-    margin: 9px 12px 18px 5px;
+    margin: 9px ;
 }
 
 flx-switch > div.inline {
     display: inline-block;
 }
 
-flx-switch > div.switch-danger .onoffswitch-inner:before {
+flx-switch > div.switch-danger .onoffswitch-checkbox:checked + .onoffswitch-label {
     background-color: @danger-color;
 }
 //Swtich without text
 flx-switch .onoffswitch {
     position: relative;
-    width: 3.2em;
+    width: 2.5em;
+    height: 20px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -527,14 +526,22 @@ flx-switch .onoffswitch {
 flx-switch .onoffswitch-checkbox {
     display: none;
 }
+flx-switch .onoffswitch-label:hover{
+    color: inherit;
+}
 
 flx-switch .onoffswitch-label {
     display: block;
     overflow: hidden;
     cursor: pointer;
-    border: 1px solid #999999;
+    border: 1px solid #ccc;
     border-radius: 50px;
+    background-color: #fff;
+    box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.15);
+    height: 100%;
+    margin: 0;
 }
+
 
 flx-switch[disabled] .onoffswitch-label, flx-switch[mode="view"] .onoffswitch-label {
     cursor: not-allowed;
@@ -542,105 +549,92 @@ flx-switch[disabled] .onoffswitch-label, flx-switch[mode="view"] .onoffswitch-la
 
 flx-switch .onoffswitch-inner {
     display: block;
-    width: 200%;
-    margin-left: -100%;
-    transition: margin .3s ease-in 0s;
-}
-
-flx-switch .onoffswitch-inner:before, .onoffswitch-inner:after {
-    display: block;
-    float: left;
-    width: 50%;
-    height: .7em;
-    padding: 0;
-    line-height: .7em;
-    font-size: inherit;
-    color: white;
-    font-family: Trebuchet, Arial, sans-serif;
-    font-weight: bold;
-    box-sizing: border-box;
-}
-
-flx-switch .onoffswitch-inner:before {
-    content: "";
-    padding-left: 10px;
-    background-color: @outstanding-color;
-    color: @txt-outstanding-color;
-}
-
-flx-switch .onoffswitch-inner:after {
-    content: "";
-    padding-right: 10px;
-    background-color: #EEEEEE;
-    color: #999999;
-    text-align: right;
+    width: 100%;
+    height: 100%;
 }
 
 flx-switch .onoffswitch-switch {
     display: block;
-    width: 1.5em;
-    margin: -5px;
-    background: #FFFFFF;
+    width: 15px;
+    left: 1px;
+    height: 15px;
+    background: #fff;
     position: absolute;
-    top: 0;
-    bottom: 0;
-    border: 1px solid #999999;
+    border: 1px solid #999;
+    box-sizing: content-box;
     border-radius: 50px;
-    transition: all .3s ease-in 0s;
+    top: 50%;
+    transform: translateY(-50%);
+    display: block;
+    --offset-value: calc(98%);
 }
 
-.size-xs flx-switch .onoffswitch-switch, flx-switch.size-xs .onoffswitch-switch {
-    width: 1em;
+.size-xs .onoffswitch-switch {
+    --offset-value: 10px;
+    width: 11px;
+    height: 11px;
 }
 
-.size-s flx-switch .onoffswitch-switch, flx-switch.size-s .onoffswitch-switch {
-    width: 1.5em
-}
-
-
-.size-m flx-switch .onoffswitch-switch, flx-switch.size-m .onoffswitch-switch {
-    width: 1.6em;
-}
-
-.size-l flx-switch .onoffswitch-switch, flx-switch.size-l .onoffswitch-switch {
-    width: 1.0em
+.size-s .onoffswitch-switch {
+    --offset-value: 14px;
+    width: 12px;
+    height: 12px;
 }
 
 
-flx-switch .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
-    margin-left: 0;
+.size-m .onoffswitch-switch {
+    --offset-value: 17px;
+    width: 14px;
+    height: 14px;
+}
+
+.size-l .onoffswitch-switch {
+    --offset-value: ~"calc(100% + 7px)";
+    width: 16px;
+    height: 16px;
+}
+
+flx-switch .onoffswitch-checkbox:checked + .onoffswitch-label {
+    background: @outstanding-color;
 }
 
 flx-switch .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
-    right: 0;
+    transform: translate(var(--offset-value),-50%);
 }
+
 //Swtich with text
 flx-switch .switch-text.onoffswitch {
     width: 55px;
 }
+flx-switch .switch-text .onoffswitch-inner {
+    width: 200%;
+    display: flex;
+    text-align: center;
+    transform: translateX(-39%);
+    transition: transform 200ms ease-in-out;
+}
+flx-switch .switch-text .onoffswitch-checkbox:checked + .onoffswitch-label > .onoffswitch-inner {
+    transform: translateX(-10%);
+    color: white;
+}
+
 
 flx-switch .switch-text .onoffswitch-inner:before, .switch-text .onoffswitch-inner:after {
     height: inherit;
-    line-height: inherit;
+    line-height: 20px;
     font-size: .6em;
+    flex: 1;
+    content: var(--switch-text);
 }
 
 flx-switch .switch-text .onoffswitch-inner:before {
-    content: "ON";
-    padding-left: 7px;
+    --switch-text: "ON";    
 }
 
 flx-switch .switch-text .onoffswitch-inner:after {
-    content: "OFF";
-    padding-right: 3px;
+    --switch-text: "OFF";
 }
 
-flx-switch .switch-text .onoffswitch-switch {
-    display: block;
-    //width: 20px;
-    margin: -5px;
-    //right: 40px;
-}
 
 flx-switch:has(input[sqlvalidator="0"]) {
     label.onoffswitch-label, span.onoffswitch-switch {
@@ -1748,50 +1742,135 @@ body > div.barcode-backdrop {
     right: 0;
     top: 0;
     bottom: 0;
-    background: black;
-    opacity: 0.5;
+    background: #0000001f;
     z-index: 9999999;
     height: 200%;
+    backdrop-filter: blur(1px);
 }
 
-body > div.barcode-scanner {
+.barcode-scanner {
     transform: translate(50%,-50%);
     position: fixed;
     top: 50%;
     right: 50%;
-    width: 80%;
-    height: 80%;
-    z-index: 99999999;
+    z-index: 10000000;
+    min-width: 95vw;
+    min-height: 50vh;
+    background-color: @module-color;
+    border-radius: @border-radius;
+    padding: 15px;
+    display: flex;
+    justify-content: space-around;
 
-    canvas {
-        display: none;
+    > div {
+        display: flex;
+        justify-content: center;
+        height: ~"calc(50vh - 20px)"; //We substract the padding pixels
+        width: 100%;
+        padding: 10px 30px;
     }
 
-    .icon-close-2 {
-        position: absolute;
-        right: 20px;
-        top: 20px;
+    .barcode-scanner-reader {
+        border-right: 1px solid @muted-blue;
+
+        .barcode-scanner-container {
+            display: flex;
+            height: 70%;
+            width: 100%;
+
+            video, #qr-shaded-region {
+                border-radius: @border-radius;
+            }
+        }
+
+        .barcode-select-span {
+            height: 20%;
+
+            .fa-camera {
+                margin-right: 5px;
+            }
+        }
+    }
+
+    .barcode-scanner-file {
+        .barcode-dropzone {
+            height: 83%;
+            border: 2px dashed @muted-blue;
+            border-radius: @border-radius;
+            font-size: 1.5em;
+            color: fade(@txt-color, 60);
+
+            &.dropping {
+                background: fade(@muted-blue, 20);
+            }
+        }
+
+        .barcode-button-span, .barcode-upload, .barcode-dropzone {
+            width: 100%;
+        }
+    }
+
+    .barcode-button-span {
+        height: 20%;
+
+         button {
+            background-color: @outstanding-color;
+            color: white;
+            border: none;
+            border-radius: @border-radius;
+            height: 50%;
+
+            &:hover {
+                background: darken(@outstanding-color, 10);
+            }
+        }
+    }
+
+    h1 {
+        height: 10%;
+        font-weight: 500;
+    }
+
+    .barcode-scanner-file, .barcode-scanner-reader {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &.barcode-mobile {
+        height: ~"95dvh";
+
+        .barcode-scanner-reader {
+            border: none;
+        }
+
+        > div {
+            height: ~"calc(80vh - 20px)"; //We substract the padding pixels
+        }
+
+        h1 {
+            height: 5%;
+        }
+    }
+
+    .barcode-switch {
+        background: @nav-color;
         color: white;
-        font-weight: bold;
+        border-radius: @border-radius;
+        padding: 10px 20px;
+        border: none;
     }
+}
 
-    video {
-        width: 100%;
-        height: 100%;
-    }
+.barcode-scanner-close {
+    position: fixed;
+    top: 26vh;
+    right: 4vw;
+    z-index: 100000000;
 
-    span.flx-icon {
-        z-index: 1;
-        padding: 5px;
-    }
-
-    div.scannerLine {
-        border: 1px solid #f00;
-        top: 50%;
-        left: 50%;
-        position: absolute;
-        transform: translate(-50%, -50%);
-        width: 100%;
+    &.barcode-mobile {
+        top: ~"5dvh";
+        right: 7vw;
     }
 }
 

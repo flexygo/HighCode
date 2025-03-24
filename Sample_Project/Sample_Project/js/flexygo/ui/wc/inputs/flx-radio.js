@@ -359,6 +359,9 @@ var flexygo;
                             control.append(label);
                         }
                     }
+                    else {
+                        control.empty();
+                    }
                     if (typeof (input) !== 'undefined') {
                         input.on('blur', () => { me.trigger('blur'); });
                     }
@@ -425,22 +428,23 @@ var flexygo;
                     if (this.options.Multiple) {
                         if (!flexygo.utils.isBlank(value)) {
                             let opt = value.toString().split(this.options.Separator);
-                            for (let i = 0; i < opt.length; i++) {
-                                if (this.mode === 'view') {
-                                    me.find('input[value="' + opt[i] + '"]').prop('checked', true).prop('disabled', true);
+                            me.find('input').each((i, e) => {
+                                const checked = opt.includes(e.value);
+                                if (this.mode == 'view') {
+                                    $(e).prop('checked', checked).prop('disabled', true);
                                 }
                                 else {
-                                    if (me.find('input[value="' + opt[i] + '"]').length === 0) {
+                                    if ($(e).length === 0) {
                                         label = $('<label />');
                                         input = $('<input type="checkbox">');
-                                        input.attr('value', opt[i]).attr('name', this.name);
-                                        label.append(input).append(opt[i]);
+                                        input.attr('value', checked).attr('name', this.name);
+                                        label.append(input).append(input.value);
                                         me.find('div').append(label);
                                     }
-                                    me.find('input[value="' + opt[i] + '"]').prop('checked', true);
+                                    $(e).prop('checked', checked);
                                     me.attr('value', value);
                                 }
-                            }
+                            });
                         }
                     }
                     else {

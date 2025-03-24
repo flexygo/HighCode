@@ -42,7 +42,10 @@ declare namespace flexygo.ui.wc {
         TemplateToolbarCollection: any;
         newObjectWhere: string;
         skeleton: any;
-        skeleton_scroll: any;
+        skeleton_data: {
+            scroll: any;
+            element: any;
+        };
         /**
        * Fires when element is attached to DOM
        * @method connectedCallback
@@ -88,12 +91,12 @@ declare namespace flexygo.ui.wc {
         openConfig(): void;
         toggleBag(objectname: string, objectwhere: string, itm: JQuery): void;
         activeBagButtons(mod: JQuery): void;
-        bagSelectionNone(objectName: string, objectWhere: string, module: JQuery, button: JQuery, cllbck?: any): void;
-        bagSelectionAll(objectName: string, objectWhere: string, module: JQuery, button: JQuery, cllbck?: any): void;
+        bagSelectionNone(objectName: string, objectWhere: string, mdl: JQuery, button: JQuery, cllbck?: any): void;
+        bagSelectionAll(objectName: string, objectWhere: string, mdl: JQuery, button: JQuery, cllbck?: any): void;
         bagShowOnlySelected(objectName: string, objectWhere: string, module: JQuery, button: JQuery, cllbck?: any): void;
         deleteModule(objectName: string, objectWhere: string, module: JQuery, button: JQuery, cllbck?: any): void;
         deleteConfirmPrompt(objectName: string, objectWhere: string, deleteConfirm: string, module: JQuery, button: JQuery, cllbck?: any, valueConfirm?: string, errorMessage?: string): void;
-        deleteModuleResponse(objectName: string, objectWhere: string, module: JQuery, button: JQuery, cllbck?: any, lastProcessName?: string, lastAfterProcessName?: string): Promise<void>;
+        deleteModuleResponse(objectName: string, objectWhere: string, mdl: JQuery, button: JQuery, cllbck?: any, lastProcessName?: string, lastAfterProcessName?: string): Promise<void>;
         saveModule(objectName: string, objectWhere: string, module: JQuery, button: JQuery, afterSaveGoTo?: string, defaults?: any, lastObj?: any, lastProcessName?: string, lastAfterProcessName?: string, excludeHist?: boolean): boolean;
         checkAndSaveNewComboValues(container: any): void;
         private addNewComboValue;

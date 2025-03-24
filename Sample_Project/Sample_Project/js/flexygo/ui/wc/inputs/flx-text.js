@@ -978,7 +978,7 @@ var flexygo;
                         });
                     }
                     const module = me.closest('flx-module')[0];
-                    if ((this.options && (this.options.CauseRefresh || this.options.SQLValidator != null)) || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
+                    if ((this.options && (this.options.CauseRefresh || !flexygo.utils.isBlank(this.options.SQLValidator))) || (module && module.moduleConfig && module.moduleConfig.PropsEventDependant && module.moduleConfig.PropsEventDependant.includes(this.property))) {
                         if (this.tactilModeAvailable) {
                             input.on('click', (e) => {
                                 //Sets old value

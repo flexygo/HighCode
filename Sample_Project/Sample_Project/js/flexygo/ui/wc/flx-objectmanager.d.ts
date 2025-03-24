@@ -22,6 +22,11 @@ declare namespace flexygo.ui.wc {
         appName: string;
         wzButtons: JQuery;
         wzPanels: JQuery;
+        /**
+         * Conversation Id
+         * @property conversationId
+         */
+        conversationId: string;
         connectedCallback(): void;
         observedAttributes(): string[];
         attributeChangedCallback(attrName: string, oldVal: any, newVal: any): void;
@@ -44,5 +49,7 @@ declare namespace flexygo.ui.wc {
         createListTemplateSamplesForm(placeHolder: JQuery, ObjectName: string, ObjectWhere: string, Defaults: string): void;
         validateRequired(): boolean;
         createObject(): void;
+        createObjectAI(settings: any): Promise<void>;
+        createTemplateAI(settings: any, type: any, objectname: any, viewName: any, templateName: any, templateDescrip: any, instructions: any): Promise<unknown>;
     }
 }

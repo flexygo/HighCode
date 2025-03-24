@@ -258,6 +258,9 @@ var flexygo;
                                         else if ($.isNumeric(strFormat) && (rValue.length > parseFloat(strFormat))) {
                                             rValue = rValue.substring(0, parseFloat(strFormat)) + '...';
                                         }
+                                        else if (strFormat.toLowerCase() == 'capitalized') {
+                                            rValue = rValue.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
+                                        }
                                         rValue = flexygo.utils.parser.replaceAll(rValue, '\n', '<br>');
                                     }
                                     else {

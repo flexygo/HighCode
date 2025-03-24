@@ -52,7 +52,7 @@ declare namespace flexygo.utils {
     * @param {JQuery} text - text to add to clipboard.
     * @return {boolean} True if works, false if not.
     */
-    function copyClipboard(text: string): boolean;
+    function copyClipboard(text: string): Promise<boolean>;
     /**
     * Says if the screen is in mobile mode or note.
     * @method isSizeMobile
@@ -93,6 +93,12 @@ declare namespace flexygo.utils {
     * @return {boolean} True if agent's navigator comes from a mobile, false if not.
     */
     function isAgentMobile(): boolean;
+    /**
+     * Returns the name of the OS being used, if we don't recognize it we return null
+     * @method getOs
+     * @returns {string|null} Returns "WINDOWS", "MACOS", "LINUX", "ANDROID", "IOS" or null
+     */
+    function getOS(): "WINDOWS" | "MACOS" | "ANDROID" | "IOS" | "LINUX";
     /**
    * Says if the agent's navigator comes from Electron.
    * @method isAgentElectron
@@ -261,6 +267,7 @@ declare namespace flexygo.utils {
     * @return {string} Color in
     */
     function randomColor(seed: string): string;
+    function randomColorClass(seed: any): string;
     function formatFileSize(size: number): string;
     function totalFileWeight(itm: any): void;
     function formRelatedDep_Childs(mode: string, ObjectName: string, PropertyName: string, e: any): void;
@@ -274,8 +281,8 @@ declare namespace flexygo.utils {
     function extractTables(sentence: string, ConnStringId: string, subqueries: Map<string, string>): any[];
     function checkRegexWithWorker(regex: RegExp, content: string): Promise<unknown>;
     function wizardSetStep(e: any): void;
-    const showLoading: (element?: any, text?: any, position?: any) => void;
-    const showLoadingEffect: (time?: number, element?: any, text?: string, position?: any, noTimer?: boolean) => void;
+    const showLoading: (element?: any, text?: any, position?: any, zIndex?: any) => void;
+    const showLoadingEffect: (time?: number, element?: any, text?: string, position?: any, noTimer?: boolean, zIndex?: any) => void;
     const removeLoadingEffect: (element?: any) => void;
     function getObjectName(collection_name: string): any;
     function saveFilterValueHistory(history: flexygo.nav.FlexygoHistory, moduleName: string, activeFilter: string, filters: flexygo.ui.wc.FlxFilterInfo[]): void;

@@ -118,7 +118,8 @@ var flexygo;
                         return;
                     });
                 }
-                setProductVersionInfo(params, module) {
+                //Module(mdl)
+                setProductVersionInfo(params, mdl) {
                     return __awaiter(this, void 0, void 0, function* () {
                         //If no product info has already been loaded we search for it
                         if (!this.productsVersionInfo) {
@@ -132,8 +133,8 @@ var flexygo;
                                     this.productsVersionInfo = response.Products;
                                 }
                                 //If its contained inside a flx-module, we execute its moduleLoaded function
-                                if (module.length) {
-                                    module[0].moduleLoaded(this);
+                                if (mdl.length) {
+                                    mdl[0].moduleLoaded(this);
                                 }
                             }
                             catch (err) {
@@ -143,15 +144,16 @@ var flexygo;
                         return this.productsVersionInfo ? true : false;
                     });
                 }
-                initRSS(module, params) {
+                //Module(mdl)
+                initRSS(mdl, params) {
                     return __awaiter(this, void 0, void 0, function* () {
                         try {
                             let response = yield flexygo.ajax.promisePost('~/api/Rss', 'GetHTML', params, false, false);
                             if (response)
                                 $(this).html(response.Html);
                             //If its contained inside a flx-module, we execute its moduleLoaded function
-                            if (module.length) {
-                                module[0].moduleLoaded(this);
+                            if (mdl.length) {
+                                mdl[0].moduleLoaded(this);
                             }
                         }
                         catch (err) {

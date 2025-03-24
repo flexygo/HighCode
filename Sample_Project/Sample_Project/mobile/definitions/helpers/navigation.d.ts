@@ -3,13 +3,14 @@ declare namespace flexygo.nav {
     function closeModal(current?: any, data?: any): void;
     function goHome(): void;
     function goSync(): void;
-    function goLogin(): void;
+    function goLogin(force_login?: boolean): void;
     function goList(object: string, pagename: string, filter?: string, defaults?: string | Object): void;
     function goEdit(object: string, pagename: string, filter: string, defaults?: string | Object): void;
     function goView(object: string, pagename: string, filter: string, defaults?: string | Object): void;
     function goInsert(object: string, pagename: string, defaults?: string | Object): void;
     function goGallery(object: string, objectid: string, defaults?: string | Object): void;
     function goDocuments(object: string, objectid: string, defaults?: string | Object): void;
+    function goAI(setting_id: string, first_message?: string, defaults?: any, is_first_message_by_mic?: boolean): void;
     function transferList(object: string, pagename: string, filter?: string, defaults?: string | Object): void;
     function transferEdit(object: string, pagename: string, filter: string, defaults?: string | Object): void;
     function transferView(object: string, pagename: string, filter: string, defaults?: string | Object): void;

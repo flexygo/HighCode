@@ -289,14 +289,15 @@ var flexygo;
                         placeHolder.attr('isnewnode', isNewNode.toString());
                         placeHolder.empty();
                         placeHolder.append(container);
-                        let module = null;
+                        //Module(mdl)
+                        let mdl = null;
                         let parent = placeHolder.attr('nodeid');
                         if (isNewNode === true) {
                             let objDef = {
                                 parentNodeId: parent
                             };
                             let strobjDef = JSON.stringify(objDef);
-                            module = $('<flx-edit />').attr('ObjectName', 'sysNavigationNode').attr('defaults', strobjDef).attr('modulename', editModuleName);
+                            mdl = $('<flx-edit />').attr('ObjectName', 'sysNavigationNode').attr('defaults', strobjDef).attr('modulename', editModuleName);
                             flexygo.events.on(this, "entity", "all", (e) => {
                                 if (e.masterIdentity == "sysNavigationNode" && !flexygo.utils.isBlank(e.detailIdentity)) {
                                     flexygo.events.off(this, "entity", "all");
@@ -307,9 +308,9 @@ var flexygo;
                             });
                         }
                         else {
-                            module = $('<flx-edit />').attr('ObjectName', 'sysNavigationNode').attr('ObjectWhere', 'Nodeid=\'' + placeHolder.attr('nodeid') + '\'').attr('modulename', editModuleName);
+                            mdl = $('<flx-edit />').attr('ObjectName', 'sysNavigationNode').attr('ObjectWhere', 'Nodeid=\'' + placeHolder.attr('nodeid') + '\'').attr('modulename', editModuleName);
                         }
-                        container.find('.cntBody').append(module);
+                        container.find('.cntBody').append(mdl);
                         let ctrl = container[0];
                         ctrl.moduleName = editModuleName;
                         ctrl.canCollapse = true;

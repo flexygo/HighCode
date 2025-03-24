@@ -31,6 +31,7 @@ var flexygo;
                     * @property connected {boolean}
                     */
                     this.connected = false;
+                    this.offline = false;
                     this.objectname = null;
                     this.reportName = null;
                     this.processName = null;
@@ -180,6 +181,7 @@ var flexygo;
                     this.tBody = template.Body;
                     this.tFooter = template.Footer;
                     this.properties = response.Properties;
+                    this.offline = response.Offline === true;
                     this.propArr = flexygo.utils.sortObject(this.properties, 'PositionY', 'PositionX');
                     this.render();
                     const label_inputs = $(this).find('.lblEdit');
@@ -557,8 +559,12 @@ var flexygo;
                         ObjectName: me.attr('ObjectName'),
                         Properties: props
                     };
-                    flexygo.ajax.syncPost('~/api/Edit', 'AddNewProperties', params, (ret) => {
+                    flexygo.utils.showLoading(this.parentElement, flexygo.localization.translate('flxpropertymanager.addingProperties'), null, 10);
+                    flexygo.ajax.promisePost('~/api/Edit', 'AddNewProperties', params, false)
+                        .then(() => {
                         this.refresh();
+                    }).finally(() => {
+                        flexygo.utils.removeLoadingEffect(this.parentElement);
                     });
                 }
                 filterProperties(e) {

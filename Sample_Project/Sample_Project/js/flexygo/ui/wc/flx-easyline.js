@@ -46,22 +46,19 @@ var flexygo;
                 * @method init
                 */
                 init() {
-                    this.render();
-                }
-                /**
-                * Refresh de webcomponent. REQUIRED.
-                * @method refresh
-                */
-                refresh() {
-                    return this.render();
-                }
-                /**
-                * Render HTML data.
-                * @method render
-                */
-                render() {
+                    let me = $(this);
+                    me.removeAttr('manualInit');
+                    this.objectName = me.attr("ObjectName");
+                    this.objectWhere = me.attr("ObjectWhere");
+                    this.moduleName = me.attr("ModuleName");
+                    this.label = me.attr('label');
+                    this.color = me.attr('color');
+                    this.size = me.attr('size');
+                    this.symbol = me.attr('symbol');
+                    this.value = me.attr('value');
+                    this.rounded = me.attr('rounded');
+                    this.hideValue = me.attr('hideValue');
                     return new Promise((resolve, _) => __awaiter(this, void 0, void 0, function* () {
-                        let me = $(this);
                         if (this.moduleName) {
                             let params = {
                                 ObjectName: me.attr('ObjectName'),
@@ -93,6 +90,15 @@ var flexygo;
                             resolve();
                         }
                     }));
+                }
+                /**
+                * Refresh de webcomponent. REQUIRED.
+                * @method refresh
+                */
+                refresh() {
+                    if ($(this).attr('manualInit') != 'true') {
+                        return this.init();
+                    }
                 }
                 /**
                 * Render HTML data from module configuration.
@@ -226,19 +232,10 @@ var flexygo;
                 * @method connectedCallback
                 */
                 connectedCallback() {
-                    let me = $(this);
                     this.connected = true;
-                    this.objectName = me.attr("ObjectName");
-                    this.objectWhere = me.attr("ObjectWhere");
-                    this.moduleName = me.attr("ModuleName");
-                    this.label = me.attr('label');
-                    this.color = me.attr('color');
-                    this.size = me.attr('size');
-                    this.symbol = me.attr('symbol');
-                    this.value = me.attr('value');
-                    this.rounded = me.attr('rounded');
-                    this.hideValue = me.attr('hideValue');
-                    this.init();
+                    if ($(this).attr('manualInit') != 'true') {
+                        this.init();
+                    }
                 }
                 /**
                 * Fires when the attribute value of the element is changed.

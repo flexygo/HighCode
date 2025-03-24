@@ -555,6 +555,12 @@ declare namespace flexygo.culture.caes {
         listtemplatesettings: string;
         viewtemplatesettings: string;
         createdatamodel: string;
+        manuallygeneration: string;
+        aigeneration: string;
+        generatingobjects: string;
+        generatingtemplate: string;
+        objectsaved: string;
+        templatesaved: string;
     };
     const flxpropertymanager: {
         addfields: string;
@@ -595,6 +601,10 @@ declare namespace flexygo.culture.caes {
         width: string;
         height: string;
         barcode: string;
+        sqlObjectName: string;
+        sqlViewName: string;
+        sqlOfflineSentence: string;
+        addingProperties: string;
     };
     const flxversioninfo: {
         currentversion: string;
@@ -864,9 +874,9 @@ declare namespace flexygo.culture.caes {
         lightmode: string;
     };
     const flxBarcode: {
-        noCamera: string;
-        IOSerr: string;
-        noCode: string;
+        scanCode: string;
+        uploadImage: string;
+        switchCamera: string;
     };
     const abhSign: {
         save: string;
@@ -944,6 +954,17 @@ declare namespace flexygo.culture.caes {
         beginMessage: string;
         alertInfoMessage: string;
         settingNotFound: string;
+        placeholder: string;
+        mediatypenotallowed: string;
+        filepreview: string;
+        removedocument: string;
+        senddocument: string;
+        codehelperDescrip: string;
+        dbhelperDescrip: string;
+        docuhubhelperDescrip: string;
+        helperDescrip: string;
+        objecthelperDescrip: string;
+        templatehelperDescrip: string;
     };
     const excelExport: {
         title: string;
@@ -1006,5 +1027,14 @@ declare namespace flexygo.culture.caes {
         addButton: string;
         clearButton: string;
         saveButton: string;
+    };
+    const dbviewer: {
+        whichtables: string;
+        summary: string;
+        withTestData: string;
+        withoutTestData: string;
+        generateObjects: string;
+        retry: string;
+        executeScript: string;
     };
 }

@@ -1,5 +1,6 @@
 ﻿<%@ Control Language="vb" AutoEventWireup="false" CodeBehind="Links.ascx.vb" Inherits="FLEXYGO.Links" %>
 
+    <link href="../css/skins/default/fonts/flexygo/utils.css" rel="stylesheet" />
     <link href="../css/skins/default/fonts/flexygo/flexygo.css" rel="stylesheet" />
     <link href="../css/animate.css" rel="stylesheet" />
     <link href="../css/skins/default/fonts/lato/lato.css" rel="stylesheet" />

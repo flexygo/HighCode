@@ -117,6 +117,7 @@ flx-propertymanager {
 
     .propHeader {
         text-align: right;
+        border-radius: @border-radius @border-radius 0 0;
 
         .popover {
             position: fixed;
@@ -162,7 +163,8 @@ flx-propertymanager {
         background-color: @module-color;
         border-top: solid 1px @border-module-color;
         padding: 10px;
-        margin-bottom: 50px;
+        min-height: 674px; //The min-height is the property wizard-height 715px minus 41px that is the propHeader
+        border-radius: 0 0 @border-radius @border-radius;
     }
 
     .addProps, .cloneDependencies, .relatedDep {
@@ -187,7 +189,7 @@ flx-propertymanager {
 
         &:not(.ui-draggable-disabled):not(.ui-resizable-disabled) .grid-stack-item-content {
             border: dashed 1px @border-module-color;
-            border-radius: 5px;
+            border-radius: @border-radius;
             margin-bottom: 2px;
             margin-top: 5px;
 
@@ -214,17 +216,18 @@ flx-propertymanager {
         .item {
             margin: 5px;
             height: 100%;
-            /*&:after {
+
+            &:after {
                 content: ' ';
                 display: block;
                 position: absolute;
                 z-index: 10;
-                top: 15px;
+                top: 20px;
                 left: 0;
                 right: 0;
                 bottom: 0;
             }
-*/
+
             label[lblproperty] {
                 margin-bottom: 7px;
 
@@ -300,7 +303,7 @@ flx-propertymanager {
 
     .keepAlive.propertyMenu {
         z-index: 91;
-        border-radius: 5px;
+        border-radius: @border-radius;
         color: @txt-menu-color;
         box-sizing: border-box;
         font-size: 1em;

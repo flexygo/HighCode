@@ -132,7 +132,8 @@ var flexygo;
                     var _a;
                     let me = $(this);
                     let rendered = '';
-                    let module, manualInitHTML;
+                    //Module(mdl)
+                    let mdl, manualInitHTML;
                     let tabActiveMod = null;
                     this.config = flexygo.utils.sortObject(response, 'TabOrder');
                     /*remove default paddding from body*/
@@ -192,7 +193,7 @@ var flexygo;
                                     componentString += ' ' + mod.Params;
                                 }
                                 activeModId = i;
-                                module = $('<' + componentString + ' />').attr('ObjectName', me.attr('ObjectName')).attr('ObjectWhere', me.attr('ObjectWhere')).attr('isClone', me.attr('isClone')).attr('id', 'mod-' + mod.ModuleName).attr('modulename', mod.ModuleName).attr('manualInit', mod.ManualInit.toString());
+                                mdl = $('<' + componentString + ' />').attr('ObjectName', me.attr('ObjectName')).attr('ObjectWhere', me.attr('ObjectWhere')).attr('isClone', me.attr('isClone')).attr('id', 'mod-' + mod.ModuleName).attr('modulename', mod.ModuleName).attr('manualInit', mod.ManualInit.toString());
                                 this.activeModule = mod;
                                 this.activeTitle = mod.Title;
                                 if (mod.ManualInit) {
@@ -269,7 +270,7 @@ var flexygo;
                     }
                     this.saveModulePresetHistory(this.activeModule);
                     /*Add module to body*/
-                    module.is("flx-list[mode=list]") ? me.find(".modulediv").addClass("overflowx") : me.find(".modulediv").removeClass("overflowx");
+                    mdl.is("flx-list[mode=list]") ? me.find(".modulediv").addClass("overflowx") : me.find(".modulediv").removeClass("overflowx");
                     let cont = me.children('.modulediv');
                     me.parents('flx-module').each((i, e) => {
                         e.objectdefaults = this.activeModule.ObjectDefaults;
@@ -277,7 +278,7 @@ var flexygo;
                     if (manualInitHTML && manualInitHTML.length > 0) {
                         cont.prepend('<div class="flx-noInitContent">' + flexygo.utils.parser.recursiveCompile(null, manualInitHTML, this) + '</div>');
                     }
-                    cont.append(module);
+                    cont.append(mdl);
                     this.moduleInitClass = cont.attr('class');
                     cont.addClass(this.activeModule.ModuleClass);
                     me.find('[data-module-index]').on('click', (ev) => {

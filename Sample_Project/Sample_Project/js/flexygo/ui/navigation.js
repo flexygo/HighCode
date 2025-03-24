@@ -367,7 +367,12 @@ var flexygo;
                 let def;
                 if (defaults) {
                     if (typeof defaults == 'string') {
-                        def = JSON.parse(flexygo.utils.parser.replaceAll(defaults, "'", '"'));
+                        try {
+                            def = JSON.parse(defaults);
+                        }
+                        catch (_a) {
+                            def = JSON.parse(flexygo.utils.parser.replaceAll(defaults, "'", '"'));
+                        }
                     }
                     else {
                         def = defaults;
@@ -443,7 +448,7 @@ var flexygo;
                             try {
                                 ctrl.init();
                             }
-                            catch (_a) {
+                            catch (_b) {
                                 console.log('Luz al final del túnel');
                             }
                         }
@@ -630,7 +635,6 @@ var flexygo;
             if (typeof event != 'undefined') {
                 event.preventDefault();
             }
-            let reportConfig;
             flexygo.ajax.post('~/api/Report', 'GetReportConfig', { "ReportName": reportname, "ObjectName": objectname, "ObjectWhere": objectwhere }, (reportConfig) => {
                 if (reportConfig.MaxRows && reportConfig.CurrentRows && reportConfig.CurrentRows > reportConfig.MaxRows) {
                     flexygo.msg.warning(flexygo.localization.translate('navigation.reportmaxrows').replace('{0}', reportConfig.CurrentRows).replace('{1}', reportConfig.MaxRows));
@@ -649,10 +653,16 @@ var flexygo;
                 if (reportConfig.TypeId == 'html') {
                     flexygo.utils.showLoading(null, flexygo.localization.translate('htmlreport.generate'));
                     flexygo.utils.asyncSleep(0).then(() => {
-                        let templateId = reportConfig.TemplateId;
-                        filter = flexygo.utils.parser.compile(paramsJSON, (reportConfig.AdditionalWhere == null ? "" : reportConfig.AdditionalWhere));
-                        let descrip = reportConfig.ReportDescrip;
-                        flexygo.nav.openPrintPage(objectname, objectwhere, templateId, targetid, filter, descrip);
+                        try {
+                            let templateId = reportConfig.TemplateId;
+                            filter = flexygo.utils.parser.compile(paramsJSON, (reportConfig.AdditionalWhere == null ? "" : reportConfig.AdditionalWhere));
+                            let descrip = reportConfig.ReportDescrip;
+                            flexygo.nav.openPrintPage(objectname, objectwhere, templateId, targetid, filter, descrip);
+                        }
+                        catch (error) {
+                            flexygo.exceptions.httpShow(error);
+                            flexygo.utils.removeLoadingEffect();
+                        }
                     });
                 }
                 else if (reportConfig.TypeId == 'excel') {
@@ -881,7 +891,8 @@ var flexygo;
                     NProgress.done();
                     return;
                 }
-                flexygo.ajax.post('~/api/Page', 'GetHelpById', { "HelpId": helpid }, (ret) => {
+                const userLang = flexygo.context.currentUserCultureId;
+                flexygo.ajax.post('~/api/Page', 'GetHelpById', { "HelpId": helpid, "UserLang": userLang }, (ret) => {
                     if (ret) {
                         ret.pageHistory = histObj;
                         flexygo.history.historyLog.add('flx-icon icon-help-2', ret.Title, histObj);
@@ -973,9 +984,16 @@ var flexygo;
                 let defPage, defMenu;
                 if (btn) {
                     let histObj = flexygo.history.get(btn);
-                    if (typeof histObj != 'undefined' && histObj.defaults) {
+                    //We transform defaults into an object
+                    if (histObj != null && histObj.defaults) {
                         if (typeof histObj.defaults == 'string') {
-                            defPage = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
+                            //We first try firectly parsing, if it fails we replace the ' fro " because they are normally used to avoid HTML attributes from breaking
+                            try {
+                                defPage = JSON.parse(histObj.defaults);
+                            }
+                            catch (_a) {
+                                defPage = JSON.parse(flexygo.utils.parser.replaceAll(histObj.defaults, "'", '"'));
+                            }
                         }
                         else {
                             defPage = histObj.defaults;
@@ -984,7 +1002,12 @@ var flexygo;
                 }
                 if (defaults) {
                     if (typeof defaults == 'string') {
-                        defMenu = JSON.parse(flexygo.utils.parser.replaceAll(defaults, "'", '"'));
+                        try {
+                            defMenu = JSON.parse(defaults);
+                        }
+                        catch (_b) {
+                            defMenu = JSON.parse(flexygo.utils.parser.replaceAll(defaults, "'", '"'));
+                        }
                     }
                     else {
                         defMenu = defaults;

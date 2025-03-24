@@ -39,6 +39,11 @@ var flexygo;
                 * @method init
                 */
                 init() {
+                    let element = $(this);
+                    element.removeAttr('manualInit');
+                    this.moduleName = element.attr("modulename");
+                    this.url = element.attr("url");
+                    element.attr("mode", this.ionicMode);
                     this.render();
                 }
                 /**
@@ -46,14 +51,18 @@ var flexygo;
                 * @method refresh
                 */
                 refresh() {
-                    this.ionicWindow.postMessage({ action: 'reload' }, '*');
+                    if ($(this).attr('manualInit') != 'true') {
+                        this.ionicWindow.postMessage({ action: 'reload' }, '*');
+                    }
                 }
                 /**
                 * Refresh pages from linked app.
                 * @method refresh
                 */
                 refreshpages() {
-                    this.ionicWindow.postMessage({ action: 'syncTemplates' }, '*');
+                    if ($(this).attr('manualInit') != 'true') {
+                        this.ionicWindow.postMessage({ action: 'syncTemplates' }, '*');
+                    }
                 }
                 /**
                 * Render HTML data.
@@ -202,12 +211,10 @@ var flexygo;
                 * @method connectedCallback
                 */
                 connectedCallback() {
-                    let element = $(this);
                     this.connected = true;
-                    this.moduleName = element.attr("modulename");
-                    this.url = element.attr("url");
-                    element.attr("mode", this.ionicMode);
-                    this.init();
+                    if ($(this).attr('manualInit') != 'true') {
+                        return this.init();
+                    }
                 }
                 /**
                 * Fires when the attribute value of the element is changed.

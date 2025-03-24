@@ -2,6 +2,8 @@ declare namespace flexygo {
     class sql {
         private _db;
         private _dbs;
+    profiler_active: boolean;
+    private profiler_data;
         db(): Promise<any>;
         getDBs(): flexygoDB[];
         getActiveDb(): any;
@@ -39,6 +41,7 @@ declare namespace flexygo {
         getInsertScript(tableName: string, fields: Array<string>): string;
         getUpdateScript(tableName: string, fields: Array<string>, primaryKey: string): string;
         getChangedScript(tableName: string): string;
+    getHasChangedScript(tableName: string): string;
         getFinishSyncScript(tableName: string): string;
         getTableInsertScript(tableName: string, fields: Array<fieldConfig>, tb: any): string[];
         getMoveDeletedScript(newTablename: string, oldTablename: string, keyFields: Array<string>): string;

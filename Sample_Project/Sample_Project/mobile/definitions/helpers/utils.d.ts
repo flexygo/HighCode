@@ -58,4 +58,15 @@ declare namespace flexygo.utils {
   function isSimilar(text1: string, text2: string, isUrl?: boolean): boolean;
   function showLoading(message?: string): Promise<HTMLIonLoadingElement>;
   function splitArray(array: any[], split_size?: number): any[];
+    function generateQR(text: any, size?: number): string;
+    function showQR(text: string): Promise<void>;
+    function getCurrentTime(showSeconds?: boolean): string;
+    function keepAwake(): void;
+    function allowSleep(): void;
+}
+declare namespace flexygo.ai {
+    function startVoiceRecognition(setting_id: string, defaults: string): void;
+    function textToSpeech(text: string, lang?: string, volume?: number, speed?: number): Promise<boolean>;
+    function stopTextToSpeech(): Promise<void>;
+    function toggleTextToSpeech(text: string, lang?: string, volume?: number, speed?: number): Promise<void> | Promise<boolean>;
 }

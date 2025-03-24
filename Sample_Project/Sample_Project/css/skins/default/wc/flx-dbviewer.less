@@ -5,7 +5,7 @@
     --erd-editor-canvas-background: @bg-color;
 }
 @toolbarHeight: 45.56px;
-flx-dbviewer {
+flx-dbviewer:has(erd-editor) {
     width: 100%;
     height: 90vh;
     display: block;
@@ -14,7 +14,6 @@ flx-dbviewer {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 
     [data-tag="control"] {
-        position: absolute !important;
         display: flex;
         z-index: 2;
         border-radius: var(--border-radius) 0 0 0;
@@ -47,6 +46,11 @@ flx-dbviewer {
                 }
             }
         }
+    }
+
+    erd-editor {
+        position: relative;
+        top: -@toolbarHeight;
     }
 }
 
@@ -104,7 +108,7 @@ flx-contextmenu {
         margin: 0 15px;
         border: none;
         padding: 5px 15px;
-        border-radius: 5px;
+        border-radius: @border-radius;
         color: var(--bg-color);
         background-color: var(--outstanding-color);
     }
@@ -127,4 +131,20 @@ flx-contextmenu {
         color: var(--bg-color);
         outline: none;
     }
+}
+
+.objects-retry-btn {
+    border: 0;
+    background-color: #003c6a;
+    color: white;
+    border-radius: 5px;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.objects-retry-btn:hover {
+    background-color: #002e51;
 }
